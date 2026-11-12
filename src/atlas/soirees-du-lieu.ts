@@ -59,6 +59,15 @@ const ALIAS_PAR_ID: Readonly<Record<string, readonly string[]>> = {
   'input-barcelone': ['INPUT High Fidelity Dance Club', 'INPUT'],
   'rockstore-montpellier': ['Rockstore', 'Le Rockstore'],
   'halle-tropisme-montpellier': ['Halle Tropisme', 'Club Tropisme'],
+  'venue-mot-londres': ['M.O.T', 'Venue MOT'],
+  'la-gare-le-gore-paris': ['La Gare / Le Gore', 'Le Gore', 'La Gare'],
+  'john-doe-amsterdam': ['John Doe', 'Club John Doe'],
+  'silo-brooklyn-newyork': ['SILO', 'SILO Brooklyn'],
+  'clubasia-tokyo': ['club asia', 'clubasia'],
+  'chico-club-mexico': ['CHICO', 'CHICO Club'],
+  'nueve-cero-nueve-mexico': ['nueve cero nueve'],
+  'paloma-bar-berlin': ['Paloma', 'Paloma Bar'],
+  'sans-chez-soi-montreal': ['Sans Chez-Soi', 'Sans Chez Soi'],
 };
 
 const VILLES_A_RETIRER =

@@ -84,6 +84,30 @@ describe('Atlas des clubs et festivals', () => {
     expect(grooveBass).toBeDefined();
     expect(grooveBass?.nom).toBe('Groove & Bass Festival');
 
+    const ilo = festivals.find((f) => f.id === 'ilo-festival-mexique');
+    expect(ilo).toBeDefined();
+    expect(ilo?.nom).toBe('Iló Festival');
+    expect(ilo?.paysCode).toBe('MX');
+
+    const kupuri = festivals.find((f) => f.id === 'kupuri-festival-mexique');
+    expect(kupuri).toBeDefined();
+    expect(kupuri?.nom).toBe('Kupuri Festival');
+    expect(kupuri?.paysCode).toBe('MX');
+
+    const hydrophonic = festivals.find((f) => f.id === 'hydrophonic-festival-usa');
+    expect(hydrophonic).toBeDefined();
+    expect(hydrophonic?.nom).toBe('Hydrophonic Festival');
+    expect(hydrophonic?.paysCode).toBe('US');
+
+    const friendzy = festivals.find((f) => f.id === 'friendzy-fest-alberta');
+    expect(friendzy).toBeDefined();
+    expect(friendzy?.nom).toBe('Friendzy Fest');
+    expect(friendzy?.paysCode).toBe('CA');
+
+    const yambak = LIEUX_ET_FESTIVALS.find((l) => l.id === 'yambak-puerto-vallarta');
+    expect(yambak).toBeDefined();
+    expect(yambak?.nom).toBe('Yambak Puerto Vallarta');
+
     for (const f of festivals) {
       expect(f.capacite).toBeGreaterThanOrEqual(1000);
       expect(f.latitude).toBeGreaterThanOrEqual(-45);

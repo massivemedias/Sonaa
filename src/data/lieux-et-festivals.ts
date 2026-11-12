@@ -16303,4 +16303,768 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "en": "Music and arts festival founded in 2013, held at Mana Wynwood across five city blocks, whose October 16 and 17, 2026 edition gathered 293 artists on 13 stages."
     }
   },
+  {
+    "id": "ilo-festival-mexique",
+    "nom": "Iló Festival",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Hidalgo (Mexique)",
+      "en": "Hidalgo (Mexico)"
+    },
+    "latitude": 20.1011,
+    "longitude": -98.7591,
+    "capacite": 2500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Psytech",
+      "Progressive House",
+      "Techno",
+      "Melodic Techno",
+      "Psy"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Rassemblement psychédélique et électronique en pleine nature dans l’État d’Hidalgo au Mexique (« Where Dance Becomes Magic »), réunissant la scène mexicaine et internationale autour de la psytech, de la progressive et de la techno.",
+      "en": "Open-air psychedelic and electronic gathering in Hidalgo, Mexico (‘Where Dance Becomes Magic’), uniting Mexican and international selectors around psytech, progressive and techno."
+    }
+  },
+  {
+    "id": "kupuri-festival-mexique",
+    "nom": "Kupuri Festival",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Morelos (Mexique)",
+      "en": "Morelos (Mexico)"
+    },
+    "latitude": 18.8814,
+    "longitude": -99.0622,
+    "capacite": 3000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Progressive Trance",
+      "Techno",
+      "Downtempo"
+    ],
+    "site": "https://www.instagram.com/kupurifestival",
+    "description": {
+      "fr": "Festival de musique électronique, d’art visionnaire et de culture alternative dans l’État de Morelos au sud de Mexico, célébrant la psytrance, la psytech, la techno progressive et les arts régénératifs.",
+      "en": "Electronic music, visionary art and alternative culture festival in Morelos south of Mexico City, celebrating psytrance, psytech, progressive techno and regenerative arts."
+    }
+  },
+  {
+    "id": "hydrophonic-festival-usa",
+    "nom": "Hydrophonic Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Aztec / Durango (Tico Time River Resort)",
+      "en": "Aztec / Durango (Tico Time River Resort)"
+    },
+    "latitude": 36.9889,
+    "longitude": -107.8614,
+    "capacite": 2500,
+    "annee": 2023,
+    "mois": {
+      "fr": "Été",
+      "en": "Summer"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "Leftfield",
+      "Drum & Bass",
+      "Downtempo"
+    ],
+    "site": "https://www.instagram.com/hydrophonicfest",
+    "description": {
+      "fr": "Festival immersif de bass music, d’installations artistiques, de mouvement et de performances au bord de la rivière Animas à Tico Time River Resort (co-présenté avec Unify Mountain Soundz).",
+      "en": "Immersive bass music, art installation, yoga and performance festival along the Animas River at Tico Time River Resort, co-presented with Unify Mountain Soundz."
+    }
+  },
+  {
+    "id": "friendzy-fest-alberta",
+    "nom": "Friendzy Fest",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Rangeton Park / Evansburg (Alberta)",
+      "en": "Rangeton Park / Evansburg (Alberta)"
+    },
+    "latitude": 53.6812,
+    "longitude": -115.0245,
+    "capacite": 3500,
+    "annee": 2020,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Bass",
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Dubstep"
+    ],
+    "site": "https://www.friendzyfest.ca",
+    "description": {
+      "fr": "Festival de camping électronique au bord de la rivière Pembina à Rangeton Park en Alberta (« Where Friends Become Family »), réunissant scènes immersives bass, house, techno et drum & bass.",
+      "en": "Riverside electronic camping festival at Rangeton Park along the Pembina River in Alberta (‘Where Friends Become Family’), uniting immersive bass, house, techno and drum & bass stages."
+    }
+  },
+  {
+    "id": "progressive-town-mexique",
+    "nom": "Progressive Town",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Chilpancingo (Guerrero)",
+      "en": "Chilpancingo (Guerrero)"
+    },
+    "latitude": 17.5515,
+    "longitude": -99.5006,
+    "capacite": 1200,
+    "annee": 2023,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Progressive Trance",
+      "Psytech",
+      "Progressive House",
+      "Techno"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Rassemblement électronique à Chilpancingo (Guerrero) consacré à la progressive trance, à la psytech et aux sonorités underground du collectif Undergroove Music.",
+      "en": "Electronic gathering in Chilpancingo (Guerrero) dedicated to progressive trance, psytech and underground sounds curated with Undergroove Music."
+    }
+  },
+  {
+    "id": "feeling-for-music-mexique",
+    "nom": "The Feeling For Music",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "État de Mexico (Edo Mex)",
+      "en": "State of Mexico (Edo Mex)"
+    },
+    "latitude": 19.3582,
+    "longitude": -99.6312,
+    "capacite": 1500,
+    "annee": 2021,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Psytech",
+      "Progressive House",
+      "Techno",
+      "Psy"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Événement en plein air dans l’État de Mexico célébrant la culture techno progressive, psytech et psychédélique de la vallée de Mexico.",
+      "en": "Open-air gathering in the State of Mexico celebrating progressive techno, psytech and psychedelic electronic culture."
+    }
+  },
+  {
+    "id": "yambak-puerto-vallarta",
+    "nom": "Yambak Puerto Vallarta",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Puerto Vallarta (Jalisco)",
+      "en": "Puerto Vallarta (Jalisco)"
+    },
+    "latitude": 20.6122,
+    "longitude": -105.2341,
+    "capacite": 250,
+    "annee": 2018,
+    "styles": [
+      "House",
+      "Techno",
+      "Psytech",
+      "Minimal"
+    ],
+    "site": "https://www.instagram.com/yambakpv",
+    "description": {
+      "fr": "Club électronique de référence et brasserie artisanale sur le Malecón de Puerto Vallarta, bastion des nuits house, techno et psytech sur la côte pacifique mexicaine.",
+      "en": "Flagship underground electronic club and craft brewery on Puerto Vallarta’s Malecón, a stronghold for house, techno and psytech nights on Mexico’s Pacific coast."
+    }
+  },
+  {
+    "id": "casa-calavera-tepoztlan",
+    "nom": "Casa Calavera",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Tepoztlán (Morelos)",
+      "en": "Tepoztlán (Morelos)"
+    },
+    "latitude": 18.9848,
+    "longitude": -99.0931,
+    "capacite": 250,
+    "annee": 2021,
+    "styles": [
+      "Psytech",
+      "Techno",
+      "Progressive House",
+      "Organic House"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Repaire électronique et culturel au pied des falaises mystiques de Tepoztlán au sud de Mexico, accueillant les showcases techno, psytech et progressive.",
+      "en": "Electronic and cultural sanctuary beneath the mystic cliffs of Tepoztlán south of Mexico City, hosting techno, psytech and progressive showcases."
+    }
+  },
+  {
+    "id": "zicatela-rooftop-tuxtla",
+    "nom": "Zicatela Rooftop",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Tuxtla Gutiérrez (Chiapas)",
+      "en": "Tuxtla Gutiérrez (Chiapas)"
+    },
+    "latitude": 16.7538,
+    "longitude": -93.1162,
+    "capacite": 220,
+    "annee": 2021,
+    "styles": [
+      "House",
+      "Techno",
+      "Psytech",
+      "Indie Dance"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Toit-terrasse électronique de Tuxtla Gutiérrez au Chiapas, point de ralliement des tournées techno, house et psytech dans le sud du Mexique.",
+      "en": "Electronic rooftop venue in Tuxtla Gutiérrez, Chiapas, a key stop for techno, house and psytech tours in southern Mexico."
+    }
+  },
+  {
+    "id": "cielo-verde-san-cristobal",
+    "nom": "Cielo Verde",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "San Cristóbal de las Casas (Chiapas)",
+      "en": "San Cristóbal de las Casas (Chiapas)"
+    },
+    "latitude": 16.7372,
+    "longitude": -92.6376,
+    "capacite": 200,
+    "annee": 2020,
+    "styles": [
+      "Techno",
+      "Psytech",
+      "House",
+      "Downtempo"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Espace nocturne dans les montagnes de San Cristóbal de las Casas au Chiapas, dédié aux sélections électroniques underground, psytech et house.",
+      "en": "Mountain-town nightlife venue in San Cristóbal de las Casas, Chiapas, dedicated to underground electronic, psytech and house selections."
+    }
+  },
+  {
+    "id": "cc-wapani-san-cristobal",
+    "nom": "CC Wapani",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "San Cristóbal de las Casas (Chiapas)",
+      "en": "San Cristóbal de las Casas (Chiapas)"
+    },
+    "latitude": 16.7395,
+    "longitude": -92.6412,
+    "capacite": 180,
+    "annee": 2019,
+    "styles": [
+      "Techno",
+      "House",
+      "Experimental",
+      "Psytech"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Centre culturel et club indépendant de San Cristóbal de las Casas où se croisent DJ mexicains, collectifs audiovisuels et résidents internationaux.",
+      "en": "Independent cultural center and club in San Cristóbal de las Casas bringing together Mexican DJs, audiovisual collectives and international guests."
+    }
+  },
+  {
+    "id": "obsidian-clandestino-puebla",
+    "nom": "Obsidian Clandestino",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Puebla / Cholula",
+      "en": "Puebla / Cholula"
+    },
+    "latitude": 19.0436,
+    "longitude": -98.2019,
+    "capacite": 220,
+    "annee": 2022,
+    "styles": [
+      "Techno",
+      "IDM",
+      "Psytech",
+      "Electro"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Club clandestin à Puebla consacré aux sonorités techno, IDM, psytech et aux showcases des labels indépendants mexicains.",
+      "en": "Underground club space in Puebla dedicated to techno, IDM, psytech and Mexican independent label showcases."
+    }
+  },
+  {
+    "id": "rizonanza-mexico",
+    "nom": "Rizonanza",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (CDMX)",
+      "en": "Mexico City (CDMX)"
+    },
+    "latitude": 19.4194,
+    "longitude": -99.1625,
+    "capacite": 250,
+    "annee": 2022,
+    "styles": [
+      "Psytech",
+      "Techno",
+      "Minimal",
+      "Progressive House"
+    ],
+    "site": "https://undergroovemusic.com",
+    "description": {
+      "fr": "Collectif et espace nocturne de Mexico dédié aux fréquences hypnotiques, à la psytech, au minimal et à la techno underground.",
+      "en": "Mexico City collective and nocturnal venue dedicated to hypnotic frequencies, psytech, minimal and underground techno."
+    }
+  },
+  {
+    "id": "butik-festival-slovenie",
+    "nom": "Butik Festival",
+    "type": "festival",
+    "paysCode": "SI",
+    "ville": {
+      "fr": "Tolmin (Vallée de la Soča)",
+      "en": "Tolmin (Soča Valley)"
+    },
+    "latitude": 46.1785,
+    "longitude": 13.7312,
+    "capacite": 3000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Leftfield",
+      "Breaks"
+    ],
+    "site": "https://butikfestival.com",
+    "description": {
+      "fr": "Rassemblement audiophile au confluent des rivières Soča et Tolminka au pied des Alpes juliennes, salué dans toute l’Europe pour sa sélection house, electro et techno.",
+      "en": "Audiophile gathering at the confluence of the Soča and Tolminka rivers in the Julian Alps, acclaimed across Europe for its forward-thinking house, electro and techno curation."
+    }
+  },
+  {
+    "id": "upclose-festival-paysbas",
+    "nom": "Awakenings Upclose",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Spaarnwoude (Amsterdam)",
+      "en": "Spaarnwoude (Amsterdam)"
+    },
+    "latitude": 52.4268,
+    "longitude": 4.6912,
+    "capacite": 15000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Hard Groove",
+      "Minimal",
+      "Acid Techno"
+    ],
+    "site": "https://www.awakenings.com",
+    "description": {
+      "fr": "Format intimiste d’Awakenings dans les bois de Spaarnwoude près d’Amsterdam, conçu pour rapprocher danseurs et artistes autour de la techno pure et du hard groove.",
+      "en": "Intimate Awakenings format in the woods of Spaarnwoude near Amsterdam, designed to bring dancers and artists face-to-face around pure techno and hard groove."
+    }
+  },
+  {
+    "id": "stone-techno-essen",
+    "nom": "The Third Room - Stone Techno Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Essen (Zeche Zollverein)",
+      "en": "Essen (Zeche Zollverein)"
+    },
+    "latitude": 51.4865,
+    "longitude": 7.0448,
+    "capacite": 12000,
+    "annee": 2020,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Groove",
+      "Hypnotic Techno",
+      "Electro"
+    ],
+    "site": "https://stonetechno.com",
+    "description": {
+      "fr": "Organisé en partenariat avec ARTE Concert au cœur du complexe minier classé à l’UNESCO Zeche Zollverein à Essen, vitrine mondiale du renouveau techno et hard groove.",
+      "en": "Held in partnership with ARTE Concert inside the UNESCO-listed Zeche Zollverein coal mine complex in Essen, a global showcase for techno and hard groove."
+    }
+  },
+  {
+    "id": "virage-paris",
+    "nom": "Virage",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (17e - Périphérique)",
+      "en": "Paris (17th - Ring Road)"
+    },
+    "latitude": 48.8992,
+    "longitude": 2.3158,
+    "capacite": 1200,
+    "annee": 2022,
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Hard Groove"
+    ],
+    "site": "https://virage.paris",
+    "description": {
+      "fr": "Club à ciel ouvert logé sous le boulevard périphérique dans le nord du 17e arrondissement, animé par l’équipe de Bonjour/Bonsoir.",
+      "en": "Open-air club tucked directly beneath the Paris ring road in the 17th arrondissement, run by the Bonjour/Bonsoir team."
+    }
+  },
+  {
+    "id": "nexus-paris",
+    "nom": "Nexus",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Pantin (Grand Paris)",
+      "en": "Pantin (Greater Paris)"
+    },
+    "latitude": 48.9032,
+    "longitude": 2.4045,
+    "capacite": 1500,
+    "annee": 2021,
+    "styles": [
+      "Hard Techno",
+      "Techno",
+      "Rave",
+      "Trance"
+    ],
+    "site": "https://www.nexus-club.fr",
+    "description": {
+      "fr": "Ancien entrepôt de Pantin équipé d’une cage visuelle à 360 degrés et d’un système L-Acoustics pour les grandes nuits techno et hard techno.",
+      "en": "Former Pantin warehouse equipped with a 360-degree visual cage and L-Acoustics sound for major techno and hard techno nights."
+    }
+  },
+  {
+    "id": "la-gare-le-gore-paris",
+    "nom": "La Gare / Le Gore",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (19e - Porte de la Villette)",
+      "en": "Paris (19th - Porte de la Villette)"
+    },
+    "latitude": 48.8968,
+    "longitude": 2.3842,
+    "capacite": 300,
+    "annee": 2019,
+    "styles": [
+      "Techno",
+      "Acid",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://lagare.paris",
+    "description": {
+      "fr": "Ancienne gare de la Petite Ceinture dans le 19e où le jazz acoustique en haut laisse place dès minuit au sous-sol techno brut Le Gore.",
+      "en": "Former Petite Ceinture train station in the 19th where acoustic jazz upstairs gives way at midnight to the raw Le Gore techno cellar below."
+    }
+  },
+  {
+    "id": "connexions-live-toulouse",
+    "nom": "Connexion Live",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Jean-Jaurès)",
+      "en": "Toulouse (Jean-Jaurès)"
+    },
+    "latitude": 43.6062,
+    "longitude": 1.4512,
+    "capacite": 400,
+    "annee": 2010,
+    "styles": [
+      "Electro",
+      "House",
+      "Bass",
+      "Indie Dance"
+    ],
+    "site": "https://www.connexionlive.fr",
+    "description": {
+      "fr": "Bar-club et salle de concert de la rue Gabriel-Péri au centre de Toulouse, tremplin incontournable des collectifs électroniques toulousains.",
+      "en": "Bar-club and live venue on Rue Gabriel-Péri in central Toulouse, an essential springboard for local electronic collectives."
+    }
+  },
+  {
+    "id": "systeme-club-toulouse",
+    "nom": "L’Usine à Musique",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Sept Deniers)",
+      "en": "Toulouse (Sept Deniers)"
+    },
+    "latitude": 43.6218,
+    "longitude": 1.4042,
+    "capacite": 500,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Psy",
+      "Drum & Bass",
+      "Hard Techno"
+    ],
+    "site": "https://www.lusineamusique.fr",
+    "description": {
+      "fr": "Complexe musical des Sept Deniers à Toulouse accueillant régulièrement les nuits rave, psytrance, drum & bass et hard techno.",
+      "en": "Music complex in Toulouse’s Sept Deniers district regularly hosting rave, psytrance, drum & bass and hard techno nights."
+    }
+  },
+  {
+    "id": "nine-club-toulouse",
+    "nom": "Nine Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Sesquières)",
+      "en": "Toulouse (Sesquières)"
+    },
+    "latitude": 43.6512,
+    "longitude": 1.4185,
+    "capacite": 900,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "Tech House",
+      "Melodic Techno",
+      "Techno"
+    ],
+    "site": "https://ra.co",
+    "description": {
+      "fr": "Grand club du nord de Toulouse doté d’un vaste patio extérieur et d’une salle principale recevant les DJ internationaux house et techno.",
+      "en": "Large club in northern Toulouse featuring a spacious outdoor patio and main room hosting international house and techno DJs."
+    }
+  },
+  {
+    "id": "kalinka-toulouse",
+    "nom": "Poney Club Toulouse",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Blagnac / Aéroport)",
+      "en": "Toulouse (Blagnac / Airport)"
+    },
+    "latitude": 43.6285,
+    "longitude": 1.3742,
+    "capacite": 3500,
+    "annee": 2020,
+    "styles": [
+      "House",
+      "Tech House",
+      "Melodic Techno",
+      "Techno"
+    ],
+    "site": "https://poneyclubtoulouse.fr",
+    "description": {
+      "fr": "Grand open air estival au pied des pistes de Toulouse-Blagnac, accueillant tout l’été les têtes d’affiche mondiales de la house et de la techno.",
+      "en": "Major summer open-air club beside the Toulouse-Blagnac runways, hosting global house and techno headliners all summer long."
+    }
+  },
+  {
+    "id": "groom-lyon",
+    "nom": "Groom",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Pentes de la Croix-Rousse)",
+      "en": "Lyon (Croix-Rousse)"
+    },
+    "latitude": 45.7685,
+    "longitude": 4.8342,
+    "capacite": 220,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Disco",
+      "Indie Dance",
+      "Leftfield"
+    ],
+    "site": "https://www.groomlyon.com",
+    "description": {
+      "fr": "Club et bar à cocktails de la rue Roger-Violi au pied des Pentes de la Croix-Rousse, repaire house, disco et indie dance de la scène locale.",
+      "en": "Club and cocktail bar on Rue Roger-Violi at the foot of Croix-Rousse, a local stronghold for house, disco and indie dance."
+    }
+  },
+  {
+    "id": "peniche-louve-lyon",
+    "nom": "La Marquise",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Berges du Rhône)",
+      "en": "Lyon (Rhône Banks)"
+    },
+    "latitude": 45.7538,
+    "longitude": 4.8412,
+    "capacite": 250,
+    "annee": 2000,
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Bass"
+    ],
+    "site": "https://www.marquise.net",
+    "description": {
+      "fr": "Péniche-club amarrée sur les berges du Rhône face à la Presqu’île, haut lieu des soirées électroniques, bass music et house lyonnaises.",
+      "en": "Club barge moored on the banks of the Rhône facing the Presqu’île, a staple of Lyon’s electronic, bass music and house nights."
+    }
+  },
+  {
+    "id": "la-dame-du-mont-marseille",
+    "nom": "La Dame du Mont",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Notre-Dame-du-Mont)",
+      "en": "Marseille (Notre-Dame-du-Mont)"
+    },
+    "latitude": 43.2925,
+    "longitude": 5.3822,
+    "capacite": 200,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Disco",
+      "Electro",
+      "Indie Dance"
+    ],
+    "site": "https://www.instagram.com/ladamedumont",
+    "description": {
+      "fr": "Bar musical emblématique de la place Notre-Dame-du-Mont près du Cours Julien, point de départ des nuits house, disco et électroniques marseillaises.",
+      "en": "Iconic music bar on Place Notre-Dame-du-Mont near Cours Julien, the starting point for Marseille’s house, disco and electronic nights."
+    }
+  },
+  {
+    "id": "la-cabane-bruxelles",
+    "nom": "La Cabane",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Watermael-Boitsfort)",
+      "en": "Brussels (Watermael-Boitsfort)"
+    },
+    "latitude": 50.7852,
+    "longitude": 4.4012,
+    "capacite": 450,
+    "annee": 2016,
+    "styles": [
+      "House",
+      "Minimal",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://lacabane.club",
+    "description": {
+      "fr": "Refuge club à la lisière de la forêt de Soignes au sud de Bruxelles, prisé pour sa sélection house, minimal, micro-house et disco.",
+      "en": "Club sanctuary on the edge of the Sonian Forest in southern Brussels, prized for its house, minimal, microhouse and disco curation."
+    }
+  },
+  {
+    "id": "bonnefooi-bruxelles",
+    "nom": "Bonnefooi",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Centre)",
+      "en": "Brussels (Center)"
+    },
+    "latitude": 50.8462,
+    "longitude": 4.3495,
+    "capacite": 200,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Leftfield",
+      "Disco",
+      "Electro"
+    ],
+    "site": "https://www.bonnefooi.be",
+    "description": {
+      "fr": "Bar musical de la rue des Pierres ouvert jusqu’à l’aube au centre de Bruxelles, véritable carrefour des DJ de Kiosk Radio et de la scène locale.",
+      "en": "Music bar on Rue des Pierres open until dawn in central Brussels, a vital crossroads for Kiosk Radio selectors and the local club scene."
+    }
+  },
 ];
