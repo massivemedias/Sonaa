@@ -102,12 +102,12 @@
    "slug": "ultimae-records"
   },
   {
-   "titre": "All The King's Men",
-   "artiste": "KROON",
+   "titre": "Freak Frontier II",
+   "artiste": "Thys & Samurai Breaks",
    "annee": 2026,
-   "image": "https://i.discogs.com/mvT-YkObceXAKRqIVgN4OElV5Gz0oenKqWwG7Rm8oE4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NjU0/NjE2LTE3OTE0ODQ3/NzUtNjQwMC5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38654616",
-   "format": "7xFile, WAV, EP",
+   "image": "https://i.discogs.com/zj9lzAum_g9rqnXW1U2-v9g1TKSP48I184Muhw33gtg/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4OTU1/NDU4LTE3OTQzMTYx/NzUtNDY1My5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38955458",
+   "format": "12\", EP, Col",
    "label": "Vision Recordings",
    "slug": "vision-recordings"
   },
@@ -120,16 +120,6 @@
    "format": "File, MP3, Single, 320",
    "label": "Monstercat",
    "slug": "monstercat"
-  },
-  {
-   "titre": "Distance in Static",
-   "artiste": "Bonobo",
-   "annee": 2026,
-   "image": "https://i.discogs.com/WC-zvIyN-vbaDnCyg72OQ9z3aWgAqAhawkziouRQ4L8/rs:fit/g:sm/q:90/h:584/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NTc4/MjcyLTE3OTA3OTM2/NDAtODUyNi5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38578272",
-   "format": "2xLP, S/Edition,  Pa",
-   "label": "Ninja Tune",
-   "slug": "ninja-tune"
   },
   {
    "titre": "Collabs 3000 2025 EP",
@@ -180,6 +170,16 @@
    "format": "2xFile, MP3, 320",
    "label": "Masters Of Hardcore",
    "slug": "masters-of-hardcore"
+  },
+  {
+   "titre": "Trinity (Live In Adelaide)",
+   "artiste": "Lustmord",
+   "annee": 2026,
+   "image": "https://i.discogs.com/xGii1TedPZ-nBi3o92Bgk6OZBPoyzDfr6_yroncTXHY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NTQ3/NjEyLTE3OTA1NzIw/NjctODYyMS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38547612",
+   "format": "File, MP3, Album, Tour, 320",
+   "label": "Ant-Zen",
+   "slug": "ant-zen"
   }
  ]
 }

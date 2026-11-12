@@ -1,6 +1,33 @@
 {
- "fait": "2026-11-11T19:42:41.833Z",
+ "fait": "2026-11-12T07:22:28.916Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Anukari 3D Physics Synthesizer Gets Biggest Update Yet",
+   "lien": "https://www.gearnews.com/anukari-synthesizer/",
+   "date": "2026-11-12T00:27:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/anukari-update-1.1-T.jpg",
+   "resume": "Anukari 1.1 adds strings, tubes, breath and 1000-plus new sounds, making it an even crazier physical modeling playground. All About Anukari Update 1.1 Official Release Now Available Sound through the laws of physics…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "AlphaTheta DJM-A7 Brings the A9 Layout to a Smaller Mixer and Costs You Effects",
+   "lien": "https://midnightrebels.com/alphatheta-djm-a7-brings-the-a9-layout-to-a-smaller-mixer-and-costs-you-effects/",
+   "date": "2026-11-11T22:04:37.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-top-view.webp?resize=1160%2C1338&ssl=1",
+   "resume": "AlphaTheta’s new DJM-A7 borrows the face of the flagship DJM-A9 and puts it in a smaller, cheaper box. The shrink has a price, and it is paid in effects, headphone cues and a few jacks. We went through the product page…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Why ARA 2 Is the Quiet Headline of Ableton Live 13",
+   "lien": "https://midnightrebels.com/why-ara-2-is-the-quiet-headline-of-ableton-live-13/",
+   "date": "2026-11-11T20:25:00.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-6.webp?resize=1024%2C576&ssl=1",
+   "resume": "Most Live 13 headlines go to the Drum Synth and the Step Sequencer. They are easy to demo and fun to watch. The feature that may matter more to anyone who records a voice got far less attention, and it is called ARA 2…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "GForce Plugins Get the MPE Treatment, RIP A.KAV – Sounds and Presets",
@@ -92,39 +119,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Dom Dolla in 2026 With Good Fortune Records, DANGER DANGER and EDC Thailand",
-   "lien": "https://midnightrebels.com/dom-dolla-in-2026-with-good-fortune-records-danger-danger-and-edc-thailand/",
-   "date": "2026-11-11T10:07:34.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Malaysia-Reviews-The-Weeknds-Kuala-Lumpur-Shows-Over-a-Golden-Robot-Statue.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Dom Dolla has packed a lot into 2026, with a sold-out stadium night in Melbourne, a single with Solomun and Skepta and now a label of his own. Here is what he has put out lately, what is coming next, and where he plays…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Carl Cox Receives His OBE From Prince William at Windsor Castle",
-   "lien": "https://midnightrebels.com/carl-cox-receives-his-obe-from-prince-william-at-windsor-castle/",
-   "date": "2026-11-11T10:06:04.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-5.webp?resize=660%2C440&ssl=1",
-   "resume": "Carl Cox has collected his OBE. On Tuesday, November 10, Prince William presented the honour to the British DJ at Windsor Castle, five months after it was announced. Here is what happened at the ceremony, what the…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "5 of the Best Affordable Synthesizers – For Every Budget",
    "lien": "https://www.gearnews.com/the-best-affordable-synthesizers-1/",
    "date": "2026-11-11T07:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MiniFreak49_4.jpg",
    "resume": "It can be tough shopping for a new synthesizer when you’re on a budget. However, there are plenty of surprisingly affordable synths out there. And the best news? You don’t have to sacrifice functionality for financial…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Neuzeit Instruments Drop Update: It’s Modulation Time",
-   "lien": "https://www.gearnews.com/neuzeit-instruments-drop-synth/",
-   "date": "2026-11-11T05:33:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/neuzeit-instruments-drop-update-T.jpg",
-   "resume": "Firmware 2.03 brings massive new features to the Neuzeit Instruments Drop MIDI control center, including (at last!) modulation. All About Neuzeit Instruments Drop Drop Update Now Available Neuzeit Instruments Drop Now…",
    "integral": true
   },
   {
