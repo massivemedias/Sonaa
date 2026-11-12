@@ -1,6 +1,96 @@
 {
- "fait": "2026-11-12T07:22:28.916Z",
+ "fait": "2026-11-12T20:04:27.085Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Plugins That Sound Expensive: Get Mixes That Sparkle",
+   "lien": "https://www.gearnews.com/plugins-that-sound-expensive-studio/",
+   "date": "2026-11-12T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/uad-ampex-atr-102-ft.jpg",
+   "resume": "We explore a range of plugins that sound expensive. These mixing and music production tools are tried and tested processors that add something special. No matter how vast your plugin library grows, there will always be…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"This isn't a spec refresh – it's a completely new technology platform\": Audient launches next generation of iD audio interfaces with onboard DSP and built-in monitor correction",
+   "lien": "https://www.musicradar.com/music-tech/this-isnt-a-spec-refresh-its-a-completely-new-technology-platform-audient-launches-next-generation-of-id-audio-interfaces-with-onboard-dsp-and-built-in-monitor-correction",
+   "date": "2026-11-12T17:55:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/4aqC3GTVUPD2pisJcro2EW-1920-80.jpg",
+   "resume": "Audient has unveiled the next generation of its iD series of audio interfaces , built on what the company is calling the Analogue Intelligence platform, bringing together Audient’s analogue mic preamps with onboard DSP…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "This new plugin lets you generate loops and one-shots from text prompts",
+   "lien": "https://musictech.com/news/gear/sonura-flow/",
+   "date": "2026-11-12T17:26:53.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Sonura-Flow-hero@2000x1500.jpg",
+   "resume": "Sonura Flow is a free new plugin that lets producers generate new sounds – loops, one-shots and more – from simple text prompts without even leaving their DAW. Users can generate loops, vocals, one-shots and effects by…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-11-12T17:20:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/08/sound-engineer-mixing-desk@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Dreadbox Reissues, Free ReBirth Clone & Oxygene Turns 50: Synth Journal",
+   "lien": "https://www.gearnews.com/dreadbox-reissues-synth-journal/",
+   "date": "2026-11-12T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/dreadbox-reissues-synth-journal-11-12-26.jpg",
+   "resume": "In this edition of Synth Journal: Dreadbox reissues three classic synths, a free ReBirth clone takes you back to the heyday of computer-based music production, and Jean-Michel Jarre re-releases Oxygene yet again. Synth…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "I Still Dig for Records and I Do Not Plan to Stop",
+   "lien": "https://midnightrebels.com/i-still-dig-for-records-and-i-do-not-plan-to-stop/",
+   "date": "2026-11-12T16:52:49.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Why-ARA-2-Is-the-Quiet-Headline-of-Ableton-Live-13.webp?fit=2400%2C1350&ssl=1",
+   "resume": "It is 2am, I have a dozen browser tabs open, and I am listening to a track uploaded by someone I have never heard of. Nobody will clap for this. It might never make a chart. It is still the best part of my week. I am a…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "You can now vibe code plugins for your MPC with the help of Akai’s official SDK",
+   "lien": "https://www.musicradar.com/music-tech/you-can-now-vibe-code-plugins-for-your-mpc-with-the-help-of-akais-official-sdk",
+   "date": "2026-11-12T15:01:44.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/yiHYKV3d9js2BZekG3W85e-1920-80.jpg",
+   "resume": "AI-assisted ‘vibe coding’ is rapidly changing the music technology landscape and established brands are being forced to make quick decisions about how they are going to react. While the phenomenon of users creating…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"Ever wanted to play a piano that’s 14 feet tall? Now you can\": 5 new plugins you need to know about",
+   "lien": "https://www.musicradar.com/music-tech/have-you-ever-played-a-piano-thats-14-feet-tall-now-you-can-5-new-plugins-you-need-to-know-about",
+   "date": "2026-11-12T12:57:23.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/oWMEEPTcMESt3UvoW7G4cV-1920-80.png",
+   "resume": "Never has there been a better time to be an in-the-box producer than 2026. Modern processors are lightning-fast , DAWs are more powerful than they’ve ever been, and the sheer breadth and variety of audio effects and…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Teenage Engineering EP BC-1 CD Player Leaked!",
+   "lien": "https://www.gearnews.com/teenage-engineering-ep-bc-1-dj/",
+   "date": "2026-11-12T10:00:30.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/teenage-engineering-ep-bc-1-ft-01.jpg",
+   "resume": "Whether it happened strategically or not, the Teenage Engineering EP BC-1 CD Player has been leaked, and it’s such an exciting-looking piece of kit. Just when you thought the EP series was somehow complete, Teenage…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "One Voice Memo, Six Producers and a Track About an Ex Who Will Not Leave",
+   "lien": "https://midnightrebels.com/end3r-shaq-creative-house-remix-package/",
+   "date": "2026-11-12T09:59:30.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2026-11-07-pasted-photo-featured-1.webp?fit=1920%2C1080&ssl=1",
+   "resume": "The first version of END3R was a phone recording made at 2am in a dark room. There was a voice, a repeating phrase and nothing else. Nicky Montes disliked the sound of that voice, so the voice had to go. The workaround…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Anukari 3D Physics Synthesizer Gets Biggest Update Yet",
@@ -17,15 +107,6 @@
    "date": "2026-11-11T22:04:37.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-top-view.webp?resize=1160%2C1338&ssl=1",
    "resume": "AlphaTheta’s new DJM-A7 borrows the face of the flagship DJM-A9 and puts it in a smaller, cheaper box. The shrink has a price, and it is paid in effects, headphone cues and a few jacks. We went through the product page…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Why ARA 2 Is the Quiet Headline of Ableton Live 13",
-   "lien": "https://midnightrebels.com/why-ara-2-is-the-quiet-headline-of-ableton-live-13/",
-   "date": "2026-11-11T20:25:00.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-6.webp?resize=1024%2C576&ssl=1",
-   "resume": "Most Live 13 headlines go to the Drum Synth and the Step Sequencer. They are easy to demo and fun to watch. The feature that may matter more to anyone who records a voice got far less attention, and it is called ARA 2…",
    "integral": true
   },
   {
@@ -47,48 +128,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Malaysia Reviews The Weeknd’s Kuala Lumpur Shows Over a Golden Robot Statue",
-   "lien": "https://midnightrebels.com/malaysia-reviews-the-weeknds-kuala-lumpur-shows-over-a-golden-robot-statue/",
-   "date": "2026-11-11T16:35:49.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/11/Pope-Leo-XIV-Blesses-Holy-Rave-as-DJ-Priest-Performs-at-600-Year-Old-Gothic-Cathedral.avif",
-   "resume": "The Weeknd played two nights at Bukit Jalil National Stadium in Kuala Lumpur on November 4 and 5. A few days later, Malaysia’s religious authorities were looking into the shows. Here is what has been alleged, what…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "KORG Pa5X OS Update 1.5.0: 40 New Styles and a Bunch of new Features",
-   "lien": "https://www.gearnews.com/korg-pa5x-professional-arranger/",
-   "date": "2026-11-11T15:37:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/07/korg_pa5x_teaser2026.jpg",
-   "resume": "KORG has released a major update for the Pa5X flagship arranger workstation. The new OS comes with 40 new styles, flexible MIDI Import into styles, editing improvements, and more. All about the KORG Pa5X Professional…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "AlphaTheta’s DJM-A7 is a 4-channel DJ mixer that can be ‘tuned’ to suit the room it’s in",
    "lien": "https://www.musicradar.com/music-tech/mixers/alphathetas-djm-a7-is-a-4-channel-dj-mixer-that-can-be-tuned-to-suit-the-room-its-in",
    "date": "2026-11-11T13:28:16.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/BiYgVokDaUhYTPowb3gNC6-1920-80.jpg",
    "resume": "AlphaTheta’s latest 4-channel DJ mixer is all about adaptability. Based around the same layout and channel strips as Pioneer DJ’s flagship DJM-A9, the A7 incorporates a variety of connectivity and customisation options…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "DJ.Studio 5.0: DJ DAW Now Has Phrase Detection, Smart Beatgrid & More",
-   "lien": "https://www.gearnews.com/dj-studio/",
-   "date": "2026-11-11T13:00:28.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/12/dj.studio-5.0-T.jpg",
-   "resume": "DJ.Studio 5.0 is here. The DJ DAW levels up to 5.0, with Phrase Detection to help keep every transition on the beat. Plus lots more. All About DJ.Studio DJ.Studio 5.0 3.0: New Updates Make This DJ DAW Even Better…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Universal Audio Cooper Time Cube: The Garden Hose Delay is Now Native!",
-   "lien": "https://www.gearnews.com/universal-audio-cooper-time-cube-studio/",
-   "date": "2026-11-11T12:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/uad-cooper-time-cube-ft-02.jpg",
-   "resume": "It’s been a favorite amongst Apollo users for years, and now the Universal Audio Cooper Time Cube plugin is available for all DAW users. The Cooper Time Cube is a rare electromechanical delay unit produced in very…",
    "integral": true
   },
   {
@@ -107,24 +152,6 @@
    "date": "2026-11-11T11:18:35.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/ableton-live-13-fig-5-simple-beat-v2-1130x800.jpg",
    "resume": "Ableton Live 13 is now in public beta. We put the new Drum Synth, Step Sequencer, Transient Shaper, and Clipper to work and build a beat from scratch. Three years after Live 10, Live 11 arrived. Three years after Live…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Yamaha URX, MGX, and CC1 Update: Deeper Integration and Customization Features",
-   "lien": "https://www.gearnews.com/yamaha-urx-cc1-studio/",
-   "date": "2026-11-11T11:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/yamaha-urx-mgx-cc1-update-11-2026-ft-02.jpg",
-   "resume": "With this new update, there are new features and improvements for the Yamaha URX audio interfaces, the MGX digital mixers, and the CC1 controllers. All about the Yamaha URX, MGX, and CC1: Yamaha URX, MGX, and CC1 Update…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "5 of the Best Affordable Synthesizers – For Every Budget",
-   "lien": "https://www.gearnews.com/the-best-affordable-synthesizers-1/",
-   "date": "2026-11-11T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MiniFreak49_4.jpg",
-   "resume": "It can be tough shopping for a new synthesizer when you’re on a budget. However, there are plenty of surprisingly affordable synths out there. And the best news? You don’t have to sacrifice functionality for financial…",
    "integral": true
   },
   {
@@ -155,15 +182,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Neumann KH 310 II review: “I’ve found my perfect pair of sub-£5,000 three-ways”",
-   "lien": "https://musictech.com/reviews/studio-recording-gear/neumann-kh-310-ii-review/",
-   "date": "2026-11-09T18:28:57.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Neumann-KH-310-II-hero-credit-Simon-Vinall@2000x1500.jpg",
-   "resume": "£4,800 per pair (street) £279 MA1 room measurement mic kit neumann.com I’ve been on the hunt for the perfect sub-£5,000 pair of three-way monitors for a few years now. I’m looking for low levels of distortion, decent…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Erica Synths: The Best Hardware FX For Electronic Music",
    "lien": "https://www.attackmagazine.com/reviews/the-best/erica-synths-the-best-hardware-fx-for-electronic-music/",
@@ -173,30 +191,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Neumann is out to earn your trust with the KH 350 and KH 310 II",
-   "lien": "https://musictech.com/features/interviews/neumann-kh-series/",
-   "date": "2026-11-09T08:30:16.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/MT-HERO-NEUMANN-KH-SERIES-CREDIT-SIMON-VINALL@2560x1707.jpg",
-   "resume": "A sk any reputable recording engineer what’s in their mic locker, and you’ll surely hear them mention Neumann . The 98-year-old German brand’s U 87 and U 47 microphones are essential to any storied studio, and they’ve…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“I’m not sure it’s even possible”: James Hype says he’s going to try to mix 1,000 tracks in two hours",
    "lien": "https://www.musicradar.com/artists/djs-producers/im-not-sure-its-even-possible-but-were-going-to-try-dj-james-hype-says-hes-going-to-try-to-mix-1-000-tracks-in-just-two-hours",
    "date": "2026-11-06T18:37:04.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/BNX4eHympurHhUbDC2V4jB-1920-80.jpg",
    "resume": "DJs – how many tracks do you think you could fit into a two-hour set? Thirty? Forty even? Pah! James Hype has given himself a challenge which - if it comes off - will knock even the most nifty-fingered jocks into a…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Splice’s new AI DAW feels like a cheat code for music production – but it left us with one big question",
-   "lien": "https://www.musicradar.com/music-tech/splices-new-ai-daw-feels-like-a-cheat-code-for-music-production-but-it-left-us-with-one-big-question",
-   "date": "2026-11-05T15:36:29.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/MKxdBMTbkaGpg7vnhZevTo-1920-80.png",
-   "resume": "Splice is best known for its three-million strong sample library, a vast collection of sounds that have made their way into thousands of popular songs by everyone from Sabrina Carpenter to Kendrick Lamar. In recent…",
    "integral": true
   },
   {
