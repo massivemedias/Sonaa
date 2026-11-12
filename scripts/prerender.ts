@@ -601,11 +601,19 @@ const sansTirets = (x: string | null | undefined): string | null =>
 
 const villesConnues = await lire<Ville>('villes?select=id,slug,name,country_code,timezone,ra_area_id&is_active=eq.true');
 const dans60Jours = new Date(Date.now() + 60 * 24 * 3600 * 1000).toISOString();
-const soireesManuelles = (
-  await lire<Soiree>(
-    `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
-  )
-).map((s): Soiree => ({ ...s, manuelle: true }));
+/* PAR TRANCHES DE MILLE : Supabase ne rend jamais plus de mille lignes par
+   lecture, et Ticketmaster en verse plusieurs centaines depuis qu'il lit les
+   vingt villes (ADR-118). Une seule lecture aurait coupe en silence les
+   soirees les plus lointaines. */
+const soireesManuellesBrutes: Soiree[] = [];
+for (let depart = 0; depart < 10000; depart += 1000) {
+  const tranche = await lire<Soiree>(
+    `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc,id.asc&limit=1000&offset=${depart}`
+  );
+  soireesManuellesBrutes.push(...tranche);
+  if (tranche.length < 1000) break;
+}
+const soireesManuelles = soireesManuellesBrutes.map((s): Soiree => ({ ...s, manuelle: true }));
 
 /* LES SOIREES DE RESIDENT ADVISOR, VILLE PAR VILLE. Sans elles, seules les
    villes qui ont une ligne dans soirees_manuelles recevaient une page

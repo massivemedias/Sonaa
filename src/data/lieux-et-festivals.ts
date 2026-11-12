@@ -6,7 +6,7 @@
  * une capacite de plus de 1000 personnes et je voudrais aussi que tu fasses
  * une carte interactive mondiale ».
  *
- * Les clubs couvrent les 23 villes du calendrier SONAA (scripts/donnees/villes.json) :
+ * Les clubs couvrent les 20 villes du calendrier SONAA (scripts/donnees/villes.json) :
  * chaque ville renvoie directement vers son agenda /soirees/<slug>/.
  * Les festivals sont classes par pays, avec une capacite d'au moins 1 000
  * personnes (ainsi que Be Tulum et Nomade Tulum au Mexique demandes par Mika). */
@@ -34,7 +34,7 @@ export interface LieuOuFestival {
   /** Salle de spectacle ou lieu en location (secondaire, sans styles attribues). */
   readonly estSalle?: boolean;
   readonly paysCode: string;
-  /** Slug parmi les 23 villes de SONAA quand le lieu s'y trouve. */
+  /** Slug parmi les 20 villes de SONAA quand le lieu s'y trouve. */
   readonly villeSlug?: string;
   readonly ville: { readonly fr: string; readonly en: string };
   readonly latitude: number;
@@ -83,69 +83,31 @@ export const PAYS_LIEUX: readonly PaysLieu[] = [
   { code: 'ID', nom: { fr: 'Indonésie', en: 'Indonesia' }, latitude: -8.65, longitude: 115.13 },
 ];
 
+/* LES VINGT VILLES, depuis le 12 novembre 2026 (ADR-118) : les plus grandes
+   scenes, et les memes que le calendrier. Mika : « reduis beaucoup les villes,
+   garde Montreal, Montpellier, Toulouse et beaucoup d'autres grandes villes,
+   vingt en tout ; les plus petites, tu les flushes ». */
 export const VILLES_CLUBS: readonly VilleClub[] = [
   { slug: 'montreal-ca', nom: { fr: 'Montréal', en: 'Montreal' }, paysCode: 'CA', latitude: 45.5017, longitude: -73.5673, aCalendrier: true },
   { slug: 'toronto-ca', nom: { fr: 'Toronto', en: 'Toronto' }, paysCode: 'CA', latitude: 43.6532, longitude: -79.3832, aCalendrier: true },
-  { slug: 'vancouver-ca', nom: { fr: 'Vancouver', en: 'Vancouver' }, paysCode: 'CA', latitude: 49.2827, longitude: -123.1207, aCalendrier: true },
-  { slug: 'quebec-ca', nom: { fr: 'Québec', en: 'Quebec City' }, paysCode: 'CA', latitude: 46.8139, longitude: -71.208, aCalendrier: true },
-  { slug: 'ottawa-ca', nom: { fr: 'Ottawa', en: 'Ottawa' }, paysCode: 'CA', latitude: 45.4215, longitude: -75.6972, aCalendrier: true },
-  { slug: 'calgary-ca', nom: { fr: 'Calgary', en: 'Calgary' }, paysCode: 'CA', latitude: 51.0447, longitude: -114.0719, aCalendrier: true },
-  { slug: 'winnipeg-ca', nom: { fr: 'Winnipeg', en: 'Winnipeg' }, paysCode: 'CA', latitude: 49.8951, longitude: -97.1384, aCalendrier: true },
-  { slug: 'halifax-ca', nom: { fr: 'Halifax', en: 'Halifax' }, paysCode: 'CA', latitude: 44.6488, longitude: -63.5752, aCalendrier: true },
-  { slug: 'berlin-de', nom: { fr: 'Berlin', en: 'Berlin' }, paysCode: 'DE', latitude: 52.52, longitude: 13.405, aCalendrier: true },
-  { slug: 'londres-gb', nom: { fr: 'Londres', en: 'London' }, paysCode: 'GB', latitude: 51.5074, longitude: -0.1278, aCalendrier: true },
-  { slug: 'paris-fr', nom: { fr: 'Paris', en: 'Paris' }, paysCode: 'FR', latitude: 48.8566, longitude: 2.3522, aCalendrier: true },
-  { slug: 'montpellier-fr', nom: { fr: 'Montpellier', en: 'Montpellier' }, paysCode: 'FR', latitude: 43.6108, longitude: 3.8767, aCalendrier: true },
-  { slug: 'toulouse-fr', nom: { fr: 'Toulouse', en: 'Toulouse' }, paysCode: 'FR', latitude: 43.6047, longitude: 1.4442, aCalendrier: true },
-  { slug: 'amsterdam-nl', nom: { fr: 'Amsterdam', en: 'Amsterdam' }, paysCode: 'NL', latitude: 52.3676, longitude: 4.9041, aCalendrier: true },
-  { slug: 'barcelone-es', nom: { fr: 'Barcelone', en: 'Barcelona' }, paysCode: 'ES', latitude: 41.3874, longitude: 2.1686, aCalendrier: true },
   { slug: 'newyork-us', nom: { fr: 'New York', en: 'New York' }, paysCode: 'US', latitude: 40.7128, longitude: -74.006, aCalendrier: true },
   { slug: 'losangeles-us', nom: { fr: 'Los Angeles', en: 'Los Angeles' }, paysCode: 'US', latitude: 34.0522, longitude: -118.2437, aCalendrier: true },
-  { slug: 'detroit-us', nom: { fr: 'Detroit', en: 'Detroit' }, paysCode: 'US', latitude: 42.3314, longitude: -83.0458, aCalendrier: true },
   { slug: 'chicago-us', nom: { fr: 'Chicago', en: 'Chicago' }, paysCode: 'US', latitude: 41.8781, longitude: -87.6298, aCalendrier: true },
+  { slug: 'miami-us', nom: { fr: 'Miami', en: 'Miami' }, paysCode: 'US', latitude: 25.7617, longitude: -80.1918, aCalendrier: true },
   { slug: 'mexico-mx', nom: { fr: 'Mexico', en: 'Mexico City' }, paysCode: 'MX', latitude: 19.4326, longitude: -99.1332, aCalendrier: true },
-  { slug: 'tokyo-jp', nom: { fr: 'Tokyo', en: 'Tokyo' }, paysCode: 'JP', latitude: 35.6762, longitude: 139.6503, aCalendrier: true },
-  { slug: 'melbourne-au', nom: { fr: 'Melbourne', en: 'Melbourne' }, paysCode: 'AU', latitude: -37.8136, longitude: 144.9631, aCalendrier: true },
   { slug: 'saopaulo-br', nom: { fr: 'São Paulo', en: 'Sao Paulo' }, paysCode: 'BR', latitude: -23.5505, longitude: -46.6333, aCalendrier: true },
-  { slug: 'lyon-fr', nom: { fr: 'Lyon', en: 'Lyon' }, paysCode: 'FR', latitude: 45.764, longitude: 4.8357 },
-  { slug: 'marseille-fr', nom: { fr: 'Marseille', en: 'Marseille' }, paysCode: 'FR', latitude: 43.2965, longitude: 5.3698 },
-  { slug: 'bordeaux-fr', nom: { fr: 'Bordeaux', en: 'Bordeaux' }, paysCode: 'FR', latitude: 44.8378, longitude: -0.5792 },
-  { slug: 'nantes-fr', nom: { fr: 'Nantes', en: 'Nantes' }, paysCode: 'FR', latitude: 47.2184, longitude: -1.5536 },
-  { slug: 'lille-fr', nom: { fr: 'Lille', en: 'Lille' }, paysCode: 'FR', latitude: 50.6292, longitude: 3.0573 },
-  { slug: 'rennes-fr', nom: { fr: 'Rennes', en: 'Rennes' }, paysCode: 'FR', latitude: 48.1173, longitude: -1.6778 },
-  { slug: 'strasbourg-fr', nom: { fr: 'Strasbourg', en: 'Strasbourg' }, paysCode: 'FR', latitude: 48.5734, longitude: 7.7521 },
-  { slug: 'nice-fr', nom: { fr: 'Nice', en: 'Nice' }, paysCode: 'FR', latitude: 43.7102, longitude: 7.262 },
-  { slug: 'geneve-ch', nom: { fr: 'Genève', en: 'Geneva' }, paysCode: 'CH', latitude: 46.2044, longitude: 6.1432 },
-  { slug: 'lausanne-ch', nom: { fr: 'Lausanne', en: 'Lausanne' }, paysCode: 'CH', latitude: 46.5197, longitude: 6.6323 },
-  { slug: 'zurich-ch', nom: { fr: 'Zurich', en: 'Zurich' }, paysCode: 'CH', latitude: 47.3769, longitude: 8.5417 },
-  { slug: 'bale-ch', nom: { fr: 'Bâle', en: 'Basel' }, paysCode: 'CH', latitude: 47.5596, longitude: 7.5886 },
-  { slug: 'milan-it', nom: { fr: 'Milan', en: 'Milan' }, paysCode: 'IT', latitude: 45.4642, longitude: 9.19 },
-  { slug: 'turin-it', nom: { fr: 'Turin', en: 'Turin' }, paysCode: 'IT', latitude: 45.0703, longitude: 7.6869 },
-  { slug: 'rome-it', nom: { fr: 'Rome', en: 'Rome' }, paysCode: 'IT', latitude: 41.9028, longitude: 12.4964 },
-  { slug: 'bologne-it', nom: { fr: 'Bologne & Riviera Romagnole', en: 'Bologna & Romagna Riviera' }, paysCode: 'IT', latitude: 44.4949, longitude: 11.3426 },
-  { slug: 'madrid-es', nom: { fr: 'Madrid', en: 'Madrid' }, paysCode: 'ES', latitude: 40.4168, longitude: -3.7038 },
-  { slug: 'ibiza-es', nom: { fr: 'Ibiza', en: 'Ibiza' }, paysCode: 'ES', latitude: 38.9067, longitude: 1.4206 },
-  { slug: 'valence-es', nom: { fr: 'Valence & Bilbao', en: 'Valencia & Bilbao' }, paysCode: 'ES', latitude: 39.4699, longitude: -0.3763 },
-  { slug: 'bruxelles-be', nom: { fr: 'Bruxelles', en: 'Brussels' }, paysCode: 'BE', latitude: 50.8503, longitude: 4.3517 },
-  { slug: 'gand-be', nom: { fr: 'Gand', en: 'Ghent' }, paysCode: 'BE', latitude: 51.0543, longitude: 3.7174 },
-  { slug: 'anvers-be', nom: { fr: 'Anvers', en: 'Antwerp' }, paysCode: 'BE', latitude: 51.2194, longitude: 4.4025 },
-  { slug: 'lisbonne-pt', nom: { fr: 'Lisbonne', en: 'Lisbon' }, paysCode: 'PT', latitude: 38.7223, longitude: -9.1393 },
-  { slug: 'porto-pt', nom: { fr: 'Porto', en: 'Porto' }, paysCode: 'PT', latitude: 41.1579, longitude: -8.6291 },
-  { slug: 'munich-de', nom: { fr: 'Munich', en: 'Munich' }, paysCode: 'DE', latitude: 48.1351, longitude: 11.582 },
-  { slug: 'francfort-de', nom: { fr: 'Francfort & Offenbach', en: 'Frankfurt & Offenbach' }, paysCode: 'DE', latitude: 50.1109, longitude: 8.6821 },
-  { slug: 'hambourg-de', nom: { fr: 'Hambourg', en: 'Hamburg' }, paysCode: 'DE', latitude: 53.5511, longitude: 9.9937 },
-  { slug: 'cologne-de', nom: { fr: 'Cologne', en: 'Cologne' }, paysCode: 'DE', latitude: 50.9375, longitude: 6.9603 },
-  { slug: 'leipzig-de', nom: { fr: 'Leipzig', en: 'Leipzig' }, paysCode: 'DE', latitude: 51.3397, longitude: 12.3731 },
-  { slug: 'vienne-at', nom: { fr: 'Vienne', en: 'Vienna' }, paysCode: 'AT', latitude: 48.2082, longitude: 16.3738 },
-  { slug: 'prague-cz', nom: { fr: 'Prague', en: 'Prague' }, paysCode: 'CZ', latitude: 50.0755, longitude: 14.4378 },
-  { slug: 'varsovie-pl', nom: { fr: 'Varsovie', en: 'Warsaw' }, paysCode: 'PL', latitude: 52.2297, longitude: 21.0122 },
-  { slug: 'budapest-hu', nom: { fr: 'Budapest', en: 'Budapest' }, paysCode: 'HU', latitude: 47.4979, longitude: 19.0402 },
-  { slug: 'tbilissi-ge', nom: { fr: 'Tbilissi', en: 'Tbilisi' }, paysCode: 'GE', latitude: 41.7151, longitude: 44.8271 },
-  { slug: 'manchester-gb', nom: { fr: 'Manchester', en: 'Manchester' }, paysCode: 'GB', latitude: 53.4808, longitude: -2.2426 },
-  { slug: 'bristol-gb', nom: { fr: 'Bristol & Glasgow', en: 'Bristol & Glasgow' }, paysCode: 'GB', latitude: 51.4545, longitude: -2.5879 },
-  { slug: 'miami-us', nom: { fr: 'Miami', en: 'Miami' }, paysCode: 'US', latitude: 25.7617, longitude: -80.1918 },
-  { slug: 'sanfrancisco-us', nom: { fr: 'San Francisco', en: 'San Francisco' }, paysCode: 'US', latitude: 37.7749, longitude: -122.4194 },
-  { slug: 'denver-us', nom: { fr: 'Denver & Austin', en: 'Denver & Austin' }, paysCode: 'US', latitude: 39.7392, longitude: -104.9903 },
+  { slug: 'londres-gb', nom: { fr: 'Londres', en: 'London' }, paysCode: 'GB', latitude: 51.5074, longitude: -0.1278, aCalendrier: true },
+  { slug: 'paris-fr', nom: { fr: 'Paris', en: 'Paris' }, paysCode: 'FR', latitude: 48.8566, longitude: 2.3522, aCalendrier: true },
+  { slug: 'lyon-fr', nom: { fr: 'Lyon', en: 'Lyon' }, paysCode: 'FR', latitude: 45.764, longitude: 4.8357, aCalendrier: true },
+  { slug: 'marseille-fr', nom: { fr: 'Marseille', en: 'Marseille' }, paysCode: 'FR', latitude: 43.2965, longitude: 5.3698, aCalendrier: true },
+  { slug: 'toulouse-fr', nom: { fr: 'Toulouse', en: 'Toulouse' }, paysCode: 'FR', latitude: 43.6047, longitude: 1.4442, aCalendrier: true },
+  { slug: 'montpellier-fr', nom: { fr: 'Montpellier', en: 'Montpellier' }, paysCode: 'FR', latitude: 43.6108, longitude: 3.8767, aCalendrier: true },
+  { slug: 'berlin-de', nom: { fr: 'Berlin', en: 'Berlin' }, paysCode: 'DE', latitude: 52.52, longitude: 13.405, aCalendrier: true },
+  { slug: 'amsterdam-nl', nom: { fr: 'Amsterdam', en: 'Amsterdam' }, paysCode: 'NL', latitude: 52.3676, longitude: 4.9041, aCalendrier: true },
+  { slug: 'bruxelles-be', nom: { fr: 'Bruxelles', en: 'Brussels' }, paysCode: 'BE', latitude: 50.8503, longitude: 4.3517, aCalendrier: true },
+  { slug: 'barcelone-es', nom: { fr: 'Barcelone', en: 'Barcelona' }, paysCode: 'ES', latitude: 41.3874, longitude: 2.1686, aCalendrier: true },
+  { slug: 'madrid-es', nom: { fr: 'Madrid', en: 'Madrid' }, paysCode: 'ES', latitude: 40.4168, longitude: -3.7038, aCalendrier: true },
+  { slug: 'tokyo-jp', nom: { fr: 'Tokyo', en: 'Tokyo' }, paysCode: 'JP', latitude: 35.6762, longitude: 139.6503, aCalendrier: true },
 ];
 
 export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
@@ -282,161 +244,11 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
 
   /* Vancouver */
-  {
-    id: 'red-room-vancouver',
-    nom: 'Red Room Ultra Bar',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'vancouver-ca',
-    ville: { fr: 'Vancouver', en: 'Vancouver' },
-    latitude: 49.2836,
-    longitude: -123.1121,
-    capacite: 450,
-    annee: 2003,
-    styles: ['Drum & Bass', 'Bass', 'Dubstep', 'Techno'],
-    site: 'https://redroomvancouver.com',
-    description: {
-      fr: 'Bastion de la bass music sur la côte Ouest canadienne rue Richards, célèbre pour ses samedis Subculture et son mur PK Sound taillé pour la drum and bass et le dubstep.',
-      en: 'West Coast bass music bastion on Richards Street, renowned for its long-running Subculture Saturdays and a wall of PK Sound built for drum and bass and dubstep.',
-    },
-  },
-  {
-    id: 'village-studios-vancouver',
-    nom: 'Village Studios',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'vancouver-ca',
-    ville: { fr: 'Vancouver', en: 'Vancouver' },
-    latitude: 49.2798,
-    longitude: -123.1301,
-    capacite: 500,
-    annee: 2022,
-    styles: ['House', 'Techno', 'Indie Dance'],
-    site: 'https://www.villagestudios.life',
-    description: {
-      fr: 'Caveau brutaliste sous Davie Street réaménagé en club électronique brut pour les collectifs house, techno et rave de Vancouver.',
-      en: 'Brutalist underground vault beneath Davie Street transformed into a raw electronic club space for Vancouver house, techno and rave collectives.',
-    },
-  },
-
   /* Québec */
-  {
-    id: 'le-drague-quebec',
-    nom: 'Le Drague Cabaret Club',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'quebec-ca',
-    ville: { fr: 'Québec', en: 'Quebec City' },
-    latitude: 46.8105,
-    longitude: -71.2195,
-    capacite: 600,
-    annee: 1986,
-    styles: ['House', 'Disco', 'Dance'],
-    site: 'https://ledrague.com',
-    description: {
-      fr: 'Institution nocturne du quartier Saint-Jean-Baptiste sur plusieurs étages, dotée d’une piste club house et disco active depuis quatre décennies.',
-      en: 'Multi-level nightlife institution in the Saint-Jean-Baptiste neighborhood with an active house and disco dancefloor spanning four decades.',
-    },
-  },
-  {
-    id: 'anti-bar-quebec',
-    nom: 'L’Anti Bar & Spectacles',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'quebec-ca',
-    ville: { fr: 'Québec', en: 'Quebec City' },
-    latitude: 46.8159,
-    longitude: -71.2241,
-    capacite: 250,
-    annee: 2014,
-    styles: ['Electro', 'Techno', 'Industrial'],
-    site: 'https://antibarspectacles.com',
-    description: {
-      fr: 'Salle indépendante de Saint-Roch accueillant les nuits électroniques, synthwave, EBM et techno de la scène alternative de Québec.',
-      en: 'Independent Saint-Roch venue hosting electronic, synthwave, EBM and techno nights from Quebec City’s alternative scene.',
-    },
-  },
-
   /* Ottawa */
-  {
-    id: 'city-at-night-ottawa',
-    nom: 'City At Night',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'ottawa-ca',
-    ville: { fr: 'Ottawa', en: 'Ottawa' },
-    latitude: 45.4193,
-    longitude: -75.6994,
-    capacite: 250,
-    annee: 2016,
-    styles: ['House', 'Techno', 'Progressive House'],
-    site: 'https://www.cityatnight.ca',
-    description: {
-      fr: 'Repaire house et techno de la rue Slater au centre-ville d’Ottawa, conçu autour de la cabine DJ et des longues nuits underground du week-end.',
-      en: 'Intimate house and techno club on Slater Street in downtown Ottawa, built around the DJ booth and extended weekend underground nights.',
-    },
-  },
-
   /* Calgary */
-  {
-    id: 'sub-rosa-calgary',
-    nom: 'Sub Rosa',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'calgary-ca',
-    ville: { fr: 'Calgary', en: 'Calgary' },
-    latitude: 51.0453,
-    longitude: -114.0662,
-    capacite: 350,
-    annee: 2019,
-    styles: ['House', 'Techno', 'Deep House', 'Bass'],
-    site: 'https://www.subrosayyc.com',
-    description: {
-      fr: 'Sous-sol intimiste sous le bâtiment historique The Guild sur la 8e Avenue, équipé en PK Sound pour les tournées house, techno et bass de l’Ouest canadien.',
-      en: 'Intimate basement club beneath the historic Guild building on 8th Avenue SW, outfitted with PK Sound for house, techno and bass tours.',
-    },
-  },
-
   /* Winnipeg */
-  {
-    id: 'pyramid-cabaret-winnipeg',
-    nom: 'Pyramid Cabaret',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'winnipeg-ca',
-    ville: { fr: 'Winnipeg', en: 'Winnipeg' },
-    latitude: 49.8913,
-    longitude: -97.1369,
-    capacite: 500,
-    annee: 1995,
-    styles: ['Techno', 'Drum & Bass', 'House', 'Bass'],
-    site: 'https://www.pyramid69.com',
-    description: {
-      fr: 'Salle historique de Fort Street à Winnipeg accueillant depuis les années 1990 les raves, soirées drum and bass, techno et bass music des Prairies.',
-      en: 'Historic Fort Street venue in Winnipeg hosting Prairie raves, drum and bass, techno and bass music nights since the 1990s.',
-    },
-  },
-
   /* Halifax */
-  {
-    id: 'marquee-ballroom-halifax',
-    nom: 'The Marquee Ballroom',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'halifax-ca',
-    ville: { fr: 'Halifax', en: 'Halifax' },
-    latitude: 44.6524,
-    longitude: -63.5831,
-    capacite: 650,
-    annee: 1999,
-    styles: ['House', 'Techno', 'Bass', 'Breaks'],
-    site: 'https://www.2037gottingen.ca',
-    description: {
-      fr: 'Grande salle de Gottingen Street surplombant le Seahorse Tavern, coeur des nuits électroniques et des tournées DJ dans les provinces atlantiques.',
-      en: 'Landmark Gottingen Street ballroom above the Seahorse Tavern, the heart of electronic nights and DJ tours in Atlantic Canada.',
-    },
-  },
-
   /* Berlin */
   {
     id: 'berghain-berlin',
@@ -907,61 +719,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
 
   /* Detroit */
-  {
-    id: 'spot-lite-detroit',
-    nom: 'Spot Lite',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'detroit-us',
-    ville: { fr: 'Detroit', en: 'Detroit' },
-    latitude: 42.3652,
-    longitude: -82.9921,
-    capacite: 450,
-    annee: 2021,
-    styles: ['Detroit Techno', 'House', 'Electro', 'Disco'],
-    site: 'https://www.spotlitedetroit.com',
-    description: {
-      fr: 'Disquaire, galerie et club de l’Eastside de Detroit où les pionniers de la techno et de la house côtoient la nouvelle garde locale.',
-      en: 'Record store, art gallery and club on Detroit’s Eastside where first-generation techno and house pioneers share the decks with the new wave.',
-    },
-  },
-  {
-    id: 'tv-lounge-detroit',
-    nom: 'TV Lounge',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'detroit-us',
-    ville: { fr: 'Detroit', en: 'Detroit' },
-    latitude: 42.3372,
-    longitude: -83.0659,
-    capacite: 600,
-    annee: 2006,
-    styles: ['Detroit Techno', 'House', 'Ghetto Tech', 'Acid'],
-    site: 'https://www.facebook.com/tvloungedetroit',
-    description: {
-      fr: 'Institution de Grand River Avenue avec cour extérieure en brique et ruelle ouverte, légendaire pour ses afterparties de trois jours pendant le week-end de Movement.',
-      en: 'Grand River Avenue institution with a brick courtyard and open alley, legendary for its three-day marathon afterparties during Movement weekend.',
-    },
-  },
-  {
-    id: 'marble-bar-detroit',
-    nom: 'Marble Bar',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'detroit-us',
-    ville: { fr: 'Detroit', en: 'Detroit' },
-    latitude: 42.3627,
-    longitude: -83.0778,
-    capacite: 500,
-    annee: 2015,
-    styles: ['Techno', 'House', 'Electro', 'Indie Dance'],
-    site: 'https://www.marblebardetroit.com',
-    description: {
-      fr: 'Club de New Center associant une salle intérieure intimiste et un vaste patio extérieur pour les marathons du jour et de la nuit.',
-      en: 'New Center club pairing an intimate indoor dancefloor with a spacious outdoor patio for day-to-night electronic marathons.',
-    },
-  },
-
   /* Chicago */
   {
     id: 'smartbar-chicago',
@@ -1113,43 +870,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
 
   /* Melbourne */
-  {
-    id: 'revolver-melbourne',
-    nom: 'Revolver Upstairs',
-    type: 'club',
-    paysCode: 'AU',
-    villeSlug: 'melbourne-au',
-    ville: { fr: 'Melbourne', en: 'Melbourne' },
-    latitude: -37.8505,
-    longitude: 144.9932,
-    capacite: 600,
-    annee: 1997,
-    styles: ['House', 'Techno', 'Disco', 'Minimal'],
-    site: 'https://revolverupstairs.com.au',
-    description: {
-      fr: 'Légende de Chapel Street à Prahran (« Revs »), célèbre pour sa cage DJ et ses marathons continus du vendredi soir au lundi matin.',
-      en: 'Chapel Street institution in Prahran affectionately known as “Revs”, famous for its DJ cage and non-stop weekend marathons running from Friday night to Monday morning.',
-    },
-  },
-  {
-    id: 'sub-club-melbourne',
-    nom: 'Sub Club',
-    type: 'club',
-    paysCode: 'AU',
-    villeSlug: 'melbourne-au',
-    ville: { fr: 'Melbourne', en: 'Melbourne' },
-    latitude: -37.8173,
-    longitude: 144.9669,
-    capacite: 400,
-    annee: 2018,
-    styles: ['Techno', 'Electro', 'Breaks', 'House'],
-    site: 'https://www.subclubmelbourne.com',
-    description: {
-      fr: 'Sous-sol brut de Flinders Court au coeur du CBD de Melbourne, dédié à la techno rapide, à l’électro et aux collectifs underground locaux.',
-      en: 'Raw basement venue on Flinders Court in Melbourne’s CBD, dedicated to techno, electro and local underground collectives.',
-    },
-  },
-
   /* São Paulo */
   {
     id: 'd-edge-sao-paulo',
@@ -1385,8 +1105,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: 'Movement Electronic Music Festival',
     type: 'festival',
     paysCode: 'US',
-    villeSlug: 'detroit-us',
-    ville: { fr: 'Detroit', en: 'Detroit' },
+        ville: { fr: 'Detroit', en: 'Detroit' },
     latitude: 42.3278,
     longitude: -83.0447,
     capacite: 35000,
@@ -1744,6 +1463,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: 'Nuits Sonores',
     type: 'festival',
     paysCode: 'FR',
+    villeSlug: 'lyon-fr',
     ville: { fr: 'Lyon', en: 'Lyon' },
     latitude: 45.7364,
     longitude: 4.8247,
@@ -2453,244 +2173,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     },
   },
   {
-    id: "fortune-sound-club-vancouver",
-    nom: "Fortune Sound Club",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "vancouver-ca",
-    ville: { fr: "Vancouver", en: "Vancouver" },
-    latitude: 49.2803,
-    longitude: -123.1014,
-    capacite: 500,
-    annee: 2009,
-    styles: ["House","UK Garage","Bass","Techno"],
-    site: "https://fortunesoundclub.com",
-    description: {
-      fr: "Institution du quartier historique de Chinatown sur Pender Street, équipée d’un système Funktion-One sur mesure pour les tournées house, UK garage et bass.",
-      en: "Chinatown institution on Pender Street outfitted with a custom Funktion-One sound system for international house, UK garage and bass bookings.",
-    },
-  },
-  {
-    id: "celebrities-vancouver",
-    nom: "Celebrities Nightclub",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "vancouver-ca",
-    ville: { fr: "Vancouver", en: "Vancouver" },
-    latitude: 49.2799,
-    longitude: -123.13,
-    capacite: 650,
-    annee: 1984,
-    styles: ["House","Tech House","Techno","Trance"],
-    site: "https://celebritiesnightclub.com",
-    description: {
-      fr: "Club historique de Davie Village fondé en 1984, doté d’un plafond lumineux immersif et d’une programmation électronique internationale.",
-      en: "Historic Davie Village nightclub founded in 1984, featuring an immersive lighting grid and international electronic headliners.",
-    },
-  },
-  {
-    id: "gorg-o-mish-vancouver",
-    nom: "Gorg-O-Mish Afterhours",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "vancouver-ca",
-    ville: { fr: "Vancouver", en: "Vancouver" },
-    latitude: 49.2784,
-    longitude: -123.1208,
-    capacite: 300,
-    annee: 2002,
-    styles: ["Techno","House","Tech House","Minimal"],
-    site: "https://gorgomish.com",
-    description: {
-      fr: "Le temple afterhours de Seymour Street à Vancouver, ouvert de 2 heures à 8 heures du matin chaque week-end pour les marathons techno et house.",
-      en: "Seymour Street’s legendary afterhours sanctuary in Vancouver, open from 2 a.m. to 8 a.m. every weekend for underground techno and house sessions.",
-    },
-  },
-  {
-    id: "imperial-bell-quebec",
-    nom: "Impérial Bell",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "quebec-ca",
-    ville: { fr: "Québec", en: "Quebec City" },
-    latitude: 46.8136,
-    longitude: -71.2254,
-    capacite: 900,
-    annee: 1933,
-    styles: ["Electro","Techno","House","Bass"],
-    site: "https://imperialbell.com",
-    description: {
-      fr: "Ancien cinéma historique de la rue Saint-Joseph Est dans Saint-Roch, accueillant les grandes tournées électroniques et les nuits club de Québec.",
-      en: "Historic former cinema on Saint-Joseph Street East in Saint-Roch, hosting major electronic tours and club nights in Quebec City.",
-    },
-  },
-  {
-    id: "le-pantoum-quebec",
-    nom: "Le Pantoum",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "quebec-ca",
-    ville: { fr: "Québec", en: "Quebec City" },
-    latitude: 46.8147,
-    longitude: -71.2412,
-    capacite: 250,
-    annee: 2012,
-    styles: ["Experimental","Electro","Ambient","Techno"],
-    site: "https://lepantoum.com",
-    description: {
-      fr: "Complexe créatif indépendant du quartier Saint-Sauveur où se croisent performances électroniques expérimentales, synthétiseurs modulaires et collectifs locaux.",
-      en: "Independent creative complex in the Saint-Sauveur neighborhood hosting experimental electronic performances, modular synth nights and local collectives.",
-    },
-  },
-  {
-    id: "the-27-club-ottawa",
-    nom: "The 27 Club",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "ottawa-ca",
-    ville: { fr: "Ottawa", en: "Ottawa" },
-    latitude: 45.4281,
-    longitude: -75.6914,
-    capacite: 350,
-    annee: 2017,
-    styles: ["Drum & Bass","Bass","House","Techno"],
-    site: "https://www.the27club.ca",
-    description: {
-      fr: "Salle du marché By rue York à Ottawa, point de chute des tournées bass music, drum and bass, techno et des soirées électroniques thématiques.",
-      en: "ByWard Market venue on York Street in Ottawa, hosting bass music, drum and bass, techno tours and underground electronic nights.",
-    },
-  },
-  {
-    id: "bronson-centre-ottawa",
-    nom: "Bronson Centre Music Theatre",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "ottawa-ca",
-    ville: { fr: "Ottawa", en: "Ottawa" },
-    latitude: 45.4142,
-    longitude: -75.7048,
-    capacite: 1000,
-    annee: 1995,
-    estSalle: true,
-    styles: [],
-    site: "https://bronsoncentre.ca",
-    description: {
-      fr: "Grande salle de l’avenue Bronson accueillant les productions électroniques grand format et les afterparties d’Escapade à Ottawa.",
-      en: "Large venue on Bronson Avenue hosting full-scale electronic productions and Escapade afterparties in Ottawa.",
-    },
-  },
-  {
-    id: "palace-theatre-calgary",
-    nom: "The Palace Theatre",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "calgary-ca",
-    ville: { fr: "Calgary", en: "Calgary" },
-    latitude: 51.0454,
-    longitude: -114.0666,
-    capacite: 1000,
-    annee: 1921,
-    estSalle: true,
-    styles: [],
-    site: "https://thepalacetheatre.ca",
-    description: {
-      fr: "Théâtre historique de 1921 sur Stephen Avenue transformé en grande salle électronique équipée d’un système PK Sound monumental.",
-      en: "Historic 1921 theatre on Stephen Avenue transformed into Calgary’s flagship large-scale electronic venue with a massive PK Sound rig.",
-    },
-  },
-  {
-    id: "commonwealth-calgary",
-    nom: "Commonwealth Bar & Stage",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "calgary-ca",
-    ville: { fr: "Calgary", en: "Calgary" },
-    latitude: 51.0436,
-    longitude: -114.0628,
-    capacite: 450,
-    annee: 2011,
-    styles: ["House","UK Garage","Bass","Disco"],
-    site: "https://commonwealthbar.ca",
-    description: {
-      fr: "Ancien entrepôt sur deux étages de la 10e Avenue à Calgary, mêlant programmation house et UK garage à l’étage et basses lourdes au sous-sol.",
-      en: "Two-level converted warehouse on 10th Avenue SW in Calgary, pairing upstairs house and UK garage nights with heavy bass downstairs.",
-    },
-  },
-  {
-    id: "park-theatre-winnipeg",
-    nom: "The Park Theatre",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "winnipeg-ca",
-    ville: { fr: "Winnipeg", en: "Winnipeg" },
-    latitude: 49.8661,
-    longitude: -97.1438,
-    capacite: 350,
-    annee: 2005,
-    estSalle: true,
-    styles: [],
-    site: "https://myparktheatre.com",
-    description: {
-      fr: "Salle indépendante de South Osborne à Winnipeg accueillant les tournées électroniques, les soirées synth et les collectifs DJ locaux.",
-      en: "Independent South Osborne venue in Winnipeg hosting touring electronic acts, synth nights and local DJ collectives.",
-    },
-  },
-  {
-    id: "sidestage-winnipeg",
-    nom: "Sidestage",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "winnipeg-ca",
-    ville: { fr: "Winnipeg", en: "Winnipeg" },
-    latitude: 49.8663,
-    longitude: -97.1441,
-    capacite: 200,
-    annee: 2024,
-    styles: ["House","Techno","Indie Dance"],
-    site: "https://www.sidestagewpg.com",
-    description: {
-      fr: "Salle intimiste d’Osborne Street dédiée aux soirées house, techno et aux artistes émergents de la scène électronique manitobaine.",
-      en: "Intimate Osborne Street venue dedicated to house, techno and emerging artists from Manitoba’s electronic scene.",
-    },
-  },
-  {
-    id: "stillwell-hifi-halifax",
-    nom: "Stillwell Brewing Hi-Fi",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "halifax-ca",
-    ville: { fr: "Halifax", en: "Halifax" },
-    latitude: 44.6634,
-    longitude: -63.6119,
-    capacite: 200,
-    annee: 2021,
-    styles: ["House","Disco","Minimal","Techno"],
-    site: "https://www.stillwellbrewing.com",
-    description: {
-      fr: "Espace audiophile de Kempt Road à Halifax, où les sélecteurs vinyles et collectifs house et techno jouent sur un système sonore haute fidélité.",
-      en: "Audiophile space on Kempt Road in Halifax where vinyl selectors and house and techno collectives play on a custom hi-fi sound system.",
-    },
-  },
-  {
-    id: "lighthouse-halifax",
-    nom: "Light House Arts Centre",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "halifax-ca",
-    ville: { fr: "Halifax", en: "Halifax" },
-    latitude: 44.6462,
-    longitude: -63.5754,
-    capacite: 800,
-    annee: 2021,
-    estSalle: true,
-    styles: [],
-    site: "https://www.lighthouseartscentre.ca",
-    description: {
-      fr: "Pôle culturel et salle électronique d’Argyle Street au centre-ville d’Halifax, accueillant les tournées DJ et les nuits rave des Maritimes.",
-      en: "Cultural hub and electronic venue on Argyle Street in downtown Halifax, hosting touring DJs and Atlantic rave nights.",
-    },
-  },
-  {
     id: "kitkatclub-berlin",
     nom: "KitKatClub",
     type: "club",
@@ -3105,42 +2587,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     },
   },
   {
-    id: "tangent-gallery-detroit",
-    nom: "Tangent Gallery / Hastings Street Ballroom",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "detroit-us",
-    ville: { fr: "Detroit", en: "Detroit" },
-    latitude: 42.3712,
-    longitude: -83.0631,
-    capacite: 800,
-    annee: 2002,
-    styles: ["Detroit Techno","Acid","Electro","Industrial"],
-    site: "https://www.tangentgallery.com",
-    description: {
-      fr: "Complexe artistique brut de Milwaukee Junction abritant les mythiques raves No Way Back et les marathons Interdimensional Transmissions.",
-      en: "Raw industrial arts complex in Milwaukee Junction, home to the legendary No Way Back raves and Interdimensional Transmissions marathons.",
-    },
-  },
-  {
-    id: "leland-city-club-detroit",
-    nom: "Leland City Club",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "detroit-us",
-    ville: { fr: "Detroit", en: "Detroit" },
-    latitude: 42.3338,
-    longitude: -83.0558,
-    capacite: 600,
-    annee: 1983,
-    styles: ["Industrial","Techno","Detroit Techno","EBM"],
-    site: "https://www.lelandcityclub.net",
-    description: {
-      fr: "Salle de bal gothique et industrielle au sommet de l’hôtel historique Leland (1927), institution nocturne de Detroit depuis plus de quarante ans.",
-      en: "Gothic and industrial ballroom inside the historic 1927 Leland Hotel, a Detroit underground institution for over forty years.",
-    },
-  },
-  {
     id: "spybar-chicago",
     nom: "Spybar",
     type: "club",
@@ -3249,42 +2695,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     },
   },
   {
-    id: "new-guernica-melbourne",
-    nom: "New Guernica",
-    type: "club",
-    paysCode: "AU",
-    villeSlug: "melbourne-au",
-    ville: { fr: "Melbourne", en: "Melbourne" },
-    latitude: -37.8042,
-    longitude: 144.9839,
-    capacite: 450,
-    annee: 2009,
-    styles: ["House","Techno","Disco","Trance"],
-    site: "https://newguernica.com.au",
-    description: {
-      fr: "Institution éclectique de Smith Street à Collingwood, dotée d’une cabine DJ à 360 degrés au coeur de la piste.",
-      en: "Eclectic Smith Street club in Collingwood featuring an intimate 360-degree DJ booth in the middle of the dancefloor.",
-    },
-  },
-  {
-    id: "miscellania-melbourne",
-    nom: "Miscellania",
-    type: "club",
-    paysCode: "AU",
-    villeSlug: "melbourne-au",
-    ville: { fr: "Melbourne", en: "Melbourne" },
-    latitude: -37.8089,
-    longitude: 144.9631,
-    capacite: 300,
-    annee: 2021,
-    styles: ["Experimental","Techno","Breaks","Leftfield"],
-    site: "https://www.instagram.com/miscellania_/",
-    description: {
-      fr: "Club indépendant sur Swanston Street avec toit-terrasse, fer de lance de la scène club expérimentale et queer de Melbourne.",
-      en: "Independent Swanston Street club and rooftop terrace spearheading Melbourne’s experimental and queer club community.",
-    },
-  },
-  {
     id: "ephigenia-sao-paulo",
     nom: "Ephigenia",
     type: "club",
@@ -3345,8 +2755,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Escapade Music Festival",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "ottawa-ca",
-    ville: { fr: "Ottawa", en: "Ottawa" },
+        ville: { fr: "Ottawa", en: "Ottawa" },
     latitude: 45.3986,
     longitude: -75.6836,
     capacite: 25000,
@@ -3401,8 +2810,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Chasing Summer",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "calgary-ca",
-    ville: { fr: "Calgary", en: "Calgary" },
+        ville: { fr: "Calgary", en: "Calgary" },
     latitude: 51.0972,
     longitude: -113.9978,
     capacite: 18000,
@@ -3420,8 +2828,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Badlands Music Festival",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "calgary-ca",
-    ville: { fr: "Calgary", en: "Calgary" },
+        ville: { fr: "Calgary", en: "Calgary" },
     latitude: 51.0422,
     longitude: -114.0794,
     capacite: 12000,
@@ -3439,8 +2846,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Contact Winter Music Festival",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "vancouver-ca",
-    ville: { fr: "Vancouver", en: "Vancouver" },
+        ville: { fr: "Vancouver", en: "Vancouver" },
     latitude: 49.2767,
     longitude: -123.1119,
     capacite: 15000,
@@ -3458,8 +2864,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "FVDED in the Park",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "vancouver-ca",
-    ville: { fr: "Vancouver (Surrey)", en: "Vancouver (Surrey)" },
+        ville: { fr: "Vancouver (Surrey)", en: "Vancouver (Surrey)" },
     latitude: 49.1808,
     longitude: -122.8492,
     capacite: 25000,
@@ -5024,6 +4429,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Delta Festival",
     type: "festival",
     paysCode: "FR",
+    villeSlug: "marseille-fr",
     ville: { fr: "Marseille (Plages du Prado)", en: "Marseille (Prado Beaches)" },
     latitude: 43.2575,
     longitude: 5.3742,
@@ -5224,8 +4630,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Igloofest Québec",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "quebec-ca",
-    ville: { fr: "Québec (Place Jean-Béliveau)", en: "Quebec City (Place Jean-Beliveau)" },
+        ville: { fr: "Québec (Place Jean-Béliveau)", en: "Quebec City (Place Jean-Beliveau)" },
     latitude: 46.8261,
     longitude: -71.2464,
     capacite: 8000,
@@ -5243,8 +4648,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Igloofest Gatineau",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "ottawa-ca",
-    ville: { fr: "Gatineau / Ottawa (Place Zibi)", en: "Gatineau / Ottawa (Place Zibi)" },
+        ville: { fr: "Gatineau / Ottawa (Place Zibi)", en: "Gatineau / Ottawa (Place Zibi)" },
     latitude: 45.4242,
     longitude: -75.7169,
     capacite: 6000,
@@ -5262,8 +4666,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Riverside Festival",
     type: "festival",
     paysCode: "CA",
-    villeSlug: "ottawa-ca",
-    ville: { fr: "Gatineau / Ottawa (Musée canadien de l’histoire)", en: "Gatineau / Ottawa (Canadian Museum of History)" },
+        ville: { fr: "Gatineau / Ottawa (Musée canadien de l’histoire)", en: "Gatineau / Ottawa (Canadian Museum of History)" },
     latitude: 45.4294,
     longitude: -75.7089,
     capacite: 10000,
@@ -7177,8 +6580,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "NAME Festival (Nord Art Musique Électronique)",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
+        "ville": {
       "fr": "Lille & Hauts-de-France",
       "en": "Lille & Hauts-de-France"
     },
@@ -7207,8 +6609,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Les Nuits Secrètes",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
+        "ville": {
       "fr": "Aulnoye-Aymeries (Hauts-de-France)",
       "en": "Aulnoye-Aymeries (Hauts-de-France)"
     },
@@ -7237,8 +6638,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Touquet Music Beach Festival",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
+        "ville": {
       "fr": "Le Touquet-Paris-Plage (Côte d’Opale)",
       "en": "Le Touquet-Paris-Plage"
     },
@@ -7267,8 +6667,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Initial Festival",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "bordeaux-fr",
-    "ville": {
+        "ville": {
       "fr": "Bordeaux",
       "en": "Bordeaux"
     },
@@ -7327,8 +6726,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Festival Crossover",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "nice-fr",
-    "ville": {
+        "ville": {
       "fr": "Nice (Théâtre de Verdure & Le 109)",
       "en": "Nice (Théâtre de Verdure & Le 109)"
     },
@@ -7357,8 +6755,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "MADE Festival",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "rennes-fr",
-    "ville": {
+        "ville": {
       "fr": "Rennes",
       "en": "Rennes"
     },
@@ -7387,8 +6784,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Festival Maintenant",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "rennes-fr",
-    "ville": {
+        "ville": {
       "fr": "Rennes",
       "en": "Rennes"
     },
@@ -7417,8 +6813,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Longevity Festival",
     "type": "festival",
     "paysCode": "FR",
-    "villeSlug": "strasbourg-fr",
-    "ville": {
+        "ville": {
       "fr": "Strasbourg (Jardin des Deux Rives)",
       "en": "Strasbourg (Jardin des Deux Rives)"
     },
@@ -7447,8 +6842,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Lethargy Festival",
     "type": "festival",
     "paysCode": "CH",
-    "villeSlug": "zurich-ch",
-    "ville": {
+        "ville": {
       "fr": "Zurich (Rote Fabrik)",
       "en": "Zurich (Rote Fabrik)"
     },
@@ -7477,8 +6871,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Zürich Openair (Dance Circus & Tent)",
     "type": "festival",
     "paysCode": "CH",
-    "villeSlug": "zurich-ch",
-    "ville": {
+        "ville": {
       "fr": "Zurich (Glattbrugg / Rümlang)",
       "en": "Zurich (Glattbrugg / Rümlang)"
     },
@@ -7536,8 +6929,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Movement Torino Music Festival",
     "type": "festival",
     "paysCode": "IT",
-    "villeSlug": "turin-it",
-    "ville": {
+        "ville": {
       "fr": "Turin (Lingotto)",
       "en": "Turin (Lingotto)"
     },
@@ -7624,8 +7016,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Jazz:Re:Found",
     "type": "festival",
     "paysCode": "IT",
-    "villeSlug": "turin-it",
-    "ville": {
+        "ville": {
       "fr": "Cella Monte (Montferrat, Piémont)",
       "en": "Cella Monte (Monferrato, Piedmont)"
     },
@@ -7654,8 +7045,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "ROBOT Festival",
     "type": "festival",
     "paysCode": "IT",
-    "villeSlug": "bologne-it",
-    "ville": {
+        "ville": {
       "fr": "Bologne (DumBO & Palazzo Re Enzo)",
       "en": "Bologna (DumBO & Palazzo Re Enzo)"
     },
@@ -7684,8 +7074,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Spring Attitude Festival",
     "type": "festival",
     "paysCode": "IT",
-    "villeSlug": "rome-it",
-    "ville": {
+        "ville": {
       "fr": "Rome (Studios Cinecittà)",
       "en": "Rome (Cinecittà Studios)"
     },
@@ -7774,8 +7163,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Bilbao BBK Live (Basoa & Lasai)",
     "type": "festival",
     "paysCode": "ES",
-    "villeSlug": "valence-es",
-    "ville": {
+        "ville": {
       "fr": "Bilbao (Mont Cobetas, Pays Basque)",
       "en": "Bilbao (Kobetamendi, Basque Country)"
     },
@@ -7923,8 +7311,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Love Family Park",
     "type": "festival",
     "paysCode": "DE",
-    "villeSlug": "francfort-de",
-    "ville": {
+        "ville": {
       "fr": "Francfort (Rebstockpark)",
       "en": "Frankfurt (Rebstockpark)"
     },
@@ -7953,8 +7340,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Nibirii Festival",
     "type": "festival",
     "paysCode": "DE",
-    "villeSlug": "cologne-de",
-    "ville": {
+        "ville": {
       "fr": "Düren (Rhénanie-du-Nord-Westphalie)",
       "en": "Düren (North Rhine-Westphalia)"
     },
@@ -8012,8 +7398,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Panama Open Air Festival",
     "type": "festival",
     "paysCode": "DE",
-    "villeSlug": "cologne-de",
-    "ville": {
+        "ville": {
       "fr": "Bonn (Parc Rheinaue)",
       "en": "Bonn (Rheinaue Park)"
     },
@@ -8071,8 +7456,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "FEQ Électro (Festival d’été de Québec)",
     "type": "festival",
     "paysCode": "CA",
-    "villeSlug": "quebec-ca",
-    "ville": {
+        "ville": {
       "fr": "Québec (Parc de la Francophonie & Manège Militaire)",
       "en": "Quebec City"
     },
@@ -8428,1124 +7812,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     }
   },
   {
-    "id": "iboat-bordeaux",
-    "nom": "IBOAT",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "bordeaux-fr",
-    "ville": {
-      "fr": "Bordeaux",
-      "en": "Bordeaux"
-    },
-    "latitude": 44.8657,
-    "longitude": -0.5567,
-    "capacite": 700,
-    "annee": 2011,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Disco"
-    ],
-    "site": "https://iboat.eu",
-    "description": {
-      "fr": "Ancien ferry transmanche amarré aux Bassins à flot de Bordeaux, dont la cale insonorisée est devenue la référence électronique de Nouvelle-Aquitaine.",
-      "en": "Converted ferry moored at Bordeaux’s Bassins à flot, whose soundproofed hull has become the premier electronic club in southwestern France."
-    }
-  },
-  {
-    "id": "hangar-fl-bordeaux",
-    "nom": "Hangar FL",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "bordeaux-fr",
-    "ville": {
-      "fr": "Bordeaux",
-      "en": "Bordeaux"
-    },
-    "latitude": 44.8286,
-    "longitude": -0.5472,
-    "capacite": 1200,
-    "annee": 2018,
-    "styles": [
-      "Hard Techno",
-      "Techno",
-      "Acid Techno",
-      "Rave"
-    ],
-    "site": "https://www.instagram.com/hangar_fl/",
-    "description": {
-      "fr": "Entrepôt industriel brut de la rive droite à Bordeaux dédié aux nuits techno, hard techno et acid jusqu’au petit matin.",
-      "en": "Raw industrial warehouse on Bordeaux’s right bank dedicated to all-night techno, hard techno and acid raves."
-    }
-  },
-  {
-    "id": "la-dame-bordeaux",
-    "nom": "La Dame",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "bordeaux-fr",
-    "ville": {
-      "fr": "Bordeaux",
-      "en": "Bordeaux"
-    },
-    "latitude": 44.8641,
-    "longitude": -0.5582,
-    "capacite": 400,
-    "annee": 2014,
-    "styles": [
-      "House",
-      "Deep House",
-      "Minimal",
-      "Disco"
-    ],
-    "site": "https://ladamebordeaux.com",
-    "description": {
-      "fr": "Péniche-club intimiste des Bassins à flot à Bordeaux, équipée d’un système Funktion-One taillé pour la house, la minimal et le disco.",
-      "en": "Intimate boat club at Bordeaux’s Bassins à flot, outfitted with a Funktion-One sound system tuned for house, minimal and disco."
-    }
-  },
-  {
-    "id": "macadam-nantes",
-    "nom": "Macadam",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nantes-fr",
-    "ville": {
-      "fr": "Nantes",
-      "en": "Nantes"
-    },
-    "latitude": 47.1965,
-    "longitude": -1.5861,
-    "capacite": 700,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "House",
-      "EBM",
-      "Trance"
-    ],
-    "site": "https://www.instagram.com/macadam.nantes/",
-    "description": {
-      "fr": "Club industriel du Bas-Chantenay au bord de la Loire à Nantes, célèbre dans toute l’Europe pour ses matinales dominicales Gloria qui s’étirent tout l’après-midi.",
-      "en": "Industrial club in Nantes’ Bas-Chantenay district along the Loire, renowned across Europe for its Sunday morning-to-evening Gloria marathons."
-    }
-  },
-  {
-    "id": "warehouse-nantes",
-    "nom": "Warehouse",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nantes-fr",
-    "ville": {
-      "fr": "Nantes",
-      "en": "Nantes"
-    },
-    "latitude": 47.2003,
-    "longitude": -1.5736,
-    "capacite": 2500,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "House",
-      "Tech House",
-      "Hard Techno"
-    ],
-    "site": "https://warehouse-nantes.fr",
-    "description": {
-      "fr": "Immense complexe électronique de deux salles installé au Hangar à Bananes sur l’Île de Nantes, accueillant les plus grandes tournées internationales.",
-      "en": "Massive two-room electronic complex inside the Hangar à Bananes on Île de Nantes, hosting major international club tours."
-    }
-  },
-  {
-    "id": "co2-club-origin-nantes",
-    "nom": "CO2 Club Origin",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nantes-fr",
-    "ville": {
-      "fr": "Nantes",
-      "en": "Nantes"
-    },
-    "latitude": 47.1972,
-    "longitude": -1.5844,
-    "capacite": 600,
-    "annee": 2012,
-    "styles": [
-      "Techno",
-      "Drum & Bass",
-      "Psy",
-      "Hardcore"
-    ],
-    "site": "https://www.instagram.com/co2cluborigin/",
-    "description": {
-      "fr": "Repaire underground historique du Bas-Chantenay à Nantes, soutenant les collectifs locaux de techno, drum & bass, psytrance et bass music.",
-      "en": "Long-running underground venue in Nantes’ Bas-Chantenay district supporting local techno, drum & bass, psytrance and bass music collectives."
-    }
-  },
-  {
-    "id": "slalom-lille",
-    "nom": "Slalom",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
-      "fr": "Lille",
-      "en": "Lille"
-    },
-    "latitude": 50.6148,
-    "longitude": 3.0652,
-    "capacite": 750,
-    "annee": 2022,
-    "styles": [
-      "Techno",
-      "House",
-      "Trance",
-      "Electro"
-    ],
-    "site": "https://slalom-lille.com",
-    "description": {
-      "fr": "Fief électronique lillois doté d’une scénographie lumineuse immersive et d’une programmation mêlant techno, trance rapide, house et eurodance.",
-      "en": "Lille’s flagship electronic club featuring immersive lighting design and a forward-thinking techno, fast trance and house curation."
-    }
-  },
-  {
-    "id": "le-magazine-club-lille",
-    "nom": "Le Magazine Club",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
-      "fr": "Lille",
-      "en": "Lille"
-    },
-    "latitude": 50.6238,
-    "longitude": 3.0589,
-    "capacite": 600,
-    "annee": 2010,
-    "styles": [
-      "Techno",
-      "House",
-      "Acid",
-      "Electro"
-    ],
-    "site": "https://lemagazineclub.com",
-    "description": {
-      "fr": "Club emblématique de la rue de Trévise à Lille qui a façonné toute une génération de producteurs et DJs techno et house des Hauts-de-France.",
-      "en": "Landmark club on Rue de Trévise in Lille that shaped a generation of northern French techno and house DJs and producers."
-    }
-  },
-  {
-    "id": "garage-lille",
-    "nom": "GARAGE",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "lille-fr",
-    "ville": {
-      "fr": "Lille",
-      "en": "Lille"
-    },
-    "latitude": 50.6321,
-    "longitude": 3.0715,
-    "capacite": 800,
-    "annee": 2023,
-    "styles": [
-      "House",
-      "Disco",
-      "Tech House",
-      "Electro"
-    ],
-    "site": "https://garage-lille.com",
-    "description": {
-      "fr": "Ancien garage Peugeot du boulevard Carnot à Lille reconverti en vaste espace culturel et club électronique.",
-      "en": "Former car dealership on Boulevard Carnot in Lille transformed into a cultural hub and electronic dance venue."
-    }
-  },
-  {
-    "id": "l-ubu-rennes",
-    "nom": "L’Ubu",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "rennes-fr",
-    "ville": {
-      "fr": "Rennes",
-      "en": "Rennes"
-    },
-    "latitude": 48.1072,
-    "longitude": -1.6742,
-    "capacite": 450,
-    "annee": 1987,
-    "styles": [
-      "Electro",
-      "Techno",
-      "House",
-      "Bass"
-    ],
-    "site": "https://ubu-rennes.com",
-    "description": {
-      "fr": "Salle mythique gérée par l’Association Trans Musicales à Rennes, tremplin historique de la scène électronique bretonne depuis 1987.",
-      "en": "Legendary venue run by the Trans Musicales association in Rennes, a historic springboard for Brittany’s electronic music scene since 1987."
-    }
-  },
-  {
-    "id": "1988-live-club-rennes",
-    "nom": "1988 Live Club",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "rennes-fr",
-    "ville": {
-      "fr": "Rennes",
-      "en": "Rennes"
-    },
-    "latitude": 48.1059,
-    "longitude": -1.6788,
-    "capacite": 900,
-    "annee": 2015,
-    "styles": [
-      "Techno",
-      "House",
-      "Drum & Bass",
-      "Hard Techno"
-    ],
-    "site": "https://1988liveclub.com",
-    "description": {
-      "fr": "Complexe nocturne de trois salles place du Colombier à Rennes, accueillant chaque fin de semaine les collectifs techno, house et bass bretons.",
-      "en": "Three-room nightclub on Place du Colombier in Rennes hosting Brittany’s techno, house and bass collectives every weekend."
-    }
-  },
-  {
-    "id": "l-antipode-rennes",
-    "nom": "Antipode",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "rennes-fr",
-    "ville": {
-      "fr": "Rennes",
-      "en": "Rennes"
-    },
-    "latitude": 48.0985,
-    "longitude": -1.6994,
-    "capacite": 800,
-    "annee": 1998,
-    "styles": [
-      "Electronica",
-      "Techno",
-      "Experimental",
-      "Bass"
-    ],
-    "site": "https://antipode-rennes.fr",
-    "description": {
-      "fr": "Scène de musiques actuelles du quartier de la Courrouze à Rennes, pilier des nuits Maintenant, Texture et Astropolis délocalisé.",
-      "en": "Contemporary music venue in Rennes’ Courrouze district, a pillar for Maintenant festival nights and electronic showcases."
-    }
-  },
-  {
-    "id": "kalt-strasbourg",
-    "nom": "KALT",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "strasbourg-fr",
-    "ville": {
-      "fr": "Strasbourg",
-      "en": "Strasbourg"
-    },
-    "latitude": 48.5562,
-    "longitude": 7.7968,
-    "capacite": 600,
-    "annee": 2018,
-    "styles": [
-      "Techno",
-      "Minimal",
-      "Electro",
-      "Deep House"
-    ],
-    "site": "https://kalt.club",
-    "description": {
-      "fr": "Bunker brutaliste à l’acoustique chirurgicale et à la politique sans photo, considéré comme l’un des clubs techno et house les plus pointus d’Europe rhénane.",
-      "en": "Brutalist bunker with surgical acoustics and a strict no-photo policy, regarded as one of the sharpest techno and house clubs in the Upper Rhine."
-    }
-  },
-  {
-    "id": "la-laiterie-strasbourg",
-    "nom": "La Laiterie",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "strasbourg-fr",
-    "ville": {
-      "fr": "Strasbourg",
-      "en": "Strasbourg"
-    },
-    "latitude": 48.5758,
-    "longitude": 7.7289,
-    "capacite": 900,
-    "annee": 1994,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Drum & Bass",
-      "Industrial"
-    ],
-    "site": "https://artefact.org",
-    "description": {
-      "fr": "Ancienne laiterie centrale de Strasbourg transformée en haut lieu des musiques électroniques et des nuits Ososphère.",
-      "en": "Former central dairy in Strasbourg converted into a flagship venue for electronic music and Ososphère nights."
-    }
-  },
-  {
-    "id": "studio-saglio-strasbourg",
-    "nom": "Studio Saglio",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "strasbourg-fr",
-    "ville": {
-      "fr": "Strasbourg",
-      "en": "Strasbourg"
-    },
-    "latitude": 48.5482,
-    "longitude": 7.7396,
-    "capacite": 600,
-    "annee": 2005,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Drum & Bass",
-      "Trance"
-    ],
-    "site": "https://studiosaglio.com",
-    "description": {
-      "fr": "Entrepôt de la zone industrielle de la Meinau à Strasbourg dédié aux raves techno, hard techno et drum & bass.",
-      "en": "Industrial warehouse in Strasbourg’s Meinau district dedicated to techno, hard techno and drum & bass raves."
-    }
-  },
-  {
-    "id": "le-109-frigo-16-nice",
-    "nom": "Le 109 (Frigo 16)",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nice-fr",
-    "ville": {
-      "fr": "Nice",
-      "en": "Nice"
-    },
-    "latitude": 43.7192,
-    "longitude": 7.2886,
-    "capacite": 800,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Disco"
-    ],
-    "site": "https://le109.nice.fr",
-    "description": {
-      "fr": "Anciens abattoirs municipaux de Nice reconvertis en pôle culturel, accueillant le festival Crossover et les grandes nuits électroniques azuréennes.",
-      "en": "Former municipal slaughterhouses in Nice converted into a cultural hub hosting the Crossover festival and major French Riviera electronic nights."
-    }
-  },
-  {
-    "id": "stockfish-nice",
-    "nom": "Stockfish",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nice-fr",
-    "ville": {
-      "fr": "Nice",
-      "en": "Nice"
-    },
-    "latitude": 43.7168,
-    "longitude": 7.2831,
-    "capacite": 700,
-    "annee": 2022,
-    "styles": [
-      "House",
-      "Electro",
-      "Tech House",
-      "Techno"
-    ],
-    "site": "https://stockfish.nice.fr",
-    "description": {
-      "fr": "Salle modulable de nouvelle génération dans l’est niçois dotée d’une diffusion sonore et visuelle immersive.",
-      "en": "Next-generation modular venue in eastern Nice equipped with immersive sound and projection systems."
-    }
-  },
-  {
-    "id": "high-club-nice",
-    "nom": "High Club",
-    "type": "club",
-    "paysCode": "FR",
-    "villeSlug": "nice-fr",
-    "ville": {
-      "fr": "Nice",
-      "en": "Nice"
-    },
-    "latitude": 43.6948,
-    "longitude": 7.2572,
-    "capacite": 1200,
-    "annee": 2006,
-    "styles": [
-      "House",
-      "Tech House",
-      "Dance",
-      "Progressive House"
-    ],
-    "site": "https://highclub.fr",
-    "description": {
-      "fr": "Grand club de la Promenade des Anglais face à la Méditerranée à Nice, accueillant DJs internationaux sur trois espaces.",
-      "en": "Large seafront club on Nice’s Promenade des Anglais overlooking the Mediterranean, hosting international DJs across three rooms."
-    }
-  },
-  {
-    "id": "motel-campo-geneve",
-    "nom": "Motel Campo",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "geneve-ch",
-    "ville": {
-      "fr": "Genève",
-      "en": "Geneva"
-    },
-    "latitude": 46.1828,
-    "longitude": 6.1274,
-    "capacite": 600,
-    "annee": 2013,
-    "styles": [
-      "Techno",
-      "House",
-      "Minimal",
-      "Electro"
-    ],
-    "site": "https://motelcampo.ch",
-    "description": {
-      "fr": "Centre d’art et club électronique majeur de la route des Jeunes à Genève, réputé pour ses nuits prolongées et sa programmation internationale exigeante.",
-      "en": "Art space and premier electronic club on Route des Jeunes in Geneva, renowned for its extended weekend marathons and discerning international bookings."
-    }
-  },
-  {
-    "id": "audio-club-geneve",
-    "nom": "Audio Club",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "geneve-ch",
-    "ville": {
-      "fr": "Genève",
-      "en": "Geneva"
-    },
-    "latitude": 46.2008,
-    "longitude": 6.1289,
-    "capacite": 600,
-    "annee": 2014,
-    "styles": [
-      "House",
-      "Techno",
-      "Melodic Techno",
-      "Disco"
-    ],
-    "site": "https://audio-club.ch",
-    "description": {
-      "fr": "Club audiophile du quartier de la Jonction à Genève, construit autour d’une acoustique boisée sur mesure et d’un système Funktion-One.",
-      "en": "Audiophile club in Geneva’s Jonction district built around custom timber acoustics and a tuned Funktion-One sound system."
-    }
-  },
-  {
-    "id": "la-graviere-geneve",
-    "nom": "La Gravière",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "geneve-ch",
-    "ville": {
-      "fr": "Genève",
-      "en": "Geneva"
-    },
-    "latitude": 46.1924,
-    "longitude": 6.1268,
-    "capacite": 350,
-    "annee": 2012,
-    "styles": [
-      "Techno",
-      "Bass",
-      "UK Bass",
-      "House"
-    ],
-    "site": "https://lagraviere.ch",
-    "description": {
-      "fr": "Ancien entrepôt d’armement au bord de l’Arve à Genève devenu un club alternatif majeur pour la techno, la bass music et les musiques hybrides.",
-      "en": "Former munitions depot along the Arve River in Geneva turned into a key underground club for techno, bass music and hybrid club sounds."
-    }
-  },
-  {
-    "id": "le-zoo-usine-geneve",
-    "nom": "Le Zoo (L’Usine)",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "geneve-ch",
-    "ville": {
-      "fr": "Genève",
-      "en": "Geneva"
-    },
-    "latitude": 46.2039,
-    "longitude": 6.1361,
-    "capacite": 450,
-    "annee": 1989,
-    "styles": [
-      "Drum & Bass",
-      "Techno",
-      "Industrial",
-      "Bass"
-    ],
-    "site": "https://lezoo.ch",
-    "description": {
-      "fr": "Club autogéré au premier étage du centre culturel L’Usine à Genève depuis 1989, bastion historique de la drum & bass, de la techno et des contre-cultures.",
-      "en": "Self-managed club on the upper floor of Geneva’s L’Usine cultural center since 1989, a historic bastion for drum & bass, techno and counterculture."
-    }
-  },
-  {
-    "id": "d-club-lausanne",
-    "nom": "D! Club",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "lausanne-ch",
-    "ville": {
-      "fr": "Lausanne",
-      "en": "Lausanne"
-    },
-    "latitude": 46.5214,
-    "longitude": 6.6329,
-    "capacite": 900,
-    "annee": 1996,
-    "styles": [
-      "House",
-      "Techno",
-      "Melodic Techno",
-      "Tech House"
-    ],
-    "site": "https://dclub.ch",
-    "description": {
-      "fr": "Ancien cinéma ABC de la place Centrale à Lausanne reconverti en temple électronique romand dès 1996.",
-      "en": "Former ABC cinema on Place Centrale in Lausanne transformed into a flagship French-speaking Swiss electronic club in 1996."
-    }
-  },
-  {
-    "id": "folklor-lausanne",
-    "nom": "Folklor",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "lausanne-ch",
-    "ville": {
-      "fr": "Lausanne",
-      "en": "Lausanne"
-    },
-    "latitude": 46.5236,
-    "longitude": 6.6332,
-    "capacite": 300,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "House",
-      "Minimal",
-      "Electro"
-    ],
-    "site": "https://folklor-club.ch",
-    "description": {
-      "fr": "Club souterrain sous la place de la Riponne à Lausanne, prisé pour son intimité brute et ses sélections house, minimal et techno.",
-      "en": "Underground club beneath Place de la Riponne in Lausanne, prized for its raw intimacy and house, minimal and techno selections."
-    }
-  },
-  {
-    "id": "le-romandie-lausanne",
-    "nom": "Le Romandie",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "lausanne-ch",
-    "ville": {
-      "fr": "Lausanne",
-      "en": "Lausanne"
-    },
-    "latitude": 46.5211,
-    "longitude": 6.6305,
-    "capacite": 250,
-    "annee": 2004,
-    "styles": [
-      "Electro",
-      "Techno",
-      "Industrial",
-      "Experimental"
-    ],
-    "site": "https://leromandie.ch",
-    "description": {
-      "fr": "Salle voûtée logée sous les arches en pierre du Grand-Pont à Lausanne, dédiée aux musiques indépendantes et aux nuits électroniques.",
-      "en": "Vaulted venue tucked beneath the stone arches of Lausanne’s Grand-Pont bridge, dedicated to independent and experimental electronic nights."
-    }
-  },
-  {
-    "id": "zukunft-zurich",
-    "nom": "Zukunft",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "zurich-ch",
-    "ville": {
-      "fr": "Zurich",
-      "en": "Zurich"
-    },
-    "latitude": 47.3768,
-    "longitude": 8.5269,
-    "capacite": 250,
-    "annee": 2005,
-    "styles": [
-      "House",
-      "Techno",
-      "Disco",
-      "Leftfield"
-    ],
-    "site": "https://zukunft.cl",
-    "description": {
-      "fr": "Sous-sol audiophile mythique de la Dienerstrasse dans le Kreis 4 à Zurich, cofondé par Kalabrese et Alex Dallas.",
-      "en": "Mythic audiophile basement on Dienerstrasse in Zurich’s Kreis 4 district, co-founded by Kalabrese and Alex Dallas."
-    }
-  },
-  {
-    "id": "hive-zurich",
-    "nom": "Hive",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "zurich-ch",
-    "ville": {
-      "fr": "Zurich",
-      "en": "Zurich"
-    },
-    "latitude": 47.3854,
-    "longitude": 8.5186,
-    "capacite": 1000,
-    "annee": 2006,
-    "styles": [
-      "Tech House",
-      "Melodic Techno",
-      "House",
-      "Techno"
-    ],
-    "site": "https://hiveclub.ch",
-    "description": {
-      "fr": "Institution nocturne de la Geroldstrasse dans le quartier industriel de Zurich-West, célèbre pour ses week-ends marathons.",
-      "en": "Nightlife institution on Geroldstrasse in Zurich-West’s industrial quarter, famous for its marathon weekend sessions."
-    }
-  },
-  {
-    "id": "supermarket-zurich",
-    "nom": "Supermarket",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "zurich-ch",
-    "ville": {
-      "fr": "Zurich",
-      "en": "Zurich"
-    },
-    "latitude": 47.3861,
-    "longitude": 8.5192,
-    "capacite": 600,
-    "annee": 1998,
-    "styles": [
-      "House",
-      "Techno",
-      "Minimal",
-      "Melodic Techno"
-    ],
-    "site": "https://supermarket.li",
-    "description": {
-      "fr": "Pionnier du renouveau électronique de Zurich-West depuis 1998, installé dans un ancien garage industriel.",
-      "en": "Pioneer of Zurich-West’s electronic clubbing renaissance since 1998, housed inside a former industrial garage."
-    }
-  },
-  {
-    "id": "elysia-bale",
-    "nom": "Elysia",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "bale-ch",
-    "ville": {
-      "fr": "Bâle",
-      "en": "Basel"
-    },
-    "latitude": 47.5359,
-    "longitude": 7.6094,
-    "capacite": 500,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "House",
-      "Deep Techno",
-      "Minimal"
-    ],
-    "site": "https://elysia.ch",
-    "description": {
-      "fr": "Club bâlois conçu par des acousticiens avec plancher flottant sur ressorts et système quadriphonique Lambda Labs QX-3 sur mesure.",
-      "en": "Basel club engineered with a spring-mounted floating dancefloor and a custom quadraphonic Lambda Labs QX-3 sound system."
-    }
-  },
-  {
-    "id": "nordstern-bale",
-    "nom": "Nordstern",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "bale-ch",
-    "ville": {
-      "fr": "Bâle",
-      "en": "Basel"
-    },
-    "latitude": 47.5738,
-    "longitude": 7.5892,
-    "capacite": 700,
-    "annee": 2001,
-    "styles": [
-      "Techno",
-      "House",
-      "Melodic Techno",
-      "Tech House"
-    ],
-    "site": "https://nordstern.com",
-    "description": {
-      "fr": "Célèbre club électronique bâlois logé dans les entrailles d’un navire fluvial amarré sur le Rhin aux Trois Frontières.",
-      "en": "Renowned Basel electronic club housed inside the hull of a river ship moored on the Rhine near the Three Countries Bridge."
-    }
-  },
-  {
-    "id": "kaschemme-bale",
-    "nom": "Kaschemme",
-    "type": "club",
-    "paysCode": "CH",
-    "villeSlug": "bale-ch",
-    "ville": {
-      "fr": "Bâle",
-      "en": "Basel"
-    },
-    "latitude": 47.5422,
-    "longitude": 7.6142,
-    "capacite": 250,
-    "annee": 2013,
-    "styles": [
-      "House",
-      "Breaks",
-      "Techno",
-      "Leftfield"
-    ],
-    "site": "https://kaschemme.ch",
-    "description": {
-      "fr": "Club intimiste du quartier industriel de Dreispitz à Bâle, apprécié pour sa chaleur brute et ses sélections vinyles éclectiques.",
-      "en": "Intimate club in Basel’s Dreispitz industrial district prized for its warm underground vibe and eclectic vinyl selections."
-    }
-  },
-  {
-    "id": "tempio-del-futuro-perduto-milan",
-    "nom": "Tempio del Futuro Perduto",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "milan-it",
-    "ville": {
-      "fr": "Milan",
-      "en": "Milan"
-    },
-    "latitude": 45.4852,
-    "longitude": 9.1774,
-    "capacite": 1200,
-    "annee": 2018,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Industrial",
-      "Experimental"
-    ],
-    "site": "https://tempiodelfuturoperduto.art",
-    "description": {
-      "fr": "Centre culturel multidisciplinaire et bastion techno indépendant installé dans d’anciens entrepôts ferroviaires près du Monumentale à Milan.",
-      "en": "Multidisciplinary arts center and independent techno stronghold housed in former railway warehouses near Monumentale in Milan."
-    }
-  },
-  {
-    "id": "masada-milan",
-    "nom": "Masada",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "milan-it",
-    "ville": {
-      "fr": "Milan",
-      "en": "Milan"
-    },
-    "latitude": 45.4994,
-    "longitude": 9.1462,
-    "capacite": 350,
-    "annee": 2011,
-    "styles": [
-      "Techno",
-      "Minimal",
-      "House",
-      "Electro"
-    ],
-    "site": "https://www.instagram.com/masada_milano/",
-    "description": {
-      "fr": "Cercle culturel souterrain de Milan célèbre pour ses longs après-midis et soirées dédiés à la techno hypnotique, à la minimal et aux vinyles.",
-      "en": "Underground cultural club in Milan famous for its extended daytime-to-night sessions dedicated to hypnotic techno, minimal and vinyl culture."
-    }
-  },
-  {
-    "id": "tunnel-club-milan",
-    "nom": "Tunnel Club",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "milan-it",
-    "ville": {
-      "fr": "Milan",
-      "en": "Milan"
-    },
-    "latitude": 45.4911,
-    "longitude": 9.2089,
-    "capacite": 600,
-    "annee": 1995,
-    "styles": [
-      "House",
-      "Techno",
-      "Electro",
-      "Bass"
-    ],
-    "site": "https://tunnelclub.it",
-    "description": {
-      "fr": "Voûte ferroviaire historique sous les voies de la gare centrale de Milan, pilier des nuits électroniques lombardes depuis 1995.",
-      "en": "Historic brick railway arch beneath Milan Central Station’s tracks, a pillar of Lombardy’s electronic nightlife since 1995."
-    }
-  },
-  {
-    "id": "audiodrome-turin",
-    "nom": "Audiodrome Live Club",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "turin-it",
-    "ville": {
-      "fr": "Turin",
-      "en": "Turin"
-    },
-    "latitude": 44.9922,
-    "longitude": 7.6695,
-    "capacite": 1200,
-    "annee": 2012,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Tech House",
-      "House"
-    ],
-    "site": "https://audiodrome.it",
-    "description": {
-      "fr": "Ancienne usine industrielle aux portes de Turin convertie en cathédrale de la techno et de la tech house piémontaise.",
-      "en": "Former industrial factory on the outskirts of Turin converted into Piedmont’s premier techno and tech house arena."
-    }
-  },
-  {
-    "id": "azimut-club-turin",
-    "nom": "Azimut Club",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "turin-it",
-    "ville": {
-      "fr": "Turin",
-      "en": "Turin"
-    },
-    "latitude": 45.0836,
-    "longitude": 7.6974,
-    "capacite": 600,
-    "annee": 1986,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Acid"
-    ],
-    "site": "https://azimutclub.it",
-    "description": {
-      "fr": "Club historique fondé en 1986 Via Modena à Turin, berceau de la culture acid house et techno dans le nord de l’Italie.",
-      "en": "Historic club founded in 1986 on Via Modena in Turin, a cradle of acid house and techno culture in northern Italy."
-    }
-  },
-  {
-    "id": "bunker-turin",
-    "nom": "Bunker",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "turin-it",
-    "ville": {
-      "fr": "Turin",
-      "en": "Turin"
-    },
-    "latitude": 45.0958,
-    "longitude": 7.7028,
-    "capacite": 1000,
-    "annee": 2012,
-    "styles": [
-      "Techno",
-      "Experimental",
-      "Electro",
-      "Bass"
-    ],
-    "site": "https://variantebunker.com",
-    "description": {
-      "fr": "Espace industriel régénéré dans le quartier Barriera di Milano à Turin, accueillant raves, vitrines C2C et soirées électroniques en plein air.",
-      "en": "Regenerated industrial compound in Turin’s Barriera di Milano district hosting raves, C2C showcases and open-air electronic events."
-    }
-  },
-  {
-    "id": "goa-club-rome",
-    "nom": "Goa Club",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "rome-it",
-    "ville": {
-      "fr": "Rome",
-      "en": "Rome"
-    },
-    "latitude": 41.8669,
-    "longitude": 12.4782,
-    "capacite": 500,
-    "annee": 1996,
-    "styles": [
-      "Techno",
-      "House",
-      "Minimal",
-      "Electro"
-    ],
-    "site": "https://goaclub.com",
-    "description": {
-      "fr": "Joyau audiophile de la Via Libetta dans le quartier d’Ostiense à Rome, célèbre depuis 1996 pour son acoustique irréprochable et son décor intimiste.",
-      "en": "Audiophile gem on Via Libetta in Rome’s Ostiense district, celebrated since 1996 for its pristine sound system and intimate atmosphere."
-    }
-  },
-  {
-    "id": "spazio-900-rome",
-    "nom": "Spazio 900",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "rome-it",
-    "ville": {
-      "fr": "Rome",
-      "en": "Rome"
-    },
-    "latitude": 41.8339,
-    "longitude": 12.4708,
-    "capacite": 1500,
-    "annee": 1999,
-    "styles": [
-      "Techno",
-      "Melodic Techno",
-      "Tech House",
-      "House"
-    ],
-    "site": "https://spazio900.it",
-    "description": {
-      "fr": "Vaste salle monumentale du Palais de l’Art Ancien dans le quartier EUR à Rome, dotée de grandes terrasses et accueillant les géants de la techno mondiale.",
-      "en": "Monumental venue inside the Palazzo dell’Arte Antica in Rome’s EUR district, featuring expansive terraces and hosting global techno headliners."
-    }
-  },
-  {
-    "id": "rashomon-club-rome",
-    "nom": "Rashõmon Club",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "rome-it",
-    "ville": {
-      "fr": "Rome",
-      "en": "Rome"
-    },
-    "latitude": 41.8676,
-    "longitude": 12.4815,
-    "capacite": 600,
-    "annee": 2006,
-    "styles": [
-      "Techno",
-      "Bass",
-      "Electro",
-      "Drum & Bass"
-    ],
-    "site": "https://rashomonclub.com",
-    "description": {
-      "fr": "Repaire nocturne de la Via degli Argonauti à Rome, croisant techno, bass music, drum & bass et arts visuels.",
-      "en": "Underground hub on Via degli Argonauti in Rome bridging techno, bass music, drum & bass and visual arts."
-    }
-  },
-  {
-    "id": "cocorico-riccione",
-    "nom": "Cocoricò",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "bologne-it",
-    "ville": {
-      "fr": "Riccione (Riviera Romagnole)",
-      "en": "Riccione (Romagna Riviera)"
-    },
-    "latitude": 43.9912,
-    "longitude": 12.6486,
-    "capacite": 3500,
-    "annee": 1989,
-    "styles": [
-      "Techno",
-      "House",
-      "Hard Techno",
-      "Trance"
-    ],
-    "site": "https://cocorico.it",
-    "description": {
-      "fr": "Monument de l’histoire du clubbing européen ouvert en 1989 sur les collines de Riccione, reconnaissable à son immense pyramide de verre Titilla et Piramide.",
-      "en": "Monument of European clubbing history opened in 1989 on the hills of Riccione, unmistakable for its giant glass pyramid."
-    }
-  },
-  {
-    "id": "link-bologne",
-    "nom": "LINK",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "bologne-it",
-    "ville": {
-      "fr": "Bologne",
-      "en": "Bologna"
-    },
-    "latitude": 44.5138,
-    "longitude": 11.4012,
-    "capacite": 1200,
-    "annee": 1994,
-    "styles": [
-      "Techno",
-      "Drum & Bass",
-      "Experimental",
-      "Electro"
-    ],
-    "site": "https://link.bo.it",
-    "description": {
-      "fr": "Laboratoire culturel et club autogéré fondé en 1994 à Bologne, bastion historique de la drum & bass, de la techno et des arts électroniques en Italie.",
-      "en": "Self-managed cultural laboratory and club founded in 1994 in Bologna, a historic stronghold for drum & bass, techno and electronic arts in Italy."
-    }
-  },
-  {
-    "id": "cassero-bologne",
-    "nom": "Cassero",
-    "type": "club",
-    "paysCode": "IT",
-    "villeSlug": "bologne-it",
-    "ville": {
-      "fr": "Bologne",
-      "en": "Bologna"
-    },
-    "latitude": 44.5028,
-    "longitude": 11.3358,
-    "capacite": 700,
-    "annee": 1982,
-    "styles": [
-      "House",
-      "Disco",
-      "Techno",
-      "Electro"
-    ],
-    "site": "https://cassero.it",
-    "description": {
-      "fr": "Ancien entrepôt de sel du XVIIIe siècle (Salara) à Bologne abritant l’un des centres et clubs queer et électroniques les plus emblématiques d’Italie.",
-      "en": "Eighteenth-century salt warehouse (Salara) in Bologna housing one of Italy’s most iconic queer and electronic music clubs."
-    }
-  },
-  {
     "id": "fabrik-madrid",
     "nom": "Fabrik",
     "type": "club",
@@ -9621,188 +7887,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Club feutré sur la Gran Vía de Madrid inspiré des clubs new-yorkais, dédié à la house, au disco et à l’indie dance.",
       "en": "Velvet-draped club on Madrid’s Gran Vía inspired by classic New York clubs, dedicated to house, disco and indie dance."
-    }
-  },
-  {
-    "id": "dc10-ibiza",
-    "nom": "DC-10",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "ibiza-es",
-    "ville": {
-      "fr": "Ibiza",
-      "en": "Ibiza"
-    },
-    "latitude": 38.8768,
-    "longitude": 1.3892,
-    "capacite": 1500,
-    "annee": 1999,
-    "styles": [
-      "Techno",
-      "House",
-      "Tech House",
-      "Minimal"
-    ],
-    "site": "https://dc10ibiza.com",
-    "description": {
-      "fr": "Ancien hangar d’aviation en bout de piste sur la route des salines d’Ibiza, berceau mythique des lundis Circoloco depuis 1999.",
-      "en": "Former aircraft hangar at the end of the runway on Ibiza’s salt flats road, the legendary home of Circoloco Mondays since 1999."
-    }
-  },
-  {
-    "id": "amnesia-ibiza",
-    "nom": "Amnesia",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "ibiza-es",
-    "ville": {
-      "fr": "Ibiza",
-      "en": "Ibiza"
-    },
-    "latitude": 38.9478,
-    "longitude": 1.4072,
-    "capacite": 5000,
-    "annee": 1976,
-    "styles": [
-      "Techno",
-      "Tech House",
-      "House",
-      "Trance"
-    ],
-    "site": "https://amnesia.es",
-    "description": {
-      "fr": "Club historique fondé en 1976 à San Rafael où est né le son baléarique, célèbre pour sa Terrace baignée de lumière au lever du jour et sa Main Room.",
-      "en": "Historic club founded in 1976 in San Rafael where the Balearic sound was born, famous for its sunlit Terrace at dawn and cavernous Main Room."
-    }
-  },
-  {
-    "id": "pacha-ibiza",
-    "nom": "Pacha Ibiza",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "ibiza-es",
-    "ville": {
-      "fr": "Ibiza",
-      "en": "Ibiza"
-    },
-    "latitude": 38.9182,
-    "longitude": 1.4436,
-    "capacite": 3000,
-    "annee": 1973,
-    "styles": [
-      "House",
-      "Melodic Techno",
-      "Tech House",
-      "Disco"
-    ],
-    "site": "https://pacha.com",
-    "description": {
-      "fr": "Finca blanche originelle ouverte en 1973 aux deux cerises emblématiques, berceau des grandes résidences house et techno mélodique d’Ibiza.",
-      "en": "Original whitewashed finca opened in 1973 with the iconic twin cherries logo, home to Ibiza’s landmark house and melodic techno residencies."
-    }
-  },
-  {
-    "id": "hi-ibiza",
-    "nom": "Hï Ibiza",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "ibiza-es",
-    "ville": {
-      "fr": "Ibiza (Playa d’en Bossa)",
-      "en": "Ibiza (Playa d’en Bossa)"
-    },
-    "latitude": 38.8856,
-    "longitude": 1.4038,
-    "capacite": 5000,
-    "annee": 2017,
-    "styles": [
-      "Tech House",
-      "Melodic Techno",
-      "House",
-      "Afro House"
-    ],
-    "site": "https://hiibiza.com",
-    "description": {
-      "fr": "Superclub ultramoderne de Playa d’en Bossa construit sur le site de l’ancien Space Ibiza, divisé entre la salle Theatre et la Club Room.",
-      "en": "State-of-the-art superclub in Playa d’en Bossa built on the site of the former Space Ibiza, divided between the Theatre and the Club Room."
-    }
-  },
-  {
-    "id": "spook-valence",
-    "nom": "Spook",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "valence-es",
-    "ville": {
-      "fr": "Valence (Pinedo)",
-      "en": "Valencia (Pinedo)"
-    },
-    "latitude": 39.4184,
-    "longitude": -0.3342,
-    "capacite": 2000,
-    "annee": 1984,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "EBM",
-      "Electro"
-    ],
-    "site": "https://spookclub.com",
-    "description": {
-      "fr": "Légende vivante de la Ruta de Valence ouverte en 1984 à Pinedo, aujourd’hui dotée d’un système sonore de pointe dédié à la techno.",
-      "en": "Living legend of the Valencia Ruta opened in 1984 in Pinedo, today outfitted with a cutting-edge sound system dedicated to techno."
-    }
-  },
-  {
-    "id": "barraca-valence",
-    "nom": "Barraca",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "valence-es",
-    "ville": {
-      "fr": "Valence (Les Palmeres)",
-      "en": "Valencia (Les Palmeres)"
-    },
-    "latitude": 39.2542,
-    "longitude": -0.2625,
-    "capacite": 1800,
-    "annee": 1965,
-    "styles": [
-      "Techno",
-      "Tech House",
-      "Minimal",
-      "Electro"
-    ],
-    "site": "https://barracamusic.com",
-    "description": {
-      "fr": "Institution historique de la côte valencienne en activité depuis 1965, pilier de l’avant-garde électronique espagnole sur quatre salles et terrasse.",
-      "en": "Historic Valencian coast institution active since 1965, a pillar of Spain’s electronic vanguard across four rooms and an open-air terrace."
-    }
-  },
-  {
-    "id": "sonora-bilbao",
-    "nom": "Sonora",
-    "type": "club",
-    "paysCode": "ES",
-    "villeSlug": "valence-es",
-    "ville": {
-      "fr": "Bilbao (Erandio)",
-      "en": "Bilbao (Erandio)"
-    },
-    "latitude": 43.3012,
-    "longitude": -2.9736,
-    "capacite": 900,
-    "annee": 2011,
-    "styles": [
-      "Techno",
-      "House",
-      "Tech House",
-      "Electro"
-    ],
-    "site": "https://salasonora.com",
-    "description": {
-      "fr": "Club de référence du Pays basque espagnol au bord de la ria de Bilbao à Erandio, divisé en trois salles.",
-      "en": "Flagship club of the Spanish Basque Country along the Bilbao estuary in Erandio, featuring three distinct rooms."
     }
   },
   {
@@ -9884,1254 +7968,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     }
   },
   {
-    "id": "kompass-klub-gand",
-    "nom": "Kompass Klub",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "gand-be",
-    "ville": {
-      "fr": "Gand",
-      "en": "Ghent"
-    },
-    "latitude": 51.0772,
-    "longitude": 3.7336,
-    "capacite": 1500,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Acid Techno",
-      "House"
-    ],
-    "site": "https://kompassklub.com",
-    "description": {
-      "fr": "Cathédrale industrielle de la techno en Flandre à Gand, célèbre pour sa puissance sonore et ses raves marathons.",
-      "en": "Industrial techno cathedral in Ghent, Flanders, renowned for its immense warehouse scale and marathon rave sessions."
-    }
-  },
-  {
-    "id": "chinastraat-gand",
-    "nom": "Chinastraat",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "gand-be",
-    "ville": {
-      "fr": "Gand",
-      "en": "Ghent"
-    },
-    "latitude": 51.0748,
-    "longitude": 3.7294,
-    "capacite": 700,
-    "annee": 2018,
-    "styles": [
-      "Techno",
-      "Electro",
-      "House",
-      "Breaks"
-    ],
-    "site": "https://chinastraat.be",
-    "description": {
-      "fr": "Friche industrielle et jardin communautaire du nord de Gand abritant soirées club pointues, open airs et ateliers d’artistes.",
-      "en": "Industrial compound and courtyard in northern Ghent hosting underground club nights, open-airs and artist studios."
-    }
-  },
-  {
-    "id": "funke-gand",
-    "nom": "Funke",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "gand-be",
-    "ville": {
-      "fr": "Gand",
-      "en": "Ghent"
-    },
-    "latitude": 51.0472,
-    "longitude": 3.7279,
-    "capacite": 300,
-    "annee": 2021,
-    "styles": [
-      "House",
-      "Leftfield",
-      "Electro",
-      "Techno"
-    ],
-    "site": "https://funke.gent",
-    "description": {
-      "fr": "Club audiophile et laboratoire sonore de Gand doté d’une acoustique sur mesure pour les sélections house, electro et leftfield.",
-      "en": "Audiophile club and sonic laboratory in Ghent with custom-built acoustics for house, electro and leftfield club music."
-    }
-  },
-  {
-    "id": "ampere-anvers",
-    "nom": "Ampere",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "anvers-be",
-    "ville": {
-      "fr": "Anvers",
-      "en": "Antwerp"
-    },
-    "latitude": 51.2124,
-    "longitude": 4.4228,
-    "capacite": 1000,
-    "annee": 2015,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Drum & Bass"
-    ],
-    "site": "https://ampere-antwerp.com",
-    "description": {
-      "fr": "Vaste club logé sous les voies ferrées de la gare centrale d’Anvers, doté d’un système Funktion-One massif et d’une isolation acoustique intégrale.",
-      "en": "Cavernous club built beneath the railway tracks of Antwerp Central Station, featuring a massive Funktion-One system and box-in-box acoustic isolation."
-    }
-  },
-  {
-    "id": "club-vaag-anvers",
-    "nom": "Club Vaag",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "anvers-be",
-    "ville": {
-      "fr": "Anvers",
-      "en": "Antwerp"
-    },
-    "latitude": 51.2312,
-    "longitude": 4.4018,
-    "capacite": 450,
-    "annee": 2015,
-    "styles": [
-      "Tech House",
-      "House",
-      "Techno",
-      "Minimal"
-    ],
-    "site": "https://clubvaag.be",
-    "description": {
-      "fr": "Sous-sol brut du quartier portuaire d’Eilandje à Anvers, dédié à la house, à la tech house et à la techno.",
-      "en": "Raw basement club in Antwerp’s Eilandje docklands district dedicated to house, tech house and techno."
-    }
-  },
-  {
-    "id": "traum-anvers",
-    "nom": "Traum",
-    "type": "club",
-    "paysCode": "BE",
-    "villeSlug": "anvers-be",
-    "ville": {
-      "fr": "Anvers",
-      "en": "Antwerp"
-    },
-    "latitude": 51.2192,
-    "longitude": 4.4136,
-    "capacite": 500,
-    "annee": 2024,
-    "styles": [
-      "Techno",
-      "House",
-      "Trance",
-      "Leftfield"
-    ],
-    "site": "https://traumclub.be",
-    "description": {
-      "fr": "Sanctuaire souterrain anversois repensé par des architectes contemporains dans les caves historiques de l’ancien Café d’Anvers.",
-      "en": "Antwerp underground sanctuary redesigned by contemporary architects inside the historic cellars of the former Café d’Anvers."
-    }
-  },
-  {
-    "id": "lux-fragil-lisbonne",
-    "nom": "Lux Frágil",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "lisbonne-pt",
-    "ville": {
-      "fr": "Lisbonne",
-      "en": "Lisbon"
-    },
-    "latitude": 38.7158,
-    "longitude": -9.1204,
-    "capacite": 1200,
-    "annee": 1998,
-    "styles": [
-      "House",
-      "Techno",
-      "Disco",
-      "Leftfield"
-    ],
-    "site": "https://luxfragil.com",
-    "description": {
-      "fr": "Institution absolue de la nuit lisboète au bord du Tage à Santa Apolónia depuis 1998, répartie entre le Club, le Bar et la grande terrasse sur le toit.",
-      "en": "Crowning institution of Lisbon nightlife on the Tagus riverfront at Santa Apolónia since 1998, spanning the Basement Club, Bar and rooftop terrace."
-    }
-  },
-  {
-    "id": "ministerium-club-lisbonne",
-    "nom": "Ministerium Club",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "lisbonne-pt",
-    "ville": {
-      "fr": "Lisbonne",
-      "en": "Lisbon"
-    },
-    "latitude": 38.7078,
-    "longitude": -9.1369,
-    "capacite": 600,
-    "annee": 2012,
-    "styles": [
-      "Techno",
-      "House",
-      "Minimal",
-      "Electro"
-    ],
-    "site": "https://ministerium.pt",
-    "description": {
-      "fr": "Club installé dans les anciens locaux du ministère des Finances sur la monumentale Praça do Comércio à Lisbonne.",
-      "en": "Club housed inside the former Ministry of Finance building on Lisbon’s monumental Praça do Comércio."
-    }
-  },
-  {
-    "id": "nada-temple-lisbonne",
-    "nom": "Nada Temple",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "lisbonne-pt",
-    "ville": {
-      "fr": "Lisbonne",
-      "en": "Lisbon"
-    },
-    "latitude": 38.7428,
-    "longitude": -9.1024,
-    "capacite": 500,
-    "annee": 2019,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Industrial",
-      "Experimental"
-    ],
-    "site": "https://www.instagram.com/nadatemple/",
-    "description": {
-      "fr": "Entrepôt industriel du quartier de Marvila à Lisbonne dédié à la techno brute, à l’industriel et aux raves prolongées.",
-      "en": "Industrial warehouse in Lisbon’s Marvila district dedicated to raw techno, industrial sounds and extended raves."
-    }
-  },
-  {
-    "id": "gare-porto",
-    "nom": "Gare Porto",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "porto-pt",
-    "ville": {
-      "fr": "Porto",
-      "en": "Porto"
-    },
-    "latitude": 41.1456,
-    "longitude": -8.6098,
-    "capacite": 400,
-    "annee": 2007,
-    "styles": [
-      "Techno",
-      "Drum & Bass",
-      "Industrial",
-      "Acid"
-    ],
-    "site": "https://gareporto.com",
-    "description": {
-      "fr": "Tunnel de granit brut jouxtant la gare de São Bento à Porto, temple incontesté de la techno underground et de la drum & bass dans le nord du Portugal.",
-      "en": "Raw granite tunnel next to Porto’s São Bento station, the undisputed temple of underground techno and drum & bass in northern Portugal."
-    }
-  },
-  {
-    "id": "plano-b-porto",
-    "nom": "Plano B",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "porto-pt",
-    "ville": {
-      "fr": "Porto",
-      "en": "Porto"
-    },
-    "latitude": 41.1469,
-    "longitude": -8.6138,
-    "capacite": 700,
-    "annee": 2006,
-    "styles": [
-      "House",
-      "Techno",
-      "Disco",
-      "Electronica"
-    ],
-    "site": "https://planobporto.pt",
-    "description": {
-      "fr": "Centre culturel et club sur deux étages au coeur des Galeries de Paris à Porto, mêlant expositions, concerts et nuits électroniques.",
-      "en": "Two-story cultural space and club in the heart of Porto’s Galeria de Paris district blending exhibitions, live acts and electronic club nights."
-    }
-  },
-  {
-    "id": "perola-negra-porto",
-    "nom": "Pérola Negra",
-    "type": "club",
-    "paysCode": "PT",
-    "villeSlug": "porto-pt",
-    "ville": {
-      "fr": "Porto",
-      "en": "Porto"
-    },
-    "latitude": 41.1518,
-    "longitude": -8.6062,
-    "capacite": 450,
-    "annee": 1978,
-    "styles": [
-      "House",
-      "Disco",
-      "Electro",
-      "Leftfield"
-    ],
-    "site": "https://www.instagram.com/perolanegra.club/",
-    "description": {
-      "fr": "Ancien cabaret des années 1970 aux miroirs et velours rouges préservés à Porto, devenu un club de pointe pour la house, le disco et l’electro.",
-      "en": "Preserved 1970s red-velvet cabaret in Porto reborn as a cutting-edge club for house, disco and leftfield electronics."
-    }
-  },
-  {
-    "id": "blitz-munich",
-    "nom": "Blitz Music Club",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "munich-de",
-    "ville": {
-      "fr": "Munich",
-      "en": "Munich"
-    },
-    "latitude": 48.1306,
-    "longitude": 11.5844,
-    "capacite": 600,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Leftfield"
-    ],
-    "site": "https://blitz.club",
-    "description": {
-      "fr": "Club audiophile installé sur l’île aux Musées dans l’ancien palais des congrès du Deutsches Museum à Munich, célèbre pour son système VOID sur mesure et sa politique sans photo.",
-      "en": "Audiophile club on Museum Island inside the former Deutsches Museum congress hall in Munich, famed for its bespoke VOID sound system and strict no-photo policy."
-    }
-  },
-  {
-    "id": "rote-sonne-munich",
-    "nom": "Rote Sonne",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "munich-de",
-    "ville": {
-      "fr": "Munich",
-      "en": "Munich"
-    },
-    "latitude": 48.1422,
-    "longitude": 11.5702,
-    "capacite": 350,
-    "annee": 2005,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Acid",
-      "Experimental"
-    ],
-    "site": "https://rote-sonne.com",
-    "description": {
-      "fr": "Sous-sol historique de la Maximiliansplatz à Munich, bastion de la techno, de l’electro et des labels indépendants bavarois depuis 2005.",
-      "en": "Underground club on Maximiliansplatz in Munich, a stronghold for techno, electro and independent Bavarian labels since 2005."
-    }
-  },
-  {
-    "id": "bahnwarter-thiel-munich",
-    "nom": "Bahnwärter Thiel",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "munich-de",
-    "ville": {
-      "fr": "Munich",
-      "en": "Munich"
-    },
-    "latitude": 48.1228,
-    "longitude": 11.5542,
-    "capacite": 800,
-    "annee": 2015,
-    "styles": [
-      "House",
-      "Melodic Techno",
-      "Downtempo",
-      "Techno"
-    ],
-    "site": "https://bahnwaerterthiel.de",
-    "description": {
-      "fr": "Village culturel alternatif assemblé à partir d’anciens wagons de métro, de tramways et de conteneurs maritimes sur le terrain des anciens abattoirs de Munich.",
-      "en": "Alternative cultural compound built from decommissioned subway cars, trams and shipping containers on Munich’s former slaughterhouse grounds."
-    }
-  },
-  {
-    "id": "robert-johnson-offenbach",
-    "nom": "Robert Johnson",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "francfort-de",
-    "ville": {
-      "fr": "Offenbach / Francfort",
-      "en": "Offenbach / Frankfurt"
-    },
-    "latitude": 50.1098,
-    "longitude": 8.7468,
-    "capacite": 250,
-    "annee": 1999,
-    "styles": [
-      "House",
-      "Techno",
-      "Minimal",
-      "Disco"
-    ],
-    "site": "https://robert-johnson.de",
-    "description": {
-      "fr": "Sanctuaire minimaliste perché au-dessus du Main à Offenbach, fondé en 1999 par Ata (Playhouse / Live At Robert Johnson) avec parquet en bois et balcon sur le fleuve.",
-      "en": "Minimalist sanctuary perched above the Main River in Offenbach, founded in 1999 by Ata (Playhouse / Live At Robert Johnson) with a wooden dancefloor and river balcony."
-    }
-  },
-  {
-    "id": "tanzhaus-west-francfort",
-    "nom": "Tanzhaus West",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "francfort-de",
-    "ville": {
-      "fr": "Francfort",
-      "en": "Frankfurt"
-    },
-    "latitude": 50.0982,
-    "longitude": 8.6418,
-    "capacite": 1000,
-    "annee": 2003,
-    "styles": [
-      "Techno",
-      "House",
-      "Hard Techno",
-      "Psy"
-    ],
-    "site": "https://tanzhaus-west.de",
-    "description": {
-      "fr": "Ancienne usine d’imprimerie du quartier industriel de Gutleutviertel à Francfort dotée d’un grand jardin d’été (Dora Brilliant) et de quatre pistes techno.",
-      "en": "Former printing factory in Frankfurt’s industrial Gutleutviertel featuring a large summer garden and four rooms of techno and house."
-    }
-  },
-  {
-    "id": "freud-francfort",
-    "nom": "Freud",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "francfort-de",
-    "ville": {
-      "fr": "Francfort",
-      "en": "Frankfurt"
-    },
-    "latitude": 50.1165,
-    "longitude": 8.6812,
-    "capacite": 350,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "Raw Techno",
-      "Acid",
-      "Electro"
-    ],
-    "site": "https://freud-ffm.de",
-    "description": {
-      "fr": "Caveau brut du centre de Francfort perpétuant la tradition techno sans compromis de la métropole rhénane.",
-      "en": "Raw underground basement in central Frankfurt carrying forward the city’s uncompromising techno heritage."
-    }
-  },
-  {
-    "id": "pal-hambourg",
-    "nom": "PAL",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "hambourg-de",
-    "ville": {
-      "fr": "Hambourg",
-      "en": "Hamburg"
-    },
-    "latitude": 53.5612,
-    "longitude": 9.9682,
-    "capacite": 600,
-    "annee": 2014,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Leftfield",
-      "House"
-    ],
-    "site": "https://pal-hh.de",
-    "description": {
-      "fr": "Institution de l’avant-garde techno et électronique de Hambourg, reconnue pour ses nuits marathons sans téléphone et ses programmations pointues.",
-      "en": "Flagship of Hamburg’s avant-garde techno and electronic scene, acclaimed for its phone-free marathon nights and forward-thinking curation."
-    }
-  },
-  {
-    "id": "golden-pudel-hambourg",
-    "nom": "Golden Pudel Club",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "hambourg-de",
-    "ville": {
-      "fr": "Hambourg",
-      "en": "Hamburg"
-    },
-    "latitude": 53.5458,
-    "longitude": 9.9589,
-    "capacite": 150,
-    "annee": 1989,
-    "styles": [
-      "Experimental",
-      "Techno",
-      "Electro",
-      "Leftfield"
-    ],
-    "site": "https://pudel.com",
-    "description": {
-      "fr": "Maisonnette contre-culturelle légendaire surplombant le port de Hambourg à St. Pauli depuis 1989, laboratoire d’Helena Hauff et de l’underground hanséatique.",
-      "en": "Legendary countercultural shack overlooking Hamburg Harbor in St. Pauli since 1989, the home turf of Helena Hauff and Hanseatic underground electronics."
-    }
-  },
-  {
-    "id": "uebel-und-gefaehrlich-hambourg",
-    "nom": "Uebel & Gefährlich",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "hambourg-de",
-    "ville": {
-      "fr": "Hambourg",
-      "en": "Hamburg"
-    },
-    "latitude": 53.5564,
-    "longitude": 9.9704,
-    "capacite": 1000,
-    "annee": 2006,
-    "styles": [
-      "Techno",
-      "Melodic Techno",
-      "House",
-      "Electronica"
-    ],
-    "site": "https://uebelundgefaehrlich.com",
-    "description": {
-      "fr": "Club spectaculaire niché au quatrième étage de l’immense bunker antiaérien de la Feldstrasse à St. Pauli à Hambourg.",
-      "en": "Spectacular club perched on the fourth floor of the monumental Feldstrasse WWII bunker in Hamburg’s St. Pauli district."
-    }
-  },
-  {
-    "id": "gewoelbe-cologne",
-    "nom": "Gewölbe",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "cologne-de",
-    "ville": {
-      "fr": "Cologne",
-      "en": "Cologne"
-    },
-    "latitude": 50.9412,
-    "longitude": 6.9324,
-    "capacite": 350,
-    "annee": 2010,
-    "styles": [
-      "Techno",
-      "Minimal",
-      "House",
-      "Ambient"
-    ],
-    "site": "https://gewoelbe.club",
-    "description": {
-      "fr": "Voûte de brique sous la gare de Cologne-West, fief des artistes Kompakt et doté d’un système sonore quadriphonique d’une précision remarquable.",
-      "en": "Brick railway arch beneath Köln West station, the home club of Kompakt artists featuring a surgical four-point sound system."
-    }
-  },
-  {
-    "id": "bootshaus-cologne",
-    "nom": "Bootshaus",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "cologne-de",
-    "ville": {
-      "fr": "Cologne",
-      "en": "Cologne"
-    },
-    "latitude": 50.9308,
-    "longitude": 6.9862,
-    "capacite": 1800,
-    "annee": 2005,
-    "styles": [
-      "Bass",
-      "Techno",
-      "Hard Techno",
-      "House"
-    ],
-    "site": "https://bootshaus.tv",
-    "description": {
-      "fr": "Ancien chantier naval du port de Cologne-Deutz devenu l’un des clubs les plus énergiques d’Allemagne pour la bass music, la techno et les grandes tournées.",
-      "en": "Former shipyard in Cologne-Deutz harbor turned into one of Germany’s highest-energy arenas for bass music, techno and international tours."
-    }
-  },
-  {
-    "id": "odonien-cologne",
-    "nom": "Odonien",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "cologne-de",
-    "ville": {
-      "fr": "Cologne",
-      "en": "Cologne"
-    },
-    "latitude": 50.9578,
-    "longitude": 6.9442,
-    "capacite": 900,
-    "annee": 2006,
-    "styles": [
-      "Techno",
-      "House",
-      "Psy",
-      "Drum & Bass"
-    ],
-    "site": "https://odonien.de",
-    "description": {
-      "fr": "Parc de sculptures robotiques en acier et club en plein air créé par l’artiste Odo Rumpf le long des voies ferrées de Cologne.",
-      "en": "Robotic steel sculpture park and open-air club created by artist Odo Rumpf alongside Cologne’s railway tracks."
-    }
-  },
-  {
-    "id": "ifz-leipzig",
-    "nom": "Institut fuer Zukunft (IfZ)",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "leipzig-de",
-    "ville": {
-      "fr": "Leipzig",
-      "en": "Leipzig"
-    },
-    "latitude": 51.3198,
-    "longitude": 12.3924,
-    "capacite": 700,
-    "annee": 2014,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Breaks",
-      "Experimental"
-    ],
-    "site": "https://ifz.me",
-    "description": {
-      "fr": "Bastion souterrain de la culture techno et queer de Leipzig, doté d’un labyrinthe de béton brut et de trois pistes sonores.",
-      "en": "Underground bastion of Leipzig’s techno and queer club culture, set inside a raw concrete labyrinth with three floors."
-    }
-  },
-  {
-    "id": "distillery-leipzig",
-    "nom": "Distillery",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "leipzig-de",
-    "ville": {
-      "fr": "Leipzig",
-      "en": "Leipzig"
-    },
-    "latitude": 51.3168,
-    "longitude": 12.3782,
-    "capacite": 600,
-    "annee": 1992,
-    "styles": [
-      "Techno",
-      "House",
-      "Drum & Bass",
-      "Dub Techno"
-    ],
-    "site": "https://distillery.de",
-    "description": {
-      "fr": "Plus ancien club techno d’Allemagne de l’Est fondé en 1992 à Leipzig, institution historique de la house et de la techno saxonnes.",
-      "en": "Eastern Germany’s oldest techno club founded in 1992 in Leipzig, a historic cornerstone of Saxon house and techno."
-    }
-  },
-  {
-    "id": "elipamanoke-leipzig",
-    "nom": "Elipamanoke",
-    "type": "club",
-    "paysCode": "DE",
-    "villeSlug": "leipzig-de",
-    "ville": {
-      "fr": "Leipzig",
-      "en": "Leipzig"
-    },
-    "latitude": 51.3282,
-    "longitude": 12.3274,
-    "capacite": 500,
-    "annee": 2010,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Acid",
-      "Rave"
-    ],
-    "site": "https://elipamanoke.de",
-    "description": {
-      "fr": "Ancienne usine du quartier industriel de Plagwitz à Leipzig, prisée pour ses week-ends techno sans interruption et son jardin extérieur.",
-      "en": "Former factory in Leipzig’s industrial Plagwitz district prized for its non-stop techno weekends and outdoor garden."
-    }
-  },
-  {
-    "id": "grelle-forelle-vienne",
-    "nom": "Grelle Forelle",
-    "type": "club",
-    "paysCode": "AT",
-    "villeSlug": "vienne-at",
-    "ville": {
-      "fr": "Vienne",
-      "en": "Vienna"
-    },
-    "latitude": 48.2342,
-    "longitude": 16.3628,
-    "capacite": 700,
-    "annee": 2011,
-    "styles": [
-      "Techno",
-      "House",
-      "Drum & Bass",
-      "Leftfield"
-    ],
-    "site": "https://grelleforelle.com",
-    "description": {
-      "fr": "Club de référence au bord du canal du Danube à Vienne, doté d’un système sonore sur mesure et d’une politique stricte sans photo.",
-      "en": "Flagship club on the Danube Canal in Vienna, featuring a bespoke sound system and a strict no-photo policy."
-    }
-  },
-  {
-    "id": "pratersauna-vienne",
-    "nom": "Pratersauna",
-    "type": "club",
-    "paysCode": "AT",
-    "villeSlug": "vienne-at",
-    "ville": {
-      "fr": "Vienne",
-      "en": "Vienna"
-    },
-    "latitude": 48.2132,
-    "longitude": 16.4126,
-    "capacite": 700,
-    "annee": 2009,
-    "styles": [
-      "House",
-      "Techno",
-      "Melodic Techno",
-      "Electro"
-    ],
-    "site": "https://pratersauna.tv",
-    "description": {
-      "fr": "Ancien sauna des années 1960 au coeur du parc du Prater à Vienne reconverti en club électronique avec piscine extérieure et jardin.",
-      "en": "Converted 1960s sauna in Vienna’s Prater park featuring multiple indoor dancefloors, an outdoor pool and a summer garden."
-    }
-  },
-  {
-    "id": "flex-vienne",
-    "nom": "Flex",
-    "type": "club",
-    "paysCode": "AT",
-    "villeSlug": "vienne-at",
-    "ville": {
-      "fr": "Vienne",
-      "en": "Vienna"
-    },
-    "latitude": 48.2182,
-    "longitude": 16.3704,
-    "capacite": 600,
-    "annee": 1995,
-    "styles": [
-      "Drum & Bass",
-      "Techno",
-      "Dubstep",
-      "Electro"
-    ],
-    "site": "https://flex.at",
-    "description": {
-      "fr": "Ancien tunnel de métro sur les quais du Donaukanal à Vienne, célèbre en Europe pour la puissance de son système sonore et ses nuits drum & bass et techno.",
-      "en": "Former subway tunnel on Vienna’s Donaukanal embankment, renowned across Europe for its thunderous sound system and drum & bass and techno nights."
-    }
-  },
-  {
-    "id": "ankali-prague",
-    "nom": "Ankali",
-    "type": "club",
-    "paysCode": "CZ",
-    "villeSlug": "prague-cz",
-    "ville": {
-      "fr": "Prague",
-      "en": "Prague"
-    },
-    "latitude": 50.0672,
-    "longitude": 14.4586,
-    "capacite": 250,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Leftfield",
-      "Ambient"
-    ],
-    "site": "https://ankali.com",
-    "description": {
-      "fr": "Ancienne savonnerie du quartier de Vršovice à Prague transformée en club intimiste et audiophile, coeur battant de l’underground tchèque.",
-      "en": "Former soap factory in Prague’s Vršovice district transformed into an intimate audiophile club at the heart of the Czech underground."
-    }
-  },
-  {
-    "id": "fuchs2-prague",
-    "nom": "Fuchs2",
-    "type": "club",
-    "paysCode": "CZ",
-    "villeSlug": "prague-cz",
-    "ville": {
-      "fr": "Prague",
-      "en": "Prague"
-    },
-    "latitude": 50.0958,
-    "longitude": 14.4368,
-    "capacite": 500,
-    "annee": 2019,
-    "styles": [
-      "Techno",
-      "Industrial",
-      "Experimental",
-      "Bass"
-    ],
-    "site": "https://fuchs2.cz",
-    "description": {
-      "fr": "Bâtiment fonctionnaliste de 1931 signé Josef Fuchs sur l’île de Štvanice au milieu de la Vltava à Prague, devenu un haut lieu des musiques électroniques radicales.",
-      "en": "Functionalism landmark designed by Josef Fuchs in 1931 on Štvanice Island in the Vltava River, now Prague’s hub for radical club music."
-    }
-  },
-  {
-    "id": "roxy-prague",
-    "nom": "Roxy Prague",
-    "type": "club",
-    "paysCode": "CZ",
-    "villeSlug": "prague-cz",
-    "ville": {
-      "fr": "Prague",
-      "en": "Prague"
-    },
-    "latitude": 50.0902,
-    "longitude": 14.4258,
-    "capacite": 900,
-    "annee": 1992,
-    "styles": [
-      "Techno",
-      "House",
-      "Drum & Bass",
-      "Progressive House"
-    ],
-    "site": "https://roxy.cz",
-    "description": {
-      "fr": "Ancien cinéma Art déco de la rue Dlouhá au coeur de la Vieille Ville de Prague, institution électronique tchèque depuis 1992.",
-      "en": "Art Deco former cinema on Dlouhá Street in Prague’s Old Town, a flagship Czech electronic music venue since 1992."
-    }
-  },
-  {
-    "id": "smolna-varsovie",
-    "nom": "Smolna",
-    "type": "club",
-    "paysCode": "PL",
-    "villeSlug": "varsovie-pl",
-    "ville": {
-      "fr": "Varsovie",
-      "en": "Warsaw"
-    },
-    "latitude": 52.2324,
-    "longitude": 21.0218,
-    "capacite": 700,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "House",
-      "Melodic Techno",
-      "Acid"
-    ],
-    "site": "https://smolna38.com",
-    "description": {
-      "fr": "Maison de ville historique du centre de Varsovie abritant deux pistes souterraines et un patio dédiés à la techno et à la house.",
-      "en": "Historic townhouse in central Warsaw housing two underground dancefloors and a courtyard dedicated to techno and house."
-    }
-  },
-  {
-    "id": "jasna-1-varsovie",
-    "nom": "Jasna 1",
-    "type": "club",
-    "paysCode": "PL",
-    "villeSlug": "varsovie-pl",
-    "ville": {
-      "fr": "Varsovie",
-      "en": "Warsaw"
-    },
-    "latitude": 52.2356,
-    "longitude": 21.0112,
-    "capacite": 500,
-    "annee": 2017,
-    "styles": [
-      "Techno",
-      "Electro",
-      "House",
-      "Leftfield"
-    ],
-    "site": "https://jasna1.com",
-    "description": {
-      "fr": "Club progressiste de la rue Jasna à Varsovie, fer de lance de la nouvelle vague électronique et queer polonaise.",
-      "en": "Forward-thinking club on Jasna Street in Warsaw spearheading Poland’s underground electronic and queer club culture."
-    }
-  },
-  {
-    "id": "praga-centrum-varsovie",
-    "nom": "Praga Centrum",
-    "type": "club",
-    "paysCode": "PL",
-    "villeSlug": "varsovie-pl",
-    "ville": {
-      "fr": "Varsovie",
-      "en": "Warsaw"
-    },
-    "latitude": 52.2638,
-    "longitude": 21.0412,
-    "capacite": 1200,
-    "annee": 2019,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Drum & Bass",
-      "Trance"
-    ],
-    "site": "https://pragacentrum.pl",
-    "description": {
-      "fr": "Halle industrielle en brique rouge du XIXe siècle sur la rive droite de la Vistule à Varsovie, accueillant les grandes raves techno.",
-      "en": "Nineteenth-century red-brick industrial hall on the right bank of the Vistula in Warsaw hosting large-scale techno raves."
-    }
-  },
-  {
-    "id": "a38-budapest",
-    "nom": "A38 Ship",
-    "type": "club",
-    "paysCode": "HU",
-    "villeSlug": "budapest-hu",
-    "ville": {
-      "fr": "Budapest",
-      "en": "Budapest"
-    },
-    "latitude": 47.4754,
-    "longitude": 19.0622,
-    "capacite": 700,
-    "annee": 2003,
-    "styles": [
-      "Drum & Bass",
-      "Techno",
-      "Electronica",
-      "Breaks"
-    ],
-    "site": "https://a38.hu",
-    "description": {
-      "fr": "Ancien navire ukrainien de transport de pierre amarré au pied du pont Petőfi sur le Danube à Budapest, salle de concert et club électronique mythique.",
-      "en": "Rebuilt Ukrainian stone-carrier ship moored at the foot of Petőfi Bridge on the Danube in Budapest, a legendary live electronic and club venue."
-    }
-  },
-  {
-    "id": "arzenal-budapest",
-    "nom": "Arzenál",
-    "type": "club",
-    "paysCode": "HU",
-    "villeSlug": "budapest-hu",
-    "ville": {
-      "fr": "Budapest",
-      "en": "Budapest"
-    },
-    "latitude": 47.4562,
-    "longitude": 19.0818,
-    "capacite": 1200,
-    "annee": 2020,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Industrial",
-      "Acid"
-    ],
-    "site": "https://www.instagram.com/arzenalbudapest/",
-    "description": {
-      "fr": "Entrepôt industriel monumental du sud de Budapest devenu le bastion hongrois de la techno brute et de la hard techno.",
-      "en": "Monumental industrial warehouse in southern Budapest that has become Hungary’s stronghold for raw and hard techno."
-    }
-  },
-  {
-    "id": "turbina-budapest",
-    "nom": "Turbina Kulturális Központ",
-    "type": "club",
-    "paysCode": "HU",
-    "villeSlug": "budapest-hu",
-    "ville": {
-      "fr": "Budapest",
-      "en": "Budapest"
-    },
-    "latitude": 47.4892,
-    "longitude": 19.0748,
-    "capacite": 600,
-    "annee": 2021,
-    "styles": [
-      "Techno",
-      "House",
-      "Downtempo",
-      "Experimental"
-    ],
-    "site": "https://turbinabudapest.hu",
-    "description": {
-      "fr": "Centre culturel indépendant et club sur plusieurs salles dans le 8e arrondissement de Budapest, très actif sur la scène électronique locale.",
-      "en": "Multi-room independent cultural center and club in Budapest’s 8th district championing the local underground electronic scene."
-    }
-  },
-  {
-    "id": "bassiani-tbilissi",
-    "nom": "Bassiani",
-    "type": "club",
-    "paysCode": "GE",
-    "villeSlug": "tbilissi-ge",
-    "ville": {
-      "fr": "Tbilissi",
-      "en": "Tbilisi"
-    },
-    "latitude": 41.7232,
-    "longitude": 44.7898,
-    "capacite": 1200,
-    "annee": 2014,
-    "styles": [
-      "Techno",
-      "House",
-      "Electro",
-      "Industrial"
-    ],
-    "site": "https://bassiani.com",
-    "description": {
-      "fr": "Cathédrale souterraine aménagée dans une piscine olympique soviétique désaffectée sous le stade national Dinamo de Tbilissi, avec la salle Horoom à l’étage.",
-      "en": "Underground techno cathedral built inside a disused Soviet Olympic swimming pool beneath Tbilisi’s Dinamo National Stadium, alongside the Horoom room."
-    }
-  },
-  {
-    "id": "khidi-tbilissi",
-    "nom": "KHIDI",
-    "type": "club",
-    "paysCode": "GE",
-    "villeSlug": "tbilissi-ge",
-    "ville": {
-      "fr": "Tbilissi",
-      "en": "Tbilisi"
-    },
-    "latitude": 41.7289,
-    "longitude": 44.7792,
-    "capacite": 900,
-    "annee": 2016,
-    "styles": [
-      "Industrial",
-      "Techno",
-      "EBM",
-      "Experimental"
-    ],
-    "site": "https://khidi.ge",
-    "description": {
-      "fr": "Forteresse brute logée dans les piliers mêmes du pont Vakhouchti-Bagrationi au-dessus de la rivière Koura à Tbilissi, dédiée à la techno industrielle et à l’EBM.",
-      "en": "Brutalist club built directly inside the piers of the Vakhushti Bagrationi Bridge over the Kura River in Tbilisi, dedicated to industrial techno and EBM."
-    }
-  },
-  {
-    "id": "tes-tbilissi",
-    "nom": "TES",
-    "type": "club",
-    "paysCode": "GE",
-    "villeSlug": "tbilissi-ge",
-    "ville": {
-      "fr": "Tbilissi",
-      "en": "Tbilisi"
-    },
-    "latitude": 41.7168,
-    "longitude": 44.7954,
-    "capacite": 500,
-    "annee": 2020,
-    "styles": [
-      "House",
-      "Electro",
-      "Techno",
-      "Breaks"
-    ],
-    "site": "https://www.instagram.com/tes.club/",
-    "description": {
-      "fr": "Club de deux salles au bord de la Koura à Tbilissi, vitrine de la nouvelle génération de DJs et producteurs géorgiens.",
-      "en": "Two-room club on the banks of the Kura River in Tbilisi showcasing the new wave of Georgian DJs and producers."
-    }
-  },
-  {
-    "id": "warehouse-project-manchester",
-    "nom": "The Warehouse Project (Depot Mayfield)",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "manchester-gb",
-    "ville": {
-      "fr": "Manchester",
-      "en": "Manchester"
-    },
-    "latitude": 53.4752,
-    "longitude": -2.2268,
-    "capacite": 10000,
-    "annee": 2006,
-    "styles": [
-      "House",
-      "Techno",
-      "Drum & Bass",
-      "UK Garage"
-    ],
-    "site": "https://thewarehouseproject.com",
-    "description": {
-      "fr": "Ancienne gare ferroviaire de 1910 (Depot Mayfield) à Manchester transformée chaque automne en cathédrale mondiale des musiques électroniques.",
-      "en": "Vast 1910 railway depot (Depot Mayfield) in Manchester transformed every autumn into one of the world’s largest electronic music club series."
-    }
-  },
-  {
-    "id": "the-white-hotel-manchester",
-    "nom": "The White Hotel",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "manchester-gb",
-    "ville": {
-      "fr": "Manchester (Salford)",
-      "en": "Manchester (Salford)"
-    },
-    "latitude": 53.4918,
-    "longitude": -2.2614,
-    "capacite": 300,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "Experimental",
-      "UK Bass",
-      "Industrial"
-    ],
-    "site": "https://www.instagram.com/the.white.hotel/",
-    "description": {
-      "fr": "Ancien atelier mécanique de Salford devenu le club underground le plus culte du Grand Manchester, où les nuits s’étirent jusqu’au dimanche matin.",
-      "en": "Former auto repair garage in Salford turned into Greater Manchester’s most revered underground club for avant-garde electronics and late-morning raves."
-    }
-  },
-  {
-    "id": "hidden-manchester",
-    "nom": "Hidden",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "manchester-gb",
-    "ville": {
-      "fr": "Manchester",
-      "en": "Manchester"
-    },
-    "latitude": 53.4926,
-    "longitude": -2.2452,
-    "capacite": 700,
-    "annee": 2015,
-    "styles": [
-      "Techno",
-      "House",
-      "Jungle",
-      "Drum & Bass"
-    ],
-    "site": "https://hidden.club",
-    "description": {
-      "fr": "Complexe labyrinthique aménagé dans une ancienne filature textile (DownTex Mill) au nord du centre de Manchester.",
-      "en": "Labyrinthine multi-room club inside the historic DownTex Mill on the northern edge of central Manchester."
-    }
-  },
-  {
-    "id": "motion-bristol",
-    "nom": "Motion Bristol",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "bristol-gb",
-    "ville": {
-      "fr": "Bristol",
-      "en": "Bristol"
-    },
-    "latitude": 51.4492,
-    "longitude": -2.5768,
-    "capacite": 2500,
-    "annee": 2006,
-    "styles": [
-      "Drum & Bass",
-      "Jungle",
-      "UK Bass",
-      "Techno"
-    ],
-    "site": "https://motion-bristol.com",
-    "description": {
-      "fr": "Ensemble d’entrepôts victoriens en marbre au bord de la rivière Avon à Bristol, berceau des grandes nuits drum & bass, jungle et bass music britanniques.",
-      "en": "Complex of Victorian marble warehouses on the River Avon in Bristol, the spiritual home of massive UK drum & bass, jungle and bass music nights."
-    }
-  },
-  {
-    "id": "sub-club-glasgow",
-    "nom": "Sub Club Glasgow",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "bristol-gb",
-    "ville": {
-      "fr": "Glasgow",
-      "en": "Glasgow"
-    },
-    "latitude": 55.8569,
-    "longitude": -4.2578,
-    "capacite": 420,
-    "annee": 1987,
-    "styles": [
-      "House",
-      "Techno",
-      "Acid House",
-      "Electro"
-    ],
-    "site": "https://subclub.co.uk",
-    "description": {
-      "fr": "Plus ancien club souterrain du monde en activité continue depuis 1987 rue Jamaica à Glasgow, célèbre pour sa résidence Subculture (Harri & Domenic) et son plancher bodysonic.",
-      "en": "World’s longest-running underground dance club operating since 1987 on Jamaica Street in Glasgow, famous for its Subculture residency and bodysonic dancefloor."
-    }
-  },
-  {
-    "id": "strange-brew-bristol",
-    "nom": "Strange Brew",
-    "type": "club",
-    "paysCode": "GB",
-    "villeSlug": "bristol-gb",
-    "ville": {
-      "fr": "Bristol",
-      "en": "Bristol"
-    },
-    "latitude": 51.4556,
-    "longitude": -2.5928,
-    "capacite": 350,
-    "annee": 2020,
-    "styles": [
-      "UK Bass",
-      "Dub",
-      "Leftfield",
-      "Electro"
-    ],
-    "site": "https://strangebrewbristol.com",
-    "description": {
-      "fr": "Espace indépendant de Fairfax Street au coeur de Bristol, fidèle à l’esprit sound system, dub et leftfield de la ville.",
-      "en": "Independent venue on Fairfax Street in central Bristol championing the city’s deep sound-system, dub and leftfield electronic heritage."
-    }
-  },
-  {
     "id": "club-space-miami",
     "nom": "Club Space",
     "type": "club",
@@ -11207,162 +8043,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Sous-sol audiophile du centre de Miami inspiré du Paradise Garage, équipé d’un système sonore Phonic Technologies sur mesure.",
       "en": "Audiophile basement in Downtown Miami inspired by the Paradise Garage and outfitted with a custom Phonic Technologies sound system."
-    }
-  },
-  {
-    "id": "public-works-sf",
-    "nom": "Public Works",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "sanfrancisco-us",
-    "ville": {
-      "fr": "San Francisco",
-      "en": "San Francisco"
-    },
-    "latitude": 37.7689,
-    "longitude": -122.4192,
-    "capacite": 900,
-    "annee": 2010,
-    "styles": [
-      "House",
-      "Techno",
-      "Bass",
-      "Disco"
-    ],
-    "site": "https://publicsf.com",
-    "description": {
-      "fr": "Entrepôt à deux niveaux du quartier de Mission à San Francisco équipé d’un système Funktion-One et d’un plancher en bois suspendu.",
-      "en": "Two-level warehouse club in San Francisco’s Mission District featuring a sprung hardwood dancefloor and Funktion-One sound."
-    }
-  },
-  {
-    "id": "the-great-northern-sf",
-    "nom": "The Great Northern",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "sanfrancisco-us",
-    "ville": {
-      "fr": "San Francisco",
-      "en": "San Francisco"
-    },
-    "latitude": 37.7676,
-    "longitude": -122.4064,
-    "capacite": 750,
-    "annee": 2016,
-    "styles": [
-      "House",
-      "Techno",
-      "Tech House",
-      "Breaks"
-    ],
-    "site": "https://thegreatnorthernsf.com",
-    "description": {
-      "fr": "Vaste salle Art déco aux plafonds de 10 mètres dans le quartier de Potrero à San Francisco, haut lieu des nuits house et techno de la baie.",
-      "en": "Art Deco corner warehouse with 30-foot ceilings in San Francisco’s Potrero district, a premier Bay Area house and techno venue."
-    }
-  },
-  {
-    "id": "halcyon-sf",
-    "nom": "Halcyon",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "sanfrancisco-us",
-    "ville": {
-      "fr": "San Francisco",
-      "en": "San Francisco"
-    },
-    "latitude": 37.7714,
-    "longitude": -122.4138,
-    "capacite": 450,
-    "annee": 2016,
-    "styles": [
-      "Techno",
-      "Melodic Techno",
-      "House",
-      "Progressive House"
-    ],
-    "site": "https://halcyon-sf.com",
-    "description": {
-      "fr": "Brique industrielle du quartier SoMa à San Francisco détenant l’une des rares licences 24 heures de la ville pour les marathons techno et house.",
-      "en": "Brick warehouse in San Francisco’s SoMa district holding a rare 24-hour operating permit for extended techno and house marathons."
-    }
-  },
-  {
-    "id": "the-black-box-denver",
-    "nom": "The Black Box",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "denver-us",
-    "ville": {
-      "fr": "Denver (Colorado)",
-      "en": "Denver (Colorado)"
-    },
-    "latitude": 39.7398,
-    "longitude": -104.9832,
-    "capacite": 400,
-    "annee": 2016,
-    "styles": [
-      "Dubstep",
-      "Bass",
-      "Drum & Bass",
-      "Halftime"
-    ],
-    "site": "https://blackboxdenver.co",
-    "description": {
-      "fr": "Capitale américaine de la culture sound system et de la bass music sur East Colfax à Denver, dotée de deux salles équipées en Basscouch et PK Sound.",
-      "en": "America’s premier underground bass music and sound-system sanctuary on East Colfax in Denver, featuring two rooms tuned for deep sub-bass."
-    }
-  },
-  {
-    "id": "the-concourse-project-austin",
-    "nom": "The Concourse Project",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "denver-us",
-    "ville": {
-      "fr": "Austin (Texas)",
-      "en": "Austin (Texas)"
-    },
-    "latitude": 30.2078,
-    "longitude": -97.6692,
-    "capacite": 2500,
-    "annee": 2021,
-    "styles": [
-      "Techno",
-      "House",
-      "Melodic Techno",
-      "Tech House"
-    ],
-    "site": "https://concourseproject.com",
-    "description": {
-      "fr": "Immense hangar électronique d’Austin au Texas conçu par l’équipe du Seismic Dance Event, accueillant les plus grandes productions techno et house.",
-      "en": "Massive electronic warehouse venue in Austin, Texas built by the Seismic Dance Event team, hosting world-class techno and house productions."
-    }
-  },
-  {
-    "id": "kingdom-austin",
-    "nom": "Kingdom",
-    "type": "club",
-    "paysCode": "US",
-    "villeSlug": "denver-us",
-    "ville": {
-      "fr": "Austin (Texas)",
-      "en": "Austin (Texas)"
-    },
-    "latitude": 30.2672,
-    "longitude": -97.7428,
-    "capacite": 450,
-    "annee": 2011,
-    "styles": [
-      "House",
-      "Techno",
-      "Tech House",
-      "Progressive House"
-    ],
-    "site": "https://kingdomaustin.com",
-    "description": {
-      "fr": "Club souterrain du centre d’Austin au Texas dédié aux nuits house et techno jusqu’à l’aube.",
-      "en": "Downtown Austin underground club dedicated to late-night house and techno sessions."
     }
   },
   {
@@ -13193,6 +9873,6434 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Salle coopérative à jauge réduite du quartier de Poblenou, repaire des concerts électroniques expérimentaux, synthétiseurs modulaires et labels indépendants catalans.",
       "en": "Small-capacity cooperative room in Poblenou, a haven for experimental electronic concerts, modular synth performances and independent Catalan labels."
+    }
+  },
+  /* LA DENSIFICATION DES VINGT VILLES, 12 novembre 2026 (ADR-118). Mika :
+     « scanne vraiment beaucoup mieux les 20, ca doit etre bien plus complet ».
+     Chaque lieu a ete verifie ouvert en 2025 ou 2026 (site officiel, Resident
+     Advisor, presse locale) ; les capacites sans source sont des estimations. */
+  {
+    "id": "teatro-kapital-madrid",
+    "nom": "Teatro Kapital",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Atocha)",
+      "en": "Madrid (Atocha)"
+    },
+    "latitude": 40.4098,
+    "longitude": -3.6932,
+    "capacite": 4000,
+    "annee": 1983,
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House"
+    ],
+    "site": "https://teatrokapital.com",
+    "description": {
+      "fr": "Mégaclub de sept étages installé dans l’ancien cinéma San Carlos, rue Atocha, ouvert en 1983 sous le nom de Titanic, avec une grande salle house et tech house et des étages à thème.",
+      "en": "Seven-floor megaclub in the former San Carlos cinema on Calle Atocha, opened in 1983 as Titanic, with a main house and tech house room and themed upper floors."
+    }
+  },
+  {
+    "id": "lab-theclub-madrid",
+    "nom": "LAB theClub",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Chamartín)",
+      "en": "Madrid (Chamartín)"
+    },
+    "latitude": 40.4718,
+    "longitude": -3.6829,
+    "capacite": 1427,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.labtheclub.com",
+    "description": {
+      "fr": "Club de 1 800 m² au dernier étage de la gare de Chamartín, sur l’ancien site du Macumba, qui accueille le dimanche la soirée house Space of Sound et des têtes d’affiche techno.",
+      "en": "Club of 1,800 square metres on the top floor of Chamartín station, on the former Macumba site, home to the Sunday house party Space of Sound and touring techno headliners."
+    }
+  },
+  {
+    "id": "fitz-club-madrid",
+    "nom": "Fitz Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Plaza de España)",
+      "en": "Madrid (Plaza de España)"
+    },
+    "latitude": 40.4247,
+    "longitude": -3.7122,
+    "capacite": 1300,
+    "annee": 2023,
+    "styles": [
+      "House",
+      "Afro House",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://ra.co/clubs/218052",
+    "description": {
+      "fr": "Club ouvert en 2023 au 1 calle de la Princesa, près de la plaza de España, inspiré de Gatsby le Magnifique, avec un dôme d’écrans LED et une programmation house, afro house et melodic techno.",
+      "en": "Club opened in 2023 at 1 Calle de la Princesa near Plaza de España, styled after The Great Gatsby, with a vast LED dome and a house, afro house and melodic techno programme."
+    }
+  },
+  {
+    "id": "goya-social-club-madrid",
+    "nom": "Goya Social Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Salamanca)",
+      "en": "Madrid (Salamanca)"
+    },
+    "latitude": 40.4254,
+    "longitude": -3.6829,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Deep House",
+      "Tech House"
+    ],
+    "site": "https://goyasocialclub.com",
+    "description": {
+      "fr": "Petit club d’environ 200 personnes au 43 calle de Goya, dans le quartier de Salamanca, consacré à la house, à la deep house et à la tech house, surtout avec des DJ locaux.",
+      "en": "Small club of about 200 people at 43 Calle de Goya in the Salamanca district, devoted to house, deep house and tech house, mostly with local DJs and occasional international guests."
+    }
+  },
+  {
+    "id": "the-bassement-madrid",
+    "nom": "The Bassement",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Chamberí)",
+      "en": "Madrid (Chamberí)"
+    },
+    "latitude": 40.4322,
+    "longitude": -3.7102,
+    "capacite": 850,
+    "styles": [
+      "Techno",
+      "Hypnotic Techno",
+      "Hard Techno",
+      "Tech House"
+    ],
+    "site": "https://bassmntclub.com",
+    "description": {
+      "fr": "Club techno en sous-sol au 26 calle de Galileo, à Chamberí, qui accueille les soirées Laster, Swing et New Faces, avec une politique sans photo ni vidéo pour Laster.",
+      "en": "Basement techno club at 26 Calle de Galileo in Chamberí, home to the Laster, Swing and New Faces nights, with a strict no photo and no video policy at Laster."
+    }
+  },
+  {
+    "id": "specka-madrid",
+    "nom": "Specka",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Tetuán)",
+      "en": "Madrid (Tetuán)"
+    },
+    "latitude": 40.4516,
+    "longitude": -3.6949,
+    "capacite": 100,
+    "annee": 1989,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Trance",
+      "EBM"
+    ],
+    "site": "https://www.specka.es",
+    "description": {
+      "fr": "Club en sous-sol de la calle Orense, ouvert sans interruption depuis 1989, passé de la new wave et de l’EBM à la trance puis à la techno, équipé d’un système Funktion-One.",
+      "en": "Basement club on Calle Orense, open without interruption since 1989, moving from new wave and EBM through trance to techno and electro, fitted with a Funktion-One sound system."
+    }
+  },
+  {
+    "id": "el-sotano-madrid",
+    "nom": "El Sótano",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (La Latina)",
+      "en": "Madrid (La Latina)"
+    },
+    "latitude": 40.4109,
+    "longitude": -3.7077,
+    "capacite": 250,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "House",
+      "Trance"
+    ],
+    "site": "https://www.salaelsotano.com",
+    "description": {
+      "fr": "Salle en sous-sol de la calle de las Maldonadas, à La Latina, qui alterne concerts en début de soirée et nuits techno, house et trance du jeudi au dimanche, plus des après-midi le week-end.",
+      "en": "Basement venue on Calle de las Maldonadas in La Latina, mixing early evening concerts with techno, house and trance club nights from Thursday to Sunday, plus weekend afternoon sessions."
+    }
+  },
+  {
+    "id": "cadavra-madrid",
+    "nom": "Cadavra",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Gran Vía)",
+      "en": "Madrid (Gran Vía)"
+    },
+    "latitude": 40.4194,
+    "longitude": -3.7007,
+    "capacite": 200,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Leftfield"
+    ],
+    "site": "https://www.cadavraclub.com",
+    "description": {
+      "fr": "Club de deux salles près de la Gran Vía, au 10 calle del Caballero de Gracia, équipé d’un système d&b audiotechnik, qui accueille des nuits techno et électro underground comme Sigh.Club.",
+      "en": "Two-room club near Gran Vía at 10 Calle del Caballero de Gracia, with a d&b audiotechnik system, hosting underground techno and electro nights such as Sigh.Club."
+    }
+  },
+  {
+    "id": "berlinclub-madrid",
+    "nom": "berlinClub",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Callao)",
+      "en": "Madrid (Callao)"
+    },
+    "latitude": 40.4195,
+    "longitude": -3.708,
+    "capacite": 254,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Disco",
+      "Soulful House"
+    ],
+    "site": "https://berlincafe.es",
+    "description": {
+      "fr": "Volet club du Café Berlín, ouvert en 2012 et installé depuis 2016 costanilla de los Ángeles, près de Callao, pour 254 personnes, centré sur la house, la disco et la soul.",
+      "en": "Club side of Café Berlín, opened in 2012 and based on Costanilla de los Ángeles near Callao since 2016, holding 254 people and focused on house, disco and soul."
+    }
+  },
+  {
+    "id": "sala-siroco-madrid",
+    "nom": "Sala Siroco",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Malasaña)",
+      "en": "Madrid (Malasaña)"
+    },
+    "latitude": 40.4269,
+    "longitude": -3.7077,
+    "capacite": 350,
+    "annee": 1989,
+    "styles": [
+      "Techno",
+      "EBM",
+      "Drum & Bass"
+    ],
+    "site": "https://siroco.es",
+    "description": {
+      "fr": "Salle de Malasaña ouverte en 1989 et rénovée en 2010, qui mêle concerts et nuits électroniques en techno, EBM et drum & bass, dont la soirée Abyss Techno Club le dimanche.",
+      "en": "Malasaña venue opened in 1989 and refurbished in 2010, combining concerts with electronic nights covering techno, EBM and drum & bass, including the Sunday Abyss Techno Club."
+    }
+  },
+  {
+    "id": "sala-el-sol-madrid",
+    "nom": "Sala El Sol",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Sol)",
+      "en": "Madrid (Sol)"
+    },
+    "latitude": 40.419,
+    "longitude": -3.7015,
+    "capacite": 640,
+    "annee": 1979,
+    "styles": [],
+    "site": "https://salaelsol.com",
+    "description": {
+      "fr": "Salle historique de la Movida ouverte en 1979 au 3 calle de los Jardines, qui programme des concerts puis, du jeudi au samedi, des nuits club techno et acid jusqu’à 6 h.",
+      "en": "Historic Movida venue opened in 1979 at 3 Calle de los Jardines, hosting concerts and then, Thursday to Saturday, techno and acid club nights running until 6 a.m."
+    }
+  },
+  {
+    "id": "la-riviera-madrid",
+    "nom": "La Riviera",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Madrid Río)",
+      "en": "Madrid (Madrid Río)"
+    },
+    "latitude": 40.413,
+    "longitude": -3.7221,
+    "capacite": 2500,
+    "styles": [],
+    "site": "https://salariviera.com",
+    "description": {
+      "fr": "Grande salle de concert au bord du Manzanares, près du pont de Ségovie, qui accueille régulièrement les soirées hard techno itinérantes Blackworks et des événements drum & bass.",
+      "en": "Large concert hall on the Manzanares riverbank near the Segovia Bridge, regularly hosting the touring hard techno party Blackworks as well as drum & bass events."
+    }
+  },
+  {
+    "id": "sala-villanos-madrid",
+    "nom": "Sala Villanos",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Arganzuela)",
+      "en": "Madrid (Arganzuela)"
+    },
+    "latitude": 40.4039,
+    "longitude": -3.7,
+    "capacite": 400,
+    "styles": [],
+    "site": "https://salavillanos.es",
+    "description": {
+      "fr": "Salle de 400 personnes installée dans l’ancienne Sala Caracol, rue Bernardino Obregón, qui alterne jazz, concerts et nuits électroniques avec des invités comme Cinthie, Romare ou Matthew Herbert.",
+      "en": "Venue for 400 people in the former Sala Caracol on Calle Bernardino Obregón, alternating jazz, concerts and electronic nights with guests such as Cinthie, Romare and Matthew Herbert."
+    }
+  },
+  {
+    "id": "core-madrid",
+    "nom": "Core",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Sol)",
+      "en": "Madrid (Sol)"
+    },
+    "latitude": 40.4183,
+    "longitude": -3.7032,
+    "capacite": 300,
+    "styles": [
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://ra.co/clubs/278717",
+    "description": {
+      "fr": "Club techno de 300 personnes au 27 calle de Tetuán, à deux pas de la Puerta del Sol, consacré à la techno et à la tech house avec des sets longs et une direction underground.",
+      "en": "Club for 300 people at 27 Calle de Tetuán, a short walk from Puerta del Sol, devoted to techno and tech house with long sets and a firmly underground artistic direction."
+    }
+  },
+  {
+    "id": "lasociacion-madrid",
+    "nom": "Lasociaciøn",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Villa de Vallecas)",
+      "en": "Madrid (Villa de Vallecas)"
+    },
+    "latitude": 40.3722,
+    "longitude": -3.6465,
+    "capacite": 200,
+    "styles": [
+      "Techno",
+      "Hypnotic Techno",
+      "Minimal"
+    ],
+    "site": "https://ra.co/clubs/205441",
+    "description": {
+      "fr": "Association culturelle de 200 personnes dans une zone industrielle de Villa de Vallecas, dédiée à la techno hypnotique et dub, avec des invités comme Robert Leiner et des soirées prolongées.",
+      "en": "Cultural association for 200 people in an industrial estate in Villa de Vallecas, dedicated to hypnotic and dub techno, with guests such as Robert Leiner and extended-hours nights."
+    }
+  },
+  {
+    "id": "club-malasana-madrid",
+    "nom": "Club Malasaña",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Malasaña)",
+      "en": "Madrid (Malasaña)"
+    },
+    "latitude": 40.4257,
+    "longitude": -3.7032,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Electronica"
+    ],
+    "site": "https://ra.co/clubs/181350",
+    "description": {
+      "fr": "Club de 400 personnes au 23 calle de San Vicente Ferrer, en plein Malasaña, qui enchaîne concerts et sessions DJ house et électroniques plusieurs soirs par semaine.",
+      "en": "Club for 400 people at 23 Calle de San Vicente Ferrer in the heart of Malasaña, combining live acts with house and electronic DJ sessions several nights a week."
+    }
+  },
+  {
+    "id": "hangar48-madrid",
+    "nom": "Hangar48",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (La Latina)",
+      "en": "Madrid (La Latina)"
+    },
+    "latitude": 40.4114,
+    "longitude": -3.7141,
+    "capacite": 500,
+    "annee": 2017,
+    "styles": [],
+    "site": "https://hangar48.es",
+    "description": {
+      "fr": "Salle de concert et de clubbing ouverte en octobre 2017 au 24 calle de Bailén, qui alterne rock en début de soirée et nuits techno, house et progressive le week-end.",
+      "en": "Concert and clubbing venue opened in October 2017 at 24 Calle de Bailén, alternating early evening rock gigs with techno, house and progressive club nights at weekends."
+    }
+  },
+  {
+    "id": "brunch-electronik-madrid",
+    "nom": "Brunch Electronik Madrid",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Caja Mágica)",
+      "en": "Madrid (Caja Mágica)"
+    },
+    "latitude": 40.3683,
+    "longitude": -3.6841,
+    "capacite": 10000,
+    "mois": {
+      "fr": "Mai et septembre",
+      "en": "May and September"
+    },
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://madrid.brunchelectronik.com",
+    "description": {
+      "fr": "Déclinaison madrilène du festival barcelonais, en plein air à la Caja Mágica au printemps et en septembre, avec environ 10 000 personnes par jour et des têtes d’affiche house et techno.",
+      "en": "Madrid edition of the Barcelona festival, held open air at the Caja Mágica in spring and September, drawing about 10,000 people per day with house and techno headliners."
+    }
+  },
+  {
+    "id": "maudes-festival-madrid",
+    "nom": "Maudes Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (Arganzuela)",
+      "en": "Madrid (Arganzuela)"
+    },
+    "latitude": 40.3899,
+    "longitude": -3.6829,
+    "capacite": 8000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno"
+    ],
+    "site": "https://maudesfestival.com",
+    "description": {
+      "fr": "Festival électronique en plein air créé en 2021, installé depuis 2025 au parc Enrique Tierno Galván, avec jusqu’à 8 000 personnes par jour sur plusieurs week-ends de mai.",
+      "en": "Open-air electronic festival founded in 2021 and held since 2025 in Enrique Tierno Galván park, welcoming up to 8,000 people per day across several weekends in May."
+    }
+  },
+  {
+    "id": "village-underground-barcelone",
+    "nom": "Village Underground Barcelona",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (L’Hospitalet de Llobregat)",
+      "en": "Barcelona (L’Hospitalet de Llobregat)"
+    },
+    "latitude": 41.3604,
+    "longitude": 2.1142,
+    "capacite": 420,
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "EBM"
+    ],
+    "site": "https://www.villageunderground.cat",
+    "description": {
+      "fr": "Espace culturel de 1 400 m² au 12 carrer del Cobalt, à L’Hospitalet de Llobregat, avec deux entrepôts et une terrasse, qui programme techno, house, bass et concerts électroniques.",
+      "en": "Cultural space of 1,400 square metres at 12 Carrer del Cobalt in L’Hospitalet de Llobregat, with two warehouses and a terrace, programming techno, house, bass and electronic live acts."
+    }
+  },
+  {
+    "id": "detroit-club-barcelone",
+    "nom": "DETROIT Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (L’Hospitalet de Llobregat)",
+      "en": "Barcelona (L’Hospitalet de Llobregat)"
+    },
+    "latitude": 41.3544,
+    "longitude": 2.1072,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Industrial Techno"
+    ],
+    "site": "https://detroitbcn.com",
+    "description": {
+      "fr": "Club techno underground d’une zone industrielle de L’Hospitalet de Llobregat, près du métro Avinguda Carrilet, sans dress code, qui demande de ranger les téléphones sur la piste.",
+      "en": "Underground techno club in an industrial area of L’Hospitalet de Llobregat near Avinguda Carrilet metro, with no dress code and a request to keep phones off the dance floor."
+    }
+  },
+  {
+    "id": "bridge-48-barcelone",
+    "nom": "Bridge 48",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poblenou)",
+      "en": "Barcelona (Poblenou)"
+    },
+    "latitude": 41.3935,
+    "longitude": 2.1921,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Techno",
+      "Ambient"
+    ],
+    "site": "https://www.bridge48.com",
+    "description": {
+      "fr": "Club de membres pour producteurs installé dans 850 m² à Poblenou, qui ouvre au public pour des soirées house, techno et ambient sur deux salles et des sessions d’écoute.",
+      "en": "Members’ club for electronic producers in an 850 square metre space in Poblenou, opening to the public for two-room house, techno and ambient nights and listening sessions."
+    }
+  },
+  {
+    "id": "slow-club-barcelone",
+    "nom": "Slow Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Eixample)",
+      "en": "Barcelona (Eixample)"
+    },
+    "latitude": 41.3935,
+    "longitude": 2.1534,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://ra.co/clubs/106267",
+    "description": {
+      "fr": "Club intime de 150 personnes au 186 carrer de París, dans l’Eixample, dédié à la house underground et parfois à la techno, avec une identité portée par ses DJ résidents.",
+      "en": "Intimate club for 150 people at 186 Carrer de París in the Eixample, dedicated to underground house and sometimes techno, with an identity shaped by its resident DJs."
+    }
+  },
+  {
+    "id": "303-audiophile-bar-barcelone",
+    "nom": "303 Audiophile Bar",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Eixample)",
+      "en": "Barcelona (Eixample)"
+    },
+    "latitude": 41.3909,
+    "longitude": 2.1726,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Minimal"
+    ],
+    "site": "https://ra.co/clubs/227497",
+    "description": {
+      "fr": "Bar audiophile de 150 places au 33 carrer de Casp, dans l’Eixample, porté par La Textil Collective, avec des DJ house et minimal plusieurs soirs par semaine.",
+      "en": "Audiophile bar for 150 people at 33 Carrer de Casp in the Eixample, run by La Textil Collective, with house and minimal DJs playing several nights a week."
+    }
+  },
+  {
+    "id": "sala-bikini-barcelone",
+    "nom": "Sala Bikini",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Les Corts)",
+      "en": "Barcelona (Les Corts)"
+    },
+    "latitude": 41.3895,
+    "longitude": 2.137,
+    "capacite": 800,
+    "styles": [],
+    "site": "https://bikinibcn.com",
+    "description": {
+      "fr": "Discothèque et salle de concert de 800 personnes sous le centre commercial L’Illa, avenue Diagonal, qui accueille des nuits house et progressive avec des labels comme Hot Creations.",
+      "en": "Nightclub and concert hall for 800 people beneath the L’Illa shopping centre on Avinguda Diagonal, hosting house and progressive nights with labels such as Hot Creations."
+    }
+  },
+  {
+    "id": "luz-de-gas-barcelone",
+    "nom": "Luz de Gas",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Sant Gervasi)",
+      "en": "Barcelona (Sant Gervasi)"
+    },
+    "latitude": 41.3946,
+    "longitude": 2.149,
+    "capacite": 600,
+    "styles": [],
+    "site": "https://luzdegas.com",
+    "description": {
+      "fr": "Salle de 600 places au 246 carrer de Muntaner, à Sant Gervasi, qui accueille concerts et nuits club, dont la série Nacar Club programmée par Brunch Electronik.",
+      "en": "Venue for 600 people at 246 Carrer de Muntaner in Sant Gervasi, hosting concerts and club nights, including the Nacar Club series curated by Brunch Electronik."
+    }
+  },
+  {
+    "id": "pinata-radio-montpellier",
+    "nom": "Piñata Radio",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Gambetta)",
+      "en": "Montpellier (Gambetta)"
+    },
+    "latitude": 43.6036,
+    "longitude": 3.8747,
+    "capacite": 50,
+    "styles": [
+      "House",
+      "Broken Beat",
+      "Global Club"
+    ],
+    "site": "https://pinataradio.com",
+    "description": {
+      "fr": "Webradio et bar ouvert au public au 14 rue Rondelet, du lundi au samedi, avec des émissions en direct et des B2B de DJ locaux en house, broken beat et bass.",
+      "en": "Web radio and bar open to the public at 14 rue Rondelet from Monday to Saturday, with live shows and local DJ back-to-backs in house, broken beat and bass."
+    }
+  },
+  {
+    "id": "nwhr-montreal",
+    "nom": "NWHR",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier chinois)",
+      "en": "Montreal (Chinatown)"
+    },
+    "latitude": 45.5084,
+    "longitude": -73.5601,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "Progressive House",
+      "Deep House"
+    ],
+    "site": "https://ra.co/clubs/265515",
+    "description": {
+      "fr": "Club de 400 personnes au 1055 boulevard Saint-Laurent, en bordure du Quartier chinois, qui programme techno et house progressive avec des invités internationaux comme Justine Perry.",
+      "en": "Club for 400 people at 1055 Saint-Laurent Boulevard on the edge of Chinatown, programming techno and progressive house with international guests such as Justine Perry."
+    }
+  },
+  {
+    "id": "esc-montreal",
+    "nom": "ESC",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier des spectacles)",
+      "en": "Montreal (Quartier des spectacles)"
+    },
+    "latitude": 45.5116,
+    "longitude": -73.5673,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Hardcore"
+    ],
+    "site": "https://ctrllab.com/esc/",
+    "description": {
+      "fr": "Espace événementiel de deux étages au 2023 boulevard Saint-Laurent, géré par Ctrllab, qui accueille des soirées techno, hard techno et hardcore comme Techno Crudo.",
+      "en": "Two-floor event space at 2023 Saint-Laurent Boulevard run by Ctrllab in the Quartier des spectacles, hosting techno, hard techno and hardcore nights such as Techno Crudo."
+    }
+  },
+  {
+    "id": "blue-room-montreal",
+    "nom": "Blue Room",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Plateau-Mont-Royal)",
+      "en": "Montreal (Plateau-Mont-Royal)"
+    },
+    "latitude": 45.5166,
+    "longitude": -73.579,
+    "capacite": 225,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://ra.co/clubs/290582",
+    "description": {
+      "fr": "Petite salle de 225 personnes au troisième étage du 3956 boulevard Saint-Laurent, pensée autour du son, avec des sets longs en techno, house et électro.",
+      "en": "Small room for 225 people on the third floor of 3956 Saint-Laurent Boulevard, built around its sound system, with long techno, house and electro sets."
+    }
+  },
+  {
+    "id": "vino-disco-montreal",
+    "nom": "Vino Disco",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier chinois)",
+      "en": "Montreal (Chinatown)"
+    },
+    "latitude": 45.5091,
+    "longitude": -73.5629,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Disco",
+      "Funk"
+    ],
+    "site": "https://ra.co/clubs/226492",
+    "description": {
+      "fr": "Bar à vin du boulevard Saint-Laurent avec un système son sur mesure, où des DJ jouent house, disco et funk du jeudi au samedi pour environ 150 personnes.",
+      "en": "Wine bar on Saint-Laurent Boulevard with a custom sound system, where DJs play house, disco and funk from Thursday to Saturday for about 150 people."
+    }
+  },
+  {
+    "id": "le-livart-montreal",
+    "nom": "Le Livart",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Plateau-Mont-Royal)",
+      "en": "Montreal (Plateau-Mont-Royal)"
+    },
+    "latitude": 45.5203,
+    "longitude": -73.5752,
+    "capacite": 300,
+    "styles": [],
+    "site": "https://lelivart.com",
+    "description": {
+      "fr": "Centre d’art du Plateau installé dans un ancien presbytère de la rue Saint-Denis, avec un sous-sol industriel rénové qui accueille régulièrement des soirées techno et house.",
+      "en": "Plateau art centre in a former presbytery on Saint-Denis Street, with a renovated industrial basement that regularly hosts techno and house nights."
+    }
+  },
+  {
+    "id": "xoyo-londres",
+    "nom": "XOYO",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Shoreditch)",
+      "en": "London (Shoreditch)"
+    },
+    "latitude": 51.5255,
+    "longitude": -0.0858,
+    "capacite": 900,
+    "annee": 2010,
+    "styles": [
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://www.xoyo.co.uk",
+    "description": {
+      "fr": "Club installé dans une ancienne imprimerie de Cowper Street, près d’Old Street, avec deux salles de 600 et 300 personnes, rouvert en janvier 2026 après une refonte et un nouveau système Void.",
+      "en": "Club in a former print works on Cowper Street near Old Street, with rooms for 600 and 300 people, reopened in January 2026 after a refit and a new Void sound system."
+    }
+  },
+  {
+    "id": "studio-338-londres",
+    "nom": "Studio 338",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Greenwich Peninsula)",
+      "en": "London (Greenwich Peninsula)"
+    },
+    "latitude": 51.4955,
+    "longitude": 0.0048,
+    "capacite": 2400,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://www.studio338.co.uk",
+    "description": {
+      "fr": "Club de la péninsule de Greenwich ouvert en 2014 au 338 Boord Street, avec une grande terrasse, un jardin à toit rétractable et un système Void Acoustics installé après l’incendie de 2016.",
+      "en": "Greenwich Peninsula club opened in 2014 at 338 Boord Street, with a large terrace arena, a garden under a retractable roof and a Void Acoustics system installed after a 2016 fire."
+    }
+  },
+  {
+    "id": "egg-londres",
+    "nom": "Egg London",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (King’s Cross)",
+      "en": "London (King’s Cross)"
+    },
+    "latitude": 51.5418,
+    "longitude": -0.1248,
+    "capacite": 1000,
+    "annee": 2003,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://egglondon.co.uk",
+    "description": {
+      "fr": "Club ouvert en 2003 dans un entrepôt victorien de Vale Royal, près de King’s Cross, avec trois salles, plusieurs terrasses et une licence de nuit qui prolonge les week-ends jusqu’au matin.",
+      "en": "Club opened in 2003 in a Victorian warehouse on Vale Royal near King’s Cross, with three rooms, several terraces and a late licence that runs weekend nights into the morning."
+    }
+  },
+  {
+    "id": "colour-factory-londres",
+    "nom": "Colour Factory",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Hackney Wick)",
+      "en": "London (Hackney Wick)"
+    },
+    "latitude": 51.5432,
+    "longitude": -0.0228,
+    "capacite": 1600,
+    "annee": 2021,
+    "styles": [
+      "House",
+      "UK Bass",
+      "Experimental"
+    ],
+    "site": "https://www.colourfactory.com",
+    "description": {
+      "fr": "Club et salle de Queen’s Yard à Hackney Wick, ouverts en 2021, avec une grande salle de 700 places, la Mezz, un jardin et une programmation house, bass et expérimentale.",
+      "en": "Club and venue on Queen’s Yard in Hackney Wick, opened in 2021, with a 700 capacity main room, the Mezz, a garden and a programme of house, bass and experimental music."
+    }
+  },
+  {
+    "id": "venue-mot-londres",
+    "nom": "Venue MOT",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (New Cross)",
+      "en": "London (New Cross)"
+    },
+    "latitude": 51.4849,
+    "longitude": -0.0484,
+    "capacite": 750,
+    "styles": [
+      "Techno",
+      "House",
+      "Bass"
+    ],
+    "site": "https://ra.co/clubs/156290",
+    "description": {
+      "fr": "Entrepôt de deux unités voisines dans l’Orion Business Centre de Surrey Canal Road, réputé pour son système Martin Audio et ses nuits techno, house et bass portées par des collectifs.",
+      "en": "Warehouse space of two neighbouring units in the Orion Business Centre on Surrey Canal Road, known for its Martin Audio system and techno, house and bass nights run by collectives."
+    }
+  },
+  {
+    "id": "village-underground-londres",
+    "nom": "Village Underground",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Shoreditch)",
+      "en": "London (Shoreditch)"
+    },
+    "latitude": 51.5236,
+    "longitude": -0.0787,
+    "capacite": 700,
+    "annee": 2007,
+    "styles": [
+      "Techno",
+      "House",
+      "Live Electronic"
+    ],
+    "site": "https://villageunderground.co.uk",
+    "description": {
+      "fr": "Ancien dépôt de charbon ferroviaire de Holywell Lane transformé en salle en 2007, qui alterne concerts et nuits techno et house, sous des wagons de métro installés sur le toit.",
+      "en": "Former railway coal store on Holywell Lane turned into a venue in 2007, alternating concerts with techno and house nights, beneath old tube carriages placed on the roof."
+    }
+  },
+  {
+    "id": "ministry-of-sound-londres",
+    "nom": "Ministry of Sound",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Elephant & Castle)",
+      "en": "London (Elephant & Castle)"
+    },
+    "latitude": 51.4978,
+    "longitude": -0.0995,
+    "capacite": 1600,
+    "annee": 1991,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://ministryofsound.com",
+    "description": {
+      "fr": "Club ouvert en septembre 1991 dans un ancien garage de bus de Gaunt Street, avec quatre salles dont The Box, rénovée en janvier 2026, et un système KV2 Audio.",
+      "en": "Club opened in September 1991 in a former bus garage on Gaunt Street, with four rooms including The Box, renovated in January 2026, and a KV2 Audio sound system."
+    }
+  },
+  {
+    "id": "fire-lightbox-londres",
+    "nom": "Fire & Lightbox",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Vauxhall)",
+      "en": "London (Vauxhall)"
+    },
+    "latitude": 51.485,
+    "longitude": -0.1234,
+    "capacite": 1500,
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass"
+    ],
+    "site": "https://www.firelondon.net",
+    "description": {
+      "fr": "Deux clubs voisins sous les arches de Vauxhall, Fire au 39 Parry Street et Lightbox avec ses murs LED, qui accueillent des nuits house, techno et drum & bass jusqu’au matin.",
+      "en": "Two neighbouring clubs under the Vauxhall arches, Fire at 39 Parry Street and Lightbox with its LED walls, hosting house, techno and drum & bass nights until morning."
+    }
+  },
+  {
+    "id": "electric-brixton-londres",
+    "nom": "Electric Brixton",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Brixton)",
+      "en": "London (Brixton)"
+    },
+    "latitude": 51.4602,
+    "longitude": -0.1168,
+    "capacite": 1700,
+    "annee": 2011,
+    "styles": [
+      "House",
+      "UK Garage",
+      "Drum & Bass"
+    ],
+    "site": "https://www.electricbrixton.uk.com",
+    "description": {
+      "fr": "Salle de Town Hall Parade ouverte sous ce nom en 2011, qui reçoit 1 700 personnes en configuration club et programme concerts et soirées house, garage et drum & bass.",
+      "en": "Venue on Town Hall Parade opened under this name in 2011, holding 1,700 people for club nights, with a programme of concerts and house, garage and drum & bass parties."
+    }
+  },
+  {
+    "id": "dalston-superstore-londres",
+    "nom": "Dalston Superstore",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Dalston)",
+      "en": "London (Dalston)"
+    },
+    "latitude": 51.5501,
+    "longitude": -0.0755,
+    "capacite": 300,
+    "annee": 2009,
+    "styles": [
+      "House",
+      "Disco",
+      "Techno"
+    ],
+    "site": "https://dalstonsuperstore.com",
+    "description": {
+      "fr": "Bar et club queer ouvert en 2009 au 117 Kingsland High Street par Dan Beaumont et Matt Tucker, avec un bar à l’étage et un sous-sol dédié aux DJ house et disco.",
+      "en": "Queer bar and club opened in 2009 at 117 Kingsland High Street by Dan Beaumont and Matt Tucker, with an upstairs bar and a basement for house and disco DJs."
+    }
+  },
+  {
+    "id": "jumbi-londres",
+    "nom": "Jumbi",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Peckham)",
+      "en": "London (Peckham)"
+    },
+    "latitude": 51.4699,
+    "longitude": -0.0656,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Broken Beat",
+      "Dub"
+    ],
+    "site": "https://www.jumbipeckham.com",
+    "description": {
+      "fr": "Bar hi-fi de Copeland Park fondé par Bradley Zero et Nathanael Williams, avec un système Danley, des amplis Quad et la discothèque de Bradley Zero, ouvert aux DJ le week-end.",
+      "en": "Hi-fi bar in Copeland Park founded by Bradley Zero and Nathanael Williams, with a Danley sound system, Quad amplifiers and Bradley Zero’s record collection, open to DJs at weekends."
+    }
+  },
+  {
+    "id": "palais-londres",
+    "nom": "Palais",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Peckham)",
+      "en": "London (Peckham)"
+    },
+    "latitude": 51.4734,
+    "longitude": -0.0697,
+    "capacite": 500,
+    "annee": 2026,
+    "styles": [
+      "House",
+      "Techno",
+      "UK Bass"
+    ],
+    "site": "https://palais.co.uk",
+    "description": {
+      "fr": "Club de 500 places ouvert en février 2026 au sous-sol de l’ancien grand magasin Jones & Higgins, au 1a Rye Lane, par l’équipe de Night Tales, équipé en Funktion-One.",
+      "en": "500 capacity club opened in February 2026 in the basement of the former Jones & Higgins department store at 1a Rye Lane, run by the Night Tales team and fitted with Funktion-One."
+    }
+  },
+  {
+    "id": "the-steelyard-londres",
+    "nom": "The Steelyard",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (City)",
+      "en": "London (City)"
+    },
+    "latitude": 51.5095,
+    "longitude": -0.0913,
+    "capacite": 800,
+    "styles": [
+      "House",
+      "Techno",
+      "UK Garage",
+      "Breaks"
+    ],
+    "site": "https://www.thesteelyard.london",
+    "description": {
+      "fr": "Club installé dans un bâtiment classé sous la gare de Cannon Street, sur Allhallows Lane, avec une licence jusqu’à 6 h et des nuits house, techno, garage et breaks.",
+      "en": "Club set in a listed building beneath Cannon Street station on Allhallows Lane, with a 6am licence and nights of house, techno, garage and breaks."
+    }
+  },
+  {
+    "id": "cafe-oto-londres",
+    "nom": "Cafe OTO",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Dalston)",
+      "en": "London (Dalston)"
+    },
+    "latitude": 51.5469,
+    "longitude": -0.0747,
+    "capacite": 200,
+    "styles": [
+      "Experimental",
+      "Live Electronic",
+      "Ambient"
+    ],
+    "site": "https://www.cafeoto.co.uk",
+    "description": {
+      "fr": "Café et salle de concert d’Ashwin Street à Dalston, d’environ 200 places, consacré aux musiques expérimentales, improvisées et électroniques, avec des concerts ou des DJ presque tous les soirs.",
+      "en": "Café and concert room on Ashwin Street in Dalston, holding about 200 people, devoted to experimental, improvised and electronic music, with concerts or DJ sets on most nights."
+    }
+  },
+  {
+    "id": "eastern-electrics-londres",
+    "nom": "Eastern Electrics",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.4816,
+    "longitude": -0.0899,
+    "capacite": 10000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "UK Garage",
+      "Minimal"
+    ],
+    "site": "https://www.easternelectrics.com",
+    "description": {
+      "fr": "Festival house et tech house né en 2007 de soirées londoniennes, revenu en août 2026 à Burgess Park pour une journée avec The Martinez Brothers et Groove Armada.",
+      "en": "House and tech house festival that grew out of London parties started in 2007, back in August 2026 for one day in Burgess Park with The Martinez Brothers and Groove Armada."
+    }
+  },
+  {
+    "id": "renate-berlin",
+    "nom": "Salon zur Wilden Renate",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Friedrichshain)",
+      "en": "Berlin (Friedrichshain)"
+    },
+    "latitude": 52.4974,
+    "longitude": 13.4653,
+    "capacite": 600,
+    "annee": 2007,
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal"
+    ],
+    "site": "https://www.renate.cc",
+    "description": {
+      "fr": "Club installé depuis 2007 dans un ancien immeuble d’habitation d’Alt-Stralau, avec plusieurs étages, un jardin et des nuits techno et house, sauvé par un nouveau bail de dix ans fin 2025.",
+      "en": "Club based since 2007 in a former apartment building on Alt-Stralau, with several floors, a garden and techno and house nights, saved by a new ten year lease in late 2025."
+    }
+  },
+  {
+    "id": "ritter-butzke-berlin",
+    "nom": "Ritter Butzke",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Kreuzberg)",
+      "en": "Berlin (Kreuzberg)"
+    },
+    "latitude": 52.503,
+    "longitude": 13.4081,
+    "capacite": 800,
+    "annee": 2007,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://club.ritterbutzke.com",
+    "description": {
+      "fr": "Club techno ouvert en 2007 dans les anciennes halles d’usine Butzke de la Ritterstraße, à Kreuzberg, avec jusqu’à trois étages dont un en partie à ciel ouvert l’été.",
+      "en": "Techno club opened in 2007 in the former Butzke factory halls on Ritterstraße in Kreuzberg, spread over up to three floors, one of them partly open air in summer."
+    }
+  },
+  {
+    "id": "golden-gate-berlin",
+    "nom": "Golden Gate",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Mitte)",
+      "en": "Berlin (Mitte)"
+    },
+    "latitude": 52.516,
+    "longitude": 13.4169,
+    "capacite": 400,
+    "annee": 2002,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://goldengate-berlin.de",
+    "description": {
+      "fr": "Petit club ouvert en 2002 sous les arches du S-Bahn à Jannowitzbrücke, au 77-78 Dircksenstraße, connu pour ses nuits techno qui se prolongent souvent en after jusqu’au lundi.",
+      "en": "Small club opened in 2002 under the S-Bahn arches at Jannowitzbrücke, at Dircksenstraße 77-78, known for techno nights that often run on as afterhours into Monday."
+    }
+  },
+  {
+    "id": "else-berlin",
+    "nom": "Else",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Alt-Treptow)",
+      "en": "Berlin (Alt-Treptow)"
+    },
+    "latitude": 52.4952,
+    "longitude": 13.4628,
+    "capacite": 1000,
+    "annee": 2013,
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://www.else.tv",
+    "description": {
+      "fr": "Club en plein air ouvert en 2013 près de la gare de Treptower Park, géré par l’équipe de Renate, avec une piste sous toit transparent et une salle intérieure, du printemps à septembre.",
+      "en": "Open air club opened in 2013 beside Treptower Park station, run by the Renate team, with a dancefloor under a transparent roof and an indoor floor, open from spring to September."
+    }
+  },
+  {
+    "id": "ohm-berlin",
+    "nom": "OHM",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Mitte)",
+      "en": "Berlin (Mitte)"
+    },
+    "latitude": 52.5107,
+    "longitude": 13.4195,
+    "capacite": 300,
+    "annee": 2013,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://ohmberlin.com",
+    "description": {
+      "fr": "Petit club ouvert en 2013 dans l’ancienne centrale électrique de la Köpenicker Straße, à côté du Tresor qui l’exploite, avec des résidences comme Version, Sneaker Social Club ou Awkwardly Social.",
+      "en": "Small club opened in 2013 in the former power station on Köpenicker Straße, next to Tresor, which runs it, with residencies such as Version, Sneaker Social Club and Awkwardly Social."
+    }
+  },
+  {
+    "id": "hoppetosse-berlin",
+    "nom": "Hoppetosse",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Alt-Treptow)",
+      "en": "Berlin (Alt-Treptow)"
+    },
+    "latitude": 52.4975,
+    "longitude": 13.4548,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Minimal",
+      "Techno"
+    ],
+    "site": "https://hoppetosse.berlin",
+    "description": {
+      "fr": "Bateau amarré sur la Spree au 4 Eichenstraße, à côté de l’Arena Berlin, exploité par l’équipe du Club der Visionaere, avec deux ponts et des nuits house et minimal le week-end.",
+      "en": "Boat moored on the Spree at Eichenstraße 4, next to Arena Berlin, run by the Club der Visionaere team, with two decks and house and minimal nights at weekends."
+    }
+  },
+  {
+    "id": "cassiopeia-berlin",
+    "nom": "Cassiopeia",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Friedrichshain)",
+      "en": "Berlin (Friedrichshain)"
+    },
+    "latitude": 52.5072,
+    "longitude": 13.4548,
+    "capacite": 700,
+    "annee": 2005,
+    "styles": [
+      "Drum & Bass",
+      "Techno",
+      "House"
+    ],
+    "site": "https://cassiopeia-berlin.de",
+    "description": {
+      "fr": "Club du site RAW sur la Revaler Straße, ouvert en 2005, avec trois salles, un jardin d’été et une programmation qui va du drum & bass à la techno et à la house.",
+      "en": "Club on the RAW site on Revaler Straße, opened in 2005, with three rooms, a summer garden and a programme ranging from drum & bass to techno and house."
+    }
+  },
+  {
+    "id": "gretchen-berlin",
+    "nom": "Gretchen",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Kreuzberg)",
+      "en": "Berlin (Kreuzberg)"
+    },
+    "latitude": 52.4956,
+    "longitude": 13.3879,
+    "capacite": 600,
+    "annee": 2011,
+    "styles": [
+      "Drum & Bass",
+      "Dubstep",
+      "Afro House"
+    ],
+    "site": "https://www.gretchen-club.de",
+    "description": {
+      "fr": "Club et salle de concert ouverts en 2011 sur l’Obentrautstraße, connus pour la série drum & bass Recycle, les nuits Pressure de The Bug et une programmation bass et afro house.",
+      "en": "Club and concert venue opened in 2011 on Obentrautstraße, known for the Recycle drum & bass series, The Bug’s Pressure nights and a programme of bass music and afro house."
+    }
+  },
+  {
+    "id": "humboldthain-club-berlin",
+    "nom": "Humboldthain Club",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Gesundbrunnen)",
+      "en": "Berlin (Gesundbrunnen)"
+    },
+    "latitude": 52.5442,
+    "longitude": 13.3787,
+    "capacite": 400,
+    "annee": 2013,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://www.humboldthain.com",
+    "description": {
+      "fr": "Club ouvert en 2013 au pied de la gare S-Bahn de Humboldthain, au 46 Hochstraße, avec une piste principale, la Goldlounge à l’étage et un jardin pour les fêtes en plein air.",
+      "en": "Club opened in 2013 beside Humboldthain S-Bahn station at Hochstraße 46, with a main floor, the upstairs Goldlounge and a garden used for open air parties."
+    }
+  },
+  {
+    "id": "zenner-berlin",
+    "nom": "ZENNER",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Treptower Park)",
+      "en": "Berlin (Treptower Park)"
+    },
+    "latitude": 52.4875,
+    "longitude": 13.4778,
+    "capacite": 800,
+    "annee": 2021,
+    "styles": [
+      "Techno",
+      "House",
+      "Live Electronic"
+    ],
+    "site": "https://zenner.berlin",
+    "description": {
+      "fr": "Ancienne salle de bal du parc de Treptow reprise en 2021 pour des nuits électroniques, connue pour sa série de lives de trois heures avec des artistes comme Lawrence, JakoJako ou Polygonia.",
+      "en": "Former ballroom in Treptower Park taken over in 2021 for electronic nights, known for its series of three hour live sets by artists such as Lawrence, JakoJako and Polygonia."
+    }
+  },
+  {
+    "id": "lokschuppen-berlin",
+    "nom": "Lokschuppen Berlin",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Friedrichshain)",
+      "en": "Berlin (Friedrichshain)"
+    },
+    "latitude": 52.5072,
+    "longitude": 13.4511,
+    "capacite": 800,
+    "annee": 1994,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Trance"
+    ],
+    "site": "https://ra.co/clubs/17071",
+    "description": {
+      "fr": "Club techno du site RAW, ouvert en 1994 sous le nom Suicide Circus, installé ici depuis 2009 et rebaptisé Lokschuppen en 2024, avec une salle intérieure et une piste en plein air.",
+      "en": "Techno club on the RAW site, opened in 1994 as Suicide Circus, based here since 2009 and renamed Lokschuppen in 2024, with an indoor floor and an open air floor."
+    }
+  },
+  {
+    "id": "sameheads-berlin",
+    "nom": "Sameheads",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Neukölln)",
+      "en": "Berlin (Neukölln)"
+    },
+    "latitude": 52.4778,
+    "longitude": 13.4395,
+    "capacite": 200,
+    "styles": [
+      "Italo",
+      "Disco",
+      "Global Club",
+      "Techno"
+    ],
+    "site": "https://www.sameheads.com",
+    "description": {
+      "fr": "Bar et club du 10 Richardstraße à Neukölln, fondé par trois frères britanniques, avec un bar à l’étage et un sous-sol accueillant des soirées italo, disco, baile funk et techno.",
+      "en": "Bar and club at Richardstraße 10 in Neukölln, founded by three British brothers, with an upstairs bar and a basement hosting italo, disco, baile funk and techno parties."
+    }
+  },
+  {
+    "id": "oxi-berlin",
+    "nom": "OXI",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin (Lichtenberg)",
+      "en": "Berlin (Lichtenberg)"
+    },
+    "latitude": 52.5076,
+    "longitude": 13.4749,
+    "capacite": 800,
+    "annee": 2021,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://ra.co/clubs/184646",
+    "description": {
+      "fr": "Club ouvert en 2021 au 1-4 Wiesenweg, près de Rummelsburg, avec une salle intérieure et un jardin en plein air, des nuits techno le week-end et une soirée techno le mardi.",
+      "en": "Club opened in 2021 at Wiesenweg 1-4 near Rummelsburg, with an indoor floor and an open air garden, techno nights at weekends and a Tuesday techno rave."
+    }
+  },
+  {
+    "id": "ctm-festival-berlin",
+    "nom": "CTM Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5104,
+    "longitude": 13.4286,
+    "capacite": 16000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "Experimental",
+      "Electronica",
+      "Deconstructed Club",
+      "Ambient"
+    ],
+    "site": "https://www.ctm-festival.de",
+    "description": {
+      "fr": "Festival des musiques aventureuses né en 1999 sous le nom club transmediale, organisé chaque fin janvier au Berghain, au Radialsystem et dans d’autres lieux berlinois, avec environ 16 000 visiteurs.",
+      "en": "Festival of adventurous music founded in 1999 as club transmediale, held each late January at Berghain, Radialsystem and other Berlin venues, with around 16,000 festival visitors."
+    }
+  },
+  {
+    "id": "warehouse-elementenstraat-amsterdam",
+    "nom": "Warehouse Elementenstraat",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westpoort)",
+      "en": "Amsterdam (Westpoort)"
+    },
+    "latitude": 52.394,
+    "longitude": 4.8515,
+    "capacite": 3000,
+    "annee": 2014,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Industrial Techno"
+    ],
+    "site": "https://elementenstraat.nl",
+    "description": {
+      "fr": "Entrepôt de l’Elementenstraat, dans la zone portuaire ouest, ouvert en 2014 et pouvant accueillir 3 000 personnes, avec un intérieur modulable pour les soirées techno de collectifs comme Verknipt.",
+      "en": "Warehouse on Elementenstraat in the western port area, opened in 2014 for up to 3,000 people, with a modular interior for techno events by promoters such as Verknipt."
+    }
+  },
+  {
+    "id": "thuishaven-amsterdam",
+    "nom": "Thuishaven",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westpoort)",
+      "en": "Amsterdam (Westpoort)"
+    },
+    "latitude": 52.3968,
+    "longitude": 4.8564,
+    "capacite": 2500,
+    "styles": [
+      "Techno",
+      "House",
+      "Trance"
+    ],
+    "site": "https://thuishaven.nl",
+    "description": {
+      "fr": "Lieu de fêtes de jour et de nuit au 68 Contactweg, avec un site extérieur sous tentes pour l’après-midi et le hangar De Loods pour les nuits techno, house et trance.",
+      "en": "Day and night party venue at Contactweg 68, with an outdoor site under tents for daytime shows and the De Loods shed for techno, house and trance nights."
+    }
+  },
+  {
+    "id": "westweelde-amsterdam",
+    "nom": "WestWeelde",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westerpark)",
+      "en": "Amsterdam (Westerpark)"
+    },
+    "latitude": 52.387,
+    "longitude": 4.8699,
+    "capacite": 850,
+    "annee": 2007,
+    "styles": [
+      "Techno",
+      "House",
+      "Disco"
+    ],
+    "site": "https://www.westweelde.nl",
+    "description": {
+      "fr": "Club et lieu d’événements du site Westergas, nom qui réunit l’ancienne WesterUnie et la WesterLiefde, avec une salle principale de 850 places, un système d&b et des nuits techno et house.",
+      "en": "Club and event venue on the Westergas site, the name now shared by the former WesterUnie and WesterLiefde, with an 850 capacity main room, a d&b system and techno and house nights."
+    }
+  },
+  {
+    "id": "gashouder-amsterdam",
+    "nom": "Gashouder",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westerpark)",
+      "en": "Amsterdam (Westerpark)"
+    },
+    "latitude": 52.3868,
+    "longitude": 4.8689,
+    "capacite": 3500,
+    "styles": [],
+    "site": "https://gashouder.nl",
+    "description": {
+      "fr": "Ancien gazomètre circulaire du parc Westergas, de 3 500 places, qui accueille de grandes nuits techno pendant l’ADE et a rouvert fin octobre 2026 avec un nouveau niveau souterrain.",
+      "en": "Round former gas holder in the Westergas park, holding 3,500 people, which hosts large techno nights during ADE and reopened in late October 2026 with a new underground level."
+    }
+  },
+  {
+    "id": "skatecafe-amsterdam",
+    "nom": "Skatecafé",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Noord)",
+      "en": "Amsterdam (Noord)"
+    },
+    "latitude": 52.3854,
+    "longitude": 4.9256,
+    "capacite": 1200,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro"
+    ],
+    "site": "https://skatecafe.nl",
+    "description": {
+      "fr": "Restaurant, café et club du Gedempt Hamerkanaal, voisin de Garage Noord, avec une rampe de skate et des nuits électroniques jusqu’à 3 h le vendredi et le samedi.",
+      "en": "Restaurant, café and club on Gedempt Hamerkanaal next to Garage Noord, with a skate ramp and electronic club nights running until 3am on Fridays and Saturdays."
+    }
+  },
+  {
+    "id": "club-nyx-amsterdam",
+    "nom": "Club NYX",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Centrum)",
+      "en": "Amsterdam (Centrum)"
+    },
+    "latitude": 52.3663,
+    "longitude": 4.8913,
+    "capacite": 850,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://clubnyx.nl",
+    "description": {
+      "fr": "Club LGBTQ+ ouvert en 2012 dans une ancienne remise à voitures de quatre étages de la Reguliersdwarsstraat, successeur du club Exit, avec des étages allant de la pop à la house et la techno.",
+      "en": "LGBTQ+ club opened in 2012 in a four storey former carriage house on Reguliersdwarsstraat, successor to Club Exit, with floors ranging from pop to house and techno."
+    }
+  },
+  {
+    "id": "doka-amsterdam",
+    "nom": "Doka",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Oost)",
+      "en": "Amsterdam (Oost)"
+    },
+    "latitude": 52.3538,
+    "longitude": 4.9118,
+    "capacite": 250,
+    "styles": [
+      "Techno",
+      "House",
+      "Live Electronic"
+    ],
+    "site": "https://www.volkshotel.nl/en/doka/",
+    "description": {
+      "fr": "Bar sonore au sous-sol du Volkshotel, ancien siège du journal de Volkskrant, équipé d’un système Danley à quatre points, avec des nuits club jusqu’à 6 h le week-end.",
+      "en": "Sound bar in the basement of the Volkshotel, the former de Volkskrant newspaper building, fitted with a four point Danley system and hosting club nights until 6am at weekends."
+    }
+  },
+  {
+    "id": "canvas-amsterdam",
+    "nom": "Canvas",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Oost)",
+      "en": "Amsterdam (Oost)"
+    },
+    "latitude": 52.3539,
+    "longitude": 4.9118,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://www.volkshotel.nl/en/canvas/",
+    "description": {
+      "fr": "Club sur le toit du septième étage du Volkshotel, sur la Wibautstraat, restaurant le jour et piste de danse le vendredi et le samedi soir, avec des invités pendant l’ADE.",
+      "en": "Rooftop club on the seventh floor of the Volkshotel on Wibautstraat, a restaurant by day and a dancefloor on Friday and Saturday nights, with guest takeovers during ADE."
+    }
+  },
+  {
+    "id": "toekomstmuziek-amsterdam",
+    "nom": "Toekomstmuziek",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Houthavens)",
+      "en": "Amsterdam (Houthavens)"
+    },
+    "latitude": 52.3966,
+    "longitude": 4.8755,
+    "capacite": 300,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Experimental"
+    ],
+    "site": "https://www.toekomstmuziek.com",
+    "description": {
+      "fr": "Salle et espace communautaire de la Danzigerbocht, près de la Minervahaven, consacrés à la scène underground indépendante, avec studios de répétition et une dizaine d’événements par mois.",
+      "en": "Music venue and community space on Danzigerbocht near the Minervahaven, devoted to the independent underground scene, with rehearsal rooms and around ten events a month."
+    }
+  },
+  {
+    "id": "murmur-amsterdam",
+    "nom": "murmur",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Noord)",
+      "en": "Amsterdam (Noord)"
+    },
+    "latitude": 52.3857,
+    "longitude": 4.9279,
+    "capacite": 250,
+    "styles": [
+      "House",
+      "Electronica",
+      "Experimental"
+    ],
+    "site": "https://murmurmur.nl",
+    "description": {
+      "fr": "Lieu culturel de Nieuwendammerham, à Amsterdam Noord, qui réunit restaurant, bar, espace d’exposition et salle de concert, avec des soirées DJ et des concerts plusieurs fois par semaine.",
+      "en": "Cultural space in Nieuwendammerham, Amsterdam Noord, combining a restaurant, bar, exhibition space and music room, with DJ nights and concerts several times a week."
+    }
+  },
+  {
+    "id": "paradiso-amsterdam",
+    "nom": "Paradiso",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Centrum)",
+      "en": "Amsterdam (Centrum)"
+    },
+    "latitude": 52.3622,
+    "longitude": 4.8838,
+    "capacite": 1500,
+    "annee": 1968,
+    "styles": [],
+    "site": "https://www.paradiso.nl",
+    "description": {
+      "fr": "Salle de concert de la Weteringschans ouverte en 1968, qui alterne concerts pop et nuits club, dont des soirées électroniques organisées sous la bannière Club Paradiso.",
+      "en": "Concert venue on Weteringschans opened in 1968, alternating pop concerts with club nights, including electronic parties run under the Club Paradiso banner."
+    }
+  },
+  {
+    "id": "melkweg-amsterdam",
+    "nom": "Melkweg",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Centrum)",
+      "en": "Amsterdam (Centrum)"
+    },
+    "latitude": 52.3648,
+    "longitude": 4.8811,
+    "capacite": 1500,
+    "styles": [],
+    "site": "https://www.melkweg.nl",
+    "description": {
+      "fr": "Centre culturel de la Lijnbaansgracht, près du Leidseplein, qui mêle concerts de tous genres et nuits club régulières comme Techno Tuesday ou les soirées drum & bass Cheeky Monday.",
+      "en": "Cultural centre on Lijnbaansgracht near Leidseplein, mixing concerts of every genre with regular club nights such as Techno Tuesday and the Cheeky Monday drum & bass parties."
+    }
+  },
+  {
+    "id": "parallel-amsterdam",
+    "nom": "Parallel",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Noord)",
+      "en": "Amsterdam (Noord)"
+    },
+    "latitude": 52.3834,
+    "longitude": 4.9036,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Afro House",
+      "Techno"
+    ],
+    "site": "https://www.paradiso.nl",
+    "description": {
+      "fr": "Salle club de Paradiso au 5C Buiksloterweg, à l’arrière du bâtiment Tolhuistuin, accessible par le ferry gratuit depuis la gare centrale, avec des nuits électroniques jusqu’au matin.",
+      "en": "Paradiso’s club room at Buiksloterweg 5C, at the back of the Tolhuistuin building, reached by the free ferry from Central Station, hosting electronic nights until morning."
+    }
+  },
+  {
+    "id": "club-raum-amsterdam",
+    "nom": "Club RAUM",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westpoort)",
+      "en": "Amsterdam (Westpoort)"
+    },
+    "latitude": 52.3913,
+    "longitude": 4.8311,
+    "capacite": 500,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://www.clubraum.nl",
+    "description": {
+      "fr": "Club et espace culturel queer du 3 Humberweg, né des soirées SPIELRAUM, avec une programmation techno, house et electro, une entrée à 21 ans et des téléphones masqués par un autocollant.",
+      "en": "Queer run club and cultural space at Humberweg 3, born from the SPIELRAUM parties, with techno, house and electro bookings, entry from 21 and phone cameras covered with a sticker."
+    }
+  },
+  {
+    "id": "panama-amsterdam",
+    "nom": "Panama",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Oostelijk Havengebied)",
+      "en": "Amsterdam (Eastern Docklands)"
+    },
+    "latitude": 52.3749,
+    "longitude": 4.9304,
+    "capacite": 1050,
+    "styles": [
+      "Techno",
+      "Trance"
+    ],
+    "site": "https://panama.nl",
+    "description": {
+      "fr": "Club installé dans une ancienne centrale électrique de l’Oostelijke Handelskade, avec une salle à balcon de 1 050 places, un studio de 150 places et une programmation allant de la techno à la trance.",
+      "en": "Club in a former power station on Oostelijke Handelskade, with a 1,050 capacity balcony room, a 150 capacity studio and a programme ranging from techno to trance."
+    }
+  },
+  {
+    "id": "het-sieraad-amsterdam",
+    "nom": "Het Sieraad",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (De Baarsjes)",
+      "en": "Amsterdam (De Baarsjes)"
+    },
+    "latitude": 52.3641,
+    "longitude": 4.8591,
+    "capacite": 1000,
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://hetsieraad.nl",
+    "description": {
+      "fr": "Club dans une ancienne école d’artisanat des années 1920 au 1 Postjesweg, classée monument national, avec une salle sous verrière et des programmations house et techno de jour comme de nuit.",
+      "en": "Club in a 1920s former craft school at Postjesweg 1, a national monument, with a main hall under a glass roof and house and techno line-ups by day and night."
+    }
+  },
+  {
+    "id": "radio-radio-amsterdam",
+    "nom": "Radio Radio",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Westerpark)",
+      "en": "Amsterdam (Westerpark)"
+    },
+    "latitude": 52.3861,
+    "longitude": 4.8741,
+    "capacite": 300,
+    "styles": [
+      "House",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://radioradio.radio",
+    "description": {
+      "fr": "Club et station de radio du 3 Pazzanistraat, dont la station RRFM diffuse en direct, avec des résidents comme Tom Trago, Dam Swindle et Cinnaman et des nuits house du jeudi au samedi.",
+      "en": "Club and radio station at Pazzanistraat 3, whose RRFM station streams live, with residents such as Tom Trago, Dam Swindle and Cinnaman and house nights from Thursday to Saturday."
+    }
+  },
+  {
+    "id": "club-john-doe-amsterdam",
+    "nom": "Club John Doe",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Centrum)",
+      "en": "Amsterdam (Centrum)"
+    },
+    "latitude": 52.3665,
+    "longitude": 4.8976,
+    "capacite": 300,
+    "annee": 2014,
+    "styles": [
+      "Techno",
+      "Hard Techno"
+    ],
+    "site": "https://www.clubjohndoe.nl",
+    "description": {
+      "fr": "Club techno du Rembrandtplein ouvert en 2014, actif presque tous les soirs avec des séries comme Amsterdam Techno Sessions et des nuits hard techno jusqu’au petit matin le week-end.",
+      "en": "Techno club on Rembrandtplein opened in 2014, open most nights with series such as Amsterdam Techno Sessions and hard techno nights running into the early morning at weekends."
+    }
+  },
+  {
+    "id": "the-other-side-amsterdam",
+    "nom": "THE OTHER SIDE",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Houthavens)",
+      "en": "Amsterdam (Houthavens)"
+    },
+    "latitude": 52.3953,
+    "longitude": 4.8748,
+    "capacite": 1100,
+    "styles": [
+      "House",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://the-other-side.nl",
+    "description": {
+      "fr": "Club installé dans un ancien atelier de vélos de la Rigakade, fondé par Doeshka Vrede et Jasper Löwik et équipé d’un système spatial L-Acoustics L-ISA autour de la piste.",
+      "en": "Club in a former bicycle workshop on Rigakade, founded by Doeshka Vrede and Jasper Löwik and fitted with an L-Acoustics L-ISA spatial sound system around the dancefloor."
+    }
+  },
+  {
+    "id": "amf-amsterdam",
+    "nom": "AMF (Amsterdam Music Festival)",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3144,
+    "longitude": 4.9428,
+    "capacite": 40000,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "EDM",
+      "Big Room",
+      "Techno",
+      "Trance"
+    ],
+    "site": "https://www.amf-festival.com",
+    "description": {
+      "fr": "Grand rendez-vous de l’Amsterdam Dance Event au Johan Cruijff ArenA, une nuit d’octobre pour environ 40 000 personnes, avec en 2026 David Guetta, Armin van Buuren, Afrojack et Amelie Lens.",
+      "en": "Major Amsterdam Dance Event night at the Johan Cruijff ArenA, one October night for around 40,000 people, with David Guetta, Armin van Buuren, Afrojack and Amelie Lens in 2026."
+    }
+  },
+  {
+    "id": "milkshake-festival-amsterdam",
+    "nom": "Milkshake Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3872,
+    "longitude": 4.8718,
+    "capacite": 25000,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Dance"
+    ],
+    "site": "https://www.milkshakefestival.com",
+    "description": {
+      "fr": "Festival LGBTQ+ de deux jours au Westerpark, organisé par Paradiso et AIR, avec neuf scènes par jour et environ 25 000 visiteurs quotidiens, programmé fin juillet.",
+      "en": "Two day LGBTQ+ festival in Westerpark, organised by Paradiso and AIR, with nine stages a day and around 25,000 visitors daily at the end of July."
+    }
+  },
+  {
+    "id": "amsterdam-open-air-amsterdam",
+    "nom": "Amsterdam Open Air",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3102,
+    "longitude": 4.9935,
+    "capacite": 25000,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://www.amsterdamopenair.nl",
+    "description": {
+      "fr": "Festival house et techno du Gaasperpark, dans le sud-est d’Amsterdam, organisé début juin, dont l’édition 2027 avec Marlon Hoffstadt affiche complet sur ses deux jours.",
+      "en": "House and techno festival in Gaasperpark, south-east Amsterdam, held in early June, whose 2027 edition with Marlon Hoffstadt has sold out on both days."
+    }
+  },
+  {
+    "id": "umi-bruxelles",
+    "nom": "UMI",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Îlot Sacré)",
+      "en": "Brussels (Îlot Sacré)"
+    },
+    "latitude": 50.8459,
+    "longitude": 4.353,
+    "capacite": 800,
+    "styles": [
+      "House",
+      "Minimal",
+      "Breaks"
+    ],
+    "site": "https://ra.co/clubs/222489",
+    "description": {
+      "fr": "Club du 10 rue du Marché aux Fromages, près de la gare Centrale, sur plusieurs étages, avec une salle chill à l’étage, une politique sans téléphone et la série BLUR le samedi.",
+      "en": "Club at 10 Rue du Marché aux Fromages near Central Station, spread over several floors, with an upstairs chill room, a no phones policy and the BLUR series on Saturdays."
+    }
+  },
+  {
+    "id": "la-fabriek-bruxelles",
+    "nom": "La Fabriek",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Anderlecht)",
+      "en": "Brussels (Anderlecht)"
+    },
+    "latitude": 50.8322,
+    "longitude": 4.322,
+    "capacite": 350,
+    "styles": [
+      "Techno",
+      "Breaks",
+      "Global Club"
+    ],
+    "site": "https://ra.co/clubs/244526",
+    "description": {
+      "fr": "Espace club, cantine et bar du site Studio CityGate à Anderlecht, de 350 places, programmé avec des collectifs bruxellois entre techno, breaks, baile funk et nouvelles sonorités club.",
+      "en": "Club space, canteen and bar on the Studio CityGate site in Anderlecht, holding 350 people, programmed with Brussels collectives across techno, breaks, baile funk and newer club sounds."
+    }
+  },
+  {
+    "id": "recyclart-bruxelles",
+    "nom": "Recyclart",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Molenbeek)",
+      "en": "Brussels (Molenbeek)"
+    },
+    "latitude": 50.8475,
+    "longitude": 4.3282,
+    "capacite": 500,
+    "annee": 2000,
+    "styles": [
+      "Techno",
+      "Dub",
+      "Experimental"
+    ],
+    "site": "https://www.recyclart.be",
+    "description": {
+      "fr": "Centre d’art pluridisciplinaire né en 2000 dans la gare de Bruxelles-Chapelle et installé depuis 2018 rue de Manchester à Molenbeek, avec un programme club, dub et expérimental.",
+      "en": "Multidisciplinary arts centre founded in 2000 at Brussels-Chapelle station and based since 2018 on Rue de Manchester in Molenbeek, with a club, dub and experimental programme."
+    }
+  },
+  {
+    "id": "kiosk-radio-bruxelles",
+    "nom": "Kiosk Radio",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Parc de Bruxelles)",
+      "en": "Brussels (Parc de Bruxelles)"
+    },
+    "latitude": 50.8434,
+    "longitude": 4.3626,
+    "capacite": 200,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Ambient",
+      "Dubstep",
+      "Electronica"
+    ],
+    "site": "https://kioskradio.com",
+    "description": {
+      "fr": "Radio installée depuis 2017 dans un kiosque du parc de Bruxelles, qui diffuse chaque jour des DJ sets en direct devant le public du parc et organise aussi des nuits club.",
+      "en": "Radio station based since 2017 in a kiosk in the Parc de Bruxelles, broadcasting live DJ sets every day in front of park visitors and also running club nights."
+    }
+  },
+  {
+    "id": "mirano-bruxelles",
+    "nom": "Mirano",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Saint-Josse)",
+      "en": "Brussels (Saint-Josse)"
+    },
+    "latitude": 50.8493,
+    "longitude": 4.3714,
+    "capacite": 1000,
+    "annee": 1981,
+    "styles": [
+      "House",
+      "Techno",
+      "Club"
+    ],
+    "site": "https://www.miranobrussels.com",
+    "description": {
+      "fr": "Ancien cinéma de la chaussée de Louvain devenu club en 1981 sous le nom Mirano Continental, parmi les premiers en Belgique à passer house et techno, rouvert en 2019 après rénovation.",
+      "en": "Former cinema on Chaussée de Louvain that became the Mirano Continental club in 1981, among the first in Belgium to play house and techno, reopened in 2019 after renovation."
+    }
+  },
+  {
+    "id": "jeux-d-hiver-bruxelles",
+    "nom": "Jeux d’Hiver",
+    "type": "club",
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Bois de la Cambre)",
+      "en": "Brussels (Bois de la Cambre)"
+    },
+    "latitude": 50.8125,
+    "longitude": 4.3712,
+    "capacite": 600,
+    "styles": [
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.jeuxdhiver.be",
+    "description": {
+      "fr": "Restaurant et club niché dans le bois de la Cambre, chemin du Gymnase, fréquenté depuis des décennies par les noctambules bruxellois pour ses soirées house et ses fêtes commencées l’après-midi.",
+      "en": "Restaurant and club tucked into the Bois de la Cambre on Chemin du Gymnase, drawing Brussels night owls for decades with house nights and parties that start in the afternoon."
+    }
+  },
+  {
+    "id": "ancienne-belgique-bruxelles",
+    "nom": "Ancienne Belgique (AB)",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Centre)",
+      "en": "Brussels (Centre)"
+    },
+    "latitude": 50.847,
+    "longitude": 4.3493,
+    "capacite": 2000,
+    "styles": [],
+    "site": "https://www.abconcerts.be",
+    "description": {
+      "fr": "Salle de concert du boulevard Anspach, avec une grande salle et l’AB Club, qui programme des concerts de tous genres et des soirées électroniques, de l’afro au braindance.",
+      "en": "Concert venue on Boulevard Anspach with a main hall and the smaller AB Club, programming concerts of every genre alongside electronic nights from afro to braindance."
+    }
+  },
+  {
+    "id": "botanique-bruxelles",
+    "nom": "Le Botanique",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Saint-Josse)",
+      "en": "Brussels (Saint-Josse)"
+    },
+    "latitude": 50.8549,
+    "longitude": 4.3652,
+    "capacite": 650,
+    "styles": [],
+    "site": "https://botanique.be",
+    "description": {
+      "fr": "Centre culturel installé dans les anciennes serres du jardin botanique, rue Royale, avec plusieurs salles de concert qui accueillent régulièrement des artistes électroniques et des soirées de labels.",
+      "en": "Cultural centre in the former greenhouses of the botanical garden on Rue Royale, with several concert rooms that regularly host electronic artists and label nights."
+    }
+  },
+  {
+    "id": "bozar-bruxelles",
+    "nom": "Bozar",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Mont des Arts)",
+      "en": "Brussels (Mont des Arts)"
+    },
+    "latitude": 50.8442,
+    "longitude": 4.3595,
+    "capacite": 2200,
+    "styles": [],
+    "site": "https://www.bozar.be",
+    "description": {
+      "fr": "Palais des Beaux-Arts de la rue Ravenstein, centre culturel pluridisciplinaire dont le programme compte une catégorie musique électronique et la série de concerts Bozar Bassment.",
+      "en": "Centre for Fine Arts on Rue Ravenstein, a multidisciplinary cultural centre whose programme includes an electronic music strand and the Bozar Bassment concert series."
+    }
+  },
+  {
+    "id": "vk-bruxelles",
+    "nom": "VK Concerts",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Molenbeek)",
+      "en": "Brussels (Molenbeek)"
+    },
+    "latitude": 50.8567,
+    "longitude": 4.3386,
+    "capacite": 600,
+    "styles": [],
+    "site": "https://www.vkconcerts.be",
+    "description": {
+      "fr": "Salle de concert de la rue de l’École à Molenbeek, près du canal, qui alterne hip-hop, musiques du monde et nuits club comme Rougheure, entre baile funk, grime et house.",
+      "en": "Concert venue on Rue de l’École in Molenbeek near the canal, alternating hip hop, global music and club nights such as Rougheure, mixing baile funk, grime and house."
+    }
+  },
+  {
+    "id": "ing-arena-bruxelles",
+    "nom": "ING Arena (ex-Palais 12)",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BE",
+    "villeSlug": "bruxelles-be",
+    "ville": {
+      "fr": "Bruxelles (Heysel)",
+      "en": "Brussels (Heysel)"
+    },
+    "latitude": 50.9011,
+    "longitude": 4.3423,
+    "capacite": 12000,
+    "annee": 2013,
+    "styles": [],
+    "site": "https://www.palais12.com",
+    "description": {
+      "fr": "Grande salle du plateau du Heysel, anciennement Palais 12, ouverte en septembre 2013 pour 12 000 personnes, qui accueille des tournées internationales et des événements électroniques comme Rave Rebels.",
+      "en": "Large arena on the Heysel plateau, formerly Palais 12, opened in September 2013 for up to 12,000 people, hosting international tours and electronic events such as Rave Rebels."
+    }
+  },
+  {
+    "id": "badaboum-paris",
+    "nom": "Badaboum",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Bastille)",
+      "en": "Paris (Bastille)"
+    },
+    "latitude": 48.8536,
+    "longitude": 2.3757,
+    "capacite": 500,
+    "annee": 2013,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://badaboum.paris",
+    "description": {
+      "fr": "Club et salle de concert ouverts en 2013 rue des Taillandiers, dans l’ancienne Scène Bastille, avec piste principale, mini-club à l’étage et nuits house, disco et techno le week-end.",
+      "en": "Club and concert venue opened in 2013 on Rue des Taillandiers in the former Scène Bastille, with a main floor, an upstairs mini-club and weekend house, disco and techno nights."
+    }
+  },
+  {
+    "id": "djoon-paris",
+    "nom": "Djoon",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Quai de la Gare)",
+      "en": "Paris (Quai de la Gare)"
+    },
+    "latitude": 48.8366,
+    "longitude": 2.3716,
+    "capacite": 400,
+    "annee": 2003,
+    "styles": [
+      "House",
+      "Deep House",
+      "Soulful House",
+      "Afro House"
+    ],
+    "site": "https://djoon.com",
+    "description": {
+      "fr": "Loft du boulevard Vincent-Auriol ouvert en 2003 au pied du métro aérien de la ligne 6, consacré à la house soulful, deep et afro, avec une piste en contrebas et de grandes baies vitrées.",
+      "en": "Loft on Boulevard Vincent-Auriol opened in 2003 beside the elevated line 6 metro, dedicated to soulful, deep and afro house, with a sunken dancefloor and large windows facing the tracks."
+    }
+  },
+  {
+    "id": "la-java-paris",
+    "nom": "La Java",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Belleville)",
+      "en": "Paris (Belleville)"
+    },
+    "latitude": 48.871,
+    "longitude": 2.3739,
+    "capacite": 450,
+    "annee": 1923,
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://la-java.fr",
+    "description": {
+      "fr": "Ancien bal populaire de 1923 au sous-sol de la galerie du Palais du Commerce à Belleville, devenu club et salle de concert de 450 places avec nuits house et techno jusqu’à l’aube.",
+      "en": "Former 1923 dance hall in the basement of the Palais du Commerce arcade in Belleville, now a 450-capacity club and concert venue running house and techno nights until dawn."
+    }
+  },
+  {
+    "id": "sacre-paris",
+    "nom": "Sacré",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Sentier)",
+      "en": "Paris (Sentier)"
+    },
+    "latitude": 48.869,
+    "longitude": 2.3434,
+    "capacite": 350,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://www.sacre.paris",
+    "description": {
+      "fr": "Club du 2e arrondissement ouvert en 2019 rue Montmartre dans l’ancien espace du Social Club, qui programme DJ house et techno le week-end ainsi que des soirées hip-hop et du stand-up.",
+      "en": "Club in the 2nd arrondissement opened in 2019 on Rue Montmartre in the former Social Club space, booking house and techno DJs at weekends alongside hip-hop nights and stand-up comedy."
+    }
+  },
+  {
+    "id": "glazart-paris",
+    "nom": "Glazart",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Porte de la Villette)",
+      "en": "Paris (Porte de la Villette)"
+    },
+    "latitude": 48.8993,
+    "longitude": 2.3866,
+    "capacite": 700,
+    "annee": 1992,
+    "styles": [
+      "Techno",
+      "Drum & Bass"
+    ],
+    "site": "https://www.glazart.com",
+    "description": {
+      "fr": "Salle de concert et club de la porte de la Villette fondé en 1992, connu pour ses afters After O’Clock du week-end en techno et drum & bass et sa plage de sable estivale.",
+      "en": "Concert hall and club at Porte de la Villette founded in 1992, known for its weekend After O’Clock sessions of techno and drum & bass and its summer sand beach."
+    }
+  },
+  {
+    "id": "cabaret-sauvage-paris",
+    "nom": "Cabaret Sauvage",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Parc de la Villette)",
+      "en": "Paris (Parc de la Villette)"
+    },
+    "latitude": 48.8956,
+    "longitude": 2.3923,
+    "capacite": 1300,
+    "annee": 1997,
+    "styles": [],
+    "site": "https://www.cabaretsauvage.com",
+    "description": {
+      "fr": "Chapiteau à miroirs du parc de la Villette fondé en 1997, qui alterne concerts, cabaret et cirque avec des nuits techno et house, sous la toile comme sur sa grande terrasse extérieure.",
+      "en": "Mirrored big top in Parc de la Villette founded in 1997, alternating concerts, cabaret and circus with techno and house nights, both under the tent and on its large outdoor terrace."
+    }
+  },
+  {
+    "id": "t7-paris",
+    "nom": "T7",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Porte de Versailles)",
+      "en": "Paris (Porte de Versailles)"
+    },
+    "latitude": 48.8276,
+    "longitude": 2.29,
+    "capacite": 1000,
+    "annee": 2017,
+    "styles": [
+      "Techno",
+      "Minimal",
+      "House"
+    ],
+    "site": "https://t7-paris.com",
+    "description": {
+      "fr": "Club ouvert en décembre 2017 sur le toit du pavillon 7 de Paris Expo Porte de Versailles, avec salle vitrée, système Funktion-One et terrasse, dédié le week-end à la techno et à la minimale.",
+      "en": "Club opened in December 2017 on the roof of Pavilion 7 at Paris Expo Porte de Versailles, with a glass-walled room, Funktion-One sound and a terrace, devoted to techno and minimal at weekends."
+    }
+  },
+  {
+    "id": "panic-room-paris",
+    "nom": "Panic Room",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Oberkampf)",
+      "en": "Paris (Oberkampf)"
+    },
+    "latitude": 48.8612,
+    "longitude": 2.3676,
+    "capacite": 150,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Global Club"
+    ],
+    "site": "https://www.panicroomparis.com",
+    "description": {
+      "fr": "Bar de quartier de la rue Amelot ouvert en 2012, à entrée gratuite, où DJ house et collectifs locaux jouent du mercredi au samedi jusque tard dans la nuit.",
+      "en": "Neighbourhood bar on Rue Amelot open since 2012, with free entry all night, where house DJs and local collectives play from Wednesday to Saturday."
+    }
+  },
+  {
+    "id": "techno-parade-paris",
+    "nom": "Techno Parade",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Bastille, République, Nation)",
+      "en": "Paris (Bastille, République, Nation)"
+    },
+    "latitude": 48.8529,
+    "longitude": 2.3692,
+    "capacite": 100000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hardcore",
+      "Trance"
+    ],
+    "site": "https://www.technoparade.fr",
+    "description": {
+      "fr": "Parade annuelle des musiques électroniques organisée par Technopol depuis 1998, dont les chars sonorisés ont relié en 2026 la place de la Bastille à la place de la Nation par République.",
+      "en": "Annual electronic music parade run by Technopol since 1998, whose sound-system floats travelled in 2026 from Place de la Bastille to Place de la Nation via République."
+    }
+  },
+  {
+    "id": "obe-lyon",
+    "nom": "OBE",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Confluence)",
+      "en": "Lyon (Confluence)"
+    },
+    "latitude": 45.7383,
+    "longitude": 4.815,
+    "capacite": 500,
+    "annee": 2026,
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://www.instagram.com/obe.lyon/",
+    "description": {
+      "fr": "Club ouvert en septembre 2026 au 45 quai Rambaud, à quelques pas de La Sucrière, annoncé pour 500 personnes avec une programmation house, tech house, techno et indie.",
+      "en": "Club opened in September 2026 at 45 Quai Rambaud, a short walk from La Sucrière, announced for 500 people with house, tech house, techno and indie programming."
+    }
+  },
+  {
+    "id": "anticlub-lyon",
+    "nom": "AntiClub",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Quai Arloing)",
+      "en": "Lyon (Quai Arloing)"
+    },
+    "latitude": 45.771,
+    "longitude": 4.8117,
+    "capacite": 150,
+    "styles": [
+      "Techno",
+      "Hardgroove"
+    ],
+    "site": "https://www.anticlub.fr",
+    "description": {
+      "fr": "Club associatif actif depuis fin 2025 au fond d’une allée du quai Arloing, sur les bords de Saône, où photos et vidéos sont proscrites pendant les nuits techno et hard groove.",
+      "en": "Non-profit club active since late 2025 at the end of an alley on Quai Arloing by the Saône, where photos and videos are banned during techno and hard groove nights."
+    }
+  },
+  {
+    "id": "super5-lyon",
+    "nom": "Super5",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Pentes de la Croix-Rousse)",
+      "en": "Lyon (Croix-Rousse slopes)"
+    },
+    "latitude": 45.7694,
+    "longitude": 4.8299,
+    "capacite": 80,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://www.instagram.com/super5.lyon/",
+    "description": {
+      "fr": "Bar-club au pied des pentes de la Croix-Rousse, au décor de repaire est-allemand, où platines vinyle et DJ locaux animent une petite piste sous boule à facettes.",
+      "en": "Bar-club at the foot of the Croix-Rousse slopes with an East German hideout decor, where vinyl decks and local DJs drive a small dancefloor under a mirror ball."
+    }
+  },
+  {
+    "id": "transbordeur-lyon",
+    "nom": "Le Transbordeur",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Villeurbanne)",
+      "en": "Lyon (Villeurbanne)"
+    },
+    "latitude": 45.784,
+    "longitude": 4.8608,
+    "capacite": 1800,
+    "annee": 1989,
+    "styles": [],
+    "site": "https://www.transbordeur.fr",
+    "description": {
+      "fr": "Salle de concert ouverte en janvier 1989 avec New Order, boulevard de Stalingrad à Villeurbanne, dont la grande salle de 1 800 places accueille aussi des nuits techno et le festival Reperkusound.",
+      "en": "Concert venue opened in January 1989 with New Order on Boulevard de Stalingrad in Villeurbanne, whose 1,800-capacity main hall also hosts techno nights and the Reperkusound festival."
+    }
+  },
+  {
+    "id": "la-rayonne-lyon",
+    "nom": "La Rayonne (CCO)",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Villeurbanne, L’Autre Soie)",
+      "en": "Lyon (Villeurbanne, L’Autre Soie)"
+    },
+    "latitude": 45.7567,
+    "longitude": 4.9169,
+    "capacite": 1000,
+    "styles": [],
+    "site": "https://cco-villeurbanne.org",
+    "description": {
+      "fr": "Salle du CCO installée sur le site de L’Autre Soie à Villeurbanne, près du métro Vaulx-en-Velin La Soie, qui reçoit jusqu’à 1 000 personnes debout pour concerts et soirées techno ou psytrance.",
+      "en": "CCO hall on the L’Autre Soie site in Villeurbanne, near Vaulx-en-Velin La Soie metro, holding up to 1,000 standing for concerts as well as techno and psytrance nights."
+    }
+  },
+  {
+    "id": "halle-tony-garnier-lyon",
+    "nom": "Halle Tony Garnier",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Gerland)",
+      "en": "Lyon (Gerland)"
+    },
+    "latitude": 45.7299,
+    "longitude": 4.825,
+    "capacite": 17000,
+    "styles": [],
+    "site": "https://www.htg.fr",
+    "description": {
+      "fr": "Ancienne halle du marché aux bestiaux de Gerland conçue par Tony Garnier, devenue salle de concerts jusqu’à 17 000 personnes, qui accueille des nuits hard techno comme Teletech et Outworld et le festival Reperkusound.",
+      "en": "Former livestock market hall in Gerland designed by Tony Garnier, now a concert hall for up to 17,000 people, hosting hard techno nights such as Teletech and Outworld and the Reperkusound festival."
+    }
+  },
+  {
+    "id": "grrrnd-zero-lyon",
+    "nom": "Grrrnd Zero",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Vaulx-en-Velin, La Soie)",
+      "en": "Lyon (Vaulx-en-Velin, La Soie)"
+    },
+    "latitude": 45.7652,
+    "longitude": 4.9271,
+    "capacite": 500,
+    "styles": [],
+    "site": "https://www.grrrndzero.org",
+    "description": {
+      "fr": "Lieu associatif installé dans un bâtiment industriel avenue de Böhlen à Vaulx-en-Velin, qui mêle concerts expérimentaux, nuits psytrance et acid techno dans un esprit DIY.",
+      "en": "Non-profit venue in an industrial building on Avenue de Böhlen in Vaulx-en-Velin, mixing experimental concerts, psytrance nights and acid techno in a DIY spirit."
+    }
+  },
+  {
+    "id": "le-sonic-lyon",
+    "nom": "Le Sonic",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Quai des Étroits)",
+      "en": "Lyon (Quai des Étroits)"
+    },
+    "latitude": 45.7509,
+    "longitude": 4.8199,
+    "capacite": 150,
+    "styles": [],
+    "site": "https://sonic-lyon.fr",
+    "description": {
+      "fr": "Péniche amarrée quai des Étroits dans le 5e arrondissement, qui programme des concerts underground de musiques actuelles et des nuits techno jusqu’à 4 heures du matin.",
+      "en": "Barge moored on Quai des Étroits in the 5th arrondissement, programming underground live music alongside techno nights that run until 4 in the morning."
+    }
+  },
+  {
+    "id": "heat-lyon",
+    "nom": "HEAT",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Confluence)",
+      "en": "Lyon (Confluence)"
+    },
+    "latitude": 45.7369,
+    "longitude": 4.8202,
+    "capacite": 1000,
+    "styles": [],
+    "site": "https://h-eat.eu",
+    "description": {
+      "fr": "Halle à manger du quai Perrache faite de conteneurs maritimes de street food, qui accueille DJ sets, concerts, collectifs locaux et le Mini Sonore de Nuits Sonores.",
+      "en": "Food hall on Quai Perrache built from street food shipping containers, hosting DJ sets, concerts, local collectives and Mini Sonore, the family edition of Nuits Sonores."
+    }
+  },
+  {
+    "id": "livestation-diy-lyon",
+    "nom": "Livestation DIY",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Guillotière)",
+      "en": "Lyon (Guillotière)"
+    },
+    "latitude": 45.7532,
+    "longitude": 4.8399,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://livestationdiy.com",
+    "description": {
+      "fr": "Bar-restaurant de la rue de Bonald pensé comme lieu de rencontre autour des musiques électroniques, avec DJ sets fréquents, concerts, expositions et brunch le dimanche.",
+      "en": "Bar and restaurant on Rue de Bonald conceived as a meeting place around electronic music, with frequent DJ sets, concerts, exhibitions and a Sunday brunch."
+    }
+  },
+  {
+    "id": "periscope-lyon",
+    "nom": "Le Périscope",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Perrache)",
+      "en": "Lyon (Perrache)"
+    },
+    "latitude": 45.747,
+    "longitude": 4.8275,
+    "capacite": 200,
+    "annee": 2007,
+    "styles": [],
+    "site": "https://www.periscope-lyon.com",
+    "description": {
+      "fr": "Salle fondée en 2007 rue Delandine près de Perrache par des collectifs de musiciens, centrée sur le jazz et les musiques improvisées, qui programme aussi électronique et esthétiques expérimentales.",
+      "en": "Venue founded in 2007 on Rue Delandine near Perrache by musicians’ collectives, focused on jazz and improvised music while also programming electronic and experimental acts."
+    }
+  },
+  {
+    "id": "brunch-electronik-lyon",
+    "nom": "Brunch Electronik Lyon",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon (Grand Parc Miribel Jonage)",
+      "en": "Lyon (Grand Parc Miribel Jonage)"
+    },
+    "latitude": 45.8005,
+    "longitude": 4.9416,
+    "capacite": 8000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House"
+    ],
+    "site": "https://france.brunchelectronik.com",
+    "description": {
+      "fr": "Déclinaison lyonnaise du Brunch Electronik barcelonais, lancée en septembre 2024 sur la plage de L’Atol’ au Grand Parc Miribel Jonage, sur deux journées techno et house au bord du lac.",
+      "en": "Lyon edition of the Barcelona-born Brunch Electronik, launched in September 2024 on the L’Atol’ beach in Grand Parc Miribel Jonage, with two days of techno and house by the lake."
+    }
+  },
+  {
+    "id": "unite-22-marseille",
+    "nom": "Unité.22",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Belle de Mai)",
+      "en": "Marseille (Belle de Mai)"
+    },
+    "latitude": 43.3105,
+    "longitude": 5.3892,
+    "capacite": 400,
+    "annee": 2025,
+    "styles": [
+      "Techno",
+      "Trance",
+      "Bass",
+      "Hardgroove"
+    ],
+    "site": "https://www.unite22.fr",
+    "description": {
+      "fr": "Club d’une seule salle ouvert fin 2025 rue Jobin par le collectif Animals Industry, pour 400 personnes, sans photo ni vidéo, consacré à la techno, à la trance et à la bass music.",
+      "en": "Single-room club opened in late 2025 on Rue Jobin by the Animals Industry collective, holding 400 people under a no-photo policy and dedicated to techno, trance and bass music."
+    }
+  },
+  {
+    "id": "danceteria-marseille",
+    "nom": "Danceteria",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Opéra)",
+      "en": "Marseille (Opéra)"
+    },
+    "latitude": 43.2938,
+    "longitude": 5.3752,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "House",
+      "Dark Disco",
+      "Indie Dance"
+    ],
+    "site": "https://danceteria.fr",
+    "description": {
+      "fr": "Club indépendant du quartier de l’Opéra, près du Vieux-Port, nommé d’après le club new-yorkais, avec trois salles, deux bars et un système Funktion-One pour la techno et la house.",
+      "en": "Independent club in the Opéra district near the Old Port, named after the New York club, with three rooms, two bars and a Funktion-One sound system for techno and house."
+    }
+  },
+  {
+    "id": "le-makeda-marseille",
+    "nom": "Le Makeda",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (La Plaine)",
+      "en": "Marseille (La Plaine)"
+    },
+    "latitude": 43.2932,
+    "longitude": 5.3917,
+    "capacite": 270,
+    "annee": 2019,
+    "styles": [],
+    "site": "https://lemakeda.com",
+    "description": {
+      "fr": "Salle de 270 places ouverte en 2019 rue Ferrari, près de La Plaine, qui alterne concerts rap, rock et électro avec des soirées DJ du jeudi au samedi.",
+      "en": "270-capacity venue opened in 2019 on Rue Ferrari near La Plaine, alternating rap, rock and electronic concerts with DJ nights from Thursday to Saturday."
+    }
+  },
+  {
+    "id": "la-plateforme-marseille",
+    "nom": "La Plateforme (ex-Dock des Suds)",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Arenc)",
+      "en": "Marseille (Arenc)"
+    },
+    "latitude": 43.3147,
+    "longitude": 5.3681,
+    "capacite": 3000,
+    "styles": [],
+    "site": "https://laplateforme.io/evenements/",
+    "description": {
+      "fr": "Ancien Dock des Suds de la rue Urbain V, occupé depuis 2025 par l’école La Plateforme, dont la Salle des Sucres d’environ 3 000 places reçoit des nuits techno et hard techno.",
+      "en": "Former Dock des Suds on Rue Urbain V, occupied since 2025 by the La Plateforme school, whose Salle des Sucres holds about 3,000 people for techno and hard techno nights."
+    }
+  },
+  {
+    "id": "rooftop-terrasses-marseille",
+    "nom": "Le Rooftop des Terrasses (ex-R2)",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Arenc, Terrasses du Port)",
+      "en": "Marseille (Arenc, Terrasses du Port)"
+    },
+    "latitude": 43.3069,
+    "longitude": 5.3645,
+    "capacite": 1500,
+    "styles": [
+      "House",
+      "Tech House"
+    ],
+    "site": "https://lerooftopdesterrasses.com",
+    "description": {
+      "fr": "Toit-terrasse du centre commercial des Terrasses du Port face à la mer, ouvert d’avril à octobre, où DJ sets et soirées à thème se succèdent après le coucher du soleil.",
+      "en": "Rooftop of the Terrasses du Port shopping centre facing the sea, open from April to October, where DJ sets and themed parties follow one another after sunset."
+    }
+  },
+  {
+    "id": "nido-marseille",
+    "nom": "Nido",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (La Capelette)",
+      "en": "Marseille (La Capelette)"
+    },
+    "latitude": 43.2796,
+    "longitude": 5.4124,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Deep House"
+    ],
+    "site": "https://nidomarseille.com",
+    "description": {
+      "fr": "Bistrot et bar musical du village des antiquaires de Fifi Turin, équipé d’une sonorisation audiophile sur mesure, avec sessions d’écoute et soirées house et deep house le week-end.",
+      "en": "Bistro and music bar in the Fifi Turin antiques village, fitted with a custom audiophile sound system, hosting listening sessions and house and deep house nights at weekends."
+    }
+  },
+  {
+    "id": "l-embobineuse-marseille",
+    "nom": "L’Embobineuse",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Belle de Mai)",
+      "en": "Marseille (Belle de Mai)"
+    },
+    "latitude": 43.3112,
+    "longitude": 5.3832,
+    "capacite": 300,
+    "styles": [],
+    "site": "https://www.lembobineuse.biz",
+    "description": {
+      "fr": "Scène alternative associative du boulevard Bouès, à la Belle de Mai, qui défend les musiques hors norme, du noise aux performances, et accueille des nuits électroniques de collectifs locaux.",
+      "en": "Non-profit alternative venue on Boulevard Bouès in Belle de Mai, championing unconventional music from noise to performance art and hosting electronic nights by local collectives."
+    }
+  },
+  {
+    "id": "le-molotov-marseille",
+    "nom": "Le Molotov",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (La Plaine)",
+      "en": "Marseille (La Plaine)"
+    },
+    "latitude": 43.2927,
+    "longitude": 5.3832,
+    "capacite": 300,
+    "annee": 2012,
+    "styles": [],
+    "site": "https://lemolotov.com",
+    "description": {
+      "fr": "Salle underground de la place Paul-Cézanne ouverte en 2012, longtemps fief reggae, qui programme aujourd’hui rock, métal et darkwave aux côtés de nuits psytrance, techno industrielle et drum & bass.",
+      "en": "Underground venue on Place Paul-Cézanne opened in 2012, long a reggae stronghold, now booking rock, metal and darkwave alongside psytrance, industrial techno and drum & bass nights."
+    }
+  },
+  {
+    "id": "le-bazar-marseille",
+    "nom": "Le Bazar / La Palmeraie",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Le Rouet)",
+      "en": "Marseille (Le Rouet)"
+    },
+    "latitude": 43.2764,
+    "longitude": 5.3979,
+    "capacite": 1500,
+    "styles": [],
+    "site": "https://bazarmarseille.com",
+    "description": {
+      "fr": "Grande discothèque du boulevard Rabatau active depuis plus de 25 ans, d’environ 1 500 places, dont la terrasse en plein air La Palmeraie prend le relais de mai à septembre.",
+      "en": "Large nightclub on Boulevard Rabatau running for more than 25 years, holding about 1,500 people, whose open-air La Palmeraie terrace takes over from May to September."
+    }
+  },
+  {
+    "id": "utopia-festival-marseille",
+    "nom": "Utopia Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Friche la Belle de Mai)",
+      "en": "Marseille (Friche la Belle de Mai)"
+    },
+    "latitude": 43.3105,
+    "longitude": 5.39,
+    "capacite": 10000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Live Electronic"
+    ],
+    "site": "https://www.utopiafestival.fr",
+    "description": {
+      "fr": "Festival des cultures électroniques porté par le Cabaret Aléatoire depuis septembre 2021, déployé dans quatre salles de la Friche la Belle de Mai et revendiquant plus de 10 000 festivaliers.",
+      "en": "Electronic culture festival run by Cabaret Aléatoire since September 2021, spread across four rooms of Friche la Belle de Mai and reporting more than 10,000 attendees."
+    }
+  },
+  {
+    "id": "the-walking-bass-marseille",
+    "nom": "The Walking Bass",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Parc Chanot)",
+      "en": "Marseille (Parc Chanot)"
+    },
+    "latitude": 43.2728,
+    "longitude": 5.3957,
+    "capacite": 20000,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Hard Techno",
+      "Drum & Bass",
+      "Trance",
+      "Psy"
+    ],
+    "site": "https://www.thewalkingbass.fr",
+    "description": {
+      "fr": "Festival d’Halloween de deux nuits au Parc Chanot et à La Plateforme, qui attendait plus de 20 000 personnes en 2025 pour la hard techno, la trance et la drum & bass.",
+      "en": "Two-night Halloween festival at Parc Chanot and La Plateforme, which expected more than 20,000 people in 2025 for hard techno, trance and drum & bass."
+    }
+  },
+  {
+    "id": "halles-cartoucherie-toulouse",
+    "nom": "Les Halles de la Cartoucherie",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Cartoucherie)",
+      "en": "Toulouse (Cartoucherie)"
+    },
+    "latitude": 43.601,
+    "longitude": 1.4074,
+    "capacite": 800,
+    "styles": [],
+    "site": "https://halles-cartoucherie.fr",
+    "description": {
+      "fr": "Anciennes halles industrielles de l’écoquartier de la Cartoucherie reconverties en marché couvert et lieu culturel, dont la Halle Sud, The Roof et La Cabane accueillent des nuits électroniques comme After Now.",
+      "en": "Former industrial halls in the Cartoucherie eco-district turned into a covered market and cultural venue, whose Halle Sud, The Roof and La Cabane host electronic nights such as After Now."
+    }
+  },
+  {
+    "id": "metronum-toulouse",
+    "nom": "Le Metronum",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Borderouge)",
+      "en": "Toulouse (Borderouge)"
+    },
+    "latitude": 43.6415,
+    "longitude": 1.4506,
+    "capacite": 600,
+    "annee": 2014,
+    "styles": [],
+    "site": "https://metronum.toulouse.fr",
+    "description": {
+      "fr": "Salle municipale des musiques actuelles ouverte en 2014 au rond-point Madame-de-Mondonville à Borderouge, qui accueille concerts et soirées électroniques au nord de Toulouse.",
+      "en": "Municipal live music venue opened in 2014 on the Madame-de-Mondonville roundabout in Borderouge, hosting concerts and electronic nights in the north of Toulouse."
+    }
+  },
+  {
+    "id": "zenith-toulouse",
+    "nom": "Zénith Toulouse Métropole",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse (Cartoucherie)",
+      "en": "Toulouse (Cartoucherie)"
+    },
+    "latitude": 43.5982,
+    "longitude": 1.4093,
+    "capacite": 11000,
+    "annee": 1999,
+    "styles": [],
+    "site": "https://zenith-toulousemetropole.com",
+    "description": {
+      "fr": "Grande salle de spectacles de l’avenue Raymond-Badiou ouverte en 1999, qui accueille ponctuellement des tournées électroniques comme Mosimann ou Electro Symphony aux côtés de la variété.",
+      "en": "Large performance hall on Avenue Raymond-Badiou opened in 1999, occasionally hosting electronic tours such as Mosimann or Electro Symphony alongside mainstream shows."
+    }
+  },
+  {
+    "id": "rebel-toronto",
+    "nom": "Rebel",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Port Lands)",
+      "en": "Toronto (Port Lands)"
+    },
+    "latitude": 43.6408,
+    "longitude": -79.355,
+    "capacite": 3900,
+    "annee": 2016,
+    "styles": [
+      "EDM",
+      "Tech House",
+      "Melodic Techno",
+      "House"
+    ],
+    "site": "https://rebeltoronto.com",
+    "description": {
+      "fr": "Complexe de 45 000 pieds carrés sur la jetée Polson, au bord du lac Ontario, avec plusieurs salles dont NOIR et des têtes d'affiche EDM, tech house et melodic techno comme Carl Cox.",
+      "en": "45,000-square-foot complex on Polson Pier by Lake Ontario, with several rooms including NOIR, booking EDM, tech house and melodic techno headliners such as Carl Cox."
+    }
+  },
+  {
+    "id": "cabana-pool-bar-toronto",
+    "nom": "Cabana Pool Bar",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Port Lands)",
+      "en": "Toronto (Port Lands)"
+    },
+    "latitude": 43.6401,
+    "longitude": -79.3544,
+    "capacite": 2500,
+    "styles": [
+      "House",
+      "Tech House",
+      "EDM"
+    ],
+    "site": "https://cabanatoronto.com",
+    "description": {
+      "fr": "Club de piscine en plein air sur la jetée Polson, ouvert de juin à septembre, avec cabanes privées et place pour 2 500 personnes, qui a reçu Steve Aoki, Lost Frequencies et MK en 2025.",
+      "en": "Open-air pool club on Polson Pier, open from June to September with private cabanas and room for 2,500 people, which hosted Steve Aoki, Lost Frequencies and MK in 2025."
+    }
+  },
+  {
+    "id": "cafeteria-toronto",
+    "nom": "Cafeteria",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Junction Triangle)",
+      "en": "Toronto (Junction Triangle)"
+    },
+    "latitude": 43.6648,
+    "longitude": -79.456,
+    "capacite": 350,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Club"
+    ],
+    "site": "https://cafeteriatoronto.com",
+    "description": {
+      "fr": "Restaurant, bar et club du 1650 rue Dupont qui passe des tables au dancefloor en soirée, avec des nuits house, techno, électro et queer du jeudi au samedi.",
+      "en": "Restaurant, bar and club at 1650 Dupont Street that moves from dinner tables to the dance floor each evening, with house, techno, electro and queer nights from Thursday to Saturday."
+    }
+  },
+  {
+    "id": "comfort-zone-toronto",
+    "nom": "The Comfort Zone",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Parkdale)",
+      "en": "Toronto (Parkdale)"
+    },
+    "latitude": 43.6407,
+    "longitude": -79.4355,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://comfortzonetoronto.ca",
+    "description": {
+      "fr": "After-hours torontois de plus de 25 ans d'histoire, longtemps installé près de College et Spadina puis rouvert au 1369 Queen Ouest, où les nuits techno durent jusqu'au matin.",
+      "en": "Toronto after-hours club with more than 25 years of history, long based near College and Spadina before reopening at 1369 Queen West, where techno nights run until morning."
+    }
+  },
+  {
+    "id": "rhythm-toronto",
+    "nom": "Rhythm",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (King West)",
+      "en": "Toronto (King West)"
+    },
+    "latitude": 43.6459,
+    "longitude": -79.4032,
+    "capacite": 120,
+    "styles": [
+      "House",
+      "Techno",
+      "Minimal",
+      "Deep House"
+    ],
+    "site": "https://rhythm.space",
+    "description": {
+      "fr": "Disquaire, studio d'enregistrement et salle d'événements du 141 rue Bathurst, au service des artistes et labels électroniques torontois, avec des nuits house, techno et minimal.",
+      "en": "Record shop, recording studio and event space at 141 Bathurst Street supporting Toronto electronic artists and labels, with house, techno and minimal nights plus summer open airs."
+    }
+  },
+  {
+    "id": "boogie-toronto",
+    "nom": "Boogie",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (West Queen West)",
+      "en": "Toronto (West Queen West)"
+    },
+    "latitude": 43.6428,
+    "longitude": -79.4263,
+    "capacite": 100,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco",
+      "Drum & Bass"
+    ],
+    "site": "https://www.boogieonqueen.com",
+    "description": {
+      "fr": "Bar d'écoute de la rue Queen Ouest, près de Gladstone, inspiré des listening bars du monde entier, où des DJ passent house, deep house et disco sur vinyle et en numérique.",
+      "en": "Listening bar on Queen Street West near Gladstone, inspired by listening bars around the world, where DJs play house, deep house and disco on vinyl and digital formats."
+    }
+  },
+  {
+    "id": "bsmt-254-toronto",
+    "nom": "Bsmt 254",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Brockton Village)",
+      "en": "Toronto (Brockton Village)"
+    },
+    "latitude": 43.6511,
+    "longitude": -79.4403,
+    "capacite": 71,
+    "styles": [
+      "Techno",
+      "House",
+      "Jungle"
+    ],
+    "site": "https://www.bsmt254.com",
+    "description": {
+      "fr": "Sous-sol du 254 avenue Lansdowne, salle de concerts et de DJ du West End réputée pour son système son, avec une programmation techno, house, jungle et soul.",
+      "en": "Basement venue at 254 Lansdowne Avenue, a West End live music and DJ room known for its sound system, programming techno, house, jungle and soul nights."
+    }
+  },
+  {
+    "id": "sound-machine-toronto",
+    "nom": "Sound Machine",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Queen West)",
+      "en": "Toronto (Queen West)"
+    },
+    "latitude": 43.6474,
+    "longitude": -79.4042,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "House"
+    ],
+    "site": "https://ra.co/clubs/229380",
+    "description": {
+      "fr": "Club de 400 places au 178 rue Bathurst, construit autour d'un système son à quatre points, sans service bouteille, qui donne la priorité aux détenteurs de billets et aux soirées techno.",
+      "en": "400-capacity club at 178 Bathurst Street built around a custom four-point sound system, with no bottle service, priority entry for ticket holders and a techno-led programme."
+    }
+  },
+  {
+    "id": "geary-avenue-warehouse-project-toronto",
+    "nom": "Geary Avenue Warehouse Project",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Wallace Emerson)",
+      "en": "Toronto (Wallace Emerson)"
+    },
+    "latitude": 43.6694,
+    "longitude": -79.4382,
+    "capacite": 400,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Bass"
+    ],
+    "site": "https://ra.co/clubs/167880",
+    "description": {
+      "fr": "Entrepôt de 400 places au 209 avenue Geary, sur la même avenue que Standard Time, qui accueille des raves techno, house et bass avec une charte stricte sur le consentement.",
+      "en": "400-capacity warehouse at 209 Geary Avenue, on the same street as Standard Time, hosting techno, house and bass raves under a strict consent and anti-discrimination policy."
+    }
+  },
+  {
+    "id": "nomad-toronto",
+    "nom": "NØMAD",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (South Riverdale)",
+      "en": "Toronto (South Riverdale)"
+    },
+    "latitude": 43.6589,
+    "longitude": -79.3491,
+    "capacite": 500,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Drum & Bass"
+    ],
+    "site": "https://ra.co/clubs/197243",
+    "description": {
+      "fr": "Club de 500 places au 725 rue Queen Est, voisin de l'Opera House, qui programme house, techno, tech house et drum & bass ainsi que des soirées schranz et psytrance.",
+      "en": "500-capacity club at 725 Queen Street East, next to the Opera House, programming house, techno, tech house and drum & bass alongside schranz and psytrance nights."
+    }
+  },
+  {
+    "id": "complex19-toronto",
+    "nom": "Complex19",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Old Town)",
+      "en": "Toronto (Old Town)"
+    },
+    "latitude": 43.6505,
+    "longitude": -79.3761,
+    "capacite": 1000,
+    "annee": 2026,
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://www.complex19.com",
+    "description": {
+      "fr": "Club sur trois niveaux ouvert en 2026 dans l'ancien Consumers' Gas Building du 19 rue Toronto, consacré à la house et à la techno, où les caméras des téléphones sont masquées.",
+      "en": "Three-level club opened in 2026 inside the former Consumers' Gas Building at 19 Toronto Street, dedicated to house and techno, where phone cameras are covered with stickers at the door."
+    }
+  },
+  {
+    "id": "future-nightlife-toronto",
+    "nom": "Future Nightlife",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Queen West)",
+      "en": "Toronto (Queen West)"
+    },
+    "latitude": 43.6475,
+    "longitude": -79.4034,
+    "capacite": 560,
+    "styles": [
+      "House",
+      "Progressive House",
+      "Afro House",
+      "Tech House"
+    ],
+    "site": "https://futurenightlife.com",
+    "description": {
+      "fr": "Club de 560 places à l'angle de Queen et Bathurst, doté d'un système son personnalisé par E11EVEN Miami et d'une Infinity Room, orienté house, progressive house et afro house.",
+      "en": "560-capacity club at Queen and Bathurst with a sound installation customised by E11EVEN Miami and a separate Infinity Room, focused on house, progressive house and afro house."
+    }
+  },
+  {
+    "id": "story-toronto",
+    "nom": "Story Toronto",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Entertainment District)",
+      "en": "Toronto (Entertainment District)"
+    },
+    "latitude": 43.6486,
+    "longitude": -79.3874,
+    "capacite": 250,
+    "annee": 2025,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Club",
+      "Disco"
+    ],
+    "site": "https://www.storytoronto.ca",
+    "description": {
+      "fr": "Club de 250 places de la rue Adelaide Ouest inauguré en septembre 2025, qui reçoit des collectifs techno comme 404 ainsi que des nuits électro, disco et house.",
+      "en": "250-capacity club on Adelaide Street West that held its grand opening in September 2025, hosting techno collectives such as 404 alongside electro, disco and house nights."
+    }
+  },
+  {
+    "id": "juice-toronto",
+    "nom": "Juice",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Trinity-Bellwoods)",
+      "en": "Toronto (Trinity-Bellwoods)"
+    },
+    "latitude": 43.6539,
+    "longitude": -79.4228,
+    "capacite": 100,
+    "styles": [
+      "House",
+      "Tech House",
+      "Acid",
+      "Balearic"
+    ],
+    "site": "https://juicetoronto.com",
+    "description": {
+      "fr": "Lieu hybride de l'avenue Ossington, café et salon de coiffure le jour, bar à cocktails et petit club la nuit, avec des DJ house, acid et balearic.",
+      "en": "Hybrid space on Ossington Avenue that works as a cafe and hair salon by day and a cocktail bar and intimate club by night, with house, acid and balearic DJs."
+    }
+  },
+  {
+    "id": "opera-house-toronto",
+    "nom": "The Opera House",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (South Riverdale)",
+      "en": "Toronto (South Riverdale)"
+    },
+    "latitude": 43.659,
+    "longitude": -79.3488,
+    "capacite": 950,
+    "annee": 1909,
+    "styles": [],
+    "site": "https://www.theoperahousetoronto.com",
+    "description": {
+      "fr": "Salle historique de 950 places ouverte en 1909 au 735 rue Queen Est, ancien cinéma et théâtre devenu salle de concert, qui accueille aussi des soirées house et des afters de festivals.",
+      "en": "Historic 950-capacity venue opened in 1909 at 735 Queen Street East, a former cinema and theatre turned concert hall that also hosts house nights and festival afterparties."
+    }
+  },
+  {
+    "id": "the-piston-toronto",
+    "nom": "The Piston",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Bloorcourt)",
+      "en": "Toronto (Bloorcourt)"
+    },
+    "latitude": 43.6615,
+    "longitude": -79.4275,
+    "capacite": 200,
+    "styles": [
+      "Disco",
+      "Funk",
+      "Techno",
+      "Drum & Bass"
+    ],
+    "site": "https://ra.co/clubs/35764",
+    "description": {
+      "fr": "Bar musical du 937 rue Bloor Ouest, juste à l'ouest de la station Ossington, avec des soirées DJ chaque semaine en disco, funk, techno et drum & bass, dont la série Bodyclock.",
+      "en": "Music bar at 937 Bloor Street West, just west of Ossington station, with weekly DJ nights across disco, funk, techno and drum & bass, including the Bodyclock series."
+    }
+  },
+  {
+    "id": "sojourn-festival-toronto",
+    "nom": "Sojourn Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (The Junction)",
+      "en": "Toronto (The Junction)"
+    },
+    "latitude": 43.6753,
+    "longitude": -79.4783,
+    "capacite": 2000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Jungle",
+      "Electro"
+    ],
+    "site": "https://ra.co/events/2279182",
+    "description": {
+      "fr": "Festival indépendant monté par les promoteurs FORMAT et Pep Rally dans un entrepôt de 20 000 pieds carrés de la Junction, sur plusieurs scènes intérieures et extérieures, entre techno, jungle et house.",
+      "en": "Independent festival run by Toronto promoters FORMAT and Pep Rally in a 20,000-square-foot Junction warehouse, across indoor and open-air stages covering techno, jungle and house."
+    }
+  },
+  {
+    "id": "departamento-mexico",
+    "nom": "Departamento",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Roma Norte)",
+      "en": "Mexico City (Roma Norte)"
+    },
+    "latitude": 19.418,
+    "longitude": -99.1619,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco",
+      "Experimental"
+    ],
+    "site": "https://ra.co/clubs/113383",
+    "description": {
+      "fr": "Bar club intimiste du 154 avenue Álvaro Obregón, dans l'immeuble de Cocina Conchita, l'un des lieux les plus actifs de Roma Norte pour la house et la deep house.",
+      "en": "Intimate bar and club at 154 Avenida Álvaro Obregón, in the same building as Cocina Conchita, and one of the busiest Roma Norte rooms for house and deep house."
+    }
+  },
+  {
+    "id": "brutal-mx-mexico",
+    "nom": "Brutal MX",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Centro)",
+      "en": "Mexico City (Centro)"
+    },
+    "latitude": 19.4337,
+    "longitude": -99.1465,
+    "capacite": 500,
+    "annee": 2023,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Hardcore",
+      "Trance"
+    ],
+    "site": "https://ra.co/clubs/214718",
+    "description": {
+      "fr": "Club techno queer de la rue Revillagigedo, près de l'Alameda, ouvert en 2023, qui accueille les soirées PervertMX et des DJ hard techno internationaux comme Nikolina.",
+      "en": "Queer techno club on Calle Revillagigedo near the Alameda, opened in 2023, hosting PervertMX parties and international hard techno DJs such as Nikolina."
+    }
+  },
+  {
+    "id": "versalles-64-mexico",
+    "nom": "Versalles 64",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Juárez)",
+      "en": "Mexico City (Juárez)"
+    },
+    "latitude": 19.4289,
+    "longitude": -99.155,
+    "capacite": 450,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Trance"
+    ],
+    "site": "https://ra.co/clubs/156106",
+    "description": {
+      "fr": "Lieu de 450 places au 64 rue Versalles, dans la colonia Juárez, utilisé par plusieurs collectifs comme ESTÉREO pour des nuits house, techno, disco et trance.",
+      "en": "450-capacity venue at 64 Calle Versalles in Colonia Juárez, used by several party collectives such as ESTÉREO for house, techno, disco and trance nights."
+    }
+  },
+  {
+    "id": "terraza-catedral-mexico",
+    "nom": "Terraza Catedral",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Centro Histórico)",
+      "en": "Mexico City (Centro Histórico)"
+    },
+    "latitude": 19.4353,
+    "longitude": -99.1336,
+    "capacite": 250,
+    "styles": [
+      "House",
+      "Minimal",
+      "Deep House"
+    ],
+    "site": "https://ra.co/clubs/124301",
+    "description": {
+      "fr": "Terrasse sur le toit d'une auberge de la rue República de Guatemala, avec vue sur la cathédrale métropolitaine, où des DJ house et minimal jouent plusieurs soirs par semaine.",
+      "en": "Rooftop terrace above a hostel on Calle República de Guatemala, overlooking the Metropolitan Cathedral, where house and minimal DJs play several nights a week."
+    }
+  },
+  {
+    "id": "bajo-mundo-mexico",
+    "nom": "Bajo Mundo",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Hipódromo Condesa)",
+      "en": "Mexico City (Hipódromo Condesa)"
+    },
+    "latitude": 19.4055,
+    "longitude": -99.1752,
+    "capacite": 150,
+    "styles": [
+      "Techno",
+      "Trance",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/241410",
+    "description": {
+      "fr": "Petit club de la rue Saltillo, dans l'Hipódromo de la Condesa, qui programme chaque semaine techno, trance et acid avec des collectifs locaux.",
+      "en": "Small club on Calle Saltillo in Hipódromo Condesa, programming techno, trance and acid every week with local collectives and visiting DJs."
+    }
+  },
+  {
+    "id": "japan-mexico",
+    "nom": "Japan",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Roma Norte)",
+      "en": "Mexico City (Roma Norte)"
+    },
+    "latitude": 19.4206,
+    "longitude": -99.1648,
+    "capacite": 150,
+    "styles": [
+      "Techno",
+      "Electronica",
+      "Club"
+    ],
+    "site": "https://ra.co/clubs/158751",
+    "description": {
+      "fr": "Bar de trois étages à l'angle des rues Monterrey et Uruapan, à Roma Norte, qui alterne house, techno, électronique et reggaeton avec de nombreux collectifs de la ville.",
+      "en": "Three-floor bar on the corner of Monterrey and Uruapan in Roma Norte, moving between house, techno, electronica and reggaeton with many Mexico City collectives."
+    }
+  },
+  {
+    "id": "fronton-bucareli-mexico",
+    "nom": "Frontón Bucareli",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Juárez)",
+      "en": "Mexico City (Juárez)"
+    },
+    "latitude": 19.4291,
+    "longitude": -99.1522,
+    "capacite": 1500,
+    "styles": [],
+    "site": "https://ra.co/clubs/207620",
+    "description": {
+      "fr": "Fronton de pelote de l'avenue Bucareli utilisé comme lieu d'événements, où se sont tenus en 2025 les 20 ans d'Innervisions et l'anniversaire de Roche Musique.",
+      "en": "Pelota court on Avenida Bucareli used as an event venue, which hosted the Innervisions 20th anniversary and the Roche Musique birthday party in 2025."
+    }
+  },
+  {
+    "id": "sala-urbana-mexico",
+    "nom": "Sala Urbana",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Naucalpan)",
+      "en": "Mexico City (Naucalpan)"
+    },
+    "latitude": 19.4684,
+    "longitude": -99.2308,
+    "capacite": 2500,
+    "styles": [],
+    "site": "https://salaurbana.com.mx",
+    "description": {
+      "fr": "Salle de spectacles de 2 500 places sur le boulevard Toluca à Naucalpan, en périphérie de Mexico, qui accueille les grandes nuits hard techno de Rebels MX et des concerts variés.",
+      "en": "2,500-capacity concert hall on Boulevard Toluca in Naucalpan, on the edge of Mexico City, hosting large Rebels MX hard techno nights as well as concerts of other genres."
+    }
+  },
+  {
+    "id": "terraza-dos-equis-mexico",
+    "nom": "Terraza Dos Equis",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Centro Histórico)",
+      "en": "Mexico City (Centro Histórico)"
+    },
+    "latitude": 19.4292,
+    "longitude": -99.1367,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Afro House"
+    ],
+    "site": "https://ra.co/clubs/174940",
+    "description": {
+      "fr": "Terrasse de 200 places de la rue Isabel la Católica, dans le Centro Histórico, avec des sessions DJ house et afro house plusieurs fois par semaine.",
+      "en": "200-capacity terrace on Calle Isabel la Católica in the Centro Histórico, with house and afro house DJ sessions several times a week throughout the year."
+    }
+  },
+  {
+    "id": "mimi-discoteque-mexico",
+    "nom": "MiMi Discoteque",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Paseo de la Reforma)",
+      "en": "Mexico City (Paseo de la Reforma)"
+    },
+    "latitude": 19.4282,
+    "longitude": -99.1671,
+    "capacite": 300,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco"
+    ],
+    "site": "https://ra.co/clubs/227608",
+    "description": {
+      "fr": "Discothèque installée dans l'immeuble de l'hôtel Sheraton María Isabel, sur le Paseo de la Reforma, avec une programmation régulière house, deep house et disco.",
+      "en": "Nightclub inside the Sheraton María Isabel building on Paseo de la Reforma, with a regular programme of house, deep house and disco DJs."
+    }
+  },
+  {
+    "id": "hookah-lounge-mexico",
+    "nom": "Hookah Lounge",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Condesa)",
+      "en": "Mexico City (Condesa)"
+    },
+    "latitude": 19.4083,
+    "longitude": -99.1708,
+    "capacite": 200,
+    "styles": [
+      "Progressive House",
+      "House",
+      "Electronica"
+    ],
+    "site": "https://ra.co/clubs/6715",
+    "description": {
+      "fr": "Bar lounge de la rue Campeche, dans la Condesa, avec des soirées DJ presque tous les soirs centrées sur la progressive house et les sonorités afro tech.",
+      "en": "Lounge bar on Calle Campeche in Condesa with DJ nights almost every evening, centred on progressive house and afro tech sounds."
+    }
+  },
+  {
+    "id": "chico-mexico",
+    "nom": "CHICO",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Roma Norte)",
+      "en": "Mexico City (Roma Norte)"
+    },
+    "latitude": 19.4179,
+    "longitude": -99.1697,
+    "capacite": 100,
+    "styles": [
+      "Techno",
+      "Club"
+    ],
+    "site": "https://ra.co/clubs/287939",
+    "description": {
+      "fr": "Petit club de 100 places au 367 rue Colima, à Roma Norte, qui mêle techno, club et rythmes latins lors de soirées portées par des collectifs locaux.",
+      "en": "Small 100-capacity club at 367 Calle Colima in Roma Norte, mixing techno, club music and Latin rhythms at nights run by local collectives."
+    }
+  },
+  {
+    "id": "symphonie-mexico",
+    "nom": "Symphonie",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Roma Norte)",
+      "en": "Mexico City (Roma Norte)"
+    },
+    "latitude": 19.4174,
+    "longitude": -99.1623,
+    "capacite": 250,
+    "styles": [
+      "Afro House",
+      "House",
+      "Deep House"
+    ],
+    "site": "https://ra.co/clubs/263765",
+    "description": {
+      "fr": "Club discret de 250 places sur l'avenue Álvaro Obregón, à Roma Norte, qui mise sur le son et la lumière avec une programmation afro house, house et deep house.",
+      "en": "Discreet 250-capacity club on Avenida Álvaro Obregón in Roma Norte, built around sound and light, with a programme of afro house, house and deep house."
+    }
+  },
+  {
+    "id": "nueve-cero-nueve-mexico",
+    "nom": "nueve cero nueve",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Juárez)",
+      "en": "Mexico City (Juárez)"
+    },
+    "latitude": 19.4272,
+    "longitude": -99.1557,
+    "capacite": 200,
+    "styles": [
+      "Minimal",
+      "Techno",
+      "House",
+      "Dub"
+    ],
+    "site": "https://ra.co/clubs/300596",
+    "description": {
+      "fr": "Espace intime de 200 places au 94 rue Versalles, dans la colonia Juárez, pensé comme une alternative aux grands événements, entre minimal, techno, house et dub.",
+      "en": "Intimate 200-capacity space at 94 Calle Versalles in Colonia Juárez, conceived as an alternative to festivals and large events, covering minimal, techno, house and dub."
+    }
+  },
+  {
+    "id": "roca-hifi-mexico",
+    "nom": "ROCA HIFI",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Roma Norte)",
+      "en": "Mexico City (Roma Norte)"
+    },
+    "latitude": 19.419,
+    "longitude": -99.1597,
+    "capacite": 80,
+    "styles": [
+      "House",
+      "Downtempo"
+    ],
+    "site": "https://ra.co/clubs/243795",
+    "description": {
+      "fr": "Bar hi-fi de la rue Orizaba, à Roma Norte, où des DJ passent house et downtempo presque chaque soir, avec plus de 130 sessions annoncées entre mars et novembre 2026.",
+      "en": "Hi-fi bar on Calle Orizaba in Roma Norte where DJs play house and downtempo almost every night, with more than 130 sessions listed between March and November 2026."
+    }
+  },
+  {
+    "id": "foro-hdx-mexico",
+    "nom": "Foro HDX",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Azcapotzalco)",
+      "en": "Mexico City (Azcapotzalco)"
+    },
+    "latitude": 19.4689,
+    "longitude": -99.1752,
+    "capacite": 600,
+    "styles": [],
+    "site": "https://ra.co/clubs/238184",
+    "description": {
+      "fr": "Salle de 600 places de l'avenue Cuitláhuac, à Azcapotzalco, ouverte à tous les genres et utilisée par les collectifs techno, industrial et hardcore de Mexico.",
+      "en": "600-capacity venue on Avenida Cuitláhuac in Azcapotzalco, open to all genres and regularly used by Mexico City techno, industrial and hardcore collectives."
+    }
+  },
+  {
+    "id": "rebels-xxl-mexico",
+    "nom": "Rebels XXL",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Naucalpan)",
+      "en": "Mexico City (Naucalpan)"
+    },
+    "latitude": 19.4684,
+    "longitude": -99.2308,
+    "capacite": 2500,
+    "annee": 2025,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Hardcore",
+      "Trance"
+    ],
+    "site": "https://ra.co/events/2363607",
+    "description": {
+      "fr": "Festival techno de deux jours et deux scènes organisé par Rebels MX à la Sala Urbana de Naucalpan, lancé en mai 2025 et consacré aux tempos rapides et au hard techno.",
+      "en": "Two-day, two-stage techno festival run by Rebels MX at Sala Urbana in Naucalpan, launched in May 2025 and devoted to fast tempos, hard techno and hardcore."
+    }
+  },
+  {
+    "id": "major-bar-pista-sao-paulo",
+    "nom": "Major Bar & Pista",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Vila Buarque)",
+      "en": "Sao Paulo (Vila Buarque)"
+    },
+    "latitude": -23.5455,
+    "longitude": -46.6474,
+    "capacite": 200,
+    "styles": [
+      "Electronica",
+      "Disco",
+      "House"
+    ],
+    "site": "https://ra.co/clubs/272786",
+    "description": {
+      "fr": "Ancien garage de la rue Major Sertório, devenu galerie d'art puis bar avec piste de danse, où des DJ jouent musique électronique, disco et house presque chaque soir.",
+      "en": "Former garage on Rua Major Sertório that became an art gallery and then a bar with a dance floor, where DJs play electronica, disco and house almost every night."
+    }
+  },
+  {
+    "id": "sala-bar-sao-paulo",
+    "nom": "Sala Bar",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Pinheiros)",
+      "en": "Sao Paulo (Pinheiros)"
+    },
+    "latitude": -23.568,
+    "longitude": -46.6955,
+    "capacite": 60,
+    "styles": [
+      "House",
+      "Disco",
+      "Electronica"
+    ],
+    "site": "https://ra.co/clubs/283629",
+    "description": {
+      "fr": "Bar d'écoute et de vinyles de 60 places rue Fernão Dias, avec canapés et cocktails, où un DJ joue chaque soir entre house, disco, jazz et musique brésilienne.",
+      "en": "60-capacity listening and vinyl bar on Rua Fernão Dias with sofas and cocktails, where a DJ plays every night across house, disco, jazz and Brazilian music."
+    }
+  },
+  {
+    "id": "bar-do-netao-sao-paulo",
+    "nom": "Bar do Netão",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Baixo Augusta)",
+      "en": "Sao Paulo (Baixo Augusta)"
+    },
+    "latitude": -23.5517,
+    "longitude": -46.6516,
+    "capacite": 200,
+    "styles": [
+      "Techno",
+      "House",
+      "Acid",
+      "Electro"
+    ],
+    "site": "https://ra.co/clubs/146462",
+    "description": {
+      "fr": "Bar club de 200 places au 584 rue Augusta, qui accueille des soirées techno, house et acid, dont des nuits Bass Resistance avec les DJ du collectif Mamba Negra.",
+      "en": "200-capacity bar and club at 584 Rua Augusta hosting techno, house and acid nights, including Bass Resistance parties with DJs from the Mamba Negra collective."
+    }
+  },
+  {
+    "id": "crema-club-sao-paulo",
+    "nom": "Crema Club",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Pinheiros)",
+      "en": "Sao Paulo (Pinheiros)"
+    },
+    "latitude": -23.5648,
+    "longitude": -46.694,
+    "capacite": 300,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Progressive House"
+    ],
+    "site": "https://ra.co/clubs/215457",
+    "description": {
+      "fr": "Club de la rue Cristóvão Gonçalves, près de la Vila Madalena, qui programme chaque fin de semaine house, techno, tech house et progressive house.",
+      "en": "Club on Rua Cristóvão Gonçalves near Vila Madalena, programming house, techno, tech house and progressive house every weekend with local and touring DJs."
+    }
+  },
+  {
+    "id": "estudio-lamina-sao-paulo",
+    "nom": "Estúdio Lâmina",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Centro)",
+      "en": "Sao Paulo (Centro)"
+    },
+    "latitude": -23.5448,
+    "longitude": -46.6357,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Disco"
+    ],
+    "site": "https://ra.co/clubs/219374",
+    "description": {
+      "fr": "Espace d'art contemporain au quatrième étage d'un immeuble des années 1940 de l'avenue São João, qui accueille aussi des fêtes house, techno et électro.",
+      "en": "Contemporary art space on the fourth floor of a 1940s building on Avenida São João, which also hosts house, techno and electro parties."
+    }
+  },
+  {
+    "id": "club-jerome-sao-paulo",
+    "nom": "Club Jerome",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Higienópolis)",
+      "en": "Sao Paulo (Higienópolis)"
+    },
+    "latitude": -23.5504,
+    "longitude": -46.6592,
+    "capacite": 250,
+    "styles": [
+      "House",
+      "Disco",
+      "Techno"
+    ],
+    "site": "https://ra.co/clubs/133618",
+    "description": {
+      "fr": "Club de 250 places de la rue Mato Grosso, à Higienópolis, consacré à la house et à la disco avec des soirées de collectifs paulistes en fin de semaine.",
+      "en": "250-capacity club on Rua Mato Grosso in Higienópolis, dedicated to house and disco, with weekend parties run by São Paulo collectives."
+    }
+  },
+  {
+    "id": "casinha-cc-sao-paulo",
+    "nom": "Casinha cc",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Pinheiros)",
+      "en": "Sao Paulo (Pinheiros)"
+    },
+    "latitude": -23.5706,
+    "longitude": -46.6976,
+    "capacite": 120,
+    "styles": [
+      "House",
+      "Disco",
+      "Balearic"
+    ],
+    "site": "https://ra.co/clubs/241790",
+    "description": {
+      "fr": "Petite maison de la rue Jorge Rizzo transformée en lieu de fête avec bar et DJ, tournée vers la house, la disco et le balearic.",
+      "en": "Small house on Rua Jorge Rizzo turned into a party space with a bar and DJs, focused on house, disco and balearic sounds."
+    }
+  },
+  {
+    "id": "home-club-sao-paulo",
+    "nom": "Home Club",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Centro Histórico)",
+      "en": "Sao Paulo (Centro Histórico)"
+    },
+    "latitude": -23.5462,
+    "longitude": -46.6344,
+    "capacite": 250,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Minimal"
+    ],
+    "site": "https://ra.co/clubs/284894",
+    "description": {
+      "fr": "Club électronique de 250 places rue Quinze de Novembro, dans le centre historique, axé sur la qualité du son et des line-up house, techno et minimal.",
+      "en": "250-capacity electronic club on Rua Quinze de Novembro in the historic centre, focused on sound quality and curated house, techno and minimal lineups."
+    }
+  },
+  {
+    "id": "fabrique-sao-paulo",
+    "nom": "Fabrique",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Barra Funda)",
+      "en": "Sao Paulo (Barra Funda)"
+    },
+    "latitude": -23.5268,
+    "longitude": -46.6601,
+    "capacite": 1200,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://ra.co/clubs/127106",
+    "description": {
+      "fr": "Grand club de 1 200 places de la rue Barra Funda, qui accueille des soirées techno et house ainsi que des fêtes baile funk et dancehall.",
+      "en": "Large 1,200-capacity club on Rua Barra Funda in the district of the same name, hosting techno and house nights alongside baile funk and dancehall parties."
+    }
+  },
+  {
+    "id": "teatro-mars-sao-paulo",
+    "nom": "Teatro Mars",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Bela Vista)",
+      "en": "Sao Paulo (Bela Vista)"
+    },
+    "latitude": -23.5537,
+    "longitude": -46.646,
+    "capacite": 800,
+    "styles": [],
+    "site": "https://ra.co/clubs/134568",
+    "description": {
+      "fr": "Ancien théâtre de la rue João Passalaqua, dans le Bixiga, aujourd'hui loué pour des événements, dont des soirées house, techno et drum & bass de collectifs paulistes.",
+      "en": "Former theatre on Rua João Passalaqua in Bixiga, now rented out for events, including house, techno and drum & bass parties by São Paulo collectives."
+    }
+  },
+  {
+    "id": "komplexo-tempo-sao-paulo",
+    "nom": "Komplexo Tempo",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Mooca)",
+      "en": "Sao Paulo (Mooca)"
+    },
+    "latitude": -23.5709,
+    "longitude": -46.6003,
+    "capacite": 2500,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://ra.co/clubs/201715",
+    "description": {
+      "fr": "Entrepôt de l'avenue Henry Ford, à Mooca, utilisé pour de grandes fêtes électroniques, dont le D26 Festival, ses cinq scènes et ses quinze heures de musique en avril 2026.",
+      "en": "Warehouse on Avenida Henry Ford in Mooca used for large electronic parties, including the D26 Festival with five stages and fifteen hours of music in April 2026."
+    }
+  },
+  {
+    "id": "dr-banana-club-sao-paulo",
+    "nom": "Dr. Banana Club",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Vila Firmiano Pinto)",
+      "en": "Sao Paulo (Vila Firmiano Pinto)"
+    },
+    "latitude": -23.6047,
+    "longitude": -46.6146,
+    "capacite": 500,
+    "styles": [
+      "House",
+      "Minimal",
+      "Electro"
+    ],
+    "site": "https://ra.co/clubs/300752",
+    "description": {
+      "fr": "Club de 500 places de la rue Vergueiro, dans le sud de la ville, créé pour faire revivre l'âge d'or des clubs paulistes en mêlant musique électronique, mode et art.",
+      "en": "500-capacity club on Rua Vergueiro in the south of the city, created to revive the golden era of São Paulo club culture by mixing electronic music, fashion and art."
+    }
+  },
+  {
+    "id": "lote-sao-paulo",
+    "nom": "Lote",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Pinheiros)",
+      "en": "Sao Paulo (Pinheiros)"
+    },
+    "latitude": -23.5601,
+    "longitude": -46.6879,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Balearic",
+      "Disco"
+    ],
+    "site": "https://ra.co/clubs/219409",
+    "description": {
+      "fr": "Bar en plein air de la rue Padre João Gonçalves, avec bières, snacks et une programmation de DJ chaque semaine entre house, balearic et disco.",
+      "en": "Open-air bar on Rua Padre João Gonçalves serving beer and snacks in a courtyard, with a weekly DJ programme of house, balearic and disco."
+    }
+  },
+  {
+    "id": "central-1926-sao-paulo",
+    "nom": "Central 1926",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Centro)",
+      "en": "Sao Paulo (Centro)"
+    },
+    "latitude": -23.5502,
+    "longitude": -46.6381,
+    "capacite": 1500,
+    "styles": [],
+    "site": "https://ra.co/clubs/204698",
+    "description": {
+      "fr": "Ancienne station de distribution électrique de 1926, l'édifice Riachuelo de la praça da Bandeira, restaurée pour accueillir de grands événements, dont le Festival Não Existe de Gop Tun.",
+      "en": "Former 1926 power distribution station, the Riachuelo Building on Praça da Bandeira, restored to host major events, including Gop Tun's Festival Não Existe."
+    }
+  },
+  {
+    "id": "edificio-martinelli-sao-paulo",
+    "nom": "Edifício Martinelli",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Centro Histórico)",
+      "en": "Sao Paulo (Centro Histórico)"
+    },
+    "latitude": -23.5457,
+    "longitude": -46.6349,
+    "capacite": 500,
+    "styles": [],
+    "site": "https://ra.co/clubs/236761",
+    "description": {
+      "fr": "Premier gratte-ciel de São Paulo, rue São Bento dans le centre historique, dont les espaces culturels accueillent régulièrement des fêtes house et disco, dont des soirées Capslock.",
+      "en": "São Paulo's first skyscraper, on Rua São Bento in the historic centre, whose cultural spaces regularly host house and disco parties, including Capslock nights."
+    }
+  },
+  {
+    "id": "bar-carmem-sao-paulo",
+    "nom": "Bar Carmem",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Bom Retiro)",
+      "en": "Sao Paulo (Bom Retiro)"
+    },
+    "latitude": -23.5277,
+    "longitude": -46.6388,
+    "capacite": 100,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/264099",
+    "description": {
+      "fr": "Bar à cocktails de la rue Silva Pinto, à Bom Retiro, qui reçoit régulièrement des DJ house, techno, électro et acid autour de classiques et de créations maison.",
+      "en": "Cocktail bar on Rua Silva Pinto in Bom Retiro that regularly hosts house, techno, electro and acid DJs alongside classic and signature drinks."
+    }
+  },
+  {
+    "id": "entr3posto-sao-paulo",
+    "nom": "Entr3posto",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Barra Funda)",
+      "en": "Sao Paulo (Barra Funda)"
+    },
+    "latitude": -23.5312,
+    "longitude": -46.6544,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro"
+    ],
+    "site": "https://ra.co/clubs/227151",
+    "description": {
+      "fr": "Lieu de fête de la rue Barra Funda, avec bar et table de billard, qui accueille des soirées house, techno et électro de collectifs indépendants.",
+      "en": "Party venue on Rua Barra Funda with a bar and a snooker table, hosting house, techno and electro nights by independent collectives."
+    }
+  },
+  {
+    "id": "so-track-boa-sao-paulo",
+    "nom": "Só Track Boa Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Interlagos)",
+      "en": "Sao Paulo (Interlagos)"
+    },
+    "latitude": -23.7018,
+    "longitude": -46.6969,
+    "capacite": 30000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Tech House",
+      "House",
+      "Melodic Techno",
+      "Afro House"
+    ],
+    "site": "https://www.sotrackboa.com.br",
+    "description": {
+      "fr": "Festival brésilien de musique électronique né en 2015, revenu en juin 2026 à l'autodrome d'Interlagos pour deux jours avec Boris Brejcha, Artbat, Above & Beyond et The Martinez Brothers.",
+      "en": "Brazilian electronic music festival founded in 2015, which returned to the Interlagos racetrack for two days in June 2026 with Boris Brejcha, Artbat, Above & Beyond and The Martinez Brothers."
+    }
+  },
+  {
+    "id": "festival-nao-existe-sao-paulo",
+    "nom": "Festival Não Existe",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Centro)",
+      "en": "Sao Paulo (Centro)"
+    },
+    "latitude": -23.5502,
+    "longitude": -46.6381,
+    "capacite": 1500,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electro",
+      "Indie Dance",
+      "Experimental",
+      "Electronica"
+    ],
+    "site": "https://ra.co/events/2489939",
+    "description": {
+      "fr": "Festival du collectif Gop Tun dont la sixième édition s'est tenue en septembre 2026 au Central 1926, entre électro, indie dance et expérimentations, avec The Twelves et Jex Opolis.",
+      "en": "Festival run by the Gop Tun collective, whose sixth edition took place in September 2026 at Central 1926, mixing electro, indie dance and experimental sounds with The Twelves and Jex Opolis."
+    }
+  },
+  {
+    "id": "aoyama-hachi-tokyo",
+    "nom": "Aoyama Hachi",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Shibuya)",
+      "en": "Tokyo (Shibuya)"
+    },
+    "latitude": 35.6586,
+    "longitude": 139.7086,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Jungle"
+    ],
+    "site": "https://aoyama-hachi.net",
+    "description": {
+      "fr": "Lieu de quatre étages au 4-5-9 Shibuya, côté Aoyama, à l'ambiance de fête en appartement, avec des soirées DJ et live six nuits par semaine, de la house à la jungle.",
+      "en": "Four-storey venue at 4-5-9 Shibuya on the Aoyama side, with an underground house party feel and DJ and live nights six days a week, from house to jungle."
+    }
+  },
+  {
+    "id": "aoyama-tunnel-tokyo",
+    "nom": "Aoyama Tunnel",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Shibuya)",
+      "en": "Tokyo (Shibuya)"
+    },
+    "latitude": 35.6586,
+    "longitude": 139.7086,
+    "capacite": 100,
+    "annee": 2011,
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://aoyama-tunnel.com",
+    "description": {
+      "fr": "Bar caché ouvert en 2011 au sous-sol du 4-5-9 Shibuya, entre lounge et petit club, où des DJ sélectionnés jouent house et techno presque chaque soir.",
+      "en": "Hidden bar opened in 2011 in the basement of 4-5-9 Shibuya, somewhere between a lounge and a small club, where selected DJs play house and techno almost every night."
+    }
+  },
+  {
+    "id": "forestlimit-tokyo",
+    "nom": "Forestlimit",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Hatagaya)",
+      "en": "Tokyo (Hatagaya)"
+    },
+    "latitude": 35.678,
+    "longitude": 139.677,
+    "capacite": 80,
+    "annee": 2010,
+    "styles": [
+      "Experimental",
+      "Electronica",
+      "Bass",
+      "Techno"
+    ],
+    "site": "https://www.forestlimit.com",
+    "description": {
+      "fr": "Petit sous-sol de Hatagaya fondé en 2010, entre club, salle live, studio et lieu d'art expérimental, où se croisent électronique, bass, techno, noise et improvisation.",
+      "en": "Small Hatagaya basement founded in 2010 that works as a club, live house, studio and experimental arts venue, mixing electronic music, bass, techno, noise and improvisation."
+    }
+  },
+  {
+    "id": "mitsuki-tokyo",
+    "nom": "Mitsuki",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Dogenzaka)",
+      "en": "Tokyo (Dogenzaka)"
+    },
+    "latitude": 35.6566,
+    "longitude": 139.6957,
+    "capacite": 150,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Disco"
+    ],
+    "site": "https://mitsuki-tokyo.com",
+    "description": {
+      "fr": "Sous-sol de Dogenzaka ouvert en 2019 et conçu par l'artiste YOSHIROTTEN, à mi-chemin entre bar DJ et club, pilier de la house et de la techno underground à Shibuya.",
+      "en": "Dogenzaka basement opened in 2019 and designed by artist YOSHIROTTEN, halfway between a DJ bar and a nightclub, and a fixture of underground house and techno in Shibuya."
+    }
+  },
+  {
+    "id": "enter-shibuya-tokyo",
+    "nom": "ENTER Shibuya",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Jingumae)",
+      "en": "Tokyo (Jingumae)"
+    },
+    "latitude": 35.6637,
+    "longitude": 139.7024,
+    "capacite": 150,
+    "annee": 2022,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Bass"
+    ],
+    "site": "https://entershibuya.com",
+    "description": {
+      "fr": "Club de 150 places ouvert en 2022 à Jingumae par l'équipe de Contact et Sound Museum Vision, avec la cabine DJ placée au centre de la piste de danse.",
+      "en": "150-capacity club opened in 2022 in Jingumae by the team behind Contact and Sound Museum Vision, with the DJ booth placed in the middle of the dance floor."
+    }
+  },
+  {
+    "id": "dj-bar-bridge-tokyo",
+    "nom": "DJ Bar Bridge",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Shibuya)",
+      "en": "Tokyo (Shibuya)"
+    },
+    "latitude": 35.6597,
+    "longitude": 139.7015,
+    "capacite": 100,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Disco",
+      "Techno"
+    ],
+    "site": "https://djbar-bridge.com/shibuya/",
+    "description": {
+      "fr": "Bar DJ ouvert en 2014 au dernier étage d'un immeuble face à la gare de Shibuya et au carrefour Hachiko, avec son propre système son et une programmation house et disco.",
+      "en": "DJ bar opened in 2014 on the top floor of a building overlooking Shibuya Station and Hachiko Square, with its own sound system and a house and disco programme."
+    }
+  },
+  {
+    "id": "azumaya-tokyo",
+    "nom": "Azumaya",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Dogenzaka)",
+      "en": "Tokyo (Dogenzaka)"
+    },
+    "latitude": 35.6587,
+    "longitude": 139.6956,
+    "capacite": 70,
+    "styles": [
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://azumaya.jp",
+    "description": {
+      "fr": "Bar DJ de 70 places voisin du Spotify O-EAST, avec une petite piste de danse, un intérieur dessiné par Hirokazu Yamazaki du groupe toe et des œuvres de Shinpei Kashiwabara.",
+      "en": "70-capacity DJ bar next to Spotify O-EAST, with a compact dance floor, an interior designed by Hirokazu Yamazaki of the band toe and artwork by Shinpei Kashiwabara."
+    }
+  },
+  {
+    "id": "debris-tokyo",
+    "nom": "Débris",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Daikanyama)",
+      "en": "Tokyo (Daikanyama)"
+    },
+    "latitude": 35.6509,
+    "longitude": 139.7037,
+    "capacite": 80,
+    "styles": [
+      "House",
+      "Techno",
+      "Dub",
+      "Disco"
+    ],
+    "site": "https://debrispace.com",
+    "description": {
+      "fr": "Bar caché de Daikanyama à l'entrée façon speakeasy, doté d'un système son dédié et d'une bibliothèque attenante, où des DJ jouent house, techno, dub et disco.",
+      "en": "Hidden Daikanyama bar with a speakeasy-style entrance, a dedicated sound system and an adjoining library space, where DJs play house, techno, dub and disco."
+    }
+  },
+  {
+    "id": "sel-octagon-tokyo",
+    "nom": "SEL OCTAGON TOKYO",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Roppongi)",
+      "en": "Tokyo (Roppongi)"
+    },
+    "latitude": 35.6648,
+    "longitude": 139.7298,
+    "capacite": 700,
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "EDM"
+    ],
+    "site": "https://sel-octagon-tokyo.jp",
+    "description": {
+      "fr": "Club haut de gamme du groupe avex au sous-sol de l'immeuble Axall Roppongi, héritier du club séoulite Octagon, avec écrans numériques et programmation électro, house et techno.",
+      "en": "High-end club run by avex in the basement of the Axall Roppongi building, inheriting the concept of Seoul's Octagon, with digital visuals and an electro, house and techno programme."
+    }
+  },
+  {
+    "id": "clubasia-tokyo",
+    "nom": "clubasia",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Maruyamacho)",
+      "en": "Tokyo (Maruyamacho)"
+    },
+    "latitude": 35.6598,
+    "longitude": 139.6954,
+    "capacite": 600,
+    "annee": 1996,
+    "styles": [
+      "Bass",
+      "House",
+      "Club"
+    ],
+    "site": "https://clubasia.jp",
+    "description": {
+      "fr": "Club de Maruyamacho ouvert en 1996, sur trois niveaux pour plus de 600 personnes, avec un plafond de six mètres et un mur LED installé en 2024.",
+      "en": "Maruyamacho club opened in 1996, spread over three floors for more than 600 people, with a six-metre ceiling and a large LED installation added in 2024."
+    }
+  },
+  {
+    "id": "unit-tokyo",
+    "nom": "UNIT",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Daikanyama)",
+      "en": "Tokyo (Daikanyama)"
+    },
+    "latitude": 35.6471,
+    "longitude": 139.7024,
+    "capacite": 500,
+    "annee": 2004,
+    "styles": [],
+    "site": "https://www.unit-tokyo.com",
+    "description": {
+      "fr": "Salle de Daikanyama ouverte en 2004, à la fois scène live et club, connue pour ses hauts plafonds, ses visuels et son son, avec la salle Saloon au niveau inférieur.",
+      "en": "Daikanyama venue opened in 2004 that works as both a live stage and a nightclub, known for its high ceilings, visuals and sound, with the Saloon room on the lower floor."
+    }
+  },
+  {
+    "id": "bonobo-tokyo",
+    "nom": "Bonobo",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Jingumae)",
+      "en": "Tokyo (Jingumae)"
+    },
+    "latitude": 35.6745,
+    "longitude": 139.7111,
+    "capacite": 100,
+    "styles": [
+      "House",
+      "Techno",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/12274",
+    "description": {
+      "fr": "Vieille maison de deux étages près de Harajuku, avec enceintes Altec et mixeur rotatif fabriqué pour David Mancuso au rez-de-chaussée, et salle en tatami avec Klipschorn à l'étage.",
+      "en": "Old two-storey house near Harajuku with Altec speakers and a rotary mixer built for David Mancuso downstairs, and a tatami room with Klipschorn speakers upstairs."
+    }
+  },
+  {
+    "id": "solfa-tokyo",
+    "nom": "Solfa",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Nakameguro)",
+      "en": "Tokyo (Nakameguro)"
+    },
+    "latitude": 35.647,
+    "longitude": 139.6981,
+    "capacite": 200,
+    "annee": 2008,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://nakameguro-solfa.com",
+    "description": {
+      "fr": "Club de Nakameguro ouvert en 2008, avec un bar lounge et une piste d'environ 100 personnes équipée d'un système RCF italien, centré sur la techno et la house.",
+      "en": "Nakameguro club opened in 2008, with a bar lounge and a main floor for about 100 people fitted with an Italian RCF sound system, focused on techno and house."
+    }
+  },
+  {
+    "id": "koenji-cave-tokyo",
+    "nom": "Koenji Cave",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Koenji)",
+      "en": "Tokyo (Koenji)"
+    },
+    "latitude": 35.7037,
+    "longitude": 139.6499,
+    "capacite": 150,
+    "annee": 2009,
+    "styles": [
+      "Psy",
+      "Goa Trance",
+      "Acid",
+      "Techno"
+    ],
+    "site": "https://www.djsbarcave.tokyo",
+    "description": {
+      "fr": "Club de Koenji fondé en 2009 et consacré à la trance psychédélique, avec une piste principale et un lounge séparés et une programmation qui s'étend aux festivals en plein air.",
+      "en": "Koenji club founded in 2009 and dedicated to psychedelic trance, with separate main floor and lounge areas and a programme that extends to outdoor festivals."
+    }
+  },
+  {
+    "id": "liquidroom-tokyo",
+    "nom": "LIQUIDROOM",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Ebisu)",
+      "en": "Tokyo (Ebisu)"
+    },
+    "latitude": 35.6491,
+    "longitude": 139.7105,
+    "capacite": 900,
+    "annee": 2004,
+    "styles": [],
+    "site": "https://www.liquidroom.net",
+    "description": {
+      "fr": "Salle d'Ebisu ouverte en 2004 après la fermeture du Liquidroom de Shinjuku, surtout consacrée aux concerts mais qui organise encore des nuits techno et house sur un système son réputé.",
+      "en": "Ebisu venue opened in 2004 after the closure of the Shinjuku Liquidroom, mostly used for concerts but still hosting occasional late-night techno and house events on a renowned sound system."
+    }
+  },
+  {
+    "id": "www-tokyo",
+    "nom": "WWW",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Udagawacho)",
+      "en": "Tokyo (Udagawacho)"
+    },
+    "latitude": 35.6615,
+    "longitude": 139.6988,
+    "capacite": 400,
+    "styles": [],
+    "site": "https://www-shibuya.jp",
+    "description": {
+      "fr": "Salle live et club d'Udagawacho à Shibuya, produite par Space Shower, qui accueille concerts et nuits électroniques, dont une fête de 24 heures pour le Nouvel An 2025-2026.",
+      "en": "Live and club venue in Udagawacho, Shibuya, produced by Space Shower, hosting concerts and electronic nights, including a 24-hour New Year party for 2025-2026."
+    }
+  },
+  {
+    "id": "dogenzaka-church-tokyo",
+    "nom": "Dogenzaka Church",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Dogenzaka)",
+      "en": "Tokyo (Dogenzaka)"
+    },
+    "latitude": 35.6586,
+    "longitude": 139.6969,
+    "capacite": 120,
+    "annee": 2022,
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Jungle"
+    ],
+    "site": "https://dogenzaka-church.com",
+    "description": {
+      "fr": "Bar DJ et espace d'événements au décor d'église ouvert en 2022 sur Dogenzaka, avec un salon de spectacle à l'étage et des soirées house, techno et drum & bass.",
+      "en": "Church-themed DJ bar and event space opened in 2022 on Dogenzaka, with an upstairs show lounge and a programme of house, techno and drum & bass parties."
+    }
+  },
+  {
+    "id": "nu-festival-tokyo",
+    "nom": "NU Festival",
+    "type": "festival",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Takanawa)",
+      "en": "Tokyo (Takanawa)"
+    },
+    "latitude": 35.6356,
+    "longitude": 139.7396,
+    "capacite": 3000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Electronica",
+      "Ambient",
+      "Experimental",
+      "Techno"
+    ],
+    "site": "https://nufestival.jp",
+    "description": {
+      "fr": "Festival urbain lancé en juin 2026 à Takanawa Gateway City en collaboration avec Sónar, JR East et J-WAVE, réunissant William Basinski, Suzanne Ciani, Actress et Daito Manabe.",
+      "en": "Urban festival launched in June 2026 at Takanawa Gateway City in collaboration with Sónar, JR East and J-WAVE, featuring William Basinski, Suzanne Ciani, Actress and Daito Manabe."
+    }
+  },
+  {
+    "id": "good-room-newyork",
+    "nom": "Good Room",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Greenpoint, Brooklyn)",
+      "en": "New York (Greenpoint, Brooklyn)"
+    },
+    "latitude": 40.7269,
+    "longitude": -73.9528,
+    "capacite": 500,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Disco",
+      "Techno"
+    ],
+    "site": "https://goodroombk.com",
+    "description": {
+      "fr": "Club de Greenpoint ouvert en 2014 au 98 Meserole Avenue par des vétérans de la nuit, qui marie bar de quartier et piste de danse sur un système d&b audiotechnik installé par Oxygen Eventworks.",
+      "en": "Greenpoint club opened in 2014 at 98 Meserole Avenue by nightlife veterans, blending a neighborhood bar with a dance floor driven by a d&b audiotechnik system installed by Oxygen Eventworks."
+    }
+  },
+  {
+    "id": "silo-newyork",
+    "nom": "SILO",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (East Williamsburg, Brooklyn)",
+      "en": "New York (East Williamsburg, Brooklyn)"
+    },
+    "latitude": 40.7105,
+    "longitude": -73.9229,
+    "capacite": 500,
+    "annee": 2023,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.silobrooklyn.com",
+    "description": {
+      "fr": "Hangar reconverti d’East Williamsburg ouvert en février 2023 par l’équipe des fêtes Secret Loft, salle de 500 personnes qui programme surtout techno et house, avec des soirées tech house et afro house.",
+      "en": "Converted hangar in East Williamsburg opened in February 2023 by the team behind the Secret Loft parties, a 500-capacity room programming mostly techno and house, with tech house and afro house nights."
+    }
+  },
+  {
+    "id": "le-bain-newyork",
+    "nom": "Le Bain",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Meatpacking District, Manhattan)",
+      "en": "New York (Meatpacking District, Manhattan)"
+    },
+    "latitude": 40.7409,
+    "longitude": -74.0081,
+    "capacite": 300,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco"
+    ],
+    "site": "https://www.lebainnewyork.com",
+    "description": {
+      "fr": "Club au 18e étage et sur le toit de l’hôtel The Standard, High Line, avec piscine intérieure près de la piste et terrasse, qui programme house, disco et deep house presque chaque soir.",
+      "en": "Club on the 18th floor and rooftop of The Standard, High Line hotel, with an indoor pool beside the dance floor and a terrace, programming house, disco and deep house most nights."
+    }
+  },
+  {
+    "id": "paragon-newyork",
+    "nom": "Paragon",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Bushwick, Brooklyn)",
+      "en": "New York (Bushwick, Brooklyn)"
+    },
+    "latitude": 40.6961,
+    "longitude": -73.9341,
+    "capacite": 275,
+    "annee": 2022,
+    "styles": [
+      "Techno",
+      "House",
+      "Acid"
+    ],
+    "site": "https://www.paragonbroadway.com",
+    "description": {
+      "fr": "Club du 990 Broadway ouvert en avril 2022, fermé en avril 2025 puis rouvert en août 2025 avec le soutien de Kevin Saunderson, dont la programmation mêle techno, house, acid et club.",
+      "en": "Club at 990 Broadway opened in April 2022, closed in April 2025 and reopened in August 2025 with backing from Kevin Saunderson, programming techno, house, acid and club music."
+    }
+  },
+  {
+    "id": "house-of-yes-newyork",
+    "nom": "House of Yes",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Bushwick, Brooklyn)",
+      "en": "New York (Bushwick, Brooklyn)"
+    },
+    "latitude": 40.7068,
+    "longitude": -73.9236,
+    "capacite": 475,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://www.houseofyes.org",
+    "description": {
+      "fr": "Club-théâtre installé à Bushwick depuis 2015, connu pour ses soirées qui mêlent DJ, cirque, cabaret et performances costumées, avec une programmation house, techno et disco pour environ 475 personnes.",
+      "en": "Theatre-infused nightclub in Bushwick since 2015, known for parties that combine DJs with circus, cabaret and costumed performance, programming house, techno and disco for around 475 people."
+    }
+  },
+  {
+    "id": "signal-newyork",
+    "nom": "Signal",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (East Williamsburg, Brooklyn)",
+      "en": "New York (East Williamsburg, Brooklyn)"
+    },
+    "latitude": 40.7101,
+    "longitude": -73.9335,
+    "capacite": 215,
+    "annee": 2025,
+    "styles": [
+      "House",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://www.signalnyc.club",
+    "description": {
+      "fr": "Club intime d’East Williamsburg ouvert en mai 2025 au 175 Morgan Avenue, construit autour d’un système d&b audiotechnik à quatre points, avec une politique stricte sans téléphone sur la piste.",
+      "en": "Intimate East Williamsburg club opened in May 2025 at 175 Morgan Avenue, built around a tuned four-point d&b audiotechnik system and enforcing a strict no-phones policy on the dance floor."
+    }
+  },
+  {
+    "id": "h0l0-newyork",
+    "nom": "H0L0",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Ridgewood, Queens)",
+      "en": "New York (Ridgewood, Queens)"
+    },
+    "latitude": 40.6943,
+    "longitude": -73.9022,
+    "capacite": 300,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Techno",
+      "Minimal"
+    ],
+    "site": "https://h0l0.nyc",
+    "description": {
+      "fr": "Espace de Ridgewood, dans le Queens, ouvert en juillet 2017 au 1090 Wyckoff Avenue, devenu un repère de la scène underground new-yorkaise pour les soirées house, techno et minimal.",
+      "en": "Ridgewood, Queens venue opened in July 2017 at 1090 Wyckoff Avenue, now a fixture of the New York underground scene for house, techno and minimal club nights."
+    }
+  },
+  {
+    "id": "mood-ring-newyork",
+    "nom": "Mood Ring",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Bushwick, Brooklyn)",
+      "en": "New York (Bushwick, Brooklyn)"
+    },
+    "latitude": 40.6978,
+    "longitude": -73.927,
+    "capacite": 150,
+    "annee": 2017,
+    "styles": [
+      "Techno",
+      "House",
+      "Club",
+      "Trance"
+    ],
+    "site": "https://www.moodringnyc.club",
+    "description": {
+      "fr": "Bar à thème astrologique ouvert en septembre 2017 sur Myrtle Avenue, qui accueille des DJ chaque soir et refuse les plateaux entièrement masculins, entre techno, house, trance et sons club.",
+      "en": "Astrology-themed bar opened in September 2017 on Myrtle Avenue, hosting DJs every night with a policy against all-male lineups, spanning techno, house, trance and club sounds."
+    }
+  },
+  {
+    "id": "jupiter-disco-newyork",
+    "nom": "Jupiter Disco",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Bushwick, Brooklyn)",
+      "en": "New York (Bushwick, Brooklyn)"
+    },
+    "latitude": 40.7081,
+    "longitude": -73.9235,
+    "capacite": 150,
+    "styles": [
+      "Electro",
+      "House",
+      "Acid",
+      "Disco"
+    ],
+    "site": "https://www.jupiterdisco.com",
+    "description": {
+      "fr": "Bar à cocktails de Bushwick doté d’une petite piste et d’un son audiophile, au 1237 Flushing Avenue, où les DJ résidents et invités jouent surtout electro, house, acid et disco.",
+      "en": "Bushwick cocktail bar with a small dance floor and audiophile sound at 1237 Flushing Avenue, where resident and guest DJs mostly play electro, house, acid and disco."
+    }
+  },
+  {
+    "id": "superior-ingredients-newyork",
+    "nom": "Superior Ingredients",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Williamsburg, Brooklyn)",
+      "en": "New York (Williamsburg, Brooklyn)"
+    },
+    "latitude": 40.7223,
+    "longitude": -73.9578,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Techno",
+      "Afro House",
+      "Tech House"
+    ],
+    "site": "https://www.si-bk.com",
+    "description": {
+      "fr": "Lieu de Williamsburg au 74 Wythe Avenue réparti entre une salle intérieure, The Room, et un toit à couverture rétractable, The Roof, qui programme house, techno, tech house et afro house.",
+      "en": "Williamsburg venue at 74 Wythe Avenue split between an indoor space, The Room, and a rooftop with a retractable roof, The Roof, programming house, techno, tech house and afro house."
+    }
+  },
+  {
+    "id": "refuge-newyork",
+    "nom": "Refuge",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (East Williamsburg, Brooklyn)",
+      "en": "New York (East Williamsburg, Brooklyn)"
+    },
+    "latitude": 40.7118,
+    "longitude": -73.9352,
+    "capacite": 500,
+    "annee": 2025,
+    "styles": [
+      "Techno",
+      "House",
+      "Progressive House"
+    ],
+    "site": "https://refuge.nyc",
+    "description": {
+      "fr": "Club de 500 personnes ouvert en septembre 2025 à East Williamsburg, construit autour de REX, un système sur mesure à quatre stacks de trois mètres conçu par le cofondateur Craig Bernabeu.",
+      "en": "A 500-capacity club opened in September 2025 in East Williamsburg, built around REX, a custom four-point system with ten-foot stacks designed by co-founder Craig Bernabeu."
+    }
+  },
+  {
+    "id": "outer-heaven-newyork",
+    "nom": "Outer Heaven",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Lower East Side, Manhattan)",
+      "en": "New York (Lower East Side, Manhattan)"
+    },
+    "latitude": 40.722,
+    "longitude": -73.9923,
+    "capacite": 140,
+    "annee": 2023,
+    "styles": [
+      "House",
+      "Tech House",
+      "Minimal"
+    ],
+    "site": "https://www.outerheaven.nyc",
+    "description": {
+      "fr": "Lounge à cocktails et microclub de 140 places ouvert en février 2023 au 191 Chrystie Street, avec un son Danley conçu par Nicolas Matar, fondateur de Cielo et d’Output, et une programmation house.",
+      "en": "Cocktail lounge and 140-capacity microclub opened in February 2023 at 191 Chrystie Street, with Danley sound designed by Nicolas Matar, founder of Cielo and Output, and house-focused programming."
+    }
+  },
+  {
+    "id": "pacha-newyork",
+    "nom": "Pacha New York",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (East Williamsburg, Brooklyn)",
+      "en": "New York (East Williamsburg, Brooklyn)"
+    },
+    "latitude": 40.7106,
+    "longitude": -73.9262,
+    "capacite": 5300,
+    "annee": 2026,
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House"
+    ],
+    "site": "https://www.pacha-nyc.com",
+    "description": {
+      "fr": "Ancien site du Brooklyn Mirage, au 140 Stewart Avenue, rouvert en juin 2026 sous la bannière Pacha, avec un espace en plein air d’environ 5 300 personnes et une salle couverte de 2 500.",
+      "en": "The former Brooklyn Mirage site at 140 Stewart Avenue, reopened in June 2026 under the Pacha banner, with an open-air space for about 5,300 people and an indoor hall for 2,500."
+    }
+  },
+  {
+    "id": "mansions-newyork",
+    "nom": "Mansions",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Ridgewood, Queens)",
+      "en": "New York (Ridgewood, Queens)"
+    },
+    "latitude": 40.714,
+    "longitude": -73.9214,
+    "capacite": 160,
+    "styles": [
+      "Techno",
+      "House"
+    ],
+    "site": "https://ra.co/clubs/197275",
+    "description": {
+      "fr": "Bar à vin, club et salle à brouillard de 160 places sur Metropolitan Avenue, à Ridgewood, dont la programmation hebdomadaire est presque entièrement consacrée à la techno et à la house.",
+      "en": "Wine bar, club and fog room for 160 people on Metropolitan Avenue in Ridgewood, Queens, with a weekly program devoted almost entirely to techno and house."
+    }
+  },
+  {
+    "id": "time-warp-newyork",
+    "nom": "Time Warp New York",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Brooklyn Navy Yard)",
+      "en": "New York (Brooklyn Navy Yard)"
+    },
+    "latitude": 40.7023,
+    "longitude": -73.9776,
+    "capacite": 5000,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal"
+    ],
+    "site": "https://www.time-warp.de/usa/nyc",
+    "description": {
+      "fr": "Déclinaison new-yorkaise du festival techno né à Mannheim, organisée chaque novembre à Brooklyn, en 2026 sur deux nuits au Duggal Greenhouse et dans l’Agger Building du Brooklyn Navy Yard.",
+      "en": "New York edition of the techno festival born in Mannheim, held each November in Brooklyn, in 2026 across two nights at the Duggal Greenhouse and Agger Building in the Brooklyn Navy Yard."
+    }
+  },
+  {
+    "id": "experts-only-festival-newyork",
+    "nom": "Experts Only Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York (Randall’s Island)",
+      "en": "New York (Randall’s Island)"
+    },
+    "latitude": 40.7939,
+    "longitude": -73.9176,
+    "capacite": 25000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Tech House",
+      "House",
+      "EDM"
+    ],
+    "site": "https://www.expertsonlyfest.com",
+    "description": {
+      "fr": "Festival de deux jours créé par John Summit sur Randall’s Island, dont la première édition, en septembre 2025, a réuni plus de 50 000 personnes autour de la house et de la tech house.",
+      "en": "Two-day festival created by DJ and producer John Summit on Randall’s Island, whose first edition in September 2025 drew more than 50,000 people for house and tech house."
+    }
+  },
+  {
+    "id": "academy-la-losangeles",
+    "nom": "Academy LA",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Hollywood)",
+      "en": "Los Angeles (Hollywood)"
+    },
+    "latitude": 34.1017,
+    "longitude": -118.3207,
+    "capacite": 1000,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://academy.la",
+    "description": {
+      "fr": "Club du 6021 Hollywood Boulevard lancé fin 2017 à l’adresse des anciens Qtopia, Vanguard et Create, qui programme surtout house, techno et tech house pour environ 1 000 personnes.",
+      "en": "Club at 6021 Hollywood Boulevard launched in late 2017 at the former home of Qtopia, Vanguard and Create, programming mostly house, techno and tech house for about 1,000 people."
+    }
+  },
+  {
+    "id": "catch-one-losangeles",
+    "nom": "Catch One",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Mid-City)",
+      "en": "Los Angeles (Mid-City)"
+    },
+    "latitude": 34.048,
+    "longitude": -118.3239,
+    "capacite": 2400,
+    "annee": 1973,
+    "styles": [
+      "House",
+      "Industrial",
+      "EBM"
+    ],
+    "site": "https://ra.co/clubs/57175",
+    "description": {
+      "fr": "Club historique de Pico Boulevard ouvert en 1973 par Jewel Thais-Williams, réparti sur plusieurs niveaux avec trois pistes et trois bars, qui accueille des soirées house, industrial et EBM.",
+      "en": "Historic Pico Boulevard club opened in 1973 by Jewel Thais-Williams, spread over several levels with three dance floors and three bars, hosting house, industrial and EBM nights."
+    }
+  },
+  {
+    "id": "the-bellwether-losangeles",
+    "nom": "The Bellwether",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (City West)",
+      "en": "Los Angeles (City West)"
+    },
+    "latitude": 34.0562,
+    "longitude": -118.2584,
+    "capacite": 1500,
+    "annee": 2023,
+    "styles": [],
+    "site": "https://thebellwetherla.com",
+    "description": {
+      "fr": "Salle ouverte en juillet 2023 par Teragram Presents et Another Planet Entertainment, avec une grande salle de 1 500 places équipée d’un système d&b, qui programme concerts et soirées électroniques.",
+      "en": "Venue opened in July 2023 by Teragram Presents and Another Planet Entertainment, with a 1,500-capacity ballroom fitted with a d&b system, hosting concerts as well as electronic club nights."
+    }
+  },
+  {
+    "id": "level-8-losangeles",
+    "nom": "Level 8",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Downtown, South Park)",
+      "en": "Los Angeles (Downtown, South Park)"
+    },
+    "latitude": 34.0412,
+    "longitude": -118.2674,
+    "capacite": 800,
+    "annee": 2023,
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House"
+    ],
+    "site": "https://www.level8dtla.com",
+    "description": {
+      "fr": "Étage d’environ 2 800 m² au huitième niveau des hôtels Moxy et AC de Downtown, ouvert en 2023, qui réunit huit espaces dont un club et programme surtout house, tech house et afro house.",
+      "en": "Eighth-floor complex of about 30,000 square feet in the downtown Moxy and AC hotels, opened in 2023, gathering eight spaces including a nightclub and programming mostly house, tech house and afro house."
+    }
+  },
+  {
+    "id": "the-airliner-losangeles",
+    "nom": "The Airliner",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Lincoln Heights)",
+      "en": "Los Angeles (Lincoln Heights)"
+    },
+    "latitude": 34.0739,
+    "longitude": -118.2162,
+    "capacite": 250,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco",
+      "Techno"
+    ],
+    "site": "https://www.barairliner.com",
+    "description": {
+      "fr": "Bar centenaire de Lincoln Heights dont l’étage, rénové en salle hi-fi boisée avec enceintes Klipsch, reçoit des DJ locaux et internationaux pour des soirées house, deep house, disco et techno.",
+      "en": "Century-old Lincoln Heights bar whose upstairs room, renovated as a wood-lined hi-fi space with Klipsch speakers, hosts local and international DJs for house, deep house, disco and techno."
+    }
+  },
+  {
+    "id": "los-globos-losangeles",
+    "nom": "Los Globos",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Silver Lake)",
+      "en": "Los Angeles (Silver Lake)"
+    },
+    "latitude": 34.0838,
+    "longitude": -118.2743,
+    "capacite": 850,
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://www.clublosglobos.com",
+    "description": {
+      "fr": "Ancienne salle de danse de Silver Lake sur Sunset Boulevard, longtemps club latino, répartie entre un lounge en sous-sol et une piste à l’étage, qui programme house, tech house et techno.",
+      "en": "Former dance hall on Sunset Boulevard in Silver Lake, long a Latin club, split between a basement lounge and an upstairs dance floor, programming house, tech house and techno."
+    }
+  },
+  {
+    "id": "shrine-expo-hall-losangeles",
+    "nom": "Shrine Auditorium & Expo Hall",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (University Park)",
+      "en": "Los Angeles (University Park)"
+    },
+    "latitude": 34.0234,
+    "longitude": -118.2814,
+    "capacite": 5000,
+    "annee": 1926,
+    "styles": [],
+    "site": "https://www.shrineauditorium.com",
+    "description": {
+      "fr": "Complexe historique voisin de l’USC, avec un auditorium d’environ 6 300 places et un Expo Hall de 5 000 m², régulièrement loué pour de grandes soirées house, electro et bass.",
+      "en": "Historic complex next to USC with an auditorium of about 6,300 seats and a 54,000 square foot Expo Hall, regularly booked for large house, electro and bass events."
+    }
+  },
+  {
+    "id": "fonda-theatre-losangeles",
+    "nom": "The Fonda Theatre",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Hollywood)",
+      "en": "Los Angeles (Hollywood)"
+    },
+    "latitude": 34.1013,
+    "longitude": -118.3233,
+    "capacite": 1350,
+    "annee": 2012,
+    "styles": [],
+    "site": "https://www.fondatheatre.com",
+    "description": {
+      "fr": "Théâtre des années 1920 sur Hollywood Boulevard, rouvert sous le nom de Fonda en mars 2012, avec balcon assis et grande fosse pour 1 350 personnes, qui accueille aussi drum & bass et electro.",
+      "en": "A 1920s theatre on Hollywood Boulevard reopened as the Fonda in March 2012, with a seated balcony and large open floor for 1,350 people, also hosting drum & bass and electro shows."
+    }
+  },
+  {
+    "id": "club-tee-gee-losangeles",
+    "nom": "Club Tee Gee",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Atwater Village)",
+      "en": "Los Angeles (Atwater Village)"
+    },
+    "latitude": 34.1177,
+    "longitude": -118.2608,
+    "capacite": 100,
+    "styles": [
+      "Disco",
+      "Italo",
+      "Electro",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/162322",
+    "description": {
+      "fr": "Bar historique d’Atwater Village rénové, avec une salle de danse à l’arrière sous une grande boule à facettes, où les soirées DJ tournent autour de la disco, de l’italo, de l’electro et de l’acid.",
+      "en": "Renovated historic Atwater Village bar with a back dance room under a large mirror ball, where DJ nights revolve around disco, italo, electro and acid."
+    }
+  },
+  {
+    "id": "bar-franca-losangeles",
+    "nom": "Bar Franca",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Downtown, Historic Core)",
+      "en": "Los Angeles (Downtown, Historic Core)"
+    },
+    "latitude": 34.0473,
+    "longitude": -118.2479,
+    "capacite": 120,
+    "styles": [
+      "House",
+      "Disco",
+      "Balearic"
+    ],
+    "site": "https://www.barfranca.com",
+    "description": {
+      "fr": "Bar du Historic Core de Downtown, au 438 South Main Street, qui reçoit des DJ plusieurs soirs par semaine pour des sélections house, disco et balearic.",
+      "en": "Bar in the Historic Core of Downtown at 438 South Main Street, hosting DJs several nights a week for house, disco and balearic selections."
+    }
+  },
+  {
+    "id": "echoplex-losangeles",
+    "nom": "Echoplex",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Echo Park)",
+      "en": "Los Angeles (Echo Park)"
+    },
+    "latitude": 34.0776,
+    "longitude": -118.2605,
+    "capacite": 700,
+    "styles": [],
+    "site": "https://www.theecho.com",
+    "description": {
+      "fr": "Salle en sous-sol d’Echo Park, jumelle de The Echo, au sein d’une maison active depuis 2001 qui tient une place centrale dans les soirées dansantes, avec drum & bass, dubstep et electronica entre deux concerts.",
+      "en": "Basement venue in Echo Park and sister room to The Echo, run by a house active since 2001 and central to local dance nights, hosting drum & bass, dubstep and electronica between concerts."
+    }
+  },
+  {
+    "id": "hollywood-palladium-losangeles",
+    "nom": "Hollywood Palladium",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Hollywood)",
+      "en": "Los Angeles (Hollywood)"
+    },
+    "latitude": 34.0985,
+    "longitude": -118.3243,
+    "capacite": 4000,
+    "annee": 1940,
+    "styles": [],
+    "site": "https://www.hollywoodpalladium.com",
+    "description": {
+      "fr": "Salle Art déco de Sunset Boulevard ouverte en 1940, d’environ 4 000 places debout, qui accueille des tournées pop et rock ainsi que des têtes d’affiche de la musique électronique.",
+      "en": "Art deco hall on Sunset Boulevard opened in 1940, holding about 4,000 standing, hosting pop and rock tours as well as electronic music headliners."
+    }
+  },
+  {
+    "id": "day-trip-festival-losangeles",
+    "nom": "Day Trip Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Long Beach (Queen Mary Waterfront)",
+      "en": "Long Beach (Queen Mary Waterfront)"
+    },
+    "latitude": 33.7523,
+    "longitude": -118.1911,
+    "capacite": 15000,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://www.daytripfest.com",
+    "description": {
+      "fr": "Festival de jour organisé par Insomniac sur le front de mer du Queen Mary à Long Beach, consacré à la house et à la techno, complet pour son édition des 27 et 28 juin 2026.",
+      "en": "Daytime festival run by Insomniac on the Queen Mary Waterfront in Long Beach, dedicated to house and techno, reported sold out for its June 27 and 28, 2026 edition."
+    }
+  },
+  {
+    "id": "nocturnal-wonderland-losangeles",
+    "nom": "Nocturnal Wonderland",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "San Bernardino (Glen Helen Regional Park)",
+      "en": "San Bernardino (Glen Helen Regional Park)"
+    },
+    "latitude": 34.2088,
+    "longitude": -117.4062,
+    "capacite": 50000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Dubstep",
+      "Trance"
+    ],
+    "site": "https://www.nocturnalwonderland.com",
+    "description": {
+      "fr": "Plus ancien festival d’Insomniac, créé en 1995, installé au Glen Helen Regional Park de San Bernardino avec camping chaque septembre, tourné vers l’EDM, la house, le dubstep et la trance.",
+      "en": "Insomniac’s longest-running festival, founded in 1995, held at Glen Helen Regional Park in San Bernardino with camping each September, focused on EDM, house, dubstep and trance."
+    }
+  },
+  {
+    "id": "smoke-and-mirrors-chicago",
+    "nom": "Smoke & Mirrors",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Logan Square)",
+      "en": "Chicago (Logan Square)"
+    },
+    "latitude": 41.9183,
+    "longitude": -87.6896,
+    "capacite": 200,
+    "styles": [
+      "Techno",
+      "House",
+      "UK Garage",
+      "Breaks"
+    ],
+    "site": "https://www.smokeandmirrorschicago.com",
+    "description": {
+      "fr": "Bar clandestin et salle de Logan Square au 2045 North Milwaukee Avenue, ouvert jusqu’à 5 h le samedi, dont la programmation underground privilégie techno, house, UK garage et breaks.",
+      "en": "Underground bar and music venue in Logan Square at 2045 North Milwaukee Avenue, open until 5 a.m. on Saturdays, with programming centered on techno, house, UK garage and breaks."
+    }
+  },
+  {
+    "id": "prysm-chicago",
+    "nom": "PRYSM",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Lincoln Park)",
+      "en": "Chicago (Lincoln Park)"
+    },
+    "latitude": 41.9094,
+    "longitude": -87.6524,
+    "capacite": 650,
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://www.prysmchicago.com",
+    "description": {
+      "fr": "Club de 650 personnes au 1543 North Kingsbury Street, organisé autour de plusieurs espaces dont Serum et The Lab, qui reçoit des DJ house, tech house et techno en tournée.",
+      "en": "A 650-capacity club at 1543 North Kingsbury Street, organized around several spaces including Serum and The Lab, booking touring house, tech house and techno DJs."
+    }
+  },
+  {
+    "id": "concord-music-hall-chicago",
+    "nom": "Concord Music Hall",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Logan Square)",
+      "en": "Chicago (Logan Square)"
+    },
+    "latitude": 41.9186,
+    "longitude": -87.6899,
+    "capacite": 1200,
+    "styles": [],
+    "site": "https://concordmusichall.com",
+    "description": {
+      "fr": "Salle de concert de Logan Square à la programmation éclectique, du punk à la K-pop, qui consacre une large part de ses soirées au bass, à la house, au dubstep et à la techno.",
+      "en": "Logan Square concert hall with an eclectic calendar running from punk to K-pop, which devotes a large share of its nights to bass, house, dubstep and techno."
+    }
+  },
+  {
+    "id": "outset-chicago",
+    "nom": "Outset",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (West Town)",
+      "en": "Chicago (West Town)"
+    },
+    "latitude": 41.9127,
+    "longitude": -87.6632,
+    "capacite": 800,
+    "annee": 2024,
+    "styles": [],
+    "site": "https://outsetlive.com",
+    "description": {
+      "fr": "Salle ouverte en 2024 au 1675 North Elston Avenue, qui associe production de grande salle et proximité, et accueille DJ et concerts, dont des after officiels du festival Afterlife.",
+      "en": "Venue opened in 2024 at 1675 North Elston Avenue, combining large-room production with a close-up feel, hosting DJs and live acts including official Afterlife afterparties."
+    }
+  },
+  {
+    "id": "california-clipper-chicago",
+    "nom": "The California Clipper",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Humboldt Park)",
+      "en": "Chicago (Humboldt Park)"
+    },
+    "latitude": 41.8995,
+    "longitude": -87.697,
+    "capacite": 150,
+    "annee": 1937,
+    "styles": [
+      "House",
+      "Disco",
+      "Leftfield"
+    ],
+    "site": "https://californiaclipper.com",
+    "description": {
+      "fr": "Plus ancien bar de quartier de Humboldt Park, ouvert en 1937 dans un ancien théâtre de 1912, qui reçoit des DJ house, disco et expérimentaux plusieurs soirs par semaine.",
+      "en": "Humboldt Park’s longest-standing neighborhood bar, opened in 1937 in a former 1912 theater, hosting house, disco and experimental DJs several nights a week."
+    }
+  },
+  {
+    "id": "le-nocturne-chicago",
+    "nom": "Le Nocturne",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Uptown)",
+      "en": "Chicago (Uptown)"
+    },
+    "latitude": 41.9694,
+    "longitude": -87.6598,
+    "capacite": 300,
+    "styles": [
+      "House",
+      "Deep House",
+      "Disco"
+    ],
+    "site": "https://ra.co/clubs/173265",
+    "description": {
+      "fr": "Restaurant et club d’Uptown sur North Broadway, d’environ 300 places, qui mêle cuisine d’inspiration française, drag et soirées DJ house et deep house, dont des fêtes des Chosen Few DJs.",
+      "en": "Uptown restaurant and club on North Broadway for about 300 people, mixing French-accented food, drag shows and house and deep house DJ nights, including Chosen Few DJs parties."
+    }
+  },
+  {
+    "id": "decibel-chicago",
+    "nom": "Decibel",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Lakeview)",
+      "en": "Chicago (Lakeview)"
+    },
+    "latitude": 41.94,
+    "longitude": -87.6536,
+    "capacite": 200,
+    "styles": [
+      "House",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://www.dbchicago.com",
+    "description": {
+      "fr": "Club de Lakeview installé dans les murs de l’ancien Berlin Nightclub, au 954 West Belmont Avenue, équipé d’un système PK Sound et programmé autour de la house et de la techno.",
+      "en": "Lakeview club in the former home of Berlin Nightclub at 954 West Belmont Avenue, fitted with a PK Sound system and programmed around house and techno."
+    }
+  },
+  {
+    "id": "swig-chicago",
+    "nom": "Swig",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Wicker Park)",
+      "en": "Chicago (Wicker Park)"
+    },
+    "latitude": 41.9087,
+    "longitude": -87.6744,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://swigchicago.com",
+    "description": {
+      "fr": "Petit bar de Wicker Park sur North Milwaukee Avenue avec DJ et place pour danser, qui programme surtout house et techno, avec des soirées deep house et electronica.",
+      "en": "Small Wicker Park bar on North Milwaukee Avenue with DJs and room to dance, programming mostly house and techno, plus deep house and electronica nights."
+    }
+  },
+  {
+    "id": "whistler-chicago",
+    "nom": "The Whistler",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Logan Square)",
+      "en": "Chicago (Logan Square)"
+    },
+    "latitude": 41.9254,
+    "longitude": -87.701,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Bass",
+      "UK Garage",
+      "Balearic"
+    ],
+    "site": "https://whistlerchicago.com",
+    "description": {
+      "fr": "Bar à cocktails et salle de Logan Square doublé d’une galerie en vitrine, qui programme des soirées DJ entre house, balearic, footwork, jungle et UK garage.",
+      "en": "Logan Square cocktail bar and music venue with a storefront gallery, programming DJ nights that range across house, balearic, footwork, jungle and UK garage."
+    }
+  },
+  {
+    "id": "bourbon-on-division-chicago",
+    "nom": "Bourbon on Division",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Wicker Park)",
+      "en": "Chicago (Wicker Park)"
+    },
+    "latitude": 41.9034,
+    "longitude": -87.6793,
+    "capacite": 300,
+    "styles": [],
+    "site": "https://bourbonondivision.com",
+    "description": {
+      "fr": "Bar à whisky et salle de concert sur plusieurs niveaux à Wicker Park, ouvert jusqu’à 4 h, dont l’étage accueille régulièrement des soirées techno, tech house et house.",
+      "en": "Multi-level whiskey bar and live music venue in Wicker Park, open until 4 a.m., whose upstairs room regularly hosts techno, tech house and house nights."
+    }
+  },
+  {
+    "id": "subterranean-chicago",
+    "nom": "Subterranean",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Wicker Park)",
+      "en": "Chicago (Wicker Park)"
+    },
+    "latitude": 41.9104,
+    "longitude": -87.6779,
+    "capacite": 400,
+    "styles": [],
+    "site": "https://www.subt.net",
+    "description": {
+      "fr": "Salle de concert de Wicker Park au 2011 West North Avenue, avec un espace Downstairs, qui alterne concerts et soirées DJ techno, industrial, house et ghetto tech.",
+      "en": "Wicker Park concert venue at 2011 West North Avenue, with a Downstairs room, alternating live shows with techno, industrial, house and ghetto tech DJ nights."
+    }
+  },
+  {
+    "id": "metro-chicago",
+    "nom": "Metro",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Wrigleyville)",
+      "en": "Chicago (Wrigleyville)"
+    },
+    "latitude": 41.9498,
+    "longitude": -87.659,
+    "capacite": 1100,
+    "annee": 1982,
+    "styles": [],
+    "site": "https://metrochicago.com",
+    "description": {
+      "fr": "Salle de Wrigleyville ouverte en 1982 au 3730 North Clark Street, au-dessus du Smartbar, qui programme rock et indie mais aussi des soirées industrial, techno et post-punk.",
+      "en": "Wrigleyville venue opened in 1982 at 3730 North Clark Street, above Smartbar, programming rock and indie as well as industrial, techno and post-punk nights."
+    }
+  },
+  {
+    "id": "ramova-theatre-chicago",
+    "nom": "Ramova Theatre",
+    "type": "club",
+    "estSalle": true,
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Bridgeport)",
+      "en": "Chicago (Bridgeport)"
+    },
+    "latitude": 41.8303,
+    "longitude": -87.6466,
+    "capacite": 1500,
+    "annee": 2023,
+    "styles": [],
+    "site": "https://www.ramovachicago.com",
+    "description": {
+      "fr": "Cinéma de 1929 à Bridgeport rouvert le 31 décembre 2023 en salle de concert de plus de 1 500 places, qui accueille régulièrement des têtes d’affiche EDM, dubstep et bass.",
+      "en": "A 1929 Bridgeport movie palace reopened on December 31, 2023 as a concert hall for more than 1,500 people, regularly hosting EDM, dubstep and bass headliners."
+    }
+  },
+  {
+    "id": "masada-chicago",
+    "nom": "Masada",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Logan Square)",
+      "en": "Chicago (Logan Square)"
+    },
+    "latitude": 41.922,
+    "longitude": -87.6976,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Deep House",
+      "Afro House"
+    ],
+    "site": "https://masadachicago.com",
+    "description": {
+      "fr": "Club de Logan Square avec toit-terrasse saisonnier, connu pour ses soirées house, afrobeats et électroniques, et pour ses lundis Industry Mondayz avec platines ouvertes aux DJ émergents.",
+      "en": "Logan Square nightclub with a seasonal rooftop, known for house, afrobeats and electronic nights and for its Industry Mondayz open decks sessions for emerging DJs."
+    }
+  },
+  {
+    "id": "chosen-few-picnic-chicago",
+    "nom": "Chosen Few Picnic & Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago (Jackson Park)",
+      "en": "Chicago (Jackson Park)"
+    },
+    "latitude": 41.7747,
+    "longitude": -87.5804,
+    "capacite": 45000,
+    "annee": 1990,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Soulful House",
+      "Deep House"
+    ],
+    "site": "https://chosenfewdjs.com",
+    "description": {
+      "fr": "Rassemblement house né en 1990 derrière le Museum of Science and Industry, organisé à Jackson Park depuis 2005 par les Chosen Few DJs, qui a réuni 45 000 personnes en 2026.",
+      "en": "House music gathering born in 1990 behind the Museum of Science and Industry, held in Jackson Park since 2005 by the Chosen Few DJs, drawing 45,000 people in 2026."
+    }
+  },
+  {
+    "id": "north-coast-chicago",
+    "nom": "North Coast Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Bridgeview (SeatGeek Stadium)",
+      "en": "Bridgeview (SeatGeek Stadium)"
+    },
+    "latitude": 41.7648,
+    "longitude": -87.8062,
+    "capacite": 20000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Septembre (Labor Day)",
+      "en": "September (Labor Day)"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Bass",
+      "Dubstep"
+    ],
+    "site": "https://www.northcoastfestival.com",
+    "description": {
+      "fr": "Festival électronique du week-end de Labor Day, né à Union Park et installé au SeatGeek Stadium de Bridgeview, en banlieue sud-ouest, pour sa seizième édition du 4 au 6 septembre 2026.",
+      "en": "Labor Day weekend electronic festival that began in Union Park and now runs at SeatGeek Stadium in suburban Bridgeview, which hosted its sixteenth edition from September 4 to 6, 2026."
+    }
+  },
+  {
+    "id": "do-not-sit-on-the-furniture-miami",
+    "nom": "Do Not Sit On The Furniture",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami Beach (South Beach)",
+      "en": "Miami Beach (South Beach)"
+    },
+    "latitude": 25.7893,
+    "longitude": -80.1323,
+    "capacite": 100,
+    "styles": [
+      "Deep House",
+      "House"
+    ],
+    "site": "https://donotsitonthefurniture.com",
+    "description": {
+      "fr": "Petit club de South Beach d’environ 100 places sur la 16e Rue, consacré à la house et à la deep house, avec plus de deux cents soirées à l’affiche chaque année.",
+      "en": "Small South Beach club for about 100 people on 16th Street, devoted to house and deep house, with more than two hundred nights on its calendar each year."
+    }
+  },
+  {
+    "id": "zeyzey-miami",
+    "nom": "ZeyZey",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Little Haiti)",
+      "en": "Miami (Little Haiti)"
+    },
+    "latitude": 25.8327,
+    "longitude": -80.1891,
+    "capacite": 400,
+    "styles": [
+      "House",
+      "Deep House",
+      "Electronica",
+      "Disco"
+    ],
+    "site": "https://zeyzeymiami.com",
+    "description": {
+      "fr": "Salle et lieu culturel de Little Haiti sur la 61e Rue, entre jardin et bungalow bohème, avec cocktails, vins nature et chefs invités, qui programme house, deep house, electronica et disco.",
+      "en": "Music venue and cultural hub in Little Haiti on 61st Street, part garden and part bohemian bungalow, with cocktails, natural wine and rotating chefs, programming house, deep house, electronica and disco."
+    }
+  },
+  {
+    "id": "factory-town-miami",
+    "nom": "Factory Town",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Hialeah)",
+      "en": "Miami (Hialeah)"
+    },
+    "latitude": 25.8174,
+    "longitude": -80.2576,
+    "capacite": 5000,
+    "styles": [
+      "Techno",
+      "House",
+      "Bass"
+    ],
+    "site": "https://www.factorytown.com",
+    "description": {
+      "fr": "Ancienne usine de matelas de sept acres à Hialeah, exploitée par Insomniac comme site en plein air pouvant accueillir 5 000 personnes, pour des soirées techno, house et bass.",
+      "en": "Seven-acre former mattress factory in Hialeah, run by Insomniac as an open-air venue for up to 5,000 people, hosting techno, house and bass events."
+    }
+  },
+  {
+    "id": "liv-miami",
+    "nom": "LIV",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami Beach (Fontainebleau)",
+      "en": "Miami Beach (Fontainebleau)"
+    },
+    "latitude": 25.8181,
+    "longitude": -80.122,
+    "capacite": 1500,
+    "annee": 2008,
+    "styles": [
+      "House",
+      "Tech House",
+      "EDM"
+    ],
+    "site": "https://www.livnightclub.com/miami/",
+    "description": {
+      "fr": "Club de 1 700 m² ouvert en 2008 dans l’hôtel Fontainebleau de Miami Beach, équipé d’un système Funktion-One, qui alterne têtes d’affiche house et EDM et soirées hip-hop.",
+      "en": "An 18,000 square foot club opened in 2008 inside the Fontainebleau hotel in Miami Beach, fitted with a Funktion-One system and alternating house and EDM headliners with hip-hop nights."
+    }
+  },
+  {
+    "id": "e11even-miami",
+    "nom": "E11EVEN",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Park West)",
+      "en": "Miami (Park West)"
+    },
+    "latitude": 25.7849,
+    "longitude": -80.1935,
+    "capacite": 650,
+    "annee": 2014,
+    "styles": [
+      "EDM",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.11miami.com",
+    "description": {
+      "fr": "Club ouvert jour et nuit à Park West depuis 2014, connu pour ses spectacles et ses performances, qui invite régulièrement des DJ EDM et house aux côtés de têtes d’affiche hip-hop.",
+      "en": "Park West club open around the clock since 2014, known for its stage shows and performances, regularly booking EDM and house DJs alongside hip-hop headliners."
+    }
+  },
+  {
+    "id": "the-ground-miami",
+    "nom": "The Ground",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Park West)",
+      "en": "Miami (Park West)"
+    },
+    "latitude": 25.7846,
+    "longitude": -80.1932,
+    "capacite": 555,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Experimental"
+    ],
+    "site": "https://www.thegroundmiami.com",
+    "description": {
+      "fr": "Salle de taille moyenne de 555 places au rez-de-chaussée du bâtiment de Club Space, à Park West, qui programme techno, house, tech house et des soirées plus expérimentales.",
+      "en": "Mid-sized 555-capacity room on the ground floor of the Club Space building in Park West, programming techno, house, tech house and more experimental nights."
+    }
+  },
+  {
+    "id": "club-m2-miami",
+    "nom": "Club M2",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami Beach (South Beach)",
+      "en": "Miami Beach (South Beach)"
+    },
+    "latitude": 25.7837,
+    "longitude": -80.1318,
+    "capacite": 1000,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Progressive House"
+    ],
+    "site": "https://www.m2miami.com",
+    "description": {
+      "fr": "Grand club de Washington Avenue à South Beach, conçu comme une méga-structure avec scène, plusieurs pistes et un système pensé pour la musique électronique, de la techno à la progressive.",
+      "en": "Large club on Washington Avenue in South Beach, built as a mega-structure with a stage, several dance floors and a sound system designed for electronic music, from techno to progressive house."
+    }
+  },
+  {
+    "id": "domicile-miami",
+    "nom": "Domicile",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Allapattah)",
+      "en": "Miami (Allapattah)"
+    },
+    "latitude": 25.8039,
+    "longitude": -80.2076,
+    "capacite": 350,
+    "styles": [
+      "Techno",
+      "Experimental",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/189088",
+    "description": {
+      "fr": "Espace d’Allapattah de 350 places au 2900 NW 7th Avenue, dont la programmation est presque entièrement techno, avec aussi des nuits expérimentales, acid et dub techno.",
+      "en": "A 350-capacity space in Allapattah at 2900 NW 7th Avenue, with a program devoted almost entirely to techno, alongside experimental, acid and dub techno nights."
+    }
+  },
+  {
+    "id": "dantes-hifi-miami",
+    "nom": "Dante’s HiFi",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Wynwood)",
+      "en": "Miami (Wynwood)"
+    },
+    "latitude": 25.8011,
+    "longitude": -80.2037,
+    "capacite": 120,
+    "styles": [
+      "Disco",
+      "House",
+      "Deep House"
+    ],
+    "site": "https://danteshifi.com",
+    "description": {
+      "fr": "Bar d’écoute vinyle présenté par ses fondateurs comme le premier de Wynwood, au 519 NW 26th Street, avec un système hi-fi analogique et des DJ invités entre disco, house et deep house.",
+      "en": "Vinyl listening bar billed by its founders as the first in Wynwood, at 519 NW 26th Street, with an analog hi-fi system and guest DJ sets of disco, house and deep house."
+    }
+  },
+  {
+    "id": "miami-sound-bar-miami",
+    "nom": "Miami Sound Bar",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Downtown)",
+      "en": "Miami (Downtown)"
+    },
+    "latitude": 25.7728,
+    "longitude": -80.1901,
+    "capacite": 100,
+    "styles": [
+      "House",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://ra.co/clubs/206927",
+    "description": {
+      "fr": "Bar hi-fi de Downtown au 123 SE 2nd Avenue, qui associe cocktails, petite restauration et sélections de DJ house, disco et deep house plusieurs soirs par semaine.",
+      "en": "Downtown hi-fi bar at 123 SE 2nd Avenue pairing cocktails and bar food with house, disco and deep house DJ selections several nights a week."
+    }
+  },
+  {
+    "id": "lions-den-miami",
+    "nom": "Lion’s Den",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Little River)",
+      "en": "Miami (Little River)"
+    },
+    "latitude": 25.8421,
+    "longitude": -80.1992,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "UK Garage",
+      "Minimal"
+    ],
+    "site": "https://ra.co/clubs/283181",
+    "description": {
+      "fr": "Lounge vinyle d’environ 150 places à Little River, au-dessus du restaurant Fooq’s, inspiré des clubs new-yorkais du début des années 2000 et centré sur la house et le UK garage.",
+      "en": "Vinyl lounge for about 150 people in Little River, above Fooq’s restaurant, inspired by early-2000s New York clubs and focused on house and UK garage."
+    }
+  },
+  {
+    "id": "edge-miami",
+    "nom": "Edge Miami",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Edgewater)",
+      "en": "Miami (Edgewater)"
+    },
+    "latitude": 25.796,
+    "longitude": -80.1925,
+    "capacite": 300,
+    "styles": [
+      "Tech House",
+      "House",
+      "Progressive House"
+    ],
+    "site": "https://ra.co/clubs/295903",
+    "description": {
+      "fr": "Club en plein air couvert d’Edgewater d’environ 300 places, installé derrière l’ancien Boho Edgewater sous une charpente de bois façon tiki, consacré à la tech house et à la house.",
+      "en": "Covered open-air club in Edgewater for about 300 people, set behind the former Boho Edgewater under tiki-style wood beams, dedicated to tech house and house."
+    }
+  },
+  {
+    "id": "the-pickle-miami",
+    "nom": "The Pickle",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (94th Aero Squadron)",
+      "en": "Miami (94th Aero Squadron)"
+    },
+    "latitude": 25.785,
+    "longitude": -80.2874,
+    "capacite": 500,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://ra.co/clubs/299424",
+    "description": {
+      "fr": "Héritier de l’Electric Pickle, pilier underground de Miami depuis 2009, fondé par Will Renuart et Danny Daze et installé en plein air sur le site historique du 94th Aero Squadron.",
+      "en": "Successor to Electric Pickle, a Miami underground cornerstone since 2009, founded by Will Renuart and Danny Daze and now set in an open-air space at the historic 94th Aero Squadron."
+    }
+  },
+  {
+    "id": "aire-miami",
+    "nom": "AIRE Miami",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Edgewater)",
+      "en": "Miami (Edgewater)"
+    },
+    "latitude": 25.7958,
+    "longitude": -80.1924,
+    "capacite": 150,
+    "styles": [
+      "House",
+      "Deep House",
+      "Afro House",
+      "Progressive House"
+    ],
+    "site": "https://airemia.com",
+    "description": {
+      "fr": "Club et lounge à ciel ouvert d’Edgewater, ancien Boho Miami au 111 NE 20th Street, construit autour d’une house profonde et soulful, avec résidents et invités internationaux chaque semaine.",
+      "en": "Open-air club and lounge in Edgewater, formerly Boho Miami, at 111 NE 20th Street, built around deep, soulful house with residents and international guests every week."
+    }
+  },
+  {
+    "id": "the-boombox-miami",
+    "nom": "The Boombox",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Westchester)",
+      "en": "Miami (Westchester)"
+    },
+    "latitude": 25.7285,
+    "longitude": -80.3168,
+    "capacite": 300,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Hardcore",
+      "Acid"
+    ],
+    "site": "https://ra.co/clubs/193257",
+    "description": {
+      "fr": "Lieu underground de Westchester, au 4447 SW 75th Avenue, tenu par et pour la scène locale, qui accueille des soirées techno, electro, hardcore et acid.",
+      "en": "Underground venue in Westchester at 4447 SW 75th Avenue, run by and for locals, hosting techno, electro, hardcore and acid nights."
+    }
+  },
+  {
+    "id": "sable-miami",
+    "nom": "Sable",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Wynwood)",
+      "en": "Miami (Wynwood)"
+    },
+    "latitude": 25.7984,
+    "longitude": -80.1988,
+    "capacite": 80,
+    "styles": [
+      "House",
+      "Deep House",
+      "Afro House"
+    ],
+    "site": "https://www.sablemiami.com",
+    "description": {
+      "fr": "Lounge vinyle et café de quartier à Wynwood, au 2219 NW 2nd Avenue, avec un café jardin, qui organise régulièrement des soirées DJ house, deep house et afro house.",
+      "en": "Neighborhood vinyl lounge and café in Wynwood at 2219 NW 2nd Avenue, with a garden café, regularly hosting house, deep house and afro house DJ nights."
+    }
+  },
+  {
+    "id": "ultra-music-festival-miami",
+    "nom": "Ultra Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Bayfront Park)",
+      "en": "Miami (Bayfront Park)"
+    },
+    "latitude": 25.7762,
+    "longitude": -80.1861,
+    "capacite": 55000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "House",
+      "Trance"
+    ],
+    "site": "https://ultramusicfestival.com",
+    "description": {
+      "fr": "Festival fondé en 1999 et installé chaque mois de mars à Bayfront Park, au bord de la baie de Biscayne, pendant la Miami Music Week, avec des scènes EDM, techno, house et trance.",
+      "en": "Festival founded in 1999 and held each March at Bayfront Park on Biscayne Bay during Miami Music Week, with dedicated stages for EDM, techno, house and trance."
+    }
+  },
+  {
+    "id": "iii-points-miami",
+    "nom": "III Points",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (Wynwood)",
+      "en": "Miami (Wynwood)"
+    },
+    "latitude": 25.7981,
+    "longitude": -80.2016,
+    "capacite": 20000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electronica",
+      "Bass"
+    ],
+    "site": "https://www.iiipoints.com",
+    "description": {
+      "fr": "Festival de musique et d’arts créé en 2013, tenu à Mana Wynwood sur cinq pâtés de maisons, dont l’édition des 16 et 17 octobre 2026 a réuni 293 artistes sur 13 scènes.",
+      "en": "Music and arts festival founded in 2013, held at Mana Wynwood across five city blocks, whose October 16 and 17, 2026 edition gathered 293 artists on 13 stages."
     }
   },
 ];

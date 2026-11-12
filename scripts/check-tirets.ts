@@ -72,9 +72,9 @@ const FICHIERS_HORS = (nom: string): boolean =>
   nom === 'package-lock.json' ||
   nom === 'shotgun-releve.json' ||
   /* Meme parole rapportee, meme regle : des titres d'organisateurs. */
-  nom === 'eventbrite-releve.json' ||
+  nom.startsWith('eventbrite-releve') ||
   nom === 'lepointdevente-releve.json' ||
-  nom === 'ticketmaster-releve.json' ||
+  nom.startsWith('ticketmaster-releve') ||
   /* Les titres des articles de vingt magazines, tels qu'ils les ecrivent. */
   nom === 'news.json';
 

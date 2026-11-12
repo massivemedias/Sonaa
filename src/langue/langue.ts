@@ -217,7 +217,7 @@ interface Dictionnaire {
   readonly moisSuivant: string;
   readonly choixSurCetteMachine: string;
   readonly effacer: string;
-  /** « SONAA connaît 23 villes. » Le nombre change, la phrase aussi. */
+  /** « SONAA connaît 20 villes. » Le nombre change, la phrase aussi. */
   readonly sonaaConnaitNVilles: (n: number) => string;
   readonly voirLaFiche: string;
   readonly replierLaFiche: string;

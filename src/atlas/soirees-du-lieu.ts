@@ -14,31 +14,30 @@ export interface ConfigVilleCalendrier {
   readonly fuseau: string;
 }
 
-/** Les 23 villes du calendrier SONAA avec leur zone Resident Advisor et leur fuseau. */
+/** Les 20 villes du calendrier SONAA avec leur zone Resident Advisor et leur fuseau. */
+/* LES VINGT VILLES, depuis le 12 novembre 2026 (ADR-118) : les memes que la
+   table `villes` du calendrier. */
 export const ZONES_RA_PAR_VILLE: Readonly<Record<string, ConfigVilleCalendrier>> = {
   'montreal-ca': { zone: 40, fuseau: 'America/Toronto' },
   'toronto-ca': { zone: 28, fuseau: 'America/Toronto' },
-  'vancouver-ca': { zone: 39, fuseau: 'America/Vancouver' },
-  'quebec-ca': { zone: 250, fuseau: 'America/Toronto' },
-  'ottawa-ca': { zone: 74, fuseau: 'America/Toronto' },
-  'calgary-ca': { zone: 137, fuseau: 'America/Edmonton' },
-  'winnipeg-ca': { zone: 580, fuseau: 'America/Winnipeg' },
-  'halifax-ca': { zone: 586, fuseau: 'America/Halifax' },
-  'berlin-de': { zone: 34, fuseau: 'Europe/Berlin' },
-  'londres-gb': { zone: 13, fuseau: 'Europe/London' },
-  'paris-fr': { zone: 44, fuseau: 'Europe/Paris' },
-  'montpellier-fr': { zone: 339, fuseau: 'Europe/Paris' },
-  'toulouse-fr': { zone: 618, fuseau: 'Europe/Paris' },
-  'amsterdam-nl': { zone: 29, fuseau: 'Europe/Amsterdam' },
-  'barcelone-es': { zone: 20, fuseau: 'Europe/Madrid' },
   'newyork-us': { zone: 8, fuseau: 'America/New_York' },
   'losangeles-us': { zone: 23, fuseau: 'America/Los_Angeles' },
-  'detroit-us': { zone: 19, fuseau: 'America/Detroit' },
   'chicago-us': { zone: 17, fuseau: 'America/Chicago' },
+  'miami-us': { zone: 38, fuseau: 'America/New_York' },
   'mexico-mx': { zone: 399, fuseau: 'America/Mexico_City' },
-  'tokyo-jp': { zone: 27, fuseau: 'Asia/Tokyo' },
-  'melbourne-au': { zone: 2, fuseau: 'Australia/Melbourne' },
   'saopaulo-br': { zone: 400, fuseau: 'America/Sao_Paulo' },
+  'londres-gb': { zone: 13, fuseau: 'Europe/London' },
+  'paris-fr': { zone: 44, fuseau: 'Europe/Paris' },
+  'lyon-fr': { zone: 337, fuseau: 'Europe/Paris' },
+  'marseille-fr': { zone: 338, fuseau: 'Europe/Paris' },
+  'toulouse-fr': { zone: 618, fuseau: 'Europe/Paris' },
+  'montpellier-fr': { zone: 339, fuseau: 'Europe/Paris' },
+  'berlin-de': { zone: 34, fuseau: 'Europe/Berlin' },
+  'amsterdam-nl': { zone: 29, fuseau: 'Europe/Amsterdam' },
+  'bruxelles-be': { zone: 62, fuseau: 'Europe/Brussels' },
+  'barcelone-es': { zone: 20, fuseau: 'Europe/Madrid' },
+  'madrid-es': { zone: 41, fuseau: 'Europe/Madrid' },
+  'tokyo-jp': { zone: 27, fuseau: 'Asia/Tokyo' },
 };
 
 const ALIAS_PAR_ID: Readonly<Record<string, readonly string[]>> = {

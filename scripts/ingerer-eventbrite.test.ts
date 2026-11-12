@@ -1,7 +1,7 @@
 /* LA GARDE EST LA SEULE DECISION DE CET ADAPTATEUR, DONC LA SEULE A TESTER.
  * Les exemples sont des titres reels de la premiere moisson montrealaise. */
 import { describe, expect, it } from 'vitest';
-import { estElectronique } from './ingerer-eventbrite.ts';
+import { estElectronique, peutEtreElectronique } from './ingerer-eventbrite.ts';
 
 describe('estElectronique', () => {
   it('garde ce qui se dit electronique dans le titre', () => {
@@ -59,5 +59,23 @@ describe('estElectronique', () => {
   });
   it('ne prend pas « set » ni « dj » a l interieur d un autre mot', () => {
     expect(estElectronique('Sunset Yoga', 'settle in', 'Adjust Co')).toBe(false);
+  });
+});
+
+/* LE PREMIER TRI, SUR LA LISTE : large, il ne jette que le sur hors sujet.
+   Titres reels des listes de Lyon, Berlin et New York, 12 novembre 2026. */
+describe('peutEtreElectronique', () => {
+  it('laisse lire ce qui porte un mot de la nuit, meme faible', () => {
+    expect(peutEtreElectronique('Galactic Disco', null)).toBe(true);
+    expect(peutEtreElectronique('Environs XVIII: Live Music + DJ', null)).toBe(true);
+    expect(peutEtreElectronique('Pataphysics 022', 'an all-night DJ set in Bushwick')).toBe(true);
+  });
+  it('ecarte ce qui nomme une autre scene sans genre electronique', () => {
+    expect(peutEtreElectronique('Cours de bachata | Tapas | Mix soirée', null)).toBe(false);
+    expect(peutEtreElectronique('PANDAjazz: Red Color Trio', null)).toBe(false);
+    expect(peutEtreElectronique('Cours d’essai > Yin Yoga', null)).toBe(false);
+  });
+  it('garde un genre fort dans le titre quoi qu il y ait a cote', () => {
+    expect(peutEtreElectronique('Reggaeton Rave | Brooklyn', null)).toBe(true);
   });
 });

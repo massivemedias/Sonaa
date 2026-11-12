@@ -3,6 +3,8 @@
  * Usage : npm run ingerer:eventbrite -- --lire        (montre, n'ecrit rien)
  *         SUPABASE_SERVICE_ROLE_KEY=... npm run ingerer:eventbrite
  *         npm run ingerer:eventbrite -- --pages=3       (pour un essai court)
+ *         npm run ingerer:eventbrite -- --toutes        (les vingt villes)
+ *         npm run ingerer:eventbrite -- --ville=lyon-fr
  *
  * ═══ POURQUOI EVENTBRITE, ET POURQUOI MAINTENANT ═══
  *
@@ -53,6 +55,21 @@
  * est prefere a l'absence de filtre, qui remplissait le calendrier de bruit
  * a plus de trente contre un. Les fiches ecartees sont comptees et dites.
  *
+ * ═══ LES VINGT VILLES, ET LE TRI AVANT LA LECTURE (12 novembre 2026) ═══
+ *
+ * Depuis ADR-118, la moisson couvre les vingt villes du calendrier. La liste
+ * porte deja le titre et le debut de l'annonce de chaque fiche : le filtre
+ * electronique large y passe une premiere fois, et seules les fiches qui le
+ * passent sont lues en entier, puis filtrees par le filtre complet.
+ * Sans ce tri, vingt villes feraient plusieurs milliers de lectures.
+ *
+ * ═══ BLOQUE DEPUIS LES MACHINES DE GITHUB, MESURE DU 12 NOVEMBRE 2026 ═══
+ *
+ * Depuis la fin d'octobre, Eventbrite rend 405 a toute requete partie d'un
+ * runner GitHub, des la premiere page : la moisson de la nuit ecrivait zero
+ * soiree sans echouer. La meme requete passe depuis une adresse ordinaire.
+ * Le script le dit maintenant en echouant, au lieu de se taire.
+ *
  * ═══ IDEMPOTENT, COMME SHOTGUN ═══
  *
  * Upsert sur (source, source_ref), ou source_ref est l'identifiant numerique
@@ -64,8 +81,36 @@ import { pathToFileURL } from 'node:url';
 
 /* ── Ce qu'on va chercher ─────────────────────────────────────────────── */
 
-const VILLE_SONAA = 'montreal-ca';
-const VILLE_EVENTBRITE = 'canada--montreal';
+interface Ville {
+  readonly sonaa: string;
+  /** Le lieu tel qu'Eventbrite l'ecrit dans ses adresses /d/<lieu>/. */
+  readonly eventbrite: string;
+}
+
+/* Les vingt villes du calendrier (ADR-118). Les lieux ont ete verifies un a
+   un le 12 novembre 2026 : chacun rend sa liste, sans redirection. */
+const VILLES: readonly Ville[] = [
+  { sonaa: 'montreal-ca', eventbrite: 'canada--montreal' },
+  { sonaa: 'toronto-ca', eventbrite: 'canada--toronto' },
+  { sonaa: 'newyork-us', eventbrite: 'ny--new-york' },
+  { sonaa: 'losangeles-us', eventbrite: 'ca--los-angeles' },
+  { sonaa: 'chicago-us', eventbrite: 'il--chicago' },
+  { sonaa: 'miami-us', eventbrite: 'fl--miami' },
+  { sonaa: 'mexico-mx', eventbrite: 'mexico--ciudad-de-mexico' },
+  { sonaa: 'saopaulo-br', eventbrite: 'brazil--s%C3%A3o-paulo' },
+  { sonaa: 'londres-gb', eventbrite: 'united-kingdom--london' },
+  { sonaa: 'paris-fr', eventbrite: 'france--paris' },
+  { sonaa: 'lyon-fr', eventbrite: 'france--lyon' },
+  { sonaa: 'marseille-fr', eventbrite: 'france--marseille' },
+  { sonaa: 'toulouse-fr', eventbrite: 'france--toulouse' },
+  { sonaa: 'montpellier-fr', eventbrite: 'france--montpellier' },
+  { sonaa: 'berlin-de', eventbrite: 'germany--berlin' },
+  { sonaa: 'amsterdam-nl', eventbrite: 'netherlands--amsterdam' },
+  { sonaa: 'bruxelles-be', eventbrite: 'belgium--brussel--10471' },
+  { sonaa: 'barcelone-es', eventbrite: 'spain--barcelona' },
+  { sonaa: 'madrid-es', eventbrite: 'spain--madrid' },
+  { sonaa: 'tokyo-jp', eventbrite: 'japan--tokyo' },
+];
 
 /* Les categories reunies. Voir l'en-tete pour l'absence de « house ». */
 const CATEGORIES = ['electronic-music', 'techno', 'edm', 'dance-music', 'electronic-music--nightlife'];
@@ -97,16 +142,31 @@ const opt = (nom: string): string | null => {
 /* Vingt pages par categorie : la mesure en a compte quatorze pour la plus
    grosse. On s'arrete de toute facon des qu'une page n'apporte rien. */
 const PAGES_MAX = Number(opt('pages') ?? 20);
+const TOUTES = args.includes('--toutes');
+const VILLE_DEMANDEE = opt('ville') ?? 'montreal-ca';
 
 const AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 const PAUSE = 400;
 const dormir = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
+class Refus extends Error {}
+
 async function page(url: string): Promise<string> {
-  const r = await fetch(url, { headers: { 'User-Agent': AGENT, 'Accept-Language': 'fr-CA,fr;q=0.9' } });
-  if (!r.ok) throw new Error(`${r.status} sur ${url}`);
-  return r.text();
+  /* 429 : trop vite. On attend et on reessaie trois fois, de plus en plus
+     longtemps, au lieu d'abandonner la categorie entiere. */
+  for (const attente of [5000, 15000, 40000, 0]) {
+    const r = await fetch(url, { headers: { 'User-Agent': AGENT, 'Accept-Language': 'fr-CA,fr;q=0.9' } });
+    /* 403 et 405 : la porte est fermee a cette machine, pas a cette page. */
+    if (r.status === 403 || r.status === 405) throw new Refus(`${r.status} sur ${url}`);
+    if (r.status === 429 && attente > 0) {
+      await dormir(attente);
+      continue;
+    }
+    if (!r.ok) throw new Error(`${r.status} sur ${url}`);
+    return r.text();
+  }
+  throw new Error(`429 sur ${url}`);
 }
 
 /* ── Lire le JSON-LD d'une page ───────────────────────────────────────── */
@@ -256,19 +316,36 @@ export const estElectronique = (titre: string, description: string | null, organ
   return autresScenes === 0 && MOTS_MOYENS.test(annonce);
 };
 
+/** LE PREMIER TRI, SUR LA LISTE, EST PLUS LARGE QUE LE SECOND. La liste ne
+    montre qu'un resume de l'annonce, ou le mot qui decide manque souvent :
+    le filtre complet y rejetait 336 fiches montrealaises sur 344, dont des
+    soirees que la fiche entiere aurait gardees. On n'ecarte donc ici que ce
+    qui ne porte aucun mot de la nuit, ou dont le titre nomme une autre scene
+    sans nommer un genre electronique. Le filtre complet passe ensuite. */
+export const peutEtreElectronique = (titre: string, resume: string | null): boolean => {
+  const t = titre.replace(PAS_UN_GENRE, '');
+  if (MOTS_FORTS.test(t)) return true;
+  if (MOTS_BLOQUANTS.test(t)) return false;
+  const tout = `${t} ${resume ?? ''}`.replace(PAS_UN_GENRE, '');
+  return MOTS_FORTS.test(tout) || MOTS_MOYENS.test(tout) || MOTS_FAIBLES.test(tout);
+};
+
 /* ── Etape 1 : decouvrir les adresses de fiches ───────────────────────── */
 
-async function decouvrir(): Promise<Map<string, string>> {
+async function decouvrir(ville: Ville): Promise<{ refs: Map<string, string>; triees: number }> {
   /* ref -> url. La ref est le nombre en fin d'adresse : c'est la seule partie
      stable, le slug qui la precede change quand l'organisateur renomme. */
   const refs = new Map<string, string>();
+  const vues = new Set<string>();
+  let triees = 0;
   for (const cat of CATEGORIES) {
     let neuvesCat = 0;
     for (let p = 1; p <= PAGES_MAX; p += 1) {
       let html: string;
       try {
-        html = await page(`https://www.eventbrite.ca/d/${VILLE_EVENTBRITE}/${cat}/?page=${p}`);
+        html = await page(`https://www.eventbrite.ca/d/${ville.eventbrite}/${cat}/?page=${p}`);
       } catch (e) {
+        if (e instanceof Refus) throw e;
         console.log(`  ${cat} page ${p} : ${(e as Error).message}`);
         break;
       }
@@ -276,9 +353,15 @@ async function decouvrir(): Promise<Map<string, string>> {
       for (const e of evenements(html)) {
         const url = texte(e['url']);
         const ref = url?.match(/-(\d+)\/?$/)?.[1] ?? url?.match(/(\d{8,})/)?.[1];
-        if (!url || !ref || refs.has(ref)) continue;
-        refs.set(ref, url);
+        if (!url || !ref || vues.has(ref)) continue;
+        vues.add(ref);
         neuves += 1;
+        /* Le premier tri, sur ce que la liste montre deja. */
+        if (!peutEtreElectronique(texte(e['name']) ?? '', texte(e['description']))) {
+          triees += 1;
+          continue;
+        }
+        refs.set(ref, url);
       }
       neuvesCat += neuves;
       if (neuves === 0) break;
@@ -286,7 +369,7 @@ async function decouvrir(): Promise<Map<string, string>> {
     }
     console.log(`  ${cat.padEnd(28)} +${neuvesCat} fiches nouvelles`);
   }
-  return refs;
+  return { refs, triees };
 }
 
 /* ── Etape 2 : lire chaque fiche ──────────────────────────────────────── */
@@ -300,7 +383,8 @@ function prixDe(offres: unknown): string | null {
   const haut = Number(o['highPrice'] ?? o['price']);
   if (!Number.isFinite(bas) || !Number.isFinite(haut)) return null;
   const devise = texte(o['priceCurrency']) ?? 'CAD';
-  const s = devise === 'CAD' ? ' $' : devise === 'EUR' ? ' €' : ` ${devise}`;
+  const SIGNES: Record<string, string> = { CAD: ' $', EUR: ' €', USD: ' $ US', GBP: ' £' };
+  const s = SIGNES[devise] ?? ` ${devise}`;
   if (bas === 0 && haut === 0) return 'Gratuit';
   return bas === haut ? `${bas}${s}` : `${bas} a ${haut}${s}`;
 }
@@ -350,9 +434,9 @@ async function lireLaFiche(ref: string, url: string): Promise<Fiche | null> {
 const URL_BASE = process.env['VITE_SUPABASE_URL'] ?? 'https://pqgapyfqkjzvwkulxnhv.supabase.co';
 const CLE_SERVICE = process.env['SUPABASE_SERVICE_ROLE_KEY'] ?? '';
 
-async function identifiantDeVille(): Promise<string | null> {
+async function identifiantDeVille(slug: string): Promise<string | null> {
   const cle = process.env['VITE_SUPABASE_ANON_KEY'] ?? CLE_SERVICE;
-  const r = await fetch(`${URL_BASE}/rest/v1/villes?slug=eq.${VILLE_SONAA}&select=id`, {
+  const r = await fetch(`${URL_BASE}/rest/v1/villes?slug=eq.${slug}&select=id`, {
     headers: { apikey: cle, Authorization: `Bearer ${cle}` },
   });
   if (!r.ok) return null;
@@ -381,9 +465,30 @@ async function verser(villeId: string, fiches: readonly Fiche[]): Promise<number
 /* ── Le parcours ──────────────────────────────────────────────────────── */
 
 async function main(): Promise<void> {
-  console.log('MONTRÉAL, Eventbrite');
-  const refs = await decouvrir();
-  console.log(`  ${refs.size} fiches distinctes à lire\n`);
+  if (!TOUTES) {
+    const ville = VILLES.find((v) => v.sonaa === VILLE_DEMANDEE);
+    if (!ville) throw new Error(`Ville inconnue : ${VILLE_DEMANDEE}. Connues : ${VILLES.map((v) => v.sonaa).join(', ')}`);
+    await moissonner(ville);
+    return;
+  }
+  const ratees: string[] = [];
+  for (const v of VILLES) {
+    try {
+      await moissonner(v);
+    } catch (e) {
+      /* Un refus vaut pour toutes les villes : inutile d'insister. */
+      if (e instanceof Refus) throw new Error(`Eventbrite refuse cette machine (${e.message}).`);
+      ratees.push(v.sonaa);
+      console.error(`  ${v.sonaa} : ${(e as Error).message}`);
+    }
+  }
+  if (ratees.length > 0) console.log(`\nVilles sans moisson : ${ratees.join(', ')}.`);
+}
+
+async function moissonner(ville: Ville): Promise<void> {
+  console.log(`\n${ville.sonaa.toUpperCase()}, Eventbrite`);
+  const { refs, triees } = await decouvrir(ville);
+  console.log(`  ${refs.size} fiches à lire, ${triees} écartées dès la liste\n`);
 
   const fiches: Fiche[] = [];
   let n = 0;
@@ -403,9 +508,11 @@ async function main(): Promise<void> {
   }
   console.log(`  ${fiches.length} soirées retenues, ${ecartees} écartées faute de mot électronique`);
 
-  const releve = { fait: new Date().toISOString(), [VILLE_SONAA]: fiches };
+  const releve = { fait: new Date().toISOString(), [ville.sonaa]: fiches };
   if (lire || !CLE_SERVICE) {
-    const chemin = 'scripts/donnees/eventbrite-releve.json';
+    const chemin = TOUTES || ville.sonaa !== 'montreal-ca'
+      ? `scripts/donnees/eventbrite-releve-${ville.sonaa}.json`
+      : 'scripts/donnees/eventbrite-releve.json';
     writeFileSync(chemin, JSON.stringify(releve, null, 2), 'utf8');
     console.log(`\n${fiches.length} soirées écrites dans ${chemin}.`);
     if (!CLE_SERVICE && !lire) {
@@ -413,8 +520,8 @@ async function main(): Promise<void> {
     }
     return;
   }
-  const id = await identifiantDeVille();
-  if (!id) throw new Error(`${VILLE_SONAA} absente de la table villes.`);
+  const id = await identifiantDeVille(ville.sonaa);
+  if (!id) throw new Error(`${ville.sonaa} absente de la table villes.`);
   console.log(`\n${await verser(id, fiches)} soirées versées.`);
 }
 

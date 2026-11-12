@@ -3,6 +3,7 @@
  * Usage : npm run ingerer:ticketmaster -- --lire        (montre, n'ecrit rien)
  *         SUPABASE_SERVICE_ROLE_KEY=... npm run ingerer:ticketmaster
  *         npm run ingerer:ticketmaster -- --ville=montpellier-fr
+ *         npm run ingerer:ticketmaster -- --toutes      (les vingt villes)
  *
  * ═══ POURQUOI C'EST LA SEULE SOURCE QU'ON LIT PAR UNE API ═══
  *
@@ -81,17 +82,47 @@ const CLE_TICKETMASTER = process.env['TICKETMASTER_API_KEY'] ?? '';
 
 interface Ville {
   readonly sonaa: string;
-  readonly ville: string;
+  /** Les graphies de la ville chez Ticketmaster : chacune est lue. */
+  readonly noms: readonly string[];
   readonly pays: string;
 }
 
 /* Le filtre « city » de Discovery prend « Montreal », « Montréal » et
-   « Montreal  » avec une espace : les trois graphies existent chez eux. */
+   « Montreal  » avec une espace : les trois graphies existent chez eux.
+   Une ville peut donc porter plusieurs noms, lus l'un apres l'autre, et les
+   doublons tombent par l'identifiant de la fiche.
+
+   LES VINGT VILLES DU CALENDRIER, depuis le 12 novembre 2026 (ADR-118).
+   Tokyo n'y est pas : Ticketmaster ne vend pas au Japon. Sao Paulo y est a
+   l'essai, la billetterie bresilienne n'etant pas toujours dans Discovery ;
+   une ville vide ne coute que deux appels et n'ecrit rien. */
 const VILLES: readonly Ville[] = [
-  { sonaa: 'montreal-ca', ville: 'Montreal', pays: 'CA' },
-  { sonaa: 'montpellier-fr', ville: 'Montpellier', pays: 'FR' },
-  { sonaa: 'toulouse-fr', ville: 'Toulouse', pays: 'FR' },
+  { sonaa: 'montreal-ca', noms: ['Montreal', 'Montréal'], pays: 'CA' },
+  { sonaa: 'toronto-ca', noms: ['Toronto'], pays: 'CA' },
+  { sonaa: 'newyork-us', noms: ['New York', 'Brooklyn'], pays: 'US' },
+  { sonaa: 'losangeles-us', noms: ['Los Angeles'], pays: 'US' },
+  { sonaa: 'chicago-us', noms: ['Chicago'], pays: 'US' },
+  { sonaa: 'miami-us', noms: ['Miami', 'Miami Beach'], pays: 'US' },
+  { sonaa: 'mexico-mx', noms: ['Ciudad de México', 'Mexico City'], pays: 'MX' },
+  { sonaa: 'saopaulo-br', noms: ['São Paulo', 'Sao Paulo'], pays: 'BR' },
+  { sonaa: 'londres-gb', noms: ['London'], pays: 'GB' },
+  { sonaa: 'paris-fr', noms: ['Paris'], pays: 'FR' },
+  { sonaa: 'lyon-fr', noms: ['Lyon'], pays: 'FR' },
+  { sonaa: 'marseille-fr', noms: ['Marseille'], pays: 'FR' },
+  { sonaa: 'toulouse-fr', noms: ['Toulouse'], pays: 'FR' },
+  { sonaa: 'montpellier-fr', noms: ['Montpellier'], pays: 'FR' },
+  { sonaa: 'berlin-de', noms: ['Berlin'], pays: 'DE' },
+  { sonaa: 'amsterdam-nl', noms: ['Amsterdam'], pays: 'NL' },
+  { sonaa: 'bruxelles-be', noms: ['Bruxelles', 'Brussels', 'Brussel'], pays: 'BE' },
+  { sonaa: 'barcelone-es', noms: ['Barcelona'], pays: 'ES' },
+  { sonaa: 'madrid-es', noms: ['Madrid'], pays: 'ES' },
 ];
+
+/* L'identifiant du genre Dance/Electronic dans la classification de
+   Discovery. Une seconde lecture filtree par lui va chercher les soirees
+   electroniques au-dela des mille premieres fiches musicales, que les
+   grandes villes depassent en quelques semaines. */
+const GENRE_ID_ELECTRONIQUE = 'KnvZfZ7vAvF';
 
 const GENRE_ELECTRONIQUE = 'Dance/Electronic';
 
@@ -161,10 +192,14 @@ const opt = (nom: string): string | null => {
   return t ? (t.split('=')[1] ?? null) : null;
 };
 const VILLE_DEMANDEE = opt('ville') ?? 'montreal-ca';
+const TOUTES = args.includes('--toutes');
 
 /* Cinq appels par seconde autorises ; on en fait trois. */
 const PAUSE = 350;
-const PAGES_MAX = 10;
+/* DISCOVERY NE PAGINE PAS AU-DELA DE MILLE FICHES : `size * page` doit
+   rester sous 1000, et la page suivante rend une erreur 400. Cinq pages de
+   deux cents, donc, par lecture. */
+const PAGES_MAX = 5;
 const dormir = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
 /* ── La decision : garder ou non ──────────────────────────────────────── */
@@ -229,12 +264,20 @@ export function ficheDe(e: Evenement): Fiche | null {
 
 /* ── La lecture ───────────────────────────────────────────────────────── */
 
-async function pageDe(ville: Ville, numero: number): Promise<Page> {
+interface Lecture {
+  readonly nom: string;
+  readonly pays: string;
+  /** Vrai pour la lecture filtree par le genre electronique. */
+  readonly electronique: boolean;
+}
+
+async function pageDe(l: Lecture, numero: number): Promise<Page> {
   const u = new URL('https://app.ticketmaster.com/discovery/v2/events.json');
   u.searchParams.set('apikey', CLE_TICKETMASTER);
-  u.searchParams.set('city', ville.ville);
-  u.searchParams.set('countryCode', ville.pays);
-  u.searchParams.set('classificationName', 'music');
+  u.searchParams.set('city', l.nom);
+  u.searchParams.set('countryCode', l.pays);
+  if (l.electronique) u.searchParams.set('genreId', GENRE_ID_ELECTRONIQUE);
+  else u.searchParams.set('classificationName', 'music');
   u.searchParams.set('size', '200');
   u.searchParams.set('sort', 'date,asc');
   /* SANS `locale=*`, LA FRANCE EST VIDE. Mesure du 7 septembre 2026 : la
@@ -250,17 +293,33 @@ async function pageDe(ville: Ville, numero: number): Promise<Page> {
   return (await r.json()) as Page;
 }
 
-async function lireLaVille(ville: Ville): Promise<readonly Evenement[]> {
+async function lireUneFois(l: Lecture): Promise<readonly Evenement[]> {
   const tous: Evenement[] = [];
   let pages = 1;
   for (let n = 0; n < pages && n < PAGES_MAX; n += 1) {
-    const p = await pageDe(ville, n);
+    const p = await pageDe(l, n);
     pages = p.page?.totalPages ?? 1;
-    if (n === 0) console.log(`  ${p.page?.totalElements ?? 0} fiches musicales chez Ticketmaster, ${pages} page(s)`);
+    if (n === 0) {
+      const quoi = l.electronique ? 'électroniques' : 'musicales';
+      console.log(`  « ${l.nom} » : ${p.page?.totalElements ?? 0} fiches ${quoi}, ${pages} page(s)`);
+    }
     tous.push(...(p._embedded?.events ?? []));
     await dormir(PAUSE);
   }
   return tous;
+}
+
+/* Chaque graphie, deux fois : toute la musique (le genre d'un artiste
+   rattrape la fiche mal classee), puis le seul genre electronique (pour
+   aller plus loin que les mille premieres fiches). */
+async function lireLaVille(ville: Ville): Promise<readonly Evenement[]> {
+  const parId = new Map<string, Evenement>();
+  for (const nom of ville.noms) {
+    for (const electronique of [false, true]) {
+      for (const e of await lireUneFois({ nom, pays: ville.pays, electronique })) parId.set(e.id, e);
+    }
+  }
+  return [...parId.values()];
 }
 
 /* ── L'ecriture ───────────────────────────────────────────────────────── */
@@ -302,10 +361,28 @@ async function main(): Promise<void> {
   if (!CLE_TICKETMASTER) {
     throw new Error('TICKETMASTER_API_KEY absente de .env : la clé se lit sur developer-account.ticketmaster.com.');
   }
+  if (TOUTES) {
+    /* Une ville qui echoue n'arrete pas les autres : on le dit, on passe. */
+    const ratees: string[] = [];
+    for (const v of VILLES) {
+      try {
+        await moissonner(v);
+      } catch (e) {
+        ratees.push(v.sonaa);
+        console.error(`  ${v.sonaa} : ${(e as Error).message}`);
+      }
+    }
+    if (ratees.length === VILLES.length) throw new Error('aucune ville lue.');
+    if (ratees.length > 0) console.log(`\nVilles sans moisson : ${ratees.join(', ')}.`);
+    return;
+  }
   const ville = VILLES.find((v) => v.sonaa === VILLE_DEMANDEE);
   if (!ville) throw new Error(`Ville inconnue : ${VILLE_DEMANDEE}. Connues : ${VILLES.map((v) => v.sonaa).join(', ')}`);
+  await moissonner(ville);
+}
 
-  console.log(`${ville.ville.toUpperCase()}, Ticketmaster`);
+async function moissonner(ville: Ville): Promise<void> {
+  console.log(`\n${ville.sonaa.toUpperCase()}, Ticketmaster`);
   const tous = await lireLaVille(ville);
 
   const fiches: Fiche[] = [];
@@ -329,7 +406,7 @@ async function main(): Promise<void> {
 
   const releve = { fait: new Date().toISOString(), [ville.sonaa]: fiches };
   if (lire || !CLE_SERVICE) {
-    const chemin = 'scripts/donnees/ticketmaster-releve.json';
+    const chemin = `scripts/donnees/ticketmaster-releve-${ville.sonaa}.json`;
     writeFileSync(chemin, JSON.stringify(releve, null, 2), 'utf8');
     console.log(`\n${fiches.length} soirées écrites dans ${chemin}.`);
     if (!CLE_SERVICE && !lire) {

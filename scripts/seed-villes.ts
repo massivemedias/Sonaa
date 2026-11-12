@@ -21,7 +21,7 @@
  *
  * Population et coordonnees : Wikidata, par identifiant Q, releve du
  * 3 septembre 2026. Le Q est conserve dans la table pour pouvoir rafraichir.
- * Fuseau IANA : ecrit a la main, ce sont vingt et une valeurs qu'on connait
+ * Fuseau IANA : ecrit a la main, ce sont vingt valeurs qu'on connait
  * et que Wikidata rend de facon inegale.
  *
  * DEUX IDENTIFIANTS ETAIENT FAUX au premier jet, et aucun ne l'aurait dit :
@@ -72,6 +72,7 @@ const BORNES: Record<string, [number, number, number, number]> = {
   GB: [49, 61, -8, 2],
   FR: [41, 51, -5, 10],
   NL: [50, 54, 3, 8],
+  BE: [49, 52, 2, 7],
   ES: [35, 44, -19, 5],
   JP: [24, 46, 122, 154],
   AU: [-44, -9, 112, 154],

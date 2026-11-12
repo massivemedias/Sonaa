@@ -59,16 +59,17 @@ jobs:
         run: npm ci
 
       # ── Le calendrier ────────────────────────────────────────────────
-      - name: Ticketmaster (Montreal, Montpellier, Toulouse)
+      # Les vingt villes du calendrier (ADR-118), Tokyo excepte : Ticketmaster
+      # n'y vend pas.
+      - name: Ticketmaster (vingt villes)
         continue-on-error: true
-        run: |
-          npm run ingerer:ticketmaster
-          npm run ingerer:ticketmaster -- --ville=montpellier-fr
-          npm run ingerer:ticketmaster -- --ville=toulouse-fr
+        run: npm run ingerer:ticketmaster -- --toutes
 
-      - name: Eventbrite
+      # Eventbrite refuse les machines de GitHub (405) depuis la fin d'octobre
+      # 2026 : l'etape echoue alors en le disant, et la moisson continue.
+      - name: Eventbrite (vingt villes)
         continue-on-error: true
-        run: npm run ingerer:eventbrite
+        run: npm run ingerer:eventbrite -- --toutes --pages=10
 
       # Lepointdevente et Shotgun pilotent le Chrome de la machine ; le
       # runner Ubuntu de GitHub en a un.

@@ -4,11 +4,14 @@ import { soireesPourLieu } from '../atlas/soirees-du-lieu.ts';
 import type { Soiree } from '../lib/agenda.ts';
 
 describe('Atlas des clubs et festivals', () => {
-  it('couvre au moins 60 villes électroniques (dont les 23 villes du calendrier SONAA), 38 salles et clubs à Montréal, 30 à Barcelone, 22 à Montpellier et 295 au total', () => {
+  it('couvre les 20 villes du calendrier SONAA (ADR-118), 400 salles et clubs, dont 38 à Montréal, 30 à Barcelone, 22 à Montpellier', () => {
     const clubs = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club');
-    expect(VILLES_CLUBS.length).toBeGreaterThanOrEqual(60);
-    expect(VILLES_CLUBS.filter((v) => v.aCalendrier).length).toBe(23);
-    expect(clubs.length).toBeGreaterThanOrEqual(295);
+    expect(VILLES_CLUBS.length).toBe(20);
+    expect(VILLES_CLUBS.every((v) => v.aCalendrier)).toBe(true);
+    expect(clubs.length).toBeGreaterThanOrEqual(400);
+    /* aucun club hors des vingt villes */
+    const slugs = new Set(VILLES_CLUBS.map((v) => v.slug));
+    expect(clubs.filter((c) => !c.villeSlug || !slugs.has(c.villeSlug))).toEqual([]);
 
     const montpellierClubs = clubs.filter((c) => c.villeSlug === 'montpellier-fr');
     expect(montpellierClubs.length).toBeGreaterThanOrEqual(22);
@@ -40,7 +43,7 @@ describe('Atlas des clubs et festivals', () => {
     expect(nomsMtl).toContain('La Sala Rossa');
 
     const salles = clubs.filter((c) => c.estSalle);
-    expect(salles.length).toBeGreaterThanOrEqual(42);
+    expect(salles.length).toBeGreaterThanOrEqual(90);
     for (const s of salles) {
       expect(s.styles).toEqual([]);
     }
@@ -50,14 +53,19 @@ describe('Atlas des clubs et festivals', () => {
 
     for (const v of VILLES_CLUBS) {
       const deLaVille = clubs.filter((c) => c.villeSlug === v.slug);
-      expect(deLaVille.length).toBeGreaterThanOrEqual(3);
+      expect(deLaVille.length).toBeGreaterThanOrEqual(7);
+    }
+    /* La densification du 12 novembre 2026 : vingt lieux au moins dans les
+       grandes capitales de la nuit. */
+    for (const slug of ['newyork-us', 'londres-gb', 'berlin-de', 'amsterdam-nl', 'madrid-es', 'tokyo-jp', 'toronto-ca']) {
+      expect(clubs.filter((c) => c.villeSlug === slug).length).toBeGreaterThanOrEqual(20);
     }
   });
 
-  it('recense au moins 305 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
+  it('recense au moins 325 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
     const festivals = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
     expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(33);
-    expect(festivals.length).toBeGreaterThanOrEqual(305);
+    expect(festivals.length).toBeGreaterThanOrEqual(325);
 
     const suti = festivals.find((f) => f.id === 'suti-festival-portugal');
     expect(suti).toBeDefined();
