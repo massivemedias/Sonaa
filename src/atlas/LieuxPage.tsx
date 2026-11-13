@@ -216,17 +216,6 @@ const devinerSlugDepuisIp = (
   return '';
 };
 
-const ouvrirPremierClubDeLaVille = (slug: string, precedent: Set<string>): Set<string> => {
-  if (!slug) return precedent;
-  const premiers = LIEUX_ET_FESTIVALS.filter(
-    (l) => l.type === 'club' && !l.estSalle && l.villeSlug === slug
-  ).sort((a, b) => b.capacite - a.capacite);
-  if (premiers.length === 0) return precedent;
-  const suivant = new Set(precedent);
-  if (premiers[0]) suivant.add(premiers[0].id);
-  return suivant;
-};
-
 const correspondAuFiltreType = (lieu: LieuOuFestival, filtre: FiltreType): boolean => {
   if (filtre === 'tout') return true;
   if (filtre === 'festival') return lieu.type === 'festival';
@@ -249,18 +238,12 @@ export function LieuxPage() {
     est: number;
     nord: number;
   } | null>(null);
-  const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(() => {
-    const base = new Set([
-      'stereo-montreal',
-      'newspeak-montreal',
-      'razzmatazz-barcelone',
-      'dieze-warehouse-montpellier',
-      'veld-toronto',
-      'sonar-barcelona',
-    ]);
-    const initSlug = trouverSlugVilleClub(villeDuLien()) || trouverSlugVilleClub(villeDeSession());
-    return ouvrirPremierClubDeLaVille(initSlug, base);
-  });
+  /* TOUT EST FERME AU DEPART, et le reste quand on change de ville.
+     Mika, le 13 novembre 2026 : « ferme tous les accordeons dans atlas, en
+     desktop et en mobile ». Six fiches s'ouvraient d'office au chargement,
+     plus la premiere de chaque ville choisie : la liste commencait par une
+     description au lieu d'un classement. Une fiche ne s'ouvre qu'au clic. */
+  const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(() => new Set());
   const [groupesDeplies, setGroupesDeplies] = useState<Set<string>>(() => new Set());
   const [soireesParVille, setSoireesParVille] = useState<Record<string, readonly Soiree[]>>({});
   const [chargementParVille, setChargementParVille] = useState<Record<string, boolean>>({});
@@ -542,7 +525,6 @@ export function LieuxPage() {
         if (!slugResolu) return;
 
         setVilleActive(slugResolu);
-        setLieuxOuverts((prev) => ouvrirPremierClubDeLaVille(slugResolu, prev));
         const v = VILLES_CLUBS.find((x) => x.slug === slugResolu);
         if (v) {
           lancerMouvementCarte((c) => {
@@ -697,7 +679,6 @@ export function LieuxPage() {
       });
       return;
     }
-    setLieuxOuverts((prev) => ouvrirPremierClubDeLaVille(slugVille, prev));
     const v = VILLES_CLUBS.find((x) => x.slug === slugVille);
     if (v) {
       lancerMouvementCarte((carte) => {
