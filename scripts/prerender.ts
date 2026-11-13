@@ -294,6 +294,10 @@ for (const s of styles) {
     ecrire({
       chemin: s.chemin,
       hash: s.hash,
+      /* LA VERSION ANGLAISE EXISTE, ELLE DOIT ETRE DITE (13 novembre 2026) :
+         sans hreflang, les quatorze pages de famille passaient pour des
+         doublons de leurs jumelles /en/. */
+      alterne: `${PREFIXE_ANGLAIS}${s.chemin}`,
       ...carteDeStyle('fr', `famille:${famille.id}`),
       titre: `${famille.label} : les ${struct.genres.length} genres, leur histoire et comment les produire · SONAA`,
       description: couper(desc || `La famille ${famille.label} de la musique électronique : ${struct.genres.length} genres, avec leur histoire, leurs morceaux et un cours de production pour chacun.`, 158),
@@ -858,7 +862,7 @@ if (soirees.length > 0) {
       description: `${liste.length} soirées de musique électronique à ${v.name} dans les 60 prochains jours : techno, house, drum and bass, avec la salle, l’heure et les billets.`,
       corps: `${entete([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }])}<h1>Soirées électroniques à ${h(v.name)}</h1><p>${liste.length} soirées à venir, relevées chaque jour.</p>${liensFamilles}<h2>Toutes les dates</h2><ul>${liste
         .map((s) => ligneSoireeFr(s, v, cheminVille))
-        .join('')}</ul><p><a href="${cheminVilleEn}" hreflang="en">Electronic music events in ${h(v.name)} (English)</a></p>`,
+        .join('')}</ul><p>${VILLES_CLUBS.some((c) => c.slug === v.slug) ? `<a href="/clubs/${v.slug}/">Les clubs de ${h(v.name)}</a> · ` : ''}<a href="${cheminVilleEn}" hreflang="en">Electronic music events in ${h(v.name)} (English)</a></p>`,
       jsonld: [filAriane([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }]), ...liste.slice(0, 50).map(evenement)],
     });
     ecrire({
@@ -872,7 +876,7 @@ if (soirees.length > 0) {
       description: `${liste.length} upcoming electronic music events in ${v.name} over the next 60 days: techno, house, drum and bass, trance, with venues, hours and tickets.`,
       corps: `${enteteEn([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }])}<h1>Electronic music events in ${h(v.name)}</h1><p>${liste.length} upcoming nights, updated daily.</p>${liensFamillesEn}<h2>All upcoming dates</h2><ul>${liste
         .map((s) => ligneSoireeEn(s, v, cheminVille))
-        .join('')}</ul><p><a href="${cheminVille}" hreflang="fr">Soirées électroniques à ${h(v.name)} (français)</a></p>`,
+        .join('')}</ul><p>${VILLES_CLUBS.some((c) => c.slug === v.slug) ? `<a href="${cheminEn(`/clubs/${v.slug}/`)}">Clubs in ${h(v.name)}</a> · ` : ''}<a href="${cheminVille}" hreflang="fr">Soirées électroniques à ${h(v.name)} (français)</a></p>`,
       jsonld: [filAriane([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }]), ...liste.slice(0, 50).map(evenement)],
     });
     for (const s of liste.filter((x) => x.manuelle)) {
@@ -1760,7 +1764,7 @@ ecrire({
     VILLES_CLUBS.map((v) => {
       const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
       const lienCal = v.aCalendrier ? ` (<a href="/soirees/${v.slug}/">Calendrier des soirées</a>)` : '';
-      return `<h3>${h(v.nom.fr)}${lienCal}</h3><ul>${cs
+      return `<h3><a href="/clubs/${v.slug}/">${h(v.nom.fr)}</a>${lienCal}</h3><ul>${cs
         .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('fr-CA')} places${c.annee ? `, depuis ${c.annee}` : ''}) : ${h(c.description.fr)}</li>`)
         .join('')}</ul>`;
     }).join('') +
@@ -1801,7 +1805,7 @@ ecrire({
       const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
       const pays = paysNomMap.get(v.paysCode);
       const lienCal = v.aCalendrier ? ` (<a href="${cheminEn(`/soirees/${v.slug}/`)}">Upcoming nights</a>)` : '';
-      return `<h3>${h(v.nom.en)}${pays ? `, ${h(pays.nom.en)}` : ''}${lienCal}</h3><ul>${cs
+      return `<h3><a href="${cheminEn(`/clubs/${v.slug}/`)}">${h(v.nom.en)}</a>${pays ? `, ${h(pays.nom.en)}` : ''}${lienCal}</h3><ul>${cs
         .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('en-CA')} capacity${c.annee ? `, since ${c.annee}` : ''}): ${h(c.description.en)}</li>`)
         .join('')}</ul>`;
     }).join('') +
@@ -1822,6 +1826,108 @@ ecrire({
     },
   ],
 });
+
+/* ═══ UNE PAGE DE CLUBS PAR VILLE (/clubs/<ville>/), 13 novembre 2026 ═══
+
+   Mika : « je veux plus de referencement ». La page /clubs/ tenait les vingt
+   villes sur une seule adresse, et une recherche « clubs techno Berlin »
+   n'avait aucune page qui lui reponde en propre. Chaque ville a maintenant
+   la sienne, en francais et en anglais : ses clubs du plus grand au plus
+   petit, ses salles, ses festivals, et le lien vers son calendrier. Les
+   donnees structurees disent NightClub pour un club et MusicVenue pour une
+   salle, avec la position : c'est ce que lisent les moteurs de cartes. */
+
+const lieuLd = (c: (typeof clubsPre)[number], v: (typeof VILLES_CLUBS)[number], langue: 'fr' | 'en'): unknown => ({
+  '@type': c.estSalle ? 'MusicVenue' : 'NightClub',
+  name: c.nom,
+  description: c.description[langue],
+  ...(c.site ? { url: c.site } : {}),
+  ...(c.capacite ? { maximumAttendeeCapacity: c.capacite } : {}),
+  ...(c.annee ? { foundingDate: String(c.annee) } : {}),
+  geo: { '@type': 'GeoCoordinates', latitude: c.latitude, longitude: c.longitude },
+  address: { '@type': 'PostalAddress', addressLocality: v.nom[langue], addressCountry: v.paysCode },
+});
+
+for (const v of VILLES_CLUBS) {
+  const cheminFr = `/clubs/${v.slug}/`;
+  const cheminAn = cheminEn(cheminFr);
+  const deLaVille = clubsPre.filter((c) => c.villeSlug === v.slug).sort((a, b) => b.capacite - a.capacite);
+  const clubs = deLaVille.filter((c) => !c.estSalle);
+  const salles = deLaVille.filter((c) => c.estSalle);
+  const fests = festivalsPre.filter((f) => f.villeSlug === v.slug);
+  const pays = paysNomMap.get(v.paysCode);
+  const autres = VILLES_CLUBS.filter((x) => x.slug !== v.slug);
+  const tete = clubs.slice(0, 2).map((c) => c.nom).join(', ');
+  const styles = [...new Set(clubs.flatMap((c) => c.styles))].slice(0, 4);
+
+  const ligneFr = (c: (typeof clubsPre)[number]): string =>
+    `<li><strong>${c.site ? `<a href="${h(c.site)}" rel="noopener">${h(c.nom)}</a>` : h(c.nom)}</strong> (${h(c.ville.fr)}, ${c.capacite.toLocaleString('fr-CA')} places${c.annee ? `, depuis ${c.annee}` : ''}${c.styles.length ? ` · ${h(c.styles.join(', '))}` : ''}) : ${h(c.description.fr)}</li>`;
+  const ligneEn = (c: (typeof clubsPre)[number]): string =>
+    `<li><strong>${c.site ? `<a href="${h(c.site)}" rel="noopener">${h(c.nom)}</a>` : h(c.nom)}</strong> (${h(c.ville.en)}, ${c.capacite.toLocaleString('en-CA')} capacity${c.annee ? `, since ${c.annee}` : ''}${c.styles.length ? ` · ${h(c.styles.join(', '))}` : ''}): ${h(c.description.en)}</li>`;
+
+  ecrire({
+    chemin: cheminFr,
+    alterne: cheminAn,
+    hash: `#/clubs?city=${v.slug}`,
+    titre: `Clubs de musique électronique à ${v.nom.fr} : les ${clubs.length} adresses de référence · SONAA`,
+    description: couper(
+      `Les ${clubs.length} clubs${salles.length ? ` et ${salles.length} salles` : ''} de musique électronique à ${v.nom.fr}${tete ? ` : ${tete}` : ''}${styles.length ? `, en ${styles.join(', ').toLowerCase()}` : ''}, avec capacité, histoire et prochaines soirées.`,
+      158
+    ),
+    corps:
+      `${entete([{ nom: 'Clubs & Festivals', href: '/clubs/' }, { nom: v.nom.fr, href: cheminFr }])}` +
+      `<h1>Les clubs de musique électronique à ${h(v.nom.fr)}</h1>` +
+      `<p>${clubs.length} clubs et bars musicaux${salles.length ? `, ${salles.length} salles de concert` : ''}${fests.length ? ` et ${fests.length} festivals` : ''} à ${h(v.nom.fr)}${pays ? ` (${h(pays.nom.fr)})` : ''}, classés du plus grand au plus petit. ${v.aCalendrier ? `<a href="/soirees/${v.slug}/">Les soirées à venir à ${h(v.nom.fr)}</a>.` : ''}</p>` +
+      (clubs.length ? `<h2>Les clubs et bars musicaux</h2><ol>${clubs.map(ligneFr).join('')}</ol>` : '') +
+      (salles.length ? `<h2>Les salles de concert</h2><ul>${salles.map(ligneFr).join('')}</ul>` : '') +
+      (fests.length ? `<h2>Les festivals</h2><ul>${fests.map((f) => `<li><strong>${h(f.nom)}</strong> (${f.capacite.toLocaleString('fr-CA')} personnes${f.mois ? `, ${h(f.mois.fr)}` : ''}) : ${h(f.description.fr)}</li>`).join('')}</ul>` : '') +
+      `<h2>Les clubs dans les autres villes</h2><ul>${autres.map((x) => `<li><a href="/clubs/${x.slug}/">${h(x.nom.fr)}</a></li>`).join('')}</ul>` +
+      `<p><a href="/clubs/">L’atlas complet des clubs et festivals</a> · <a href="${cheminAn}" hreflang="en">Clubs in ${h(v.nom.en)} (English)</a></p>`,
+    jsonld: [
+      filAriane([{ nom: 'Clubs & Festivals', href: '/clubs/' }, { nom: v.nom.fr, href: cheminFr }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: `Clubs de musique électronique à ${v.nom.fr}`,
+        url: `${ORIGINE}${cheminFr}`,
+        numberOfItems: deLaVille.length,
+        itemListElement: deLaVille.map((c, i) => ({ '@type': 'ListItem', position: i + 1, item: lieuLd(c, v, 'fr') })),
+      },
+    ],
+  });
+
+  ecrire({
+    chemin: cheminAn,
+    langue: 'en',
+    alterne: cheminFr,
+    hash: `#/clubs?city=${v.slug}`,
+    titre: `Electronic music clubs in ${v.nom.en}: the ${clubs.length} essential venues · SONAA`,
+    description: couper(
+      `The ${clubs.length} electronic music clubs${salles.length ? ` and ${salles.length} concert venues` : ''} in ${v.nom.en}${tete ? `: ${tete}` : ''}${styles.length ? `, for ${styles.join(', ').toLowerCase()}` : ''}, with capacity, history and upcoming nights.`,
+      158
+    ),
+    corps:
+      `${enteteEn([{ nom: 'Clubs & Festivals', href: cheminEn('/clubs/') }, { nom: v.nom.en, href: cheminAn }])}` +
+      `<h1>Electronic music clubs in ${h(v.nom.en)}</h1>` +
+      `<p>${clubs.length} clubs and music bars${salles.length ? `, ${salles.length} concert venues` : ''}${fests.length ? ` and ${fests.length} festivals` : ''} in ${h(v.nom.en)}${pays ? ` (${h(pays.nom.en)})` : ''}, ranked by capacity. ${v.aCalendrier ? `<a href="${cheminEn(`/soirees/${v.slug}/`)}">Upcoming electronic music events in ${h(v.nom.en)}</a>.` : ''}</p>` +
+      (clubs.length ? `<h2>Clubs and music bars</h2><ol>${clubs.map(ligneEn).join('')}</ol>` : '') +
+      (salles.length ? `<h2>Concert venues</h2><ul>${salles.map(ligneEn).join('')}</ul>` : '') +
+      (fests.length ? `<h2>Festivals</h2><ul>${fests.map((f) => `<li><strong>${h(f.nom)}</strong> (${f.capacite.toLocaleString('en-CA')} capacity${f.mois ? `, ${h(f.mois.en)}` : ''}): ${h(f.description.en)}</li>`).join('')}</ul>` : '') +
+      `<h2>Clubs in other cities</h2><ul>${autres.map((x) => `<li><a href="${cheminEn(`/clubs/${x.slug}/`)}">${h(x.nom.en)}</a></li>`).join('')}</ul>` +
+      `<p><a href="${cheminEn('/clubs/')}">The full atlas of clubs and festivals</a> · <a href="${cheminFr}" hreflang="fr">Clubs à ${h(v.nom.fr)} (français)</a></p>`,
+    jsonld: [
+      filAriane([{ nom: 'Clubs & Festivals', href: cheminEn('/clubs/') }, { nom: v.nom.en, href: cheminAn }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: `Electronic music clubs in ${v.nom.en}`,
+        url: `${ORIGINE}${cheminAn}`,
+        numberOfItems: deLaVille.length,
+        itemListElement: deLaVille.map((c, i) => ({ '@type': 'ListItem', position: i + 1, item: lieuLd(c, v, 'en') })),
+      },
+    ],
+  });
+}
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 

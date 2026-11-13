@@ -83,6 +83,10 @@ export function hashDuChemin(chemin: string): string | null {
   /* LES LABELS, depuis le 1er octobre 2026 : /labels/ et /labels/<slug>/. */
   if (c === '/labels/') return '#/labels';
   if (c === '/clubs/') return '#/clubs';
+  /* UNE PAGE PAR VILLE DE L'ATLAS, depuis le 13 novembre 2026 :
+     /clubs/berlin-de/ ouvre l'atlas sur Berlin. */
+  const club = c.match(/^\/clubs\/([a-z]+-[a-z]{2})\/$/);
+  if (club) return `#/clubs?city=${club[1]}`;
   const label = c.match(/^\/labels\/([a-z0-9-]+)\/$/);
   if (label) return `#/labels/${label[1]}`;
   const style = (CHEMINS_STYLES as Record<string, string>)[c];
@@ -152,6 +156,11 @@ export function cheminDuHash(hash: string): string {
   if (label) return label[1] ? `/labels/${label[1]}/` : '/labels/';
   const marque = base.match(/^#\/news\/marques(?:\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?)?(?:\/|$)/);
   if (marque) return `/news/marques/${marque[1] ? `${marque[1]}/` : ''}${marque[2] ? `${marque[2]}/` : ''}`;
+  /* L'atlas ouvert sur une ville a sa page a lui : /clubs/<ville>/. */
+  if (base === '#/clubs') {
+    const ville = new URLSearchParams(hash.split('?')[1] ?? '').get('city');
+    if (ville && /^[a-z]+-[a-z]{2}$/.test(ville)) return `/clubs/${ville}/`;
+  }
   const simple = base.match(/^#\/(news|tracks|reconnaitre|panier|conditions|confidentialite|mentions|clubs)(?:\/|$)/);
   if (simple) return `/${simple[1]}/`;
   return '/';

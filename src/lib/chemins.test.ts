@@ -30,6 +30,8 @@ describe('hashDuChemin', () => {
 
   it('traduit les soirees, avec ou sans ville et sans identifiant', () => {
     expect(hashDuChemin('/soirees/montreal-ca/')).toBe('#/calendrier?city=montreal-ca');
+    expect(hashDuChemin('/clubs/berlin-de/')).toBe('#/clubs?city=berlin-de');
+    expect(hashDuChemin('/en/clubs/berlin-de/')).toBe('#/clubs?city=berlin-de');
     expect(hashDuChemin('/soirees/montreal-ca/techno/')).toBe('#/calendrier?city=montreal-ca');
     expect(hashDuChemin('/soirees/')).toBe('#/calendrier');
   });
@@ -109,6 +111,8 @@ describe('cheminDuHash', () => {
 
   it('rend la racine pour le calendrier et pour une ancre sans page', () => {
     expect(cheminDuHash('#/calendrier?city=montreal-ca')).toBe('/');
+    expect(cheminDuHash('#/clubs?city=berlin-de')).toBe('/clubs/berlin-de/');
+    expect(cheminDuHash('#/clubs')).toBe('/clubs/');
     expect(cheminDuHash('#/profil/xyz')).toBe('/');
     expect(cheminDuHash('')).toBe('/');
   });
