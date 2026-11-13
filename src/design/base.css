@@ -271,7 +271,8 @@ body :is(
   .ac-titre, .ac-section-titre, .ac-ecoute-titre, .ac-porte-nom, .ac-famille-nom, .ac-defile-nom,
   .hero-titre, .credits-head h1, .news-manchette h1, .sp-tete-set h1, .sp-tete-artiste h1,
   .index-head h1, .sets-page > h1, .cal-jour h3, .cal-tete-courte h2, .sonaa-mm-label,
-  .cal-carte-intertitre, .lx-titre, .pv-tete-titre, .pv-hero-nom, .pv-tuile-nom, .lb-nom, .cal-gen-jour) {
+  .cal-carte-intertitre, .lx-titre, .pv-tete-titre, .pv-hero-nom, .pv-tuile-nom, .lb-nom, .cal-gen-jour,
+  .lx-bloc-titre, .lx-groupe-titre, .lx-rang-num, .lx-carte-nom, .lx-fiche-nom) {
   font-family: var(--police-titre);
   font-weight: 800;
   text-transform: uppercase;
@@ -285,7 +286,12 @@ body :is(
   .ac-geste, .hero-bouton, .hero-ville-mot, .sitenav-lien, .sitenav-track-mot,
   .sonaa-mm-num, .sonaa-mm-kicker, .sonaa-mm-pill, .sonaa-mm-track-cta, .sonaa-mm-legal-lien,
   .news-edition, .cal-ligne-quand, .cal-origine, .cal-vue, .cal-ville-mot, .credits-foot a, .bt-titre,
-  .authb-entrer-mot, .authb-principal, .contrib-primaire, .cal-gen-semaine, .cal-gen-heure, .cal-gen-mois) {
+  .authb-entrer-mot, .authb-principal, .contrib-primaire, .cal-gen-semaine, .cal-gen-heure, .cal-gen-mois,
+  .lx-surtitre, .lx-mode, .lx-vue-monde, .lx-legende, .lx-bloc-num, .lx-badge, .lx-badge-classement,
+  .lx-groupe-pays, .lx-groupe-compteur, .lx-capacite, .lx-badge-soirees, .lx-tag-apercu, .lx-styles li,
+  .lx-salle-pastille, .lx-voir-plus, .lx-lien-site, .lx-lien-calendrier, .lx-lien-carte, .lx-lien-action,
+  .lx-lien-secondaire, .lx-fiche-fermer, .lx-soirees-titre, .lx-soirees-compteur, .lx-soiree-date,
+  .lx-soirees-toutes) {
   font-family: var(--police-mono);
   text-transform: uppercase;
   letter-spacing: var(--chasse-mono);

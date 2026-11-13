@@ -706,10 +706,22 @@ export function LieuxPage() {
     }
   };
 
+  /* LA CARTE NE SE CHERCHE QUE SI ELLE EST HORS DE L'ECRAN. Sur ordinateur
+     elle reste fixe a droite de la liste (13 novembre 2026) : y faire
+     defiler la page deplacait la liste sous le doigt pour rien. Au
+     telephone, ou elle est au-dessus de la liste, on y remonte. */
+  const montrerLaCarte = (): void => {
+    const bloc = blocCarteRef.current;
+    if (!bloc) return;
+    const r = bloc.getBoundingClientRect();
+    if (r.top >= 0 && r.bottom <= window.innerHeight) return;
+    bloc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const centrerSurLieu = (lieu: LieuOuFestival): void => {
     interactionUtilisateurRef.current = true;
     setSelection(lieu);
-    blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    montrerLaCarte();
     lancerMouvementCarte((carte) => {
       carte.panTo([lieu.longitude, lieu.latitude], {
         duration: 500,
@@ -826,6 +838,11 @@ export function LieuxPage() {
           </p>
         </header>
 
+        {/* DEUX COLONNES SUR ORDINATEUR (13 novembre 2026). Mika : « la carte
+            prend trop d'espace, peut-etre plusieurs colonnes ». La liste
+            defile a gauche, la carte reste fixe a droite. Au telephone, la
+            grille redevient une pile : filtres, carte, liste. */}
+        <div className="lx-plan">
         {/* BARRE DE FILTRES */}
         <section className="lx-filtres" aria-label={t.clubsEtFestivalsTitre}>
           <div className="lx-modes" role="group" aria-label={t.clubsEtFestivalsTitre}>
@@ -1044,6 +1061,7 @@ export function LieuxPage() {
           </div>
         </section>
 
+        <div className="lx-liste">
         {lieuxFiltres.length === 0 && (
           <div className="lx-vide">
             <p>{t.lieuAucunResultat}</p>
@@ -1058,6 +1076,7 @@ export function LieuxPage() {
           <section className="lx-bloc" aria-labelledby="titre-clubs-villes">
             <header className="lx-bloc-entete">
               <div className="lx-bloc-entete-ligne">
+                <span className="lx-bloc-num" aria-hidden="true">01</span>
                 <h2 id="titre-clubs-villes" className="lx-bloc-titre">
                   {t.clubsSectionTitre}
                 </h2>
@@ -1092,7 +1111,7 @@ export function LieuxPage() {
                           className="lx-lien-carte"
                           onClick={() => {
                             choisirVille(ville.slug);
-                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            montrerLaCarte();
                           }}
                         >
                           {t.lieuCentrerCarte}
@@ -1126,7 +1145,7 @@ export function LieuxPage() {
                               aria-expanded={estOuvert}
                               onClick={() => basculerLieu(club.id)}
                             >
-                              <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
+                              <span className="lx-rang-num">{String(rang).padStart(2, '0')}</span>
                               <span className="lx-rang-identite">
                                 <span className="lx-carte-nom">{club.nom}</span>
                                 <span className="lx-carte-meta">
@@ -1241,6 +1260,7 @@ export function LieuxPage() {
           <section className="lx-bloc" aria-labelledby="titre-festivals-pays">
             <header className="lx-bloc-entete">
               <div className="lx-bloc-entete-ligne">
+                <span className="lx-bloc-num" aria-hidden="true">02</span>
                 <h2 id="titre-festivals-pays" className="lx-bloc-titre">
                   {t.festivalsSectionTitre}
                 </h2>
@@ -1274,7 +1294,7 @@ export function LieuxPage() {
                           className="lx-lien-carte"
                           onClick={() => {
                             choisirPays(pays.code);
-                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            montrerLaCarte();
                           }}
                         >
                           {t.lieuCentrerCarte}
@@ -1301,7 +1321,7 @@ export function LieuxPage() {
                               onClick={() => basculerLieu(fest.id)}
                             >
                               <span className="lx-rang-num lx-rang-num-festival">
-                                #{String(rang).padStart(2, '0')}
+                                {String(rang).padStart(2, '0')}
                               </span>
                               <span className="lx-rang-identite">
                                 <span className="lx-carte-nom">{fest.nom}</span>
@@ -1421,6 +1441,7 @@ export function LieuxPage() {
           <section className="lx-bloc lx-bloc-salles" aria-labelledby="titre-salles-villes">
             <header className="lx-bloc-entete">
               <div className="lx-bloc-entete-ligne">
+                <span className="lx-bloc-num" aria-hidden="true">03</span>
                 <h2 id="titre-salles-villes" className="lx-bloc-titre">
                   {t.sallesSectionTitre}
                 </h2>
@@ -1458,7 +1479,7 @@ export function LieuxPage() {
                           className="lx-lien-carte"
                           onClick={() => {
                             choisirVille(ville.slug);
-                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            montrerLaCarte();
                           }}
                         >
                           {t.lieuCentrerCarte}
@@ -1566,6 +1587,8 @@ export function LieuxPage() {
             </div>
           </section>
         )}
+        </div>
+        </div>
       </main>
       <PiedDePage />
     </div>

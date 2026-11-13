@@ -30,12 +30,16 @@ const STYLE = 'https://tiles.openfreemap.org/styles/dark';
 /* LES TEINTES DU PLAN. Le style sombre d'origine dessine les rues a peine
    plus claires que le fond ; ici elles montent d'un cran par importance, et
    le fond prend la teinte du site. */
+/* L'EAU ET LES PARCS EN MONOCHROME depuis le 13 novembre 2026 : le bleu
+   et le vert du style d'origine faisaient la carte de n'importe quel site
+   (Mika : « les couleurs, ca fait trop IA »). L'eau est plus sombre que la
+   terre, les parcs a peine plus chauds : seuls les lieux portent la couleur. */
 const RETOUCHES: Record<string, Record<string, unknown>> = {
   background: { 'background-color': '#121110' },
-  water: { 'fill-color': '#132231' },
-  waterway: { 'line-color': '#132231' },
-  landuse_park: { 'fill-color': '#141c15' },
-  landcover_wood: { 'fill-color': '#141c15' },
+  water: { 'fill-color': '#0b0a09' },
+  waterway: { 'line-color': '#0b0a09' },
+  landuse_park: { 'fill-color': '#151410' },
+  landcover_wood: { 'fill-color': '#151410' },
   landuse_residential: { 'fill-color': '#151413' },
   building: { 'fill-color': '#1b1a19' },
   highway_path: { 'line-color': '#2b2a29' },
@@ -51,7 +55,7 @@ const RETOUCHES: Record<string, Record<string, unknown>> = {
   railway_transit: { 'line-color': '#2e2c2a' },
   highway_name_other: { 'text-color': '#9a958f', 'text-halo-color': '#121110', 'text-halo-width': 1.2 },
   highway_name_motorway: { 'text-color': '#aaa59e' },
-  water_name: { 'text-color': '#6f8aa3' },
+  water_name: { 'text-color': '#7a736a' },
 };
 const PLACES = /^place_/;
 
