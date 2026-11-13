@@ -1,6 +1,51 @@
 {
- "fait": "2026-11-12T20:04:27.085Z",
+ "fait": "2026-11-13T06:55:36.500Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Remniqe’s Iconic Demonic Finds the Club Between the Runway and the Pit of Hell",
+   "lien": "https://midnightrebels.com/remniqes-iconic-demonic-finds-the-club-between-the-runway-and-the-pit-of-hell/",
+   "date": "2026-11-13T03:00:00.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/SaveClip.App_865986819_18638046484038950_2504865611440574850_n.webp?resize=1160%2C1160&ssl=1",
+   "resume": "Remniqe wants one record to work on the runway and in the pit of hell. Iconic Demonic , their four track EP for Quack Squawk Honk, is built around that double image, and it mostly pulls it off. It lands on November 20…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer AQ64L: Open-Source Clip Launcher With 64 Pads – How Much Will it Cost?",
+   "lien": "https://www.gearnews.com/behringer-aq64l-synth/",
+   "date": "2026-11-13T00:35:26.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-aq64l-t.jpg",
+   "resume": "Behringer has announced the AQ64L, an AKAI APC-like clip launcher controller. It’s open source, which is cool, but there’s no mention of a price yet. Can it compete with AKAI’s APC line and the Novation Launchpad?…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "AKAI MPC 3.10.1 Update: Make Your Own MPC Plugins!",
+   "lien": "https://www.gearnews.com/akai-mpc-3-synth/",
+   "date": "2026-11-12T23:51:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpc-3-10-1-teaser.jpg",
+   "resume": "What is even happening? With AKAI MPC 3.10.1 you can now officially build instrument and effect plugins for the MPC line. AKAI has also unlocked enhanced development features for device mouse support, streaming and…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Your Bedroom Is the Weakest Link in Your Studio, and Audient Wants to Fix It",
+   "lien": "https://midnightrebels.com/your-bedroom-is-the-weakest-link-in-your-studio-and-audient-wants-to-fix-it/",
+   "date": "2026-11-12T22:05:27.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-featured.webp?fit=1600%2C898&ssl=1",
+   "resume": "Most home producers upgrade the interface, then mix on speakers sitting in a bedroom that colours everything they play. Audient’s new iD range goes after the room instead of the box. TL;DR: Audient’s next generation iD…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "What the Last Song of the Night Is Really For",
+   "lien": "https://midnightrebels.com/what-the-last-song-of-the-night-is-really-for/",
+   "date": "2026-11-12T21:12:15.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/The-Curatorial-Anchor-Why-Resident-DJs-Define-a-Venues-Legacy.webp?fit=2400%2C1350&ssl=1",
+   "resume": "The house lights are still off, the floor is still full, and the DJ has one record left. Whatever plays next is the thing people will carry out the door with them. It is easy to treat the last song as an afterthought…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Plugins That Sound Expensive: Get Mixes That Sparkle",
@@ -47,15 +92,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "I Still Dig for Records and I Do Not Plan to Stop",
-   "lien": "https://midnightrebels.com/i-still-dig-for-records-and-i-do-not-plan-to-stop/",
-   "date": "2026-11-12T16:52:49.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Why-ARA-2-Is-the-Quiet-Headline-of-Ableton-Live-13.webp?fit=2400%2C1350&ssl=1",
-   "resume": "It is 2am, I have a dozen browser tabs open, and I am listening to a track uploaded by someone I have never heard of. Nobody will clap for this. It might never make a chart. It is still the best part of my week. I am a…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "You can now vibe code plugins for your MPC with the help of Akai’s official SDK",
    "lien": "https://www.musicradar.com/music-tech/you-can-now-vibe-code-plugins-for-your-mpc-with-the-help-of-akais-official-sdk",
@@ -83,39 +119,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "One Voice Memo, Six Producers and a Track About an Ex Who Will Not Leave",
-   "lien": "https://midnightrebels.com/end3r-shaq-creative-house-remix-package/",
-   "date": "2026-11-12T09:59:30.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2026-11-07-pasted-photo-featured-1.webp?fit=1920%2C1080&ssl=1",
-   "resume": "The first version of END3R was a phone recording made at 2am in a dark room. There was a voice, a repeating phrase and nothing else. Nicky Montes disliked the sound of that voice, so the voice had to go. The workaround…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "Anukari 3D Physics Synthesizer Gets Biggest Update Yet",
    "lien": "https://www.gearnews.com/anukari-synthesizer/",
    "date": "2026-11-12T00:27:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/anukari-update-1.1-T.jpg",
    "resume": "Anukari 1.1 adds strings, tubes, breath and 1000-plus new sounds, making it an even crazier physical modeling playground. All About Anukari Update 1.1 Official Release Now Available Sound through the laws of physics…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "AlphaTheta DJM-A7 Brings the A9 Layout to a Smaller Mixer and Costs You Effects",
-   "lien": "https://midnightrebels.com/alphatheta-djm-a7-brings-the-a9-layout-to-a-smaller-mixer-and-costs-you-effects/",
-   "date": "2026-11-11T22:04:37.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-top-view.webp?resize=1160%2C1338&ssl=1",
-   "resume": "AlphaTheta’s new DJM-A7 borrows the face of the flagship DJM-A9 and puts it in a smaller, cheaper box. The shrink has a price, and it is paid in effects, headphone cues and a few jacks. We went through the product page…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "GForce Plugins Get the MPE Treatment, RIP A.KAV – Sounds and Presets",
-   "lien": "https://www.gearnews.com/gforce-mpe-rip-a-kav-sounds-presets-synths/",
-   "date": "2026-11-11T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/gforce-expressive-e.jpg",
-   "resume": "This week, we’ve got some great presets for two brilliant GForce Software synths, yet more MiniFreak sounds, and we bring you some sad news from the world of sound design. May the GForce be With You GForce Collection…",
    "integral": true
   },
   {
@@ -146,15 +155,6 @@
    "integral": true
   },
   {
-   "source": "attack",
-   "titre": "Building Beats With Ableton Live 13",
-   "lien": "https://www.attackmagazine.com/technique/tutorials/building-beats-with-ableton-live-13/",
-   "date": "2026-11-11T11:18:35.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/ableton-live-13-fig-5-simple-beat-v2-1130x800.jpg",
-   "resume": "Ableton Live 13 is now in public beta. We put the new Drum Synth, Step Sequencer, Transient Shaper, and Clipper to work and build a beat from scratch. Three years after Live 10, Live 11 arrived. Three years after Live…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "One of Logic Pro 13’s biggest new features can only be had on subscription: is that fair, and should you care?",
    "lien": "https://www.musicradar.com/music-tech/one-of-logic-pro-13s-biggest-new-features-can-only-be-had-on-subscription-is-that-fair-and-should-you-care",
@@ -170,87 +170,6 @@
    "date": "2026-11-10T09:59:22.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/N9zwriK7Zqz5RVEeECjbFP-1920-80.png",
    "resume": "Ableton has unveiled the public beta of Live 13, the next version of its flagship DAW, a major update that the Berlin-based developer promises will “help music-makers keep ideas moving and shape sound in new ways”…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Live 13 Introduces Step Sequencer, Drum Synth, ARA 2 & New Racks",
-   "lien": "https://www.attackmagazine.com/news/live-13-introduces-step-sequencer-drum-synth-ara-2-new-racks/",
-   "date": "2026-11-10T09:59:09.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-Live-13-1-1130x387.png",
-   "resume": "Ableton has announced Live 13, with a Step Sequencer, Drum Synth, Multiband Racks and ARA 2 support. A public beta is available now. Ableton has unveiled Live 13. The headline additions are a Step Sequencer with…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Erica Synths: The Best Hardware FX For Electronic Music",
-   "lien": "https://www.attackmagazine.com/reviews/the-best/erica-synths-the-best-hardware-fx-for-electronic-music/",
-   "date": "2026-11-09T17:12:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
-   "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“I’m not sure it’s even possible”: James Hype says he’s going to try to mix 1,000 tracks in two hours",
-   "lien": "https://www.musicradar.com/artists/djs-producers/im-not-sure-its-even-possible-but-were-going-to-try-dj-james-hype-says-hes-going-to-try-to-mix-1-000-tracks-in-just-two-hours",
-   "date": "2026-11-06T18:37:04.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/BNX4eHympurHhUbDC2V4jB-1920-80.jpg",
-   "resume": "DJs – how many tracks do you think you could fit into a two-hour set? Thirty? Forty even? Pah! James Hype has given himself a challenge which - if it comes off - will knock even the most nifty-fingered jocks into a…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Getting Started With Emulators: How To Run Real Hardware Synths In Your DAW",
-   "lien": "https://www.attackmagazine.com/features/long-read/getting-started-with-emulators-how-to-run-real-hardware-synths-in-your-daw/",
-   "date": "2026-11-05T15:30:56.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
-   "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Catz ‘n Dogz: “We Were Completely Overstimulated”",
-   "lien": "https://www.attackmagazine.com/features/interview/catz-n-dogz-we-were-completely-overstimulated/",
-   "date": "2026-11-03T11:11:03.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
-   "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Is Private Equity Destroying Music Production?",
-   "lien": "https://www.attackmagazine.com/features/long-read/is-private-equity-destroying-music-production/",
-   "date": "2026-10-29T14:00:34.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/blur-main-1130x403.png",
-   "resume": "Native Instruments was only the tip of the iceberg. Private equity is pervasive in the music production industry, tied up with hardware, software and music distribution companies. How is this affecting the music you…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Lars Huismann: “Instead Of Writing A Melody, I Use Filters”",
-   "lien": "https://www.attackmagazine.com/features/my-studio/lars-huismann-my-studio/",
-   "date": "2026-10-22T12:29:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-My-Studio-Room-3-1130x484.jpg",
-   "resume": "With System Collapse out now on Dax J’s Monnom Black, Berlin’s Lars Huismann shows us around the attic studio where it was made. The eight-track release follows his 2024 Monnom Black debut, Mechanized, and the Sounds…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
-   "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
-   "date": "2026-10-20T10:43:33.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
-   "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Who’s Buying All These Vibe-Coded Plugins?",
-   "lien": "https://www.attackmagazine.com/features/long-read/whos-buying-all-these-vibe-coded-plugins/",
-   "date": "2026-10-15T23:02:15.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386-1130x386.png",
-   "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
    "integral": true
   },
   {
@@ -330,6 +249,10 @@
   {
    "id": "ni",
    "raison": "aucun article lu"
+  },
+  {
+   "id": "attack",
+   "raison": "This operation was aborted"
   }
  ]
 }
