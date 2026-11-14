@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-13T19:51:05.004Z",
+ "fait": "2026-11-14T18:15:18.280Z",
  "articles": [
+  {
+   "source": "attack",
+   "titre": "How To Deconstruct Any Beat In Ableton Live",
+   "lien": "https://www.attackmagazine.com/technique/tutorials/how-to-deconstruct-any-beat-in-ableton-live/",
+   "date": "2026-11-14T11:56:26.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Tutorials-Nick-Any-Beat-Slice-3-1-1130x386.png",
+   "resume": "Two simple techniques for analysing any beat in Ableton Live and learning to programme better grooves of your own. We break it down. Today we’re going to show you how to break down any beat very quickly using two easy…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "AKAI MPC XL, Yahama SEQ TRACK, Erica Synths FX: Synthesizer Deals You Might Have Missed",
+   "lien": "https://www.gearnews.com/synthesizer-deals-you-might-have-missed/",
+   "date": "2026-11-14T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/synthesizer-deals-you-might-have-missed-T.jpg",
+   "resume": "On the look-out for November for synthesizer deals? You’ve come to the right place. Stock up on synthesizers and effects right now with these mind-blowing deals on gear from Yamaha, Erica Synths and AKAI Professional…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Iconic Synths: 10 Game-Changing Synthesizers",
@@ -74,30 +92,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "AKAI MPC 3.10.1 Update: Make Your Own MPC Plugins!",
-   "lien": "https://www.gearnews.com/akai-mpc-3-synth/",
-   "date": "2026-11-12T23:51:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpc-3-10-1-teaser.jpg",
-   "resume": "What is even happening? With AKAI MPC 3.10.1 you can now officially build instrument and effect plugins for the MPC line. AKAI has also unlocked enhanced development features for device mouse support, streaming and…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Your Bedroom Is the Weakest Link in Your Studio, and Audient Wants to Fix It",
    "lien": "https://midnightrebels.com/your-bedroom-is-the-weakest-link-in-your-studio-and-audient-wants-to-fix-it/",
    "date": "2026-11-12T22:05:27.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-featured.webp?fit=1600%2C898&ssl=1",
    "resume": "Most home producers upgrade the interface, then mix on speakers sitting in a bedroom that colours everything they play. Audient’s new iD range goes after the room instead of the box. TL;DR: Audient’s next generation iD…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Plugins That Sound Expensive: Get Mixes That Sparkle",
-   "lien": "https://www.gearnews.com/plugins-that-sound-expensive-studio/",
-   "date": "2026-11-12T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/uad-ampex-atr-102-ft.jpg",
-   "resume": "We explore a range of plugins that sound expensive. These mixing and music production tools are tried and tested processors that add something special. No matter how vast your plugin library grows, there will always be…",
    "integral": true
   },
   {
@@ -260,15 +260,6 @@
    "date": "2026-10-20T10:43:33.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
    "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Who’s Buying All These Vibe-Coded Plugins?",
-   "lien": "https://www.attackmagazine.com/features/long-read/whos-buying-all-these-vibe-coded-plugins/",
-   "date": "2026-10-15T23:02:15.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386-1130x386.png",
-   "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
    "integral": true
   },
   {
