@@ -29,3 +29,20 @@ dégradé.
 - **Le fond de carte en monochrome** : l'eau plus sombre que la terre, les
   parcs à peine plus chauds. Le bleu et le vert du style d'origine sortent
   aussi de la carte du calendrier, qui partage ce fond.
+
+## Révisé le 14 novembre 2026
+
+Mika : « dans atlas mobile, je trouve ça vraiment trop carré, épure un peu la
+page ; je veux pouvoir zoomer sur la carte sans me prendre la tête avec deux
+doigts, je veux que ça fonctionne comme Google Maps ».
+
+- **Les gestes coopératifs sont retirés** de toutes les cartes du site : un
+  doigt déplace, le pincement, le double tap et la molette zooment.
+- **Au téléphone, l'atlas s'allège** : les types deviennent des onglets
+  soulignés sur une ligne, les champs n'ont plus qu'un filet dessous, la
+  carte va d'un bord à l'autre, la légende part, et « Chercher dans cette
+  zone » se pose sur la carte.
+- **Un bouton plein écran**, en icône, ouvre la carte sur tout l'écran ; la
+  page ne défile plus dessous tant qu'elle est ouverte.
+- **Toutes les fiches sont fermées au départ**, et le restent quand on
+  change de ville (13 novembre 2026).

@@ -152,7 +152,10 @@ export function Accueil() {
               </span>
             </h1>
             <p className="ac-chapeau">{t.accueilChapeau}</p>
-            {/* ═══ LES CINQ PORTES ═══ Mika, le 10 octobre 2026 : « axe le site
+            {/* ═══ LES SEPT PORTES ═══ Tout le menu, dans l'ordre de la barre du
+                haut, depuis le 14 novembre 2026. Mika : « il n'y a pas tout le
+                menu directement en entrant, il le faut » : News et l'atlas
+                manquaient. Mika, le 10 octobre 2026 : « axe le site
                 comme une plateforme d'atterrissage pour la musique
                 electronique : les styles, les labels, les mix haute qualite,
                 Track ID, le calendrier ». Chaque porte dit ce qu'il y a
@@ -163,8 +166,10 @@ export function Accueil() {
             <ul className="ac-portes">
               {[
                 { href: '#/calendrier', nom: t.leCalendrier, detail: ville ? t.accueilCeSoirA(ville.name) : t.accueilPorteVilles(nVilles) },
+                { href: '#/news', nom: t.accueilPorteNewsNom, detail: t.accueilPorteNews },
                 { href: '#/parcourir', nom: t.lesStyles, detail: t.accueilPorteStyles(nStyles) },
                 { href: '#/labels', nom: t.navLabels, detail: t.accueilPorteLabels(NOMBRE.format(nLabels)) },
+                { href: '#/clubs', nom: t.accueilPorteAtlasNom, detail: t.accueilPorteAtlas(nVilles) },
                 { href: '#/mixtapes', nom: t.lesMixtapes, detail: t.accueilPorteMixtapes },
                 { href: '#ac-trackid', nom: t.trackId, detail: t.accueilPorteTrackId },
               ].map((p, i) => (

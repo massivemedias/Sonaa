@@ -1062,6 +1062,11 @@ interface Dictionnaire {
   readonly accueilPorteLabels: (n: string) => string;
   readonly accueilPorteMixtapes: string;
   readonly accueilPorteTrackId: string;
+  /** Les deux portes ajoutees le 14 novembre 2026 : tout le menu a l'accueil. */
+  readonly accueilPorteNewsNom: string;
+  readonly accueilPorteNews: string;
+  readonly accueilPorteAtlasNom: string;
+  readonly accueilPorteAtlas: (n: number) => string;
   readonly accueilMixtapesTitre: string;
   readonly accueilNStyles: (n: number) => string;
   readonly heroAffiches: string;
@@ -1258,6 +1263,9 @@ interface Dictionnaire {
   readonly lieuSiteOfficiel: string;
   readonly lieuVoirCalendrierVille: (ville: string) => string;
   readonly lieuCentrerCarte: string;
+  /** La carte en plein ecran au telephone, et le retour. */
+  readonly lieuAgrandirCarte: string;
+  readonly lieuReduireCarte: string;
   readonly lieuAucunResultat: string;
   readonly lieuReinitialiserFiltres: string;
   readonly lieuNClubs: (n: number) => string;
@@ -2239,6 +2247,10 @@ const FR: Dictionnaire = {
   accueilPorteLabels: (n) => `${n} labels et leurs sorties`,
   accueilPorteMixtapes: 'Des sets en haute qualité',
   accueilPorteTrackId: 'Nommer ce qui joue',
+  accueilPorteNewsNom: 'News',
+  accueilPorteNews: 'L’actu du studio et des scènes',
+  accueilPorteAtlasNom: 'Atlas',
+  accueilPorteAtlas: (n) => `Les clubs de ${n} villes`,
   accueilMixtapesTitre: 'Mixtapes en haute qualité',
   accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'Les prochaines soirées',
@@ -2436,6 +2448,8 @@ const FR: Dictionnaire = {
   lieuSiteOfficiel: 'Site officiel',
   lieuVoirCalendrierVille: (ville) => `Soirées à ${ville}`,
   lieuCentrerCarte: 'Voir sur la carte',
+  lieuAgrandirCarte: 'Plein écran',
+  lieuReduireCarte: 'Fermer la carte',
   lieuAucunResultat: 'Aucun club, bar musical, salle ni festival ne correspond à ces filtres.',
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
   lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & bar${n > 1 ? 's' : ''} musica${n > 1 ? 'ux' : 'l'}`,
@@ -3421,6 +3435,10 @@ const EN: Dictionnaire = {
   accueilPorteLabels: (n) => `${n} labels and their releases`,
   accueilPorteMixtapes: 'High quality DJ sets',
   accueilPorteTrackId: 'Name what is playing',
+  accueilPorteNewsNom: 'News',
+  accueilPorteNews: 'Studio and scene news',
+  accueilPorteAtlasNom: 'Atlas',
+  accueilPorteAtlas: (n) => `Clubs in ${n} cities`,
   accueilMixtapesTitre: 'High quality mixtapes',
   accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'The nights coming up',
@@ -3606,6 +3624,8 @@ const EN: Dictionnaire = {
   lieuSiteOfficiel: 'Official website',
   lieuVoirCalendrierVille: (ville) => `Nights in ${ville}`,
   lieuCentrerCarte: 'Show on map',
+  lieuAgrandirCarte: 'Full screen',
+  lieuReduireCarte: 'Close map',
   lieuAucunResultat: 'No club, music bar, venue or festival matches these filters.',
   lieuReinitialiserFiltres: 'Reset filters',
   lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & music bar${n === 1 ? '' : 's'}`,

@@ -169,10 +169,11 @@
   width: 100%;
   margin: var(--espace-48, 48px) 0 0;
   padding: 0;
-  /* UNE GRILLE NUMEROTEE, depuis ADR-117 : cinq cases separees de filets,
-     comme les etapes 01, 02, 03 de Kraken. */
+  /* UNE GRILLE NUMEROTEE, depuis ADR-117 : des cases separees de filets,
+     comme les etapes 01, 02, 03 de Kraken. Sept portes depuis le
+     14 novembre 2026, sur deux rangees de quatre. */
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   /* la moitie gauche, celle du titre : le mur garde la droite */
   max-width: 52rem;
   border-block: 1px solid var(--filet-fort);
@@ -182,9 +183,16 @@
   animation: ac-fondu 700ms both;
   animation-delay: calc(560ms + var(--rang) * 80ms);
 }
-/* Un filet fin entre deux liens, pas avant le premier. */
+/* Un filet fin entre deux liens, pas avant le premier de chaque rangee,
+   et un filet entre les deux rangees. */
 .ac-portes > li + li {
   border-left: 1px solid var(--filet-fort);
+}
+.ac-portes > li:nth-child(4n + 1) {
+  border-left: 0;
+}
+.ac-portes > li:nth-child(n + 5) {
+  border-top: 1px solid var(--filet-fort);
 }
 .ac-porte-lien {
   display: flex;

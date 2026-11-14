@@ -85,7 +85,14 @@ export function creerCarte(conteneur: HTMLElement, centre: Point | null, zoom = 
     /* L'attribution (OpenFreeMap, OpenMapTiles, OpenStreetMap) figure dans la
        page Mentions du pied de page pour ne pas charger la carte d'un bandeau blanc. */
     attributionControl: false,
-    cooperativeGestures: true,
+    /* COMME GOOGLE MAPS, depuis le 14 novembre 2026. Mika : « je veux pouvoir
+       zoomer sur la carte sans me prendre la tete a deplacer avec deux
+       doigts, je veux que ca fonctionne comme Google Maps ». Les gestes
+       cooperatifs exigeaient deux doigts pour deplacer et Ctrl pour zoomer a
+       la molette : un doigt deplace maintenant, le pincement et la molette
+       zooment, le double tap aussi. La page se fait defiler hors de la
+       carte, qui ne prend qu'une partie de l'ecran. */
+    cooperativeGestures: false,
     dragRotate: false,
     pitchWithRotate: false,
     touchPitch: false,

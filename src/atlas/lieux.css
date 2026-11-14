@@ -263,6 +263,12 @@
   height: 100%;
 }
 
+/* Le bouton plein ecran ne sert qu'au telephone : sur ordinateur, la carte
+   occupe deja la hauteur de l'ecran. */
+.lx-carte-agrandir {
+  display: none;
+}
+
 /* Les marqueurs : la cible fait 24 px sur ordinateur, 44 au doigt. */
 .lx-pin {
   width: 24px;
@@ -987,35 +993,144 @@
     padding: calc(var(--entete-h) + 24px) 14px 88px;
   }
 
+  /* EPURE AU TELEPHONE, le 14 novembre 2026. Mika : « je trouve ca
+     vraiment trop carre, epure un peu la page ». Les quatre boites des
+     types deviennent des onglets soulignes qui defilent sur une ligne, les
+     champs n'ont plus qu'un filet dessous, la carte va d'un bord a l'autre,
+     et des cinq boutons de zone il ne reste que « chercher dans cette
+     zone » : au doigt, on deplace la carte au lieu de choisir un continent. */
   .lx-modes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex-wrap: nowrap;
+    gap: 20px;
+    margin: 0 -14px;
+    padding: 0 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--filet);
+  }
+
+  .lx-modes::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lx-mode {
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .lx-mode[aria-pressed='true'] {
+    border-color: transparent;
+    border-bottom-color: var(--accent);
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .lx-mode[aria-pressed='true'] .lx-puce {
+    background: currentColor;
   }
 
   .lx-selecteurs {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 16px;
+  }
+
+  .lx-select,
+  .lx-recherche {
+    padding-left: 0;
+    border: 0;
+    border-bottom: 1px solid var(--filet-fort);
+    border-radius: 0;
+    background-color: transparent;
   }
 
   .lx-recherche {
     grid-column: 1 / -1;
   }
 
+  .lx-surtitre {
+    font-size: 0.6rem;
+  }
+
+  .lx-carte-section {
+    position: relative;
+    margin: 4px -14px 8px;
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  /* La barre de la carte se pose SUR la carte, en haut au centre, comme le
+     « rechercher dans cette zone » d'une application de cartes. La legende
+     part : les onglets du haut montrent deja le carre, le losange et le
+     petit carre. */
   .lx-carte-barre {
-    padding: 8px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    z-index: 3;
+    translate: -50% 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
 
-  .lx-zones-carte {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .lx-legende {
+    display: none;
   }
 
-  .lx-vue-monde {
-    min-height: 44px;
+  .lx-vue-monde:not(.lx-chercher-zone) {
+    display: none;
   }
 
   .lx-chercher-zone {
-    grid-column: 1 / -1;
+    min-height: 40px;
+    padding: 0 12px;
+    background: var(--fond);
+    white-space: nowrap;
+  }
+
+  .lx-carte-agrandir {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    border: 1px solid var(--filet-fort);
+    border-radius: var(--rayon-pilule);
+    background: var(--fond);
+    color: var(--encre);
+  }
+
+  /* La carte en plein ecran : tout l'ecran, au-dessus de la barre du site,
+     et la barre de la carte sous l'encoche du telephone. */
+  .lx-carte-section.est-plein-ecran {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    margin: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--creux);
+  }
+
+  .lx-carte-section.est-plein-ecran .lx-carte-barre,
+  .lx-carte-section.est-plein-ecran .lx-carte-agrandir {
+    top: calc(env(safe-area-inset-top) + 10px);
+  }
+
+  .lx-carte-section.est-plein-ecran .lx-carte-enveloppe {
+    flex: 1;
+    height: auto;
   }
 
   .lx-pin {

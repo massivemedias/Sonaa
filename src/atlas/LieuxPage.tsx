@@ -226,6 +226,10 @@ const correspondAuFiltreType = (lieu: LieuOuFestival, filtre: FiltreType): boole
 export function LieuxPage() {
   const [filtreType, setFiltreType] = useState<FiltreType>('tout');
   const [zoneCarte, setZoneCarte] = useState<ZoneCarte>('atlantique');
+  /* LA CARTE EN PLEIN ECRAN, au telephone (14 novembre 2026) : comme une
+     application de cartes, elle prend tout l'ecran le temps de chercher, et
+     la page ne defile pas dessous. */
+  const [carteEnGrand, setCarteEnGrand] = useState(false);
   const [paysActif, setPaysActif] = useState<string>('');
   const [villeActive, setVilleActive] = useState<string>(
     () => trouverSlugVilleClub(villeDuLien()) || trouverSlugVilleClub(villeDeSession())
@@ -543,6 +547,17 @@ export function LieuxPage() {
       annule = true;
     };
   }, [obtenirVillesSupabase]);
+
+  useEffect(() => {
+    document.body.style.overflow = carteEnGrand ? 'hidden' : '';
+    /* MapLibre mesure son cadre a la creation : apres un changement de
+       taille, il faut lui dire de remesurer, sinon la carte reste coupee. */
+    const id = window.setTimeout(() => carteRef.current?.resize(), 60);
+    return () => {
+      window.clearTimeout(id);
+      document.body.style.overflow = '';
+    };
+  }, [carteEnGrand]);
 
   /* Mise a jour des marqueurs : les salles a louer sont ajoutees d'abord en arriere-plan,
      puis les festivals et enfin les clubs et bars musicaux au premier plan. */
@@ -905,7 +920,11 @@ export function LieuxPage() {
         </section>
 
         {/* CARTE INTERACTIVE MONDIALE */}
-        <section ref={blocCarteRef} className="lx-carte-section" aria-label={t.clubsCarteMondiale}>
+        <section
+          ref={blocCarteRef}
+          className={`lx-carte-section${carteEnGrand ? ' est-plein-ecran' : ''}`}
+          aria-label={t.clubsCarteMondiale}
+        >
           <div className="lx-carte-barre">
             <div className="lx-legende">
               <span className="lx-legende-item">
@@ -969,6 +988,26 @@ export function LieuxPage() {
 
           <div className="lx-carte-enveloppe">
             <div ref={cadreCarteRef} className="lx-carte-canevas" />
+            {/* UNE ICONE, PAS UN MOT : « Chercher dans cette zone » occupe le
+                haut de la carte, et deux libelles cote a cote se chevauchaient
+                sur un petit telephone. Le libelle reste pour les lecteurs
+                d'ecran et au survol. */}
+            <button
+              type="button"
+              className="lx-carte-agrandir"
+              aria-pressed={carteEnGrand}
+              aria-label={carteEnGrand ? t.lieuReduireCarte : t.lieuAgrandirCarte}
+              title={carteEnGrand ? t.lieuReduireCarte : t.lieuAgrandirCarte}
+              onClick={() => setCarteEnGrand((x) => !x)}
+            >
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true">
+                {carteEnGrand ? (
+                  <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" />
+                ) : (
+                  <path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10" />
+                )}
+              </svg>
+            </button>
 
             {selection && (
               <aside className="lx-fiche-carte" aria-live="polite">
