@@ -46,3 +46,9 @@ doigts, je veux que ça fonctionne comme Google Maps ».
   page ne défile plus dessous tant qu'elle est ouverte.
 - **Toutes les fiches sont fermées au départ**, et le restent quand on
   change de ville (13 novembre 2026).
+- **Moins de bordures, aussi sur ordinateur** (14 novembre 2026, « encore
+  vraiment trop carré, enlève juste certaines lignes de bordure ») : les
+  types en onglets soulignés, les champs à simple trait, les boutons de zone
+  en texte, la carte sans contour, plus de trait sous l'en-tête ni de filet
+  épais au-dessus des sections, et la légende retirée. Les filets fins entre
+  les rangées du classement restent.

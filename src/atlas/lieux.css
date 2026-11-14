@@ -33,9 +33,7 @@
 /* ── L'en-tete ───────────────────────────────────────────────────────── */
 
 .lx-entete {
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--filet-fort);
+  margin-bottom: 20px;
 }
 
 .lx-surtitre {
@@ -78,42 +76,41 @@
   margin-bottom: 20px;
 }
 
+/* MOINS DE BORDURES, le 14 novembre 2026. Mika : « encore vraiment trop
+   carre la-dedans, enleve juste certaines lignes de bordure apparentes ».
+   Les types sont des onglets soulignes, les champs n'ont qu'un trait
+   dessous, les boutons de zone et la carte n'ont plus de contour. Restent
+   les filets fins entre les rangees du classement : ce sont eux qui font
+   l'affiche. */
 .lx-modes {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0 22px;
 }
 
 .lx-mode {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid var(--filet-fort);
-  border-radius: var(--rayon-pilule);
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--encre-douce);
   font-size: 0.68rem;
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  transition: color 120ms ease, border-color 120ms ease;
 }
 
 .lx-mode:hover {
-  border-color: var(--encre-douce);
   color: var(--encre);
 }
 
 .lx-mode[aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--sur-accent);
-}
-
-.lx-mode[aria-pressed='true'] .lx-puce {
-  background: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  color: var(--accent);
 }
 
 /* La puce : un carre plein pour un club, un losange pour un festival, un
@@ -143,16 +140,17 @@
 .lx-selecteurs {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 6px;
+  gap: 0 18px;
 }
 
 .lx-select,
 .lx-recherche {
   min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid var(--filet-fort);
-  border-radius: var(--rayon-pilule);
-  background-color: var(--plaque);
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  border-radius: 0;
+  background-color: transparent;
   color: var(--encre);
   font: inherit;
   font-size: 0.88rem;
@@ -161,18 +159,18 @@
 .lx-select {
   appearance: none;
   -webkit-appearance: none;
-  padding-right: 36px;
+  padding-right: 24px;
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='none' stroke='%23e9a23b' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
+  background-position: right 2px center;
   background-size: 14px 14px;
 }
 
 .lx-select:hover,
 .lx-select:focus-visible,
 .lx-recherche:focus-visible {
-  border-color: var(--accent);
+  border-bottom-color: var(--accent);
   outline: none;
 }
 
@@ -184,10 +182,6 @@
 
 .lx-carte-section {
   margin-bottom: 8px;
-  border: 1px solid var(--filet-fort);
-  border-radius: var(--rayon-carte);
-  background: var(--creux);
-  overflow: hidden;
 }
 
 .lx-carte-barre {
@@ -195,19 +189,15 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px 12px;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--filet-fort);
-  background: var(--fond);
+  gap: 4px 12px;
+  padding: 0 0 6px;
 }
 
+/* La legende repetait les onglets du haut, qui montrent deja le carre, le
+   losange et le petit carre : elle part, et les boutons de zone tiennent
+   sur une ligne au-dessus de la carte. */
 .lx-legende {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-  font-size: 0.64rem;
-  color: var(--encre-douce);
+  display: none;
 }
 
 .lx-legende-item {
@@ -219,36 +209,32 @@
 .lx-zones-carte {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 0 14px;
 }
 
 .lx-vue-monde {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   min-height: 36px;
-  padding: 0 10px;
-  border: 1px solid var(--filet-fort);
-  border-radius: var(--rayon-pilule);
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--encre-douce);
-  font-size: 0.62rem;
+  color: var(--encre-effacee);
+  font-size: 0.6rem;
   cursor: pointer;
 }
 
 .lx-vue-monde:hover {
-  border-color: var(--encre-douce);
   color: var(--encre);
 }
 
 .lx-vue-monde[aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  color: var(--encre);
 }
 
 .lx-chercher-zone {
-  border-color: var(--accent);
   color: var(--accent);
 }
 
@@ -256,6 +242,9 @@
   position: relative;
   width: 100%;
   height: clamp(300px, 45vh, 440px);
+  border-radius: var(--rayon-carte);
+  overflow: hidden;
+  background: var(--creux);
 }
 
 .lx-carte-canevas {
@@ -448,8 +437,6 @@
 
 .lx-bloc-entete {
   margin-bottom: 18px;
-  padding-top: 10px;
-  border-top: 2px solid var(--encre);
 }
 
 .lx-bloc-entete-ligne {
@@ -1013,38 +1000,8 @@
     display: none;
   }
 
-  .lx-mode {
-    flex: 0 0 auto;
-    padding: 0;
-    border: 0;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    background: transparent;
-  }
-
-  .lx-mode[aria-pressed='true'] {
-    border-color: transparent;
-    border-bottom-color: var(--accent);
-    background: transparent;
-    color: var(--accent);
-  }
-
-  .lx-mode[aria-pressed='true'] .lx-puce {
-    background: currentColor;
-  }
-
   .lx-selecteurs {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 0 16px;
-  }
-
-  .lx-select,
-  .lx-recherche {
-    padding-left: 0;
-    border: 0;
-    border-bottom: 1px solid var(--filet-fort);
-    border-radius: 0;
-    background-color: transparent;
   }
 
   .lx-recherche {
@@ -1058,14 +1015,14 @@
   .lx-carte-section {
     position: relative;
     margin: 4px -14px 8px;
-    border-inline: 0;
+  }
+
+  .lx-carte-enveloppe {
     border-radius: 0;
   }
 
   /* La barre de la carte se pose SUR la carte, en haut au centre, comme le
-     « rechercher dans cette zone » d'une application de cartes. La legende
-     part : les onglets du haut montrent deja le carre, le losange et le
-     petit carre. */
+     « rechercher dans cette zone » d'une application de cartes. */
   .lx-carte-barre {
     position: absolute;
     top: 10px;
@@ -1077,10 +1034,6 @@
     background: transparent;
   }
 
-  .lx-legende {
-    display: none;
-  }
-
   .lx-vue-monde:not(.lx-chercher-zone) {
     display: none;
   }
@@ -1088,6 +1041,7 @@
   .lx-chercher-zone {
     min-height: 40px;
     padding: 0 12px;
+    border: 1px solid var(--accent);
     background: var(--fond);
     white-space: nowrap;
   }
