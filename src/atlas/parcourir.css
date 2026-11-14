@@ -520,7 +520,13 @@ body:has(.pwa-bandeau) .pv-corps {
   }
   .pv-tuile:hover .pv-tuile-detail {
     color: var(--sur-accent);
-    opacity: 0.72;
+    opacity: 0.85;
+  }
+  /* La teinte de la famille sur l'annee (plus bas) est plus precise que ce
+     survol : sans cette ligne, l'annee restait en couleur pale sur l'ambre
+     et ne se lisait plus (Mika, le 14 novembre 2026). */
+  .pv-tuile-genre:not(.pv-tuile-famille):hover .pv-tuile-detail {
+    color: var(--sur-accent);
   }
 }
 /* LE FOCUS CLAVIER GARDE CETTE COULEUR sur tous les appareils : c'est une
@@ -615,6 +621,9 @@ body:has(.pwa-bandeau) .pv-corps {
    l'annee, sous le nom. */
 .pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-detail {
   color: oklch(0.78 0.12 var(--teinte, 60));
+}
+.pv-tuile-genre:not(.pv-tuile-famille):focus-visible .pv-tuile-detail {
+  color: var(--sur-accent);
 }
 
 /* ═══ LA TUILE D'UNE FAMILLE : POCHETTE, COULEUR, NOM EN GRAND ═══
