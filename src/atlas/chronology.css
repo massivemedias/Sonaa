@@ -337,8 +337,9 @@
   padding: var(--espace-4) var(--espace-8);
   background: oklch(0.22 0.02 var(--hue));
   border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
-  border-left: 3px solid oklch(var(--lt-70) 0.15 var(--hue));
-  border-radius: 4px;
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
+  border-radius: var(--rayon-carte);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -353,7 +354,6 @@
 
 .chrono-genre[data-major="true"] {
   background: oklch(var(--lt-26) 0.04 var(--hue));
-  border-left-width: 4px;
 }
 
 .chrono-genre[data-major="true"] .chrono-genre-label {
@@ -647,8 +647,9 @@
   overflow: hidden;
   background: oklch(0.22 0.02 var(--hue));
   border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
-  border-left: 3px solid oklch(var(--lt-70) 0.15 var(--hue));
-  border-radius: 4px;
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
+  border-radius: var(--rayon-carte);
   color: var(--ink-primary, var(--encre-2));
   font-family: var(--font-ui);
   text-align: left;

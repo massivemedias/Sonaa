@@ -25,6 +25,9 @@ const CONTROLES = [
   ['compilation', 'npx tsc --noEmit'],
   ['corpus', 'npm run validate:data --silent'],
   ['css', 'npm run check:css --silent'],
+  /* Aucun filet colle au bord gauche d'une boite : Mika le deteste
+     (14 novembre 2026, DESIGN.md, section 10). */
+  ['crochets', 'npm run check:crochets --silent'],
   ['constantes', 'npm run check:constantes --silent'],
   /* BLOQUANT DEPUIS QUE SA DETECTION EST JUSTE. Il est reste rouge pendant des
      jours parce qu'il accusait a tort : il enumerait des FORMES d'appel et

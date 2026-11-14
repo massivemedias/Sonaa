@@ -656,6 +656,21 @@ Pas d'emoji. Pas de tiret cadratin. Pas de superlatif.
 
 ## 10. Interdits, rappelés pour qu'on puisse me les opposer
 
+**Le crochet à gauche, interdit pour toujours, sur tous les sites de Mika
+(14 novembre 2026).** Mika : « si y a quelque chose que je hais au plus haut
+point, c'est que mon site ressemble à de l'IA. Le second truc que je déteste
+au plus haut point, c'est ces bordures juste à gauche des boîtes qui font
+comme un crochet. J'en veux plus sur aucun de mes sites. » Donc jamais :
+- de `border-left` ou `border-inline-start` de couleur sur une carte, une
+  tuile, une alerte, une citation ou une rangée ouverte ;
+- de barre dessinée autrement au même endroit (`box-shadow: inset 4px 0 0`,
+  pseudo-élément de 2 à 5 px collé à gauche) ;
+- de carte à coins très arrondis avec un liseré de couleur d'un seul côté.
+
+La couleur d'une famille, d'un état ou d'une alerte passe par le texte, une
+petite forme (carré, losange) ou un aplat entier, jamais par un bord. Le
+contrôle `npm run check:crochets` le vérifie à chaque publication.
+
 **Révisé le 21 septembre 2026, et c'est un renversement.** La première ligne de
 cette section interdisait le dégradé violet-bleu, les cartes arrondies à ombre
 portée, le glassmorphism et le grand chiffre à petit label. Elle a été opposée

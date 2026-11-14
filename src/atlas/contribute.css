@@ -128,7 +128,8 @@
   line-height: 1.5;
   color: oklch(var(--lt-88) 0.09 25);
   background: oklch(var(--lt-28) 0.06 25 / 0.35);
-  border-left: 2px solid oklch(var(--lt-62) 0.14 25);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
   border-radius: 2px;
 }
 

@@ -29,6 +29,7 @@
     "audit:titres": "node --experimental-strip-types --env-file=.env scripts/audit-titres.ts",
     "check:superposition": "tsx scripts/check-superposition.ts",
     "check:css": "tsx scripts/check-css-doublons.ts",
+    "check:crochets": "tsx scripts/check-crochets.ts",
     "check:exports": "tsx scripts/check-exports.ts",
     "banc:clics": "node scripts/banc-clics.mjs",
     "check:constantes": "tsx scripts/check-constantes.ts",

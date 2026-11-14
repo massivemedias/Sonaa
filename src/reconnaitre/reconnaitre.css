@@ -111,8 +111,8 @@
 
 .rc-erreur {
   margin: var(--espace-16) 0 0;
-  padding-left: var(--espace-12);
-  border-left: 2px solid oklch(var(--lt-62) 0.14 25);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
   color: oklch(var(--lt-88) 0.09 25);
 }
 

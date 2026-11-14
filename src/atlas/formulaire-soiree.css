@@ -141,7 +141,9 @@
 }
 .fs-bilan[data-ton='attention'] {
   background: var(--voile-08);
-  border-left: 3px solid var(--accent);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
+  color: var(--accent);
 }
 
 .fs-grille {

@@ -152,8 +152,8 @@
   /* Le meme rouge que les erreurs de contribution : une source tombee est
      une panne, pas une nuance de gris. */
   color: oklch(var(--lt-88) 0.09 25);
-  border-left: 2px solid oklch(var(--lt-62) 0.14 25);
-  padding-left: var(--espace-12);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
 }
 
 .cal-jour h3 {

@@ -35,7 +35,7 @@ paragraphe, et seulement ce que Mika doit faire lui-même.
 ## Publier
 
 Uniquement par `npm run publier`. Il refuse si l'arbre git n'est pas propre ou
-si l'un des vingt contrôles échoue. Ensuite, vérifier que le
+si l'un des vingt et un contrôles échoue. Ensuite, vérifier que le
 déploiement est vert, puis vérifier en ligne avec `?nocache=1`. Ne jamais
 revenir à un ancien commit.
 
@@ -45,6 +45,14 @@ revenir à un ancien commit.
 - Prose française avec accents. Commentaires de code en français sans accents.
 - Tout libellé affiché passe par `src/langue/langue.ts`, en français et en
   anglais dès la première version.
+
+## Design : deux haines de Mika, valables pour tous ses sites
+
+- Que le site ressemble à de l'IA : pilules, cartes arrondies empilées,
+  dégradés, pastilles lumineuses, boîtes partout.
+- Le crochet : une bordure de couleur collée au seul bord gauche d'une boîte.
+  Jamais, nulle part. Voir DESIGN.md section 10 ; `npm run check:crochets`
+  bloque la publication.
 
 ## Données
 

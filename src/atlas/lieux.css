@@ -546,16 +546,8 @@
 }
 
 .lx-rang.est-ouvert {
-  background: var(--voile-02);
-  box-shadow: inset 3px 0 0 var(--lx-club);
-}
-
-.lx-rang-festival.est-ouvert {
-  box-shadow: inset 3px 0 0 var(--lx-festival);
-}
-
-.lx-rang-salle.est-ouvert {
-  box-shadow: inset 3px 0 0 var(--lx-salle);
+  /* Ouverte, une rangee s'eclaire, sans filet a gauche (DESIGN.md, 10). */
+  background: var(--voile-03);
 }
 
 /* Le numero, le nom et ses styles en dessous, la jauge, la fleche. */

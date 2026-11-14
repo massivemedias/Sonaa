@@ -45,7 +45,9 @@
 /* Réseau absent : le seul cas où le bandeau doit se remarquer tout de suite,
    parce qu'il explique une panne que la personne est en train de constater. */
 .pwa-bandeau-alerte {
-  border-left: 2px solid oklch(var(--lt-62) 0.13 65);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). L'alerte se dit par la couleur du texte. */
+  color: oklch(var(--lt-88) 0.1 65);
 }
 
 /* Une modale ouverte a la priorité. Constaté à la capture : le bandeau se

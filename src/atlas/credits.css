@@ -240,8 +240,10 @@
    étant resté vide depuis sa pose. */
 .apropos-voix {
   margin-block-start: var(--espace-16);
-  padding-inline-start: var(--espace-16);
-  border-inline-start: 2px solid var(--voile-24);
+  padding-inline-start: var(--espace-24);
+  /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
+     DESIGN.md, section 10). */
+  font-style: italic;
   /* LONGUEUR DE LIGNE. La colonne de la page fait 38 rem, ce qui donnait 81
      signes par ligne : au-dessus de la fourchette confortable, et l'oeil perd
      la ligne suivante en revenant à la marge. 32 rem le ramènent à 68. */

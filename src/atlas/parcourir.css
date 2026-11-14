@@ -608,9 +608,13 @@ body:has(.pwa-bandeau) .pv-corps {
 .pv-tuile-genre .pv-tuile-nom {
   font-size: 1.6rem;
 }
-/* UN GENRE PORTE LE FILET DE SA FAMILLE, a gauche de sa carte. */
-.pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-carte {
-  box-shadow: inset 4px 0 0 oklch(0.72 0.15 var(--teinte, 60));
+/* PLUS DE FILET A GAUCHE DES TUILES DE GENRE, depuis le 14 novembre 2026.
+   Mika : « ce que je deteste au plus haut point, c'est ces bordures juste a
+   gauche des boites qui font comme un crochet ; j'en veux plus sur aucun de
+   mes sites » (DESIGN.md, section 10). La couleur de la famille passe dans
+   l'annee, sous le nom. */
+.pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-detail {
+  color: oklch(0.78 0.12 var(--teinte, 60));
 }
 
 /* ═══ LA TUILE D'UNE FAMILLE : POCHETTE, COULEUR, NOM EN GRAND ═══
@@ -1154,8 +1158,7 @@ a.pv-label:focus-visible {
   margin: var(--espace-16) 0 0;
   /* blockquote porte une indentation par defaut. */
   padding: var(--espace-16) var(--espace-16);
-  border-left: 3px solid oklch(var(--lt-62) 0.14 var(--pv-hue));
-  border-radius: 0 10px 10px 0;
+  border-radius: var(--rayon-carte);
   background: var(--voile-04);
   color: var(--encre-forte-4);
   font-size: var(--texte);
@@ -1212,13 +1215,15 @@ a.pv-label:focus-visible {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
     gap: var(--espace-12);
   }
+  /* Les coins de la charte (ADR-117), et non 26 px : la tuile arrondie a
+     liseré de verre etait la signature d'un gabarit. */
   .pv-tuile {
     min-height: 112px;
-    border-radius: 26px;
+    border-radius: var(--rayon-carte);
     padding: var(--espace-4);
   }
   .pv-tuile-carte {
-    border-radius: 22px;
+    border-radius: var(--rayon-carte);
     padding: var(--espace-16) var(--espace-24);
   }
   .pv-tuile-nom {
