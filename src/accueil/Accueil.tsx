@@ -31,7 +31,7 @@ import { FAMILIES } from '../atlas/structures.ts';
 import { slug } from '../lib/chemins.ts';
 import { langue, t } from '../langue/langue.ts';
 import { ImageDeSoiree } from '../atlas/AfficheGeneree.tsx';
-import { quandEnLettres } from '../lib/date-soiree.ts';
+import { dateCourte, heureInsecable, quandEnLettres } from '../lib/date-soiree.ts';
 import { heureLocale } from '../lib/villes.ts';
 import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 import { setsPublics, urlPochette, type SetDJ } from '../lib/sets.ts';
@@ -201,7 +201,21 @@ export function Accueil() {
                     <span className="ac-cadre">
                       <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="ac-soiree-affiche" />
                     </span>
-                    <span className="ac-soiree-quand">{quandEnLettres(s, s.debut ? heureLocale(s.debut, fuseau) : null, fuseau, LOCALE, false)}</span>
+                    {/* LE JOUR ET L'HEURE, EN DEUX, depuis le 15 novembre 2026.
+                        Mika : « difficile a lire, la date et l'heure ». Une seule
+                        ligne en capitales espacees se coupait en « 16 » et
+                        « H 30 ». Le jour court en petit, l'heure en grand et
+                        insecable ; la phrase entiere reste pour les lecteurs
+                        d'ecran. */}
+                    {(() => {
+                      const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+                      return (
+                        <span className="ac-soiree-quand" aria-label={quandEnLettres(s, h, fuseau, LOCALE, false)}>
+                          <span className="ac-soiree-jour" aria-hidden="true">{dateCourte(s.debut ?? s.date, fuseau, LOCALE)}</span>
+                          {h && <span className="ac-soiree-heure" aria-hidden="true">{heureInsecable(h)}</span>}
+                        </span>
+                      );
+                    })()}
                     <span className="ac-soiree-titre">{s.titre}</span>
                     {s.lieu && <span className="ac-soiree-lieu">{s.lieu}</span>}
                   </a>

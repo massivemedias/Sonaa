@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateLongue, quandEnLettres } from './date-soiree.ts';
+import { dateCourte, dateLongue, quandEnLettres } from './date-soiree.ts';
 
 describe('dateLongue', () => {
   it("ecrit le jour en toutes lettres, en francais et en anglais", () => {
@@ -23,10 +23,18 @@ describe('dateLongue', () => {
 describe('quandEnLettres', () => {
   it('donne la forme demandee par Mika : le jour, un trait, l heure', () => {
     const s = { date: '2026-10-03T00:00:00.000', debut: '2026-10-03T15:00:00.000' };
-    expect(quandEnLettres(s, '15 h 00', 'America/Toronto', 'fr-CA')).toBe('samedi 3 octobre 2026 - 15 h 00');
+    expect(quandEnLettres(s, '15 h 00', 'America/Toronto', 'fr-CA')).toBe('samedi 3 octobre 2026 - 15\u00a0h\u00a000');
   });
 
   it("s'en tient au jour quand l'heure manque", () => {
     expect(quandEnLettres({ date: '2026-01-05', debut: null }, null, 'America/Toronto', 'fr-CA')).toBe('lundi 5 janvier 2026');
+  });
+});
+
+describe('dateCourte', () => {
+  it('ecrit le jour court, sans annee, sans espace secable', () => {
+    const d = dateCourte('2026-11-15T16:30:00.000', 'America/Toronto', 'fr-CA');
+    expect(d).toContain('15');
+    expect(d).not.toContain(' ');
   });
 });

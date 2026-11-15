@@ -46,7 +46,30 @@ export function quandEnLettres(
   avecAnnee = true
 ): string {
   const jour = dateLongue(soiree.debut ?? soiree.date, fuseau, locale, avecAnnee);
-  return heure ? `${jour} - ${heure}` : jour;
+  return heure ? `${jour} - ${heureInsecable(heure)}` : jour;
+}
+
+/** « 16 h 30 » sans point de coupure : l'heure ne se casse plus en « 16 » au
+    bout d'une ligne et « h 30 » au debut de la suivante (Mika, le
+    15 novembre 2026 : « difficile a lire, la date et l'heure »). */
+export const heureInsecable = (heure: string): string => heure.replace(/ /g, '\u00a0');
+
+/** « dim. 15 nov. », pour une etiquette etroite : le jour court, sans
+    l'annee, insecable lui aussi. */
+export function dateCourte(iso: string, fuseau: string, locale: string): string {
+  const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short' };
+  let texte: string;
+  if (estSansFuseau(iso) || /^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    const [a, m, j] = iso.slice(0, 10).split('-').map(Number);
+    texte = new Intl.DateTimeFormat(locale, options).format(new Date(a ?? 1970, (m ?? 1) - 1, j ?? 1));
+  } else {
+    try {
+      texte = new Intl.DateTimeFormat(locale, { ...options, timeZone: fuseau }).format(new Date(iso));
+    } catch {
+      texte = new Intl.DateTimeFormat(locale, options).format(new Date(iso));
+    }
+  }
+  return texte.replace(/ /g, '\u00a0');
 }
 
 /** Le jour de la soiree, « AAAA-MM-JJ », dans le fuseau de sa ville. Couper
