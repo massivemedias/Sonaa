@@ -1306,10 +1306,28 @@
   "logo": null,
   "sorties": [
    {
+    "titre": "21st Century Drum+Bass",
+    "artiste": "Decoder",
+    "annee": 2000,
+    "possedee": 281,
+    "electronique": true,
+    "image": "https://i.discogs.com/-v7gKawuToYaWMkcUSah7G7W-h-Lq6trlVoqcXmFHUI/rs:fit/g:sm/q:90/h:263/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDA4/LTAwMS5wbmc.jpeg",
+    "url": "https://www.discogs.com/release/10408-Decoder-21st-Century-DrumBass"
+   },
+   {
+    "titre": "21st Century Trance",
+    "artiste": "Various",
+    "annee": 1999,
+    "possedee": 266,
+    "electronique": true,
+    "image": "https://i.discogs.com/YvU3USgYBeR-2B1n24awoML-5VWhovXvS2T_LTw1caI/rs:fit/g:sm/q:90/h:268/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk0Njgz/LTAwMS5naWY.jpeg",
+    "url": "https://www.discogs.com/release/94683-Various-21st-Century-Trance"
+   },
+   {
     "titre": "21st Century Vol. 2.7",
     "artiste": "Various",
     "annee": 2001,
-    "possedee": 249,
+    "possedee": 251,
     "electronique": true,
     "image": "https://i.discogs.com/aohOMa-1OBVix_x0ohQcd5UkB1fGUJ7Q1Nx86IfJwpc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxMzkz/MC0xNDg3MDM0NTYy/LTY5MjUuanBlZw.jpeg",
     "url": "https://www.discogs.com/release/913930-Various-21st-Century-Vol-27"
@@ -1318,7 +1336,7 @@
     "titre": "21st Century Vol.2.8",
     "artiste": "Various",
     "annee": 2001,
-    "possedee": 230,
+    "possedee": 232,
     "electronique": true,
     "image": "https://i.discogs.com/XbBssaF5r0INlUpK9VlZZsoOqKqv6rOvuhrleB0liis/rs:fit/g:sm/q:90/h:438/w:461/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc2Njc4/MC0xMTcyMjc1NDM0/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/release/766780-Various-21st-Century-Vol28"
@@ -1327,7 +1345,7 @@
     "titre": "21st Century Vol. 2.6",
     "artiste": "Various",
     "annee": 2001,
-    "possedee": 230,
+    "possedee": 231,
     "electronique": true,
     "image": "https://i.discogs.com/c-vIkEkMvzjBZhBSH7gYDv92po-OzrHFc5TiGpEGYig/rs:fit/g:sm/q:90/h:575/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNjcx/NDYtMTMzMDUzOTU0/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/1067146-Various-21st-Century-Vol-26"
@@ -1342,10 +1360,19 @@
     "url": "https://www.discogs.com/release/894244-Various-21st-Century-Vol-33"
    },
    {
+    "titre": "21st Century Trance.2",
+    "artiste": "Various",
+    "annee": 2000,
+    "possedee": 213,
+    "electronique": true,
+    "image": "https://i.discogs.com/uqHt5J_7ugHK8uqEXQzfT2B6dyv63SnHikFRm-Uch4E/rs:fit/g:sm/q:90/h:433/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk0Njc2/LTE1MTQ5NDI1MTMt/MjExMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/94676-Various-21st-Century-Trance2"
+   },
+   {
     "titre": "21st Century Vol. 3.8",
     "artiste": "Various",
     "annee": 2003,
-    "possedee": 202,
+    "possedee": 204,
     "electronique": true,
     "image": "https://i.discogs.com/-ScBYZ0IqSGjSXPUsqa40J7LlUF5oBdxlqHaCDSb2u8/rs:fit/g:sm/q:90/h:589/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY2OTg2/MS0xMzMwNTY0NDc2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/release/669861-Various-21st-Century-Vol-38"
@@ -2133,7 +2160,7 @@
    "en": "88rising, formerly known as CXSHXNLY, is an American record label founded in 2015 by Sean Miyashiro and Jaeson Ma. The company is known for promoting Asian and Asian American artists in the global music market. They have also built a multimedia ecosystem that spans music, video production, live events, and digital content. Co-founder Sean Miyashiro describes it as a \"hybrid management, record label, video production, and marketing company\"."
   },
   "profil": null,
-  "discogs": "https://www.discogs.com/label/1921893-88rising-Records",
+  "discogs": "https://www.discogs.com/label/1240106-88rising",
   "wikidata": "Q48815775",
   "logo": {
    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/88rising_logo.svg/500px-88rising_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -2146,64 +2173,73 @@
     "titre": "Ballads 1",
     "artiste": "Joji",
     "annee": 2018,
-    "possedee": 16763,
+    "possedee": 16865,
     "electronique": true,
     "image": "https://i.discogs.com/Jh6Kf3_Yl2nqraNNPGcHWqdSHQ6KunAAy7DCbOoSXS0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzEw/NTkxLTE1NDA0OTc3/MTEtNjA2OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1443662-Joji-Ballads-1"
    },
    {
-    "titre": "Smithereens",
+    "titre": "Nectar",
     "artiste": "Joji",
-    "annee": 2022,
-    "possedee": 10166,
-    "electronique": false,
-    "image": "https://i.discogs.com/lyBXgaOr-5_wQ6GfduBBcOyPL0qGS7dGMCoVIwveFkg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MDU5/NTI2LTE2Njc4MTcy/NjMtMzI2MC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/2851975-Joji-Smithereens"
+    "annee": 2020,
+    "possedee": 13484,
+    "electronique": true,
+    "image": "https://i.discogs.com/3dQoAyUeIaTT_wfQchLb7zKuzHwWaiFuXN9oVsKKfwU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1OTAw/NDkyLTE1OTk4NTE1/NTEtNDA5Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/1814241-Joji-Nectar"
    },
    {
-    "titre": "Glimpse Of Us",
+    "titre": "Head In The Clouds",
+    "artiste": "88rising",
+    "annee": 2018,
+    "possedee": 1726,
+    "electronique": true,
+    "image": "https://i.discogs.com/aRID-PLEzeak72-SdWyIYS7Ac2AZzzaeTM3-78n_bkQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMDU1/ODAzLTE1NDcyNjYw/ODYtNzYxMS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/1470459-88rising-Head-In-The-Clouds"
+   },
+   {
+    "titre": "Slow Dancing In The Dark",
     "artiste": "Joji",
-    "annee": 2022,
-    "possedee": 1577,
-    "electronique": false,
-    "image": "https://i.discogs.com/ggmqm3fGnfZNBg5qcflcoyv0kSdf7XgwDbpVb4OJohk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNTI0/NTQxLTE2NTQ4MzQ0/NDAtMjAwMS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/2801513-Joji-Glimpse-Of-Us"
+    "annee": 2018,
+    "possedee": 1233,
+    "electronique": true,
+    "image": "https://i.discogs.com/OA8RpaeCH7W-WdITUyyjIzF1Ol6ZqekT_snmfghDhdY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTEx/MzY5LTE1MzY3MDc4/ODUtNjA3OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/1791403-Joji-Slow-Dancing-In-The-Dark"
    },
    {
     "titre": "Moonchild",
     "artiste": "Niki",
     "annee": 2020,
-    "possedee": 457,
+    "possedee": 465,
     "electronique": true,
     "image": "https://i.discogs.com/MLbLfCOc_2e1VObgQlJyoR_NqqOo0MdZYEW_j7zAg-A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1OTI0/ODA0LTE2MDAyOTE5/MTUtOTY4My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1820637-Niki-Moonchild"
    },
    {
-    "titre": "Hella (˃̣̣̥╭╮˂̣̣̥) ✧ ♡ ‧º·˚",
-    "artiste": "1999 WRITE THE FUTURE",
-    "annee": 2024,
-    "possedee": 194,
-    "electronique": false,
-    "image": "https://i.discogs.com/RW0bZqaGZLGXhNmskrucXAOi8yQNZb_w_s2o8ePwLn4/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyMDIz/OTUyLTE3MjkxMzgz/MzctNzA2Ny5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/3647235-1999-WRITE-THE-FUTURE-Hella---%C2%BA"
-   },
-   {
-    "titre": "Daylight",
-    "artiste": "Joji & Diplo",
-    "annee": 2020,
-    "possedee": 4,
-    "electronique": false,
-    "image": "https://i.discogs.com/RdlJHc5NC7at7Jb8hvUpgi6K900Nu88kEzRiHHmugeM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MjQ3/NTQxLTE2MDU5NDky/NzEtNjUxOC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/1843631-Joji-Diplo-Daylight"
-   },
-   {
-    "titre": "Amigos",
-    "artiste": "Bibi (33), Becky G",
+    "titre": "Heat",
+    "artiste": "(G)I-DLE",
     "annee": 2023,
-    "possedee": 1,
-    "electronique": false,
-    "image": "https://i.discogs.com/MCIFhuu1UthVtkY6RnMZXWm0yG4zfCd6e5fA3itXegc/rs:fit/g:sm/q:90/h:592/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MTUy/OTQyLTE3MDIxMjc0/MDctNTUzMC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/3331111-Bibi-33-Becky-G-Amigos"
+    "possedee": 422,
+    "electronique": true,
+    "image": "https://i.discogs.com/qSJ2D-lT0OW9_qgc2DPbSgbcT1mtDRbewWIs-L0QsW4/rs:fit/g:sm/q:90/h:624/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4NzEw/MTYwLTE3MDQ3NDIw/NjQtNDA1MC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/3361018-GI-DLE-Heat"
+   },
+   {
+    "titre": "4EVR",
+    "artiste": "ISOKNOCK",
+    "annee": 2024,
+    "possedee": 346,
+    "electronique": true,
+    "image": "https://i.discogs.com/qv3mXfw_hdrAw4ATKVAv61_tZuJ7uatTXuKl9hZPgTU/rs:fit/g:sm/q:90/h:593/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNjA1/MTA3LTE3MzQ1NzU3/NjEtNTMzOC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/3691545-ISOKNOCK-4EVR"
+   },
+   {
+    "titre": "nolimit",
+    "artiste": "Knock2",
+    "annee": 2025,
+    "possedee": 214,
+    "electronique": true,
+    "image": "https://i.discogs.com/UD2KaciY9D4dFcUiuliUQQl6xNy2EHbqde1q7MYSQwI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzOTI2/NDc1LTE3NDcxNTg5/NTUtOTg1OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/3942155-Knock2-nolimit"
    }
   ]
  },
@@ -4869,7 +4905,7 @@
     "titre": "Forget In Mass",
     "artiste": "Deki Alem",
     "annee": 2025,
-    "possedee": 120,
+    "possedee": 122,
     "electronique": false,
     "image": "https://i.discogs.com/jFW4oHnK6ANGqImlZ1pqTc-Kx4o7eYZxENO8U2PoU2o/rs:fit/g:sm/q:90/h:573/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0OTQ4/MDMxLTE3NTY0MTAw/MDAtMTQxNC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/4151152-Deki-Alem-Forget-In-Mass"
@@ -9352,7 +9388,7 @@
     "titre": "Ghosteen",
     "artiste": "Nick Cave And The Bad Seeds",
     "annee": 2019,
-    "possedee": 25913,
+    "possedee": 26085,
     "electronique": true,
     "image": "https://i.discogs.com/2ZrHuK9M2HCwnKEXUTtE2HYZPJkRf-5cIUb7lIg-1Zk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MzQ1/NTE0LTE1NzM5MTYz/MTMtNDQ2MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1619220-Nick-Cave-And-The-Bad-Seeds-Ghosteen"
@@ -9361,7 +9397,7 @@
     "titre": "Volcano",
     "artiste": "Jungle",
     "annee": 2023,
-    "possedee": 16163,
+    "possedee": 16537,
     "electronique": true,
     "image": "https://i.discogs.com/0oG_VMe-A-CKg-gQKKzK-fy642-Df7F8XgAJ2O8rwEA/rs:fit/g:sm/q:90/h:538/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MDk5/MjMxLTE2OTU2NDIx/NDQtMTc2OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3197244-Jungle-Volcano"
@@ -9370,7 +9406,7 @@
     "titre": "Carnage",
     "artiste": "Nick Cave & Warren Ellis",
     "annee": 2021,
-    "possedee": 12575,
+    "possedee": 12664,
     "electronique": true,
     "image": "https://i.discogs.com/wp0raBBTQ1uPFFn1RJrB3yOK-YgXByVbOmzs33eUKng/rs:fit/g:sm/q:90/h:615/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MDk1/MDY3LTE2MjMzNjU3/MzgtMjAzOS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1997932-Nick-Cave-Warren-Ellis-Carnage"
@@ -9379,7 +9415,7 @@
     "titre": "Loving In Stereo",
     "artiste": "Jungle",
     "annee": 2021,
-    "possedee": 11210,
+    "possedee": 11381,
     "electronique": true,
     "image": "https://i.discogs.com/WY_vDX1d5WLhu96lcptWmBIU1AAcqzr8efvtDF8Khq8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5ODI5/NTkwLTE2OTMwNzc0/MDktNTgzNC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2253634-Jungle-Loving-In-Stereo"
@@ -9388,7 +9424,7 @@
     "titre": "Lost Girls",
     "artiste": "Bat For Lashes",
     "annee": 2019,
-    "possedee": 3773,
+    "possedee": 3790,
     "electronique": true,
     "image": "https://i.discogs.com/okh1RUG3ZD_f_8NA3Qo6gkqz7HVPbLHKzoHxBKoGlmY/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTAx/Nzc4LTE1Njc4OTIx/ODgtNDY4MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1601515-Bat-For-Lashes-Lost-Girls"
@@ -9397,7 +9433,7 @@
     "titre": "Raw Data Feel",
     "artiste": "Everything Everything",
     "annee": 2022,
-    "possedee": 2451,
+    "possedee": 2463,
     "electronique": true,
     "image": "https://i.discogs.com/IZW5P4TaQSvtOPRlfPr2n8s_qwGQyHIietyWv84I5qE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNjI3/MzQyLTE2NTU2NTM3/MzAtMzA0MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2640743-Everything-Everything-Raw-Data-Feel"
@@ -9406,7 +9442,7 @@
     "titre": "Broken Politics",
     "artiste": "Neneh Cherry",
     "annee": 2018,
-    "possedee": 1999,
+    "possedee": 2006,
     "electronique": true,
     "image": "https://i.discogs.com/zZArgrmg6B1uHH5TsMpioCO_xnN1xJP0jpudJ_aZDVU/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjcy/OTU4LTE1Mzk3ODQ2/MzgtMzQxOC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1439704-Neneh-Cherry-Broken-Politics"
@@ -9415,7 +9451,7 @@
     "titre": "Re-Animator",
     "artiste": "Everything Everything",
     "annee": 2020,
-    "possedee": 1963,
+    "possedee": 1970,
     "electronique": true,
     "image": "https://i.discogs.com/0E1zQLWnPJ7pwf_USJ1EIRgldhl3I2dkm_-Dmkt6ftA/rs:fit/g:sm/q:90/h:527/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1ODk4/MTM2LTE1OTk4MTYw/ODktMzkwNS5wbmc.jpeg",
     "url": "https://www.discogs.com/master/1803556-Everything-Everything-Re-Animator"
@@ -16637,7 +16673,7 @@
     "titre": "Sickcore 3.0 (Extended DJ Versions)",
     "artiste": "The Sickest Squad",
     "annee": 2016,
-    "possedee": 59,
+    "possedee": 61,
     "electronique": true,
     "image": "https://i.discogs.com/qKMz5LCEPayR59cqhZMRm2qXDbRWWS3YciiHFgrESuM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxMTE0/NTMtMTQ3NDk3MTk5/MC01Mzg4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1065503-The-Sickest-Squad-Sickcore-30-Extended-DJ-Versions"
@@ -16655,7 +16691,7 @@
     "titre": "Church Of Noise",
     "artiste": "The Anunnaki",
     "annee": 2017,
-    "possedee": 37,
+    "possedee": 38,
     "electronique": true,
     "image": "https://i.discogs.com/6VRIwexDwpUWFxVoUp7DLx-epOZ1J2X0RKAiOSmObV8/rs:fit/g:sm/q:90/h:688/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODU2/NTM5LTE1MjM1Njcz/MzktMTk4MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1347468-The-Anunnaki-Church-Of-Noise-"
@@ -16664,7 +16700,7 @@
     "titre": "Hardcore Thunder Megamix Vol. 3",
     "artiste": "Various",
     "annee": 2018,
-    "possedee": 29,
+    "possedee": 30,
     "electronique": true,
     "image": "https://i.discogs.com/0YAGVXWNiprb5Mf22mu3qGQYhrSsVB6zIk6NieSn9Ss/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjUw/MTczLTE1Mzk0NjI5/OTItMzgwNS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2276929-Various-Hardcore-Thunder-Megamix-Vol-3"
@@ -16673,7 +16709,7 @@
     "titre": "Abusive Brutality",
     "artiste": "Radium",
     "annee": 2018,
-    "possedee": 23,
+    "possedee": 24,
     "electronique": true,
     "image": "https://i.discogs.com/3XfuVVIqOudqW60qWk5OIlK3iuVpwbvIn_BAnKVZ8DM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExOTcy/OTU5LTE1MjU3ODMx/NDktODE0MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1360382-Radium-Abusive-Brutality"
@@ -16682,7 +16718,7 @@
     "titre": "InnovHate",
     "artiste": "Andy The Core & F. Noize",
     "annee": 2018,
-    "possedee": 21,
+    "possedee": 22,
     "electronique": true,
     "image": "https://i.discogs.com/St50PvEgAwZt2nBcgowoCN6fN9B6e-otpeTjAhvN8aM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzk0/MjI3LTE1NDIwNjQ2/MDgtMzA3MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1453160-Andy-The-Core-F-Noize-InnovHate"
@@ -16691,7 +16727,7 @@
     "titre": "#Killah (The Remixes)",
     "artiste": "The Anunnaki",
     "annee": 2018,
-    "possedee": 18,
+    "possedee": 19,
     "electronique": true,
     "image": "https://i.discogs.com/6ZjvKrYe8FbHS_OHCsS2b9JoN9rH_UuH7dLxixpI25k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTQ0/NzY3LTE1MzczMzU1/MjctNjYyNC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1425361-The-Anunnaki-Killah-The-Remixes-"
@@ -16700,7 +16736,7 @@
     "titre": "Chromesthesia",
     "artiste": "The Sickest Squad",
     "annee": 2018,
-    "possedee": 16,
+    "possedee": 17,
     "electronique": true,
     "image": "https://i.discogs.com/B6MogCK5wc65MzI0IWvd4b28G0rx93gy4e_nbUvtU5g/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjA3/MjQ0LTE1MzA0ODY1/MjktODg3OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1387776-The-Sickest-Squad-Chromesthesia"
@@ -21945,7 +21981,7 @@
     "titre": "Dooms Night",
     "artiste": "Azzido Da Bass",
     "annee": 1999,
-    "possedee": 14214,
+    "possedee": 14298,
     "electronique": true,
     "image": "https://i.discogs.com/-FQyboru704yt3Y6aolgOq_Z0pVyZAbxYQgBy82d06E/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTQ1/OC0xMjI1MTk5NDU2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/150303-Azzido-Da-Bass-Dooms-Night"
@@ -21954,7 +21990,7 @@
     "titre": "Horny '98",
     "artiste": "Mousse T. Vs. Hot 'N' Juicy",
     "annee": 1998,
-    "possedee": 9494,
+    "possedee": 9600,
     "electronique": true,
     "image": "https://i.discogs.com/RVoZOOfIszpG8LOCuEA7FTHtojJDwuMjxzJls_cVYkc/rs:fit/g:sm/q:90/h:592/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4Mjc2/LTE2ODg4MTY3MDkt/NDkyMy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/80353-Mousse-T-Vs-Hot-N-Juicy-Horny-98"
@@ -21963,7 +21999,7 @@
     "titre": "Sun Is Shining",
     "artiste": "Bob Marley vs. Funkstar De Luxe",
     "annee": 1999,
-    "possedee": 9303,
+    "possedee": 9379,
     "electronique": true,
     "image": "https://i.discogs.com/VywmEBP8UlrIVMCFmASDvnGh07cWnOj--5ceKDA-Q9o/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ1NDI5/MC0xNTAyMjA2MjQ4/LTQ0MzcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/139012-Bob-Marley-vs-Funkstar-De-Luxe-Sun-Is-Shining"
@@ -21972,7 +22008,7 @@
     "titre": "Mysterious Times",
     "artiste": "Sash! Feat. Tina Cousins",
     "annee": 1998,
-    "possedee": 5547,
+    "possedee": 5572,
     "electronique": true,
     "image": "https://i.discogs.com/WeDomZXkTPLfq3qK8hJWQaKGFJ-9rWefev51hXhWtso/rs:fit/g:sm/q:90/h:522/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUxNTgw/LTE2MzQzMjUyMzIt/Njk3My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/47182-Sash-Feat-Tina-Cousins-Mysterious-Times"
@@ -21981,7 +22017,7 @@
     "titre": "Hyper Hyper",
     "artiste": "Scooter",
     "annee": 1994,
-    "possedee": 5611,
+    "possedee": 5650,
     "electronique": true,
     "image": "https://i.discogs.com/nlnsUPlcUJnKaHhZtdpChiiduUK_v20KlMonnEkOK4w/rs:fit/g:sm/q:90/h:523/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NDYy/OS0xNzU3MTgzMzg0/LTU5NjMuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/2931-Scooter-Hyper-Hyper"
@@ -21990,7 +22026,7 @@
     "titre": "Put Your Hands Up",
     "artiste": "Black & White Brothers",
     "annee": 1998,
-    "possedee": 4405,
+    "possedee": 4449,
     "electronique": true,
     "image": "https://i.discogs.com/1r8K5AjerEf5V_nt3uOnw3qjbvraHr-M5VSmlArqv6Y/rs:fit/g:sm/q:90/h:441/w:520/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwODk4/MzMtMTI1NjU4NDA0/MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/105280-Black-White-Brothers-Put-Your-Hands-Up"
@@ -21999,7 +22035,7 @@
     "titre": "La Primavera",
     "artiste": "Sash!",
     "annee": 1998,
-    "possedee": 4306,
+    "possedee": 4330,
     "electronique": true,
     "image": "https://i.discogs.com/1INJ7l4HICU2QaLfgL2cvuhB__2CpTTAbm0gStt_wso/rs:fit/g:sm/q:90/h:480/w:543/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ3NDI4/LTEyNTE0MDMxNTUu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/47140-Sash-La-Primavera"
@@ -22008,7 +22044,7 @@
     "titre": "Move Your Ass!",
     "artiste": "Scooter",
     "annee": 1995,
-    "possedee": 4418,
+    "possedee": 4439,
     "electronique": true,
     "image": "https://i.discogs.com/SyTYLDjfE6z_0zbIGu0rJraJQj4YA1z2PbVwaFX-z-4/rs:fit/g:sm/q:90/h:523/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzOTgw/Ny0xNzU1NDk3MDI2/LTIyMjEuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/2980-Scooter-Move-Your-Ass"
@@ -27943,7 +27979,7 @@
     "titre": "Changes / Forgive",
     "artiste": "Mala",
     "annee": 2007,
-    "possedee": 4451,
+    "possedee": 4463,
     "electronique": true,
     "image": "https://i.discogs.com/HSqYBsRXZODWp3WqLE5oQXVBIB4b5sKx_cmoSBUibnI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkwNDkw/Mi0xMzM5MTU1MTEz/LTc2MTAuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/421940-Mala-Changes-Forgive"
@@ -27952,7 +27988,7 @@
     "titre": "Dread / Late Night Blues",
     "artiste": "Kahn",
     "annee": 2012,
-    "possedee": 2689,
+    "possedee": 2698,
     "electronique": true,
     "image": "https://i.discogs.com/dzl2-lEiY-bKiSXg6UA8UH4VVDBJjKoA_pzaCem6mSc/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQwNTY4/NDQtMTM1NDE5MDg5/NS00NTkzLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/508955-Kahn-Dread-Late-Night-Blues"
@@ -27961,7 +27997,7 @@
     "titre": "Disko Rekah / All Of A Sudden",
     "artiste": "Loefah / Coki",
     "annee": 2007,
-    "possedee": 2705,
+    "possedee": 2721,
     "electronique": true,
     "image": "https://i.discogs.com/TWweIBPzp94Chg1ckvha52anWd29Nl_1Ljez02-xERA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4Njcy/Mi0xMzM5MTU1MTc2/LTYyNzUuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/495697-Loefah-Coki-Disko-Rekah-All-Of-A-Sudden"
@@ -27970,7 +28006,7 @@
     "titre": "Return II Space",
     "artiste": "Digital Mystikz",
     "annee": 2010,
-    "possedee": 2357,
+    "possedee": 2361,
     "electronique": true,
     "image": "https://i.discogs.com/iEm8O1ZKvhKolqGTKheOe_XgXeXEU3ln9fs1QwYZJxc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzMzgw/MzgtMTI3ODAwMTMx/My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/262609-Digital-Mystikz-Return-II-Space"
@@ -27979,7 +28015,7 @@
     "titre": "Topper Top",
     "artiste": "Sir Spyro",
     "annee": 2016,
-    "possedee": 2180,
+    "possedee": 2182,
     "electronique": true,
     "image": "https://i.discogs.com/9Av0Rq50SvCVmEOu2nUjKJMSJcJ2zkm-n-9YZlMAwq4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxMTA2/ODItMTQ3NTQwMjk4/Ni01NjI1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1068747-Sir-Spyro-Topper-Top"
@@ -27988,7 +28024,7 @@
     "titre": "Miracles / New Life Baby Paris",
     "artiste": "Mala",
     "annee": 2008,
-    "possedee": 1523,
+    "possedee": 1525,
     "electronique": true,
     "image": "https://i.discogs.com/0-OI2gzj6cIcQwyuP-zgggCPHuJA_V_08W7puag3llM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NjI0/MzItMTMzMjY4NjU5/Ni5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/587125-Mala-Miracles-New-Life-Baby-Paris"
@@ -27997,7 +28033,7 @@
     "titre": "Kalawanji / Surgery",
     "artiste": "Kromestar",
     "annee": 2006,
-    "possedee": 1427,
+    "possedee": 1438,
     "electronique": true,
     "image": "https://i.discogs.com/8EapNGEfql-svQLaCL8l14bzawkt7Xh8-zJtwE8IrW4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc2NTA0/Mi0xMTU2NDYyNDI4/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/290860-Kromestar-Kalawanji-Surgery"
@@ -28006,7 +28042,7 @@
     "titre": "Over Deh So / Abattoir",
     "artiste": "Kahn",
     "annee": 2015,
-    "possedee": 1278,
+    "possedee": 1280,
     "electronique": true,
     "image": "https://i.discogs.com/HzdQHvhRErDM5NanWdMQwHSlRuELLkf4hxauuXe6q98/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY1OTE1/MjQtMTQyMzQ3OTI1/NS0yNDAyLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1729229-Kahn-Over-Deh-So-Abattoir"
@@ -29359,7 +29395,7 @@
     "titre": "Decay",
     "artiste": "Efdemin",
     "annee": 2014,
-    "possedee": 1441,
+    "possedee": 1442,
     "electronique": true,
     "image": "https://i.discogs.com/ww0k-rTyL677cT6ltkZtH1z2fFuWofi1f3EvbmIJAKc/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU1NDAz/MzktMTM5NjAxOTQw/MS04MTE3LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/668685-Efdemin-Decay"
@@ -35813,7 +35849,7 @@
     "titre": "David Byrne - My Life In The Bush Of Ghosts",
     "artiste": "Brian Eno",
     "annee": 1981,
-    "possedee": 46621,
+    "possedee": 46926,
     "electronique": true,
     "image": "https://i.discogs.com/lHin8YdSkRyYVwGHNqRLfi_xj7MaaC_6DAqKnUlNl00/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0MDg0/NDUtMTM0Mjk4Njkz/MS0xNjI3LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/6392-Brian-Eno-David-Byrne-My-Life-In-The-Bush-Of-Ghosts"
@@ -35822,7 +35858,7 @@
     "titre": "Boys And Girls",
     "artiste": "Bryan Ferry",
     "annee": 1985,
-    "possedee": 46242,
+    "possedee": 46697,
     "electronique": true,
     "image": "https://i.discogs.com/H36NiGi-EymaVG0tmP3778WesnK-tr6saoJM9OtFSTU/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1ODIw/Ny0xNDkxMDU2Mzcy/LTExNTIuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/43578-Bryan-Ferry-Boys-And-Girls"
@@ -35831,7 +35867,7 @@
     "titre": "Manifesto",
     "artiste": "Roxy Music",
     "annee": 1979,
-    "possedee": 39774,
+    "possedee": 40066,
     "electronique": true,
     "image": "https://i.discogs.com/xkJNh1GMSB8CM8tENVNaMuTWw3gEvCRoKPCC8GFSCrg/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0NzI5/OTctMTYzNjUzOTI4/Mi03Nzc5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/58340-Roxy-Music-Manifesto"
@@ -35840,7 +35876,7 @@
     "titre": "Another Green World",
     "artiste": "Eno",
     "annee": 1975,
-    "possedee": 37722,
+    "possedee": 38032,
     "electronique": true,
     "image": "https://i.discogs.com/0T478Ug91XATzbpqcOoZEomh3QQAEFJXv5zuMLH5DbM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNjUy/NS0xNTM4MzAwMzk2/LTg4OTkuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/6659-Eno-Another-Green-World"
@@ -35849,7 +35885,7 @@
     "titre": "Ambient 1 (Music For Airports)",
     "artiste": "Brian Eno",
     "annee": 1979,
-    "possedee": 35432,
+    "possedee": 35757,
     "electronique": true,
     "image": "https://i.discogs.com/Ajqk0nO1MjaxCMUzY-D9EzrTBRRbaKJE8WFKSvkaVEU/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTc3/Ni0xNjE2NDg1MDk2/LTE5NDIuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/6265-Brian-Eno-Ambient-1-Music-For-Airports"
@@ -35858,7 +35894,7 @@
     "titre": "Before And After Science",
     "artiste": "Brian Eno",
     "annee": 1977,
-    "possedee": 33469,
+    "possedee": 33735,
     "electronique": true,
     "image": "https://i.discogs.com/sxUHyMx_blS0es96WYHOoUjVHDpEOummb1d0g04PmeE/rs:fit/g:sm/q:90/h:605/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUyMDQ4/Ni0xNzM5ODUzMjI4/LTI4NjEuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/6718-Brian-Eno-Before-And-After-Science"
@@ -35867,7 +35903,7 @@
     "titre": "Taking Tiger Mountain (By Strategy)",
     "artiste": "Eno",
     "annee": 1974,
-    "possedee": 28659,
+    "possedee": 28856,
     "electronique": true,
     "image": "https://i.discogs.com/O15EB1hsQuYzl0FLwMuBFQCLzPEKlyDtr3H7DIVo1ds/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0MzA3/Ny0xNzA1ODcwMDgw/LTE4OTcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/6168-Eno-Taking-Tiger-Mountain-By-Strategy"
@@ -35876,7 +35912,7 @@
     "titre": "Night Time",
     "artiste": "Killing Joke",
     "annee": 1985,
-    "possedee": 21169,
+    "possedee": 21320,
     "electronique": true,
     "image": "https://i.discogs.com/xXVMWIwWm1UwsPN8gDAGl1k3M6tgWJ8WIVQN4syc7XM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTY4/NjctMTM5Mzg3Mjg4/MS00ODM0LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/15664-Killing-Joke-Night-Time"
@@ -45161,92 +45197,19 @@
    "en": "https://en.wikipedia.org/wiki/Fusion_Records"
   },
   "resume": {
-   "fr": "Fusion Records est un label discographique néerlandais de hardstyle. Il est compté par la presse spécialisée parmi les plus grand labels de hardstyle.",
+   "fr": "Fusion Records est un label discographique néerlandais de hardstyle. Il est compté par la presse spécialisée parmi les plus grands labels de hardstyle.",
    "en": "Fusion Records is a Dutch sub-label of Freaky Music which, at first, released hard trance and hard house records, and kept growing by releasing hardstyle. After the end of Superplastik, the artists that were signed to it moved over to Fusion Records. These artists included The Pitcher and Dozer. Fusion stopped pressing vinyl in June 2010 to \"enlarge their focus on digital releases\"."
   },
   "profil": null,
-  "discogs": "https://www.discogs.com/label/12845-Fusion-Records",
+  "discogs": "https://www.discogs.com/label/11079-Fusion-Records-5",
   "wikidata": "Q2405062",
   "logo": {
-   "url": "https://i.discogs.com/vVi4qRTf1ame3sLR4LDgxHy-lptXedZdvCfLiLu5v1A/rs:fit/g:sm/q:90/h:130/w:450/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEyODQ1/LTExNjU0NDE1MjYu/anBlZw.jpeg",
+   "url": "https://i.discogs.com/KPXMvmo7necAoek91SKY0PAR5D6D6yUk0EMEEsV8xG0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTExMDc5/LTE3MDc3NzMxNjIt/Mzk1OC5qcGVn.jpeg",
    "source": "discogs",
    "credit": null,
-   "page": "https://www.discogs.com/label/12845-Fusion-Records"
+   "page": "https://www.discogs.com/label/11079-Fusion-Records-5"
   },
-  "sorties": [
-   {
-    "titre": "Menergy / I Wanna Take You Home",
-    "artiste": "Patrick Cowley",
-    "annee": 1981,
-    "possedee": 5321,
-    "electronique": true,
-    "image": "https://i.discogs.com/ri1Cood1OnhSvY2SxSaM2K-HRy5mToJaNMv-Yw3vKkE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMjgx/Ny0xNjU2MDgzNzk1/LTExODMuanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/74424-Patrick-Cowley-Menergy-I-Wanna-Take-You-Home"
-   },
-   {
-    "titre": "Menergy",
-    "artiste": "Patrick Cowley",
-    "annee": 1981,
-    "possedee": 2533,
-    "electronique": true,
-    "image": "https://i.discogs.com/Avqsyk7vtWoc-lVxQUboYaNcxAaBQkeDGGAvESsrgDI/rs:fit/g:sm/q:90/h:605/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0MTY2/Ny0xNjM1NTIwMjUz/LTc1NTguanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/25914-Patrick-Cowley-Menergy"
-   },
-   {
-    "titre": "Megatron Man",
-    "artiste": "Patrick Cowley",
-    "annee": 1982,
-    "possedee": 1970,
-    "electronique": true,
-    "image": "https://i.discogs.com/h21D1CSqow5s2am08RE3lZ0qeL78k_VikKFt7diOBy8/rs:fit/g:sm/q:90/h:579/w:573/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MjQ2/MC0xMTY1MjA4MTcx/LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/74445-Patrick-Cowley-Megatron-Man"
-   },
-   {
-    "titre": "Here We Go / Pørn",
-    "artiste": "Pavo & Zany",
-    "annee": 2003,
-    "possedee": 1309,
-    "electronique": true,
-    "image": "https://i.discogs.com/UJBgovhoSoLw_4OYe8MQ5zuZPSvPHiX6LwGBNFOQd4M/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMzc3/MS0xMzA1ODIyMTE5/LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/1236964-Pavo-Zany-Here-We-Go-P%C3%B8rn"
-   },
-   {
-    "titre": "Motherf*ck",
-    "artiste": "Donkey Rollers",
-    "annee": 2002,
-    "possedee": 1226,
-    "electronique": true,
-    "image": "https://i.discogs.com/AsvonjJRSFpDRkTsMsRp-m5VMkFmnsHHUKfqD6-yny8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExOTYx/Ny0xMjU5NDcxMjQ0/LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/535189-Donkey-Rollers-Motherfck"
-   },
-   {
-    "titre": "Pure / Sky High (Technoboy Remix)",
-    "artiste": "DJ Zany",
-    "annee": 2005,
-    "possedee": 1220,
-    "electronique": true,
-    "image": "https://i.discogs.com/xPMAzrjDozrznTbMTQLtR952m7kO9lWfohz5i3YeOPg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ3MDEz/My0xMjYzMjA2NTk0/LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/350824-DJ-Zany-Pure-Sky-High-Technoboy-Remix"
-   },
-   {
-    "titre": "Nothing Else Matters / Fever",
-    "artiste": "Zany & DV8",
-    "annee": 2007,
-    "possedee": 1134,
-    "electronique": true,
-    "image": "https://i.discogs.com/y1SQebAfzrXPJ_KS53n7L0pTO3EMdwuF4t6tIpWjgnA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk4OTI4/OC0xMjQ1NTc2NzUy/LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/551917-Zany-DV8-Nothing-Else-Matters-Fever"
-   },
-   {
-    "titre": "Rock The Beatz",
-    "artiste": "DJ Zany",
-    "annee": 2002,
-    "possedee": 1018,
-    "electronique": true,
-    "image": "https://i.discogs.com/3fxgfSr8B6j-s0EiTUsZ8v_RYxPgbhqIx44hMpdWouM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMzc5/Ni0xNzc4MTQ4NDQ5/LTY0ODguanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/51053-DJ-Zany-Rock-The-Beatz"
-   }
-  ]
+  "sorties": []
  },
  {
   "slug": "future-classic",
@@ -45917,7 +45880,7 @@
     "titre": "Southern Lands",
     "artiste": "Cetu Javu",
     "annee": 1990,
-    "possedee": 1578,
+    "possedee": 1596,
     "electronique": true,
     "image": "https://i.discogs.com/k4uWe_bYmtNnDHCsioahYoFEtUo12-9148K-tnm0-E0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNjYx/Ni0xMzY3MTY4NzY0/LTU4OTYuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/124567-Cetu-Javu-Southern-Lands"
@@ -45926,7 +45889,7 @@
     "titre": "Current News",
     "artiste": "The Invincible Spirit",
     "annee": 1987,
-    "possedee": 1394,
+    "possedee": 1404,
     "electronique": true,
     "image": "https://i.discogs.com/cT5sWF7uZnr0Nrz14jhg6JLV_zKwGqW5eKSIXgdoEfc/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUxNTM3/Ny0xMjIxODI1NDYz/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/40852-The-Invincible-Spirit-Current-News"
@@ -45935,7 +45898,7 @@
     "titre": "Maid In England",
     "artiste": "Divine",
     "annee": 1990,
-    "possedee": 1296,
+    "possedee": 1308,
     "electronique": true,
     "image": "https://i.discogs.com/htkkZy9j9QfQqjuobElodZMeYTLS15HkNghIXgEN6Os/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MjMz/MS0xNzI0MjM3NzA3/LTkwMDcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/90789-Divine-Maid-In-England"
@@ -45944,7 +45907,7 @@
     "titre": "The Italo Disco Collection",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 1236,
+    "possedee": 1256,
     "electronique": true,
     "image": "https://i.discogs.com/arBwjKgS4rMxU1eaBVqY-c0ljBR4dV42H0p6h-OWE4Q/rs:fit/g:sm/q:90/h:503/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyOTMy/OC0xNjEzODI3MTkx/LTUxMTUuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/76102-Various-The-Italo-Disco-Collection"
@@ -45953,7 +45916,7 @@
     "titre": "On The Move!",
     "artiste": "M.C.Sar & The Real McCoy",
     "annee": 1990,
-    "possedee": 899,
+    "possedee": 905,
     "electronique": true,
     "image": "https://i.discogs.com/HEpQZJax7rBVe2x8OE6LPFRd_kOoxrqrHW7TZL3wAV0/rs:fit/g:sm/q:90/h:592/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MzY1/MC0xNjAxMzkwOTI3/LTU2MjcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/37448-MCSar-The-Real-McCoy-On-The-Move"
@@ -45962,7 +45925,7 @@
     "titre": "Welcome To The Technodrome",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 753,
+    "possedee": 759,
     "electronique": true,
     "image": "https://i.discogs.com/8h5u08OIZbCo3zJD0Wh7MbWg_9HMiiGjUkY2uduSbcI/rs:fit/g:sm/q:90/h:243/w:250/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1ODc3/NS0xMTEzMDc1NDQ1/LmpwZw.jpeg",
     "url": "https://www.discogs.com/master/57548-Various-Welcome-To-The-Technodrome"
@@ -45980,7 +45943,7 @@
     "titre": "Acid In The House",
     "artiste": "Various",
     "annee": 1988,
-    "possedee": 625,
+    "possedee": 629,
     "electronique": true,
     "image": "https://i.discogs.com/sTByB4zDg6R7rgb6jyPR7s4eMbMyJKFepc4nRk9EiKw/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUzNDI0/LTEyMjA2ODY2OTMu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/110496-Various-Acid-In-The-House"
@@ -50077,7 +50040,7 @@
     "titre": "Mystical Expedition",
     "artiste": "Sound Rush",
     "annee": 2017,
-    "possedee": 16,
+    "possedee": 15,
     "electronique": true,
     "image": "https://i.discogs.com/obyXIwZCzX-utm1Zgs2JeoM7i4u1id9CTQgAXPK0eNI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMzMx/MDYzLTE0OTU0NTYw/NDItMjY5OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1183815-Sound-Rush-Mystical-Expedition"
@@ -50086,7 +50049,7 @@
     "titre": "On Your Mark",
     "artiste": "Atmozfears",
     "annee": 2015,
-    "possedee": 17,
+    "possedee": 18,
     "electronique": true,
     "image": "https://i.discogs.com/I5BJWUGhm2YN331pp1Un8b2bjtm0uZqvvZGsjKJXnGw/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODEw/NDY3LTE1MjI3NzI2/MzMtODAyNy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1341663-Atmozfears-On-Your-Mark"
@@ -50148,7 +50111,7 @@
     "titre": "Masterworks (The Essential Kenlou House Mixes)",
     "artiste": "Masters At Work",
     "annee": 1995,
-    "possedee": 1193,
+    "possedee": 1199,
     "electronique": true,
     "image": "https://i.discogs.com/q2LJVF2IvKudj3yydTya45r3OW8PuKSd0o1I9x9PfWw/rs:fit/g:sm/q:90/h:602/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ3OTkw/LTE3MjU3NzY2NDUt/MjkzNy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/99249-Masters-At-Work-Masterworks-The-Essential-Kenlou-House-Mixes"
@@ -50157,7 +50120,7 @@
     "titre": "Sam Records Extended Play",
     "artiste": "Various",
     "annee": 2012,
-    "possedee": 872,
+    "possedee": 875,
     "electronique": true,
     "image": "https://i.discogs.com/UZSsOwqffkrr9ZBARlDvHsunAevf3o7JEdWebrfK2FM/rs:fit/g:sm/q:90/h:493/w:554/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MTk2/MzgtMTM0NjYxNjcx/NS0zMzcyLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/801189-Various-Sam-Records-Extended-Play"
@@ -50166,7 +50129,7 @@
     "titre": "Kaoz Theory (The Essential Kerri Chandler)",
     "artiste": "Kerri Chandler",
     "annee": 1998,
-    "possedee": 691,
+    "possedee": 694,
     "electronique": true,
     "image": "https://i.discogs.com/rytwAj92cU9A68efqHFoc1MpVIvR6rVBXm3F-BvbIXg/rs:fit/g:sm/q:90/h:603/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2Njc2/LTE1OTE2NDc0MjMt/NTQ2Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/130363-Kerri-Chandler-Kaoz-Theory-The-Essential-Kerri-Chandler"
@@ -50175,7 +50138,7 @@
     "titre": "Disco Discharge. Euro Disco",
     "artiste": "Various",
     "annee": 2009,
-    "possedee": 666,
+    "possedee": 670,
     "electronique": true,
     "image": "https://i.discogs.com/02Rk_d0ruuVythRPUT3M3XFGbNegpOLDEIFWbN8EyvQ/rs:fit/g:sm/q:90/h:497/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NjE2/ODYtMTMyMzE2NTEy/Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/269698-Various-Disco-Discharge-Euro-Disco"
@@ -50184,7 +50147,7 @@
     "titre": "Life:Styles (Compiled By Coldcut)",
     "artiste": "Coldcut",
     "annee": 2004,
-    "possedee": 664,
+    "possedee": 666,
     "electronique": true,
     "image": "https://i.discogs.com/KuyHj3GODwsR4zlmDA4B9XmZJKfqvQAHfg_jLsrpyqc/rs:fit/g:sm/q:90/h:160/w:160/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2OTcy/Mi0xMTE2ODA3OTYx/LmpwZw.jpeg",
     "url": "https://www.discogs.com/master/53760-Coldcut-LifeStyles-Compiled-By-Coldcut"
@@ -50193,7 +50156,7 @@
     "titre": "S-Man Classics (The Essential Sanchez Mixes)",
     "artiste": "Roger Sanchez",
     "annee": 1997,
-    "possedee": 641,
+    "possedee": 644,
     "electronique": true,
     "image": "https://i.discogs.com/h8Q8hfhqd71Cl32VYkxp2DreSySEATqjUIADk5vOWsA/rs:fit/g:sm/q:90/h:520/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMDkz/Mi0xMjIwMjc4MjE2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/175301-Roger-Sanchez-S-Man-Classics-The-Essential-Sanchez-Mixes"
@@ -50202,7 +50165,7 @@
     "titre": "The Sam Records Anthology",
     "artiste": "Various",
     "annee": 2015,
-    "possedee": 614,
+    "possedee": 618,
     "electronique": true,
     "image": "https://i.discogs.com/VM47LAr9agk_RHAdsF16dcw5Y2c8S51ot6UbBZywvtY/rs:fit/g:sm/q:90/h:538/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcxNjM1/NTgtMTQ0NTcyNDM1/Ny0yNDUwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/888318-Various-The-Sam-Records-Anthology"
@@ -50211,7 +50174,7 @@
     "titre": "Disco Discharge. Disco Ladies",
     "artiste": "Various",
     "annee": 2009,
-    "possedee": 627,
+    "possedee": 632,
     "electronique": true,
     "image": "https://i.discogs.com/wsH31D3YPXYIdwknhOt_BfmoAuO3-lMsYDhaTyIGbQg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NDI4/MjUtMTQ5OTAxMzE2/OC05OTEwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/3935468-Various-Disco-Discharge-Disco-Ladies"
@@ -51138,7 +51101,7 @@
     "titre": "Cactus",
     "artiste": "Objekt",
     "annee": 2012,
-    "possedee": 1179,
+    "possedee": 1185,
     "electronique": true,
     "image": "https://i.discogs.com/bEjV5C3hVLySDKU77hOZs1PYY97truVd70xihkQg_os/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzOTQy/NDEtMTMzMTEzMTU5/MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/461492-Objekt-Cactus"
@@ -51147,7 +51110,7 @@
     "titre": "TRG Remixes",
     "artiste": "TRG",
     "annee": 2008,
-    "possedee": 1140,
+    "possedee": 1139,
     "electronique": true,
     "image": "https://i.discogs.com/FNHxW6EHDBaw7_y29Fggq6yxB_nP1BMzpIuPwFHP2dQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMDAx/OTktMTMyNjY2Mzk1/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/948457-TRG-TRG-Remixes"
@@ -51156,7 +51119,7 @@
     "titre": "The Bells Sketch",
     "artiste": "James Blake",
     "annee": 2010,
-    "possedee": 1060,
+    "possedee": 1064,
     "electronique": true,
     "image": "https://i.discogs.com/mMA-uPe9AY1V_FnZrWhuVk2b3Bn8l2LqCuVimotFHCU/rs:fit/g:sm/q:90/h:316/w:317/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzgz/NDgtMTI2ODY3NjI3/MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/287548-James-Blake-The-Bells-Sketch"
@@ -51165,7 +51128,7 @@
     "titre": "Pearson Sound",
     "artiste": "Pearson Sound",
     "annee": 2015,
-    "possedee": 967,
+    "possedee": 964,
     "electronique": true,
     "image": "https://i.discogs.com/PFtfT2JOVWZQpOdokmh3Fcmeq3Euakxs71rOorgHuyg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY3NTA2/MzYtMTQyNTg1MTI1/Mi0yNjk2LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/807187-Pearson-Sound-Pearson-Sound-"
@@ -51183,7 +51146,7 @@
     "titre": "You & I",
     "artiste": "Pangaea",
     "annee": 2008,
-    "possedee": 878,
+    "possedee": 880,
     "electronique": true,
     "image": "https://i.discogs.com/UbXsaD-yz-X8Nqj0R-K9sgEvZtvM0ssU1xVhcBY2Jk4/rs:fit/g:sm/q:90/h:400/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0ODEx/NDctMTIyNDQ3NjU0/Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/97972-Pangaea-You-I"
@@ -51192,7 +51155,7 @@
     "titre": "Alien Mode EP",
     "artiste": "Pearson Sound",
     "annee": 2020,
-    "possedee": 877,
+    "possedee": 878,
     "electronique": true,
     "image": "https://i.discogs.com/vBkpcn6ExcZphlHzJCyXBePvukKyk73-5OtaU-Prm6c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NTY3/Mzg5LTE3Mjk3NTcz/NjEtMjY2OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1939332-Pearson-Sound-Alien-Mode-EP"
@@ -51201,7 +51164,7 @@
     "titre": "Blanked",
     "artiste": "Pearson Sound",
     "annee": 2010,
-    "possedee": 827,
+    "possedee": 826,
     "electronique": true,
     "image": "https://i.discogs.com/jenE7HGw2UEKy7cEBv-qeeRM-JEmOFscRgQBRCmLTyE/rs:fit/g:sm/q:90/h:333/w:333/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NTQ0/OTAtMTI5MDE5Mjcz/Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/332647-Pearson-Sound-Blanked"
@@ -51370,7 +51333,7 @@
     "titre": "Young-Luv.com",
     "artiste": "STAYC",
     "annee": 2022,
-    "possedee": 505,
+    "possedee": 509,
     "electronique": true,
     "image": "https://i.discogs.com/K0Q7iEkmgz4_CcdDRG3_o20aohHu_p1qrR5y81l_gxQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMjU4/MzAwLTE2NDU1MTU2/MTMtNzU2MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2552297-STAYC-Young-Luvcom"
@@ -51388,7 +51351,7 @@
     "titre": "We Need Love",
     "artiste": "STAYC",
     "annee": 2022,
-    "possedee": 321,
+    "possedee": 326,
     "electronique": false,
     "image": "https://i.discogs.com/44yLX07Ov7Umzc2oLwze6ueuJts6O3JbFeTFXsJF4Go/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0MTE3/NDA0LTE2NTk3ODM1/OTktNzgxOC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2743277-STAYC-We-Need-Love"
@@ -51406,7 +51369,7 @@
     "titre": "TEENFRESH",
     "artiste": "STAYC",
     "annee": 2023,
-    "possedee": 236,
+    "possedee": 240,
     "electronique": false,
     "image": "https://i.discogs.com/ZINwifUeuqmeEF8MkfYyXIXCiSNQU9Vsc6NZveBUGQo/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NTc0/ODc3LTE3ODA5NDk2/NjgtOTE3Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3449855-STAYC-TEENFRESH"
@@ -51415,7 +51378,7 @@
     "titre": "Metamorphic",
     "artiste": "STAYC",
     "annee": 2024,
-    "possedee": 144,
+    "possedee": 146,
     "electronique": false,
     "image": "https://i.discogs.com/hdbfW9dMzId8niZM3VTtNsMJCWqcGfU1yAS6EgWO_7Q/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMjQ2/NDk4LTE3MjEyMjY4/NTctMzY0MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3541627-STAYC-Metamorphic"
@@ -51433,7 +51396,7 @@
     "titre": "I Want It",
     "artiste": "STAYC",
     "annee": 2025,
-    "possedee": 32,
+    "possedee": 34,
     "electronique": false,
     "image": "https://i.discogs.com/hb6nAbeQbqC4RK-fU_UIQLlU1wVUJ8yy898vOSi9MFE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NTc0/OTQwLTE3ODA5NDk5/NzgtNzc3NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3937994-STAYC-I-Want-It"
@@ -54140,7 +54103,7 @@
     "titre": "Rave, Rinse, Repeat",
     "artiste": "Paul Elstak & The Viper & Boogshe",
     "annee": 2021,
-    "possedee": 16,
+    "possedee": 17,
     "electronique": true,
     "image": "https://i.discogs.com/Zs3EEE8IxxkJSBdBwP1KMP4t_aSr3MZoLMjiJZt4tFk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5Nzc2/MDc5LTE2MjgzNDI4/NTAtNDU0NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2246344-Paul-Elstak-The-Viper-Boogshe-Rave-Rinse-Repeat"
@@ -54149,7 +54112,7 @@
     "titre": "Lords Of Hardcore XXIV (The Death Squad Of Rage)",
     "artiste": "Various",
     "annee": 2024,
-    "possedee": 16,
+    "possedee": 17,
     "electronique": true,
     "image": "https://i.discogs.com/dXZr2PpJtSrC2HXINFHXmNLP5Vu7ZOKoKT3Ge0d_yvw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwNDI2/MzIwLTE3MTM3NzE4/MDctNTUzMi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3460355-Various-Lords-Of-Hardcore-XXIV-The-Death-Squad-Of-Rage"
@@ -54158,7 +54121,7 @@
     "titre": "Hardcore Sampler Vol. 01",
     "artiste": "Paul Elstak",
     "annee": 2021,
-    "possedee": 12,
+    "possedee": 13,
     "electronique": true,
     "image": "https://i.discogs.com/O77lxMh7l_AYqkhvPjJrb8OEamwwfj39qI_KR-l6TYs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5OTI4/NjI2LTE2Mjk0NjM1/NDEtNzg2My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2264311-Paul-Elstak-Hardcore-Sampler-Vol-01"
@@ -54167,7 +54130,7 @@
     "titre": "Call Home",
     "artiste": "Paul Elstak & Out Of Cookies Feat. Renae",
     "annee": 2021,
-    "possedee": 12,
+    "possedee": 13,
     "electronique": true,
     "image": "https://i.discogs.com/c3zDyUKamWRjS0KWe6dU5FTT91lT4Vfi3xs4DxQYTsk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2OTQ1/MDIwLTE2MTA3NDIz/MzgtMjQzNy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1924803-Paul-Elstak-Out-Of-Cookies-Feat-Renae-Call-Home"
@@ -54194,7 +54157,7 @@
     "titre": "Hit The Speakers",
     "artiste": "Paul Elstak & Neophyte",
     "annee": 2026,
-    "possedee": 5,
+    "possedee": 6,
     "electronique": true,
     "image": "https://i.discogs.com/ACcBtvC3yyAlH7_SGEjmLag6LTfwYZ1LhN3U8xiy1fM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3ODQ4/NzgwLTE3ODM3MTIz/MTAtOTU5MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/4283010-Paul-Elstak-Neophyte-Hit-The-Speakers"
@@ -54413,89 +54376,11 @@
   "site": "http://www.iconmusic.ca/",
   "wiki": {},
   "resume": {},
-  "profil": "Icelandic label run by Grétar Gunnarsson, pressed and distributed in the UK.\nA&R: Frankie Valentine.\nDistribution manager: Darrell \"Mr Music\" Pryor.",
-  "discogs": "https://www.discogs.com/label/57925-Icon-Records",
+  "profil": "Canada label created for .",
+  "discogs": "https://www.discogs.com/label/1037187-Icon-Records-18",
   "wikidata": "Q5986629",
-  "logo": {
-   "url": "https://i.discogs.com/tmhKO0dn2T7wEh8sxJexZGkLxvRu99HRFJ45ImZG_Sk/rs:fit/g:sm/q:90/h:400/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTU3OTI1/LTE3Mzk4MTE1NDkt/NDA0NC5qcGVn.jpeg",
-   "source": "discogs",
-   "credit": null,
-   "page": "https://www.discogs.com/label/57925-Icon-Records"
-  },
-  "sorties": [
-   {
-    "titre": "Burning Up",
-    "artiste": "Tony De Vit",
-    "annee": 1995,
-    "possedee": 1337,
-    "electronique": true,
-    "image": "https://i.discogs.com/MwkbNxS_4pwzL1Mb2T8a0NC-2hx53EoMAYRERA6RVfU/rs:fit/g:sm/q:90/h:580/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODc4/MS0xNjU3NTEwMzUy/LTE0MTguanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/60182-Tony-De-Vit-Burning-Up"
-   },
-   {
-    "titre": "187 (Music From The Motion Picture)",
-    "artiste": "Various",
-    "annee": 1997,
-    "possedee": 626,
-    "electronique": true,
-    "image": "https://i.discogs.com/MBWTFcmSPxXlgrO6u__iOXrpEmuLhr49ZWsf8qKhmlE/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNzg5/LTE1MTM1MTE0MjAt/NDE5My5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/177997-Various-187-Music-From-The-Motion-Picture"
-   },
-   {
-    "titre": "Twist To Forget",
-    "artiste": "Frankie Valentine Presents The Icelandic Conspiracy",
-    "annee": 1997,
-    "possedee": 355,
-    "electronique": true,
-    "image": "https://i.discogs.com/AG4Xqd_g7qsDNxSiAEGP63PwRv6QeItE5tKZqalYqWI/rs:fit/g:sm/q:90/h:472/w:472/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyODE3/LTExNjE5NDM5MzIu/anBlZw.jpeg",
-    "url": "https://www.discogs.com/master/88521-Frankie-Valentine-Presents-The-Icelandic-Conspiracy-Twist-To-Forget"
-   },
-   {
-    "titre": "On The Leopard Altar",
-    "artiste": "Daniel Lentz",
-    "annee": 1984,
-    "possedee": 352,
-    "electronique": true,
-    "image": "https://i.discogs.com/CKAvW9k_j-y2imq4NTw5qZ9M3RGXPW5J-6n7dGQBWfo/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNTY3/MTI2LTE2NTUxNzE5/MTktOTEzMi5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/254296-Daniel-Lentz-On-The-Leopard-Altar"
-   },
-   {
-    "titre": "John Somebody",
-    "artiste": "Scott Johnson",
-    "annee": 1986,
-    "possedee": 352,
-    "electronique": true,
-    "image": "https://i.discogs.com/3_yi9nn9imaJgldRh3izr6gGgYsd9aOl-VbQbtdNrZ4/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2ODkz/OTktMTI5ODQ1MDgy/NC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/313090-Scott-Johnson-John-Somebody"
-   },
-   {
-    "titre": "Project A",
-    "artiste": "Bix",
-    "annee": 1997,
-    "possedee": 230,
-    "electronique": true,
-    "image": "https://i.discogs.com/emK99mDxM0qImT84PWluEJj5l-qnh50SU-RRWKZViSI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgyMDU4/Ni0xNTk4NTEyNjIx/LTgzNzQuanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/170323-Bix-Project-A"
-   },
-   {
-    "titre": "That's What It Is",
-    "artiste": "Tommi",
-    "annee": 1998,
-    "possedee": 146,
-    "electronique": true,
-    "image": "https://i.discogs.com/0mumIAl9qeGmqp2E5WqEvMIbdQybUHGv_M_HxtAiDFg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0Mjk1/MS0xNTc1ODM1MjEz/LTE0MzYuanBlZw.jpeg",
-    "url": "https://www.discogs.com/master/974368-Tommi-Thats-What-It-Is"
-   },
-   {
-    "titre": "Lover",
-    "artiste": "Tony Moran",
-    "annee": 1992,
-    "possedee": 149,
-    "electronique": true,
-    "image": "https://i.discogs.com/YL9h9bQuG5YSalQs8gf_wMNrH44DE-5k_ix7oFSNfuo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgxMzg2/MS0xNTUxNTYwOTQ0/LTI1NDUucG5n.jpeg",
-    "url": "https://www.discogs.com/master/175328-Tony-Moran-Lover"
-   }
-  ]
+  "logo": null,
+  "sorties": []
  },
  {
   "slug": "id-et-t",
@@ -58924,7 +58809,7 @@
     "titre": "The House Of Hits - The History Of House Music",
     "artiste": "Various",
     "annee": 1988,
-    "possedee": 862,
+    "possedee": 865,
     "electronique": true,
     "image": "https://i.discogs.com/DHSEZXjd4KIcnKKPUnf1ISHy6c6iZGZtWJDCuWtKmwU/rs:fit/g:sm/q:90/h:605/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODk4/Ny0xMzgyNTIyMzY3/LTkyODMuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/7163-Various-The-House-Of-Hits-The-History-Of-House-Music"
@@ -58933,7 +58818,7 @@
     "titre": "Rob Olson's Chicago Jack Beat",
     "artiste": "Rob Olson",
     "annee": 1986,
-    "possedee": 820,
+    "possedee": 822,
     "electronique": true,
     "image": "https://i.discogs.com/tq9kk-PFUwmT0hea_V6f4B-UaghNPytyextDzkYwFpQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MDcy/LTEyOTI0MTQ3ODYu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/160256-Rob-Olson-Rob-Olsons-Chicago-Jack-Beat"
@@ -58942,7 +58827,7 @@
     "titre": "Real Love",
     "artiste": "Jesse's Gang With Farley \"Funkin\" Kieth",
     "annee": 1985,
-    "possedee": 703,
+    "possedee": 708,
     "electronique": true,
     "image": "https://i.discogs.com/476DdjWY0e_C0hw15CPdToWv7rrIr9RzeuF4_4bsxGY/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMzAz/OC0xMTg5ODQ2NTY1/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/283337-Jesses-Gang-With-Farley-Funkin-Kieth-Real-Love"
@@ -58951,7 +58836,7 @@
     "titre": "It's O.K., It's O.K.",
     "artiste": "The Force",
     "annee": 1986,
-    "possedee": 620,
+    "possedee": 627,
     "electronique": true,
     "image": "https://i.discogs.com/ruuJ5NjAMfssW010opNbNR2k8rZQiBuKGLUMkxA3HNk/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NDQ4/ODctMTM0OTYyNTc0/Mi03OTc1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/489800-The-Force-Its-OK-Its-OK"
@@ -58960,7 +58845,7 @@
     "titre": "Funk-U-Up",
     "artiste": "Jesse Saunders Featuring The Badd Chicks",
     "annee": 1984,
-    "possedee": 601,
+    "possedee": 604,
     "electronique": true,
     "image": "https://i.discogs.com/MN4m7Si90g_ruo06OoziX_8pqWgaerAZRV_Zy14ohCY/rs:fit/g:sm/q:90/h:480/w:482/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgzNTk1/OC0xMjMwNzQ0MDU4/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/8427-Jesse-Saunders-Featuring-The-Badd-Chicks-Funk-U-Up"
@@ -58969,7 +58854,7 @@
     "titre": "Under Cover",
     "artiste": "Dr. Derelict",
     "annee": 1984,
-    "possedee": 293,
+    "possedee": 295,
     "electronique": true,
     "image": "https://i.discogs.com/cwiSNyUnrVfAvuKa_R2v0NWiZqm3z1lXuFo7eXC9Vzg/rs:fit/g:sm/q:90/h:476/w:480/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3MDQx/Ny0xMjA1MDcxMTc5/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/8508-Dr-Derelict-Under-Cover"
@@ -58978,7 +58863,7 @@
     "titre": "History Of House",
     "artiste": "Various",
     "annee": 2001,
-    "possedee": 242,
+    "possedee": 245,
     "electronique": true,
     "image": "https://i.discogs.com/lT12D8tSoiOLsz31iQZL1yOmchHnDOKY4U--VIcHicw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMzc5/Ni0xNTkyMzQzMTkz/LTYwOTUuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/1998460-Various-History-Of-House"
@@ -61907,7 +61792,7 @@
     "titre": "Rocker",
     "artiste": "Alter Ego",
     "annee": 2004,
-    "possedee": 9198,
+    "possedee": 9264,
     "electronique": true,
     "image": "https://i.discogs.com/hACfH8hLz-whSsV2G2Vg7GBO3ghXmtj-zVi66SyKL0Q/rs:fit/g:sm/q:90/h:298/w:298/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0NTUy/My0xMDgyNzA4Mzgy/LmpwZw.jpeg",
     "url": "https://www.discogs.com/master/54619-Alter-Ego-Rocker"
@@ -61916,7 +61801,7 @@
     "titre": "Betty Ford",
     "artiste": "Alter Ego",
     "annee": 2000,
-    "possedee": 2409,
+    "possedee": 2423,
     "electronique": true,
     "image": "https://i.discogs.com/-RCenKgq7SPM996xL5uMOyTlXe4SnXQdzmYr9ygpbec/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU0ODIt/MTQxMjcwMTk5OS0x/MTY1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/951143-Alter-Ego-Betty-Ford"
@@ -61925,7 +61810,7 @@
     "titre": "Transphormer",
     "artiste": "Alter Ego",
     "annee": 2004,
-    "possedee": 2186,
+    "possedee": 2190,
     "electronique": true,
     "image": "https://i.discogs.com/SPMJNgmVI3SYBmtFdp_uUsZXrIoDZOpBKS3LNu0ju2U/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0Njc1/OS0xMTU4MzczMjQx/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/34872-Alter-Ego-Transphormer"
@@ -61934,7 +61819,7 @@
     "titre": "Groovetechnology v1.3",
     "artiste": "Swayzak",
     "annee": 2002,
-    "possedee": 1765,
+    "possedee": 1768,
     "electronique": true,
     "image": "https://i.discogs.com/PGSgvBmDjPXFLCgIwfb9iWTkh0j0nzcSfUaXRaedK4E/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2ODgw/LTEzMTc0MjQ3Njku/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/1815-Swayzak-Groovetechnology-v13"
@@ -61943,7 +61828,7 @@
     "titre": "The Lost Traxx E.P.",
     "artiste": "Daniel Bell",
     "annee": 1997,
-    "possedee": 1700,
+    "possedee": 1710,
     "electronique": true,
     "image": "https://i.discogs.com/iHZIiUfkQMNhk5TxYf-EFReJL2H_0wVGODaaGvaWirg/rs:fit/g:sm/q:90/h:601/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNzY1/LTE3MDAyOTMzMTMt/NDI4My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/17166-Daniel-Bell-The-Lost-Traxx-EP"
@@ -61952,7 +61837,7 @@
     "titre": "Betty Ford (Remix Pt. 1)",
     "artiste": "Alter Ego",
     "annee": 2001,
-    "possedee": 1677,
+    "possedee": 1686,
     "electronique": true,
     "image": "https://i.discogs.com/XIhUCJBncAaaKmA7pT_rLszNBS63bUG_WiTMTfjkrhE/rs:fit/g:sm/q:90/h:600/w:589/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2ODM3/LTExMzE0NjU0MjQu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/543777-Alter-Ego-Betty-Ford-Remix-Pt-1"
@@ -61961,7 +61846,7 @@
     "titre": "The Primitive Painter",
     "artiste": "The Primitive Painter",
     "annee": 1994,
-    "possedee": 1528,
+    "possedee": 1538,
     "electronique": true,
     "image": "https://i.discogs.com/PvV3RQmbrPCV1fbY4-otu1TKMCl-CX9h6TqHMIXkq9o/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQzOTk3/LTE1MDMzODQ5NDMt/NjkzNC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/75635-The-Primitive-Painter-The-Primitive-Painter"
@@ -61970,7 +61855,7 @@
     "titre": "Why Not?!",
     "artiste": "Alter Ego",
     "annee": 2007,
-    "possedee": 1438,
+    "possedee": 1445,
     "electronique": true,
     "image": "https://i.discogs.com/9TftNFt7JxhnlEglUOWkboZJL7YGIIqz-K126-8HMxs/rs:fit/g:sm/q:90/h:314/w:315/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMjQw/MjQtMTE4NTI3MjY4/Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/54626-Alter-Ego-Why-Not"
@@ -69373,7 +69258,7 @@
     "titre": "Toda La Verdad Sobre Dame Area",
     "artiste": "Dame Area",
     "annee": 2024,
-    "possedee": 481,
+    "possedee": 482,
     "electronique": true,
     "image": "https://i.discogs.com/jRs2vX4Nlk7HBznGCkjotoPtfKzkK0EV87clLxgGx28/rs:fit/g:sm/q:90/h:584/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNzEw/NDEzLTE3NzQ2NTQx/OTctODQ0MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3611843-Dame-Area-Toda-La-Verdad-Sobre-Dame-Area"
@@ -70317,7 +70202,7 @@
     "titre": "Ray Of Light",
     "artiste": "Madonna",
     "annee": 1998,
-    "possedee": 67541,
+    "possedee": 68496,
     "electronique": true,
     "image": "https://i.discogs.com/3mGsgwqi4cw4VSRIpMWUe-VGsO8OpqgyVFLGX8NTrXg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0NDU4/Ni0xNDE4ODg2Njg4/LTIwMDYuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/67803-Madonna-Ray-Of-Light"
@@ -70326,7 +70211,7 @@
     "titre": "Music",
     "artiste": "Madonna",
     "annee": 2000,
-    "possedee": 46019,
+    "possedee": 46760,
     "electronique": true,
     "image": "https://i.discogs.com/QPdRHsbRHfG1GU4DDvzwu_cwP5AkRT-4zKtUYH5IBiM/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0MDIx/LTEyMDcyNDUzMjMu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/34721-Madonna-Music"
@@ -70335,7 +70220,7 @@
     "titre": "Erotica",
     "artiste": "Madonna",
     "annee": 1992,
-    "possedee": 38779,
+    "possedee": 39381,
     "electronique": true,
     "image": "https://i.discogs.com/jedu8fd1K-e15nXf88yF8T3RDsyU-ro7cRlZqj5751E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzMTMz/OC0xNDE4ODg2NTEz/LTI4NTguanBlZw.jpeg",
     "url": "https://www.discogs.com/master/34414-Madonna-Erotica"
@@ -70344,7 +70229,7 @@
     "titre": "Bedtime Stories",
     "artiste": "Madonna",
     "annee": 1994,
-    "possedee": 36389,
+    "possedee": 36931,
     "electronique": true,
     "image": "https://i.discogs.com/S0Sfbnha39ig4JNoVKzgd1-X-CHqkxodDcHVBf9Nq0E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwNDYy/NC0xNTYxMzI4MzE3/LTE3NzIuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/34099-Madonna-Bedtime-Stories"
@@ -70353,7 +70238,7 @@
     "titre": "Kill Bill Vol. 1 (Original Soundtrack)",
     "artiste": "Various",
     "annee": 2003,
-    "possedee": 31449,
+    "possedee": 31665,
     "electronique": true,
     "image": "https://i.discogs.com/sUkpACYu4dZ0KiPyrYpuuG310zIy7vDN7fnE3YCaVD4/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4MTcx/OC0xNzI2NTEwMDM2/LTUyNDMuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/52881-Various-Kill-Bill-Vol-1-Original-Soundtrack"
@@ -70362,7 +70247,7 @@
     "titre": "Something To Remember",
     "artiste": "Madonna",
     "annee": 1995,
-    "possedee": 29174,
+    "possedee": 29491,
     "electronique": true,
     "image": "https://i.discogs.com/E3oYXdaBKh1EZ2oGMGGl_TfCHfhw9klHT-Lc4QfvRLg/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNTE1/OS0xNDU1MjI4MjI2/LTY5NjcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/67828-Madonna-Something-To-Remember"
@@ -70371,7 +70256,7 @@
     "titre": "American Life",
     "artiste": "Madonna",
     "annee": 2003,
-    "possedee": 25328,
+    "possedee": 25673,
     "electronique": true,
     "image": "https://i.discogs.com/QwZFryLT8893i2FYWa7thAG3V0q1cdnhVQz4wWYvFcw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDQ3/MjEtMTIxNzc4NDI2/MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/33988-Madonna-American-Life"
@@ -70380,7 +70265,7 @@
     "titre": "Madame X",
     "artiste": "Madonna",
     "annee": 2019,
-    "possedee": 21280,
+    "possedee": 21512,
     "electronique": true,
     "image": "https://i.discogs.com/WLT8Md0WU94jxMT-yKvMtvxtC6_c5PXXp8UFW9fFmnA/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNzQ5/MjExLTE1NjA2MDEz/MjMtMTc0Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1563046-Madonna-Madame-X"
@@ -70717,7 +70602,7 @@
     "titre": "Fuk Dat",
     "artiste": "Sagat",
     "annee": 1993,
-    "possedee": 4855,
+    "possedee": 4886,
     "electronique": true,
     "image": "https://i.discogs.com/a30gz8mchoJGM4WgpBeQCerhE_sCssWNzDZP2tEACcg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYzMzY1/LTE1OTA1ODM2MDAt/MTc4OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/153522-Sagat-Fuk-Dat"
@@ -70726,7 +70611,7 @@
     "titre": "The Tenth Anniversary Collection - Part One (1990 - 1995)",
     "artiste": "Masters At Work",
     "annee": 2000,
-    "possedee": 3141,
+    "possedee": 3159,
     "electronique": true,
     "image": "https://i.discogs.com/M6ilmsNn65ayIIs9Wa93ybQFyQeL8RIsRBOexDb5OgU/rs:fit/g:sm/q:90/h:541/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0NzM0/NTEtMTU4NDc0MDQ2/Mi01NzA4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/160955-Masters-At-Work-The-Tenth-Anniversary-Collection-Part-One-1990-1995"
@@ -70735,7 +70620,7 @@
     "titre": "Change",
     "artiste": "Daphne",
     "annee": 1994,
-    "possedee": 1915,
+    "possedee": 1925,
     "electronique": true,
     "image": "https://i.discogs.com/XP7UWt622cwMqwPLq69HqJkRcRRPJIeKVzEv9bbbtJk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyODIz/NS0xNjE2MzIwNzk1/LTMxMzcuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/93242-Daphne-Change"
@@ -70744,7 +70629,7 @@
     "titre": "Helpless (I Don't Know What To Do Without You)",
     "artiste": "Urbanized Featuring Silvano",
     "annee": 1992,
-    "possedee": 1787,
+    "possedee": 1801,
     "electronique": true,
     "image": "https://i.discogs.com/4oA2bxhZVYg59H0XjCO18EpigSGm0lY08FxFtdlHs34/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzMjA4/LTE0Nzg2OTA1OTct/NDc3NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/176753-Urbanized-Featuring-Silvano-Helpless-I-Dont-Know-What-To-Do-Without-You"
@@ -70753,7 +70638,7 @@
     "titre": "Music Saved My Life",
     "artiste": "Cevin Fisher!",
     "annee": 1996,
-    "possedee": 1687,
+    "possedee": 1710,
     "electronique": true,
     "image": "https://i.discogs.com/PbiPsq3UjwYMwJL8pD591KrqIz8eUsufU3YqbgEcK6A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNDM4/OC0xNTUyMDgxODYx/LTIxODIuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/117555-Cevin-Fisher-Music-Saved-My-Life"
@@ -70762,7 +70647,7 @@
     "titre": "Luvstuff",
     "artiste": "Sagat",
     "annee": 1994,
-    "possedee": 1607,
+    "possedee": 1612,
     "electronique": true,
     "image": "https://i.discogs.com/gKdlJgonblFTsefEckpPyD__2N1j4M0ysZwlnOcjrT4/rs:fit/g:sm/q:90/h:450/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NDI2/LTE0NjM4Mjg1ODgt/MzU2My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/153523-Sagat-Luvstuff"
@@ -70771,7 +70656,7 @@
     "titre": "When You Love Someone",
     "artiste": "Daphne",
     "annee": 1993,
-    "possedee": 1535,
+    "possedee": 1540,
     "electronique": true,
     "image": "https://i.discogs.com/6DMXS9_Wf1ETg6lBVilQ66LEPf1glLJSK1sffnjoRkk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDAz/My0xNTg3ODk0NDM2/LTUyODUuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/93244-Daphne-When-You-Love-Someone"
@@ -70780,7 +70665,7 @@
     "titre": "Glammer Girl",
     "artiste": "The Look",
     "annee": 1993,
-    "possedee": 1163,
+    "possedee": 1164,
     "electronique": true,
     "image": "https://i.discogs.com/G28NXb5mkpDe4vlvbKM6AtWxDF3NH2GWAMtNOpkBISc/rs:fit/g:sm/q:90/h:603/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTk0/MS0xNTg2NTIyMDcx/LTg1NjAuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/155207-The-Look-Glammer-Girl"
@@ -71939,7 +71824,7 @@
     "titre": "Radio Caroline Volume 1",
     "artiste": "Miss Kittin",
     "annee": 2002,
-    "possedee": 1394,
+    "possedee": 1402,
     "electronique": true,
     "image": "https://i.discogs.com/ev8iwxFde_-lOJbTJJNcJCd7smVIT19LbszdAYj_Q3s/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTg1/OC0xNjUyMzUzMjk3/LTI1ODguanBlZw.jpeg",
     "url": "https://www.discogs.com/master/38803-Miss-Kittin-Radio-Caroline-Volume-1"
@@ -71948,7 +71833,7 @@
     "titre": "Ooo La La",
     "artiste": "DJ Rush",
     "annee": 1997,
-    "possedee": 1117,
+    "possedee": 1124,
     "electronique": true,
     "image": "https://i.discogs.com/uES15syquyt6rFzaipQ7e-iM8waAwKLHr5Ftk2P4Ylk/rs:fit/g:sm/q:90/h:594/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNjEt/MTIzMTk0ODAzNS5q/cGVn.jpeg",
     "url": "https://www.discogs.com/master/150801-DJ-Rush-Ooo-La-La"
@@ -71957,7 +71842,7 @@
     "titre": "Remixes Part 1",
     "artiste": "DJ Rush",
     "annee": 1998,
-    "possedee": 1083,
+    "possedee": 1088,
     "electronique": true,
     "image": "https://i.discogs.com/stc9gluqwSMoLf-6RPEfD1fzM8CPBqvM7gKWMHuMHYs/rs:fit/g:sm/q:90/h:600/w:594/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0Mzct/MTE4MDE3NzM5MS5q/cGVn.jpeg",
     "url": "https://www.discogs.com/master/815655-DJ-Rush-Remixes-Part-1"
@@ -71966,7 +71851,7 @@
     "titre": "Amelie On Ice",
     "artiste": "Luciano",
     "annee": 2002,
-    "possedee": 1057,
+    "possedee": 1060,
     "electronique": true,
     "image": "https://i.discogs.com/gqNWdfPKzeT0TD8h2SmTijCT6S_hCkySZqQn00pIn4c/rs:fit/g:sm/q:90/h:398/w:403/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NjA3/OC0xMTkxMjMwNTcw/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/35341-Luciano-Amelie-On-Ice"
@@ -71975,7 +71860,7 @@
     "titre": "Isbuggs EP",
     "artiste": "Akzidenz Grotesk",
     "annee": 2005,
-    "possedee": 911,
+    "possedee": 915,
     "electronique": true,
     "image": "https://i.discogs.com/mObILbH2kVWztWLkBj5HGftA4iE4xcY5ika1iqJj8rQ/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NDI2/Ny0xMTEzNDgyMjc2/LmpwZw.jpeg",
     "url": "https://www.discogs.com/master/33950-Akzidenz-Grotesk-Isbuggs-EP"
@@ -71984,7 +71869,7 @@
     "titre": "The Beach",
     "artiste": "Miss Kittin & The Hacker",
     "annee": 2003,
-    "possedee": 844,
+    "possedee": 849,
     "electronique": true,
     "image": "https://i.discogs.com/L1JlRAIEvDhjxPKGtv7GdqHIhfl6sI5g253HBEbPaKk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4MzM3/My0xNDA2MDU1MTUy/LTg2NjUuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/35483-Miss-Kittin-The-Hacker-The-Beach"
@@ -71993,7 +71878,7 @@
     "titre": "2006",
     "artiste": "Crowdpleaser & St. Plomb",
     "annee": 2006,
-    "possedee": 687,
+    "possedee": 690,
     "electronique": true,
     "image": "https://i.discogs.com/3gwjpZ-FEZ9bvMTs-4cB2FjGB75md2hoh-7s4P2MWH4/rs:fit/g:sm/q:90/h:340/w:340/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwNDI0/Ny0xMTUyMTkwMDM4/LmdpZg.jpeg",
     "url": "https://www.discogs.com/master/255573-Crowdpleaser-St-Plomb-2006"
@@ -72002,7 +71887,7 @@
     "titre": "La Limonada De Pepe Bombilla",
     "artiste": "Luciano",
     "annee": 2003,
-    "possedee": 574,
+    "possedee": 577,
     "electronique": true,
     "image": "https://i.discogs.com/omWsEHWUOJtJOVqNDzI46Ei9N97H6h5X3ZDC_p0b-Fg/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MjE0/My0wMDEuanBn.jpeg",
     "url": "https://www.discogs.com/master/254666-Luciano-La-Limonada-De-Pepe-Bombilla"
@@ -74384,7 +74269,7 @@
    "en": "MNRK Music Group, formerly known as Koch Records, then E1 Music, and later stylized as eOne Music, is an American independent record label and music management company based in New York City. It was formed in 1987 as a music division of Koch Entertainment, which was acquired by and absorbed into Entertainment One in 2004. eOne was acquired by toy and multimedia company Hasbro in 2019, absorbed its family brands division in the process and announced the sale of this division to the Blackstone Group in April 2021, which then adopted this name. Hasbro then sold the remains of eOne to Lionsgate, who then rebranded it initially as eOne Canada and then Lionsgate Canada."
   },
   "profil": null,
-  "discogs": "https://www.discogs.com/label/227791-eOne",
+  "discogs": "https://www.discogs.com/label/2447005-MNRK-Music-Group",
   "wikidata": "Q1273666",
   "logo": {
    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/MNRK_Music_Group.svg/500px-MNRK_Music_Group.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -74394,76 +74279,76 @@
   },
   "sorties": [
    {
-    "titre": "The Vacancy",
-    "artiste": "Four Seconds Ago",
-    "annee": 2018,
-    "possedee": 136,
-    "electronique": true,
-    "image": "https://i.discogs.com/YcBOI2cyeKAYOaf1vPmabqTF7OpM1Qlp58IzFe_Ft8I/rs:fit/g:sm/q:90/h:400/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyOTE3/ODM1LTE1NDQ0ODE1/NzMtNjY1MS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/1490646-Four-Seconds-Ago-The-Vacancy"
+    "titre": "Dogma",
+    "artiste": "Dogma",
+    "annee": 2023,
+    "possedee": 1211,
+    "electronique": false,
+    "image": "https://i.discogs.com/yCM96retnhc-eMRfX6LspZNQdEvQ5jgS9-H671V_cro/rs:fit/g:sm/q:90/h:585/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MzQ1/NzE5LTE3MDM5MjEy/ODctOTczNC5wbmc.jpeg",
+    "url": "https://www.discogs.com/master/3534869-Dogma-Dogma"
    },
    {
-    "titre": "Become",
-    "artiste": "Zardonic",
-    "annee": 2018,
-    "possedee": 135,
-    "electronique": true,
-    "image": "https://i.discogs.com/OjpJ8hW-C2NLiKz41bSxu9AWypYj7HObYfPONQj_9As/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjI4/OTI2LTE1Mzg5MTk2/NDgtMzQxNS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/1437357-Zardonic-Become"
+    "titre": "Saturday Afternoon Kung Fu Theater",
+    "artiste": "RZA Vs Bobby Digital",
+    "annee": 2022,
+    "possedee": 1050,
+    "electronique": false,
+    "image": "https://i.discogs.com/hHsGamGZVDiFad8u_n5zsMrfN5zFUEOEQZfw4tWB_Vg/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNjUy/NTA0LTE2NDgzMTA0/NzMtNzYwMS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/2680067-RZA-Vs-Bobby-Digital-Saturday-Afternoon-Kung-Fu-Theater"
    },
    {
-    "titre": "Valley Of Bones",
-    "artiste": "Full Devil Jacket",
-    "annee": 2015,
-    "possedee": 90,
-    "electronique": true,
-    "image": "https://i.discogs.com/HZ1B1hkOi-2PiQzmAyv1pN_WCn5z1k38q4CGhGKa4Vc/rs:fit/g:sm/q:90/h:225/w:225/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgwMzI5/NTUtMTQ1Mzg0MDY3/NS0xNjQxLmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/1644496-Full-Devil-Jacket-Valley-Of-Bones"
+    "titre": "Pretty Monster",
+    "artiste": "The Blue Stones",
+    "annee": 2022,
+    "possedee": 889,
+    "electronique": false,
+    "image": "https://i.discogs.com/F706VfQxCwq3n0sVwx9P6WOtCooqDzHBa69iF8XDGIw/rs:fit/g:sm/q:90/h:527/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MjYz/MDEwLTE2NjkyNTc4/NzgtMzMzOS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/2856193-The-Blue-Stones-Pretty-Monster"
    },
    {
-    "titre": "Antihero",
-    "artiste": "Zardonic",
-    "annee": 2015,
-    "possedee": 95,
-    "electronique": true,
-    "image": "https://i.discogs.com/eC25arO-xkKdTnjSRhEh25sDPbbDv7s9A188rTeIxkI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc2MTgx/NjEtMTQ0NTI2MDg2/NS00ODA1LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/967806-Zardonic-Antihero"
+    "titre": "From Capelton Hill",
+    "artiste": "Stars",
+    "annee": 2022,
+    "possedee": 779,
+    "electronique": false,
+    "image": "https://i.discogs.com/z498A8yYydLAbv2KATX7WYQStFa6QWzHEUUm1AvxFI4/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzMzUz/NzEyLTE2OTYyNDk3/NzEtMjg2NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/2647331-Stars-From-Capelton-Hill"
    },
    {
-    "titre": "2.0",
-    "artiste": "98°",
-    "annee": 2013,
-    "possedee": 76,
-    "electronique": true,
-    "image": "https://i.discogs.com/5kNGjbeqiR8X4gVftCT11FjOoxq78iIadxSdNuJNWEU/rs:fit/g:sm/q:90/h:547/w:547/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ1NDg2/MDQtMTM2ODA0MTE1/OC03MjA4LmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/554083-98-20"
+    "titre": "Snoop Cube 40 $hort",
+    "artiste": "Mount Westmore",
+    "annee": 2022,
+    "possedee": 700,
+    "electronique": false,
+    "image": "https://i.discogs.com/k_ZsZkkZzbomNeVPhfmTSExh6EZDOOMFB8DdfSFomg0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3MjIx/NzI0LTE2ODUzNDY3/NDItMjgxNi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/2916955-Mount-Westmore-Snoop-Cube-40-hort"
    },
    {
-    "titre": "Loading",
-    "artiste": "Kat DeLuna",
-    "annee": 2016,
-    "possedee": 66,
-    "electronique": true,
-    "image": "https://i.discogs.com/ny9UIIM6vKzGIXcqePDWPU1xlyLEQ_02lLxQLPk9YLs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5MTE2/MDktMTQ3MTMwNTg0/OS02MjcwLmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/1076814-Kat-DeLuna-Loading"
+    "titre": "Peppa's Club: The Album",
+    "artiste": "Peppa Pig",
+    "annee": 2022,
+    "possedee": 509,
+    "electronique": false,
+    "image": "https://i.discogs.com/NZYLu_zR801YykMa7-hur8CczpKSNNc7JaUrO00WSF8/rs:fit/g:sm/q:90/h:522/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMzc0/MDI0LTE3NDE2NzI5/NDAtOTAwNS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/3777362-Peppa-Pig-Peppas-Club-The-Album"
    },
    {
-    "titre": "#LocationLocationLocation",
-    "artiste": "Anthony David",
-    "annee": 2011,
-    "possedee": 21,
-    "electronique": true,
-    "image": "https://i.discogs.com/Ub_n2LsiIH0wiSx3Apj_SpQ00doN7-Ow_4jVPclNClk/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU3MDM5/MjctMTQxNTUyOTc0/My0yMDAwLmpwZWc.jpeg",
-    "url": "https://www.discogs.com/master/1415884-Anthony-David-LocationLocationLocation"
+    "titre": "Down The Road (The Complete Ian Gillan Band Story)",
+    "artiste": "Ian Gillan Band",
+    "annee": 2026,
+    "possedee": 327,
+    "electronique": false,
+    "image": "https://i.discogs.com/kspjyFV4b8Xz26S3qJ-3pk10D96TcWG1tMtFLQFQl_4/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2ODkz/NzQ2LTE3NzQ2OTgw/NDQtNzQ5NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/4177941-Ian-Gillan-Band-Down-The-Road-The-Complete-Ian-Gillan-Band-Story"
    },
    {
-    "titre": "Twisted",
-    "artiste": "Gorilla Zoe Ft. Lil Jon",
-    "annee": 2011,
-    "possedee": 10,
-    "electronique": true,
-    "image": "https://i.discogs.com/FHAh1UsAG2Vmx34J8qsz73CFdmP2ksStUc8Y5qBpfME/rs:fit/g:sm/q:90/h:620/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNDQ0/OTYyLTE2MzMxNzIy/ODktMTIxNy5qcGVn.jpeg",
-    "url": "https://www.discogs.com/master/3072749-Gorilla-Zoe-Ft-Lil-Jon-Twisted"
+    "titre": "Goodbye To Misery",
+    "artiste": "Cold Years",
+    "annee": 2022,
+    "possedee": 293,
+    "electronique": false,
+    "image": "https://i.discogs.com/72xRk0hvnGtIgqYWx-43MWiFscOsQMi0VlSSg-wwGjc/rs:fit/g:sm/q:90/h:540/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNjY3/NzE5LTE2NTU5ODM4/NTctNTY5Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/2678969-Cold-Years-Goodbye-To-Misery"
    }
   ]
  },
@@ -79900,7 +79785,7 @@
     "titre": "Part Two: More Dub Essentials",
     "artiste": "24Hour Experience",
     "annee": 1994,
-    "possedee": 2475,
+    "possedee": 2500,
     "electronique": true,
     "image": "https://i.discogs.com/woWHFwIt3JIyQusT-ngGrHrkcNCKorkX2dqn8_kqdwk/rs:fit/g:sm/q:90/h:472/w:472/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NDg0/ODctMTIyMDUxMjQ1/MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/84739-24Hour-Experience-Part-Two-More-Dub-Essentials"
@@ -79909,7 +79794,7 @@
     "titre": "The Test Press E.P.",
     "artiste": "24hr Experience",
     "annee": 1995,
-    "possedee": 2192,
+    "possedee": 2215,
     "electronique": true,
     "image": "https://i.discogs.com/NmF-F-pAnBOmmGchUcpYVaqESZSIBk7B6oijq6Fxtd8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3MTU4/MzktMTIzODgwMTA0/MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/84741-24hr-Experience-The-Test-Press-EP"
@@ -79918,7 +79803,7 @@
     "titre": "Love Is What We Need",
     "artiste": "Livin' Large",
     "annee": 1993,
-    "possedee": 1455,
+    "possedee": 1464,
     "electronique": true,
     "image": "https://i.discogs.com/ETEvJgfSUjZTEdEdWpMNYVgEnLuiVc-7ygcH3ont2FM/rs:fit/g:sm/q:90/h:587/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyNDAx/LTE3NjI0NTQ2NzEt/NzI0Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/153294-Livin-Large-Love-Is-What-We-Need"
@@ -79927,7 +79812,7 @@
     "titre": "Nice 'N' Ruff EP",
     "artiste": "Grant Nelson",
     "annee": 1995,
-    "possedee": 1241,
+    "possedee": 1249,
     "electronique": true,
     "image": "https://i.discogs.com/73oP0F712o0_ksKk78SCvYRr9gyFxHzsk07tqJYcC4c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MjE3/NS0xMjkyMzIwMzEx/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/2959795-Grant-Nelson-Nice-N-Ruff-EP"
@@ -79936,7 +79821,7 @@
     "titre": "The Nice'N'Ripe Dubble Decker",
     "artiste": "Various",
     "annee": 1994,
-    "possedee": 1129,
+    "possedee": 1136,
     "electronique": true,
     "image": "https://i.discogs.com/lhUNxs10hdCjGirmETxt4az7WZnZYPth2nf2xb1FjIQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NTIw/LTE1NjkzMDc4MTEt/NDQ5Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1571805-Various-The-NiceNRipe-Dubble-Decker"
@@ -79945,7 +79830,7 @@
     "titre": "The Nice 'N' Ripe Winter Sampler",
     "artiste": "Various",
     "annee": 1995,
-    "possedee": 978,
+    "possedee": 982,
     "electronique": true,
     "image": "https://i.discogs.com/9NiMFXTA_RO13Lnq0ypJmS5covzPwmEkRYtLJiyLwWg/rs:fit/g:sm/q:90/h:589/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzM0/LTExNzM0NTI1ODMu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/2381335-Various-The-Nice-N-Ripe-Winter-Sampler"
@@ -79954,7 +79839,7 @@
     "titre": "Fabriclive 59",
     "artiste": "Four Tet",
     "annee": 2011,
-    "possedee": 924,
+    "possedee": 934,
     "electronique": true,
     "image": "https://i.discogs.com/lUE5JVGV7VRnrTbiptVvzdyWoGgp7vd39diP9a6UuJo/rs:fit/g:sm/q:90/h:574/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMTAz/ODYtMTMyODc5NjU4/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1315950-Four-Tet-Fabriclive-59"
@@ -79963,7 +79848,7 @@
     "titre": "Part Three: Deep Dub Essentials",
     "artiste": "24 Hour Experience",
     "annee": 1996,
-    "possedee": 950,
+    "possedee": 960,
     "electronique": true,
     "image": "https://i.discogs.com/nwGNQkC_BNzfAJUeeTtJMQrbL5DJmRUQZPr7R28apiY/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2MTMw/LTE1NTIzNTUwOTkt/Nzk1NC5wbmc.jpeg",
     "url": "https://www.discogs.com/master/2384152-24-Hour-Experience-Part-Three-Deep-Dub-Essentials"
@@ -85524,7 +85409,7 @@
     "titre": "Don't Leave Me This Way",
     "artiste": "Melt",
     "annee": 2010,
-    "possedee": 22,
+    "possedee": 23,
     "electronique": true,
     "image": "https://i.discogs.com/lGQ9L1rit8d4jua0Mzgkz8ZhR9KWmZ0z5Ad_nC9Iwgk/rs:fit/g:sm/q:90/h:340/w:350/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NjA3/ODItMTM1MDU5NzIw/Ny01MDg4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1913985-Melt-Dont-Leave-Me-This-Way"
@@ -90100,7 +89985,7 @@
     "titre": "Young Enough",
     "artiste": "Charly Bliss",
     "annee": 2019,
-    "possedee": 1805,
+    "possedee": 1814,
     "electronique": true,
     "image": "https://i.discogs.com/9AiVxjKrYwEJ-gOX3xjgDfVadyOFWd3oB81WpVQQf9E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNjEx/NzcwLTE2NDEzODE1/MDktMjEzMC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1546834-Charly-Bliss-Young-Enough"
@@ -91899,7 +91784,7 @@
     "titre": "All Together Now",
     "artiste": "The Farm",
     "annee": 1990,
-    "possedee": 9467,
+    "possedee": 9542,
     "electronique": true,
     "image": "https://i.discogs.com/VXi9XdM3njpQEXgc-Ki_h6ul-JaN_JpYMMKpADFfyBA/rs:fit/g:sm/q:90/h:602/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyMzc2/Mi0xMjIyNjg4MTA4/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/80699-The-Farm-All-Together-Now"
@@ -91908,7 +91793,7 @@
     "titre": "Spartacus",
     "artiste": "The Farm",
     "annee": 1991,
-    "possedee": 8380,
+    "possedee": 8530,
     "electronique": true,
     "image": "https://i.discogs.com/E8rF4WfXZ7XLM61CxlTBISeZvcdioWGXw-1JdbBo4z4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzU4/NzctMTIzODAxNjc4/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/80751-The-Farm-Spartacus"
@@ -91917,7 +91802,7 @@
     "titre": "Groovy Train",
     "artiste": "The Farm",
     "annee": 1990,
-    "possedee": 6455,
+    "possedee": 6491,
     "electronique": true,
     "image": "https://i.discogs.com/IVEvWxJGcazGfamaYR-oE8BcDcwisQcjkDJTlp2vrzg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODY1/OS0xMzYyMTcyMDAy/LTI0NzYuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/80727-The-Farm-Groovy-Train"
@@ -91926,7 +91811,7 @@
     "titre": "Stepping Stone / Family Of Man (Terry Farley Mix)",
     "artiste": "The Farm",
     "annee": 1990,
-    "possedee": 1910,
+    "possedee": 1922,
     "electronique": true,
     "image": "https://i.discogs.com/Qd1OqkG0AELy-BVDbbSrSNAY_bTt5aRxVeZUfYtmGRs/rs:fit/g:sm/q:90/h:607/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzIz/NDAtMTQ4NTk4ODA5/Ni0zNTM1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/80758-The-Farm-Stepping-Stone-Family-Of-Man-Terry-Farley-Mix"
@@ -91935,7 +91820,7 @@
     "titre": "Don't Let Me Down",
     "artiste": "The Farm",
     "annee": 1991,
-    "possedee": 1555,
+    "possedee": 1569,
     "electronique": true,
     "image": "https://i.discogs.com/HXNbqTmY_D0CHO5MmTVJU_zaZaHOZih-VBLadkRDsa8/rs:fit/g:sm/q:90/h:250/w:252/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyOTEw/LTExMjYwNDQwNTQu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/80718-The-Farm-Dont-Let-Me-Down"
@@ -91944,7 +91829,7 @@
     "titre": "Mind",
     "artiste": "The Farm",
     "annee": 1991,
-    "possedee": 1069,
+    "possedee": 1073,
     "electronique": true,
     "image": "https://i.discogs.com/PoVrQ7PzpwUy0C1zB072u63x7j1DPOf8FN4_jQ7GFVw/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyMzc2/NS0xNTc4NjE2MzAy/LTQyMjMuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/80744-The-Farm-Mind"
@@ -91953,7 +91838,7 @@
     "titre": "Eightball Records ‎Presents Jazz Not Jazz",
     "artiste": "Various",
     "annee": 1993,
-    "possedee": 477,
+    "possedee": 481,
     "electronique": true,
     "image": "https://i.discogs.com/mWhfW_x5I0J7V9H6MbD3TVTKJ3aoGHG5pQW47KDfVyE/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ4MzM1/LTE1MTE2MjkyMzkt/NzIwMi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/251534-Various-Eightball-Records-Presents-Jazz-Not-Jazz"
@@ -92304,7 +92189,7 @@
     "titre": "The Sound Of Garuda : Chapter 2",
     "artiste": "Gareth Emery",
     "annee": 2012,
-    "possedee": 89,
+    "possedee": 90,
     "electronique": true,
     "image": "https://i.discogs.com/Fn1lc_IHWJS1bcDryzXhQn5qNNPHiIOmZpbCbSWB93o/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NTE5/NTI0LTE1NzYyMjQw/NjItOTMzNi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/367465-Gareth-Emery-The-Sound-Of-Garuda-Chapter-2"
@@ -92313,7 +92198,7 @@
     "titre": "Confirm Humanity",
     "artiste": "Mark Sherry",
     "annee": 2019,
-    "possedee": 80,
+    "possedee": 81,
     "electronique": true,
     "image": "https://i.discogs.com/m4CObL4Adlk6QcguhWIxgbDczRFi0m9ZbujuysjxQoE/rs:fit/g:sm/q:90/h:589/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNjMx/NTU2LTE1NTc5MDIy/OTQtNzMwOC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1551777-Mark-Sherry-Confirm-Humanity"
@@ -92358,7 +92243,7 @@
     "titre": "The Future Is Now",
     "artiste": "Jorn van Deynhoven",
     "annee": 2020,
-    "possedee": 46,
+    "possedee": 47,
     "electronique": true,
     "image": "https://i.discogs.com/73meGtofqU3WsRCJ-PcNOak95oxpMqpc8T-zmjgDShs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTc4/ODU0LTE1OTEyNzQy/MjktOTI4OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1708512-Jorn-van-Deynhoven-The-Future-Is-Now"
@@ -93179,7 +93064,7 @@
     "titre": "Pop Ya Cork",
     "artiste": "Stanton Warriors",
     "annee": 2005,
-    "possedee": 603,
+    "possedee": 607,
     "electronique": true,
     "image": "https://i.discogs.com/eZAmB325TuhitRCxO8m5pZlALdUg7M8F0ExA8H_mfnI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUyMTcw/NS0xMTI3MTMxODk5/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/154497-Stanton-Warriors-Pop-Ya-Cork"
@@ -93197,7 +93082,7 @@
     "titre": "Dip & Get Low",
     "artiste": "Stanton Warriors Featuring Rodney P",
     "annee": 2006,
-    "possedee": 494,
+    "possedee": 496,
     "electronique": true,
     "image": "https://i.discogs.com/zuwCciwQUuFW70mCfhBtxFUnTIU8Sk3qGSNF8PM_Wqg/rs:fit/g:sm/q:90/h:600/w:586/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc5NTAw/NC0xMjIwNTMxMDA1/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1839190-Stanton-Warriors-Featuring-Rodney-P-Dip-Get-Low"
@@ -93206,7 +93091,7 @@
     "titre": "Who's Afraid Of Detroit / The Way",
     "artiste": "Claude VonStroke / Global Communication",
     "annee": 2007,
-    "possedee": 501,
+    "possedee": 503,
     "electronique": true,
     "image": "https://i.discogs.com/W_Oe0Ywa8CbRaOyjwlrNNuLGTF5Q70gLVPIhYQ6JT1E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk3NjU1/Ni0xMzc4NTgxOTU5/LTU4NzMuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/263778-Claude-VonStroke-Global-Communication-Whos-Afraid-Of-Detroit-The-Way"
@@ -93215,7 +93100,7 @@
     "titre": "Stanton Sessions Vol. 2 Sampler 2",
     "artiste": "Stanton Warriors",
     "annee": 2006,
-    "possedee": 457,
+    "possedee": 458,
     "electronique": true,
     "image": "https://i.discogs.com/DPzpdDFPZWkWQt0FaBriJWPBI7mokBUKPruiwyURyDs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYzNTcz/My0xMzk5NTg5MjEx/LTE2NTguanBlZw.jpeg",
     "url": "https://www.discogs.com/master/1839175-Stanton-Warriors-Stanton-Sessions-Vol-2-Sampler-2"
@@ -93224,7 +93109,7 @@
     "titre": "Shake It Up",
     "artiste": "Stanton Warriors Featuring Beatnuts",
     "annee": 2006,
-    "possedee": 428,
+    "possedee": 427,
     "electronique": true,
     "image": "https://i.discogs.com/bEFxfCp06rA4d1GqV3m2rLMz40tMS_1oSL9PJdGbSL8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY5MTIw/My0xNzE3NDY2ODAz/LTQwMTkuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/824503-Stanton-Warriors-Featuring-Beatnuts-Shake-It-Up"
@@ -93233,7 +93118,7 @@
     "titre": "Headrock / Steal The Pressure",
     "artiste": "Stanton Warriors",
     "annee": 2005,
-    "possedee": 378,
+    "possedee": 379,
     "electronique": true,
     "image": "https://i.discogs.com/1A1i5jANtW0mX1486I0g0r9htSydj7v5iJkFEhVMD8c/rs:fit/g:sm/q:90/h:250/w:250/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ4MDk0/My0xMTE5OTk3Nzcy/LmpwZw.jpeg",
     "url": "https://www.discogs.com/master/1839179-Stanton-Warriors-Headrock-Steal-The-Pressure"
@@ -93242,7 +93127,7 @@
     "titre": "Get Wild",
     "artiste": "Stanton Warriors Feat. Big Daddy Kane",
     "annee": 2008,
-    "possedee": 340,
+    "possedee": 341,
     "electronique": true,
     "image": "https://i.discogs.com/Bre2UKHI4qw39etMABLuSm2tZ_rUlhGxYynWYC-rFIU/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTIw/MjEtMTIyMjkzMzEz/OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/62176-Stanton-Warriors-Feat-Big-Daddy-Kane-Get-Wild"
@@ -93535,7 +93420,7 @@
     "titre": "Selected Ambient Works 85-92",
     "artiste": "Aphex Twin",
     "annee": 1992,
-    "possedee": 73441,
+    "possedee": 74388,
     "electronique": true,
     "image": "https://i.discogs.com/CNUO9Rh7SFL3v9tkDGUSyQcuhHRbX0kdL_GMXIE1yVU/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NDUz/MTMtMTY2NTQ3OTEw/MS02OTk2LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/565-Aphex-Twin-Selected-Ambient-Works-85-92"
@@ -93544,7 +93429,7 @@
     "titre": "Plastic Dreams",
     "artiste": "Jaydee",
     "annee": 1992,
-    "possedee": 31467,
+    "possedee": 31632,
     "electronique": true,
     "image": "https://i.discogs.com/--YIPZdes5ZlnAChzM_LKcYIydCdhSr0e4vwiv551Fs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NTQ3/LTE1NDk3MTE2Njkt/OTQ5MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/7360-Jaydee-Plastic-Dreams"
@@ -93553,7 +93438,7 @@
     "titre": "Classics",
     "artiste": "The Aphex Twin",
     "annee": 1995,
-    "possedee": 14146,
+    "possedee": 14266,
     "electronique": true,
     "image": "https://i.discogs.com/YDlJlP38z3LVQdoPmuWjJjRlfD762DQMgcCUf6rDJHI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyNjc5/LTExNDg4MDQ4OTcu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/2482-The-Aphex-Twin-Classics"
@@ -93562,7 +93447,7 @@
     "titre": "Digeridoo",
     "artiste": "The Aphex Twin",
     "annee": 1992,
-    "possedee": 9952,
+    "possedee": 10010,
     "electronique": true,
     "image": "https://i.discogs.com/PZCicoONSKJBGCCVN5xFweAxE8YPeBMDS5gsq2Vg4t0/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2OTAt/MTQ5MTY3MTgxMi02/MTI5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/604-The-Aphex-Twin-Digeridoo"
@@ -93571,7 +93456,7 @@
     "titre": "Vamp",
     "artiste": "Outlander",
     "annee": 1991,
-    "possedee": 9316,
+    "possedee": 9373,
     "electronique": true,
     "image": "https://i.discogs.com/S0ynEEqh0ClkrKG4BsJ68St2BksgivQLfVsOqn27iF0/rs:fit/g:sm/q:90/h:557/w:550/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMDMx/LTExNzQyMjcxNDEu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/37578-Outlander-Vamp"
@@ -93580,7 +93465,7 @@
     "titre": "Kinetic",
     "artiste": "Golden Girls",
     "annee": 1992,
-    "possedee": 8683,
+    "possedee": 8720,
     "electronique": true,
     "image": "https://i.discogs.com/5UK24PSB2T3IJ8mcDdgF0KVc6sQ4UZU1DJ14lshpvwc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzg1/LTE1Mzg2NTM3ODkt/MzAxMi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/75567-Golden-Girls-Kinetic"
@@ -93589,7 +93474,7 @@
     "titre": "20 Hz",
     "artiste": "Capricorn",
     "annee": 1993,
-    "possedee": 8228,
+    "possedee": 8268,
     "electronique": true,
     "image": "https://i.discogs.com/MHMUPP7KIMoD5eS-8a0RtfN1sH7vpHKD71B6AmcMVRk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYzMTQt/MTI4OTY3MTMyNC5q/cGVn.jpeg",
     "url": "https://www.discogs.com/master/38301-Capricorn-20-Hz"
@@ -93598,7 +93483,7 @@
     "titre": "Energy Flash",
     "artiste": "Beltram",
     "annee": 1990,
-    "possedee": 7901,
+    "possedee": 7960,
     "electronique": true,
     "image": "https://i.discogs.com/Fd6E2rEIHdETnNeojyiyS2-UWumUmGo6OFSVrDrQ0vg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwODQt/MTMxMzE2MDk4My5q/cGVn.jpeg",
     "url": "https://www.discogs.com/master/7362-Beltram-Energy-Flash"
@@ -95158,7 +95043,7 @@
     "titre": "Original Motion Picture Score For The Virgin Suicides",
     "artiste": "AIR",
     "annee": 2000,
-    "possedee": 28104,
+    "possedee": 28423,
     "electronique": true,
     "image": "https://i.discogs.com/tc9NiiXxc_YD9LtkBO7Xt0IMtFp3SfXWW6XmXh_7MNk/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1Mjc2/LTEyNjUzMDQ4NDEu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/58634-AIR-Original-Motion-Picture-Score-For-The-Virgin-Suicides"
@@ -95167,7 +95052,7 @@
     "titre": "Drive (Original Motion Picture Soundtrack)",
     "artiste": "Cliff Martinez",
     "annee": 2011,
-    "possedee": 26569,
+    "possedee": 26784,
     "electronique": true,
     "image": "https://i.discogs.com/1Jufe495LoPpoYPE6O5Ui9h-bppFRCZ2bR2IzJpIJm8/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNTcy/NzctMTc1MzQ4NDAw/My0xOTQwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/379805-Cliff-Martinez-Drive-Original-Motion-Picture-Soundtrack"
@@ -95176,7 +95061,7 @@
     "titre": "Lost In Translation (Music From The Motion Picture Soundtrack)",
     "artiste": "Various",
     "annee": 2003,
-    "possedee": 23392,
+    "possedee": 23548,
     "electronique": true,
     "image": "https://i.discogs.com/bfOin_UIZK2Uw__d9ncs3unFnpZNCyvuFLZlnTTB2lc/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5OTk1/NC0xNzc4OTU1MTE5/LTkyNzkuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/71496-Various-Lost-In-Translation-Music-From-The-Motion-Picture-Soundtrack"
@@ -95185,7 +95070,7 @@
     "titre": "10 000 Hz Legend",
     "artiste": "AIR",
     "annee": 2001,
-    "possedee": 22625,
+    "possedee": 22789,
     "electronique": true,
     "image": "https://i.discogs.com/HePZ6hIEvEwdkrYrSKb5RB_XmruWflFc09poxXrY8bQ/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzOTM5/NS0xMjc5MjIwNjEw/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/58655-AIR-10-000-Hz-Legend"
@@ -95194,7 +95079,7 @@
     "titre": "Outrun",
     "artiste": "Kavinsky",
     "annee": 2013,
-    "possedee": 12275,
+    "possedee": 12501,
     "electronique": true,
     "image": "https://i.discogs.com/QwHYnXESZzBtKydnKeCZZqN_Uco5-xzlmAwn0DqMwAs/rs:fit/g:sm/q:90/h:513/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQzMTg1/MjYtMTM3NDkzMDkx/OS0xODk3LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/525395-Kavinsky-Outrun"
@@ -95203,7 +95088,7 @@
     "titre": "Nightcall",
     "artiste": "Kavinsky",
     "annee": 2010,
-    "possedee": 6948,
+    "possedee": 7055,
     "electronique": true,
     "image": "https://i.discogs.com/6eb2fxAqb_OsgLj1NJbJaynXyYNpx-x5Uzs0ZaCwYjY/rs:fit/g:sm/q:90/h:550/w:550/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNjE3/MDUtMTM0MTY1Nzcy/My0yMDU2LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/237546-Kavinsky-Nightcall"
@@ -95212,7 +95097,7 @@
     "titre": "Sexuality",
     "artiste": "Sebastien Tellier",
     "annee": 2008,
-    "possedee": 6008,
+    "possedee": 6055,
     "electronique": true,
     "image": "https://i.discogs.com/y5fRWVDNI6FtAPgTHXkqvH4cGFk1vXmVroQcqWoXkQw/rs:fit/g:sm/q:90/h:539/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTMw/OTQtMTc1MzY3NDk3/Ni03NzYyLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/5331-Sebastien-Tellier-Sexuality"
@@ -95221,7 +95106,7 @@
     "titre": "Playground Love",
     "artiste": "AIR Sung By Gordon Tracks",
     "annee": 2000,
-    "possedee": 4952,
+    "possedee": 4968,
     "electronique": true,
     "image": "https://i.discogs.com/IWp38YLfUYSya4A_gZrdrE6-5hOnyuUxPBqkgaZNHcg/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwNzIx/LTEyMjc0NzM5ODIu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/58643-AIR-Sung-By-Gordon-Tracks-Playground-Love"
@@ -95508,7 +95393,7 @@
     "titre": "Everyone Is Beautiful To Someone",
     "artiste": "Stephen James Knight",
     "annee": 2005,
-    "possedee": 25,
+    "possedee": 26,
     "electronique": true,
     "image": "https://i.discogs.com/rfnP9E0PdJ9bLh9eJ7QpoADtU163YZkU0Udncd40Az0/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUxMzc3/Ny0xMTkzMzkxOTM2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/release/513777-Stephen-James-Knight-Everyone-Is-Beautiful-To-Someone"
@@ -99855,7 +99740,7 @@
     "titre": "Goa Session",
     "artiste": "Laughing Buddha",
     "annee": 2016,
-    "possedee": 50,
+    "possedee": 49,
     "electronique": true,
     "image": "https://i.discogs.com/xgV4X5ZsPbiYWwtKcUEHulfY6Sb6tLkRiMOR-5q28Z0/rs:fit/g:sm/q:90/h:539/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMDQw/MDU1LTE0OTA1NjE5/MDMtMjkxNy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3774176-Laughing-Buddha-Goa-Session"
@@ -99864,7 +99749,7 @@
     "titre": "Desert Dance Remixes",
     "artiste": "Kaya Project feat.  Irina Mikhailova",
     "annee": 2022,
-    "possedee": 35,
+    "possedee": 36,
     "electronique": true,
     "image": "https://i.discogs.com/SgfLroHlkAcBu-cG6njGGlgjpr1TzDnc7UNdJ7st8Oo/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MDUz/MDg4LTE2Njc1ODY3/ODMtODkzNy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2858062-Kaya-Project-feat-Irina-Mikhailova-Desert-Dance-Remixes"
@@ -99873,7 +99758,7 @@
     "titre": "Be As You Are",
     "artiste": "Outsiders",
     "annee": 2019,
-    "possedee": 31,
+    "possedee": 32,
     "electronique": true,
     "image": "https://i.discogs.com/kECtYcL37ELnJwepajDGwaO2MflF4lRT2Vnnst43uF8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NjAz/MDgyLTE1Nzc5OTE1/ODItOTc0Ni5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1663796-Outsiders-Be-As-You-Are"
@@ -100659,7 +100544,7 @@
     "titre": "The Sacrifice / D-Tuned",
     "artiste": "Headhunterz",
     "annee": 2006,
-    "possedee": 894,
+    "possedee": 897,
     "electronique": true,
     "image": "https://i.discogs.com/xeHyqFuDe4NxmNDMGCKheqc9HvvV4dYWaexa6VsU3_A/rs:fit/g:sm/q:90/h:540/w:540/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0Nzcy/My0xNTkwOTA4NTA4/LTgzMzAuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/37917-Headhunterz-The-Sacrifice-D-Tuned"
@@ -100668,7 +100553,7 @@
     "titre": "Drop It (The Prophet'z Hardstyle Remix)",
     "artiste": "3 Steps Ahead",
     "annee": 2003,
-    "possedee": 682,
+    "possedee": 683,
     "electronique": true,
     "image": "https://i.discogs.com/ixNml8cxNGXMrGsGkqgEx4e8uMSr8A_GwQuYH09TMGI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MzI5/MTctMTI4OTE1Nzg3/Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/324851-3-Steps-Ahead-Drop-It-The-Prophetz-Hardstyle-Remix"
@@ -100695,7 +100580,7 @@
     "titre": "Last Of The Mohicanz / Reloaded Part 2",
     "artiste": "Headhunterz",
     "annee": 2008,
-    "possedee": 600,
+    "possedee": 602,
     "electronique": true,
     "image": "https://i.discogs.com/3BN0pEKDroh0ZeLwNccf9tpP1n1gYSCWXwOp0aVYKdA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyOTM3/MjktMTIzNDMzOTE2/Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/557648-Headhunterz-Last-Of-The-Mohicanz-Reloaded-Part-2"
@@ -100704,7 +100589,7 @@
     "titre": "Psycho",
     "artiste": "DJ Duro",
     "annee": 2005,
-    "possedee": 587,
+    "possedee": 589,
     "electronique": true,
     "image": "https://i.discogs.com/Hznt90oq5ahYnjgQzMiDgDqCgY4_oN7OfB6UUmbK8hM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ4MTg1/Ni0xMjYyNDYzMDU1/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/38807-DJ-Duro-Psycho"
@@ -100713,7 +100598,7 @@
     "titre": "Spacer / Warphole",
     "artiste": "Frontliner",
     "annee": 2008,
-    "possedee": 551,
+    "possedee": 554,
     "electronique": true,
     "image": "https://i.discogs.com/bXS3-EdXNrNlyVT9MQ5ceMZ5IxbCAawAH9PZVPyiR5o/rs:fit/g:sm/q:90/h:610/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODkw/MzUtMTYzMjU2MjM1/MC01ODM5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/223593-Frontliner-Spacer-Warphole"
@@ -104661,7 +104546,7 @@
     "titre": "Origins",
     "artiste": "Foul Play",
     "annee": 2020,
-    "possedee": 1126,
+    "possedee": 1143,
     "electronique": true,
     "image": "https://i.discogs.com/kUpFy4VByIdVa72iEe5t9otjT4CG7QLNKkDh5sUfCmY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NDE1/NTY0LTE3NDY0NDgz/NDgtOTU5My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1749685-Foul-Play-Origins"
@@ -104670,7 +104555,7 @@
     "titre": "Come My Selector",
     "artiste": "Soundbwoy Killah",
     "annee": 2018,
-    "possedee": 485,
+    "possedee": 487,
     "electronique": true,
     "image": "https://i.discogs.com/xi-1WV-Qm7KNj2mW6D2R73Vqs_gvn8HCNhADwuRe6ws/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjQ4/NTgzLTE1MzkzMDEx/OTQtOTU2NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1549075-Soundbwoy-Killah-Come-My-Selector"
@@ -104679,7 +104564,7 @@
     "titre": "Gone Too Soon EP",
     "artiste": "2 Bad Mice",
     "annee": 2016,
-    "possedee": 484,
+    "possedee": 483,
     "electronique": true,
     "image": "https://i.discogs.com/sGrVff-LLEop2Yi_mLHns6_bt5xDpJHaeHeDm9PWjYA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzNjQ3/NTItMTQ3OTMwNDMx/OC0zMjAwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1092379-2-Bad-Mice-Gone-Too-Soon-EP"
@@ -104697,7 +104582,7 @@
     "titre": "Evident Ware (Pt.01)",
     "artiste": "Various",
     "annee": 2020,
-    "possedee": 409,
+    "possedee": 411,
     "electronique": true,
     "image": "https://i.discogs.com/xO_dnC0MvmNSH7ClcjoGPlzckWHFbG_JTmkXsEwvgFE/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MDQ3/ODMxLTE2MDI1MDk4/MjktOTMzNC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1836230-Various-Evident-Ware-Pt01"
@@ -104706,7 +104591,7 @@
     "titre": "Exodus (The Lion Awakes) (Part One)",
     "artiste": "The Brothers Grimm",
     "annee": 2017,
-    "possedee": 401,
+    "possedee": 402,
     "electronique": true,
     "image": "https://i.discogs.com/UwuoU9GSvQRPii37GsO1O_Amz56Pa6YWfzuIYZyy6ps/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTY1/OTUxLTE0OTM3NTMw/NjgtMTc1NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2544997-The-Brothers-Grimm-Exodus-The-Lion-Awakes-Part-One"
@@ -104724,7 +104609,7 @@
     "titre": "Hardcore & Rubble",
     "artiste": "Tim Reaper",
     "annee": 2022,
-    "possedee": 306,
+    "possedee": 307,
     "electronique": true,
     "image": "https://i.discogs.com/IIcbJvKm-Gp3Hj847130GGU3BkMJHKVkHsQ6Ya90j6E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNjUx/ODAyLTE2NDE2NTIz/MDUtNjI1MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2454790-Tim-Reaper-Hardcore-Rubble"
@@ -106295,7 +106180,7 @@
     "titre": "The Bright Forest",
     "artiste": "Culoe De Song",
     "annee": 2009,
-    "possedee": 649,
+    "possedee": 650,
     "electronique": true,
     "image": "https://i.discogs.com/Ue7BurQUSLY_ZyukjVDFMRkqkCWdfZyujHADhfYjhK8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3MDE4/MzgtMTI0MTExMTA0/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/130994-Culoe-De-Song-The-Bright-Forest"
@@ -106304,7 +106189,7 @@
     "titre": "Webaba EP",
     "artiste": "Culoe De Song",
     "annee": 2010,
-    "possedee": 317,
+    "possedee": 326,
     "electronique": true,
     "image": "https://i.discogs.com/c3m6IanYCdHLSUateFJIc1WeiEDUJ8jd5C6U5Jt4J6k/rs:fit/g:sm/q:90/h:507/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1Njgy/MTgtMTI5MjAzODE4/NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/4336452-Culoe-De-Song-Webaba-EP"
@@ -106322,7 +106207,7 @@
     "titre": "Crazy",
     "artiste": "Black Coffee* feat. Thiwe",
     "annee": 2011,
-    "possedee": 184,
+    "possedee": 185,
     "electronique": true,
     "image": "https://i.discogs.com/4ut9-6a1CeBpCepB5bG0X53wo4iCkhbYD2O7qNIE2p4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3ODU3/NDgtMTc2MjUzMTI5/OC01MTc0LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/321852-Black-Coffee-feat-Thiwe-Crazy"
@@ -106340,7 +106225,7 @@
     "titre": "Never Saw You Coming",
     "artiste": "Black Coffee* Featuring Tsepo",
     "annee": 2011,
-    "possedee": 100,
+    "possedee": 101,
     "electronique": true,
     "image": "https://i.discogs.com/7dvl9vceheFZvPR8ocTrNnG-gT-x7SA-Kos_8efZjfk/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2MDEx/NjktMTM5NzY3OTYw/OC03MTc1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/611195-Black-Coffee-Featuring-Tsepo-Never-Saw-You-Coming"
@@ -107315,7 +107200,7 @@
     "titre": "II",
     "artiste": "Voices From The Lake",
     "annee": 2025,
-    "possedee": 1208,
+    "possedee": 1235,
     "electronique": true,
     "image": "https://i.discogs.com/RmdTYVfnj_cCIMpI2LhUDCwred30wKxPBUvHeWvPGgc/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1ODQ3/NTg2LTE3NjQ5NDYz/MDgtNzU0My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/4066030-Voices-From-The-Lake-II"
@@ -107324,7 +107209,7 @@
     "titre": "Magda",
     "artiste": "Donato Dozzy",
     "annee": 2024,
-    "possedee": 630,
+    "possedee": 632,
     "electronique": true,
     "image": "https://i.discogs.com/mclvCNFKgdWJ8xFQHUKAL-PEKhzDv6hBZffoKY1TxT8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5Mzg5/NDM1LTE3MDQzNjM5/NjYtNDc5MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3375523-Donato-Dozzy-Magda"
@@ -107333,7 +107218,7 @@
     "titre": "That Fab",
     "artiste": "Donato Dozzy",
     "annee": 2016,
-    "possedee": 596,
+    "possedee": 595,
     "electronique": true,
     "image": "https://i.discogs.com/1bOoEaAfo6WmZm2kViIJg3zTV3EaQmGG0N75xj1Moso/rs:fit/g:sm/q:90/h:609/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0MTA2/MDItMTU4NTg0MDA0/MC05NDk5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1007801-Donato-Dozzy-That-Fab"
@@ -107342,7 +107227,7 @@
     "titre": "Secondo Tempo",
     "artiste": "Voices From The Lake",
     "annee": 2016,
-    "possedee": 568,
+    "possedee": 569,
     "electronique": true,
     "image": "https://i.discogs.com/b8Ob9TCvgnqcfNRE5HFtvfBI6ECkvityhoI2DYtOU54/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgyMzE0/NjMtMTU4NTgzOTY4/Mi04NzA4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/998910-Voices-From-The-Lake-Secondo-Tempo"
@@ -107360,7 +107245,7 @@
     "titre": "Paramagnetism",
     "artiste": "Mike Parker & Donato Dozzy",
     "annee": 2016,
-    "possedee": 367,
+    "possedee": 369,
     "electronique": true,
     "image": "https://i.discogs.com/2KRQ6L7kqeSXeWvlUerkWdFdfzpFiqw-RryQ_SOb-HQ/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk0NTAw/MzAtMTU4NDQxNDkz/Ny01MDg1LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1099849-Mike-Parker-Donato-Dozzy-Paramagnetism"
@@ -107369,7 +107254,7 @@
     "titre": "The Vancori Complex",
     "artiste": "Neel",
     "annee": 2017,
-    "possedee": 338,
+    "possedee": 340,
     "electronique": true,
     "image": "https://i.discogs.com/lkMkeythEtH8ISsLJcxdwD_MaEsdcAb9vYRKQtZUWNQ/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDU2/NDQ1LTE1ODU4NDEy/NzktMTMxMC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1209148-Neel-The-Vancori-Complex"
@@ -113098,7 +112983,7 @@
     "titre": "Fossora",
     "artiste": "Björk",
     "annee": 2022,
-    "possedee": 12794,
+    "possedee": 12904,
     "electronique": true,
     "image": "https://i.discogs.com/u4P1aRf-KjAoWl1DiSt6tJLOlwprUshiLllVA7kDKhg/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0Njg4/MTk5LTE2NjU3NTUz/OTEtMzY4MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2802284-Bj%C3%B6rk-Fossora"
@@ -113107,7 +112992,7 @@
     "titre": "HOXXXYA",
     "artiste": "Gabber Modus Operandi",
     "annee": 2019,
-    "possedee": 198,
+    "possedee": 197,
     "electronique": true,
     "image": "https://i.discogs.com/SFa58CY9B2bCUs77K_sLwLFk9O-TtrL1wm0oTPi_F7k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NDI0/NTE3LTE1NzQyNjU0/MDctODI2OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1647914-Gabber-Modus-Operandi-HOXXXYA"
@@ -113152,7 +113037,7 @@
     "titre": "Flowers Of The Revolution",
     "artiste": "Nahash",
     "annee": 2020,
-    "possedee": 95,
+    "possedee": 96,
     "electronique": true,
     "image": "https://i.discogs.com/aYvhQinWGD8BAsvXwdwD0d0P2AIIL6TOacMIpnkLZq0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NDcy/NTYxLTE1OTIwOTk4/MDgtMzEyMC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1757324-Nahash-Flowers-Of-The-Revolution"
@@ -114985,7 +114870,7 @@
     "titre": "Light & Magic",
     "artiste": "Ladytron",
     "annee": 2002,
-    "possedee": 6538,
+    "possedee": 6576,
     "electronique": true,
     "image": "https://i.discogs.com/m2r06zm0meAWhwjIoIgCxrKSfppH4QIyMHNXDeF73T8/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk4OTc5/LTE0MTUzNTg4MTIt/OTkwMy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/47972-Ladytron-Light-Magic"
@@ -114994,7 +114879,7 @@
     "titre": "The Greatest Love",
     "artiste": "Various",
     "annee": 1988,
-    "possedee": 2537,
+    "possedee": 2561,
     "electronique": true,
     "image": "https://i.discogs.com/OUT5lHC-fRWBZ2qmfgv4y1l3yvyBB-2wtOoMKWu08nI/rs:fit/g:sm/q:90/h:571/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3OTIw/ODYtMTMzMTk5Mzcx/Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/115509-Various-The-Greatest-Love"
@@ -115003,7 +114888,7 @@
     "titre": "Deep Heat '89 - Fight The Flame",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 2389,
+    "possedee": 2412,
     "electronique": true,
     "image": "https://i.discogs.com/eVv_rtqB_WqB5fpJ2hNpzkP50KTWDZPn9008SCPuxG0/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU1MDU1/LTEyMTQ1ODIyNDIu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/13739-Various-Deep-Heat-89-Fight-The-Flame"
@@ -115012,7 +114897,7 @@
     "titre": "Thunderbirds Are Go!",
     "artiste": "F.A.B. Featuring MC Parker",
     "annee": 1990,
-    "possedee": 2253,
+    "possedee": 2271,
     "electronique": true,
     "image": "https://i.discogs.com/TlWulcVsWCFuXx8jp7Sh9gbgYQPVwJCV_PMCv15EJEs/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ5MDkz/Ny0xMTkxMTQ4ODA3/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/176385-FAB-Featuring-MC-Parker-Thunderbirds-Are-Go"
@@ -115021,7 +114906,7 @@
     "titre": "The Greatest Hits Of 1985",
     "artiste": "Various",
     "annee": 1985,
-    "possedee": 2141,
+    "possedee": 2163,
     "electronique": true,
     "image": "https://i.discogs.com/RGsf2itXyO2GGoa5hJI4abPKEUklG0hr0nD98y0c_6M/rs:fit/g:sm/q:90/h:606/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NTUx/MC0xNTQ3ODM3ODk5/LTM0NTYuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/1333105-Various-The-Greatest-Hits-Of-1985"
@@ -115030,7 +114915,7 @@
     "titre": "The Greatest Hits Of The 80's",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 2078,
+    "possedee": 2098,
     "electronique": true,
     "image": "https://i.discogs.com/asyMAjruYJQhm7UhDVAfPC6K6uUfpBK52RdSYxhBGPo/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODU5/NDQtMTQ1OTIzNTAx/MC0xOTYzLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/118450-Various-The-Greatest-Hits-Of-The-80s"
@@ -115039,7 +114924,7 @@
     "titre": "Deep Heat",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 2040,
+    "possedee": 2063,
     "electronique": true,
     "image": "https://i.discogs.com/xR1mxqe5ndwtpW4F2G1W2JYJygwhpwfeOTicC5lMBuI/rs:fit/g:sm/q:90/h:474/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNDc1/Ni0xMjIwODY5Mzg2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/24771-Various-Deep-Heat"
@@ -115048,7 +114933,7 @@
     "titre": "Deep Heat 4 - Play With Fire",
     "artiste": "Various",
     "annee": 1989,
-    "possedee": 1958,
+    "possedee": 1976,
     "electronique": true,
     "image": "https://i.discogs.com/WXALBBwpg1uCjDbvUJYTj1KZugaonkZcZHz2xDwZzVY/rs:fit/g:sm/q:90/h:629/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU1MDU0/LTEyOTA3ODIxNDQu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/7173-Various-Deep-Heat-4-Play-With-Fire"
@@ -120928,7 +120813,7 @@
     "titre": "Peace Love & Unity / And Remember Folks",
     "artiste": "DJ Hype Featuring MC Fats / DJ Hype",
     "annee": 1996,
-    "possedee": 2711,
+    "possedee": 2730,
     "electronique": true,
     "image": "https://i.discogs.com/ZtA7Unbh71_yDYTXxlvLDmaSFc_gPTJ7n_ZYgC3IuaQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NzMt/MTUyMTAxNDQ2NS03/ODk5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/4976-DJ-Hype-Featuring-MC-Fats-DJ-Hype-Peace-Love-Unity-And-Remember-Folks"
@@ -120937,7 +120822,7 @@
     "titre": "Present Tense EP",
     "artiste": "DJ Zinc",
     "annee": 2002,
-    "possedee": 2284,
+    "possedee": 2289,
     "electronique": true,
     "image": "https://i.discogs.com/mZpRni2YYAh-XePuUW4rls_6sP986d3mxw2EYj33G0g/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MjYx/LTE0ODM0MzY0MjYt/NDc3OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/198744-DJ-Zinc-Present-Tense-EP"
@@ -120946,7 +120831,7 @@
     "titre": "Reach Out / Pranksters",
     "artiste": "DJ Zinc",
     "annee": 1996,
-    "possedee": 2067,
+    "possedee": 2075,
     "electronique": true,
     "image": "https://i.discogs.com/YDT9a5V4TmrZ_qAzKtik04ecFxWxQJRdiPlzibQZ2a8/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NzQt/MTQ0NDEzNDUzNS03/MDczLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/64577-DJ-Zinc-Reach-Out-Pranksters"
@@ -120955,7 +120840,7 @@
     "titre": "Playaz4Real",
     "artiste": "DJ Hype",
     "annee": 2001,
-    "possedee": 1724,
+    "possedee": 1731,
     "electronique": true,
     "image": "https://i.discogs.com/N5ZgN_qLPVL1ewbE4weD7kC1dHBVdS_nWVSfUiQ1NK8/rs:fit/g:sm/q:90/h:575/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc5NDQt/MTE0MTk0NzU1Ni5q/cGVn.jpeg",
     "url": "https://www.discogs.com/master/909789-DJ-Hype-Playaz4Real"
@@ -120964,7 +120849,7 @@
     "titre": "No Diggidy / Break The Loop",
     "artiste": "Dope Skillz",
     "annee": 1997,
-    "possedee": 1710,
+    "possedee": 1725,
     "electronique": true,
     "image": "https://i.discogs.com/ABTCEc5WQWg5FNCnGrigzSTAXr0jmLFA48ggLzbTwmI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUzNTI5/LTE0NDkxNjA1OTYt/Mzg3Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/49726-Dope-Skillz-No-Diggidy-Break-The-Loop"
@@ -120973,7 +120858,7 @@
     "titre": "DJ Hype & True Playaz presents Real Vibes",
     "artiste": "DJ Hype & True Playaz",
     "annee": 1998,
-    "possedee": 1702,
+    "possedee": 1708,
     "electronique": true,
     "image": "https://i.discogs.com/05AOPRJUwY-PnqJUGECUt1Xwy8ej-uVUYf6siJ6RoHw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc2OTEt/MTQ2MDc0MjkwOC00/MjI5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/46839-DJ-Hype-True-Playaz-DJ-Hype-True-Playaz-presents-Real-Vibes"
@@ -120982,7 +120867,7 @@
     "titre": "Freenote EP",
     "artiste": "DJ Zinc",
     "annee": 2003,
-    "possedee": 1666,
+    "possedee": 1678,
     "electronique": true,
     "image": "https://i.discogs.com/FgKb5KEtId7TIEGXLHdJUK_5BVrwhjkDGaO16bdBDUA/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk1MjU4/LTE2NDQ0OTUxNTgt/NTA2NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/64993-DJ-Zinc-Freenote-EP"
@@ -120991,7 +120876,7 @@
     "titre": "Reach Out (Remix) / Damn",
     "artiste": "DJ Zinc",
     "annee": 1997,
-    "possedee": 1651,
+    "possedee": 1659,
     "electronique": true,
     "image": "https://i.discogs.com/Qo-7PaoO4iT6LudxEny59lHmwsd7YNc42xbwGdvV5VA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwMzgw/LTE0ODA3OTIzMjQt/MTM0Ni5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/64584-DJ-Zinc-Reach-Out-Remix-Damn"
@@ -125705,7 +125590,7 @@
     "titre": "Some Justice '94 / Burnin Passion '94",
     "artiste": "Urban Shakedown",
     "annee": 2021,
-    "possedee": 595,
+    "possedee": 596,
     "electronique": true,
     "image": "https://i.discogs.com/eahxBlq0yt_HD42B30DWTpMasBUTONihmBWzuSN_VN0/rs:fit/g:sm/q:90/h:608/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NzUw/MTA1LTE2MjgxNjk0/MzEtMjU4My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2386588-Urban-Shakedown-Some-Justice-94-Burnin-Passion-94"
@@ -125714,7 +125599,7 @@
     "titre": "Some Justice / Burnin Passion '93",
     "artiste": "Urban Shakedown",
     "annee": 2021,
-    "possedee": 585,
+    "possedee": 586,
     "electronique": true,
     "image": "https://i.discogs.com/tAkJWG2xzXDa9Vc-4c2875dViUAVkf-pjA3EmOKfTPA/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5NzQ5/OTEzLTE2MjgxNjg2/MjktNTI3Ni5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2333971-Urban-Shakedown-Some-Justice-Burnin-Passion-93"
@@ -125723,7 +125608,7 @@
     "titre": "Rediscovered #01",
     "artiste": "Ova Doce",
     "annee": 2020,
-    "possedee": 353,
+    "possedee": 355,
     "electronique": true,
     "image": "https://i.discogs.com/kD1B8p8z2q0pcTS715zlPAlIIolM8Mlb2IzcESiKkXQ/rs:fit/g:sm/q:90/h:637/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MDcy/NjMyLTE1ODYzMzE0/NTktODQyMS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1713616-Ova-Doce-Rediscovered-01"
@@ -125741,7 +125626,7 @@
     "titre": "Dance Factor / Dance Factor (Ellis Dee Project 2.5 Remix)",
     "artiste": "Ellis Dee",
     "annee": 2019,
-    "possedee": 353,
+    "possedee": 355,
     "electronique": true,
     "image": "https://i.discogs.com/OcbRs3Ih2m42iK_GDgF6Sgg5HP1a4jMuh5srHHg9jh8/rs:fit/g:sm/q:90/h:603/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNjI3/ODY2LTE1NTc4MzU0/MjctNjE3OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1549044-Ellis-Dee-Dance-Factor-Dance-Factor-Ellis-Dee-Project-25-Remix"
@@ -125750,7 +125635,7 @@
     "titre": "Do It - Do It / Hypnotise",
     "artiste": "DJ Junk / Mad Dog",
     "annee": 2019,
-    "possedee": 293,
+    "possedee": 292,
     "electronique": true,
     "image": "https://i.discogs.com/5I71goKo4lK_7SBdG4VzCgurojlOJU8s0c8hhqoi8nw/rs:fit/g:sm/q:90/h:582/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NDk1/NzM1LTE1OTA1MDQ5/NDEtNDk4NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1647951-DJ-Junk-Mad-Dog-Do-It-Do-It-Hypnotise"
@@ -125759,7 +125644,7 @@
     "titre": "Can You Feel It / On The Attack",
     "artiste": "Tone Def",
     "annee": 2019,
-    "possedee": 284,
+    "possedee": 287,
     "electronique": true,
     "image": "https://i.discogs.com/N70y8ds-_NJjqTCXSJyDvAQt44pc7obucYqWbNPxvg8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MDc4/MTg2LTE1Njc0MzI5/MTgtMTYyMC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1600413-Tone-Def-Can-You-Feel-It-On-The-Attack"
@@ -125768,7 +125653,7 @@
     "titre": "Unreleased Volume One",
     "artiste": "DJ Phantasy",
     "annee": 2021,
-    "possedee": 267,
+    "possedee": 268,
     "electronique": true,
     "image": "https://i.discogs.com/vrdSgqqKPMHSL2qdrZ5wbzjE1lqTlggiAojuCvV9V3k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MDA4/NTUzLTE2MjI4MDA3/MTUtNTQ2NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2156728-DJ-Phantasy-Unreleased-Volume-One"
@@ -126560,7 +126445,7 @@
     "titre": "Dear Mrs Applebee / Lady Jane",
     "artiste": "David Garrick",
     "annee": 1981,
-    "possedee": 189,
+    "possedee": 190,
     "electronique": false,
     "image": "https://i.discogs.com/vcWtesZk60d15sfwHpXb92XBi94yJEnLDdG9dqvXeck/rs:fit/g:sm/q:90/h:605/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQzMzY4/MTMtMTUyNDA2MzY0/OC0xMTA5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/548262-David-Garrick-Dear-Mrs-Applebee-Lady-Jane"
@@ -126569,7 +126454,7 @@
     "titre": "Your Song / Crocodile Rock",
     "artiste": "Elton John",
     "annee": 1981,
-    "possedee": 185,
+    "possedee": 187,
     "electronique": false,
     "image": "https://i.discogs.com/1G28ygVyagbmZ_ndR_g9agZh4M0OEc9InK3KZAMYvw4/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY3MzYy/Ni0xMTkwOTY4MjA0/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/432896-Elton-John-Your-Song-Crocodile-Rock"
@@ -126578,7 +126463,7 @@
     "titre": "Colours",
     "artiste": "Donovan",
     "annee": 1981,
-    "possedee": 110,
+    "possedee": 111,
     "electronique": false,
     "image": "https://i.discogs.com/bF1omHMh0fwsLwGPUzyzBP440Zeu_Pxlm6PayxG2oqI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUyNTE3/MjItMTUxNTQzMTA3/NS0yODU3LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/659353-Donovan-Colours"
@@ -131681,7 +131566,7 @@
     "titre": "AntiFluoro",
     "artiste": "Sensient",
     "annee": 2006,
-    "possedee": 150,
+    "possedee": 159,
     "electronique": true,
     "image": "https://i.discogs.com/G3Gianeca-FLhBoOLtdPtwVnFfPoY98mFftoR_kiK7Y/rs:fit/g:sm/q:90/h:544/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgzMTA4/OS0xNDg3ODU3ODEy/LTEwNjIuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/700055-Sensient-AntiFluoro"
@@ -131690,7 +131575,7 @@
     "titre": "Paramoral",
     "artiste": "Krumelur",
     "annee": 2006,
-    "possedee": 137,
+    "possedee": 136,
     "electronique": true,
     "image": "https://i.discogs.com/yTYkTCarL2d0mtmvOyfpgQX6y1vweZin1eXq7NywOT4/rs:fit/g:sm/q:90/h:582/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc1Nzgx/MC0xMjAzNjk1NTgz/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/699299-Krumelur-Paramoral"
@@ -131717,7 +131602,7 @@
     "titre": "Direct Influence",
     "artiste": "Shadow Fx",
     "annee": 2007,
-    "possedee": 111,
+    "possedee": 112,
     "electronique": true,
     "image": "https://i.discogs.com/jl7A7cvyUv6UlcOiP5TTK77lLF4OrSpW4fcxCzXRqsg/rs:fit/g:sm/q:90/h:543/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTA1/NTYtMTIwMzY5NTA5/MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/738975-Shadow-Fx-Direct-Influence"
