@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-14T18:15:18.280Z",
+ "fait": "2026-11-15T18:57:13.133Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "The 5 Virtual Analogue Synths That Kick Started a Revolution",
+   "lien": "https://www.gearnews.com/5-virtual-analogue-revolution-synths/",
+   "date": "2026-11-15T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/Yamaha-AN1x.jpg",
+   "resume": "We look at 5 of the pioneering synthesizers that blazed the trail for virtual analogue technology and how they stack up today. If the 1980s were the birth of digital synthesis, the 1990s were the decade that saw it…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Purpl, Plenitude, Sublime: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/purpl-plenitude-sublime-free-plugins/",
+   "date": "2026-11-15T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/plenitude-free-plugins-11-15-26.jpg",
+   "resume": "This week’s roundup of the best free plugins brings you not one, but two free software synths and a strong contender for best free reverb of the year: Purpl, Plenitude, Sublime. Free Plugins of the Week tinyant purpl…",
+   "integral": true
+  },
   {
    "source": "attack",
    "titre": "How To Deconstruct Any Beat In Ableton Live",
@@ -65,30 +83,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Drum Replacement Tools: New Sound, Same Feel",
-   "lien": "https://www.gearnews.com/drum-replacement-tools-studio/",
-   "date": "2026-11-13T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/drum-replacement-xln-audio-ft.jpg",
-   "resume": "We check out some essential drum replacement tools that can save the day when you’re working with recordings captured in less-than-ideal spaces. In this Article: Drum Replacement Tools: XLN Audio Addictive Trigger Drum…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Remniqe’s Iconic Demonic Finds the Club Between the Runway and the Pit of Hell",
    "lien": "https://midnightrebels.com/remniqes-iconic-demonic-finds-the-club-between-the-runway-and-the-pit-of-hell/",
    "date": "2026-11-13T03:00:00.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/SaveClip.App_865986819_18638046484038950_2504865611440574850_n.webp?resize=1160%2C1160&ssl=1",
    "resume": "Remniqe wants one record to work on the runway and in the pit of hell. Iconic Demonic , their four track EP for Quack Squawk Honk, is built around that double image, and it mostly pulls it off. It lands on November 20…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Behringer AQ64L: Open-Source Clip Launcher With 64 Pads – How Much Will it Cost?",
-   "lien": "https://www.gearnews.com/behringer-aq64l-synth/",
-   "date": "2026-11-13T00:35:26.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-aq64l-t.jpg",
-   "resume": "Behringer has announced the AQ64L, an AKAI APC-like clip launcher controller. It’s open source, which is cool, but there’s no mention of a price yet. Can it compete with AKAI’s APC line and the Novation Launchpad?…",
    "integral": true
   },
   {
