@@ -1,0 +1,870 @@
+{
+ "accord-dub": {
+  "mode": "fige",
+  "zones": [
+   45,
+   52,
+   59,
+   66
+  ],
+  "relache": 0.1
+ },
+ "arpege": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "balafon": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "basse-101": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-303": {
+  "mode": "tenu",
+  "zones": [
+   43,
+   50,
+   57,
+   64,
+   71
+  ],
+  "relache": 0.02
+ },
+ "basse-303-accent": {
+  "mode": "tenu",
+  "zones": [
+   43,
+   50,
+   57,
+   64,
+   71
+  ],
+  "relache": 0.02
+ },
+ "basse-bourdon": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.3
+ },
+ "basse-contrebasse": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-dub": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.08
+ },
+ "basse-electrique": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-fm": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-growl": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-juno": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-moog": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-reese": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.06
+ },
+ "basse-reese-neuro": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.05
+ },
+ "basse-reverse": {
+  "mode": "libre",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-roll": {
+  "mode": "libre",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-saturee": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-saw": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-warp": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "basse-wobble": {
+  "mode": "tenu",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "bleep": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "bourdon": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 1.0,
+  "large": true
+ },
+ "bruit": {
+  "mode": "coup"
+ },
+ "caisse-balais": {
+  "mode": "coup"
+ },
+ "caisse-impact": {
+  "mode": "coup"
+ },
+ "carillon": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "chiptune": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "chug": {
+  "mode": "coup"
+ },
+ "clavinet": {
+  "mode": "tenu",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.05
+ },
+ "clic": {
+  "mode": "coup"
+ },
+ "cloche": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "cordes": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.5,
+  "large": true
+ },
+ "cordes-synthe": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.5,
+  "large": true
+ },
+ "cris": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.06
+ },
+ "cuivres": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.1,
+  "large": true
+ },
+ "cymbale": {
+  "mode": "coup"
+ },
+ "enclume": {
+  "mode": "coup"
+ },
+ "fx-impact": {
+  "mode": "coup"
+ },
+ "fx-montee": {
+  "mode": "coup"
+ },
+ "glitch-2": {
+  "mode": "coup"
+ },
+ "glitch-3": {
+  "mode": "coup"
+ },
+ "gong": {
+  "mode": "coup"
+ },
+ "guitare": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "guitare-cocotte": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "guitare-saturee": {
+  "mode": "tenu",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.06
+ },
+ "harpe": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "hoover": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15,
+  "large": true
+ },
+ "juno": {
+  "mode": "tenu",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.25,
+  "large": true
+ },
+ "kalimba": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "kick-caverne": {
+  "mode": "coup"
+ },
+ "kick-dur": {
+  "mode": "coup"
+ },
+ "kick-gabber": {
+  "mode": "coup"
+ },
+ "kick-hardstyle": {
+  "mode": "coup"
+ },
+ "kick-psy": {
+  "mode": "coup"
+ },
+ "kick-uptempo": {
+  "mode": "coup"
+ },
+ "lead": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.06
+ },
+ "lead-fm": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.08
+ },
+ "lead-moog": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.08
+ },
+ "logdrum": {
+  "mode": "libre",
+  "zones": [
+   31,
+   38,
+   45,
+   52,
+   59
+  ],
+  "relache": 0.04
+ },
+ "marimba": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "mellotron": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.4,
+  "large": true
+ },
+ "melodica": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.08
+ },
+ "modulaire": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "nappe": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.8,
+  "large": true
+ },
+ "nappe-air": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.8,
+  "large": true
+ },
+ "nappe-sombre": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.9,
+  "large": true
+ },
+ "orchestre": {
+  "mode": "fige",
+  "zones": [
+   48,
+   55,
+   62,
+   69
+  ],
+  "relache": 0.15,
+  "large": true
+ },
+ "orgue": {
+  "mode": "tenu",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "orgue-m1": {
+  "mode": "tenu",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "papier": {
+  "mode": "coup"
+ },
+ "piano": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "piano-fm": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15
+ },
+ "piano-rave": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.15,
+  "large": true
+ },
+ "ping": {
+  "mode": "coup"
+ },
+ "plip": {
+  "mode": "coup"
+ },
+ "pluck": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "porte": {
+  "mode": "coup"
+ },
+ "rhodes": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "robinet": {
+  "mode": "coup"
+ },
+ "rumble": {
+  "mode": "tenu",
+  "zones": [
+   24,
+   31,
+   38,
+   45
+  ],
+  "relache": 0.12
+ },
+ "salle-courte": {
+  "mode": "coup"
+ },
+ "salle-longue": {
+  "mode": "coup"
+ },
+ "scratch": {
+  "mode": "coup"
+ },
+ "screech": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.05
+ },
+ "sequence": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
+ },
+ "snap": {
+  "mode": "coup"
+ },
+ "stab": {
+  "mode": "libre",
+  "zones": [
+   60,
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04,
+  "large": true
+ },
+ "stab-rave": {
+  "mode": "fige",
+  "zones": [
+   52,
+   59,
+   66,
+   73
+  ],
+  "relache": 0.1
+ },
+ "sub-808": {
+  "mode": "libre",
+  "zones": [
+   24,
+   31,
+   38,
+   45
+  ],
+  "relache": 0.04
+ },
+ "sub-sinus": {
+  "mode": "tenu",
+  "zones": [
+   24,
+   31,
+   38,
+   45
+  ],
+  "relache": 0.05
+ },
+ "supersaw": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.2,
+  "large": true
+ },
+ "tabla-na": {
+  "mode": "coup"
+ },
+ "talkbox": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.05
+ },
+ "timbale": {
+  "mode": "coup"
+ },
+ "twip": {
+  "mode": "coup"
+ },
+ "vent": {
+  "mode": "tenu",
+  "zones": [
+   59,
+   68,
+   77,
+   86
+  ],
+  "relache": 0.8,
+  "large": true
+ },
+ "voix": {
+  "mode": "tenu",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.08
+ }
+}

@@ -1,14 +1,12 @@
-SONAA - les sons des affiches de rythme (ADR-113)
+SONAA - les sons des affiches de rythme (ADR-113, ADR-122)
 
-Tous ces fichiers sont libres de droits. Ils ont ete convertis en mono,
-coupes, et leur crete ramenee a -1 dB ; rien d'autre n'a ete change.
+Tous ces fichiers sont libres de droits. Aucun son n'est fabrique dans le
+navigateur : chaque frappe et chaque note est un de ces fichiers.
 
-Le 16 novembre 2026, les fichiers tr909-*, sp909-*, tr808-* et break-* ont
-ete reconvertis par scripts/convertir-sons.py : la premiere conversion les
-avait ecrits sans bloc de donnees valide, et aucun navigateur ne pouvait
-les lire.
-
-Domaine public et licences libres, via le depot oramics/sampled (github.com/oramics/sampled) :
+1. LES BATTERIES DES MACHINES (scripts/convertir-sons.py)
+Converties en mono, coupees, crete ramenee a -1 dB ; rien d'autre n'a ete
+change. Domaine public et licences libres, via le depot oramics/sampled
+(github.com/oramics/sampled) :
   tr909-*.wav  Roland TR-909 Detroit, enregistree via API et Neve (F9 Audio / oramics)
   sp909-*.wav  Roland TR-909 passee dans un E-mu SP-1200 (F9 Audio / oramics)
   tr808-*.wav  Roland TR-808, collection oramics/sampled (Public Domain)
@@ -16,10 +14,39 @@ Domaine public et licences libres, via le depot oramics/sampled (github.com/oram
   lm2-*.wav    LinnDrum LM-2, source machines.hyperreal.org (Public Domain)
   tr505-*.wav  Roland TR-505, source progsounds.com (Public Domain)
   cr78-*.wav   Roland CompuRhythm CR-78, source boxedear.com (Public Domain)
+  vcsl-claves, vcsl-shaker, vcsl-conga, vcsl-bongo, vcsl-brakedrum, vcsl-woodblock :
+               Versilian Community Sample Library, CC0 1.0
+
+2. LES INSTRUMENTS (scripts/sons/construire.py, fiche src/data/instruments-sons.json)
+Chaque instrument accorde est enregistre en plusieurs zones (<id>-<note MIDI>.wav).
 
 CC0 1.0, Versilian Community Sample Library (github.com/sgossner/VCSL) :
-  vcsl-piano-c3.wav, vcsl-piano-c4.wav      Upright Piano, Yamaha (do 3 = MIDI 60)
-  vcsl-fmpiano-c3.wav, vcsl-fmpiano-c4.wav  TX81Z FM Piano (do 3 = MIDI 48)
-  vcsl-marimba-c4.wav                       Marimba (MIDI 72)
-  vcsl-claves.wav, vcsl-shaker.wav, vcsl-conga.wav, vcsl-bongo.wav,
-  vcsl-brakedrum.wav, vcsl-woodblock.wav
+  piano (Steinway B), piano-fm (Yamaha TX81Z FM Piano), clavinet (TX81Z Clavisynth),
+  piano-rave (Steinway B double d'une cloche FM), orgue-eglise (orgue a tuyaux Rode),
+  archet (psalterion a l'archet), harpe, kalimba, balafon, marimba, glockenspiel,
+  carillon (cloches tubulaires), vibraphone, melodica (harmonica Hohner Special 20),
+  gong, enclume, timbale, et la timbale du coup d'orchestre.
+
+CC0 1.0, Versilian Studios Chamber Orchestra 2 Community Edition (github.com/sgossner/VSCO-2-CE) :
+  cordes (sections de violons, d'altos et de violoncelles), cuivres (trompette et
+  trombone), mellotron (flute et violons assombris, avec pleurage), orchestre
+  (cordes piquees, cuivres et timbale d'un bloc).
+
+CC0 1.0, echantillons de Sonic Pi (github.com/sonic-pi-net/sonic-pi, etc/samples) :
+  clic, blip, plip, ping, twip, glitch-1 a glitch-5, bruit, robinet, porte, papier,
+  scratch, tabla-*, caisse-impact, caisse-balais, caisse-dub, snap, cymbale, fx-impact.
+
+Synthetiseurs ecrits en Faust (scripts/sons/faust.py, faust.grame.fr) et rendus hors
+ligne avec DawDreamer ; ce sont des creations de SONAA, sans echantillon emprunte :
+  basses (basse-juno, basse-moog, basse-101, basse-roll, basse-saw, basse-dub,
+  basse-fm, basse-electrique, basse-contrebasse, basse-303, basse-303-accent,
+  basse-reese, basse-reese-neuro, basse-wobble, basse-growl, basse-warp,
+  basse-reverse, basse-saturee, basse-bourdon), sub-sinus, sub-808, logdrum, rumble,
+  rhodes, orgue-m1, orgue, stab, accord-dub, stab-rave, cordes-synthe, supersaw,
+  juno, nappe, nappe-sombre, nappe-air, choeur, vent, bourdon, guitare,
+  guitare-cocotte, guitare-saturee, lead, lead-moog, lead-fm, screech, hoover,
+  pluck, arpege, sequence, bleep, chiptune, cloche, modulaire, voix, talkbox, cris,
+  kick-gabber, kick-uptempo, kick-hardstyle, kick-psy, chug, fx-montee,
+  salle-courte, salle-longue (reponses impulsionnelles d'une reverberation zita).
+  kick-dur (TR-909 Detroit saturee) et kick-caverne (TR-808 dans une salle zita)
+  partent des batteries de la section 1.

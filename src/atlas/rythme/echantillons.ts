@@ -7,9 +7,8 @@
    Les batteries et les instruments acoustiques sonnent mieux enregistres que
    fabriques : une vraie TR-909, une TR-909 passee dans un SP-1200, une vraie
    TR-808, une LinnDrum LM-2, une batterie acoustique de breakbeat, une
-   TR-505, une CR-78, un piano, un piano FM DX7/TX81Z, un marimba. Le
-   synthetiseur (son.ts) garde les basses, les nappes, la 303, le kick gabber
-   ou psytrance, et double les kicks enregistres d'une sous-basse accordee.
+   TR-505, une CR-78. Les instruments accordes (basses, accords, nappes,
+   melodies) sont dans instruments.ts ; ce module garde les frappes.
 
    TOUS LES FICHIERS SONT LIBRES : domaine public ou licence libre (depot
    oramics/sampled pour TR-909, TR-909 SP-1200, TR-808, LinnDrum LM-2, TR-505,
@@ -37,7 +36,7 @@ const KIT_DE_FAMILLE: Record<string, Kit> = {
   ambient: 'cr78',
 };
 
-export const kitDeFamille = (famille: string): Kit => KIT_DE_FAMILLE[famille] ?? 'tr909';
+const kitDeFamille = (famille: string): Kit => KIT_DE_FAMILLE[famille] ?? 'tr909';
 
 /** Choisit le kit d'un motif selon les machines qu'il cite et sa famille :
     TR-808, TR-909, SP-1200/MPC, LinnDrum/DMX, batterie/break Amen, TR-505
@@ -95,72 +94,66 @@ const COMMUNS: Partial<Record<Voix, string>> = {
   conga: 'vcsl-conga', bongo: 'vcsl-bongo', clave: 'vcsl-claves', shaker: 'vcsl-shaker', metal: 'vcsl-brakedrum',
 };
 
-/** Un instrument accorde : ses enregistrements et la note MIDI de chacun,
-    mesuree sur le fichier (le « do 3 » de la Versilian n'est pas le meme
-    d'un instrument a l'autre). */
-interface Accorde {
-  readonly notes: readonly { readonly nom: string; readonly midi: number }[];
-  readonly tenue: number;
-}
-
-const ACCORDES: Record<string, Accorde> = {
-  piano: { notes: [{ nom: 'vcsl-piano-c3', midi: 60 }, { nom: 'vcsl-piano-c4', midi: 72 }], tenue: 1.8 },
-  rhodes: { notes: [{ nom: 'vcsl-fmpiano-c3', midi: 48 }, { nom: 'vcsl-fmpiano-c4', midi: 60 }], tenue: 1.8 },
-  marimba: { notes: [{ nom: 'vcsl-marimba-c4', midi: 72 }], tenue: 1.2 },
+/* Les kicks des styles durs, construits pour eux (scripts/sons/construire.py). */
+const KICK_DU_STYLE: Record<string, string> = {
+  gabber: 'kick-gabber', hardcoretechno: 'kick-gabber', nustylegabber: 'kick-gabber', doomcore: 'kick-gabber',
+  lentoviolento: 'kick-gabber', crossbreed: 'kick-gabber', breakcore: 'kick-gabber',
+  frenchcore: 'kick-uptempo', uptempo: 'kick-uptempo', terrorcore: 'kick-uptempo', speedcore: 'kick-uptempo',
+  digitalhardcore: 'kick-uptempo', psycore: 'kick-uptempo',
+  hardstyle: 'kick-hardstyle', jumpstyle: 'kick-hardstyle', dubstyle: 'kick-hardstyle',
+  happyhardcore: 'kick-dur', ukhardcore: 'kick-dur', bouncytechno: 'kick-dur', makina: 'kick-dur', jcore: 'kick-dur',
+  hardtechno: 'kick-dur', schranz: 'kick-dur', industrialtechno: 'kick-dur', bangintechno: 'kick-dur', techtrance: 'kick-dur',
+  hardhouse: 'kick-dur', hardtrance: 'kick-dur', rhythmicnoise: 'kick-dur', powerelectronics: 'kick-dur', raggacore: 'kick-dur',
+  gqom: 'kick-caverne',
 };
 
-/** L'instrument accorde d'une piste, s'il en a un. Le marimba n'a pas de
-    voix a lui : une piste nommee MARIMBA, BALAFON ou KALIMBA le prend. */
-export function accordeDe(piste: Piste): Accorde | null {
-  if (piste.voix === 'piano') return ACCORDES['piano'] ?? null;
-  if (piste.voix === 'rhodes') return ACCORDES['rhodes'] ?? null;
-  if (/MARIMBA|BALAFON|KALIMBA/.test(`${piste.fr} ${piste.en}`)) return ACCORDES['marimba'] ?? null;
-  return null;
-}
+/** Les kicks deja satures : le moteur ne les repasse pas dans sa distorsion. */
+export const KICKS_DURS: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle', 'kick-dur', 'kick-caverne']);
 
-/** Le fichier qui joue une frappe de cette voix, dans ce kit. */
-export function fichierDe(voix: Voix, kit: Kit, piste?: Piste): string | null {
-  if (piste) {
-    const etik = `${piste.fr} ${piste.en}`.toUpperCase();
-    /* Kicks speciaux (gabber, hardcore, 808 explicite, break Amen). */
-    if (voix === 'kick') {
-      if (/GABBER|HARDCORE|TERROR|UPTEMPO|SPEEDCORE/.test(etik)) return null;
-      if (/808/.test(etik)) return 'tr808-kick';
-      if (/AMEN|BREAK/.test(etik)) return 'break-kick';
-    }
-    if (voix === 'snare' && /AMEN|BREAK/.test(etik)) return 'break-snare';
-    if (voix === 'hat' && /AMEN|BREAK/.test(etik)) return 'break-hat';
-    if (voix === 'perc' && /AMEN|BREAK/.test(etik)) return 'break-ghost';
-    /* Une piste qui nomme un bruit, un clic, un glitch, une boucle techno ou
-       un LFO est synthetisee dans son.ts plutot que remplacee par un woodblock. */
-    if (/BRUIT|NOISE|CLIC|CLICK|GLITCH|GRAIN|LFO|IMPULS|BOUCLE|LOOP|PAPIER|PAPER|ROBINET|TAP|PORTI|BED|SQUEAK|TAPE|BANDE|MACHINE|SCRATCH/.test(etik)) {
-      return null;
-    }
-    if (/WOOD\s?BLOCK/.test(etik)) return 'vcsl-woodblock';
+const GLITCH = ['glitch-3', 'glitch-2'];
+
+/** Le fichier qui joue une frappe de cette voix, dans ce kit. Une piste qui
+    nomme un bruit, un clic, un glitch, une boucle, une portiere ou un
+    scratch prend un vrai enregistrement de ce bruit, jamais un son
+    fabrique. */
+export function fichierDe(voix: Voix, kit: Kit, piste?: Piste, motif?: Motif, famille?: string, numero = 0): string | null {
+  const etik = piste ? `${piste.fr} ${piste.en}`.toUpperCase() : '';
+  const id = motif?.id ?? '';
+  if (voix === 'kick') {
+    if (/GABBER|HARDCORE|TERROR|UPTEMPO|SPEEDCORE/.test(etik)) return 'kick-gabber';
+    if (/AMEN|BREAK/.test(etik)) return 'break-kick';
+    if (/808/.test(etik)) return 'tr808-kick';
+    const dur = KICK_DU_STYLE[id];
+    if (dur) return dur;
+    if (famille === 'psy' && id !== 'psydub') return 'kick-psy';
   }
+  if (/AMEN|BREAK/.test(etik)) {
+    if (voix === 'snare') return 'break-snare';
+    if (voix === 'hat') return 'break-hat';
+    if (voix === 'perc') return 'break-ghost';
+  }
+  if (/SCRATCH/.test(etik)) return 'scratch';
+  if (/BALAIS|BRUSH/.test(etik)) return 'caisse-balais';
+  if (/GONG/.test(etik)) return 'gong';
+  if (/TIMBALE|TIMPANI/.test(etik)) return voix === 'tom' ? 'timbale' : 'vcsl-bongo';
+  if (/KICK AIGU|HIGH KICK/.test(etik)) return 'kick-uptempo';
+  if (/IMPACT/.test(etik)) return voix === 'metal' ? 'enclume' : 'caisse-impact';
+  if (/BRUIT|NOISE/.test(etik)) return voix === 'snare' ? 'caisse-impact' : 'bruit';
+  if (/ROBINET|TAP\b|FAUCET/.test(etik)) return 'robinet';
+  if (/PORTI|CAR DOOR|DOOR/.test(etik)) return 'porte';
+  if (/PAPIER|PAPER/.test(etik)) return 'papier';
+  if (/GRINCEMENT|SQUEAK/.test(etik)) return 'twip';
+  if (/TABLA/.test(etik)) return 'tabla-na';
+  if (/CYMBALE|CYMBAL/.test(etik)) return 'cymbale';
+  if (/BOUCLE|LOOP/.test(etik)) return 'chug';
+  if (/TICK|MÉTAL|METAL/.test(etik) && voix !== 'metal') return 'ping';
+  if (voix === 'metal') return /MÉTAL|METAL/.test(etik) ? 'enclume' : 'vcsl-brakedrum';
+  if (/GLITCH|MACHINE|BANDE|TAPE|CLIQUETIS|RATTLE|LFO/.test(etik)) return GLITCH[numero % GLITCH.length] ?? 'glitch-3';
+  if (/GRAIN|MICRO/.test(etik)) return 'plip';
+  if (/CLAQUEMENT|SNAP/.test(etik)) return 'snap';
+  if (/CLIC|CLICK|IMPULS/.test(etik)) return 'clic';
+  if (/WOOD\s?BLOCK/.test(etik)) return 'vcsl-woodblock';
   return PAR_KIT[kit][voix] ?? COMMUNS[voix] ?? null;
-}
-
-/** Tous les fichiers dont un motif a besoin. */
-export function fichiersDuMotif(motif: Motif, kit: Kit): string[] {
-  const noms = new Set<string>();
-  for (const p of motif.pistes) {
-    const a = accordeDe(p);
-    if (a) a.notes.forEach((n) => noms.add(n.nom));
-    else {
-      const f = fichierDe(p.voix, kit, p);
-      if (f) noms.add(f);
-    }
-  }
-  return [...noms];
-}
-
-/** La note enregistree la plus proche d'une hauteur, et le rapport de
-    vitesse qui l'y amene. */
-export function plusProche(a: Accorde, midi: number): { nom: string; vitesse: number; tenue: number } {
-  let meilleure = a.notes[0] ?? { nom: '', midi };
-  for (const n of a.notes) if (Math.abs(n.midi - midi) < Math.abs(meilleure.midi - midi)) meilleure = n;
-  return { nom: meilleure.nom, vitesse: Math.pow(2, (midi - meilleure.midi) / 12), tenue: a.tenue };
 }
 
 /* LE CACHE. Un fichier se telecharge et se decode une fois par visite ; le

@@ -1,31 +1,36 @@
-/* LE SON DES AFFICHES DE RYTHME : UN PETIT STUDIO, SANS AUCUN ECHANTILLON.
+/* LE SON DES AFFICHES DE RYTHME : UN PETIT STUDIO QUI NE LIT QUE DES
+   ENREGISTREMENTS.
 
    Mika, le 30 octobre 2026, apres la premiere version : « c'est bien, mais
-   avec les sons, parce que c'est ca qui fait la difference ». La premiere
-   version jouait la batterie et une basse sur une seule note : un metronome.
-   Celle-ci joue de la musique : la tonalite et la gamme du style, ses
-   accords, une basse qui bouge, une melodie, une reverberation et un echo
-   dosés par style, la pompe du kick sur tout ce qui est tenu, et la forme
-   d'un morceau de club (rythme/arrangement.ts).
+   avec les sons, parce que c'est ca qui fait la difference ». Puis le 16
+   novembre 2026 : « les sons sont horribles et ne refletent pas du tout le
+   style », et : « remplace aussi les accords et les basses par des samples,
+   refais la totale ».
 
-   TOUT EST FABRIQUE ICI, avec les oscillateurs et le bruit du navigateur :
-   pas un fichier a telecharger, pas une licence a tenir, pas un son emprunte
-   a quelqu'un. Un charley est six ondes carrees desaccordees dans un filtre,
-   comme dans une 808 ; un Rhodes est une sinusoide modulee par une autre ;
-   une 303 est une dent de scie dans un filtre resonant qui se referme.
+   PLUS AUCUN OSCILLATEUR. Chaque frappe et chaque note est un fichier de
+   public/sons : les batteries des vraies machines (echantillons.ts), et
+   pour tout ce qui a une hauteur, une bibliotheque d'instruments choisis
+   style par style (instruments.ts) : la basse Juno de la deep house, la
+   basse roulante de la psytrance, la 303, la reese, l'accord de dub techno,
+   le piano M1, l'orgue du garage, les cordes, les nappes. Une note joue
+   l'enregistrement le plus proche de sa hauteur, relu un peu plus vite ou
+   un peu plus lentement. Le studio garde ce qui n'est pas un son mais un
+   traitement : la reverberation, l'echo a la croche pointee, la pompe du
+   kick, la saturation et le compresseur du bus.
 
    L'HORLOGE EST CELLE DE L'AUDIO. Les notes sont programmees un peu en
    avance sur l'horloge du contexte, jamais sur un minuteur de page : un
    minuteur derive des qu'un onglet ralentit, l'audio non. Le dessin lit la
    meme horloge. Et parce que la programmation ne depend que du contexte, la
-   meme fonction remplit un contexte hors ligne : c'est ainsi que le test
-   mesure le niveau de sortie de chaque style sans haut-parleur. */
+   meme fonction remplit un contexte hors ligne : c'est ainsi qu'on mesure
+   le niveau de sortie de chaque style sans haut-parleur. */
 
 import type { Motif, Piste, Voix } from '../../lib/rythmes.ts';
 import { VOIX_D_ACCORD, VOIX_MELODIQUES } from '../../lib/rythmes.ts';
-import { accord, degre, demiTons, frequence } from './theorie.ts';
+import { accord, degre, demiTons } from './theorie.ts';
 import { dureeDuPas, etatAu, pasParTemps, plan, type Cycle } from './arrangement.ts';
-import { accordeDe, charger, fichierDe, fichiersDuMotif, kitDuMotif, plusProche, type Kit } from './echantillons.ts';
+import { charger, fichierDe, KICKS_DURS, kitDuMotif } from './echantillons.ts';
+import { INSTRUMENTS, sonAccorde, zoneDe, type Son } from './instruments.ts';
 
 export { dureeDuPas } from './arrangement.ts';
 
@@ -53,42 +58,70 @@ const CANAL: Record<Voix, Canal> = {
 
 /* LE DOSAGE DE CHAQUE CANAL : son niveau, et ce qu'il envoie dans la
    reverberation et l'echo quand le style a tout son espace. Le kick et la
-   basse restent secs : un grave reverbere devient une bouillie. */
+   basse restent secs : un grave reverbere devient une bouillie. Les
+   instruments accordes sont egalises a -18 dB efficaces a la construction ;
+   les frappes, a -1 dB de crete : d'ou des niveaux de canal differents. */
 const DOSAGE: Record<Canal, { niveau: number; reverb: number; echo: number; pompe: boolean }> = {
-  kick: { niveau: 0.95, reverb: 0.02, echo: 0, pompe: false },
-  caisse: { niveau: 0.55, reverb: 0.35, echo: 0.08, pompe: false },
-  metal: { niveau: 0.42, reverb: 0.18, echo: 0.1, pompe: false },
-  percu: { niveau: 0.45, reverb: 0.3, echo: 0.2, pompe: false },
-  basse: { niveau: 0.4, reverb: 0.02, echo: 0, pompe: true },
-  accords: { niveau: 0.32, reverb: 0.55, echo: 0.3, pompe: true },
-  lead: { niveau: 0.3, reverb: 0.45, echo: 0.4, pompe: true },
-  fx: { niveau: 0.35, reverb: 0.6, echo: 0, pompe: false },
+  kick: { niveau: 0.9, reverb: 0.02, echo: 0, pompe: false },
+  caisse: { niveau: 0.65, reverb: 0.35, echo: 0.08, pompe: false },
+  metal: { niveau: 0.45, reverb: 0.18, echo: 0.1, pompe: false },
+  percu: { niveau: 0.5, reverb: 0.3, echo: 0.2, pompe: false },
+  basse: { niveau: 0.75, reverb: 0.02, echo: 0, pompe: true },
+  accords: { niveau: 0.6, reverb: 0.55, echo: 0.3, pompe: true },
+  lead: { niveau: 0.75, reverb: 0.45, echo: 0.4, pompe: true },
+  fx: { niveau: 0.5, reverb: 0.6, echo: 0, pompe: false },
 };
+
+/* LE GAIN DE CHAQUE SON, mesure au banc d'essai le 16 novembre 2026. Les
+   batteries sont ramenees a -1 dB de crete, mais leur energie varie de 7 dB
+   d'une machine a l'autre (le kick de la 909 Detroit est tout en attaque,
+   celui de la 808 tout en queue) ; une note courte (la basse roulante de la
+   psytrance, l'accord de dub techno) a moins d'energie sur la mesure qu'une
+   note tenue. Le but : un kick devant, la basse deux ou trois dB dessous,
+   les accords six a huit dB dessous, comme dans un mix de club. */
+const GAIN_SON: Record<string, number> = {
+  'tr909-kick': 1.3, 'lm2-kick': 1.3, 'break-kick': 1.3, 'cr78-kick': 1.4, 'sp909-kick': 1.1,
+  'kick-gabber': 0.6, 'kick-uptempo': 0.65, 'kick-hardstyle': 0.55, 'kick-dur': 0.85, 'kick-psy': 0.9, 'kick-caverne': 0.8,
+  'tr808-snare': 2, 'tr808-hat': 2, 'tr909-snare': 1.3, 'tr909-clap': 1.3, 'sp909-clap': 1.6, 'cr78-snare': 1.4, 'break-snare': 1.2,
+  'tr808-clap': 1.1, 'tr909-hat': 1.2, 'sp909-hat': 1.3, 'tr505-hat': 1.3, 'tr909-tom': 0.6,
+  'basse-303': 1.8, 'basse-303-accent': 1.8, 'basse-reverse': 2, 'basse-roll': 1.6, 'basse-fm': 1.2, 'sub-sinus': 1.3,
+  'accord-dub': 3, 'stab': 2, 'stab-rave': 1.6, 'orgue-m1': 2, rhodes: 0.3, piano: 0.6, 'piano-rave': 1, arpege: 0.8, cordes: 1.6,
+  lead: 1.6, 'lead-moog': 1.3, supersaw: 1.3, hoover: 4.5, screech: 1.6,
+};
+
+/* Les fichiers communs : deux salles (reponses impulsionnelles stereo d'une
+   reverberation zita), la montee de bruit blanc et l'impact du drop. */
+const SALLE_COURTE = 'salle-courte';
+const SALLE_LONGUE = 'salle-longue';
+const MONTEE = 'fx-montee';
+const IMPACT = 'fx-impact';
 
 interface Studio {
   readonly ac: BaseAudioContext;
   readonly motif: Motif;
-  readonly famille: string;
-  readonly bruit: AudioBuffer;
   readonly canaux: Record<Canal, GainNode>;
   readonly pompe: GainNode;
   /** La derniere hauteur jouee par piste, pour les glissandos de la 303. */
   readonly derniere: Map<number, number>;
-  /** Les sons enregistres decodes (echantillons.ts), et le kit du style. */
+  /** Les fichiers decodes, et ce que joue chaque piste. */
   readonly banque: Map<string, AudioBuffer>;
-  readonly kit: Kit;
+  readonly sons: readonly (Son | null)[];
 }
 
-function bruitBlanc(ac: BaseAudioContext): AudioBuffer {
-  const b = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate);
-  const d = b.getChannelData(0);
-  for (let i = 0; i < d.length; i += 1) d[i] = Math.random() * 2 - 1;
-  return b;
+/** Ce que joue chaque piste du motif : un instrument accorde, une frappe, ou rien. */
+export function sonsDuMotif(motif: Motif, famille: string): (Son | null)[] {
+  const kit = kitDuMotif(motif, famille);
+  return motif.pistes.map((p, i) => {
+    const accorde = sonAccorde(p, motif, famille);
+    if (accorde) return accorde;
+    const f = fichierDe(p.voix, kit, p, motif, famille, i);
+    return f ? { frappe: f } : null;
+  });
 }
 
-/* LA REVERBERATION : une reponse impulsionnelle fabriquee, du bruit stereo
-   qui decroit en exponentielle. Assez pour une salle, sans fichier. */
-function salle(ac: BaseAudioContext, secondes: number): AudioBuffer {
+/* Si une salle manque (reseau coupe), une reverberation de secours : du
+   bruit stereo qui decroit. Ce n'est pas un son, c'est une piece. */
+function salleDeSecours(ac: BaseAudioContext, secondes: number): AudioBuffer {
   const n = Math.round(ac.sampleRate * secondes);
   const b = ac.createBuffer(2, n, ac.sampleRate);
   for (let c = 0; c < 2; c += 1) {
@@ -108,7 +141,7 @@ function courbe(k: number): Float32Array<ArrayBuffer> {
   return c;
 }
 
-function monterStudio(ac: BaseAudioContext, motif: Motif, famille: string, sortie: AudioNode, banque: Map<string, AudioBuffer>, kit: Kit): Studio {
+function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, banque: Map<string, AudioBuffer>, sons: readonly (Son | null)[]): Studio {
   const espace = motif.espace ?? 0.4;
   const grain = motif.grain ?? 0.2;
 
@@ -123,14 +156,23 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, famille: string, sorti
   compresseur.release.value = 0.12;
   const maitre = ac.createGain();
   /* Plus un style est sature, plus il est dense et sonne fort a crete
-     egale : le gabber sortait 10 dB au-dessus de la deep house. Le volume
-     general baisse avec le grain pour que passer d'un style a l'autre ne
-     surprenne pas l'oreille. */
-  maitre.gain.value = 0.95 * (1 - grain * 0.4);
-  sature.connect(compresseur).connect(maitre).connect(sortie);
+     egale. Le volume general baisse avec le grain pour que passer d'un
+     style a l'autre ne surprenne pas l'oreille ; un style sans kick
+     (ambient, drone) remonte d'autant qu'il lui manque son instrument le
+     plus fort. */
+  maitre.gain.value = 0.95 * (1 - grain * 0.4) * (motif.pistes.some((p) => p.voix === 'kick') ? 1 : 1.6);
+  /* LE LIMITEUR, en tout dernier : rien ne sort au-dessus de -1 dB, quel
+     que soit l'empilement des sons. */
+  const limiteur = ac.createDynamicsCompressor();
+  limiteur.threshold.value = -2;
+  limiteur.knee.value = 0;
+  limiteur.ratio.value = 20;
+  limiteur.attack.value = 0.002;
+  limiteur.release.value = 0.08;
+  sature.connect(compresseur).connect(maitre).connect(limiteur).connect(sortie);
 
   const reverb = ac.createConvolver();
-  reverb.buffer = salle(ac, 1.6 + espace * 2.2);
+  reverb.buffer = banque.get(espace > 0.5 ? SALLE_LONGUE : SALLE_COURTE) ?? salleDeSecours(ac, 1.6 + espace * 2.2);
   const retourReverb = ac.createGain();
   retourReverb.gain.value = 0.5;
   reverb.connect(retourReverb).connect(sature);
@@ -152,22 +194,29 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, famille: string, sorti
   const pompe = ac.createGain();
   pompe.connect(sature);
 
+  /* Le kick d'une machine passe par une saturation a lui dans les styles
+     sales ; un kick de gabber ou de hardstyle est deja sature a la
+     construction et n'y passe pas. */
+  const kick = sons.find((x, i) => motif.pistes[i]?.voix === 'kick' && x && 'frappe' in x);
+  const kickDejaDur = !!kick && 'frappe' in kick && KICKS_DURS.has(kick.frappe);
+
   const canaux = {} as Record<Canal, GainNode>;
   for (const nom of Object.keys(DOSAGE) as Canal[]) {
     const d = DOSAGE[nom];
     const g = ac.createGain();
     g.gain.value = d.niveau;
     let sortieCanal: AudioNode = g;
-    /* Le kick des styles durs passe par sa propre saturation, bien plus
-       forte que celle du bus : c'est le kick de gabber, pas tout le mix. */
-    if (nom === 'kick' && grain > 0.45) {
+    if (nom === 'kick' && grain > 0.45 && !kickDejaDur) {
       const dur = ac.createWaveShaper();
-      dur.curve = courbe(2 + grain * 14);
+      dur.curve = courbe(1.5 + grain * 6);
       const apres = ac.createGain();
-      apres.gain.value = 0.6;
+      apres.gain.value = 0.7;
       g.connect(dur).connect(apres);
       sortieCanal = apres;
     }
+    /* Sous un kick de gabber ou de hardstyle, la caisse et les charleys
+       remontent de 6 dB : sinon ce kick les avale. */
+    if (kickDejaDur && (nom === 'caisse' || nom === 'metal')) g.gain.value = d.niveau * 2;
     sortieCanal.connect(d.pompe ? pompe : sature);
     const envoiR = ac.createGain();
     envoiR.gain.value = d.reverb * (0.25 + espace);
@@ -177,62 +226,72 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, famille: string, sorti
     sortieCanal.connect(envoiE).connect(echo);
     canaux[nom] = g;
   }
-  return { ac, motif, famille, bruit: bruitBlanc(ac), canaux, pompe, derniere: new Map(), banque, kit };
+  return { ac, motif, canaux, pompe, derniere: new Map(), banque, sons };
 }
 
-/* ── Les briques ─────────────────────────────────────────────────────── */
+/* ── La lecture ──────────────────────────────────────────────────────── */
 
-function enveloppe(s: Studio, t: number, crete: number, attaque: number, chute: number, sortie: AudioNode): GainNode {
-  const g = s.ac.createGain();
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.exponentialRampToValueAtTime(Math.max(0.0002, crete), t + attaque);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + attaque + chute);
-  g.connect(sortie);
-  return g;
+interface Lecture {
+  readonly vitesse?: number;
+  /** Une glissade de la 303 : la vitesse de depart, qui rejoint `vitesse`. */
+  readonly depuis?: number;
+  /** La fin de la note : le son s'efface alors en `relache` secondes. */
+  readonly fin?: number;
+  readonly relache?: number;
+  readonly desaccord?: number;
+  readonly panoramique?: number;
+  /** Ou commencer dans le fichier, en secondes. */
+  readonly decalage?: number;
 }
 
-function souffle(s: Studio, sortie: AudioNode, t: number, crete: number, chute: number, type: BiquadFilterType, f: number, q = 1, attaque = 0.001): void {
+function lireFichier(s: Studio, nom: string, sortie: AudioNode, t: number, niveau: number, l: Lecture = {}): boolean {
+  const b = s.banque.get(nom);
+  if (!b) return false;
   const src = s.ac.createBufferSource();
-  src.buffer = s.bruit;
-  const filtre = s.ac.createBiquadFilter();
-  filtre.type = type;
-  filtre.frequency.value = f;
-  filtre.Q.value = q;
-  src.connect(filtre).connect(enveloppe(s, t, crete, attaque, chute, sortie));
-  src.start(t, Math.random() * 1.5);
-  src.stop(t + attaque + chute + 0.05);
+  src.buffer = b;
+  const vitesse = l.vitesse ?? 1;
+  if (l.depuis !== undefined) {
+    src.playbackRate.setValueAtTime(l.depuis, t);
+    src.playbackRate.exponentialRampToValueAtTime(vitesse, t + 0.05);
+  } else {
+    src.playbackRate.value = vitesse;
+  }
+  if (l.desaccord) src.detune.value = l.desaccord;
+  const g = s.ac.createGain();
+  g.gain.setValueAtTime(niveau, t);
+  const finDuFichier = t + (b.duration - (l.decalage ?? 0)) / vitesse;
+  let arret = finDuFichier;
+  if (l.fin !== undefined && l.fin < finDuFichier) {
+    const r = Math.max(0.008, l.relache ?? 0.04);
+    g.gain.setValueAtTime(niveau, l.fin);
+    g.gain.linearRampToValueAtTime(0, l.fin + r);
+    arret = Math.min(finDuFichier, l.fin + r + 0.01);
+  }
+  let dernier: AudioNode = g;
+  if (l.panoramique && s.ac.createStereoPanner) {
+    const p = s.ac.createStereoPanner();
+    p.pan.value = l.panoramique;
+    g.connect(p);
+    dernier = p;
+  }
+  src.connect(g);
+  dernier.connect(sortie);
+  src.start(t, l.decalage ?? 0);
+  src.stop(arret + 0.02);
+  return true;
 }
 
-function oscillateur(s: Studio, forme: OscillatorType, f: number, t: number, fin: number, sortie: AudioNode, detune = 0): OscillatorNode {
-  const o = s.ac.createOscillator();
-  o.type = forme;
-  o.frequency.setValueAtTime(f, t);
-  o.detune.value = detune;
-  o.connect(sortie);
-  o.start(t);
-  o.stop(fin);
-  return o;
-}
+/** La force d'un pas en gain : un pas fort a 1, un pas normal un peu en dessous. */
+const velocite = (force: number): number => 0.35 + 0.65 * force;
 
-function filtre(s: Studio, type: BiquadFilterType, f: number, q: number, sortie: AudioNode): BiquadFilterNode {
-  const b = s.ac.createBiquadFilter();
-  b.type = type;
-  b.frequency.value = f;
-  b.Q.value = q;
-  b.connect(sortie);
-  return b;
-}
-
-/* Les six carres d'un charley de 808, desaccordes en rapports non
-   harmoniques : un metal, pas une note. */
-const CARRES = [2, 3, 4.16, 5.43, 6.79, 8.21];
-function metallique(s: Studio, sortie: AudioNode, t: number, crete: number, chute: number, passeHaut: number): void {
-  const hp = filtre(s, 'highpass', passeHaut, 0.7, enveloppe(s, t, crete, 0.001, chute, sortie));
-  const bp = filtre(s, 'bandpass', 10000, 0.8, hp);
-  for (const r of CARRES) oscillateur(s, 'square', 40 * r, t, t + chute + 0.05, bp);
-}
-
-/* ── Les voix ────────────────────────────────────────────────────────── */
+/* Le niveau de depart de chaque voix accordee, a energie egale. Une nappe
+   tenue s'entend plus qu'un pluck a la meme energie ; une sous-basse moins
+   qu'une basse sur un petit haut-parleur. */
+const NIVEAU: Partial<Record<Voix, number>> = {
+  sub: 1.15, bass: 1, reese: 0.95, logdrum: 1, acid: 0.8,
+  pad: 0.7, strings: 0.75, organ: 0.8, chord: 0.85, stab: 0.95, piano: 0.9, rhodes: 0.95,
+  pluck: 0.95, arp: 0.85, lead: 0.8, hoover: 0.75, vocal: 0.85,
+};
 
 interface Coup {
   readonly t: number;
@@ -243,658 +302,48 @@ interface Coup {
   readonly midi: readonly number[];
   readonly piste: number;
   readonly p: Piste;
+  /** Le pas precedent de la piste sonnait aussi : la 303 y glisse. */
+  readonly lie: boolean;
 }
 
-/* LES SONS ENREGISTRES passent avant le synthetiseur quand ils sont la. Une
-   frappe joue son fichier tel quel, a la force du pas ; un instrument
-   accorde (piano, piano FM, marimba) joue la note enregistree la plus
-   proche, accelere ou ralenti jusqu'a la hauteur voulue, et s'eteint a la
-   frappe suivante de sa piste. */
-function lireFichier(s: Studio, nom: string, sortie: AudioNode, t: number, niveau: number, vitesse = 1, fin?: number): boolean {
-  const b = s.banque.get(nom);
-  if (!b) return false;
-  const src = s.ac.createBufferSource();
-  src.buffer = b;
-  src.playbackRate.value = vitesse;
-  const g = s.ac.createGain();
-  g.gain.setValueAtTime(niveau, t);
-  if (fin !== undefined) {
-    g.gain.setValueAtTime(niveau, fin);
-    g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.25);
+function jouerSon(s: Studio, c: Coup): void {
+  const son = s.sons[c.piste];
+  if (!son) return;
+  const canal = CANAL[c.p.voix];
+  const sortie = s.canaux[canal];
+  if ('frappe' in son) {
+    const doux = c.p.voix === 'hat' || c.p.voix === 'shaker';
+    lireFichier(s, son.frappe, sortie, c.t, (doux ? 0.75 : 0.95) * (GAIN_SON[son.frappe] ?? 1) * velocite(c.force));
+    return;
   }
-  src.connect(g).connect(sortie);
-  src.start(t);
-  if (fin !== undefined) src.stop(fin + 0.3);
-  return true;
-}
-
-function jouerEnregistre(s: Studio, voix: Voix, c: Coup): boolean {
-  const sortie = s.canaux[CANAL[voix]];
-  /* Les kicks de gabber, hardcore ou psytrance sont synthetises sur mesure. */
-  if (voix === 'kick' && (s.famille === 'hardcore' || s.famille === 'psy' || (s.motif.grain ?? 0) >= 0.85)) {
-    return false;
-  }
-  const a = accordeDe(c.p);
-  if (a) {
-    let joue = false;
-    const niveau = (0.55 / Math.sqrt(c.midi.length)) * c.force;
-    for (const m of c.midi) {
-      const n = plusProche(a, m);
-      joue = lireFichier(s, n.nom, sortie, c.t, niveau, n.vitesse, c.t + Math.min(n.tenue, Math.max(0.3, c.duree * 1.5))) || joue;
+  const id = son.accent && c.force >= 1 ? son.accent : son.instrument;
+  const inst = INSTRUMENTS[id];
+  if (!inst) return;
+  /* Un accord enregistre d'un bloc se joue sur la fondamentale. */
+  const notes = inst.mode === 'fige' ? [Math.min(...c.midi)] : c.midi;
+  const fin =
+    inst.mode === 'tenu' ? c.t + Math.max(0.06, c.duree * 0.92) :
+    inst.mode === 'libre' ? c.t + (canal === 'basse' ? c.duree : Math.max(0.4, c.duree * 2.5)) :
+    c.t + Math.max(0.25, c.duree * 1.5);
+  const niveau = ((NIVEAU[c.p.voix] ?? 0.9) * (GAIN_SON[id] ?? 1) * velocite(c.force)) / Math.sqrt(notes.length);
+  for (const m of notes) {
+    const z = zoneDe(id, m);
+    if (!z) continue;
+    let depuis: number | undefined;
+    if (c.p.voix === 'acid') {
+      /* La 303 glisse de la note precedente quand les deux pas se touchent. */
+      const prec = s.derniere.get(c.piste);
+      if (prec !== undefined && c.lie && prec !== m && Math.abs(prec - m) <= 12) depuis = z.vitesse * Math.pow(2, (prec - m) / 12);
+      s.derniere.set(c.piste, m);
     }
-    return joue;
-  }
-  const nom = fichierDe(voix, s.kit, c.p);
-  if (!nom) return false;
-  const niveau = (voix === 'hat' || voix === 'shaker' ? 0.65 : 0.88) * c.force;
-  if (!lireFichier(s, nom, sortie, c.t, niveau)) return false;
-  /* Un kick enregistre gagne en assise de club avec une courte sous-basse
-     sinusoidale sous son attaque. */
-  if (voix === 'kick') {
-    const o = oscillateur(s, 'sine', 105, c.t, c.t + 0.36, enveloppe(s, c.t, 0.42 * c.force, 0.003, 0.28, sortie));
-    o.frequency.exponentialRampToValueAtTime(47, c.t + 0.075);
-  }
-  return true;
-}
-
-function jouerVoix(s: Studio, voix: Voix, c: Coup): void {
-  if (jouerEnregistre(s, voix, c)) return;
-  const { t, force, duree } = c;
-  const sortie = s.canaux[CANAL[voix]];
-  const f0 = frequence(c.midi[0] ?? 45);
-  const grain = s.motif.grain ?? 0.2;
-  const inst = `${s.motif.instruments.fr} ${s.motif.instruments.en} ${s.motif.resume.fr} ${s.motif.resume.en}`.toUpperCase();
-  const etik = `${c.p.fr} ${c.p.en}`.toUpperCase();
-  const est808 = /808/.test(inst) || /808/.test(etik) || s.famille === 'electro';
-  const estBreak = /BREAK|AMEN/.test(etik) || /AMEN/.test(inst);
-
-  switch (voix) {
-    case 'kick': {
-      if (s.famille === 'hardcore' || /GABBER|HARDCORE|TERROR|UPTEMPO|SPEEDCORE/.test(etik) || grain >= 0.8) {
-        /* Le kick gabber / hardcore : attaque percante qui plonge de 340 Hz
-           vers un corps carre/sinus distordu qui gronde sur toute la noire. */
-        const tenue = Math.min(0.46, Math.max(0.24, duree * 0.92));
-        const g = enveloppe(s, t, 0.95 * force, 0.001, tenue, sortie);
-        const o = oscillateur(s, 'sine', 340, t, t + tenue + 0.05, g);
-        o.frequency.exponentialRampToValueAtTime(95, t + 0.028);
-        o.frequency.exponentialRampToValueAtTime(52, t + tenue);
-        const carre = oscillateur(s, 'square', 110, t, t + tenue + 0.04, filtre(s, 'lowpass', 420, 2.8, enveloppe(s, t, 0.38 * force, 0.002, tenue * 0.85, sortie)));
-        carre.frequency.exponentialRampToValueAtTime(52, t + 0.04);
-        souffle(s, sortie, t, 0.35 * force, 0.014, 'bandpass', 2800, 1.5);
-        break;
-      }
-      if (s.famille === 'psy') {
-        /* Le kick psytrance : un balayage sinusoidal ultra-propre et tendu,
-           de 280 Hz a 46 Hz en 55 ms, avec un clic sec au sommet. */
-        const g = enveloppe(s, t, force, 0.001, 0.22, sortie);
-        const o = oscillateur(s, 'sine', 280, t, t + 0.25, g);
-        o.frequency.exponentialRampToValueAtTime(46, t + 0.055);
-        souffle(s, sortie, t, 0.18 * force, 0.006, 'highpass', 4800);
-        break;
-      }
-      if (est808) {
-        /* Le kick TR-808 : attaque douce et longue fondamentale ronde. */
-        const tenue = Math.min(0.65, Math.max(0.38, duree * 1.1));
-        const g = enveloppe(s, t, force, 0.003, tenue, sortie);
-        const o = oscillateur(s, 'sine', 130, t, t + tenue + 0.06, g);
-        o.frequency.exponentialRampToValueAtTime(43, t + 0.09);
-        oscillateur(s, 'triangle', 86, t, t + 0.05, enveloppe(s, t, 0.22 * force, 0.001, 0.04, sortie));
-        break;
-      }
-      /* Le kick TR-909 (house, techno, trance) : punch franc a 185 Hz,
-         descente rapide a 49 Hz et clic d'attaque net. */
-      const g = enveloppe(s, t, force, 0.0015, 0.38, sortie);
-      const o = oscillateur(s, 'sine', 185, t, t + 0.44, g);
-      o.frequency.exponentialRampToValueAtTime(49, t + 0.075);
-      oscillateur(s, 'triangle', 120, t, t + 0.06, enveloppe(s, t, 0.25 * force, 0.001, 0.045, sortie));
-      souffle(s, sortie, t, 0.24 * force, 0.01, 'highpass', 3600);
-      break;
-    }
-    case 'snare': {
-      if (/BALAIS|BRUSH/.test(etik)) {
-        souffle(s, sortie, t, 0.48 * force, 0.28, 'bandpass', 2600, 0.9, 0.018);
-        break;
-      }
-      if (/BRUIT|NOISE|IMPACT/.test(etik)) {
-        souffle(s, sortie, t, 0.78 * force, 0.26, 'bandpass', 1600, 0.8);
-        const o = oscillateur(s, 'sine', 140, t, t + 0.22, enveloppe(s, t, 0.55 * force, 0.001, 0.18, sortie));
-        o.frequency.exponentialRampToValueAtTime(58, t + 0.14);
-        break;
-      }
-      if (estBreak || s.famille === 'breaks' || s.famille === 'bass') {
-        /* Caisse claire de breakbeat / Amen : fondamentale haute a 235 Hz,
-           timbre sec et claquant. */
-        const o = oscillateur(s, 'triangle', 235, t, t + 0.16, enveloppe(s, t, 0.65 * force, 0.001, 0.1, sortie));
-        o.frequency.exponentialRampToValueAtTime(175, t + 0.04);
-        souffle(s, sortie, t, 0.78 * force, 0.17, 'bandpass', 2900, 0.85);
-        souffle(s, sortie, t, 0.35 * force, 0.09, 'highpass', 5800);
-        break;
-      }
-      if (est808) {
-        /* Caisse claire 808 : deux oscillateurs accordes et un souffle court. */
-        oscillateur(s, 'triangle', 180, t, t + 0.14, enveloppe(s, t, 0.5 * force, 0.001, 0.1, sortie));
-        oscillateur(s, 'sine', 330, t, t + 0.1, enveloppe(s, t, 0.3 * force, 0.001, 0.07, sortie));
-        souffle(s, sortie, t, 0.65 * force, 0.15, 'highpass', 2400);
-        break;
-      }
-      /* Caisse claire 909 : deux tons qui tombent et un timbre large. */
-      const o1 = oscillateur(s, 'triangle', 205, t, t + 0.2, enveloppe(s, t, 0.52 * force, 0.001, 0.12, sortie));
-      o1.frequency.exponentialRampToValueAtTime(145, t + 0.05);
-      const o2 = oscillateur(s, 'sine', 340, t, t + 0.12, enveloppe(s, t, 0.28 * force, 0.001, 0.08, sortie));
-      o2.frequency.exponentialRampToValueAtTime(220, t + 0.04);
-      souffle(s, sortie, t, 0.72 * force, 0.2, 'bandpass', 2200, 0.7);
-      souffle(s, sortie, t, 0.28 * force, 0.13, 'highpass', 5800);
-      break;
-    }
-    case 'clap':
-      /* Le clap 909 / 808 : quatre micro-impulsions serrees puis la traine. */
-      for (const d of [0, 0.008, 0.016, 0.025]) souffle(s, sortie, t + d, 0.75 * force, 0.011, 'bandpass', 1250, 1.3);
-      souffle(s, sortie, t + 0.028, 0.85 * force, est808 ? 0.26 : 0.19, 'bandpass', 1350, 1.1);
-      break;
-    case 'rim':
-      if (/CLIC|CLICK|IMPULS|SNAP|CLAQUEMENT/.test(etik)) {
-        souffle(s, sortie, t, 0.5 * force, 0.012, 'bandpass', 4200, 2.5);
-        oscillateur(s, 'sine', 2400, t, t + 0.018, enveloppe(s, t, 0.35 * force, 0.0005, 0.014, sortie));
-        break;
-      }
-      /* Rimshot 909 / 808 : deux frequences boisees tres courtes. */
-      oscillateur(s, 'triangle', 1680, t, t + 0.045, filtre(s, 'bandpass', 1750, 3.5, enveloppe(s, t, 0.42 * force, 0.0008, 0.03, sortie)));
-      oscillateur(s, 'square', 460, t, t + 0.035, filtre(s, 'bandpass', 500, 2.5, enveloppe(s, t, 0.22 * force, 0.0008, 0.022, sortie)));
-      break;
-    case 'tom': {
-      const fTom = /AIGU|HIGH/.test(etik) ? 230 : /GRAVE|LOW|TIMBALE|TIMPANI|IMPACT/.test(etik) ? 105 : f0 * 2 > 60 ? Math.min(210, f0 * 2) : 145;
-      const tenue = /TIMBALE|TIMPANI|IMPACT/.test(etik) ? 0.55 : 0.34;
-      const o = oscillateur(s, 'sine', fTom, t, t + tenue + 0.08, enveloppe(s, t, 0.8 * force, 0.002, tenue, sortie));
-      o.frequency.exponentialRampToValueAtTime(fTom * 0.58, t + tenue * 0.75);
-      break;
-    }
-    case 'hat':
-      if (/BRUIT|NOISE|ROBINET|TAP/.test(etik)) {
-        souffle(s, sortie, t, 0.42 * force, 0.08, 'bandpass', 3800, 1.2);
-        break;
-      }
-      if (/CLIC|CLICK/.test(etik)) {
-        souffle(s, sortie, t, 0.45 * force, 0.01, 'highpass', 8500);
-        break;
-      }
-      if (estBreak) {
-        souffle(s, sortie, t, 0.48 * force, 0.055, 'bandpass', 8200, 1.1);
-        metallique(s, sortie, t, 0.25 * force, 0.04, 7200);
-        break;
-      }
-      metallique(s, sortie, t, 0.42 * force, est808 ? 0.038 : 0.048, est808 ? 7600 : 6800);
-      souffle(s, sortie, t, 0.16 * force, 0.035, 'highpass', 8500);
-      break;
-    case 'openhat':
-      metallique(s, sortie, t, 0.36 * force, est808 ? 0.36 : 0.28, 6500);
-      souffle(s, sortie, t, 0.18 * force, 0.24, 'highpass', 8000);
-      break;
-    case 'ride':
-      metallique(s, sortie, t, 0.22 * force, 0.65, 4500);
-      souffle(s, sortie, t, 0.1 * force, 0.48, 'bandpass', 8800, 0.8);
-      break;
-    case 'shaker':
-      souffle(s, sortie, t, 0.4 * force, 0.07, 'bandpass', 7500, 1.6, 0.012);
-      break;
-    case 'cowbell': {
-      /* La cloche 808 : 540 Hz et 800 Hz en ondes carrees filtrees. */
-      const bp = filtre(s, 'bandpass', 1950, 1.6, enveloppe(s, t, 0.32 * force, 0.001, 0.24, sortie));
-      oscillateur(s, 'square', 540, t, t + 0.3, bp);
-      oscillateur(s, 'square', 800, t, t + 0.3, bp);
-      break;
-    }
-    case 'metal': {
-      /* Impact metallique ou gong (industrie, techno, ambient). */
-      const tenue = /GONG/.test(etik) ? 1.1 : 0.45;
-      const base = /GONG/.test(etik) ? 190 : 310;
-      const g = enveloppe(s, t, 0.35 * force, 0.001, tenue, sortie);
-      const porteuse = oscillateur(s, 'sine', base, t, t + tenue + 0.05, filtre(s, 'bandpass', base * 6.5, 1.2, g));
-      const mod = s.ac.createOscillator();
-      mod.frequency.value = base * 2.76;
-      const indice = s.ac.createGain();
-      indice.gain.setValueAtTime(900, t);
-      indice.gain.exponentialRampToValueAtTime(40, t + tenue * 0.85);
-      mod.connect(indice).connect(porteuse.frequency);
-      mod.start(t);
-      mod.stop(t + tenue + 0.05);
-      souffle(s, sortie, t, 0.2 * force, 0.15, 'highpass', 4000);
-      break;
-    }
-    case 'conga':
-    case 'bongo':
-    case 'perc': {
-      if (/BOUCLE|LOOP/.test(etik)) {
-        /* Boucle percussive / chug industriel (schranz, hardgroove, techno) :
-           impulsion basse saturee et souffle metallique court qui pompe. */
-        const tenue = Math.min(0.14, Math.max(0.07, duree * 0.72));
-        const g = enveloppe(s, t, 0.58 * force, 0.002, tenue, sortie);
-        const bp = filtre(s, 'bandpass', 480 + 420 * force, 2.4, g);
-        const o = oscillateur(s, 'sawtooth', 135, t, t + tenue + 0.03, bp);
-        o.frequency.exponentialRampToValueAtTime(78, t + tenue);
-        souffle(s, sortie, t, 0.46 * force, tenue * 0.85, 'bandpass', 1850, 1.8, 0.003);
-        break;
-      }
-      if (/BANDE|TAPE|MACHINE|LFO|PORTI|CAR DOOR|CLIQUETIS|RATTLE|TICK/.test(etik)) {
-        /* Texture mecanique, boucle de bande ou LFO rythmique. */
-        const tenue = Math.min(0.18, Math.max(0.06, duree * 0.65));
-        const fCentre = /BANDE|TAPE/.test(etik) ? 950 : /PORTI|CAR DOOR/.test(etik) ? 320 : 2400;
-        souffle(s, sortie, t, 0.42 * force, tenue, 'bandpass', fCentre, 2.6, 0.004);
-        const o = oscillateur(s, 'triangle', fCentre * 0.45, t, t + tenue + 0.03, enveloppe(s, t, 0.34 * force, 0.001, tenue * 0.7, sortie));
-        o.frequency.exponentialRampToValueAtTime(fCentre * 0.22, t + tenue * 0.7);
-        break;
-      }
-      if (/AMEN|BREAK/.test(etik)) {
-        /* Tranche de breakbeat : alternance de caisse fantome et de charley. */
-        if (force > 0.75) {
-          const o = oscillateur(s, 'triangle', 225, t, t + 0.12, enveloppe(s, t, 0.48 * force, 0.001, 0.08, sortie));
-          o.frequency.exponentialRampToValueAtTime(165, t + 0.035);
-          souffle(s, sortie, t, 0.55 * force, 0.12, 'bandpass', 2800, 0.9);
-        } else {
-          souffle(s, sortie, t, 0.38 * force, 0.045, 'bandpass', 7200, 1.2);
-        }
-        break;
-      }
-      if (/CLIC|CLICK|GLITCH|MICRO|GRAIN|IMPULS|PAPIER|PAPER/.test(etik)) {
-        const fClic = 2200 + ((c.piste * 977) % 3600);
-        souffle(s, sortie, t, 0.45 * force, 0.016, 'bandpass', fClic, 3.2);
-        oscillateur(s, 'sine', fClic * 0.8, t, t + 0.02, enveloppe(s, t, 0.28 * force, 0.0005, 0.015, sortie));
-        break;
-      }
-      if (/GRINCEMENT|SQUEAK/.test(etik)) {
-        /* Le bed squeak du Jersey club : un glissando aigu qui couine. */
-        const g = enveloppe(s, t, 0.32 * force, 0.008, 0.14, sortie);
-        const o = oscillateur(s, 'sawtooth', 620, t, t + 0.16, filtre(s, 'bandpass', 1450, 4.5, g));
-        o.frequency.exponentialRampToValueAtTime(980, t + 0.07);
-        o.frequency.exponentialRampToValueAtTime(540, t + 0.14);
-        break;
-      }
-      if (/SCRATCH/.test(etik)) {
-        const g = enveloppe(s, t, 0.42 * force, 0.004, 0.12, sortie);
-        const o = oscillateur(s, 'sawtooth', 320, t, t + 0.14, filtre(s, 'bandpass', 1800, 2.2, g));
-        o.frequency.exponentialRampToValueAtTime(1100, t + 0.06);
-        o.frequency.exponentialRampToValueAtTime(260, t + 0.12);
-        souffle(s, sortie, t, 0.25 * force, 0.09, 'bandpass', 2600, 1.5);
-        break;
-      }
-      const f = voix === 'conga' ? 210 : voix === 'bongo' ? 380 : /TABLA/.test(etik) ? 260 : 540;
-      const o = oscillateur(s, 'sine', f * 1.25, t, t + 0.3, enveloppe(s, t, 0.7 * force, 0.002, voix === 'conga' ? 0.22 : 0.14, sortie));
-      o.frequency.exponentialRampToValueAtTime(f, t + 0.025);
-      souffle(s, sortie, t, 0.12 * force, 0.01, 'bandpass', 3000, 1);
-      break;
-    }
-    case 'clave':
-      oscillateur(s, 'sine', 2500, t, t + 0.08, enveloppe(s, t, 0.45 * force, 0.001, 0.05, sortie));
-      break;
-
-    case 'bass': {
-      const fin = t + Math.max(0.12, duree * 0.9);
-      if (/WOBBLE|GROWL|WARP|MARTEAU|HAMMER/.test(etik)) {
-        /* Basse dubstep / brostep / speed garage : modulation d'ouverture de
-           filtre et de timbre FM au tempo du pas. */
-        const lp = s.ac.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.Q.value = 5.5;
-        lp.frequency.setValueAtTime(180, t);
-        lp.frequency.exponentialRampToValueAtTime(2400 * force, t + duree * 0.45);
-        lp.frequency.exponentialRampToValueAtTime(210, fin);
-        const g = s.ac.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.55 * force, t + 0.008);
-        g.gain.setValueAtTime(0.55 * force, fin - 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.04);
-        lp.connect(g).connect(sortie);
-        const p = oscillateur(s, 'sawtooth', f0, t, fin + 0.05, lp);
-        const mod = s.ac.createOscillator();
-        mod.type = 'sine';
-        mod.frequency.value = f0 * 2;
-        const idx = s.ac.createGain();
-        idx.gain.setValueAtTime(f0 * 3.5 * force, t);
-        idx.gain.exponentialRampToValueAtTime(f0 * 0.4, fin);
-        mod.connect(idx).connect(p.frequency);
-        mod.start(t);
-        mod.stop(fin + 0.05);
-        oscillateur(s, 'sine', f0 / 2, t, fin + 0.05, g);
-        break;
-      }
-      if (/REVERSE/.test(etik)) {
-        /* Reverse bass (hardstyle / hard trance) : le volume et le filtre
-           montent vers le contretemps au lieu de decroitre. */
-        const lp = s.ac.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.Q.value = 4;
-        lp.frequency.setValueAtTime(180, t);
-        lp.frequency.exponentialRampToValueAtTime(1900, fin - 0.01);
-        const g = s.ac.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.62 * force, fin - 0.015);
-        g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.025);
-        lp.connect(g).connect(sortie);
-        oscillateur(s, 'sawtooth', f0, t, fin + 0.04, lp, -6);
-        oscillateur(s, 'sawtooth', f0, t, fin + 0.04, lp, 6);
-        break;
-      }
-      if (/DONK|FM|DX7/.test(etik) || (/ORGUE M1|M1 ORGAN/.test(inst) && s.famille === 'house')) {
-        /* Basse FM percussive (DX7 / Korg M1 Organ 2 / Donk) : fondamentale
-           modulee a l'attaque avec un rapport 1:2 ou 1:3. */
-        const g = enveloppe(s, t, 0.58 * force, 0.002, Math.max(0.16, duree * 0.85), sortie);
-        const p = oscillateur(s, 'sine', f0, t, fin + 0.05, g);
-        const mod = s.ac.createOscillator();
-        mod.frequency.value = f0 * (/DONK/.test(etik) ? 3 : 2);
-        const idx = s.ac.createGain();
-        idx.gain.setValueAtTime(f0 * 2.8 * force, t);
-        idx.gain.exponentialRampToValueAtTime(f0 * 0.1, t + 0.14);
-        mod.connect(idx).connect(p.frequency);
-        mod.start(t);
-        mod.stop(fin + 0.05);
-        break;
-      }
-      if (s.famille === 'psy' || /SLAP|SÉQUENCE|SEQUENCE|SH-101|ARP/.test(etik)) {
-        /* Basse roulante (psytrance KBBB, SH-101, EBM) : attaque ultra-nette,
-           une seule dent de scie + sous-octave, enveloppe de filtre rapide. */
-        const tenue = Math.max(0.08, duree * 0.78);
-        const lp = s.ac.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.Q.value = 3.5;
-        lp.frequency.setValueAtTime(320 + 2100 * force, t);
-        lp.frequency.exponentialRampToValueAtTime(160, t + tenue);
-        const g = enveloppe(s, t, 0.62 * force, 0.002, tenue, sortie);
-        lp.connect(g);
-        oscillateur(s, 'sawtooth', f0, t, t + tenue + 0.03, lp);
-        oscillateur(s, 'square', f0 / 2, t, t + tenue + 0.03, lp);
-        break;
-      }
-      if (/SAW/.test(etik) || grain >= 0.55) {
-        /* Basse electro house / industrial saturee : trois dents de scie
-           desaccordees et filtre mordant. */
-        const lp = s.ac.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.Q.value = 4.2;
-        lp.frequency.setValueAtTime(420 + 2200 * force, t);
-        lp.frequency.exponentialRampToValueAtTime(260, t + 0.18);
-        const g = s.ac.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.55 * force, t + 0.004);
-        g.gain.setValueAtTime(0.55 * force, fin - 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.04);
-        lp.connect(g).connect(sortie);
-        for (const d of [-10, 0, 10]) oscillateur(s, 'sawtooth', f0, t, fin + 0.05, lp, d);
-        oscillateur(s, 'square', f0 / 2, t, fin + 0.05, lp);
-        break;
-      }
-      if (s.famille === 'disco' || s.famille === 'downtempo' || /DUB/.test(etik)) {
-        /* Basse ronde et chaude (basse electrique disco, dub bass, Juno) :
-           triangle + dent de scie filtree bas, peu de resonance. */
-        const lp = s.ac.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.Q.value = 1.6;
-        lp.frequency.setValueAtTime(/DUB/.test(etik) ? 280 : 520 + 600 * force, t);
-        lp.frequency.exponentialRampToValueAtTime(180, t + 0.22);
-        const g = s.ac.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.6 * force, t + 0.006);
-        g.gain.setValueAtTime(0.6 * force, fin - 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.05);
-        lp.connect(g).connect(sortie);
-        oscillateur(s, 'triangle', f0, t, fin + 0.06, lp);
-        oscillateur(s, 'sawtooth', f0, t, fin + 0.06, lp, 4);
-        break;
-      }
-      /* Basse synth analogique classique (Juno-106 / Minimoog). */
-      const lp = s.ac.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = 3;
-      lp.frequency.setValueAtTime(260 + 1500 * force, t);
-      lp.frequency.exponentialRampToValueAtTime(220, t + 0.16);
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.55 * force, t + 0.005);
-      g.gain.setValueAtTime(0.55 * force, fin - 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.04);
-      lp.connect(g).connect(sortie);
-      oscillateur(s, 'sawtooth', f0, t, fin + 0.05, lp);
-      oscillateur(s, 'square', f0 / 2, t, fin + 0.05, lp);
-      break;
-    }
-    case 'sub': {
-      const fin = t + Math.max(0.15, duree * 0.95);
-      if (/RUMBLE/.test(etik)) {
-        /* Le rumble techno : un grave sourd et filtre qui roule sous le kick. */
-        const lp = filtre(s, 'lowpass', 140, 2.2, enveloppe(s, t, 0.55 * force, 0.015, Math.max(0.16, duree), sortie));
-        oscillateur(s, 'sawtooth', f0, t, fin + 0.06, lp);
-        oscillateur(s, 'sine', f0, t, fin + 0.06, lp);
-        break;
-      }
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.6 * force, t + 0.01);
-      g.gain.setValueAtTime(0.6 * force, fin - 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.05);
-      g.connect(sortie);
-      oscillateur(s, 'sine', f0, t, fin + 0.06, g);
-      /* Un leger harmonique second pour qu'on entende le sub sur petit haut-parleur. */
-      oscillateur(s, 'triangle', f0 * 2, t, fin + 0.06, filtre(s, 'lowpass', 190, 1, enveloppe(s, t, 0.16 * force, 0.01, Math.max(0.12, duree * 0.8), sortie)));
-      break;
-    }
-    case 'reese': {
-      const fin = t + Math.max(0.2, duree * 0.95);
-      const lp = s.ac.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = 2.6;
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.42 * force, t + 0.02);
-      g.gain.setValueAtTime(0.42 * force, fin - 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.06);
-      lp.connect(g).connect(sortie);
-      lp.frequency.setValueAtTime(340, t);
-      lp.frequency.linearRampToValueAtTime(1050, fin);
-      for (const d of [-16, 0, 15]) oscillateur(s, 'sawtooth', f0, t, fin + 0.08, lp, d);
-      oscillateur(s, 'sine', f0 / 2, t, fin + 0.08, g);
-      break;
-    }
-    case 'logdrum': {
-      /* Le log drum de l'amapiano : une note grave qui tombe d'une quarte
-         en vingt millisecondes, courte, legerement saturee. */
-      const g = enveloppe(s, t, 0.9 * force, 0.002, Math.min(0.32, duree + 0.08), sortie);
-      const o = oscillateur(s, 'sine', f0 * 1.34, t, t + 0.4, g);
-      o.frequency.exponentialRampToValueAtTime(f0, t + 0.02);
-      oscillateur(s, 'triangle', f0 * 2, t, t + 0.12, enveloppe(s, t, 0.18 * force, 0.001, 0.06, sortie));
-      break;
-    }
-    case 'acid': {
-      const fin = t + Math.max(0.1, duree * 0.85);
-      const lp = s.ac.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = 16;
-      lp.frequency.setValueAtTime(force > 0.8 ? 3400 : 1350, t);
-      lp.frequency.exponentialRampToValueAtTime(240, t + 0.18);
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.32 * force, t + 0.004);
-      g.gain.setValueAtTime(0.32 * force, fin - 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.03);
-      lp.connect(g).connect(sortie);
-      const o = oscillateur(s, 'sawtooth', s.derniere.get(c.piste) ?? f0, t, fin + 0.05, lp);
-      /* Le glissando de la 303 : on part de la note precedente. */
-      o.frequency.exponentialRampToValueAtTime(f0, t + 0.045);
-      s.derniere.set(c.piste, f0);
-      break;
-    }
-
-    case 'stab':
-    case 'chord':
-    case 'organ':
-    case 'strings':
-    case 'pad': {
-      const estSupersaw = /SUPERSAW|JP-8000|VIRUS/.test(etik) || (s.famille === 'trance' && (voix === 'chord' || voix === 'stab'));
-      const estDub = /DUB|SKANK/.test(etik);
-      const estCuivre = /CUIVRE|BRASS/.test(etik);
-      const estOrch = /ORCH/.test(etik);
-      const estGuitare = /GUITAR|CLAVINET/.test(etik);
-      const reglages = {
-        stab: {
-          forme: 'sawtooth' as const,
-          attaque: estCuivre ? 0.028 : 0.003,
-          tenue: estOrch ? 0.28 : estDub ? 0.12 : estCuivre ? 0.22 : 0.16,
-          coupe: estOrch ? 3600 : estDub ? 1900 : estCuivre ? 2400 : 2800,
-          niveau: estOrch ? 0.14 : 0.11,
-        },
-        chord: {
-          forme: estGuitare ? ('square' as const) : ('sawtooth' as const),
-          attaque: estGuitare ? 0.003 : 0.01,
-          tenue: estDub || estGuitare ? Math.min(0.18, duree * 0.7) : Math.max(0.25, duree),
-          coupe: estSupersaw ? 3400 : estGuitare ? 2600 : 1600,
-          niveau: 0.095,
-        },
-        organ: { forme: 'sine' as const, attaque: 0.005, tenue: estDub ? 0.14 : Math.max(0.18, duree * 0.88), coupe: 4200, niveau: 0.085 },
-        strings: { forme: 'sawtooth' as const, attaque: 0.18, tenue: Math.max(0.6, duree), coupe: 2200, niveau: 0.07 },
-        pad: { forme: 'sawtooth' as const, attaque: 0.35, tenue: Math.max(1.2, duree), coupe: /MELLOTRON/.test(etik) ? 1650 : 1150, niveau: 0.08 },
-      }[voix];
-      const fin = t + reglages.attaque + reglages.tenue;
-      const lp = s.ac.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = estDub ? 4.5 : estGuitare ? 2.8 : 1.4;
-      lp.frequency.setValueAtTime(voix === 'stab' ? reglages.coupe * 1.6 : reglages.coupe, t);
-      if (voix === 'stab' || estGuitare) lp.frequency.exponentialRampToValueAtTime(estDub ? 480 : 700, t + 0.14);
-      if (estOrch) souffle(s, sortie, t, 0.28 * force, 0.14, 'bandpass', 2400, 1.2, 0.002);
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(reglages.niveau * force, t + reglages.attaque);
-      g.gain.setValueAtTime(reglages.niveau * force, fin);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + (voix === 'pad' || voix === 'strings' ? 0.6 : 0.08));
-      lp.connect(g).connect(sortie);
-      for (const m of c.midi) {
-        const f = frequence(m);
-        const stop = fin + 0.7;
-        if (voix === 'organ') {
-          /* L'orgue M1 / House : fondamentale, octave et quinte (tirette 1, 2, 3). */
-          for (const [h, niv] of [[1, 1], [2, 0.75], [3, 0.55]] as const) {
-            oscillateur(s, 'sine', f * h, t, stop, enveloppe(s, t, niv, 0.003, reglages.tenue + 0.06, lp));
-          }
-        } else if (estSupersaw) {
-          for (const d of [-18, -7, 0, 7, 18]) oscillateur(s, 'sawtooth', f, t, stop, lp, d);
-        } else {
-          oscillateur(s, reglages.forme, f, t, stop, lp, -7);
-          if (voix !== 'stab') oscillateur(s, reglages.forme, f, t, stop, lp, 7);
-        }
-      }
-      break;
-    }
-    case 'rhodes':
-    case 'piano':
-      /* Le Rhodes : une sinusoide modulee par une autre, dont l'indice
-         retombe vite ; c'est la cloche de l'attaque puis le rond qui reste.
-         Le piano prend une modulation plus dure et plus courte. */
-      for (const m of c.midi) {
-        const f = frequence(m);
-        const tenue = voix === 'rhodes' ? Math.max(0.6, duree * 1.2) : Math.max(0.5, duree);
-        const g = enveloppe(s, t, (voix === 'rhodes' ? 0.17 : 0.16) * force, 0.003, tenue, sortie);
-        const p = oscillateur(s, 'sine', f, t, t + tenue + 0.1, g);
-        const mod = s.ac.createOscillator();
-        mod.frequency.value = f * (voix === 'rhodes' ? 1 : 2);
-        const indice = s.ac.createGain();
-        indice.gain.setValueAtTime(f * (voix === 'rhodes' ? 1.6 : 2.4), t);
-        indice.gain.exponentialRampToValueAtTime(f * 0.05, t + (voix === 'rhodes' ? 0.5 : 0.25));
-        mod.connect(indice).connect(p.frequency);
-        mod.start(t);
-        mod.stop(t + tenue + 0.1);
-      }
-      break;
-
-    case 'pluck':
-    case 'arp': {
-      if (/BLEEP|CARILLON|MUSIC BOX|CLOCHE|BELL/.test(etik)) {
-        /* Le bleep de Sheffield ou la cloche FM : sinusoide pure ou FM cristalline. */
-        const tenue = 0.22;
-        const g = enveloppe(s, t, 0.34 * force, 0.002, tenue, sortie);
-        const p = oscillateur(s, 'sine', f0, t, t + tenue + 0.05, g);
-        if (/CLOCHE|BELL|CARILLON|MUSIC BOX/.test(etik)) {
-          const mod = s.ac.createOscillator();
-          mod.frequency.value = f0 * 3.5;
-          const idx = s.ac.createGain();
-          idx.gain.setValueAtTime(f0 * 1.8, t);
-          idx.gain.exponentialRampToValueAtTime(10, t + tenue);
-          mod.connect(idx).connect(p.frequency);
-          mod.start(t);
-          mod.stop(t + tenue + 0.05);
-        }
-        break;
-      }
-      if (/CHIPTUNE/.test(etik)) {
-        const tenue = 0.14;
-        oscillateur(s, 'square', f0, t, t + tenue + 0.03, enveloppe(s, t, 0.3 * force, 0.001, tenue, sortie));
-        break;
-      }
-      const tenue = voix === 'arp' ? 0.15 : 0.24;
-      const lp = s.ac.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = 2.4;
-      lp.frequency.setValueAtTime(voix === 'arp' ? 5400 : 4200, t);
-      lp.frequency.exponentialRampToValueAtTime(520, t + tenue);
-      lp.connect(enveloppe(s, t, 0.36 * force, 0.002, tenue, sortie));
-      oscillateur(s, 'sawtooth', f0, t, t + tenue + 0.05, lp, -5);
-      oscillateur(s, 'sawtooth', f0, t, t + tenue + 0.05, lp, 5);
-      oscillateur(s, 'triangle', f0 * 2, t, t + tenue + 0.05, lp);
-      break;
-    }
-    case 'lead':
-    case 'hoover':
-    case 'vocal': {
-      const fin = t + Math.max(0.12, duree * 0.9);
-      const g = s.ac.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      const estScreech = /SCREECH/.test(etik);
-      const estSupersaw = /SUPERSAW/.test(etik) || s.famille === 'trance';
-      const niveau = (voix === 'hoover' ? 0.13 : voix === 'vocal' ? 0.6 : estScreech ? 0.18 : 0.15) * force;
-      g.gain.exponentialRampToValueAtTime(niveau, t + 0.01);
-      g.gain.setValueAtTime(niveau, fin - 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.08);
-      g.connect(sortie);
-      if (voix === 'vocal') {
-        if (/SCRATCH/.test(etik)) {
-          const bp = filtre(s, 'bandpass', 1700, 2.5, g);
-          const o = oscillateur(s, 'sawtooth', f0, t, fin + 0.08, bp);
-          o.frequency.exponentialRampToValueAtTime(f0 * 2.2, t + 0.05);
-          o.frequency.exponentialRampToValueAtTime(f0 * 0.7, fin);
-          break;
-        }
-        if (/CRIS|SCREAM/.test(etik) || s.famille === 'hardcore' || grain >= 0.7) {
-          /* Voix / cri percussif techno ou hardcore : formants tendus et souffle. */
-          const f1 = filtre(s, 'bandpass', 920, 5.5, g);
-          const f2 = filtre(s, 'bandpass', 1850, 5.5, g);
-          for (const d of [-11, 11]) {
-            const o = oscillateur(s, 'sawtooth', f0, t, fin + 0.08, f1, d);
-            o.connect(f2);
-          }
-          souffle(s, sortie, t, 0.22 * force, Math.min(0.12, duree * 0.7), 'bandpass', 1600, 2.2, 0.004);
-          break;
-        }
-        /* Une voix hachee / talkbox : deux formants de voyelle sur une dent de scie. */
-        const f1 = filtre(s, 'bandpass', /TALKBOX/.test(etik) ? 620 : 750, 7, g);
-        const f2 = filtre(s, 'bandpass', /TALKBOX/.test(etik) ? 1480 : 1200, 7, g);
-        const o = oscillateur(s, 'sawtooth', f0, t, fin + 0.1, f1);
-        o.connect(f2);
-        break;
-      }
-      if (estScreech) {
-        /* Le screech hardcore : dents de scie tres desaccordees dans un filtre
-           passe-bande resonant qui glisse vers le haut. */
-        const bp = filtre(s, 'bandpass', 1900, 3.8, g);
-        for (const d of [-35, -14, 14, 35]) {
-          const o = oscillateur(s, 'sawtooth', f0 * 1.5, t, fin + 0.08, bp, d);
-          o.frequency.exponentialRampToValueAtTime(f0 * 1.85, t + 0.07);
-        }
-        break;
-      }
-      const lp = filtre(s, 'lowpass', voix === 'hoover' ? 2400 : estSupersaw ? 4400 : 3200, estSupersaw ? 1.8 : 1, g);
-      const ecarts = voix === 'hoover' ? [-28, -9, 9, 28] : estSupersaw ? [-22, -10, 0, 10, 22] : [-6, 6];
-      for (const d of ecarts) {
-        const o = oscillateur(s, 'sawtooth', voix === 'hoover' ? f0 * 0.89 : f0, t, fin + 0.1, lp, d);
-        /* Le hoover monte de deux demi-tons a l'attaque, sa signature. */
-        if (voix === 'hoover') o.frequency.exponentialRampToValueAtTime(f0, t + 0.08);
-      }
-      oscillateur(s, 'square', f0 / 2, t, fin + 0.1, lp);
-      break;
+    const base: Lecture = { vitesse: z.vitesse, fin, relache: inst.relache ?? 0.04, ...(depuis === undefined ? {} : { depuis }) };
+    if (inst.large) {
+      /* Deux lectures desaccordees de quelques cents, ecartees a gauche et a
+         droite : la largeur d'un chorus, sans un oscillateur. */
+      lireFichier(s, z.nom, sortie, c.t, niveau * 0.72, { ...base, desaccord: -7, panoramique: -0.55 });
+      lireFichier(s, z.nom, sortie, c.t, niveau * 0.72, { ...base, desaccord: 7, panoramique: 0.55 });
+    } else {
+      lireFichier(s, z.nom, sortie, c.t, niveau, base);
     }
   }
 }
@@ -943,40 +392,66 @@ function jusquALaSuivante(piste: Piste, pas: number, duree: number): number {
   return 4 * duree;
 }
 
+/** Le nombre de pas d'une mesure : douze en 12/8, seize sinon. */
+const pasDeMesure = (motif: Motif): number => (motif.pas === 12 ? 12 : 16);
+
+/** Tous les fichiers dont un motif a besoin, et rien de plus : pour chaque
+    instrument accorde, seulement les zones que ses notes atteignent, sur
+    toute la grille d'accords. Un style charge ainsi quelques centaines de
+    kilo-octets, pas toute la bibliotheque. */
+export function fichiersDuMotif(motif: Motif, famille: string, construire = true): string[] {
+  const sons = sonsDuMotif(motif, famille);
+  const noms = new Set<string>([(motif.espace ?? 0.4) > 0.5 ? SALLE_LONGUE : SALLE_COURTE]);
+  if (construire) {
+    noms.add(MONTEE);
+    noms.add(IMPACT);
+  }
+  const mesures = Math.max(1, motif.accords?.length ?? 1);
+  const parMesure = pasDeMesure(motif);
+  motif.pistes.forEach((piste, i) => {
+    const son = sons[i];
+    if (!son) return;
+    if ('frappe' in son) {
+      noms.add(son.frappe);
+      return;
+    }
+    const ids = [son.instrument, ...(son.accent ? [son.accent] : [])];
+    /* Le couple (pas, accord) revient au bout de motif.pas x mesures pas. */
+    for (let p = 0; p < motif.pas * mesures; p += 1) {
+      const pas = p % motif.pas;
+      if ((piste.pas[pas] ?? 0) === 0) continue;
+      const midi = hauteurs(motif, piste, pas, Math.floor(p / parMesure));
+      for (const id of ids) {
+        const notes = INSTRUMENTS[id]?.mode === 'fige' ? [Math.min(...midi)] : midi;
+        for (const m of notes) {
+          const z = zoneDe(id, m);
+          if (z) noms.add(z.nom);
+        }
+      }
+    }
+  });
+  return [...noms];
+}
+
 /** Programme tout ce qui sonne au pas global `p`, a l'instant `t`. */
 function programmerLePas(s: Studio, motif: Motif, cycles: readonly Cycle[] | null, p: number, t: number): void {
   const n = motif.pas;
   const duree = dureeDuPas(motif);
   const pas = p % n;
-  const mesure = Math.floor(p / (n === 12 ? 12 : 16));
+  const mesure = Math.floor(p / pasDeMesure(motif));
   const etat = cycles ? etatAu(motif, cycles, p) : null;
   if (etat?.silence) return;
   const swing = n !== 12 && pas % 2 === 1 ? (motif.swing ?? 0) * duree : 0;
 
-  if (etat?.impact) {
-    /* L'impact du drop : un souffle large et un sub qui tombe. */
-    souffle(s, s.canaux.fx, t, 0.6, 1.4, 'highpass', 900);
-    const o = oscillateur(s, 'sine', 90, t, t + 1.2, enveloppe(s, t, 0.7, 0.003, 1, s.canaux.fx));
-    o.frequency.exponentialRampToValueAtTime(32, t + 0.9);
-  }
+  /* L'impact du drop, enregistre. */
+  if (etat?.impact) lireFichier(s, IMPACT, s.canaux.fx, t, 0.9);
   if (etat?.section === 'montee' && pas === 0) {
-    /* La montee : un bruit blanc dont le filtre s'ouvre jusqu'au silence. */
+    /* La montee : un bruit blanc dont le filtre s'ouvre, rendu sur huit
+       secondes ; on en lit la fin, pour qu'il culmine juste avant le
+       silence qui precede le drop. */
     const longueur = (n - pasParTemps(motif)) * duree;
-    const src = s.ac.createBufferSource();
-    src.buffer = s.bruit;
-    src.loop = true;
-    const bp = s.ac.createBiquadFilter();
-    bp.type = 'bandpass';
-    bp.Q.value = 1.4;
-    bp.frequency.setValueAtTime(350, t);
-    bp.frequency.exponentialRampToValueAtTime(7000, t + longueur);
-    const g = s.ac.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.4, t + longueur);
-    g.gain.setValueAtTime(0.0001, t + longueur + 0.001);
-    src.connect(bp).connect(g).connect(s.canaux.fx);
-    src.start(t);
-    src.stop(t + longueur + 0.05);
+    const b = s.banque.get(MONTEE);
+    if (b) lireFichier(s, MONTEE, s.canaux.fx, t, 0.75, { decalage: Math.max(0, b.duration - longueur), fin: t + longueur, relache: 0.01 });
   }
 
   const roulement = etat?.section === 'montee' ? motif.pistes.findIndex((x) => x.voix === 'snare' || x.voix === 'clap') : -1;
@@ -999,8 +474,9 @@ function programmerLePas(s: Studio, motif: Motif, cycles: readonly Cycle[] | nul
       midi: hauteurs(motif, piste, pas, mesure),
       piste: i,
       p: piste,
+      lie: (piste.pas[(pas - 1 + n) % n] ?? 0) > 0,
     };
-    jouerVoix(s, piste.voix, coup);
+    jouerSon(s, coup);
     if (piste.voix === 'kick') {
       /* La pompe : tout ce qui est tenu s'efface sous le kick et revient. */
       s.pompe.gain.cancelScheduledValues(coup.t);
@@ -1018,8 +494,7 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
      attente : Safari refuse de faire sonner un contexte cree apres. */
   const ac = new AudioContext({ latencyHint: 'playback' });
   if (ac.state === 'suspended') void ac.resume();
-  const kit = kitDuMotif(motif, options.famille);
-  const banque = await charger(ac, fichiersDuMotif(motif, kit));
+  const banque = await charger(ac, fichiersDuMotif(motif, options.famille, options.construire ?? false));
   /* L'ENREGISTREMENT SE FAIT EN SILENCE : le son va dans la video, pas dans
      les haut-parleurs. Mika, le 30 octobre 2026 : « arrete de jouer la
      musique dans les speakers ». La sortie d'enregistrement suffit a faire
@@ -1027,7 +502,7 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
   const sortie = options.enregistrer ? ac.createMediaStreamDestination() : null;
   const bus = ac.createGain();
   bus.connect(sortie ?? ac.destination);
-  const s = monterStudio(ac, motif, options.famille, bus, banque, kit);
+  const s = monterStudio(ac, motif, bus, banque, sonsDuMotif(motif, options.famille));
   const cycles = options.construire ? plan(motif) : null;
 
   const duree = dureeDuPas(motif);
@@ -1055,8 +530,8 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
 /** Le meme morceau rendu hors ligne, pour mesurer ce qui sort. */
 export async function rendre(motif: Motif, secondes: number, famille: string, construire = true): Promise<AudioBuffer> {
   const ac = new OfflineAudioContext(2, Math.round(44100 * secondes), 44100);
-  const kit = kitDuMotif(motif, famille);
-  const s = monterStudio(ac, motif, famille, ac.destination, await charger(ac, fichiersDuMotif(motif, kit)), kit);
+  const banque = await charger(ac, fichiersDuMotif(motif, famille, construire));
+  const s = monterStudio(ac, motif, ac.destination, banque, sonsDuMotif(motif, famille));
   const cycles = construire ? plan(motif) : null;
   const duree = dureeDuPas(motif);
   for (let p = 0; p * duree < secondes; p += 1) programmerLePas(s, motif, cycles, p, 0.05 + p * duree);

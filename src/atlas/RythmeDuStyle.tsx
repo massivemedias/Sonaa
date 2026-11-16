@@ -10,7 +10,8 @@
    « Ecouter » et la video jouent le morceau construit (rythme/arrangement.ts) :
    le drop, la montee, un temps de silence, le drop qui revient. Au repos,
    l'affiche tourne sur le motif entier, sans le son. Les sons enregistres du
-   style (rythme/echantillons.ts) se chargent au premier clic.
+   style (batteries : rythme/echantillons.ts ; basses, accords, nappes et
+   melodies : rythme/instruments.ts, ADR-122) se chargent au premier clic.
 
    LE MOUVEMENT S'ARRETE HORS DE L'ECRAN, et quand le visiteur a demande moins
    de mouvement : l'affiche reste alors posee sur le premier temps, et ne
@@ -136,7 +137,7 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
   };
 
   /* LA VIDEO : la meme toile en 1080 x 1350, filmee a 30 images par seconde
-     pendant que le synthetiseur joue, son compris. On prefere le MP4 avec un
+     pendant que le moteur joue, son compris. On prefere le MP4 avec un
      son AAC, que Instagram prend tel quel ; a defaut, le MP4 du navigateur,
      puis le WebM.
 
