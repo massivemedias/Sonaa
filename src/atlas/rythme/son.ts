@@ -87,7 +87,11 @@ const GAIN_SON: Record<string, number> = {
   'basse-303': 1.8, 'basse-303-accent': 1.8, 'basse-reverse': 2, 'basse-roll': 1.6, 'basse-fm': 1.2, 'sub-sinus': 1.3,
   'accord-dub': 3, 'stab': 2, 'stab-rave': 1.6, 'orgue-m1': 2, rhodes: 0.3, piano: 0.6, 'piano-rave': 1, arpege: 0.8, cordes: 1.6,
   lead: 1.6, 'lead-moog': 1.3, supersaw: 1.3, hoover: 4.5, screech: 1.6,
+  'kick-hitech': 1.4, 'basse-hitech': 1, 'lead-zap': 2.2,
 };
+
+/* Les kicks si gros qu'ils avalent la caisse et les charleys. */
+const KICKS_ENORMES: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle']);
 
 /* Les fichiers communs : deux salles (reponses impulsionnelles stereo d'une
    reverberation zita), la montee de bruit blanc et l'impact du drop. */
@@ -216,7 +220,7 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, ban
     }
     /* Sous un kick de gabber ou de hardstyle, la caisse et les charleys
        remontent de 6 dB : sinon ce kick les avale. */
-    if (kickDejaDur && (nom === 'caisse' || nom === 'metal')) g.gain.value = d.niveau * 2;
+    if (kick && 'frappe' in kick && KICKS_ENORMES.has(kick.frappe) && (nom === 'caisse' || nom === 'metal')) g.gain.value = d.niveau * 2;
     sortieCanal.connect(d.pompe ? pompe : sature);
     const envoiR = ac.createGain();
     envoiR.gain.value = d.reverb * (0.25 + espace);

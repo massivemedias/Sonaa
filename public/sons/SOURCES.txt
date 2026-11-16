@@ -47,6 +47,7 @@ ligne avec DawDreamer ; ce sont des creations de SONAA, sans echantillon emprunt
   guitare-cocotte, guitare-saturee, lead, lead-moog, lead-fm, screech, hoover,
   pluck, arpege, sequence, bleep, chiptune, cloche, modulaire, voix, talkbox, cris,
   kick-gabber, kick-uptempo, kick-hardstyle, kick-psy, chug, fx-montee,
+  kick-hitech, basse-hitech, charley-fm, charley-fm-ouvert, lead-zap (ADR-123),
   salle-courte, salle-longue (reponses impulsionnelles d'une reverberation zita).
   kick-dur (TR-909 Detroit saturee) et kick-caverne (TR-808 dans une salle zita)
   partent des batteries de la section 1.

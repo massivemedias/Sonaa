@@ -105,10 +105,11 @@ const KICK_DU_STYLE: Record<string, string> = {
   hardtechno: 'kick-dur', schranz: 'kick-dur', industrialtechno: 'kick-dur', bangintechno: 'kick-dur', techtrance: 'kick-dur',
   hardhouse: 'kick-dur', hardtrance: 'kick-dur', rhythmicnoise: 'kick-dur', powerelectronics: 'kick-dur', raggacore: 'kick-dur',
   gqom: 'kick-caverne',
+  hitech: 'kick-hitech',
 };
 
 /** Les kicks deja satures : le moteur ne les repasse pas dans sa distorsion. */
-export const KICKS_DURS: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle', 'kick-dur', 'kick-caverne']);
+export const KICKS_DURS: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle', 'kick-dur', 'kick-caverne', 'kick-hitech']);
 
 const GLITCH = ['glitch-3', 'glitch-2'];
 
@@ -127,6 +128,9 @@ export function fichierDe(voix: Voix, kit: Kit, piste?: Piste, motif?: Motif, fa
     if (dur) return dur;
     if (famille === 'psy' && id !== 'psydub') return 'kick-psy';
   }
+  /* Les charleys FM du hi-tech (FM8), fabriques pour lui. */
+  if (voix === 'hat' && /\bFM\b/.test(etik)) return 'charley-fm';
+  if (voix === 'openhat' && /\bFM\b/.test(etik)) return 'charley-fm-ouvert';
   if (/AMEN|BREAK/.test(etik)) {
     if (voix === 'snare') return 'break-snare';
     if (voix === 'hat') return 'break-hat';

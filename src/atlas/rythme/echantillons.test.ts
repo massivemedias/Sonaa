@@ -109,6 +109,19 @@ describe('le choix des instruments refletent le sous-style', () => {
     expect(fichierDe('perc', kitDuMotif(micro, 'minimal'), { voix: 'perc', fr: 'CLICS', en: 'CLICKS', pas: [2] }, micro, 'minimal')).toBe('clic');
   });
 
+  it('joue le hi-tech avec les sons mesures sur ses morceaux de reference (ADR-123)', () => {
+    expect(instrumentDe('hitech', 'psy', 'kick')).toBe('kick-hitech');
+    expect(instrumentDe('hitech', 'psy', 'hat')).toBe('charley-fm');
+    expect(instrumentDe('hitech', 'psy', 'openhat')).toBe('charley-fm-ouvert');
+    expect(instrumentDe('hitech', 'psy', 'sub')).toBe('basse-hitech');
+    expect(instrumentDe('hitech', 'psy', 'lead')).toBe('lead-zap');
+    const m = motif('hitech');
+    expect(m.bpm).toBe(180);
+    /* la basse roule sur les trois doubles croches qui suivent chaque kick, jamais sur lui */
+    expect(m.pistes.find((p) => p.voix === 'sub')?.pas.join('')).toBe('0222022202220222');
+    expect(m.pistes.some((p) => p.voix === 'snare')).toBe(false);
+  });
+
   it('choisit la zone la plus proche et la vitesse qui y mene', () => {
     const z = zoneDe('piano', 62);
     expect(z?.nom).toBe('piano-60');

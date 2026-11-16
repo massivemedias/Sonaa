@@ -477,6 +477,71 @@ frappe('timbale', lambda: vcsl('Membranophones/Struck Membranophones/Timpani 1/H
 frappe('fx-montee', lambda: F.rendre(F.SOUFFLE, dict(f0=300, f1=9000, duree=8, q=1.4, monte=1), None, 8.0, 8.0, GRAVE), crete=-3.0, taux=GRAVE)
 
 
+# ── LE HI-TECH (ADR-123) ──
+# Mika, le 16 novembre 2026 : « ecoute les meilleurs tracks dans le style et
+# fais quelque chose de simple et relativement similaire avec les bons sons ».
+# Mesures faites sur trois morceaux hi-tech libres d'archive.org (Unreal Sign,
+# Hitech Transmitter, 180 BPM ; Gotavat, Paradigma, 182 BPM ; un mix hi-tech a
+# 200 BPM) : le kick part de 360 Hz, passe 200 Hz a 18 ms, 120 Hz a 40 ms,
+# 60 Hz vers 100 ms ; la basse a sa fondamentale entre 42 et 60 Hz et roule en
+# micro-attaques de 8 a 9 ms, trois par double croche, muette sur le kick.
+TEMPO_HITECH = 180
+
+
+def kick_hitech() -> np.ndarray:
+    """Le kick du hi-tech : court, sec, qui claque, accorde sur la courbe mesuree."""
+    n = int(0.16 * AIGU)
+    t = np.arange(n) / AIGU
+    f = 45 + 220 * np.exp(-t / 0.015) + 110 * np.exp(-t / 0.055)
+    corps = np.sin(2 * np.pi * np.cumsum(f) / AIGU)
+    # il tient 60 ms puis tombe vite : comme les references, ou le corps reste
+    # a -4 dB jusque vers 55 ms et laisse la place a la basse
+    amp = np.minimum(1, t / 0.0006) * np.where(t < 0.06, 1.0, np.exp(-(t - 0.06) / 0.016))
+    clic = passe_haut(np.random.default_rng(7).standard_normal(n), AIGU, 3000) * np.exp(-t / 0.0015) * 0.5
+    return sature(corps * amp + clic, 1.8)
+
+
+def basse_hitech(midi: float) -> np.ndarray:
+    """Une double croche de basse en mitraille : la sous-basse tenue, et trois
+    attaques claires a la triple croche de triolet, chacune un « zap » de
+    filtre qui se referme en quelques millisecondes."""
+    seize = 60 / TEMPO_HITECH / 4
+    n = int(seize * MEDIUM)
+    t = np.arange(n) / MEDIUM
+    f = frequence(midi)
+    # la fondamentale et sa deuxieme harmonique, legerement saturees : la
+    # deuxieme est ce qu'on entend de la basse sur un telephone
+    sub = np.tanh(1.4 * (np.sin(2 * np.pi * f * t) + 0.9 * np.sin(4 * np.pi * f * t))) * np.minimum(1, t / 0.002) * np.minimum(1, (seize - t) / 0.004)
+    zap = np.zeros(n)
+    for k in range(3):
+        note = F.rendre(A, dict(wsaw=1, wsq=0.5, suivi=2, cut=150, envamt=5200, res=0.5, fdec=0.009, fsus=0, pst=7, pdec=0.004,
+                                aatk=0.0005, adec=0.022, asus=0, arel=0.008, drive=2.2, hp=70), f * 2, 0.02, seize / 3, MEDIUM)
+        a = int(k * seize / 3 * MEDIUM)
+        zap[a: a + len(note)] += note[: n - a]
+    return sub + 0.55 * zap / max(1e-9, np.abs(zap).max())
+
+
+def charley_fm(longueur: float) -> np.ndarray:
+    """Le charley FM (FM8) : une porteuse aigue modulee hors harmonie, et un
+    souffle tres aigu, filtres au-dessus de 4 kHz."""
+    x = F.rendre(F.FM, dict(ratio=1.41, idx=9, idxs=9, idec=0.01, aatk=0.0005, adec=longueur, asus=0, arel=0.01), 5200, longueur, longueur * 1.6)
+    n = len(x)
+    t = np.arange(n) / AIGU
+    souffle = np.random.default_rng(3).standard_normal(n) * np.exp(-t / (longueur * 0.6)) * 0.4
+    y = x + souffle
+    return y - passe_bas(y, AIGU, 4200, 4)
+
+
+CATALOGUE['kick-hitech'] = dict(type='coup', fabriquer=kick_hitech, rms=None, crete=-1.0, longueur=None, taux=AIGU, mode='coup', zones=[])
+CATALOGUE['charley-fm'] = dict(type='coup', fabriquer=lambda: charley_fm(0.035), rms=None, crete=-1.0, longueur=None, taux=AIGU, mode='coup', zones=[])
+CATALOGUE['charley-fm-ouvert'] = dict(type='coup', fabriquer=lambda: charley_fm(0.16), rms=None, crete=-1.0, longueur=None, taux=AIGU, mode='coup', zones=[])
+# Une zone par demi-ton : la mitraille est calee sur 180 BPM, la transposer
+# changerait son debit.
+CATALOGUE['basse-hitech'] = dict(type='fonction', fabriquer=basse_hitech, zones=list(range(26, 45)), longueur=None, taux=MEDIUM, mode='libre', relache=0.004, rms=-14, large=False, fondu=0.004)
+# Le laser : une note FM qui plonge de plus d'une octave en 25 ms.
+synthe('lead-zap', A, dict(suivi=1, wsaw=1, wsq=0.6, det=8, cut=900, envamt=6000, res=0.55, fdec=0.05, fsus=0.1, pst=19, pdec=0.025,
+                           aatk=0.001, adec=0.14, asus=0, arel=0.04, drive=3, hp=150), Z_LEAD, 0.15, 0.24, mode='libre')
+
 # Les deux salles : reponses impulsionnelles stereo d'une reverberation zita,
 # lues par le convolueur du navigateur.
 CATALOGUE['salle-courte'] = dict(type='salle', t60=1.6, secondes=2.2, taux=MEDIUM, mode='salle', zones=[])
@@ -500,7 +565,7 @@ def zone(spec: dict, midi: int) -> np.ndarray:
         raise ValueError(t)
     x = np.asarray(x, dtype=np.float64)
     longueur = spec.get('longueur') or spec.get('total')
-    x = couper(x, spec['taux'], seuil_db=-45, longueur=longueur, fondu=0.05 if spec['mode'] != 'tenu' else 0.12)
+    x = couper(x, spec['taux'], seuil_db=-45, longueur=longueur, fondu=spec.get('fondu', 0.05 if spec['mode'] != 'tenu' else 0.12))
     return egaliser(x, spec['taux'], spec['rms'])
 
 

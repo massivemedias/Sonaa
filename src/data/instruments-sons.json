@@ -131,6 +131,31 @@
   ],
   "relache": 0.04
  },
+ "basse-hitech": {
+  "mode": "libre",
+  "zones": [
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44
+  ],
+  "relache": 0.004
+ },
  "basse-juno": {
   "mode": "tenu",
   "zones": [
@@ -282,6 +307,12 @@
    90
   ],
   "relache": 0.15
+ },
+ "charley-fm": {
+  "mode": "coup"
+ },
+ "charley-fm-ouvert": {
+  "mode": "coup"
  },
  "chiptune": {
   "mode": "tenu",
@@ -486,6 +517,9 @@
  "kick-hardstyle": {
   "mode": "coup"
  },
+ "kick-hitech": {
+  "mode": "coup"
+ },
  "kick-psy": {
   "mode": "coup"
  },
@@ -524,6 +558,17 @@
    90
   ],
   "relache": 0.08
+ },
+ "lead-zap": {
+  "mode": "libre",
+  "zones": [
+   66,
+   72,
+   78,
+   84,
+   90
+  ],
+  "relache": 0.04
  },
  "logdrum": {
   "mode": "libre",

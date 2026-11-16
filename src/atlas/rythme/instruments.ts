@@ -131,6 +131,8 @@ function basse(e: string, motif: Motif, famille: string): string {
 }
 
 function sousBasse(e: string): string {
+  /* La basse en mitraille du hi-tech : trois attaques par double croche (ADR-123). */
+  if (/MITRAILLE|MACHINE ?GUN/.test(e)) return 'basse-hitech';
   if (/RUMBLE/.test(e)) return 'rumble';
   if (/808/.test(e)) return 'sub-808';
   if (/BOURDON|DRONE|PÉDALE|PEDAL|GELÉ|FROZEN/.test(e)) return 'basse-bourdon';
@@ -219,6 +221,7 @@ function arpege(e: string, famille: string): string {
 }
 
 function lead(e: string, motif: Motif, famille: string): string {
+  if (/LASER|ZAP/.test(e)) return 'lead-zap';
   if (/LEAD FM|\bFM\b/.test(e)) return 'lead-fm';
   if (/MINIMOOG/.test(e)) return 'lead-moog';
   if (/MÉLODICA|MELODICA/.test(e)) return 'melodica';
