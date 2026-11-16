@@ -1,6 +1,42 @@
 {
- "fait": "2026-11-15T18:57:13.133Z",
+ "fait": "2026-11-16T06:45:21.770Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Xfer Records Shrub: Serum for Free?!",
+   "lien": "https://www.gearnews.com/xfer-records-shrub-serum-synth/",
+   "date": "2026-11-16T06:16:40.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/xfer-records-shrub-T.jpg",
+   "resume": "Xfer Records Shrub is a free version of Serum that runs in your DAW as a VST and also the M-Wave FM-1. But is this really Serum? Like really? Xfer Records Shrub Serum from Xfer Records is undoubtedly one of the most…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Best Controller Deals for Cyber Deals 2026: Native Instruments, Arturia, AKAI & More – Update!",
+   "lien": "https://www.gearnews.com/controller-deals-cyber-deals/",
+   "date": "2026-11-16T03:12:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Controller_v02_EN.jpg",
+   "resume": "Thomann’s massive Cyber Deals sale is the perfect opportunity to save on synths, controllers, drum machines and other exciting gear for your studio or live set. Check out these awesome controller deals for Cyber Deals…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Amazing Synth Deals for Cyber Deals 2026: Moog, AKAI, Behringer & More – Update!",
+   "lien": "https://www.gearnews.com/synth-deals-cyberweek/",
+   "date": "2026-11-16T03:03:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Synth_v02_EN.jpg",
+   "resume": "Thomann’s massive Cyber Deals sale is the perfect opportunity to save on synths, controllers, drum machines and other exciting gear for your studio or live set. Check out these awesome synth deals for Cyber Deals 2026…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Akai and Behringer Bet That Openness Is the Next Feature",
+   "lien": "https://midnightrebels.com/akai-behringer-open-hardware/",
+   "date": "2026-11-15T19:33:12.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/07/Skrillex-shares-his-honest-opinion-on-the-future-of-AI-in-the-music-industry.webp?fit=1280%2C720&ssl=1",
+   "resume": "Two hardware makers opened their instruments to outside developers on back-to-back days. Akai’s official SDK for building MPC plugins was reported on November 12, and Behringer’s developer kit for its AQ64L controller…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "The 5 Virtual Analogue Synths That Kick Started a Revolution",
@@ -20,15 +56,6 @@
    "integral": true
   },
   {
-   "source": "attack",
-   "titre": "How To Deconstruct Any Beat In Ableton Live",
-   "lien": "https://www.attackmagazine.com/technique/tutorials/how-to-deconstruct-any-beat-in-ableton-live/",
-   "date": "2026-11-14T11:56:26.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Tutorials-Nick-Any-Beat-Slice-3-1-1130x386.png",
-   "resume": "Two simple techniques for analysing any beat in Ableton Live and learning to programme better grooves of your own. We break it down. Today we’re going to show you how to break down any beat very quickly using two easy…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "AKAI MPC XL, Yahama SEQ TRACK, Erica Synths FX: Synthesizer Deals You Might Have Missed",
    "lien": "https://www.gearnews.com/synthesizer-deals-you-might-have-missed/",
@@ -44,15 +71,6 @@
    "date": "2026-11-13T18:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2024/03/sequential-circuits-prophet-5-ft.jpg",
    "resume": "These are the iconic synths that made the biggest impact on music – and how you can get their sound even today. All About Iconic Synths Iconic Synths Iconic Synths: The 1960s Iconic Synths: The 1970s Iconic Synths: The…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Audient iD Desktop Range: Enhanced with DSP and Monitor Correction",
-   "lien": "https://www.gearnews.com/audient-id-desktop-range-studio/",
-   "date": "2026-11-13T15:50:07.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/audient-id-desktop-ft.jpg",
-   "resume": "It’s a late drop! The new fully-featured 3rd-generation Audient iD Desktop range is here with four audio interfaces to replace the old ones. The iD audio interface series has been a part of so many musicians’ stories up…",
    "integral": true
   },
   {
@@ -89,15 +107,6 @@
    "date": "2026-11-13T03:00:00.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/SaveClip.App_865986819_18638046484038950_2504865611440574850_n.webp?resize=1160%2C1160&ssl=1",
    "resume": "Remniqe wants one record to work on the runway and in the pit of hell. Iconic Demonic , their four track EP for Quack Squawk Honk, is built around that double image, and it mostly pulls it off. It lands on November 20…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Your Bedroom Is the Weakest Link in Your Studio, and Audient Wants to Fix It",
-   "lien": "https://midnightrebels.com/your-bedroom-is-the-weakest-link-in-your-studio-and-audient-wants-to-fix-it/",
-   "date": "2026-11-12T22:05:27.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/alphatheta-djm-a7-featured.webp?fit=1600%2C898&ssl=1",
-   "resume": "Most home producers upgrade the interface, then mix on speakers sitting in a bedroom that colours everything they play. Audient’s new iD range goes after the room instead of the box. TL;DR: Audient’s next generation iD…",
    "integral": true
   },
   {
@@ -173,15 +182,6 @@
    "integral": true
   },
   {
-   "source": "attack",
-   "titre": "Building Beats With Ableton Live 13",
-   "lien": "https://www.attackmagazine.com/technique/tutorials/building-beats-with-ableton-live-13/",
-   "date": "2026-11-11T11:18:35.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/ableton-live-13-fig-5-simple-beat-v2-1130x800.jpg",
-   "resume": "Ableton Live 13 is now in public beta. We put the new Drum Synth, Step Sequencer, Transient Shaper, and Clipper to work and build a beat from scratch. Three years after Live 10, Live 11 arrived. Three years after Live…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "One of Logic Pro 13’s biggest new features can only be had on subscription: is that fair, and should you care?",
    "lien": "https://www.musicradar.com/music-tech/one-of-logic-pro-13s-biggest-new-features-can-only-be-had-on-subscription-is-that-fair-and-should-you-care",
@@ -197,69 +197,6 @@
    "date": "2026-11-10T09:59:22.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/N9zwriK7Zqz5RVEeECjbFP-1920-80.png",
    "resume": "Ableton has unveiled the public beta of Live 13, the next version of its flagship DAW, a major update that the Berlin-based developer promises will “help music-makers keep ideas moving and shape sound in new ways”…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Live 13 Introduces Step Sequencer, Drum Synth, ARA 2 & New Racks",
-   "lien": "https://www.attackmagazine.com/news/live-13-introduces-step-sequencer-drum-synth-ara-2-new-racks/",
-   "date": "2026-11-10T09:59:09.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-Live-13-1-1130x387.png",
-   "resume": "Ableton has announced Live 13, with a Step Sequencer, Drum Synth, Multiband Racks and ARA 2 support. A public beta is available now. Ableton has unveiled Live 13. The headline additions are a Step Sequencer with…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Erica Synths: The Best Hardware FX For Electronic Music",
-   "lien": "https://www.attackmagazine.com/reviews/the-best/erica-synths-the-best-hardware-fx-for-electronic-music/",
-   "date": "2026-11-09T17:12:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
-   "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Getting Started With Emulators: How To Run Real Hardware Synths In Your DAW",
-   "lien": "https://www.attackmagazine.com/features/long-read/getting-started-with-emulators-how-to-run-real-hardware-synths-in-your-daw/",
-   "date": "2026-11-05T15:30:56.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
-   "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Catz ‘n Dogz: “We Were Completely Overstimulated”",
-   "lien": "https://www.attackmagazine.com/features/interview/catz-n-dogz-we-were-completely-overstimulated/",
-   "date": "2026-11-03T11:11:03.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
-   "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Is Private Equity Destroying Music Production?",
-   "lien": "https://www.attackmagazine.com/features/long-read/is-private-equity-destroying-music-production/",
-   "date": "2026-10-29T14:00:34.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/blur-main-1130x403.png",
-   "resume": "Native Instruments was only the tip of the iceberg. Private equity is pervasive in the music production industry, tied up with hardware, software and music distribution companies. How is this affecting the music you…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Lars Huismann: “Instead Of Writing A Melody, I Use Filters”",
-   "lien": "https://www.attackmagazine.com/features/my-studio/lars-huismann-my-studio/",
-   "date": "2026-10-22T12:29:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-My-Studio-Room-3-1130x484.jpg",
-   "resume": "With System Collapse out now on Dax J’s Monnom Black, Berlin’s Lars Huismann shows us around the attic studio where it was made. The eight-track release follows his 2024 Monnom Black debut, Mechanized, and the Sounds…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
-   "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
-   "date": "2026-10-20T10:43:33.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
-   "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
    "integral": true
   },
   {
@@ -339,6 +276,10 @@
   {
    "id": "ni",
    "raison": "aucun article lu"
+  },
+  {
+   "id": "attack",
+   "raison": "This operation was aborted"
   }
  ]
 }

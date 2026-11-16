@@ -47173,7 +47173,16 @@
     "format": "12\", EP, Ltd"
    }
   ],
-  "recentesLe": "2026-11-09"
+  "recentesLe": "2026-11-09",
+  "news": [
+   {
+    "titre": "AudioThing & Hainbach Release Seconds, A 48-Band Spectral Sound Design Effect",
+    "lien": "https://www.synthtopia.com/content/2026/11/14/audiothing-hainbach-release-seconds-a-48-band-spectral-sound-design-effect/",
+    "source": "synthtopia",
+    "date": "2026-11-15T05:53:14.000Z",
+    "image": "https://www.synthtopia.com/wp-content/uploads/2026/11/seconds-filterbank.jpg"
+   }
+  ]
  },
  "spectrum-spools": {
   "recentes": [
