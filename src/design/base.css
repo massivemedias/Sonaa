@@ -282,7 +282,7 @@ body :is(
 /* 2. LE LIBELLE MONO : tout ce qui est petit et se lit d'un coup d'oeil,
       dates, sources, compteurs, menus, boutons. En capitales espacees. */
 body :is(
-  .ac-porte-detail, .ac-porte, .ac-soiree-jour, .ac-article-source, .ac-sortie-label, .ac-famille-n,
+  .ac-porte-detail, .ac-porte, .ac-article-source, .ac-sortie-label, .ac-famille-n,
   .ac-geste, .hero-bouton, .hero-ville-mot, .sitenav-lien, .sitenav-track-mot,
   .sonaa-mm-num, .sonaa-mm-kicker, .sonaa-mm-pill, .sonaa-mm-track-cta, .sonaa-mm-legal-lien,
   .news-edition, .cal-ligne-quand, .cal-origine, .cal-vue, .cal-ville-mot, .credits-foot a, .bt-titre,

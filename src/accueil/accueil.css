@@ -369,23 +369,26 @@ a:hover > .ac-cadre > .cal-gen {
   align-items: baseline;
   gap: 2px 10px;
 }
-/* Le jour, court et clair : la mono, mais serree, et en encre et non en
-   ambre, pour qu'il se lise d'un coup d'oeil. */
+/* LA DATE D'ABORD, l'heure ensuite (Mika, le 16 novembre 2026 : « c'est
+   l'heure qui est plus visible que la date, ca devrait etre le contraire »).
+   Le jour en grand, dans la condensee des titres, en ambre. */
 .ac-soiree-quand .ac-soiree-jour {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink-primary);
-  white-space: nowrap;
-}
-/* L'heure, en grand, dans la condensee des titres, et jamais coupee. */
-.ac-soiree-quand .ac-soiree-heure {
   font-family: var(--police-titre);
   font-size: 1.4rem;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.01em;
+  text-transform: uppercase;
   color: var(--accent);
+  white-space: nowrap;
+}
+/* L'heure a cote, en petit, dans la mono, jamais coupee. */
+.ac-soiree-quand .ac-soiree-heure {
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
   white-space: nowrap;
 }
 .ac-soiree-titre {
