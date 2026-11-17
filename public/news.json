@@ -1,6 +1,87 @@
 {
- "fait": "2026-11-17T08:04:51.975Z",
+ "fait": "2026-11-17T21:03:34.960Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Who Is Up for a 2027 Grammy in Dance and Electronic",
+   "lien": "https://midnightrebels.com/2027-grammy-dance-electronic-nominees/",
+   "date": "2026-11-17T19:14:19.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/john-summit-grammy-featured.webp?fit=1600%2C900&ssl=1",
+   "resume": "The 2027 Grammy nominations landed on November 16, and the dance and electronic fields are drawing plenty of debate. John Summit questioned the whole category after the list came out, and the nominees show why the…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“Compact, configurable and extremely easy to use”: Auriteq Flow review",
+   "lien": "https://www.musicradar.com/music-tech/controllers/auriteq-flow-review",
+   "date": "2026-11-17T18:00:52.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/QFzNPGfeZj4dRgFd7RNqUm-1920-80.jpg",
+   "resume": "What is it? Auriteq Flow is a compact and configurable USB desktop DAW controller for Mac and PC, and is available in both white and black versions. Designed to work out of the box with Ableton Live , Logic Pro , FL…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Eventide SplitEQ 2: A True Pro-Q Competitor?",
+   "lien": "https://www.gearnews.com/eventide-spliteq-studio/",
+   "date": "2026-11-17T17:29:15.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/11/eventide-spliteq2-ft.jpg",
+   "resume": "With Eventide SplitEQ 2, the dynamic EQ plugin gets an upgrade, adding new per-band processing features, as well as masking visualization and more. Dynamic EQ remains one of the most powerful tools for achieving mix…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "FL Studio All Plugins Edition at 52% off; Goodhertz Plugins and Trackspacer on sale: 3 Black Friday Plugin Deals!",
+   "lien": "https://www.gearnews.com/fl-studio-all-plugins-edition-at-52-off-deals/",
+   "date": "2026-11-17T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/PluginDeals_171126.jpg",
+   "resume": "The Black Friday madness is fully ongoing in plugin and DAW land, so now is time as good as ever to finally make that one purchase you’ve been saving up for! First of, there is a massive sale happening during the…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Upgrade your mixing suite for less: Save up to 33% on FabFilter plugins this Black Friday",
+   "lien": "https://www.musicradar.com/music-tech/plugins/black-friday-fabfilter-plugins-2026",
+   "date": "2026-11-17T16:01:18.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/TxNxSNYT3RckC6Z6DnBgeS-1920-80.jpg",
+   "resume": "When it comes to mixing plugins, FabFilter is one of the best developers out there. Honestly, I’m a big advocate for the idea that you don’t need to spend money on expensive plugins in order to make great music, but…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Save up to 96% on plugins this Black Friday: The Plugin Boutique sales are already starting",
+   "lien": "https://musictech.com/news/gear/black-friday-sale-plugin-boutique/",
+   "date": "2026-11-17T15:56:16.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2025/11/soundtoys-black-friday@2000x1500.jpg",
+   "resume": "Black Friday and Cyber Monday always bring insane discounts on music software and gear. And, despite Black Friday’s official date of 27 November, retailers are already slashing prices on hundreds of products. Plugin…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "XLN Audio’s RC-20 Retro Color v2 sounds way too good to still be called ‘lo-fi’",
+   "lien": "https://musictech.com/reviews/plug-ins/xln-audio-rc-20-retro-color-v2-review/",
+   "date": "2026-11-17T15:32:12.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/XLN-Audio-RC-20-Retro-Color-V2-hero-credit-press@2000x1500.jpg",
+   "resume": "In 2016, XLN Audio released RC-20 Retro Color, a multi-effect plugin for recreating the “warm feeling of vintage recording equipment.” Its release also happened to coincide with the rise in lo-fi hip-hop, becoming the…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer BE-1B: The Legendary Opto Compressor is Now Affordable",
+   "lien": "https://www.gearnews.com/behringer-be-1b-studio/",
+   "date": "2026-11-17T14:48:03.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/behringer-be-1b-ft.jpg",
+   "resume": "The Behringer BE-1B is a recreation of the renowned Tube-Tech CL 1B tube-based optical compressor, and you can order it for under $500. In the early 1990s, the Danish manufacturer Lydkraft introduced the Tube-Tech CL 1B…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Why producers love and hate Yamaha’s NS-10 studio monitors",
+   "lien": "https://musictech.com/features/opinion-analysis/yamaha-ns-10-2/",
+   "date": "2026-11-17T14:36:29.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Yamaha-NS-10-hero-credit-press@2000x1500.jpg",
+   "resume": "The Yamaha NS-10 range holds a special place in the hearts of many engineers, and for others who don’t favour them, this iconic white-coned speaker still holds a… place. These speakers can be characteristically brittle…",
+   "integral": true
+  },
   {
    "source": "musicradar",
    "titre": "Waves’ Black Friday All-Stars bundle just chopped 77% off the price of 11 vocal and mixing staples - and there’s zero filler",
@@ -15,7 +96,7 @@
    "titre": "Vintage Culture in 2026 With SELEKTA, Cercle and EDC Thailand",
    "lien": "https://midnightrebels.com/vintage-culture-2026-selekta-cercle-edc-thailand/",
    "date": "2026-11-16T22:13:13.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/john-summit-grammy-featured.webp?fit=1600%2C900&ssl=1",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2027-grammy-dance-nominees-featured.webp?fit=1600%2C900&ssl=1",
    "resume": "Vintage Culture has packed a lot into 2026. New records on his own label, a Cercle release, a heavy touring summer and then a pause. Here is what he has done lately, based on named reports, and where he plays in…",
    "integral": true
   },
@@ -56,48 +137,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "The Best Studio Monitors of 2026: A Great Year for 3-Way Designs",
-   "lien": "https://www.gearnews.com/best-studio-monitors/",
-   "date": "2026-11-16T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/palmer-orbit-11-ft.jpg",
-   "resume": "In this post, we’re looking at some of the most innovative and best studio monitors released this year across different price ranges. Whether you prefer studio monitors with extensive DSP-correction features or more…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Software Cyber Deals 2026: New Deals Added from FabFilter, Toontrack, and More!",
-   "lien": "https://www.gearnews.com/software-deals-thomann-cyberweek/",
-   "date": "2026-11-16T16:51:58.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Software_EN.jpg",
-   "resume": "The Thomann Cyber Deals sale has kicked up a gear with a brand new batch of offers on professional audio plugins and software instruments. Software Cyber Deals: Software: A New Batch of Deals Added! Software: Audio…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Clubs Are Losing Their Regulars and Nobody Is Counting",
-   "lien": "https://midnightrebels.com/club-regulars/",
-   "date": "2026-11-16T16:15:04.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Collective-Effervescence-Is-Dance-Musics-Biggest-Asset-and-Its-Biggest-Risk.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Every good room has one person who has stood in the same spot for years. You know the type. They nod at the DJ before the first record, they know which side of the stack bites, and they are tired at work on Monday and…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Shrub is a free \"stripped-down\" version of Serum that will run on the M-Vave FM-1 – and in your DAW",
    "lien": "https://www.musicradar.com/music-tech/shrub-is-a-free-stripped-down-version-of-serum-that-will-run-on-the-m-vave-fm-1-and-in-your-daw",
    "date": "2026-11-16T14:22:57.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Rr772zbmS5LN2hJYkkDVo4-1920-80.png",
    "resume": "In the world of soft synths , one plugin reigns supreme: Serum. After launching in 2014, this wavetable synth became the instrument of choice for a generation of laptop producers before its successor was released in…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Nektar Impact GX mkIII: GX49 & GX61 Controllers Have Better Keys, More DAW Control",
-   "lien": "https://www.gearnews.com/nektar-impact-gx-mkiii-synth/",
-   "date": "2026-11-16T14:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/nektar-impact-gx-mkiii-T-128x71.jpg",
-   "resume": "With Impact GX mkIII, Nektar has refreshed the GX49 and GX61 keyboard controllers with keys from the LX lineup, a full-resolution encoder for soft synth cutoff tweaking, and more – but still at a great price. Nektar…",
    "integral": true
   },
   {
@@ -188,24 +233,6 @@
    "date": "2026-11-12T12:57:23.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/oWMEEPTcMESt3UvoW7G4cV-1920-80.png",
    "resume": "Never has there been a better time to be an in-the-box producer than 2026. Modern processors are lightning-fast , DAWs are more powerful than they’ve ever been, and the sheer breadth and variety of audio effects and…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "AlphaTheta’s newest four-channel mixer comes as a budget answer to the DJM-A9",
-   "lien": "https://musictech.com/news/gear/djm-a7-alphatheta-mixer/",
-   "date": "2026-11-11T16:47:43.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/AlphaTheta-hero@2000x1500.jpg",
-   "resume": "Here at MusicTech , we love the DJM-A9 . Thankfully, AlphaTheta does too – and that’s why the brand’s latest four-channel mixer, the DJM-A7, is cut from the same cloth as its beloved sibling. Harnessing the same…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "AlphaTheta’s DJM-A7 is a 4-channel DJ mixer that can be ‘tuned’ to suit the room it’s in",
-   "lien": "https://www.musicradar.com/music-tech/mixers/alphathetas-djm-a7-is-a-4-channel-dj-mixer-that-can-be-tuned-to-suit-the-room-its-in",
-   "date": "2026-11-11T13:28:16.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/BiYgVokDaUhYTPowb3gNC6-1920-80.jpg",
-   "resume": "AlphaTheta’s latest 4-channel DJ mixer is all about adaptability. Based around the same layout and channel strips as Pioneer DJ’s flagship DJM-A9, the A7 incorporates a variety of connectivity and customisation options…",
    "integral": true
   },
   {
