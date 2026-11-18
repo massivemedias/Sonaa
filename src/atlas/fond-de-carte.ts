@@ -35,27 +35,27 @@ const STYLE = 'https://tiles.openfreemap.org/styles/dark';
    (Mika : « les couleurs, ca fait trop IA »). L'eau est plus sombre que la
    terre, les parcs a peine plus chauds : seuls les lieux portent la couleur. */
 const RETOUCHES: Record<string, Record<string, unknown>> = {
-  background: { 'background-color': '#121110' },
-  water: { 'fill-color': '#0b0a09' },
-  waterway: { 'line-color': '#0b0a09' },
-  landuse_park: { 'fill-color': '#151410' },
-  landcover_wood: { 'fill-color': '#151410' },
-  landuse_residential: { 'fill-color': '#151413' },
-  building: { 'fill-color': '#1b1a19' },
-  highway_path: { 'line-color': '#2b2a29' },
-  highway_minor: { 'line-color': '#34322f', 'line-opacity': 1 },
-  highway_major_casing: { 'line-color': '#1f1e1d' },
-  highway_major_inner: { 'line-color': '#4a4743' },
-  highway_major_subtle: { 'line-color': '#4a4743' },
-  highway_motorway_casing: { 'line-color': '#1f1e1d' },
-  highway_motorway_inner: { 'line-color': '#5c5853' },
-  highway_motorway_subtle: { 'line-color': '#5c5853' },
-  railway: { 'line-color': '#2e2c2a' },
-  railway_minor: { 'line-color': '#2e2c2a' },
-  railway_transit: { 'line-color': '#2e2c2a' },
-  highway_name_other: { 'text-color': '#9a958f', 'text-halo-color': '#121110', 'text-halo-width': 1.2 },
-  highway_name_motorway: { 'text-color': '#aaa59e' },
-  water_name: { 'text-color': '#7a736a' },
+  background: { 'background-color': '#121212' },
+  water: { 'fill-color': '#050505' },
+  waterway: { 'line-color': '#050505' },
+  landuse_park: { 'fill-color': '#151515' },
+  landcover_wood: { 'fill-color': '#151515' },
+  landuse_residential: { 'fill-color': '#141414' },
+  building: { 'fill-color': '#1b1b1b' },
+  highway_path: { 'line-color': '#2a2a2a' },
+  highway_minor: { 'line-color': '#333333', 'line-opacity': 1 },
+  highway_major_casing: { 'line-color': '#1e1e1e' },
+  highway_major_inner: { 'line-color': '#484848' },
+  highway_major_subtle: { 'line-color': '#484848' },
+  highway_motorway_casing: { 'line-color': '#1e1e1e' },
+  highway_motorway_inner: { 'line-color': '#5a5a5a' },
+  highway_motorway_subtle: { 'line-color': '#5a5a5a' },
+  railway: { 'line-color': '#2c2c2c' },
+  railway_minor: { 'line-color': '#2c2c2c' },
+  railway_transit: { 'line-color': '#2c2c2c' },
+  highway_name_other: { 'text-color': '#999999', 'text-halo-color': '#121212', 'text-halo-width': 1.2 },
+  highway_name_motorway: { 'text-color': '#aaaaaa' },
+  water_name: { 'text-color': '#737373' },
 };
 const PLACES = /^place_/;
 
@@ -63,7 +63,7 @@ function retoucher(style: StyleSpecification): StyleSpecification {
   return {
     ...style,
     layers: style.layers.map((couche) => {
-      const r = RETOUCHES[couche.id] ?? (PLACES.test(couche.id) ? { 'text-color': '#c4beb6', 'text-halo-color': '#121110' } : null);
+      const r = RETOUCHES[couche.id] ?? (PLACES.test(couche.id) ? { 'text-color': '#c4c4c4', 'text-halo-color': '#121212' } : null);
       return r && 'paint' in couche ? ({ ...couche, paint: { ...couche.paint, ...r } } as typeof couche) : couche;
     }),
   };

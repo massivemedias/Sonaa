@@ -84,8 +84,8 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(to right, oklch(0.08 0.014 70 / 0.97) 0%, oklch(0.08 0.014 70 / 0.9) 34%, oklch(0.08 0.014 70 / 0.45) 64%, oklch(0.08 0.014 70 / 0.2) 100%),
-    linear-gradient(to bottom, oklch(0.08 0.014 70 / 0.55) 0%, transparent 22%, transparent 60%, var(--fond) 96%);
+    linear-gradient(to right, rgb(0 0 0 / 0.97) 0%, rgb(0 0 0 / 0.9) 34%, rgb(0 0 0 / 0.45) 64%, rgb(0 0 0 / 0.2) 100%),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.55) 0%, transparent 22%, transparent 60%, var(--fond) 96%);
 }
 
 .ac-hero-texte {
@@ -570,7 +570,7 @@ a:hover > .ac-cadre > .cal-gen {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+  background: linear-gradient(to top, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
 }
 .ac-famille::before {
   content: '';
@@ -746,7 +746,7 @@ a:hover > .ac-cadre > .cal-gen {
   }
   .ac-hero-voile {
     background:
-      linear-gradient(to right, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.82) 100%),
+      linear-gradient(to right, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.82) 100%),
       linear-gradient(to bottom, transparent 60%, var(--fond) 96%);
   }
   .ac-portes {

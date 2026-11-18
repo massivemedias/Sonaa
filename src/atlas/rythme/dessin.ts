@@ -23,12 +23,12 @@ export const HAUTEUR_REEL = 1920;
 /* Les cinq teintes de piste, dans l'ordre fixe des jetons --piste-1 a
    --piste-5 (tokens.css). La toile ne lit pas les variables CSS : elles sont
    recopiees ici, et le test du fichier verifie qu'elles n'ont pas diverge. */
-export const TEINTES = ['#e9a23b', '#7dc383', '#e2683c', '#e8cf8a', '#a37b55'] as const;
-const CREME = '#efe7d8';
-const CREME_DOUCE = 'rgba(239, 231, 216, 0.62)';
-const CREME_PALE = 'rgba(239, 231, 216, 0.28)';
+export const TEINTES = ['#ffc503', '#7dc383', '#ff7a1a', '#ffe43e', '#9a9a9a'] as const;
+const CREME = '#e7e7e7';
+const CREME_DOUCE = 'rgba(231, 231, 231, 0.7)';
+const CREME_PALE = 'rgba(231, 231, 231, 0.28)';
 const AMBRE = TEINTES[0];
-const SANS = "Inter, system-ui, -apple-system, sans-serif";
+const SANS = "'Google Sans Flex Variable', system-ui, -apple-system, sans-serif";
 
 /** Les textes de l'affiche, deja dans la langue de la page. */
 export interface TextesAffiche {
@@ -201,11 +201,11 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   if (format === 'page') {
     const H = HAUTEUR_PAGE;
     const M = 52;
-    ctx.fillStyle = '#0a0704';
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
 
     const filet = (y: number, alpha = 0.1): void => {
-      ctx.fillStyle = `rgba(239, 231, 216, ${alpha})`;
+      ctx.fillStyle = `rgba(231, 231, 231, ${alpha})`;
       ctx.fillRect(M, y, W - 2 * M, 1);
     };
 
@@ -250,7 +250,7 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
      planche editoriale minimaliste sans radar circulaire. */
   const H = format === 'reel' ? HAUTEUR_REEL : HAUTEUR_RYTHME;
   const M = 84;
-  ctx.fillStyle = '#0a0704';
+  ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, W, H);
 
   ctx.save();

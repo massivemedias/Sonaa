@@ -21,10 +21,10 @@ import { dessinerAffiche, type TextesAffiche } from '../rythme/dessin.ts';
 export const LARGEUR_REEL = 1080;
 export const HAUTEUR_DU_REEL = 1920;
 
-const SANS = 'Inter, system-ui, -apple-system, sans-serif';
-const FOND = '#0a0704';
-const CREME = '#efe7d8';
-const AMBRE = '#e9a23b';
+const SANS = "'Google Sans Flex Variable', system-ui, -apple-system, sans-serif";
+const FOND = '#000000';
+const CREME = '#e7e7e7';
+const AMBRE = '#ffc503';
 const MARGE_REEL = 72;
 const HAUT_UTILE = 270;
 

@@ -161,7 +161,7 @@
   -webkit-appearance: none;
   padding-right: 24px;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='none' stroke='%23e9a23b' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='none' stroke='%23ffc503' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 2px center;
   background-size: 14px 14px;
