@@ -26,7 +26,7 @@ import { lngLat } from './fond-de-carte.ts';
 const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
 /* La teinte de l'accent, en clair : le dessin de la carte ne lit pas les
    variables CSS. */
-const ACCENT = '#E9A23B';
+const ACCENT = '#ffc503';
 const SOURCE = 'sonaa-itineraire';
 const REDEPART_KM = 0.3;
 
@@ -93,7 +93,7 @@ function useTrace(
       carte.addSource(SOURCE, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       /* Sous les noms de rues, pour qu'ils restent lisibles. */
       const avant = carte.getLayer('highway_name_other') ? 'highway_name_other' : undefined;
-      carte.addLayer({ id: `${SOURCE}-bord`, type: 'line', source: SOURCE, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#121110', 'line-width': 9 } }, avant);
+      carte.addLayer({ id: `${SOURCE}-bord`, type: 'line', source: SOURCE, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#121212', 'line-width': 9 } }, avant);
       carte.addLayer({ id: SOURCE, type: 'line', source: SOURCE, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ACCENT, 'line-width': 5 } }, avant);
     };
     if (carte.isStyleLoaded()) poser();

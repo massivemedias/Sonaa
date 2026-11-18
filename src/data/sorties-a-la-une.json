@@ -1,5 +1,5 @@
 {
- "labels": 1450,
+ "labels": 1511,
  "sorties": [
   {
    "titre": "New Avatar",
@@ -12,12 +12,12 @@
    "slug": "warp-records"
   },
   {
-   "titre": "Nights Like This",
-   "artiste": "Above & Beyond",
+   "titre": "Do This Right Now",
+   "artiste": "AVNT",
    "annee": 2026,
-   "image": "https://i.discogs.com/GAaro0PgHk6_2nkVeBi6Lwkq12KKac1zfM1IO_sadjU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4OTEw/NTc2LTE3OTM2MjEy/OTktOTA0MS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38910576",
-   "format": "2xFile, FLAC, Single, Hi-",
+   "image": "https://i.discogs.com/6wdNFhkJ6fAuY6qfGufy5tlMOukDEmVI5czVjCrg9n8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDQ5/NjI1LTE3OTQ4MjQ0/MTctNzkxNS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39049625",
+   "format": "File, MP3, Single, 320",
    "label": "Anjunabeats",
    "slug": "anjunabeats"
   },
@@ -42,12 +42,12 @@
    "slug": "planet-mu"
   },
   {
-   "titre": "3TWI",
-   "artiste": "Fatima Al Qadiri",
+   "titre": "I'm Watching",
+   "artiste": "Dance Fountain",
    "annee": 2026,
-   "image": "https://i.discogs.com/PL0nsFKS88EAgFg2sCplOrZYbNtZsQ9ATcgeGNiJeyU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Nzkx/MzE3LTE3OTI2NTI1/OTktODI4Ny5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38791317",
-   "format": "4xFile, FLAC, EP, 24-",
+   "image": "https://i.discogs.com/yWZsLaHTPkS3xveA9iiuhoMTOpa19_WLuFevBsMmhJI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Njg4/NTIyLTE3OTE3MTY5/ODUtMjc5NS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38688522",
+   "format": "File, WAV, EP",
    "label": "Hyperdub",
    "slug": "hyperdub"
   },
@@ -162,11 +162,11 @@
    "slug": "dragonfly-records"
   },
   {
-   "titre": "Grand Slam",
-   "artiste": "Radical Redemption & Miss K8 & Nolz* & MC Robs",
+   "titre": "Destroy All Humans (Angerfist Remix)",
+   "artiste": "Osiris | God Of The Underworld*",
    "annee": 2026,
-   "image": "https://i.discogs.com/qyFWdC1sA4tQ7OB56rT6yXdbqjZ0iSeSpPZOF6XpK3Q/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4OTQz/OTI1LTE3OTM5MDQ2/MDQtNTY4OC5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38943925",
+   "image": "https://i.discogs.com/3ZH535iz4LS9aBeujwUQojg-zAaAAGoNoIk-tDoDs3A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDI0/NjcxLTE3OTQ2MDM2/OTgtOTIyMS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39024671",
    "format": "2xFile, MP3, 320",
    "label": "Masters Of Hardcore",
    "slug": "masters-of-hardcore"

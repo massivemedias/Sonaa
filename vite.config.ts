@@ -57,8 +57,8 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'any',
-        background_color: '#070401',
-        theme_color: '#070401',
+        background_color: '#000000',
+        theme_color: '#000000',
         categories: ['music', 'education', 'reference'],
         icons: [
           { src: 'brand/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
@@ -82,7 +82,11 @@ export default defineConfig({
         /* Les 1263 pochettes pèsent 39 Mo. Les précharger imposerait ce
            téléchargement à toute personne qui ouvre le site une fois, sur
            son forfait. Elles sont mises en cache à l'usage, ci-dessous. */
-        globIgnores: ['**/covers/**', '**/node_modules/**'],
+        globIgnores: [
+          '**/covers/**',
+          '**/node_modules/**',
+          '**/google-sans-flex-{canadian-aboriginal,cherokee,math,nushu,symbols,syriac,tifinagh,vietnamese}*',
+        ],
         navigateFallback: 'index.html',
         /* LES JEUX /game/ ET /games/ SONT SUPPRIMES depuis le 10 novembre 2026
            (Mika : « il a pas rapport »), avec leurs exceptions ici.

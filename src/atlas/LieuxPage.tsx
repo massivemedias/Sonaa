@@ -49,8 +49,9 @@ type ZoneCarte = 'atlantique' | 'amerique' | 'europe' | 'monde';
 
 const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
 
-/* Cadrages serres sur les zones ou se concentrent les clubs et festivals :
-   pas de Groenland en haut ni d'Afrique du Sud en bas. */
+/* Cadrages sur les grandes regions et sur toute la planete :
+   couvre de la Californie et du Chili jusqu'a l'Afrique du Sud, la Scandinavie,
+   l'Asie, l'Australie et la Nouvelle-Zelande. */
 const CADRES_ZONES: Record<ZoneCarte, [[number, number], [number, number]]> = {
   atlantique: [
     [-99.5, 20.0],
@@ -61,12 +62,12 @@ const CADRES_ZONES: Record<ZoneCarte, [[number, number], [number, number]]> = {
     [-63.0, 51.5],
   ],
   europe: [
-    [-9.2, 36.8],
-    [28.8, 54.5],
+    [-9.8, 35.5],
+    [34.0, 62.5],
   ],
   monde: [
-    [-124.0, -38.0],
-    [146.0, 54.5],
+    [-126.0, -42.5],
+    [176.5, 67.5],
   ],
 };
 
@@ -466,11 +467,9 @@ export function LieuxPage() {
     let annule = false;
     let carte: CarteMapLibre | null = null;
     try {
-      carte = creerCarte(conteneur, [39.5, -36], 2.45);
-      carte.setMaxBounds([
-        [-175, -44],
-        [175, 59.5],
-      ]);
+      carte = creerCarte(conteneur, [20, 15], 1.2);
+      carte.setRenderWorldCopies(false);
+      carte.setMinZoom(0.35);
       mouvementProgrammatiqueRef.current = true;
       carte.once('moveend', () => {
         mouvementProgrammatiqueRef.current = false;
@@ -719,8 +718,10 @@ export function LieuxPage() {
     setSelection(lieu);
     montrerLaCarte();
     lancerMouvementCarte((carte) => {
-      carte.panTo([lieu.longitude, lieu.latitude], {
-        duration: 500,
+      carte.flyTo({
+        center: [lieu.longitude, lieu.latitude],
+        zoom: Math.max(carte.getZoom(), lieu.type === 'festival' ? 6.5 : 12.5),
+        duration: 550,
         essential: true,
       });
     });
@@ -863,7 +864,20 @@ export function LieuxPage() {
               type="button"
               className="lx-mode lx-mode-festival"
               aria-pressed={filtreType === 'festival'}
-              onClick={() => setFiltreType('festival')}
+              onClick={() => {
+                interactionUtilisateurRef.current = true;
+                setFiltreType('festival');
+                if (villeActive) {
+                  setVilleActive('');
+                  setCadreVisible(null);
+                  if (!paysActif) {
+                    setZoneCarte('monde');
+                    lancerMouvementCarte((carte) => {
+                      carte.fitBounds(CADRES_ZONES.monde, { padding: 28, duration: 650 });
+                    });
+                  }
+                }
+              }}
             >
               <span className="lx-puce lx-puce-festival" aria-hidden="true" />
               {t.festivalsSeulement(totalFestivals)}
@@ -887,11 +901,13 @@ export function LieuxPage() {
               onChange={(e) => choisirPays(e.target.value)}
             >
               <option value="">{t.clubsTousLesPays}</option>
-              {PAYS_LIEUX.map((p) => (
-                <option key={p.code} value={p.code}>
-                  {p.nom[langue]}
-                </option>
-              ))}
+              {[...PAYS_LIEUX]
+                .sort((a, b) => a.nom[langue].localeCompare(b.nom[langue], LOCALE))
+                .map((p) => (
+                  <option key={p.code} value={p.code}>
+                    {p.nom[langue]}
+                  </option>
+                ))}
             </select>
 
             <select

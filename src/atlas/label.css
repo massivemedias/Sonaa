@@ -11,6 +11,7 @@
 }
 .lb-page .lb {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-32);
   max-width: none;
 }
@@ -19,6 +20,7 @@
 .lb-tete {
   display: grid;
   gap: var(--espace-8);
+  min-width: 0;
 }
 .lb-surtitre {
   margin: 0;
@@ -445,6 +447,7 @@ a.lb-source {
   a.lb-source {
     display: inline-flex;
     align-items: center;
+    min-width: 44px;
     min-height: 44px;
   }
 }
@@ -512,7 +515,8 @@ a.lb-source {
   margin-top: var(--espace-8);
 }
 .lbg-chercher,
-.lbg-pays {
+.lbg-pays,
+.lbg-qc {
   box-sizing: border-box;
   min-height: 44px;
   padding: 0 var(--espace-16);
@@ -523,12 +527,25 @@ a.lb-source {
   font: inherit;
   font-size: 0.875rem;
 }
+.lbg-qc {
+  font-weight: 600;
+  cursor: pointer;
+}
+.lbg-qc:hover {
+  border-color: var(--accent);
+}
+.lbg-qc[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
+}
 .lbg-chercher {
   flex: 1 1 16rem;
   max-width: 26rem;
 }
 .lbg-chercher:focus-visible,
-.lbg-pays:focus-visible {
+.lbg-pays:focus-visible,
+.lbg-qc:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
@@ -536,7 +553,7 @@ a.lb-source {
   appearance: none;
   -webkit-appearance: none;
   padding-right: 42px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23e8a848' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23ffc503' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
   background-position: right 14px center;
   background-size: 16px 16px;
   background-repeat: no-repeat;
@@ -565,6 +582,9 @@ a.lb-source {
   color: var(--sur-accent);
 }
 
+.lbg-section {
+  min-width: 0;
+}
 .lbg-section + .lbg-section {
   margin-top: var(--espace-16);
 }

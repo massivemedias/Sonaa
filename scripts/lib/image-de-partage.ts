@@ -30,10 +30,10 @@ const POLICES = fileURLToPath(new URL('../donnees/polices/', import.meta.url));
 const GRAS = { fichier: join(POLICES, 'Inter_28pt-Bold.ttf'), nom: 'Inter 28pt Bold' };
 const MOYEN = { fichier: join(POLICES, 'Inter_18pt-Medium.ttf'), nom: 'Inter 18pt Medium' };
 
-const FOND = '#0a0704';
-const CREME = '#efe7d8';
-const AMBRE = '#e9a23b';
-const TEINTES = ['#e9a23b', '#7dc383', '#e2683c', '#e8cf8a', '#a37b55'] as const;
+const FOND = '#000000';
+const CREME = '#e7e7e7';
+const AMBRE = '#ffc503';
+const TEINTES = ['#ffc503', '#7dc383', '#ff7a1a', '#ffe43e', '#9a9a9a'] as const;
 const MARGE = 72;
 
 const echapper = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

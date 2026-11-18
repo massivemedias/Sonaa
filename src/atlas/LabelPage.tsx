@@ -181,7 +181,8 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
   const resume = langue === 'en' ? (fiche.resume.en ?? fiche.resume.fr) : (fiche.resume.fr ?? fiche.resume.en);
   const langueDuResume = langue === 'en' ? (fiche.resume.en ? 'en' : 'fr') : fiche.resume.fr ? 'fr' : 'en';
   const wiki = langueDuResume === 'fr' ? (fiche.wiki.fr ?? fiche.wiki.en) : (fiche.wiki.en ?? fiche.wiki.fr);
-  const faits = [fiche.pays ? nomDuPays(fiche.pays, langue) : null, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
+  const lieu = fiche.quebec ? t.labelQuebecCanada : fiche.pays ? nomDuPays(fiche.pays, langue) : null;
+  const faits = [lieu, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
     (x): x is string => Boolean(x)
   );
 
@@ -238,9 +239,9 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
                 <a className="lb-source" href={wiki} target="_blank" rel="noreferrer noopener">
                   {t.labelLireWikipedia}
                 </a>
-              ) : (
+              ) : !resume && fiche.profil ? (
                 <p className="lb-source">{t.labelSourceDiscogs}</p>
-              )}
+              ) : null}
             </section>
           )}
 
@@ -402,12 +403,15 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
    tri A a Z, un filtre par pays. En tete, les huit incontournables en
    grand. */
 function Galerie() {
+  const lirePaysInitial = (): string => /[?&]pays=([^&#]+)/.exec(window.location.hash)?.[1] ?? '';
   const [terme, setTerme] = useState('');
   const [tri, setTri] = useState<'connus' | 'alpha'>('connus');
-  const [pays, setPays] = useState('');
+  const [pays, setPays] = useState(lirePaysInitial);
   useEffect(() => {
     document.title = `${t.lesLabels} · SONAA`;
   }, []);
+
+  const quebecLabels = useMemo(() => ENTREES.filter((e) => e.q === 1).sort(ordreDeNotoriete), []);
 
   const lesPays = useMemo(() => {
     const n = new Map<string, number>();
@@ -417,9 +421,11 @@ function Galerie() {
 
   const liste = useMemo(() => {
     const q = cleDeLabel(terme);
-    return ENTREES.filter((e) => (!q || e.k.some((k) => k.includes(q))) && (!pays || e.p === pays)).sort((a, b) =>
-      tri === 'alpha' ? a.n.localeCompare(b.n) : ordreDeNotoriete(a, b)
-    );
+    return ENTREES.filter((e) => {
+      if (q && !e.k.some((k) => k.includes(q))) return false;
+      if (!pays) return true;
+      return pays === 'QC' ? e.q === 1 : e.p === pays;
+    }).sort((a, b) => (tri === 'alpha' ? a.n.localeCompare(b.n) : ordreDeNotoriete(a, b)));
   }, [terme, tri, pays]);
 
   const uneVue = !terme && !pays && tri === 'connus';
@@ -429,7 +435,7 @@ function Galerie() {
      collectionneurs du disque. Trois morceaux au moins, comme le seuil des
      premieres pages, ecartent les licences d'un seul tube. */
   const aLaUne = uneVue ? liste.filter((e) => !estMajor(e) && e.c >= 3).slice(0, 8) : [];
-  const reste = uneVue ? liste.filter((e) => !aLaUne.includes(e)) : liste;
+  const reste = uneVue ? liste.filter((e) => !aLaUne.includes(e) && e.q !== 1) : liste;
 
   /* LA GRILLE SE DEROULE PAR PAQUETS. Mille trois cent soixante-dix cartes
      d'un coup faisaient une page de 174 000 px, lourde a construire sur un
@@ -448,16 +454,19 @@ function Galerie() {
     return () => o.disconnect();
   }, [combien, reste.length]);
 
-  const carte = (e: EntreeLabel, grande: boolean) => (
-    <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
-      <a href={`#/labels/${e.s}`}>
-        <LogoLabel nom={e.n} url={e.l} />
-        <span className="lbg-nom">{e.n}</span>
-        <span className="lbg-faits">{[e.p ? nomDuPays(e.p, langue) : null, e.a].filter(Boolean).join(' · ')}</span>
-        {e.c > 0 && <span className="lbg-compte">{t.labelResultat(e.c)}</span>}
-      </a>
-    </li>
-  );
+  const carte = (e: EntreeLabel, grande: boolean) => {
+    const lieu = e.q === 1 ? t.labelQuebecCanada : e.p ? nomDuPays(e.p, langue) : null;
+    return (
+      <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
+        <a href={`#/labels/${e.s}`}>
+          <LogoLabel nom={e.n} url={e.l} />
+          <span className="lbg-nom">{e.n}</span>
+          <span className="lbg-faits">{[lieu, e.a].filter(Boolean).join(' · ')}</span>
+          {e.c > 0 && <span className="lbg-compte">{t.labelResultat(e.c)}</span>}
+        </a>
+      </li>
+    );
+  };
 
   return (
     <section className="lb lbg">
@@ -481,8 +490,19 @@ function Galerie() {
               {t.labelsTriAlpha}
             </button>
           </div>
+          {quebecLabels.length > 0 && (
+            <button
+              type="button"
+              className="lbg-qc"
+              aria-pressed={pays === 'QC'}
+              onClick={() => setPays(pays === 'QC' ? '' : 'QC')}
+            >
+              {t.labelsFiltreQuebec(quebecLabels.length)}
+            </button>
+          )}
           <select className="lbg-pays" value={pays} onChange={(e) => setPays(e.target.value)} aria-label={t.labelsTousPays}>
             <option value="">{t.labelsTousPays}</option>
+            {quebecLabels.length > 0 && <option value="QC">{t.labelsFiltreQuebec(quebecLabels.length)}</option>}
             {lesPays.map((p) => (
               <option key={p} value={p}>
                 {nomDuPays(p, langue)}
@@ -513,6 +533,12 @@ function Galerie() {
         <div className="lbg-section">
           <h2 className="lb-titre">{t.labelsALaUne}</h2>
           <ul className="lbg-grille lbg-grille-une">{aLaUne.map((e) => carte(e, true))}</ul>
+        </div>
+      )}
+      {uneVue && quebecLabels.length > 0 && (
+        <div className="lbg-section">
+          <h2 className="lb-titre">{t.labelsSceneQuebec(quebecLabels.length)}</h2>
+          <ul className="lbg-grille">{quebecLabels.map((e) => carte(e, false))}</ul>
         </div>
       )}
       <div className="lbg-section">

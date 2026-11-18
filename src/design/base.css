@@ -274,13 +274,15 @@ body :is(
   .cal-carte-intertitre, .lx-titre, .pv-tete-titre, .pv-hero-nom, .pv-tuile-nom, .lb-nom, .cal-gen-jour,
   .lx-bloc-titre, .lx-groupe-titre, .lx-rang-num, .lx-carte-nom, .lx-fiche-nom) {
   font-family: var(--police-titre);
-  font-weight: 800;
+  font-stretch: 62%;
+  font-weight: 850;
   text-transform: uppercase;
   letter-spacing: 0.005em;
 }
 
-/* 2. LE LIBELLE MONO : tout ce qui est petit et se lit d'un coup d'oeil,
-      dates, sources, compteurs, menus, boutons. En capitales espacees. */
+/* 2. LE LIBELLE COURT : tout ce qui est petit et se lit d'un coup d'oeil,
+      dates, sources, compteurs, menus, boutons. En Google Sans Flex semi-gras
+      a chiffres tabulaires et capitales aerees. */
 body :is(
   .ac-porte-detail, .ac-porte, .ac-article-source, .ac-sortie-label, .ac-famille-n,
   .ac-geste, .hero-bouton, .hero-ville-mot, .sitenav-lien, .sitenav-track-mot,
@@ -293,6 +295,8 @@ body :is(
   .lx-lien-secondaire, .lx-fiche-fermer, .lx-soirees-titre, .lx-soirees-compteur, .lx-soiree-date,
   .lx-soirees-toutes) {
   font-family: var(--police-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
   text-transform: uppercase;
   letter-spacing: var(--chasse-mono);
 }
