@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-17T21:03:34.960Z",
+ "fait": "2026-11-18T07:40:49.595Z",
  "articles": [
+  {
+   "source": "attack",
+   "titre": "Dave Seaman",
+   "lien": "https://www.attackmagazine.com/features/top-tracks/dave-seaman-a-lifelong-obsession-with-synth-music/",
+   "date": "2026-11-17T20:18:12.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Top-Tracks-Feat-Image-Dave-Seaman-1130x386.png",
+   "resume": "What tracks get Dave Seaman moving? We asked him. Dave Seaman has been a fixture of dance music for close to 40 years. As one half of Brothers in Rhythm he co-wrote and produced Kylie Minogue's 'Confide in Me', the…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Who Is Up for a 2027 Grammy in Dance and Electronic",
@@ -107,15 +116,6 @@
    "date": "2026-11-16T19:32:11.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/cyber-deals-2026-live-dj-ft.jpg",
    "resume": "New discount offers have been added to the Thomann Cyber Deals sale, including savings on compact and portable PA systems from top brands. Live & DJ Cyber Deals: Live and DJ Cyber Deals: New Deals Unlocked! Live and DJ…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Best MIDI Controller Apps for iOS: Control your Synths from your iPhone or iPad",
-   "lien": "https://www.gearnews.com/midi-controller-apps-ios/",
-   "date": "2026-11-16T19:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/midi-controller-apps-ios.jpg",
-   "resume": "MIDI controller apps are one of the quickest and cheapest ways to add a custom controller to your setup. Whether you want to control other apps, hardware synths, DAW software, DJ gear, or even lighting—there’s an app…",
    "integral": true
   },
   {
@@ -227,15 +227,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "\"Ever wanted to play a piano that’s 14 feet tall? Now you can\": 5 new plugins you need to know about",
-   "lien": "https://www.musicradar.com/music-tech/have-you-ever-played-a-piano-thats-14-feet-tall-now-you-can-5-new-plugins-you-need-to-know-about",
-   "date": "2026-11-12T12:57:23.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/oWMEEPTcMESt3UvoW7G4cV-1920-80.png",
-   "resume": "Never has there been a better time to be an in-the-box producer than 2026. Modern processors are lightning-fast , DAWs are more powerful than they’ve ever been, and the sheer breadth and variety of audio effects and…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Building Beats With Ableton Live 13",
    "lien": "https://www.attackmagazine.com/technique/tutorials/building-beats-with-ableton-live-13/",
@@ -287,15 +278,6 @@
    "date": "2026-10-29T14:00:34.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/blur-main-1130x403.png",
    "resume": "Native Instruments was only the tip of the iceberg. Private equity is pervasive in the music production industry, tied up with hardware, software and music distribution companies. How is this affecting the music you…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Lars Huismann: “Instead Of Writing A Melody, I Use Filters”",
-   "lien": "https://www.attackmagazine.com/features/my-studio/lars-huismann-my-studio/",
-   "date": "2026-10-22T12:29:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-My-Studio-Room-3-1130x484.jpg",
-   "resume": "With System Collapse out now on Dax J’s Monnom Black, Berlin’s Lars Huismann shows us around the attic studio where it was made. The eight-track release follows his 2024 Monnom Black debut, Mechanized, and the Sounds…",
    "integral": true
   },
   {
