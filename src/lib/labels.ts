@@ -77,6 +77,8 @@ export interface FicheLabel extends ActuDuLabel {
   /** Le nombre de morceaux du label dans l'atlas, au moment de la moisson. */
   readonly n: number;
   readonly pays: string | null;
+  /** Label fonde ou etabli au Quebec (Montreal, Quebec, etc.). */
+  readonly quebec?: boolean;
   readonly annee: number | null;
   readonly fondateurs: readonly string[];
   readonly site: string | null;
@@ -128,6 +130,8 @@ export interface EntreeLabel {
   /** Le nombre de morceaux dans l'atlas. */
   readonly c: number;
   readonly p: string | null;
+  /** 1 si le label appartient a la scene electronique du Quebec. */
+  readonly q?: 1;
   readonly a: number | null;
   /** L'adresse du logo, pour la galerie et la recherche. */
   readonly l?: string | null;

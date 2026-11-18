@@ -101,7 +101,7 @@ const AUTRES_NOMS: Readonly<Record<string, readonly string[]>> = {
 const DEJA_NOMMES = new Set(Object.values(AUTRES_NOMS).flat());
 
 /** Des labels dont la fiche Discogs trouvee par le nom est celle d'un autre. */
-const DISCOGS_HOMONYMES = new Set(['clarity recordings', 'fox']);
+const DISCOGS_HOMONYMES = new Set(['clarity recordings', 'fox', 'blackbox records', 'arder records', 'muses of eden', 'la creme']);
 
 interface LabelDuCorpus {
   cle: string;
@@ -134,6 +134,7 @@ for (const l of parCle.values()) l.nom = [...l.graphies.entries()].sort((a, b) =
 interface AjoutLabel {
   readonly nom: string;
   readonly pays: string;
+  readonly quebec?: boolean;
   readonly annee?: number;
   readonly fondateurs: readonly string[];
   readonly site: string;
@@ -145,7 +146,19 @@ interface AjoutLabel {
 }
 
 const AJOUTS: readonly AjoutLabel[] = [
-  { nom: 'VRSTL Records', pays: 'Canada', fondateurs: ['Maudite Machine'], site: 'https://vrstlrecords.com' },
+  {
+    nom: 'VRSTL Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2024,
+    fondateurs: ['Maudite Machine'],
+    site: 'https://vrstlrecords.com',
+    discogsId: 3752945,
+    resume: {
+      fr: "Label montréalais fondé en 2024 par le producteur et compositeur de musique électronique Maudite Machine, dédié à la dark disco, à l'indie dance et aux rythmes électroniques hypnotiques.",
+      en: 'Montreal-based record label founded in 2024 by electronic music producer and composer Maudite Machine, dedicated to dark disco, indie dance and hypnotic club electronics.',
+    },
+  },
   {
     nom: 'JEAHMON! Records',
     pays: 'Allemagne',
@@ -334,11 +347,16 @@ const AJOUTS: readonly AjoutLabel[] = [
   {
     nom: 'Turbo Recordings',
     pays: 'Canada',
+    quebec: true,
     annee: 1998,
     fondateurs: ['Tiga', 'Thomas Von Party'],
     site: 'http://www.turborecordings.com',
     discogsId: 242,
     cles: ['turbo', 'turbo recordings', 'turbo records'],
+    resume: {
+      fr: 'Label électronique montréalais fondé en 1998 par Tiga, institution mondiale de la techno, de l’électro et de la house (Chromeo, Gesaffelstein, Boys Noize, Azari & III, Charlotte de Witte, Proxy).',
+      en: 'Montreal electronic music powerhouse founded in 1998 by Tiga, releasing landmark techno, electro and house records (Chromeo, Gesaffelstein, Boys Noize, Azari & III, Charlotte de Witte, Proxy).',
+    },
   },
   {
     nom: 'M_nus',
@@ -352,11 +370,16 @@ const AJOUTS: readonly AjoutLabel[] = [
   {
     nom: 'Lisbon Lux Records',
     pays: 'Canada',
-    annee: 2009,
-    fondateurs: [],
-    site: 'http://lisbonluxrecords.com',
+    quebec: true,
+    annee: 2013,
+    fondateurs: ['Julien Manaud'],
+    site: 'https://lisbonluxrecords.com',
     discogsId: 534643,
     cles: ['lisbon lux records'],
+    resume: {
+      fr: 'Label indépendant montréalais fondé en 2013 par Julien Manaud, phare de la synth-pop, du nu-disco, de la french touch et de la pop électronique francophone (Le Couleur, Paupière, Super Plage, Das Mörtal).',
+      en: 'Montreal independent record label founded in 2013 by Julien Manaud, championing synth-pop, nu-disco, French touch and electronic pop (Le Couleur, Paupière, Super Plage, Das Mörtal).',
+    },
   },
   {
     nom: 'Cocoon Recordings',
@@ -979,6 +1002,960 @@ const AJOUTS: readonly AjoutLabel[] = [
     discogsId: 141880,
     cles: ['swamp 81', 'swamp81'],
   },
+  /* LES LABELS ELECTRONIQUES DU QUEBEC, ajoutes le 18 novembre 2026. Mika :
+     « Recherche tous les label de musique electronqiue du Quebec meme les
+     petits et affichent les dans la page labels ! ». Des pionniers disco,
+     Hi-NRG et electroacoustiques jusqu'aux micro-labels cassettes, Bandcamp
+     et vinyles de Montreal et de Quebec, chaque identifiant Discogs a ete
+     verifie a la main pour ecarter les homonymes etrangers. */
+  {
+    nom: 'Multi Culti',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2013,
+    fondateurs: ['Thomas Von Party', 'Dreems'],
+    site: 'https://multiculti.bandcamp.com',
+    discogsId: 680741,
+    cles: ['multi culti'],
+    resume: {
+      fr: 'Label montréalais fondé en 2013 par Thomas Von Party et Dreems, dédié à la psy-dance, à la slow techno, aux grooves cosmiques et aux musiques électroniques sans frontières.',
+      en: 'Montreal-based electronic dance label founded in 2013 by Thomas Von Party and Dreems, exploring psychedelic club grooves, slow techno and cosmic dance music.',
+    },
+  },
+  {
+    nom: 'Cult Edits',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2018,
+    fondateurs: ['Thomas Von Party', 'Dreems'],
+    site: 'https://multiculti.bandcamp.com',
+    discogsId: 1430082,
+    cles: ['cult edits'],
+    resume: {
+      fr: "Sous-label montréalais de Multi Culti consacré aux edits vinyles et numériques de disco psychédélique, d'électro tropicale et de pépites club.",
+      en: 'Montreal sub-label of Multi Culti dedicated to vinyl and digital club edits of psychedelic disco, global boogie and cosmic dancefloor cuts.',
+    },
+  },
+  {
+    nom: 'empreintes DIGITALes',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1990,
+    fondateurs: ['Jean-François Denis'],
+    site: 'https://empreintesdigitales.com',
+    discogsId: 16656,
+    cles: ['empreintes digitales'],
+    resume: {
+      fr: 'Label montréalais fondé en 1990 par Jean-François Denis au sein de Diffusion i Média, référence mondiale de la musique électroacoustique et acousmatique (Francis Dhomont, Robert Normandeau, Gilles Gobeil).',
+      en: 'Montreal label founded in 1990 by Jean-François Denis under Diffusion i Média, a global benchmark for electroacoustic and acousmatic music (Francis Dhomont, Robert Normandeau, Gilles Gobeil).',
+    },
+  },
+  {
+    nom: 'Unidisc',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1977,
+    fondateurs: ['George Cucuzzella'],
+    site: 'https://www.unidisc.com',
+    discogsId: 5411,
+    cles: ['unidisc', 'unidisc music'],
+    resume: {
+      fr: "Institution montréalaise du disco, du Hi-NRG, de l'électro-funk et de la house fondée en 1977 par George Cucuzzella, gardienne d'un immense catalogue de maxis 12 pouces.",
+      en: 'Historic Montreal disco, Hi-NRG, electro-funk and house institution founded in 1977 by George Cucuzzella, home to one of North America’s largest 12-inch dance catalogues.',
+    },
+  },
+  {
+    nom: 'Matra',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1980,
+    fondateurs: ['George Cucuzzella'],
+    site: 'https://www.discogs.com/label/26032-Matra',
+    discogsId: 26032,
+    cles: ['matra', 'matra records'],
+    resume: {
+      fr: "Label montréalais fondé en 1980 par George Cucuzzella, célèbre pour ses hymnes Hi-NRG, synth-dance et électro-disco comme Living on Video de Trans-X et les classiques de Lime.",
+      en: 'Montreal dance label founded in 1980 by George Cucuzzella, renowned for landmark Hi-NRG and synth-disco classics including Trans-X’s Living on Video and Lime.',
+    },
+  },
+  {
+    nom: 'ISBA Music Entertainment Inc.',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1984,
+    fondateurs: ['Maurice Velenosi'],
+    site: 'http://www.isbamusic.com',
+    discogsId: 13739,
+    cles: ['isba music entertainment inc', 'isba music entertainment'],
+    resume: {
+      fr: "Maison de disques indépendante montréalaise active dès 1984 dans la synth-pop, le Hi-NRG, l'italo-disco et l'eurodance au Québec (Rational Youth, Mitsou, Bran Van 3000).",
+      en: 'Montreal independent dance and electronic music company active since 1984 across synth-pop, Hi-NRG, Italo disco and 90s club releases.',
+    },
+  },
+  {
+    nom: 'ISBA',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1984,
+    fondateurs: ['Maurice Velenosi'],
+    site: 'http://www.isbamusic.com',
+    discogsId: 31642,
+    cles: ['isba'],
+    resume: {
+      fr: "Étiquette club et synth-pop montréalaise d'ISBA Music, pilier des maxis Hi-NRG, freestyle et dance pressés au Québec dans les années 1980 et 1990.",
+      en: 'Montreal club and synth-pop imprint of ISBA Music, pressing landmark Quebec Hi-NRG, freestyle and dance 12-inch singles throughout the 1980s and 1990s.',
+    },
+  },
+  {
+    nom: 'Collect-Call',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2015,
+    fondateurs: [],
+    site: 'https://collect-call.bandcamp.com',
+    discogsId: 844766,
+    cles: ['collect call', 'collect call records'],
+    resume: {
+      fr: "Micro-label indépendant montréalais dédié à la house, au disco-boogie et aux grooves club taillés pour le vinyle et la piste.",
+      en: 'Independent Montreal micro-label focused on underground house, boogie-disco cuts and club-ready grooves.',
+    },
+  },
+  {
+    nom: 'Interchill',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1995,
+    fondateurs: ['Andrew Ross Collins'],
+    site: 'https://interchill.bandcamp.com',
+    discogsId: 1775,
+    cles: ['interchill', 'interchill records'],
+    resume: {
+      fr: 'Label fondé à Montréal en 1995 par Andrew Ross Collins dans la foulée des nuits chill-out des années 1990, référence du psychill, de la psybient et du dub électronique.',
+      en: 'Label founded in Montreal in 1995 by Andrew Ross Collins out of the 1990s ambient chill-out room scene, a benchmark for psychill, psybient and electronic dub.',
+    },
+  },
+  {
+    nom: 'NAFF',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2018,
+    fondateurs: ['Francis Latreille (Priori)', 'Adam Feingold (Ex-Terrestrial)'],
+    site: 'https://naffrecordings.bandcamp.com',
+    discogsId: 1390196,
+    cles: ['naff', 'naff recordings'],
+    resume: {
+      fr: 'Label montréalais fondé en 2018 par Priori et Ex-Terrestrial, figure majeure de la techno hypnotique, de la trance brumeuse, de l’IDM et de l’ambient contemporain.',
+      en: 'Montreal record label founded in 2018 by Priori and Ex-Terrestrial, a leading force in hypnotic techno, hazy trance, IDM and contemporary ambient.',
+    },
+  },
+  {
+    nom: 'GARMO',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: ['Francis Latreille (Priori)', 'Adam Feingold (Ex-Terrestrial)'],
+    site: 'https://naffrecordings.bandcamp.com',
+    discogsId: 1779793,
+    cles: ['garmo'],
+    resume: {
+      fr: 'Sous-label club montréalais lancé par Priori et Ex-Terrestrial dans le sillage de NAFF, dédié aux maxis house, techno, breaks et outils de piste percussifs.',
+      en: 'Montreal club sister imprint of NAFF run by Priori and Ex-Terrestrial, dedicated to raw house, techno, breaks and percussive DJ tools.',
+    },
+  },
+  {
+    nom: 'ASL Singles Club',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2014,
+    fondateurs: [],
+    site: 'https://soundcloud.com/asl-singles-club',
+    discogsId: 716715,
+    cles: ['asl singles club'],
+    resume: {
+      fr: 'Étiquette vinyle et numérique montréalaise apparue au milieu des années 2010, point de ralliement de la scène house modulaire et club lo-fi locale (Project Pablo, Jump Source).',
+      en: 'Montreal boutique vinyl and digital imprint emerging in the mid-2010s around the city’s raw modular house and underground club circle (Project Pablo, Jump Source).',
+    },
+  },
+  {
+    nom: 'Musique Risquée',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2007,
+    fondateurs: ['Vincent Lemieux', 'Marc Leclair (Akufen)', 'Scott Monteith (Deadbeat)', 'Stephen Beaupré'],
+    site: 'http://www.musique-risquee.com',
+    discogsId: 16661,
+    cles: ['musique risquee'],
+    resume: {
+      fr: 'Label montréalais fondé par Vincent Lemieux, Akufen, Deadbeat et Stephen Beaupré, pilier de la microhouse, de la minimal et d’une house organique cousue d’échantillons.',
+      en: 'Montreal record label founded by Vincent Lemieux, Akufen, Deadbeat and Stephen Beaupré, a cornerstone of microhouse, minimal and sample-rich organic house.',
+    },
+  },
+  {
+    nom: 'Archipel',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2004,
+    fondateurs: ['Jean-Patrice Rémillard (Pheek)'],
+    site: 'https://archipelmusique.bandcamp.com',
+    discogsId: 30259,
+    cles: ['archipel', 'archipel musique'],
+    resume: {
+      fr: 'Label et collectif montréalais fondé en 2004 par Pheek, laboratoire prolifique de minimal, microhouse, dub techno et électronique expérimentale.',
+      en: 'Montreal label and artist community founded in 2004 by Pheek, a prolific laboratory for minimal, microhouse, dub techno and experimental electronics.',
+    },
+  },
+  {
+    nom: 'Kalimari Musique',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2008,
+    fondateurs: ['Jean-Patrice Rémillard (Pheek)'],
+    site: 'https://archipelmusique.bandcamp.com',
+    discogsId: 59045,
+    cles: ['kalimari musique', 'kalimari'],
+    resume: {
+      fr: "Sous-label numérique montréalais d'Archipel animé par Pheek, consacré à la techno minimale ludique et à la microhouse.",
+      en: 'Montreal digital sub-label of Pheek’s Archipel, dedicated to playful minimal techno and microhouse.',
+    },
+  },
+  {
+    nom: 'Sounds Of Beaubien Ouest',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2015,
+    fondateurs: ['Sebastian Cowan', 'Patrick Holland'],
+    site: 'https://sobomtl.bandcamp.com',
+    discogsId: 1007103,
+    cles: ['sounds of beaubien ouest', 'sobo'],
+    resume: {
+      fr: 'Aussi connu sous le nom SOBO, label dance montréalais né sur la rue Beaubien Ouest autour de Patrick Holland (Project Pablo), Sebastian Cowan et Gene Tellem, emblème de la house ensoleillée du Mile-Ex.',
+      en: 'Also known as SOBO, a Montreal dance music imprint born on Beaubien Ouest around Patrick Holland (Project Pablo), Sebastian Cowan and Gene Tellem, defining the city’s warm deep house sound.',
+    },
+  },
+  {
+    nom: 'Verdicchio Music Publishing',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2016,
+    fondateurs: ['Patrick Holland'],
+    site: 'https://hollandpatrick.com',
+    discogsId: 1474179,
+    cles: ['verdicchio music publishing'],
+    resume: {
+      fr: 'Étiquette personnelle lancée à Montréal par le producteur Patrick Holland (Project Pablo), mêlant house feutrée, ambient et électronique downtempo.',
+      en: 'Personal imprint founded in Montreal by producer Patrick Holland (Project Pablo), spanning warm house, ambient and downtempo electronics.',
+    },
+  },
+  {
+    nom: 'Temple Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2015,
+    fondateurs: ['Adam Feingold (Ex-Terrestrial)', 'R Weng', 'M Salaciak'],
+    site: 'https://templerecordsofficial.bandcamp.com',
+    discogsId: 809288,
+    cles: ['temple records', 'temple'],
+    resume: {
+      fr: 'Micro-label montréalais animé par Ex-Terrestrial, R Weng et M Salaciak, dédié à la house brumeuse, à l’électro analogique et à la techno atmosphérique.',
+      en: 'Montreal underground label run by Ex-Terrestrial, R Weng and M Salaciak, releasing hazy house, analog electro and atmospheric club music.',
+    },
+  },
+  {
+    nom: 'La Rama Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2016,
+    fondateurs: ['Kris Guilty'],
+    site: 'https://laramarecords.bandcamp.com',
+    discogsId: 1625356,
+    cles: ['la rama records', 'la rama'],
+    resume: {
+      fr: 'Disquaire indépendant, distributeur et label montréalais fondé en 2016 par Kris Guilty dans le Mile End, carrefour essentiel de la house, du dub, de la techno et des musiques leftfield locales.',
+      en: 'Independent Montreal record shop, distributor and label established in 2016 by Kris Guilty in Mile End, a vital hub for local house, techno, dub and leftfield vinyl.',
+    },
+  },
+  {
+    nom: 'La Rama Tapes',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2016,
+    fondateurs: ['Kris Guilty'],
+    site: 'https://laramarecords.bandcamp.com',
+    discogsId: 1124943,
+    cles: ['la rama tapes'],
+    resume: {
+      fr: 'Branche cassettes de La Rama Records à Montréal, publiant mixtapes, ambient, beats et expérimentations électroniques en tirages limités.',
+      en: 'Cassette sub-label of Montreal’s La Rama Records, issuing limited-run ambient, beat, house and experimental electronic tapes.',
+    },
+  },
+  {
+    nom: 'Bienvenue Recordings',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2019,
+    fondateurs: ['Gene Tellem'],
+    site: 'https://bienvenuerecordings.bandcamp.com',
+    discogsId: 1675545,
+    cles: ['bienvenue recordings'],
+    resume: {
+      fr: 'Label indépendant montréalais fondé en 2019 par la productrice Gene Tellem dans l’orbite de La Rama, consacré à une deep house racée, à la techno et à l’électro.',
+      en: 'Montreal independent label launched in 2019 by producer Gene Tellem out of La Rama Records, focused on deep house, techno and hardware-driven club music.',
+    },
+  },
+  {
+    nom: 'DustWORLD',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2019,
+    fondateurs: ['Dust-e-1'],
+    site: 'https://dustworld.bandcamp.com',
+    discogsId: 1674010,
+    cles: ['dustworld'],
+    resume: {
+      fr: 'Label montréalais fondé en 2019 par Dust-e-1 et distribué par Clone, croisant ambient techno, breakbeat, jungle vaporeuse et house profonde.',
+      en: 'Montreal record label established in 2019 by Dust-e-1 and distributed by Clone, bridging ambient techno, misty jungle, breakbeat and deep house.',
+    },
+  },
+  {
+    nom: 'Humidex',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2019,
+    fondateurs: ['Absurde', 'softcoresoft', 'S. Chioini'],
+    site: 'https://humidex.bandcamp.com',
+    discogsId: 1662910,
+    cles: ['humidex'],
+    resume: {
+      fr: 'Label techno montréalais fondé par Absurde, softcoresoft et S. Chioini, dédié à l’acid, à la rave rapide, à l’électro et aux percussions club hybrides.',
+      en: 'Montreal techno imprint founded by Absurde, softcoresoft and S. Chioini, championing acid, high-energy rave, electro and hybrid club tracks.',
+    },
+  },
+  {
+    nom: 'Booma Collective',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2009,
+    fondateurs: [],
+    site: 'https://boomacollective.bandcamp.com',
+    discogsId: 617633,
+    cles: ['booma collective', 'booma'],
+    resume: {
+      fr: 'Collectif et label montréalais actif depuis 2009, réunissant producteurs underground autour de la deep house, de la techno hypnotique et de l’ambient.',
+      en: 'Montreal collective and record label active since 2009, bringing together local underground producers across deep house, hypnotic techno and ambient.',
+    },
+  },
+  {
+    nom: 'Collection Disques Durs',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2021,
+    fondateurs: ['Multicolore', 'Courage'],
+    site: 'https://collectiondisquesdurs.bandcamp.com',
+    discogsId: 2101768,
+    cles: ['collection disques durs'],
+    resume: {
+      fr: 'Label électronique montréalais lancé en 2021 par Multicolore (Piknic Électronik, Igloofest) et Courage, propulsant trance euphorique, house et electronica (TDJ, yehno).',
+      en: 'Montreal electronic music label launched in 2021 by Multicolore (Piknic Électronik, Igloofest) and Courage, releasing euphoric trance, house and electronica (TDJ, yehno).',
+    },
+  },
+  {
+    nom: 'Moonshine',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2014,
+    fondateurs: ['Pierre Kwenders', 'Hervé Kalongo', 'Félix Noé', 'Steven Michel', 'San Farafina'],
+    site: 'https://moonshinemu.bandcamp.com',
+    discogsId: 3831290,
+    cles: ['moonshine', 'moonshine collectif'],
+    resume: {
+      fr: 'Collectif nocturne et label montréalais cofondé en 2014 par Pierre Kwenders et sa bande, célèbre pour ses fêtes secrètes de pleine lune et ses compilations afro-électroniques SMS for Location (afro house, batida, amapiano, club).',
+      en: 'Montreal collective and label co-founded in 2014 by Pierre Kwenders, renowned for its full-moon secret raves and SMS for Location compilations blending afro-electronic club, batida, afro house and bass.',
+    },
+  },
+  {
+    nom: 'Mutek_Rec',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2002,
+    fondateurs: ['Alain Mongeau'],
+    site: 'https://mutek.org',
+    discogsId: 13613,
+    cles: ['mutek rec', 'mutek_rec'],
+    resume: {
+      fr: 'Bras discographique du festival montréalais MUTEK lancé en 2002, documentant la microhouse, la techno minimale et l’avant-garde électronique québécoise et internationale.',
+      en: 'Record label arm of Montreal’s MUTEK festival launched in 2002, documenting microhouse, minimal techno and live electronic experimentation.',
+    },
+  },
+  {
+    nom: 'Oral',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1999,
+    fondateurs: ['Eric Mattson'],
+    site: 'http://www.oral.qc.ca',
+    discogsId: 5223,
+    cles: ['oral', 'oral records'],
+    resume: {
+      fr: 'Label indépendant d’art sonore et de musique électronique fondé à Montréal en 1999 par le commissaire audio Eric Mattson, auteur de plus de 80 parutions (Akufen, Mitchell Akiyama, Alexandre St-Onge).',
+      en: 'Independent Montreal sound-art and experimental electronic label run by curator Eric Mattson since 1999, with over 80 releases (Akufen, Mitchell Akiyama, Alexandre St-Onge).',
+    },
+  },
+  {
+    nom: 'No Type',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1998,
+    fondateurs: ['David Turgeon'],
+    site: 'https://notype.bandcamp.com',
+    discogsId: 5654,
+    cles: ['no type', 'no type records'],
+    resume: {
+      fr: 'Netlabel pionnier fondé à Montréal en 1998 par David Turgeon, l’un des tout premiers au monde consacrés à l’électronique expérimentale, à la microhouse, au glitch et à l’électroacoustique (Akufen, Deadbeat, Pheek).',
+      en: 'Pioneering Montreal netlabel founded in 1998 by David Turgeon, among the earliest online imprints for experimental electronics, microhouse, glitch and electroacoustics (Akufen, Deadbeat, Pheek).',
+    },
+  },
+  {
+    nom: 'Intr_version Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1999,
+    fondateurs: ['Mitchell Akiyama'],
+    site: 'https://www.discogs.com/label/7829-Intr_version-Records',
+    discogsId: 7829,
+    cles: ['intr version records', 'intr_version', 'intr version'],
+    resume: {
+      fr: 'Label montréalais fondé en 1999 par le compositeur Mitchell Akiyama, figure de l’IDM, du glitch, de l’ambient et de l’électronique de chambre au tournant des années 2000.',
+      en: 'Montreal record label founded in 1999 by composer Mitchell Akiyama, shaping turn-of-the-millennium IDM, glitch, minimal electronics and chamber ambient.',
+    },
+  },
+  {
+    nom: 'Alien8 Recordings',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1996,
+    fondateurs: ['Gary McKie', "Sean O'Hara"],
+    site: 'https://alien8recordings.bandcamp.com',
+    discogsId: 1095,
+    cles: ['alien8 recordings', 'alien8'],
+    resume: {
+      fr: 'Label indépendant montréalais fondé en 1996 par Gary McKie et Sean O’Hara, reconnu pour ses parutions d’ambient, de noise et d’électronique expérimentale (Tim Hecker, Merzbow, Les Georges Leningrad).',
+      en: 'Montreal independent label founded in 1996 by Gary McKie and Sean O’Hara, acclaimed for experimental electronic, ambient and noise releases (Tim Hecker, Merzbow, Les Georges Leningrad).',
+    },
+  },
+  {
+    nom: 'Substractif',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2000,
+    fondateurs: ['Gary McKie', "Sean O'Hara"],
+    site: 'https://alien8recordings.bandcamp.com',
+    discogsId: 3905,
+    cles: ['substractif'],
+    resume: {
+      fr: 'Sous-label d’Alien8 Recordings lancé à Montréal en 2000 exclusivement pour les musiques électroniques numériques, le glitch et l’ambient (premiers albums de Tim Hecker et Mitchell Akiyama).',
+      en: 'Electronic sub-label of Montreal’s Alien8 Recordings launched in 2000 for digital synthesis, glitch and ambient works, including early albums by Tim Hecker and Mitchell Akiyama.',
+    },
+  },
+  {
+    nom: 'Ambiances Magnétiques',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1983,
+    fondateurs: ['Jean Derome', 'René Lussier', 'Robert Marcel Lepage', 'Joane Hétu'],
+    site: 'https://actuellecd.com',
+    discogsId: 22199,
+    cles: ['ambiances magnetiques'],
+    resume: {
+      fr: 'Collectif et label montréalais fondé en 1983 et distribué par DAME, foyer historique de la musique actuelle, de l’électroacoustique et de l’expérimentation électronique au Québec.',
+      en: 'Montreal artist-run label founded in 1983 and distributed by DAME, a cornerstone of Quebec musique actuelle, electroacoustics and experimental electronics.',
+    },
+  },
+  {
+    nom: 'Avatar / OHM éditions',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1993,
+    fondateurs: ['Centre Avatar'],
+    site: 'https://avatarquebec.org',
+    discogsId: 21144,
+    cles: ['avatar ohm editions', 'ohm editions', 'ohm avatar'],
+    resume: {
+      fr: 'Maison d’édition sonore fondée en 1993 dans le quartier Saint-Roch à Québec par le centre d’artistes Avatar, dédiée à l’art audio, à l’électronique expérimentale et aux musiques électroacoustiques.',
+      en: 'Audio-art publishing imprint founded in 1993 in Quebec City by the Avatar artist-run centre, dedicated to experimental electronics, electroacoustics and sound art.',
+    },
+  },
+  {
+    nom: 'Iturnem',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2003,
+    fondateurs: ['Misstress Barbara'],
+    site: 'http://www.iturnem.com',
+    discogsId: 12590,
+    cles: ['iturnem', 'iturnem music'],
+    resume: {
+      fr: 'Label techno montréalais dirigé par la productrice Misstress Barbara (successeur de Relentless en 2003), fer de lance de la techno percussive, du hardgroove et de la tech house.',
+      en: 'Montreal techno imprint run by producer Misstress Barbara (renamed from Relentless in 2003), a flagship for driving percussive techno, hardgroove and tech house.',
+    },
+  },
+  {
+    nom: 'Relentless',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1999,
+    fondateurs: ['Misstress Barbara'],
+    site: 'https://www.discogs.com/label/12436-Relentless',
+    discogsId: 12436,
+    cles: ['relentless'],
+    resume: {
+      fr: 'Premier label techno fondé à Montréal en 1999 par Misstress Barbara avant de devenir Iturnem en 2003, témoin majeur de l’âge d’or rave et hardgroove montréalais.',
+      en: 'Misstress Barbara’s original Montreal techno vinyl label founded in 1999 (renamed Iturnem in 2003), capturing the peak of Montreal’s late-90s rave and hardgroove sound.',
+    },
+  },
+  {
+    nom: 'Kannibalen Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2011,
+    fondateurs: ['Marc Chagnon', 'Julien Maranda', 'Patrick Barry'],
+    site: 'https://kannibalenrecords.bandcamp.com',
+    discogsId: 849741,
+    cles: ['kannibalen records', 'kannibalen'],
+    resume: {
+      fr: 'Label montréalais fondé en 2011 par le trio Black Tiger Sex Machine, poids lourd international de l’électro sombre, du dubstep, de la bass house et de la midtempo (Apashe, Kai Wachi, Snails, Dabin).',
+      en: 'Montreal powerhouse founded in 2011 by Black Tiger Sex Machine, internationally renowned for heavy electro, dubstep, bass house and dark midtempo (Apashe, Kai Wachi, Snails, Dabin).',
+    },
+  },
+  {
+    nom: 'Cult Nation',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2009,
+    fondateurs: ['Mischa', 'Franz Schuller'],
+    site: 'https://cultnation.com',
+    discogsId: 787374,
+    cles: ['cult nation'],
+    resume: {
+      fr: 'Collectif et maison de disques indépendante montréalaise mêlant productions électroniques, bass music et pop alternative.',
+      en: 'Montreal independent music collective and record label bridging electronic production, bass music and alternative pop.',
+    },
+  },
+  {
+    nom: 'Altar Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2009,
+    fondateurs: ['Gabriel Le Mar (DJ Zen)'],
+    site: 'https://altar.bandcamp.com',
+    discogsId: 139339,
+    cles: ['altar records'],
+    resume: {
+      fr: 'Label québécois fondé en 2009 par DJ Zen, référence internationale du psychill, de la psybient, du downtempo psychédélique et de l’ambient atmosphérique.',
+      en: 'Quebec-based boutique label founded in 2009 by DJ Zen, globally recognized for psychill, psybient, psychedelic downtempo and deep ambient.',
+    },
+  },
+  {
+    nom: 'Altar Techno',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2018,
+    fondateurs: ['DJ Zen'],
+    site: 'https://techno.bandcamp.com',
+    discogsId: 1694787,
+    cles: ['altar techno'],
+    resume: {
+      fr: 'Division techno montréalaise d’Altar Records animée par DJ Zen, orientée dub techno, techno minimale et grooves profonds et hypnotiques.',
+      en: 'Montreal techno imprint of Altar Records curated by DJ Zen, focusing on dub techno, minimal and deep hypnotic techno.',
+    },
+  },
+  {
+    nom: 'Altar Progressive',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2019,
+    fondateurs: ['DJ Zen'],
+    site: 'https://altar.bandcamp.com',
+    discogsId: 1758228,
+    cles: ['altar progressive'],
+    resume: {
+      fr: 'Sous-label québécois de la famille Altar Records dédié à la progressive psytrance mélodique et hypnotique.',
+      en: 'Quebec sister imprint of Altar Records dedicated to melodic and hypnotic progressive psytrance.',
+    },
+  },
+  {
+    nom: 'Diatonic Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: ['Nyvium'],
+    site: 'https://diatonicrecords.bandcamp.com',
+    discogsId: 3709584,
+    cles: ['diatonic records'],
+    resume: {
+      fr: 'Micro-label indépendant québécois dédié à la psytrance, à la full-on et aux sonorités psychédéliques nocturnes.',
+      en: 'Independent Quebec psytrance micro-label focused on full-on, twilight and nocturnal psychedelic trance.',
+    },
+  },
+  {
+    nom: 'When We Dip XYZ',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2018,
+    fondateurs: ['When We Dip'],
+    site: 'https://wwdxyz.bandcamp.com',
+    discogsId: 1587342,
+    cles: ['when we dip xyz', 'xyz'],
+    resume: {
+      fr: 'Label montréalais lancé en 2018 par le média électronique When We Dip, dédié à l’organic house, à la deep house et à la progressive house mélodique.',
+      en: 'Montreal label project launched in 2018 by electronic music platform When We Dip, curating organic house, deep house and melodic progressive.',
+    },
+  },
+  {
+    nom: 'When We Dip Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2021,
+    fondateurs: ['When We Dip'],
+    site: 'https://whenwedip.com',
+    discogsId: 4323157,
+    cles: ['when we dip records'],
+    resume: {
+      fr: 'Second volet discographique de l’équipe montréalaise When We Dip, tourné vers la house club et les maxis mélodiques.',
+      en: 'Sister label from Montreal’s When We Dip team focused on club-ready deep and melodic house.',
+    },
+  },
+  {
+    nom: 'Cosmovision Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2017,
+    fondateurs: [],
+    site: 'https://cosmovisionrecords.bandcamp.com',
+    discogsId: 3847643,
+    cles: ['cosmovision records', 'cosmovision'],
+    resume: {
+      fr: 'Collectif et label montréalais né en 2017, croisant organic house, downtempo, folktronica et rythmes électroniques d’Amérique latine et du monde.',
+      en: 'Montreal multicultural collective and label founded in 2017, blending organic house, downtempo, folktronica and global electronic rhythms.',
+    },
+  },
+  {
+    nom: 'Strange Town Recordings',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2010,
+    fondateurs: [],
+    site: 'https://strangetownrecordings.bandcamp.com',
+    discogsId: 219521,
+    cles: ['strange town recordings', 'strange town'],
+    resume: {
+      fr: 'Label montréalais actif depuis 2010 dans la deep house, la progressive house sombre et la techno minimale.',
+      en: 'Montreal underground imprint active since 2010 across deep house, dark progressive house and minimal techno.',
+    },
+  },
+  {
+    nom: 'Mile End Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2005,
+    fondateurs: ['Patrick Dream', 'Kirk Coleman'],
+    site: 'https://soundcloud.com/mileendrecords',
+    discogsId: 76428,
+    cles: ['mile end records'],
+    resume: {
+      fr: 'Label montréalais fondé en 2005 par Patrick Dream et Kirk Coleman, dédié à la house, à la tech house et aux productions club du circuit local et international.',
+      en: 'Montreal house and tech-house label started in 2005 by Patrick Dream and Kirk Coleman.',
+    },
+  },
+  {
+    nom: 'Griffintown Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2016,
+    fondateurs: ['Patrick Dream', 'Kirk Coleman'],
+    site: 'https://soundcloud.com/mileendrecords',
+    discogsId: 1759384,
+    cles: ['griffintown records'],
+    resume: {
+      fr: 'Sous-label montréalais issu de l’équipe de Mile End Records, orienté house et tech house de club.',
+      en: 'Montreal sister label created by the founders of Mile End Records, releasing club house and tech house.',
+    },
+  },
+  {
+    nom: 'Ghost Club Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2017,
+    fondateurs: ['Max-Antoine Gendron (Prince Club)', 'Sebastian Navarro'],
+    site: 'https://ghostclubrecords.bandcamp.com',
+    discogsId: 1430233,
+    cles: ['ghost club records'],
+    resume: {
+      fr: 'Label indépendant montréalais fondé par Max-Antoine Gendron (Prince Club) et Sebastian Navarro, dédié à la house, à la tech house et aux maxis club.',
+      en: 'Independent Montreal label founded by Max-Antoine Gendron (Prince Club) and Sebastian Navarro, releasing house and club cuts.',
+    },
+  },
+  {
+    nom: 'Red Channel Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2016,
+    fondateurs: ['Tony Romanello'],
+    site: 'https://redchannelrecords.bandcamp.com',
+    discogsId: 1353239,
+    cles: ['red channel records'],
+    resume: {
+      fr: 'Label techno fondé en 2016 par le producteur Tony Romanello, spécialisé dans la techno peak-time, la dark techno et l’acid.',
+      en: 'Techno imprint founded in 2016 by producer Tony Romanello, specializing in peak-time, dark and acid techno.',
+    },
+  },
+  {
+    nom: 'Visage Musique',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2011,
+    fondateurs: [],
+    site: 'https://visagemusique.bandcamp.com',
+    discogsId: 254521,
+    cles: ['visage musique'],
+    resume: {
+      fr: 'Label indépendant montréalais consacré à la minimal synth, à la coldwave, à l’italo-disco et à l’EBM (Xarah Dion, Police des Mœurs, Automelodi).',
+      en: 'Montreal underground label dedicated to minimal synth, coldwave, Italo disco and EBM (Xarah Dion, Police des Mœurs, Automelodi).',
+    },
+  },
+  {
+    nom: 'Facecontrol Audio Industries',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: ['Sean Kosa'],
+    site: 'https://facecontrol-audio-industries.bandcamp.com',
+    discogsId: 3905406,
+    cles: ['facecontrol audio industries', 'facecontrol'],
+    resume: {
+      fr: 'Micro-label électronique montréalais dirigé par Sean Kosa, orienté EBM, électro brute, acid et techno industrielle.',
+      en: 'Montreal underground electronic micro-label run by Sean Kosa, focusing on EBM, raw electro, acid and industrial techno.',
+    },
+  },
+  {
+    nom: 'Éditions Appærent',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2017,
+    fondateurs: ['Pierre Guerineau', 'Jesse Osborne-Lanthier', 'Asael Richard-Robitaille', 'Anna Arrobas'],
+    site: 'https://editionsappaerent.bandcamp.com',
+    discogsId: 1863256,
+    cles: ['editions appaerent'],
+    resume: {
+      fr: 'Maison d’édition et micro-label montréalais cofondé notamment par Pierre Guerineau (Essaie Pas) et Jesse Osborne-Lanthier, dédié à l’électronique expérimentale, à l’ambient et aux formes post-industrielles.',
+      en: 'Montreal imprint co-run by Pierre Guerineau (Essaie Pas) and Jesse Osborne-Lanthier, dedicated to experimental electronics, ambient and post-industrial sound.',
+    },
+  },
+  {
+    nom: 'Total Black',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2012,
+    fondateurs: [],
+    site: 'https://totalblack.bandcamp.com',
+    discogsId: 528464,
+    cles: ['total black'],
+    resume: {
+      fr: 'Label underground de cassettes et de vinyles fondé à Montréal en 2012 (puis établi entre Montréal et Berlin), spécialisé dans l’industriel, la dark ambient, l’EBM et le noise.',
+      en: 'Underground cassette and vinyl imprint founded in Montreal in 2012, specializing in industrial, dark ambient, EBM and power electronics.',
+    },
+  },
+  {
+    nom: 'Infinite Machine',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2011,
+    fondateurs: ['Charlie Juárez', 'Nicholas James Concklin', 'Alin Ceauselu'],
+    site: 'https://infinitemachine.bandcamp.com',
+    discogsId: 356584,
+    cles: ['infinite machine'],
+    resume: {
+      fr: 'Label électronique avant-gardiste né à Montréal en 2011, tremplin international pour la bass music déconstruite, le grime instrumental et la techno hybride (Toma Kami, Fenna Fiction).',
+      en: 'Forward-thinking electronic label born in Montreal in 2011, an international hub for deconstructed club, instrumental grime and hybrid bass music.',
+    },
+  },
+  {
+    nom: 'Arbutus Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2009,
+    fondateurs: ['Sebastian Cowan'],
+    site: 'https://arbutusrecords.com',
+    discogsId: 28927,
+    cles: ['arbutus records', 'arbutus'],
+    resume: {
+      fr: 'Label indépendant montréalais né en 2009 dans l’entrepôt Lab Synthèse du Mile End autour de Sebastian Cowan, berceau des débuts synth-pop et électro-expérimentaux de Grimes, Blue Hawaii, Doldrums et Majical Cloudz.',
+      en: 'Montreal DIY label founded in 2009 out of Mile End’s Lab Synthèse loft by Sebastian Cowan, launching early synth-pop and electronic records by Grimes, Blue Hawaii, Doldrums and Majical Cloudz.',
+    },
+  },
+  {
+    nom: 'Chez Kito Kat',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2006,
+    fondateurs: ['Samuel Ricciuti', 'Salima Bouaraour', 'Christophe Biache'],
+    site: 'https://chezkitokatrecords.bandcamp.com',
+    discogsId: 179789,
+    cles: ['chez kito kat', 'chez kito kat records'],
+    resume: {
+      fr: 'Label indépendant montréalais fondé en 2006 par Samuel Ricciuti, Salima Bouaraour et Christophe Biache, explorant electronica, IDM, synthwave et ambient.',
+      en: 'Montreal independent label founded in 2006 by Samuel Ricciuti, Salima Bouaraour and Christophe Biache, exploring electronica, IDM, synthwave and ambient.',
+    },
+  },
+  {
+    nom: 'Jeunesse Cosmique',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2009,
+    fondateurs: ['Chittakone Baccam', 'Alexis M. Brien', 'Catherine Debard'],
+    site: 'https://jeunessecosmique.bandcamp.com',
+    discogsId: 249853,
+    cles: ['jeunesse cosmique'],
+    resume: {
+      fr: 'Micro-label montréalais fondé par Chittakone Baccam, Alexis M. Brien et Catherine Debard, voué aux synthétiseurs cosmiques, au drone, à l’ambient et aux bandes magnétiques.',
+      en: 'Montreal DIY micro-label founded by Chittakone Baccam, Alexis M. Brien and Catherine Debard, devoted to cosmic synth music, drone, ambient and tape experiments.',
+    },
+  },
+  {
+    nom: 'Everyday Ago',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2018,
+    fondateurs: ['Jean Néant (Joni Void)'],
+    site: 'https://everydayago.bandcamp.com',
+    discogsId: 1476583,
+    cles: ['everyday ago'],
+    resume: {
+      fr: 'Micro-label et communauté créative fondés en 2018 dans le Mile End à Montréal par Jean Néant (Joni Void), dédiés à l’ambient intimiste, aux boucles de cassettes et au collage électronique (YlangYlang, Joni Void).',
+      en: 'Mile End, Montreal micro-label and community founded in 2018 by Jean Néant (Joni Void), releasing intimate ambient, tape loops and electronic collage (YlangYlang, Joni Void).',
+    },
+  },
+  {
+    nom: 'Florina Cassettes',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: ['Pier-Luc Tremblay (Lamasz)', 'Francis Tremblay (Grandbruit)'],
+    site: 'https://florinacassettes.bandcamp.com',
+    discogsId: 2707307,
+    cles: ['florina cassettes'],
+    resume: {
+      fr: 'Micro-label cassettes montréalais fondé par les frères Pier-Luc Tremblay (Lamasz) et Francis Tremblay (Grandbruit), consacré à l’ambient, au drone et à l’électronique minimaliste.',
+      en: 'Montreal cassette micro-label founded by brothers Pier-Luc Tremblay (Lamasz) and Francis Tremblay (Grandbruit), dedicated to ambient, drone and minimalist electronics.',
+    },
+  },
+  {
+    nom: 'Distr!ck',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1996,
+    fondateurs: [],
+    site: 'https://www.discogs.com/label/1276-Distr!ck',
+    discogsId: 1276,
+    cles: ['distr ck', 'districk', 'districk records'],
+    resume: {
+      fr: 'Label underground montréalais de la fin des années 1990 situé rue Sainte-Catherine Ouest, resté célèbre pour ses maxis house, techno et électro et ses compilations Montréal House Musique et Montreal Basement.',
+      en: 'Late-1990s underground Montreal house, techno and electro imprint on Ste-Catherine West, known for the landmark Montréal House Musique and Montreal Basement compilations.',
+    },
+  },
+  {
+    nom: '514 Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1996,
+    fondateurs: [],
+    site: 'https://www.discogs.com/label/88991-514-Records',
+    discogsId: 88991,
+    cles: ['514 records', 'five one four records'],
+    resume: {
+      fr: 'Label vinyle montréalais de house et de techno actif rue Notre-Dame Ouest à la fin des années 1990 (rebaptisé Haute Couture en 1999), baptisé d’après l’indicatif régional de Montréal.',
+      en: 'Late-1990s Montreal vinyl house and techno label on Notre-Dame West named after the city’s 514 area code (rebranded as Haute Couture in 1999).',
+    },
+  },
+  {
+    nom: 'Numuzik Inc.',
+    pays: 'Canada',
+    quebec: true,
+    annee: 1991,
+    fondateurs: [],
+    site: 'https://www.discogs.com/label/14712-Numuzik-Inc',
+    discogsId: 14712,
+    cles: ['numuzik inc', 'numuzik'],
+    resume: {
+      fr: 'Label et distributeur indépendant basé à Saint-Léonard (Montréal), acteur majeur de la house, de l’eurodance et des compilations club au Québec durant les années 1990 et 2000.',
+      en: 'Independent dance label and distributor based in Saint-Léonard (Montreal), a major force for 1990s and 2000s house, eurodance and club releases in Quebec.',
+    },
+  },
+  {
+    nom: 'Kanibalz Digitalz',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2005,
+    fondateurs: [],
+    site: 'https://www.discogs.com/label/80973-Kanibalz-Digitalz',
+    discogsId: 80973,
+    cles: ['kanibalz digitalz', 'kanibalz'],
+    resume: {
+      fr: 'Netlabel originaire de la ville de Québec fondé au milieu des années 2000, référence canadienne du hardcore, du gabber, du UK hardcore et des musiques électroniques dures.',
+      en: 'Quebec City netlabel established in the mid-2000s, a pioneering Canadian hub for hardcore, gabber, UK hardcore and hard electronic music.',
+    },
+  },
+  {
+    nom: 'Blackbox Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: [],
+    site: 'https://blackboxrecords.ca',
+    cles: ['blackbox records'],
+    resume: {
+      fr: 'Petit label indépendant montréalais porté par un collectif de producteurs locaux, dédié à la house, à la bass house et aux grooves club percutants.',
+      en: 'Independent Montreal micro-label run by a collective of local producers, dedicated to house, bass house and gritty club grooves.',
+    },
+  },
+  {
+    nom: 'Ärder Records',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2021,
+    fondateurs: ['Mike Larry'],
+    site: 'https://arderrecords.bandcamp.com',
+    cles: ['arder records'],
+    resume: {
+      fr: 'Micro-label techno montréalais lancé par le producteur Mike Larry, consacré à la techno brute, industrielle et hypnotique.',
+      en: 'Montreal underground techno micro-label founded by producer Mike Larry, dedicated to raw, driving and hypnotic techno.',
+    },
+  },
+  {
+    nom: 'Muses of Eden',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2021,
+    fondateurs: [],
+    site: 'https://musesofeden.bandcamp.com',
+    cles: ['muses of eden'],
+    resume: {
+      fr: 'Micro-label montréalais sur Bandcamp dédié à l’ambient, au kosmische, au new age électronique et aux paysages modulaires contemplatifs.',
+      en: 'Montreal Bandcamp micro-label dedicated to ambient, kosmische, electronic new age and contemplative modular soundscapes.',
+    },
+  },
+  {
+    nom: 'La Crème',
+    pays: 'Canada',
+    quebec: true,
+    annee: 2020,
+    fondateurs: ['Xavier Constant (Jeune Chilly Chill)'],
+    site: 'https://lacreme.bandcamp.com',
+    cles: ['la creme'],
+    resume: {
+      fr: 'Micro-label numérique montréalais fondé par Xavier Constant (Jeune Chilly Chill), explorant mutations club, électro, bass et rythmes électroniques hybrides.',
+      en: 'Montreal digital micro-label founded by Xavier Constant (Jeune Chilly Chill), exploring underground club mutations, electro and hybrid bass beats.',
+    },
+  },
 ];
 const AJOUTE = new Map(AJOUTS.map((a) => [cleDeLabel(a.nom), a]));
 for (const a of AJOUTS) {
@@ -1118,6 +2095,11 @@ const racine = (cle: string): string => cle.replace(/( (records|recordings|music
    4AD, « TME » pour Tencent Music Entertainment) n'est cru que si le nom
    est assez long et que le vrai nom n'est pas lui-meme un label du corpus. */
 const acceptable = (c: Candidat, cle: string): boolean => {
+  const a = AJOUTE.get(cle);
+  if (a) {
+    if (a.discogsId && c.discogs && c.discogs !== String(a.discogsId)) return false;
+    if (a.pays && (!c.pays || c.pays !== a.pays) && (!a.discogsId || c.discogs !== String(a.discogsId))) return false;
+  }
   if (!c.alias) return true;
   const vrai = cleDeLabel(c.nomWikidata);
   if (racine(vrai) === racine(cle)) return true;
@@ -1399,10 +2381,10 @@ for (const { l, wd } of retenus) {
   const ajoutChange = Boolean(
     ajout &&
       (!avant ||
-        avant.sorties.length === 0 ||
-        (ajout.pays && avant.pays !== ajout.pays) ||
-        (ajout.discogsId && !avant.discogs?.includes(`/${ajout.discogsId}`)) ||
-        (ajout.resume?.fr && !avant.resume.fr))
+        (DISCOGS_HOMONYMES.has(l.cle) && avant.sorties.length > 0) ||
+        (ajout.discogsId === 12436 && avant.sorties.some((x) => x.artiste === 'Artful Dodger')) ||
+        (avant.sorties.length === 0 && Boolean(ajout.discogsId || ajout.discogsArtistId)) ||
+        (ajout.discogsId && !avant.discogs?.includes(`/${ajout.discogsId}`)))
   );
   /* Une fiche se reprend telle quelle, sauf si son element Wikidata a change
      depuis : les regles de reconnaissance ont pu la corriger. */
@@ -1410,7 +2392,8 @@ for (const { l, wd } of retenus) {
     fiches.set(s, {
       ...avant,
       n: l.n,
-      pays: avant.pays ?? ajout?.pays ?? null,
+      pays: ajout?.quebec ? 'Canada' : (avant.pays ?? ajout?.pays ?? null),
+      ...(avant.quebec || ajout?.quebec ? { quebec: true } : {}),
       annee: avant.annee ?? ajout?.annee ?? null,
       fondateurs: avant.fondateurs.length > 0 ? avant.fondateurs : (ajout?.fondateurs ?? []),
       site: avant.site ?? ajout?.site ?? null,
@@ -1456,7 +2439,10 @@ for (const { l, wd } of retenus) {
       }
     }
   }
-  let sorties = DISCOGS && (!ajout?.discogsId || ![2731130, 3992946, 3984072].includes(ajout.discogsId)) ? await sortiesConnues(nomDiscogs, l.cle) : [];
+  let sorties =
+    DISCOGS && !DISCOGS_HOMONYMES.has(l.cle) && (!ajout?.discogsId || ![2731130, 3992946, 3984072, 12436].includes(ajout.discogsId))
+      ? await sortiesConnues(nomDiscogs, l.cle)
+      : [];
   if (DISCOGS && sorties.length < 4 && ajout?.discogsId) {
     const duLabel = await sortiesDuLabelId(ajout.discogsId);
     if (duLabel.length > sorties.length) sorties = duLabel;
@@ -1478,7 +2464,8 @@ for (const { l, wd } of retenus) {
     cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? []), ...(ajout?.cles ?? [])])],
     anciens: [...new Set([...(anciens.get(l.cle) ?? []), ...(ajout?.anciens ?? [])])],
     n: l.n,
-    pays: wd?.pays ?? ajout?.pays ?? null,
+    pays: ajout?.quebec ? 'Canada' : (wd?.pays ?? ajout?.pays ?? null),
+    ...(avant?.quebec || ajout?.quebec ? { quebec: true } : {}),
     annee: wd?.annee ?? ajout?.annee ?? null,
     fondateurs: wd && (fondateurs.get(wd.item)?.length ?? 0) > 0 ? (fondateurs.get(wd.item) ?? []) : (ajout?.fondateurs ?? []),
     site: wd?.site ?? ajout?.site ?? null,
@@ -1512,6 +2499,7 @@ for (const groupe of parDiscogs.values()) {
   if (!t) continue;
   fiches.set(t.slug, {
     ...t,
+    ...(groupe.some((f) => f.quebec) ? { quebec: true } : {}),
     n: groupe.reduce((somme, f) => somme + f.n, 0),
     cles: [...new Set(groupe.flatMap((f) => f.cles))],
     anciens: [...new Set([...(t.anciens ?? []), ...autres.flatMap((f) => [f.slug, ...(f.anciens ?? [])])])],
@@ -1526,7 +2514,7 @@ writeFileSync(SORTIE, `${JSON.stringify(tout, null, 1)}\n`);
    fiche entiere ne se charge que sur la page du label. */
 writeFileSync(
   INDEX,
-  `${JSON.stringify(tout.map((f) => ({ s: f.slug, n: f.nom, k: f.cles, c: f.n, p: f.pays, a: f.annee, l: f.logo?.url ?? null, r: succes(f) })))}\n`
+  `${JSON.stringify(tout.map((f) => ({ s: f.slug, n: f.nom, k: f.cles, c: f.n, p: f.pays, ...(f.quebec ? { q: 1 as const } : {}), a: f.annee, l: f.logo?.url ?? null, r: succes(f) })))}\n`
 );
 const avecResume = tout.filter((f) => f.resume.fr || f.resume.en || f.profil).length;
 const avecSorties = tout.filter((f) => f.sorties.length > 0).length;

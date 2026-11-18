@@ -1439,7 +1439,9 @@ if (FICHES_LABELS.length > 0) {
 
 for (const f of FICHES_LABELS) {
   const morceaux = f.cles.flatMap((k) => morceauxParCle.get(k) ?? []);
-  const faits = [f.pays, f.annee ? `fondé en ${f.annee}` : null, f.fondateurs.length > 0 ? `par ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
+  const lieuFr = f.quebec ? 'Québec, Canada' : f.pays;
+  const lieuEn = f.quebec ? 'Quebec, Canada' : f.pays;
+  const faits = [lieuFr, f.annee ? `fondé en ${f.annee}` : null, f.fondateurs.length > 0 ? `par ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
   const resume = f.resume.fr ?? f.resume.en ?? f.profil ?? '';
   const aPageEn = Boolean(f.resume.en);
   const fil = [
@@ -1460,7 +1462,7 @@ for (const f of FICHES_LABELS) {
     chemin: `/labels/${f.slug}/`,
     alterne: aPageEn ? cheminEn(`/labels/${f.slug}/`) : undefined,
     hash: `#/labels/${f.slug}`,
-    titre: `${f.nom} : label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, fondé en ${f.annee}` : ''}, ses disques les plus connus · SONAA`,
+    titre: `${f.nom} : label${lieuFr ? ` (${lieuFr})` : ''}${f.annee ? `, fondé en ${f.annee}` : ''}, ses disques les plus connus · SONAA`,
     description: couper(premiere || `${f.nom} : son histoire, ses disques les plus connus et ses morceaux dans l’atlas des musiques électroniques.`, 158),
     corps: `${entete(fil)}<h1>${h(f.nom)}</h1>${faits ? `<p>${h(faits)}.</p>` : ''}${resume ? `<p>${h(resume)}</p>` : ''}${
       morceaux.length > 0
@@ -1487,7 +1489,7 @@ for (const f of FICHES_LABELS) {
      elles. */
   ecrire({ ...page, noindex: !resume && f.sorties.length === 0 });
   if (aPageEn && f.resume.en) {
-    const faitsEn = [f.pays, f.annee ? `founded in ${f.annee}` : null, f.fondateurs.length > 0 ? `by ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
+    const faitsEn = [lieuEn, f.annee ? `founded in ${f.annee}` : null, f.fondateurs.length > 0 ? `by ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
     const filEn = [
       { nom: 'Labels', href: cheminEn('/labels/') },
       { nom: f.nom, href: cheminEn(`/labels/${f.slug}/`) },
@@ -1498,7 +1500,7 @@ for (const f of FICHES_LABELS) {
       langue: 'en',
       alterne: `/labels/${f.slug}/`,
       hash: `#/labels/${f.slug}`,
-      titre: `${f.nom}: record label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, founded in ${f.annee}` : ''}, history and key releases · SONAA`,
+      titre: `${f.nom}: record label${lieuEn ? ` (${lieuEn})` : ''}${f.annee ? `, founded in ${f.annee}` : ''}, history and key releases · SONAA`,
       description: couper(premiereEn || `${f.nom}: label history, key releases and reference tracks in the SONAA electronic music atlas.`, 158),
       corps: `${enteteEn(filEn)}<h1>${h(f.nom)}</h1>${faitsEn ? `<p>${h(faitsEn)}.</p>` : ''}<p>${h(f.resume.en)}</p>${
         morceaux.length > 0

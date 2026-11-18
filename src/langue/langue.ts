@@ -553,6 +553,9 @@ interface Dictionnaire {
   readonly labelsTousPays: string;
   readonly labelsAucun: string;
   readonly labelsALaUne: string;
+  readonly labelsSceneQuebec: (n: number) => string;
+  readonly labelsFiltreQuebec: (n: number) => string;
+  readonly labelQuebecCanada: string;
   readonly labelsTous: (n: number) => string;
   readonly labelLogoCredit: (credit: string) => string;
   readonly labelDansLeStyle: (style: string, n: number) => string;
@@ -1705,6 +1708,9 @@ const FR: Dictionnaire = {
   labelsTousPays: 'Tous les pays',
   labelsAucun: 'Aucun label ne correspond.',
   labelsALaUne: 'À la une',
+  labelsSceneQuebec: (n) => `Labels du Québec (${n})`,
+  labelsFiltreQuebec: (n) => `Québec (${n})`,
+  labelQuebecCanada: 'Québec, Canada',
   labelsTous: (n) => `Tous les labels (${n})`,
   labelLogoCredit: (credit) => `Logo : ${credit}`,
   labelDansLeStyle: (style, n) => `${style} : ${n} morceau${n > 1 ? 'x' : ''} dans l’atlas`,
@@ -2894,6 +2900,9 @@ const EN: Dictionnaire = {
   labelsTousPays: 'All countries',
   labelsAucun: 'No label matches.',
   labelsALaUne: 'Featured labels',
+  labelsSceneQuebec: (n) => `Quebec labels (${n})`,
+  labelsFiltreQuebec: (n) => `Quebec (${n})`,
+  labelQuebecCanada: 'Quebec, Canada',
   labelsTous: (n) => `All labels (${n})`,
   labelLogoCredit: (credit) => `Logo: ${credit}`,
   labelDansLeStyle: (style, n) => `${style}: ${n} track${n > 1 ? 's' : ''} in the atlas`,
