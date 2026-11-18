@@ -30,7 +30,7 @@ import { VOIX_D_ACCORD, VOIX_MELODIQUES } from '../../lib/rythmes.ts';
 import { accord, degre, demiTons } from './theorie.ts';
 import { dureeDuPas, etatAu, pasParTemps, plan, type Cycle } from './arrangement.ts';
 import { charger, fichierDe, KICKS_DURS, kitDuMotif } from './echantillons.ts';
-import { INSTRUMENTS, sonAccorde, zoneDe, type Son } from './instruments.ts';
+import { BASSES_MESUREES, INSTRUMENTS, sonAccorde, zoneDe, type Son } from './instruments.ts';
 
 export { dureeDuPas } from './arrangement.ts';
 
@@ -87,8 +87,11 @@ const GAIN_SON: Record<string, number> = {
   'basse-303': 1.8, 'basse-303-accent': 1.8, 'basse-reverse': 2, 'basse-roll': 1.6, 'basse-fm': 1.2, 'sub-sinus': 1.3,
   'accord-dub': 3, 'stab': 2, 'stab-rave': 1.6, 'orgue-m1': 2, rhodes: 0.3, piano: 0.6, 'piano-rave': 1, arpege: 0.8, cordes: 1.6,
   lead: 1.6, 'lead-moog': 1.3, supersaw: 1.3, hoover: 4.5, screech: 1.6,
-  'kick-hitech': 1.4, 'basse-hitech': 1, 'lead-zap': 2.2,
+  'kick-hitech': 1.4, 'basse-hitech': 1, 'lead-zap': 2.2, 'basse-psycore': 2, 'basse-fullon': 1.5,
 };
+/* Les kicks et les basses psy mesures (ADR-124) : meme dosage que le hi-tech. */
+for (const id of BASSES_MESUREES) GAIN_SON[`basse-${id}`] ??= 1;
+for (const k of KICKS_DURS) if (/^kick-[a-z]+$/.test(k) && !(k in GAIN_SON)) GAIN_SON[k] = 1.4;
 
 /* Les kicks si gros qu'ils avalent la caisse et les charleys. */
 const KICKS_ENORMES: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle']);
@@ -110,6 +113,7 @@ interface Studio {
   /** Les fichiers decodes, et ce que joue chaque piste. */
   readonly banque: Map<string, AudioBuffer>;
   readonly sons: readonly (Son | null)[];
+  readonly famille: string;
 }
 
 /** Ce que joue chaque piste du motif : un instrument accorde, une frappe, ou rien. */
@@ -145,7 +149,20 @@ function courbe(k: number): Float32Array<ArrayBuffer> {
   return c;
 }
 
-function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, banque: Map<string, AudioBuffer>, sons: readonly (Son | null)[]): Studio {
+/* LA FAMILLE PSY SE MIXE SUR LE GRAVE (ADR-124) : mesurees sur leurs
+   morceaux de reference, ses productions mettent de 30 a 50 % de leur
+   energie sous 60 Hz et a peine 2 % entre 2 et 6 kHz. Charleys, caisses et
+   melodies y descendent d'un cran. */
+const DOSAGE_DE_FAMILLE: Partial<Record<string, Partial<Record<Canal, number>>>> = {
+  psy: { metal: 0.55, caisse: 0.45, lead: 0.7, accords: 0.8, percu: 0.8 },
+};
+
+/* Et, dans la meme famille, la ligne acide reste derriere la basse. */
+const VOIX_DE_FAMILLE: Partial<Record<string, Partial<Record<Voix, number>>>> = {
+  psy: { acid: 0.6 },
+};
+
+function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, banque: Map<string, AudioBuffer>, sons: readonly (Son | null)[], famille = ''): Studio {
   const espace = motif.espace ?? 0.4;
   const grain = motif.grain ?? 0.2;
 
@@ -208,7 +225,7 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, ban
   for (const nom of Object.keys(DOSAGE) as Canal[]) {
     const d = DOSAGE[nom];
     const g = ac.createGain();
-    g.gain.value = d.niveau;
+    g.gain.value = d.niveau * (DOSAGE_DE_FAMILLE[famille]?.[nom] ?? 1);
     let sortieCanal: AudioNode = g;
     if (nom === 'kick' && grain > 0.45 && !kickDejaDur) {
       const dur = ac.createWaveShaper();
@@ -220,7 +237,7 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, ban
     }
     /* Sous un kick de gabber ou de hardstyle, la caisse et les charleys
        remontent de 6 dB : sinon ce kick les avale. */
-    if (kick && 'frappe' in kick && KICKS_ENORMES.has(kick.frappe) && (nom === 'caisse' || nom === 'metal')) g.gain.value = d.niveau * 2;
+    if (kick && 'frappe' in kick && KICKS_ENORMES.has(kick.frappe) && (nom === 'caisse' || nom === 'metal')) g.gain.value *= 2;
     sortieCanal.connect(d.pompe ? pompe : sature);
     const envoiR = ac.createGain();
     envoiR.gain.value = d.reverb * (0.25 + espace);
@@ -230,7 +247,7 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, ban
     sortieCanal.connect(envoiE).connect(echo);
     canaux[nom] = g;
   }
-  return { ac, motif, canaux, pompe, derniere: new Map(), banque, sons };
+  return { ac, motif, canaux, pompe, derniere: new Map(), banque, sons, famille };
 }
 
 /* ── La lecture ──────────────────────────────────────────────────────── */
@@ -329,7 +346,7 @@ function jouerSon(s: Studio, c: Coup): void {
     inst.mode === 'tenu' ? c.t + Math.max(0.06, c.duree * 0.92) :
     inst.mode === 'libre' ? c.t + (canal === 'basse' ? c.duree : Math.max(0.4, c.duree * 2.5)) :
     c.t + Math.max(0.25, c.duree * 1.5);
-  const niveau = ((NIVEAU[c.p.voix] ?? 0.9) * (GAIN_SON[id] ?? 1) * velocite(c.force)) / Math.sqrt(notes.length);
+  const niveau = ((NIVEAU[c.p.voix] ?? 0.9) * (GAIN_SON[id] ?? 1) * (VOIX_DE_FAMILLE[s.famille]?.[c.p.voix] ?? 1) * velocite(c.force)) / Math.sqrt(notes.length);
   for (const m of notes) {
     const z = zoneDe(id, m);
     if (!z) continue;
@@ -506,7 +523,7 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
   const sortie = options.enregistrer ? ac.createMediaStreamDestination() : null;
   const bus = ac.createGain();
   bus.connect(sortie ?? ac.destination);
-  const s = monterStudio(ac, motif, bus, banque, sonsDuMotif(motif, options.famille));
+  const s = monterStudio(ac, motif, bus, banque, sonsDuMotif(motif, options.famille), options.famille);
   const cycles = options.construire ? plan(motif) : null;
 
   const duree = dureeDuPas(motif);
@@ -535,7 +552,7 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
 export async function rendre(motif: Motif, secondes: number, famille: string, construire = true): Promise<AudioBuffer> {
   const ac = new OfflineAudioContext(2, Math.round(44100 * secondes), 44100);
   const banque = await charger(ac, fichiersDuMotif(motif, famille, construire));
-  const s = monterStudio(ac, motif, ac.destination, banque, sonsDuMotif(motif, famille));
+  const s = monterStudio(ac, motif, ac.destination, banque, sonsDuMotif(motif, famille), famille);
   const cycles = construire ? plan(motif) : null;
   const duree = dureeDuPas(motif);
   for (let p = 0; p * duree < secondes; p += 1) programmerLePas(s, motif, cycles, p, 0.05 + p * duree);

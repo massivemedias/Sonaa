@@ -99,17 +99,33 @@ const KICK_DU_STYLE: Record<string, string> = {
   gabber: 'kick-gabber', hardcoretechno: 'kick-gabber', nustylegabber: 'kick-gabber', doomcore: 'kick-gabber',
   lentoviolento: 'kick-gabber', crossbreed: 'kick-gabber', breakcore: 'kick-gabber',
   frenchcore: 'kick-uptempo', uptempo: 'kick-uptempo', terrorcore: 'kick-uptempo', speedcore: 'kick-uptempo',
-  digitalhardcore: 'kick-uptempo', psycore: 'kick-uptempo',
+  digitalhardcore: 'kick-uptempo',
   hardstyle: 'kick-hardstyle', jumpstyle: 'kick-hardstyle', dubstyle: 'kick-hardstyle',
   happyhardcore: 'kick-dur', ukhardcore: 'kick-dur', bouncytechno: 'kick-dur', makina: 'kick-dur', jcore: 'kick-dur',
   hardtechno: 'kick-dur', schranz: 'kick-dur', industrialtechno: 'kick-dur', bangintechno: 'kick-dur', techtrance: 'kick-dur',
   hardhouse: 'kick-dur', hardtrance: 'kick-dur', rhythmicnoise: 'kick-dur', powerelectronics: 'kick-dur', raggacore: 'kick-dur',
   gqom: 'kick-caverne',
   hitech: 'kick-hitech',
+  /* les kicks psy, accordes sur la basse de chaque style (ADR-124) */
+  goatrance: 'kick-goatrance',
+  psychedelictrance: 'kick-psychedelictrance',
+  fullon: 'kick-fullon',
+  morningfullon: 'kick-morningfullon',
+  nitzhonot: 'kick-nitzhonot',
+  darkpsy: 'kick-darkpsy',
+  forestpsy: 'kick-forestpsy',
+  progpsy: 'kick-progpsy',
+  suomisaundi: 'kick-suomisaundi',
+  psydub: 'kick-psydub',
+  psycore: 'kick-psycore',
+  zenonesque: 'kick-zenonesque',
+  psytech: 'kick-psytech',
+  twilightpsy: 'kick-twilightpsy',
+  neogoa: 'kick-neogoa',
 };
 
 /** Les kicks deja satures : le moteur ne les repasse pas dans sa distorsion. */
-export const KICKS_DURS: ReadonlySet<string> = new Set(['kick-gabber', 'kick-uptempo', 'kick-hardstyle', 'kick-dur', 'kick-caverne', 'kick-hitech']);
+export const KICKS_DURS: ReadonlySet<string> = new Set([...Object.values(KICK_DU_STYLE), 'kick-psy']);
 
 const GLITCH = ['glitch-3', 'glitch-2'];
 

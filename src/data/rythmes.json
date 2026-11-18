@@ -9105,7 +9105,7 @@
   },
   "goatrance": {
     "id": "goatrance",
-    "bpm": 142,
+    "bpm": 143,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -9133,48 +9133,25 @@
         ]
       },
       {
-        "voix": "clap",
-        "fr": "CLAP",
-        "en": "CLAP",
-        "pas": [
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          2,
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "voix": "hat",
         "fr": "CHARLEY",
         "en": "HI-HAT",
         "pas": [
-          2,
           1,
-          0,
           1,
           2,
           1,
-          0,
+          1,
           1,
           2,
           1,
-          0,
+          1,
           1,
           2,
           1,
-          0,
+          1,
+          1,
+          2,
           1
         ]
       },
@@ -9259,6 +9236,47 @@
           1,
           8
         ]
+      },
+      {
+        "voix": "sub",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          0,
+          2,
+          2,
+          2,
+          0,
+          2,
+          2,
+          2,
+          0,
+          2,
+          2,
+          2,
+          0,
+          2,
+          2,
+          2
+        ],
+        "notes": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ]
       }
     ],
     "devise": {
@@ -9296,7 +9314,7 @@
   },
   "psychedelictrance": {
     "id": "psychedelictrance",
-    "bpm": 145,
+    "bpm": 140,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -9394,7 +9412,7 @@
         "pas": [
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -9402,7 +9420,7 @@
           0,
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -9411,7 +9429,7 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
@@ -9534,6 +9552,29 @@
         ]
       },
       {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HATS",
+        "pas": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1
+        ]
+      },
+      {
         "voix": "lead",
         "fr": "LEAD",
         "en": "LEAD",
@@ -9575,7 +9616,7 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
@@ -9850,7 +9891,7 @@
   },
   "darkpsy": {
     "id": "darkpsy",
-    "bpm": 155,
+    "bpm": 150,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -9947,21 +9988,21 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
           0,
           2,
-          0,
+          2,
           2,
           0,
           2,
-          0,
+          2,
           2,
           0,
           2,
-          0,
+          2,
           2,
           0,
           2,
@@ -9971,15 +10012,15 @@
         "notes": [
           0,
           1,
-          0,
+          1,
           1,
           0,
           1,
-          0,
+          1,
           1,
           0,
           1,
-          0,
+          1,
           1,
           0,
           1,
@@ -9997,8 +10038,8 @@
       "en": "ACCESS VIRUS AND FM8"
     },
     "resume": {
-      "fr": "KICK SEC · BASSE TORDUE EN TRIOLETS",
-      "en": "DRY KICK · TWISTED TRIPLET BASS"
+      "fr": "KICK SEC · BASSE ROULANTE DOUBLÉE",
+      "en": "DRY KICK · DOUBLED ROLLING BASS"
     },
     "racine": {
       "fr": "Russie, Allemagne et Brésil, milieu des années 2000.",
@@ -10019,7 +10060,7 @@
   },
   "forestpsy": {
     "id": "forestpsy",
-    "bpm": 150,
+    "bpm": 145,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -10134,7 +10175,7 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
@@ -10405,7 +10446,7 @@
   },
   "progpsy": {
     "id": "progpsy",
-    "bpm": 138,
+    "bpm": 140,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -10460,22 +10501,22 @@
         "fr": "CHARLEY",
         "en": "HI-HAT",
         "pas": [
-          1,
-          1,
-          2,
-          1,
-          1,
-          1,
           0,
-          1,
-          1,
-          1,
-          2,
-          1,
-          1,
-          1,
           0,
-          1
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
         ]
       },
       {
@@ -10502,44 +10543,44 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
           0,
-          0,
+          2,
+          2,
           2,
           0,
-          0,
-          0,
+          2,
+          2,
           2,
           0,
-          0,
-          0,
+          2,
+          2,
           2,
           0,
-          0,
-          0,
           2,
-          0
+          2,
+          2
         ],
         "notes": [
           0,
-          0,
+          1,
+          1,
           1,
           0,
-          0,
-          0,
+          1,
+          1,
           1,
           0,
-          0,
-          0,
+          1,
+          1,
           1,
           0,
-          0,
-          0,
-          5,
-          0
+          1,
+          1,
+          5
         ]
       }
     ],
@@ -10552,8 +10593,8 @@
       "en": "ACCESS VIRUS AND NORD LEAD"
     },
     "resume": {
-      "fr": "KICK SUR LE TEMPS · BASSE SUR LE ET",
-      "en": "KICK ON THE BEAT · BASS ON THE AND"
+      "fr": "BASSE ROULANTE · CHARLEY SUR LE ET",
+      "en": "ROLLING BASS · HAT ON THE OFFBEAT"
     },
     "racine": {
       "fr": "Scandinavie, fin des années 1990 : Atmos, Ticon, Vibrasphere.",
@@ -10641,21 +10682,21 @@
         "fr": "CHARLEY",
         "en": "HI-HAT",
         "pas": [
+          0,
           2,
           1,
-          0,
           1,
+          0,
           2,
           1,
-          0,
           1,
+          0,
           2,
           1,
-          0,
           1,
+          0,
           2,
           1,
-          0,
           1
         ]
       },
@@ -10705,40 +10746,40 @@
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
-          2,
           0,
+          2,
+          2,
           1,
-          2,
           0,
+          2,
+          2,
           1,
-          2,
           0,
           2,
-          0,
+          2,
           1,
-          2,
           0,
           2,
-          0,
+          2,
           1
         ],
         "notes": [
-          1,
           0,
+          1,
           8,
           5,
           0,
           1,
           8,
-          0,
-          1,
-          0,
-          5,
           6,
           0,
+          1,
+          8,
           5,
           0,
-          8
+          5,
+          8,
+          1
         ]
       }
     ],
@@ -37150,7 +37191,7 @@
   },
   "psycore": {
     "id": "psycore",
-    "bpm": 190,
+    "bpm": 160,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -37231,37 +37272,37 @@
           0,
           2,
           2,
-          2,
+          0,
           0,
           2,
-          2,
-          2,
-          0,
-          2,
-          0,
           2,
           0,
           0,
+          2,
+          2,
           0,
-          0
+          0,
+          2,
+          2,
+          2
         ],
         "notes": [
           0,
           1,
           1,
+          0,
+          0,
+          1,
           8,
           0,
-          1,
-          1,
-          8,
           0,
           1,
+          1,
           0,
+          0,
+          1,
           2,
-          0,
-          0,
-          0,
-          0
+          8
         ]
       }
     ],
@@ -37296,7 +37337,7 @@
   },
   "zenonesque": {
     "id": "zenonesque",
-    "bpm": 128,
+    "bpm": 126,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -37393,44 +37434,44 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
           0,
           0,
           2,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
           2,
           0,
           0,
+          2,
+          2,
+          0,
           0,
           2,
-          0
+          2,
+          0,
+          0,
+          2,
+          2
         ],
         "notes": [
           0,
           0,
           1,
-          0,
-          0,
-          0,
           1,
           0,
           0,
-          0,
+          1,
           1,
           0,
           0,
+          1,
+          1,
           0,
-          8,
-          0
+          0,
+          1,
+          8
         ]
       }
     ],
@@ -37443,8 +37484,8 @@
       "en": "SERUM AND FIELD RECORDINGS"
     },
     "resume": {
-      "fr": "BASSE OFFBEAT · TAMBOURS EN GHOST NOTES",
-      "en": "OFFBEAT BASS · HAND DRUM GHOST NOTES"
+      "fr": "BASSE EN DEUX COUPS · GHOST NOTES",
+      "en": "TWO-HIT BASS · GHOST NOTES"
     },
     "racine": {
       "fr": "Australie, milieu des années 2000 : le label Zenon Records.",
@@ -37465,7 +37506,7 @@
   },
   "psytech": {
     "id": "psytech",
-    "bpm": 134,
+    "bpm": 126,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -37563,7 +37604,7 @@
         "pas": [
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -37571,7 +37612,7 @@
           0,
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -37580,42 +37621,42 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
           0,
-          2,
-          2,
-          2,
           0,
           2,
           2,
-          2,
+          0,
           0,
           2,
           2,
-          2,
+          0,
           0,
           2,
+          2,
+          0,
+          0,
           2,
           2
         ],
         "notes": [
           0,
-          1,
-          1,
-          1,
           0,
           1,
           1,
-          1,
+          0,
           0,
           1,
           1,
-          1,
+          0,
           0,
           1,
+          1,
+          0,
+          0,
           1,
           8
         ]
@@ -37630,8 +37671,8 @@
       "en": "TR-909 AND MODULAR"
     },
     "resume": {
-      "fr": "BASSE ROULANTE DROITE · KICK TECHNO SEC",
-      "en": "STRAIGHT ROLLING BASS · DRY TECHNO KICK"
+      "fr": "BASSE EN DEUX COUPS · KICK TECHNO SEC",
+      "en": "TWO-HIT BASS · DRY TECHNO KICK"
     },
     "racine": {
       "fr": "Hambourg, début des années 2000 : X-Dream et The Delta.",
@@ -37652,7 +37693,7 @@
   },
   "twilightpsy": {
     "id": "twilightpsy",
-    "bpm": 148,
+    "bpm": 150,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -37767,7 +37808,7 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
@@ -37839,7 +37880,7 @@
   },
   "morningfullon": {
     "id": "morningfullon",
-    "bpm": 140,
+    "bpm": 145,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -37896,7 +37937,7 @@
         "pas": [
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -37904,7 +37945,7 @@
           0,
           0,
           0,
-          0,
+          2,
           0,
           0,
           0,
@@ -37954,7 +37995,7 @@
         ]
       },
       {
-        "voix": "bass",
+        "voix": "sub",
         "fr": "BASSE",
         "en": "BASS",
         "pas": [
@@ -38030,7 +38071,7 @@
   },
   "neogoa": {
     "id": "neogoa",
-    "bpm": 145,
+    "bpm": 146,
     "mesure": "4/4",
     "pas": 16,
     "pistes": [
@@ -38058,26 +38099,44 @@
         ]
       },
       {
-        "voix": "clap",
-        "fr": "CLAP",
-        "en": "CLAP",
+        "voix": "sub",
+        "fr": "BASSE",
+        "en": "BASS",
         "pas": [
           0,
-          0,
-          0,
-          0,
+          1,
+          2,
           2,
           0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          1,
+          2,
           2,
           0,
+          1,
+          2,
+          2,
           0,
-          0
+          1,
+          2,
+          2
+        ],
+        "notes": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
         ]
       },
       {

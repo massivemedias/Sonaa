@@ -241,11 +241,20 @@ function voix(e: string): Son {
   return { instrument: 'voix' };
 }
 
+/** Les styles psy dont la basse a ete mesuree sur des morceaux de
+    reference (ADR-124) : chacun a la sienne, `basse-<style>`, calee sur son
+    tempo, son registre et son nombre d'attaques par double croche. */
+export const BASSES_MESUREES: ReadonlySet<string> = new Set([
+  'goatrance', 'psychedelictrance', 'fullon', 'morningfullon', 'darkpsy', 'forestpsy', 'progpsy',
+  'twilightpsy', 'zenonesque', 'psytech', 'neogoa', 'suomisaundi', 'psycore',
+]);
+
 /** L'instrument accorde d'une piste melodique ou d'accords, ou null pour
     une voix de percussion (echantillons.ts s'en charge). */
 export function sonAccorde(piste: Piste, motif: Motif, famille: string): Son | null {
   const e = etiquette(piste);
   const v: Voix = piste.voix;
+  if ((v === 'bass' || v === 'sub') && BASSES_MESUREES.has(motif.id)) return { instrument: `basse-${motif.id}` };
   switch (v) {
     case 'bass':
       return { instrument: basse(e, motif, famille) };

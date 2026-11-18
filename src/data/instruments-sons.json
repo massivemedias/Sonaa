@@ -87,6 +87,34 @@
   ],
   "relache": 0.04
  },
+ "basse-darkpsy": {
+  "mode": "libre",
+  "zones": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50
+  ],
+  "relache": 0.004
+ },
  "basse-dub": {
   "mode": "tenu",
   "zones": [
@@ -119,6 +147,90 @@
    59
   ],
   "relache": 0.04
+ },
+ "basse-forestpsy": {
+  "mode": "libre",
+  "zones": [
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48
+  ],
+  "relache": 0.004
+ },
+ "basse-fullon": {
+  "mode": "libre",
+  "zones": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50
+  ],
+  "relache": 0.004
+ },
+ "basse-goatrance": {
+  "mode": "libre",
+  "zones": [
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47
+  ],
+  "relache": 0.004
  },
  "basse-growl": {
   "mode": "tenu",
@@ -177,6 +289,174 @@
    59
   ],
   "relache": 0.04
+ },
+ "basse-morningfullon": {
+  "mode": "libre",
+  "zones": [
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45
+  ],
+  "relache": 0.004
+ },
+ "basse-neogoa": {
+  "mode": "libre",
+  "zones": [
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47
+  ],
+  "relache": 0.004
+ },
+ "basse-progpsy": {
+  "mode": "libre",
+  "zones": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50
+  ],
+  "relache": 0.004
+ },
+ "basse-psychedelictrance": {
+  "mode": "libre",
+  "zones": [
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48
+  ],
+  "relache": 0.004
+ },
+ "basse-psycore": {
+  "mode": "libre",
+  "zones": [
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52
+  ],
+  "relache": 0.004
+ },
+ "basse-psytech": {
+  "mode": "libre",
+  "zones": [
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49
+  ],
+  "relache": 0.004
  },
  "basse-reese": {
   "mode": "tenu",
@@ -244,6 +524,62 @@
   ],
   "relache": 0.04
  },
+ "basse-suomisaundi": {
+  "mode": "libre",
+  "zones": [
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52
+  ],
+  "relache": 0.004
+ },
+ "basse-twilightpsy": {
+  "mode": "libre",
+  "zones": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50
+  ],
+  "relache": 0.004
+ },
  "basse-warp": {
   "mode": "tenu",
   "zones": [
@@ -265,6 +601,34 @@
    59
   ],
   "relache": 0.04
+ },
+ "basse-zenonesque": {
+  "mode": "libre",
+  "zones": [
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47
+  ],
+  "relache": 0.004
  },
  "bleep": {
   "mode": "libre",
@@ -508,10 +872,22 @@
  "kick-caverne": {
   "mode": "coup"
  },
+ "kick-darkpsy": {
+  "mode": "coup"
+ },
  "kick-dur": {
   "mode": "coup"
  },
+ "kick-forestpsy": {
+  "mode": "coup"
+ },
+ "kick-fullon": {
+  "mode": "coup"
+ },
  "kick-gabber": {
+  "mode": "coup"
+ },
+ "kick-goatrance": {
   "mode": "coup"
  },
  "kick-hardstyle": {
@@ -520,10 +896,43 @@
  "kick-hitech": {
   "mode": "coup"
  },
+ "kick-morningfullon": {
+  "mode": "coup"
+ },
+ "kick-neogoa": {
+  "mode": "coup"
+ },
+ "kick-nitzhonot": {
+  "mode": "coup"
+ },
+ "kick-progpsy": {
+  "mode": "coup"
+ },
  "kick-psy": {
   "mode": "coup"
  },
+ "kick-psychedelictrance": {
+  "mode": "coup"
+ },
+ "kick-psycore": {
+  "mode": "coup"
+ },
+ "kick-psydub": {
+  "mode": "coup"
+ },
+ "kick-psytech": {
+  "mode": "coup"
+ },
+ "kick-suomisaundi": {
+  "mode": "coup"
+ },
+ "kick-twilightpsy": {
+  "mode": "coup"
+ },
  "kick-uptempo": {
+  "mode": "coup"
+ },
+ "kick-zenonesque": {
   "mode": "coup"
  },
  "lead": {

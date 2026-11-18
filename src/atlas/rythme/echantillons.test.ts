@@ -73,7 +73,7 @@ describe('les sons des 219 styles', () => {
 describe('le choix des instruments refletent le sous-style', () => {
   it('donne a chaque style sa basse', () => {
     expect(instrumentDe('usdeephouse', 'house', 'bass')).toBe('basse-juno');
-    expect(instrumentDe('psychedelictrance', 'psy', 'bass')).toBe('basse-roll');
+    expect(instrumentDe('psychedelictrance', 'psy', 'sub')).toBe('basse-psychedelictrance');
     expect(instrumentDe('disco', 'disco', 'bass')).toBe('basse-electrique');
     expect(instrumentDe('dub', 'roots', 'bass')).toBe('basse-dub');
     expect(instrumentDe('dubtechno', 'techno', 'sub')).toBe('sub-sinus');
@@ -102,7 +102,7 @@ describe('le choix des instruments refletent le sous-style', () => {
   it('prend un kick fait pour les styles durs, et la machine du style ailleurs', () => {
     expect(instrumentDe('gabber', 'hardcore', 'kick')).toBe('kick-gabber');
     expect(instrumentDe('hardstyle', 'hardcore', 'kick')).toBe('kick-hardstyle');
-    expect(instrumentDe('psychedelictrance', 'psy', 'kick')).toBe('kick-psy');
+    expect(instrumentDe('psychedelictrance', 'psy', 'kick')).toBe('kick-psychedelictrance');
     expect(instrumentDe('detroittechno', 'techno', 'kick')).toBe('tr909-kick');
     expect(instrumentDe('acidhouse', 'house', 'kick')).toBe('tr808-kick');
     const micro = motif('microhouse');
@@ -120,6 +120,20 @@ describe('le choix des instruments refletent le sous-style', () => {
     /* la basse roule sur les trois doubles croches qui suivent chaque kick, jamais sur lui */
     expect(m.pistes.find((p) => p.voix === 'sub')?.pas.join('')).toBe('0222022202220222');
     expect(m.pistes.some((p) => p.voix === 'snare')).toBe(false);
+  });
+
+  it('donne a chaque style psy mesure son kick et sa basse (ADR-124)', () => {
+    const psy = CORPUS.genres.filter((g) => g.family === 'psy' && g.id !== 'hitech');
+    for (const g of psy) expect(instrumentDe(g.id, 'psy', 'kick'), g.id).toBe(`kick-${g.id}`);
+    for (const id of ['goatrance', 'fullon', 'darkpsy', 'forestpsy', 'progpsy', 'twilightpsy', 'zenonesque', 'psytech', 'neogoa', 'morningfullon']) {
+      expect(instrumentDe(id, 'psy', 'sub'), id).toBe(`basse-${id}`);
+    }
+    expect(instrumentDe('suomisaundi', 'psy', 'bass')).toBe('basse-suomisaundi');
+    expect(instrumentDe('psycore', 'psy', 'bass')).toBe('basse-psycore');
+    /* les tempos des references, en mediane par morceau */
+    expect(motif('darkpsy').bpm).toBe(150);
+    expect(motif('psycore').bpm).toBe(160);
+    expect(motif('zenonesque').bpm).toBe(126);
   });
 
   it('choisit la zone la plus proche et la vitesse qui y mene', () => {

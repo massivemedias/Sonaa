@@ -542,6 +542,110 @@ CATALOGUE['basse-hitech'] = dict(type='fonction', fabriquer=basse_hitech, zones=
 synthe('lead-zap', A, dict(suivi=1, wsaw=1, wsq=0.6, det=8, cut=900, envamt=6000, res=0.55, fdec=0.05, fsus=0.1, pst=19, pdec=0.025,
                            aatk=0.001, adec=0.14, asus=0, arel=0.04, drive=3, hp=150), Z_LEAD, 0.15, 0.24, mode='libre')
 
+# ── TOUS LES STYLES PSY (ADR-124) ──
+# Mika, le 17 novembre 2026 : « fais pareil pour tous les styles psy ». Chaque
+# style a ete mesure sur des morceaux libres d'archive.org, avec la methode du
+# hi-tech (scripts/sons/mesurer.py) : la courbe de hauteur du kick, sa tenue,
+# la fondamentale et la duree des notes de basse, le nombre d'attaques par
+# double croche. Les valeurs sont dans PSY, plus bas.
+
+
+def kick_psy(fin_hz: float, tempo: float, clic: float, grain: float) -> np.ndarray:
+    """Le kick d'un style psy : la courbe mesuree sur le hi-tech (de 360 Hz a
+    la fondamentale en une centaine de ms), accordee sur la basse du style ;
+    le corps tient une demi-double croche et s'efface avant la premiere note
+    de basse, comme sur toutes les references."""
+    seize = 60 / tempo / 4
+    n = int((seize + 0.05) * AIGU)
+    t = np.arange(n) / AIGU
+    # le balayage aigu est court : les references ont 30 a 50 % de leur
+    # energie sous 60 Hz, le kick ne doit pas la prendre au bas-medium
+    f = fin_hz + 210 * np.exp(-t / 0.009) + 70 * np.exp(-t / 0.035)
+    corps = np.sin(2 * np.pi * np.cumsum(f) / AIGU)
+    tenue = 0.5 * seize
+    tau = 0.5 * seize / np.log(10)
+    amp = np.minimum(1, t / 0.0006) * np.where(t < tenue, 1.0, np.exp(-(t - tenue) / tau))
+    bruit = passe_haut(np.random.default_rng(11).standard_normal(n), AIGU, 3000) * np.exp(-t / 0.0015) * clic
+    return sature(corps * amp + bruit, 1.4 + 2 * grain)
+
+
+def basse_psy(midi: float, tempo: float, attaques: int, harm2: float, eclat: float) -> np.ndarray:
+    """Une double croche de basse au tempo du style : la fondamentale et sa
+    deuxieme harmonique, relancees `attaques` fois, chaque attaque un coup de
+    filtre plus ou moins eclatant (mesure par le centroide des references)."""
+    seize = 60 / tempo / 4
+    n = int(seize * MEDIUM)
+    t = np.arange(n) / MEDIUM
+    f = frequence(midi)
+    pas = seize / attaques
+    local = t % pas
+    amp = np.minimum(1, local / 0.0015) * np.exp(-local / (0.45 * pas)) * np.minimum(1, (seize - t) / 0.003)
+    sub = np.tanh(1.2 * (np.sin(2 * np.pi * f * t) + 0.5 * harm2 * np.sin(4 * np.pi * f * t))) * amp
+    zap = np.zeros(n)
+    for k in range(attaques):
+        note = F.rendre(A, dict(wsaw=1, wsq=0.5, suivi=2, cut=150, envamt=1200 + 4800 * eclat, res=0.45, fdec=0.008 + 0.025 * (1 - eclat),
+                                fsus=0, aatk=0.0005, adec=0.45 * pas, asus=0, arel=0.006, drive=2, hp=70), f * 2, min(pas, 0.03), pas, MEDIUM)
+        a = int(k * pas * MEDIUM)
+        zap[a: a + len(note)] += note[: n - a]
+    zap /= max(1e-9, np.abs(zap).max())
+    return sub + (0.12 + 0.25 * eclat) * zap
+
+
+# LES MESURES, style par style (ADR-124). attaques : par double croche,
+# d'apres l'etalonnage (une note par double croche donne 5,5 attaques
+# mesurees par temps, trois en donnent 11,4) ; harm2 : la deuxieme harmonique,
+# d'apres le rapport des energies 60-120 Hz et 20-60 Hz, puis ajustee pour
+# retrouver l'equilibre des references au banc (scripts du 18 novembre) ; eclat : le centroide
+# du milieu du temps, de 1 130 Hz (0) a 1 700 Hz (1) ; registre : 'sub' pour
+# une fondamentale entre 41 et 59 Hz, 'bass' pour 80 Hz et plus.
+PSY: dict[str, dict] = {
+    'goatrance': dict(attaques=2, harm2=1.6, eclat=0.55, registre='sub'),
+    'psychedelictrance': dict(attaques=1, harm2=0.58, eclat=0.70, registre='sub'),
+    'fullon': dict(attaques=1, harm2=0.48, eclat=0.58, registre='sub'),
+    'morningfullon': dict(attaques=2, harm2=0.50, eclat=0.66, registre='sub'),
+    'darkpsy': dict(attaques=2, harm2=0.46, eclat=0.34, registre='sub'),
+    'forestpsy': dict(attaques=2, harm2=0.51, eclat=0.67, registre='sub'),
+    'progpsy': dict(attaques=2, harm2=1.06, eclat=0.27, registre='sub'),
+    'twilightpsy': dict(attaques=2, harm2=0.70, eclat=0.78, registre='sub'),
+    'zenonesque': dict(attaques=1, harm2=1.2, eclat=0.10, registre='sub'),
+    'psytech': dict(attaques=1, harm2=0.40, eclat=0.10, registre='sub'),
+    'neogoa': dict(attaques=1, harm2=0.60, eclat=0.70, registre='sub'),
+    'suomisaundi': dict(attaques=2, harm2=1.6, eclat=0.66, registre='bass'),
+    'psycore': dict(attaques=1, harm2=1.8, eclat=0.81, registre='bass'),
+}
+# Sans basse mesuree : le nitzhonot (aucune reference libre exploitable) et
+# le psydub (deux extraits seulement) gardent leur basse, mais prennent un
+# kick accorde a leur tonique.
+KICK_SEUL = ('nitzhonot', 'psydub')
+
+DEMI = {'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10, 'Bb': 10, 'B': 11}
+
+
+def enregistrer_psy() -> None:
+    motifs = json.loads((RACINE / 'src' / 'data' / 'rythmes.json').read_text())
+    for style in list(PSY) + list(KICK_SEUL):
+        m = motifs[style]
+        grave = 33 + ((DEMI[m.get('tonique', 'A')] - 9 + 12) % 12)  # comme registres() dans son.ts
+        clic = 0.25 if style in ('psydub', 'zenonesque', 'psytech') else 0.5
+        # le kick finit sur la tonique ; sous 34 Hz (la, si, do), il remonte
+        # d'une octave : aucune reference ne finit aussi bas, et le banc a
+        # montre qu'un re grave (37 Hz) reste juste
+        fin = frequence(grave - 12)
+        while fin < 34:
+            fin *= 2
+        CATALOGUE[f'kick-{style}'] = dict(type='coup', fabriquer=(lambda f=fin, b=m['bpm'], c=clic, g=m.get('grain', 0.3): kick_psy(f, b, c, g)),
+                                          rms=None, crete=-1.0, longueur=None, taux=AIGU, mode='coup', zones=[])
+        if style in KICK_SEUL:
+            continue
+        p = PSY[style]
+        base = grave - 12 if p['registre'] == 'sub' else grave
+        CATALOGUE[f'basse-{style}'] = dict(type='fonction', fabriquer=(lambda midi, b=m['bpm'], p=p: basse_psy(midi, b, p['attaques'], p['harm2'], p['eclat'])),
+                                           zones=list(range(base - 2, base + 20)), longueur=None, taux=MEDIUM, mode='libre', relache=0.004, rms=-14, large=False, fondu=0.003)
+
+
+enregistrer_psy()
+
+
 # Les deux salles : reponses impulsionnelles stereo d'une reverberation zita,
 # lues par le convolueur du navigateur.
 CATALOGUE['salle-courte'] = dict(type='salle', t60=1.6, secondes=2.2, taux=MEDIUM, mode='salle', zones=[])
