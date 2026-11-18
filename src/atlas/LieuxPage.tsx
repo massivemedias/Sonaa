@@ -467,11 +467,9 @@ export function LieuxPage() {
     let annule = false;
     let carte: CarteMapLibre | null = null;
     try {
-      carte = creerCarte(conteneur, [12, 20], 1.6);
-      carte.setMaxBounds([
-        [-179, -48],
-        [179, 72],
-      ]);
+      carte = creerCarte(conteneur, [20, 15], 1.2);
+      carte.setRenderWorldCopies(false);
+      carte.setMinZoom(0.35);
       mouvementProgrammatiqueRef.current = true;
       carte.once('moveend', () => {
         mouvementProgrammatiqueRef.current = false;

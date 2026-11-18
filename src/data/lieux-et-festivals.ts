@@ -1200,6 +1200,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: 'III Points',
     type: 'festival',
     paysCode: 'US',
+    villeSlug: 'miami-us',
     ville: { fr: 'Miami', en: 'Miami' },
     latitude: 25.8009,
     longitude: -80.2044,
@@ -2940,6 +2941,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     nom: "Ultra Music Festival",
     type: "festival",
     paysCode: "US",
+    villeSlug: "miami-us",
     ville: { fr: "Miami", en: "Miami" },
     latitude: 25.7743,
     longitude: -80.1859,
@@ -16284,66 +16286,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     }
   },
   {
-    "id": "ultra-music-festival-miami",
-    "nom": "Ultra Music Festival",
-    "type": "festival",
-    "paysCode": "US",
-    "villeSlug": "miami-us",
-    "ville": {
-      "fr": "Miami (Bayfront Park)",
-      "en": "Miami (Bayfront Park)"
-    },
-    "latitude": 25.7762,
-    "longitude": -80.1861,
-    "capacite": 55000,
-    "annee": 1999,
-    "mois": {
-      "fr": "Mars",
-      "en": "March"
-    },
-    "styles": [
-      "EDM",
-      "Techno",
-      "House",
-      "Trance"
-    ],
-    "site": "https://ultramusicfestival.com",
-    "description": {
-      "fr": "Festival fondé en 1999 et installé chaque mois de mars à Bayfront Park, au bord de la baie de Biscayne, pendant la Miami Music Week, avec des scènes EDM, techno, house et trance.",
-      "en": "Festival founded in 1999 and held each March at Bayfront Park on Biscayne Bay during Miami Music Week, with dedicated stages for EDM, techno, house and trance."
-    }
-  },
-  {
-    "id": "iii-points-miami",
-    "nom": "III Points",
-    "type": "festival",
-    "paysCode": "US",
-    "villeSlug": "miami-us",
-    "ville": {
-      "fr": "Miami (Wynwood)",
-      "en": "Miami (Wynwood)"
-    },
-    "latitude": 25.7981,
-    "longitude": -80.2016,
-    "capacite": 20000,
-    "annee": 2013,
-    "mois": {
-      "fr": "Octobre",
-      "en": "October"
-    },
-    "styles": [
-      "Techno",
-      "House",
-      "Electronica",
-      "Bass"
-    ],
-    "site": "https://www.iiipoints.com",
-    "description": {
-      "fr": "Festival de musique et d’arts créé en 2013, tenu à Mana Wynwood sur cinq pâtés de maisons, dont l’édition des 16 et 17 octobre 2026 a réuni 293 artistes sur 13 scènes.",
-      "en": "Music and arts festival founded in 2013, held at Mana Wynwood across five city blocks, whose October 16 and 17, 2026 edition gathered 293 artists on 13 stages."
-    }
-  },
-  {
     "id": "ilo-festival-mexique",
     "nom": "Iló Festival",
     "type": "festival",
@@ -16764,35 +16706,6 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Format intimiste d’Awakenings dans les bois de Spaarnwoude près d’Amsterdam, conçu pour rapprocher danseurs et artistes autour de la techno pure et du hard groove.",
       "en": "Intimate Awakenings format in the woods of Spaarnwoude near Amsterdam, designed to bring dancers and artists face-to-face around pure techno and hard groove."
-    }
-  },
-  {
-    "id": "stone-techno-essen",
-    "nom": "The Third Room - Stone Techno Festival",
-    "type": "festival",
-    "paysCode": "DE",
-    "ville": {
-      "fr": "Essen (Zeche Zollverein)",
-      "en": "Essen (Zeche Zollverein)"
-    },
-    "latitude": 51.4865,
-    "longitude": 7.0448,
-    "capacite": 12000,
-    "annee": 2020,
-    "mois": {
-      "fr": "Juillet",
-      "en": "July"
-    },
-    "styles": [
-      "Techno",
-      "Hard Groove",
-      "Hypnotic Techno",
-      "Electro"
-    ],
-    "site": "https://stonetechno.com",
-    "description": {
-      "fr": "Organisé en partenariat avec ARTE Concert au cœur du complexe minier classé à l’UNESCO Zeche Zollverein à Essen, vitrine mondiale du renouveau techno et hard groove.",
-      "en": "Held in partnership with ARTE Concert inside the UNESCO-listed Zeche Zollverein coal mine complex in Essen, a global showcase for techno and hard groove."
     }
   },
   {
@@ -23306,6 +23219,181 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Deux jours en plein air à Woodbine Park à Toronto autour de cabines à 360 degrés mettant en avant la techno, la house, la jungle et les collectifs locaux.",
       "en": "Two open-air days at Toronto’s Woodbine Park built around 360-degree booths spotlighting techno, house, jungle and local club collectives."
+    }
+  },
+  {
+    "id": "countdown-nye-socal-us",
+    "nom": "Countdown NYE",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles / San Bernardino (Californie)",
+      "en": "Los Angeles / San Bernardino"
+    },
+    "latitude": 34.0407,
+    "longitude": -118.2698,
+    "capacite": 45000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Décembre (Nouvel An)",
+      "en": "December (New Year’s Eve)"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Dubstep",
+      "Drum & Bass",
+      "EDM"
+    ],
+    "site": "https://countdownnye.com",
+    "description": {
+      "fr": "Grand réveillon électronique de la côte Ouest américaine orchestré par Insomniac autour de quatre scènes house, techno, drum & bass et bass.",
+      "en": "Flagship West Coast New Year’s Eve electronic marathon produced by Insomniac across four house, techno, drum & bass and bass stages."
+    }
+  },
+  {
+    "id": "ubbi-dubbi-texas-us",
+    "nom": "Ubbi Dubbi Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Fort Worth (Panther Island Pavilion, Texas)",
+      "en": "Fort Worth (Panther Island, Texas)"
+    },
+    "latitude": 32.7642,
+    "longitude": -97.3385,
+    "capacite": 30000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Dubstep",
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://ubbidubbifestival.com",
+    "description": {
+      "fr": "Deux jours printaniers au bord de la rivière Trinity à Fort Worth au Texas réunissant les scènes Ubbi’s Stage, Dubbi’s Stage et Zoom Room.",
+      "en": "Two spring days along the Trinity River at Fort Worth’s Panther Island Pavilion uniting house, techno and heavy dubstep stages."
+    }
+  },
+  {
+    "id": "supremacy-paysbas",
+    "nom": "Supremacy",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Arnhem / Bois-le-Duc (GelreDome & Brabanthallen)",
+      "en": "Arnhem / ’s-Hertogenbosch"
+    },
+    "latitude": 51.9625,
+    "longitude": 5.8931,
+    "capacite": 28000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Rawstyle",
+      "Hardstyle",
+      "Hardcore",
+      "Uptempo"
+    ],
+    "site": "https://www.supremacy.nl",
+    "description": {
+      "fr": "Produit par Art of Dance aux Pays-Bas, le plus grand rassemblement mondial consacré exclusivement au rawstyle et aux sonorités hardstyle brutes.",
+      "en": "Produced by Art of Dance in the Netherlands, the world’s premier arena event dedicated strictly to rawstyle."
+    }
+  },
+  {
+    "id": "kntxt-konnected-gand-belgique",
+    "nom": "KNTXT Konnected",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Gand (Flanders Expo)",
+      "en": "Ghent (Flanders Expo)"
+    },
+    "latitude": 51.0258,
+    "longitude": 3.6895,
+    "capacite": 18000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Février - Novembre",
+      "en": "February - November"
+    },
+    "styles": [
+      "Techno",
+      "Acid Techno",
+      "Hard Techno"
+    ],
+    "site": "https://kntxt.be",
+    "description": {
+      "fr": "Rave monumentale orchestrée par Charlotte de Witte et son label KNTXT au Flanders Expo de Gand en Belgique.",
+      "en": "Monumental warehouse rave curated by Charlotte de Witte and her KNTXT label inside Ghent’s Flanders Expo."
+    }
+  },
+  {
+    "id": "transmission-sydney-australie",
+    "nom": "Transmission Australia",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Sydney & Melbourne",
+      "en": "Sydney & Melbourne"
+    },
+    "latitude": -33.8523,
+    "longitude": 151.0638,
+    "capacite": 16000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Février - Mars",
+      "en": "February - March"
+    },
+    "styles": [
+      "Trance",
+      "Uplifting Trance",
+      "Tech Trance",
+      "Psy"
+    ],
+    "site": "https://transmissionfestival.com",
+    "description": {
+      "fr": "Édition australienne du spectacle audiovisuel trance Transmission réunissant les grands noms mondiaux de la trance à Sydney et Melbourne.",
+      "en": "Australian arena edition of the Transmission audiovisual trance spectacle uniting global trance icons in Sydney and Melbourne."
+    }
+  },
+  {
+    "id": "mandallah-festival-bresil",
+    "nom": "Mandallah",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "Caçapava / Minas Gerais (Brésil)",
+      "en": "Caçapava (São Paulo / Minas Gerais)"
+    },
+    "latitude": -23.1012,
+    "longitude": -45.7085,
+    "capacite": 25000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Octobre - Novembre",
+      "en": "October - November"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Techno",
+      "Full-On"
+    ],
+    "site": "https://www.instagram.com/mandallah",
+    "description": {
+      "fr": "Fondé en 2005 dans le Minas Gerais et la vallée du Paraíba, l’un des plus grands festivals psytrance d’une journée et nuit en Amérique latine.",
+      "en": "Founded in 2005 across Minas Gerais and São Paulo state, one of Latin America’s largest psytrance open-air festivals."
     }
   },
 ];
