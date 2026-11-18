@@ -62,10 +62,22 @@ describe('Atlas des clubs et festivals', () => {
     }
   });
 
-  it('recense au moins 325 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
+  it('recense au moins 550 festivals électroniques (dont 540+ de 2 000+ places) dans 73 pays sur tous les continents', () => {
     const festivals = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
-    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(33);
-    expect(festivals.length).toBeGreaterThanOrEqual(325);
+    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(73);
+    expect(festivals.length).toBeGreaterThanOrEqual(550);
+    expect(festivals.filter((f) => f.capacite >= 2000).length).toBeGreaterThanOrEqual(540);
+
+    const ids = new Set<string>();
+    for (const lieu of LIEUX_ET_FESTIVALS) {
+      expect(ids.has(lieu.id)).toBe(false);
+      ids.add(lieu.id);
+    }
+
+    const codesPays = new Set(PAYS_LIEUX.map((p) => p.code));
+    for (const f of festivals) {
+      expect(codesPays.has(f.paysCode)).toBe(true);
+    }
 
     const suti = festivals.find((f) => f.id === 'suti-festival-portugal');
     expect(suti).toBeDefined();
@@ -111,9 +123,9 @@ describe('Atlas des clubs et festivals', () => {
     for (const f of festivals) {
       expect(f.capacite).toBeGreaterThanOrEqual(1000);
       expect(f.latitude).toBeGreaterThanOrEqual(-45);
-      expect(f.latitude).toBeLessThanOrEqual(60);
+      expect(f.latitude).toBeLessThanOrEqual(71);
       expect(f.longitude).toBeGreaterThanOrEqual(-130);
-      expect(f.longitude).toBeLessThanOrEqual(155);
+      expect(f.longitude).toBeLessThanOrEqual(176);
     }
   });
 
