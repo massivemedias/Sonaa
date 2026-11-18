@@ -11,6 +11,7 @@
 }
 .lb-page .lb {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-32);
   max-width: none;
 }
@@ -19,6 +20,7 @@
 .lb-tete {
   display: grid;
   gap: var(--espace-8);
+  min-width: 0;
 }
 .lb-surtitre {
   margin: 0;
@@ -579,6 +581,9 @@ a.lb-source {
   color: var(--sur-accent);
 }
 
+.lbg-section {
+  min-width: 0;
+}
 .lbg-section + .lbg-section {
   margin-top: var(--espace-16);
 }
