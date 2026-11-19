@@ -622,6 +622,25 @@ body:has(.pwa-bandeau) .pv-corps {
 .pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-detail {
   color: oklch(0.78 0.12 var(--teinte, 60));
 }
+/* UN NOM DE GENRE PASSE A LA LIGNE ENTRE DEUX MOTS, JAMAIS AU MILIEU D'UN
+   MOT (Mika, le 19 novembre 2026). Avec Google Sans Flex, plus large que la
+   condensee d'avant, « Breakbeat », « Neurofunk » ou « Crossbreed » se
+   coupaient avec un trait d'union sur telephone. Le corps se calcule sur le
+   mot le plus long (--mot, en lettres, pose par ParcourirView) et sur la
+   largeur de la tuile : MESURE, une lettre de ces titres occupe au plus 0,66
+   fois le corps ; on compte 0,7 pour garder une marge. */
+.pv-tuile-genre:not(.pv-tuile-famille) {
+  container-type: inline-size;
+}
+.pv-tuile-mot {
+  white-space: nowrap;
+}
+.pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-nom {
+  font-size: min(1.6rem, calc((100cqi - 2 * var(--espace-16)) / (var(--mot, 8) * 0.7)));
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  overflow-wrap: normal;
+}
 .pv-tuile-genre:not(.pv-tuile-famille):focus-visible .pv-tuile-detail {
   color: var(--sur-accent);
 }
@@ -667,9 +686,23 @@ body:has(.pwa-bandeau) .pv-corps {
   padding: var(--espace-16) var(--espace-20, 20px);
   background: none;
 }
+/* LE NOM D'UNE FAMILLE TIENT SUR UNE LIGNE (Mika, le 19 novembre 2026 :
+   « arrange les titres pour pas que ce soit en deux lignes »). Depuis le
+   passage a Google Sans Flex, bien plus large que la condensee d'avant,
+   « Downtempo », « Industrial » et « Hardcore » se coupaient avec un trait
+   d'union, sur telephone comme sur ordinateur. Le corps suit maintenant la
+   largeur de la tuile : MESURE, « Downtempo », le plus large des quatorze,
+   occupe 5,98 fois son corps ; on divise la largeur utile par 6,3 pour
+   garder une marge. Le nom ne grossit jamais au-dela de son corps d'affiche. */
+.pv-tuile-famille {
+  container-type: inline-size;
+}
 .pv-tuile-famille .pv-tuile-nom {
-  font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  font-size: min(clamp(2.2rem, 3.4vw, 3.2rem), calc((100cqi - 2 * var(--espace-20, 20px)) / 6.3));
   line-height: 0.88;
+  white-space: nowrap;
+  hyphens: manual;
+  -webkit-hyphens: manual;
 }
 .pv-tuile-famille .pv-tuile-detail {
   margin-top: var(--espace-8);
@@ -694,8 +727,13 @@ body:has(.pwa-bandeau) .pv-corps {
   .pv-tuile-famille {
     min-height: 150px;
   }
+  /* au telephone, deux colonnes de 170 px : la marge interieure passe a
+     12 px pour rendre au nom quelques pixels de corps */
+  .pv-tuile-famille .pv-tuile-carte {
+    padding-inline: var(--espace-12);
+  }
   .pv-tuile-famille .pv-tuile-nom {
-    font-size: 2rem;
+    font-size: min(2rem, calc((100cqi - 2 * var(--espace-12)) / 6.3));
   }
 }
 

@@ -22,7 +22,7 @@
    lieu de quitter le site. C'est le geste le plus utilise du systeme, et il
    n'est gratuit que si l'on s'y branche. */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
@@ -101,6 +101,21 @@ const mmss = (s: number): string => {
     navigateur y va a la ligne. */
 const motLong = (nom: string): '1' | undefined =>
   Math.max(...nom.split(/[\s\u2010-\u2015-]+/).map((m) => m.length)) > 12 ? '1' : undefined;
+
+/** Le nombre de lettres du mot le plus long d'un nom, trait d'union compris
+    (« Post-Disco » est un seul mot) : la feuille de style en tire le corps
+    qui fait tenir ce mot sur une ligne (parcourir.css). */
+const lettresDuMot = (nom: string): number => Math.max(...nom.split(/\s+/).map((m) => m.length));
+
+/** Un nom de genre mot par mot : il passe a la ligne entre deux mots, jamais
+    au milieu d'un mot ni a son trait d'union. */
+const nomInsecable = (nom: string): ReactNode =>
+  nom.split(/\s+/).map((m, i) => (
+    <Fragment key={i}>
+      {i > 0 ? ' ' : ''}
+      <span className="pv-tuile-mot">{m}</span>
+    </Fragment>
+  ));
 
 /** Tous les genres a plat, une fois pour toutes : la recherche les balaie. */
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
@@ -482,7 +497,9 @@ export function ParcourirView() {
                   >
                     <span className="pv-tuile-carte">
                       <span className="pv-tuile-bloc">
-                        <span className="pv-tuile-nom" data-long={motLong(alias ?? g.label)}>{alias ?? g.label}</span>
+                        <span className="pv-tuile-nom" data-long={motLong(alias ?? g.label)} style={{ ['--mot' as string]: lettresDuMot(alias ?? g.label) }}>
+                          {nomInsecable(alias ?? g.label)}
+                        </span>
                         <span className="pv-tuile-detail">
                           {alias ? t.memeGenreQue(g.label) : g.annee > 0 ? g.annee : ''}
                           {!alias && p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
