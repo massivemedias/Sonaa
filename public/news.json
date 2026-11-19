@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-18T20:40:36.608Z",
+ "fait": "2026-11-19T07:37:22.245Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-11-19T00:00:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/08/sound-engineer-mixing-desk@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Relive Club Culture Year by Year From 1988 to 2016",
@@ -215,15 +224,6 @@
    "date": "2026-11-13T10:39:13.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/Audient-iD-MK3-Range.jpg",
    "resume": "Audient has unveiled its newly overhauled range of iD audio interfaces. Powered by “Analogue Intelligence”, this is the third generation of the iD family of interfaces. While the iD Range won’t be introducing any new…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "This new plugin lets you generate loops and one-shots from text prompts",
-   "lien": "https://musictech.com/news/gear/sonura-flow/",
-   "date": "2026-11-12T17:26:53.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Sonura-Flow-hero@2000x1500.jpg",
-   "resume": "Sonura Flow is a free new plugin that lets producers generate new sounds – loops, one-shots and more – from simple text prompts without even leaving their DAW. Users can generate loops, vocals, one-shots and effects by…",
    "integral": true
   },
   {
