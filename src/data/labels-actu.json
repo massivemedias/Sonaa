@@ -6725,7 +6725,16 @@
     "format": "4xFile, FLAC, EP"
    }
   ],
-  "recentesLe": "2026-11-18"
+  "recentesLe": "2026-11-18",
+  "news": [
+   {
+    "titre": "Nathan Fake en DJ set exclusif à Tsugi Radio",
+    "lien": "https://www.tsugi.fr/evenement-nathan-fake-en-dj-set-exclusif-a-tsugi-radio/",
+    "source": "tsugi",
+    "date": "2026-11-17T10:46:29.000Z",
+    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/evenement-nathan-fake-en-dj-set-exclusif-a-tsugi-radio.jpg?hash=cdn-a5f8d01ab826314a76b76cf7e496fa0a"
+   }
+  ]
  },
  "botchit-et-scarper": {
   "recentes": [
@@ -31597,6 +31606,13 @@
  },
  "mall-grab": {
   "news": [
+   {
+    "titre": "Cassius prépare « DJ Tool Vol. 2 » avec Mall Grab, Fuckers, Young Marco et Tatyana Jane",
+    "lien": "https://www.tsugi.fr/cassius-prepare-dj-tool-vol-2-avec-mall-grab-fuckers-young-marco-et-tatyana-jane/",
+    "source": "tsugi",
+    "date": "2026-11-19T17:45:09.000Z",
+    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/cassius-prepare-dj-tool-vol-2-avec-mall-grab-fuckers-young-marco-et-tatyana-jane.jpg?hash=cdn-2314b5fa58cdec0f2a665d51f5c345b9"
+   },
    {
     "titre": "Tomorrowland CORE Melbourne set times announced",
     "lien": "https://djmag.com/news/tomorrowland-core-melbourne-set-times-announced",

@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-19T20:46:23.725Z",
+ "fait": "2026-11-20T07:28:38.120Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "How a Berlin Techno Venue Ended Up Hosting a Military AI Launch",
+   "lien": "https://midnightrebels.com/kraftwerk-berlin-helsing-military-ai-launch/",
+   "date": "2026-11-19T20:46:58.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/helsing-clarity-operator.webp?resize=1160%2C774&ssl=1",
+   "resume": "On November 11, the Munich defence company Helsing launched a military AI system called Clarity inside Kraftwerk Berlin, the former power station that houses Tresor, OHM and Berlin Atonal. A week later, the venue’s head…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "The Top 5 Best-Rated Standalone DJ Controllers: All Hands on Decks",
@@ -119,30 +128,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Spotify Finally Fights Back Against AI Slop Posing as Real Artists",
-   "lien": "https://midnightrebels.com/spotify-fights-ai-fake-artist-uploads/",
-   "date": "2026-11-18T18:32:12.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/If-AI-Wins-What-Is-Music-in-100-Years.webp?fit=2400%2C1350&ssl=1",
-   "resume": "AI slop is flooding streaming, and some of it is landing on real artists’ pages. Spotify’s answer is Artist Profile Protection, a tool that lets artists decide what appears under their name. It took about eight months…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "5 Pieces of Gear You’ll Find in Every Professional Recording Studio",
    "lien": "https://www.gearnews.com/pieces-of-gear-youll-find-in-every-professional-recording-studio/",
    "date": "2026-11-18T18:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/studio-gear-retro-stalevel-ft.jpg",
    "resume": "Whether you visit studios in person or watch YouTube studio tours, there are certain pieces of gear you’ll find in every professional recording studio. In this Article: Pieces of Gear You’ll Find in Every Professional…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Vintage Vibes, Twin 88 Keys, Noctiluca and Clouds – Sounds and Presets",
-   "lien": "https://www.gearnews.com/vintage-vibes-sounds-presets-synths/",
-   "date": "2026-11-18T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/vintage_vibes.jpg",
-   "resume": "This week, we indulge in vintage vibes with the Waldorf Protein, acoustic & electric pianos and clouds in motion with the microKORG. An equal split of sounds for hardware and software this week as one of my favourite…",
    "integral": true
   },
   {
@@ -233,15 +224,6 @@
    "date": "2026-11-17T01:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/ubtKniiRqRixf6tSnTh2AG-1920-80.jpg",
    "resume": "Waves and Black Friday plugin deals are hardly strangers, so I’m usually more interested in what’s included than the enormous percentage sitting next to the price. This year, Waves' Black Friday All-Stars package has…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Black Friday 2026: Our favourite deals on music gear, plugins, and DAWs",
-   "lien": "https://musictech.com/news/gear/best-black-friday-music-tech-deals/",
-   "date": "2026-11-16T18:30:17.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2024/11/ableton-push-black-friday-simon-vinall@2000x1500.jpg",
-   "resume": "This November, all your favourite music gear brands are running discounts for Black Friday and Cyber Monday . And, well, every other day in November pretty much. As we’ve seen in previous years, the Black Friday sales…",
    "integral": true
   },
   {
