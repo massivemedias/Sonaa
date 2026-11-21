@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-21T07:22:57.271Z",
+ "fait": "2026-11-21T19:26:44.996Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "“I recorded almost 70 tracks in two months”: How lockdown turmoil, studio setbacks and a 14-year-old VST inspired John Talabot's new album as OR",
+   "lien": "https://www.musicradar.com/artists/i-recorded-almost-70-tracks-in-two-months-how-lockdown-turmoil-studio-setbacks-and-a-14-year-old-vst-inspired-john-talabots-new-album-as-or",
+   "date": "2026-11-21T15:39:01.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/khaUfmMfHJHohtdJfB85dQ-1920-80.jpg",
+   "resume": "“When Covid came, I couldn’t understand what was going on or what we were facing,” says producer and DJ Oriol Riverola. Best known to the electronic music world as John Talabot, Oriol released a new album under the…",
+   "integral": true
+  },
   {
    "source": "attack",
    "titre": "“You Don’t Belong Here”: How Rane Got Into Turntablism",
@@ -74,15 +83,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Software Cyber Deals 2026: New Deals Added from Soundtoys, Steinberg, and XLN Audio!",
-   "lien": "https://www.gearnews.com/software-deals-thomann-cyberweek/",
-   "date": "2026-11-20T12:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Software_EN.jpg",
-   "resume": "The Thomann Cyber Deals sale has kicked into overdrive with a new range of offers from Soundtoys, Steinberg, XLN Audio, Native Instruments, and more. Software Cyber Deals: Software: ANOTHER New Batch of Deals! Software…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“An extremely well-designed creativity-boosting appendage”: AlphaTheta Slab review",
    "lien": "https://www.musicradar.com/music-tech/midi-controllers/alphatheta-slab-review",
@@ -129,20 +129,20 @@
   },
   {
    "source": "musicradar",
-   "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
-   "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
-   "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
    "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
    "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
    "date": "2026-11-19T10:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
    "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
+   "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
+   "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
    "integral": true
   },
   {
@@ -224,15 +224,6 @@
    "date": "2026-11-17T15:32:12.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/XLN-Audio-RC-20-Retro-Color-V2-hero-credit-press@2000x1500.jpg",
    "resume": "In 2016, XLN Audio released RC-20 Retro Color, a multi-effect plugin for recreating the “warm feeling of vintage recording equipment.” Its release also happened to coincide with the rise in lo-fi hip-hop, becoming the…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Waves’ Black Friday All-Stars bundle just chopped 77% off the price of 11 vocal and mixing staples - and there’s zero filler",
-   "lien": "https://www.musicradar.com/music-tech/plugins/waves-black-friday-all-stars-bundle-just-chopped-77-percent-off-the-price-of-11-vocal-and-mixing-staples-and-theres-zero-filler",
-   "date": "2026-11-17T01:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/ubtKniiRqRixf6tSnTh2AG-1920-80.jpg",
-   "resume": "Waves and Black Friday plugin deals are hardly strangers, so I’m usually more interested in what’s included than the enormous percentage sitting next to the price. This year, Waves' Black Friday All-Stars package has…",
    "integral": true
   },
   {
