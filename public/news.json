@@ -1,6 +1,33 @@
 {
- "fait": "2026-11-20T20:30:24.706Z",
+ "fait": "2026-11-21T07:22:57.271Z",
  "articles": [
+  {
+   "source": "attack",
+   "titre": "“You Don’t Belong Here”: How Rane Got Into Turntablism",
+   "lien": "https://www.attackmagazine.com/features/interview/you-dont-belong-here-how-rane-got-into-turntablism/",
+   "date": "2026-11-20T22:34:16.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Feat-Images-RANE-3-1-1130x484.png",
+   "resume": "As Rane turns 45, Rick Jeffs tells the story of the Steelworkerz, the TTM 54 and the magnetic crossfader, and gives his view on AI in DJing. Rane was founded in 1981 and released its first DJ mixer in 1986 at the…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "The Longest Number One on Billboard’s Dance Charts in Every Year From 1977 to 2026",
+   "lien": "https://midnightrebels.com/billboard-dance-club-number-ones-year-by-year/",
+   "date": "2026-11-20T21:14:17.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/dance-music-archive-year-by-year-featured.webp?fit=1600%2C900&ssl=1",
+   "resume": "For more than four decades, Billboard has tracked what is topping its dance charts. Until March 2020, that meant a club chart built from DJ reports. Find the year you were out, and this page shows which song held the…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Mntra Releases Living Sky, A GPU-powered Spatial Mixing Engine And Reverb",
+   "lien": "https://www.attackmagazine.com/news/mntra-releases-living-sky-a-gpu-powered-spatial-mixing-engine-and-reverb/",
+   "date": "2026-11-20T21:02:55.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-MNTRA-1130x386.png",
+   "resume": "A 3D spatial mixer and convolution reverb in one plug-in, with the processing handed to your GPU. Mntra Instruments has released Living Sky, a spatial mixing engine and reverb for music, film, games and immersive audio…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Teenage Engineering EP BC-1: Now Available for Pre-Order!",
@@ -102,20 +129,20 @@
   },
   {
    "source": "musicradar",
-   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
-   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
-   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
    "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
    "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
    "date": "2026-11-19T10:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
    "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
+   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
+   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
    "integral": true
   },
   {
@@ -125,15 +152,6 @@
    "date": "2026-11-19T00:00:52.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/08/sound-engineer-mixing-desk@2000x1500.jpg",
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Relive Club Culture Year by Year From 1988 to 2016",
-   "lien": "https://midnightrebels.com/club-culture-year-by-year-dance-music-archive/",
-   "date": "2026-11-18T19:33:48.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/Inside-the-1998-PlayStation-Game-Built-Around-Electronic-Dance-Music-and-Combat.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Pick a year between 1988 and 2016 and the Dance Music Archive will show you what club culture looked like then. There are news lists, key albums and a shelf of mixes, sets, radio shows and documentaries for each one. We…",
    "integral": true
   },
   {
@@ -278,15 +296,6 @@
    "date": "2026-11-03T11:11:03.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
    "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Is Private Equity Destroying Music Production?",
-   "lien": "https://www.attackmagazine.com/features/long-read/is-private-equity-destroying-music-production/",
-   "date": "2026-10-29T14:00:34.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/blur-main-1130x403.png",
-   "resume": "Native Instruments was only the tip of the iceberg. Private equity is pervasive in the music production industry, tied up with hardware, software and music distribution companies. How is this affecting the music you…",
    "integral": true
   },
   {
