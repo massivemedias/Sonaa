@@ -42,7 +42,7 @@
     "format": "File, FLAC, Single, 24-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "10-records": {
   "recentes": [
@@ -169,7 +169,7 @@
     "format": "LP, Album, Ltd"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "16inch": {
   "recentes": [
@@ -1279,7 +1279,7 @@
     "format": "8xFile, MP3, MiniAlbum, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "airplay-records": {
   "recentes": [
@@ -1832,7 +1832,7 @@
     "format": "Cass, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "american-disco": {
   "recentes": [
@@ -2282,7 +2282,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "anjunabeats": {
   "recentes": [
@@ -2377,6 +2377,14 @@
  "ant-zen": {
   "recentes": [
    {
+    "titre": "Trinity (Live In Adelaide)",
+    "artiste": "Lustmord",
+    "annee": 2026,
+    "image": null,
+    "url": "https://www.discogs.com/release/39065897",
+    "format": "File, WAV, Album, Tour, 24-"
+   },
+   {
     "titre": "Enemy",
     "artiste": "Control",
     "annee": 2026,
@@ -2391,14 +2399,6 @@
     "image": null,
     "url": "https://www.discogs.com/release/38609178",
     "format": "6xFile, WAV, EP, 24-"
-   },
-   {
-    "titre": "Trinity (Live In Adelaide)",
-    "artiste": "Lustmord",
-    "annee": 2026,
-    "image": "https://i.discogs.com/b5bBPEwBtGPrGcTgLWnJjwnkxqGe3e6_WokamKm7yko/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NTQ3/NjEyLTE3OTA1NzIw/NjctODYyMS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38547612",
-    "format": "File, MP3, Album, Tour, 320"
    },
    {
     "titre": "The Future",
@@ -2417,7 +2417,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "antiscarp-records": {
   "recentes": [
@@ -2581,7 +2581,7 @@
     "format": "8-Trk, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "apollon-international": {
   "recentes": [
@@ -3031,7 +3031,7 @@
     "format": "File, MP3, Single, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "art-for-their-good": {
   "recentes": [
@@ -3256,7 +3256,7 @@
     "format": "4xFile, FLAC, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "asl-singles-club": {
   "recentes": [
@@ -4269,12 +4269,20 @@
  "axis": {
   "recentes": [
    {
-    "titre": "Gamma Rays (c.1995)",
+    "titre": "The Forbidden Planet",
+    "artiste": "Tomorrow Comes The Harvest",
+    "annee": 2026,
+    "image": "https://i.discogs.com/ea-ExNdWo5Ce-Ajy8veW29T227v3BkVc_0iXdZPM4KI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDgw/MjcwLTE3OTUxNzEy/MzYtODQ5Ny5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39080270",
+    "format": "2xLP, Album"
+   },
+   {
+    "titre": "Gamma Rays (C.1995)",
     "artiste": "Jeff Mills",
     "annee": 2026,
-    "image": "https://i.discogs.com/PgefXy32iW12AmXh9DF8JAFTEStDbSS2n-F3JUHwN3A/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODc2/MzU4LTE3OTM0Mzkz/NDItOTkwOS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38876358",
-    "format": "12\", EP"
+    "image": "https://i.discogs.com/5cBaOcd6WAv_V3m1hlOVQAPRWghUkCKX8Ig3e6hZXiU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDYz/MzA1LTE3OTQ5NDU2/NjAtMTAxNi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39063305",
+    "format": "4xFile, FLAC, EP, 24-"
    },
    {
     "titre": "Drifter",
@@ -4299,17 +4307,9 @@
     "image": "https://i.discogs.com/OHeGkHAsmkT2dPhG7HW9q5f9kHra38xL24zF0QV3Vvw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Njcw/NDQxLTE3OTE2MzQ1/NTQtNjY1Ny5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38670441",
     "format": "11xFile, FLAC, Album, 24-"
-   },
-   {
-    "titre": "Whatever The Case",
-    "artiste": "Jeff Mills",
-    "annee": 2026,
-    "image": "https://i.discogs.com/yIcbzjFG_9xQKM1gbKoF5_y0gQgQLnEfU6KYUzZfYTE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NDMz/MTI0LTE3Nzk2NTk0/NDctNzAyNC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/37433124",
-    "format": "4xFile, WAV"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "b-p-m": {
   "recentes": [
@@ -4891,7 +4891,7 @@
     "format": "7xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "basic-channel": {
   "recentes": [
@@ -4981,7 +4981,7 @@
     "format": "12\", Maxi, Ltd, Pur"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "basic-recordings": {
   "recentes": [
@@ -5026,7 +5026,7 @@
     "format": "12\", Promo, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "basic-unit-productions": {
   "recentes": [
@@ -5116,7 +5116,7 @@
     "format": "4xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "bassbin": {
   "recentes": [
@@ -5550,7 +5550,7 @@
     "format": "16xFile, FLAC, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "belle-antique": {
   "recentes": [
@@ -5865,7 +5865,7 @@
     "format": "6xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "bingo-beats": {
   "recentes": [
@@ -6727,6 +6727,51 @@
   ],
   "recentesLe": "2026-11-15"
  },
+ "booma-collective": {
+  "recentes": [
+   {
+    "titre": "Seast",
+    "artiste": "Seast",
+    "annee": 2018,
+    "image": "https://i.discogs.com/o7qQ1nZ5osfe5wfHfotRgx4KT6QDHUUDiBzWLWA7lUo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NjE3/NDMyLTE2MTQ0NjM5/NTUtNDEyMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/17617432",
+    "format": "Cass, Sta"
+   },
+   {
+    "titre": "opinion",
+    "artiste": "opinion",
+    "annee": 2018,
+    "image": "https://i.discogs.com/jXDzeo1FdUbEbtOnRT7ZxqZsIKDliobNXZ1-_QcFMcs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNzg5/NzEzLTE1MjI0MjIz/ODQtMTI4OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/11789713",
+    "format": "CD, Album + DVD, Vid"
+   },
+   {
+    "titre": "Pumping The Tires Of Hell",
+    "artiste": "Ginger Breaker",
+    "annee": 2017,
+    "image": null,
+    "url": "https://www.discogs.com/release/10302670",
+    "format": "Cass, EP + File, MP3, WAV, EP"
+   },
+   {
+    "titre": "Vestibule",
+    "artiste": "Solpara",
+    "annee": 2016,
+    "image": "https://i.discogs.com/tzFrR1KHG1FsEAJslQnoshIjKnLhr2jlj9QS1yUcYR0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzYw/NTMwLTE3NTMwNTIw/MjUtNDExMC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/10760530",
+    "format": "4xFile, MP3, EP, Promo"
+   },
+   {
+    "titre": "SECTOR Y",
+    "artiste": "Sector Y",
+    "annee": 2016,
+    "image": null,
+    "url": "https://www.discogs.com/release/10643101",
+    "format": "12\", TP, W/Lbl"
+   }
+  ],
+  "recentesLe": "2026-11-21"
+ },
  "bordello-a-parigi": {
   "recentes": [
    {
@@ -7004,7 +7049,7 @@
     "format": "CD, P/Mixed, Promo, Smplr"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "boy-better-know": {
   "recentes": [
@@ -7435,7 +7480,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "broken-flag": {
   "recentes": [
@@ -7480,7 +7525,7 @@
     "format": "DVD-V + CD, Album + Ltd, Num"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "broken-records": {
   "recentes": [
@@ -7996,7 +8041,7 @@
     "format": "LP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "c-h-s": {
   "recentes": [
@@ -8284,7 +8329,7 @@
     "format": "CD, Album, Dlx, Ltd, 7\" "
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "capriccio-records": {
   "recentes": [
@@ -8900,7 +8945,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "chaos-records": {
   "recentes": [
@@ -9180,7 +9225,7 @@
     "format": "DVD, PAL"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "chinese-man-records": {
   "recentes": [
@@ -9762,7 +9807,7 @@
     "format": "File, MP3, Single, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "close-to-human-music": {
   "recentes": [
@@ -10098,7 +10143,7 @@
     "format": "4xFile, MP3"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "clubscene-records": {
   "recentes": [
@@ -10323,7 +10368,7 @@
     "format": "LP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "cold-rush-records": {
   "recentes": [
@@ -10818,7 +10863,7 @@
     "format": "CD, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "cooltempo": {
   "recentes": [
@@ -10955,6 +11000,27 @@
   ],
   "recentesLe": "2026-11-20"
  },
+ "cosmovision-records": {
+  "recentes": [
+   {
+    "titre": "I (Aya) Care",
+    "artiste": "OK Selekta Feat. Shuma*",
+    "annee": 2023,
+    "image": "https://i.discogs.com/vdnALBZKQmErmNTZAobiKDfz9Obg5Ui3rG3hA7d_2AY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxODU1/NTI2LTE3Mjc1NDEy/MTMtNzA2OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/31855526",
+    "format": "8xFile, FLAC, EP, 24-"
+   },
+   {
+    "titre": "One",
+    "artiste": "Bliz Nochi",
+    "annee": 2022,
+    "image": "https://i.discogs.com/h8ipjhi9vABMGrNQIKGNSIOViSMoJcgazNtaCQwMFK0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNDM3/MzgyLTE2NTQxMzA2/MTktNzQ1NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/23437382",
+    "format": "12\""
+   }
+  ],
+  "recentesLe": "2026-11-21"
+ },
  "counterbalance": {
   "recentes": [
    {
@@ -11043,7 +11109,7 @@
     "format": "LP, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "cr2-records": {
   "recentes": [
@@ -11400,7 +11466,7 @@
     "format": "2xFile, WAV, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "crydamoure": {
   "recentes": [
@@ -11847,10 +11913,10 @@
     "annee": 2025,
     "image": "https://i.discogs.com/uoMhXLY-HydvFyGPWz1nxkNYzhZRXdY9UIjAeD3hVyU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODcx/NzQ0LTE3NTU3MzUw/ODEtNjE1OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/34871744",
-    "format": "LP, Album, Ltd, Cle"
+    "format": "2xLP, Album, Ltd, Cle"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "cyclotron": {
   "recentes": [
@@ -12268,7 +12334,7 @@
     "format": "10xFile, MP3, Maxi"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "dark-dungeon-music": {
   "recentes": [
@@ -12564,7 +12630,7 @@
     "format": "File, FLAC, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "de-tuned": {
   "recentes": [
@@ -12744,7 +12810,7 @@
     "format": "LP, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "deco-records": {
   "recentes": [
@@ -13104,7 +13170,7 @@
     "format": "4xFile, FLAC, EP, 24b"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "dependent": {
   "recentes": [
@@ -13302,6 +13368,14 @@
  "deutsche-grammophon": {
   "recentes": [
    {
+    "titre": "The Boy & The Heron-Symphonic Suite For Piano And Orchestra",
+    "artiste": "Joe Hisaishi",
+    "annee": 2026,
+    "image": null,
+    "url": "https://www.discogs.com/release/39055055",
+    "format": "12\", MiniAlbum, 180"
+   },
+   {
     "titre": "The Boy & The Heron: Symphonic Suite For Piano And Orchestra",
     "artiste": "Joe Hisaishi, Royal Philharmonic Orchestra",
     "annee": 2026,
@@ -13318,14 +13392,6 @@
     "format": "15xFile, FLAC, 24-"
    },
    {
-    "titre": "Symphony No.3  (Metaphysica) & Harp Concerto",
-    "artiste": "Joe Hisaishi, Royal Philharmonic Orchestra, Emmanuel Ceysson",
-    "annee": 2026,
-    "image": "https://i.discogs.com/Z8t3hd_9fdjk_tZRtH9MH1wfaCtu-YShX8B6DBpJByA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODE4/MzY4LTE3OTI4Nzc4/MjctODM4NC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38818368",
-    "format": "CD, Album"
-   },
-   {
     "titre": "The Meaning Of Flowers",
     "artiste": "Agnes Obel",
     "annee": 2026,
@@ -13334,15 +13400,15 @@
     "format": "12xFile, FLAC, Album, 24b"
    },
    {
-    "titre": "Carmen-Fantasie",
-    "artiste": "Anne-Sophie Mutter, Wiener Philharmoniker, James Levine",
+    "titre": "Elevation (Version For Orchestra)",
+    "artiste": "Deutsches Symphonie-Orchester Berlin, Robert Ames, Hildur Guðnadóttir",
     "annee": 2026,
-    "image": null,
-    "url": "https://www.discogs.com/release/38776842",
-    "format": "CD, Album, UHQ"
+    "image": "https://i.discogs.com/KnrLTgZ-0M-goahgxwe8OM9t4DOfm_irHpcDuYLpyj4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODA2/ODA5LTE3OTQ4NjY4/MDQtNzE3MS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/38806809",
+    "format": "File, FLAC, 24-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "deviant": {
   "recentes": [
@@ -13612,7 +13678,7 @@
     "format": "CD, Mixed"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "digital-diamonds": {
   "recentes": [
@@ -13874,7 +13940,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "dindisc": {
   "recentes": [
@@ -14300,7 +14366,7 @@
     "format": "CD, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "discomagic-records": {
   "recentes": [
@@ -14390,7 +14456,7 @@
     "format": "7\", Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "disko-b": {
   "recentes": [
@@ -14607,7 +14673,7 @@
     "format": "2xLP, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "distinct-ive": {
   "recentes": [
@@ -14743,6 +14809,51 @@
    }
   ],
   "recentesLe": "2026-11-16"
+ },
+ "distr-ck": {
+  "recentes": [
+   {
+    "titre": "Drop",
+    "artiste": "Moodsaver",
+    "annee": 2001,
+    "image": "https://i.discogs.com/znDFgVEnh-QM9rJslhOQ3K2thhF0Ekag7g9uEu02ds4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1Nzg1/MjQtMTMwNTQwMDQw/My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/1578524",
+    "format": "CD"
+   },
+   {
+    "titre": "Silver Box Session II",
+    "artiste": "Acid Voice",
+    "annee": 2001,
+    "image": "https://i.discogs.com/lqy3m1st7r-RI-ypTGh2kUMxq9QTf2Z4SQfVo7jlm00/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNTI0/OS0xMTgwMzg2OTU5/LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/235249",
+    "format": "CD"
+   },
+   {
+    "titre": "Impact",
+    "artiste": "Mateo Murphy",
+    "annee": 2001,
+    "image": "https://i.discogs.com/K6CV73YVmc22RZUV8nHk9t68PBiRfYvbSxR8Res-sDg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMTk3/LTEyMDU4NjkzODUu/anBlZw.jpeg",
+    "url": "https://www.discogs.com/release/22197",
+    "format": "CD, Album, Mixed"
+   },
+   {
+    "titre": "Test",
+    "artiste": "The 909 Soldiers",
+    "annee": 2000,
+    "image": null,
+    "url": "https://www.discogs.com/release/5084",
+    "format": "CD"
+   },
+   {
+    "titre": "Montreal Basement 1",
+    "artiste": "Various",
+    "annee": 1999,
+    "image": null,
+    "url": "https://www.discogs.com/release/16831131",
+    "format": "CD, Mixed, Promo"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "divine": {
   "recentes": [
@@ -15184,7 +15295,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "dragonfly-records": {
   "recentes": [
@@ -15454,7 +15565,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "duke-productions": {
   "recentes": [
@@ -16036,7 +16147,7 @@
     "format": "CDr, Album, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "eatbrain": {
   "recentes": [
@@ -16221,47 +16332,47 @@
  "ecran-net-label": {
   "recentes": [
    {
-    "titre": "Star Paralo",
-    "artiste": "Rose Sobchak + LightLucik",
+    "titre": "Suble Hint Of Sexuality",
+    "artiste": "Rose Sobchak",
     "annee": 2026,
-    "image": "https://i.discogs.com/ovsswgg-pOoIZ-M3ligto9ccmozk1yCnA1vlMZQSVHo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDEw/NDk5LTE3OTQ0OTAx/NzgtNjg1MS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/39010499",
-    "format": "File, FLAC, Album"
-   },
-   {
-    "titre": "Science Of Release",
-    "artiste": "rose sobchak",
-    "annee": 2026,
-    "image": "https://i.discogs.com/n5xWzK4KSshrfe0iPyCsjQOM8MKpjH0f7_n3-Hw_WNU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDEw/NDk2LTE3OTQ0OTAx/NzQtMTY5My5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/39010496",
+    "image": "https://i.discogs.com/hDLkKKSGlVvPKgr2E9qfRwXYiXC7Lx1UTf5_b3NeH4o/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk2/MTUzLTE3OTUxODIz/NTktODM0NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39096153",
     "format": "5xFile, FLAC, Album"
    },
    {
-    "titre": "Rejection Of The Pleasant",
-    "artiste": "Rose Sobchak",
+    "titre": "Darkbringer",
+    "artiste": "Pötögiikräz",
     "annee": 2026,
-    "image": "https://i.discogs.com/EG8lxlf0SXcPQU2nnwMVGzaQiiprsyjrOuAwc9FGKyM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDEw/NDkzLTE3OTQ0OTAx/NjgtNTEyMi5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/39010493",
-    "format": "5xFile, FLAC, Album"
-   },
-   {
-    "titre": "Elephant Slang",
-    "artiste": "Rose Sobchak",
-    "annee": 2026,
-    "image": "https://i.discogs.com/to_5pD7AfWWWT_PahmlkfESEDbPb35E7ShdM6HQX-p0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDEw/NDkwLTE3OTQ0OTAx/NjUtNzcyNi5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/39010490",
+    "image": "https://i.discogs.com/gQs9JeOXMkg_73TA54STcibeSA7Mi9nY4OKdbU9Z__c/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk2/MTUwLTE3OTUxODIz/NTUtMTE0MS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39096150",
     "format": "File, FLAC, Album"
    },
    {
-    "titre": "The Boundaries Of The Indecent",
+    "titre": "Amazing Pressure",
     "artiste": "Rose Sobchak",
     "annee": 2026,
-    "image": "https://i.discogs.com/C2Cgr-W4S78ue-F0Ok2TCh1kRFajzVeJf2xMh3sYtmY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4OTAy/MTc5LTE3OTM1Mzkx/OTYtMzc2Ni5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38902179",
+    "image": "https://i.discogs.com/DDXrvfgOHjTxHUauBX4ULIwSKyXss-emsAq-FHIW03M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDUw/MjYxLTE3OTQ4Mjkz/ODUtMzM2My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39050261",
+    "format": "5xFile, FLAC, Album"
+   },
+   {
+    "titre": "Friends For Free",
+    "artiste": "Rose Sobchak",
+    "annee": 2026,
+    "image": "https://i.discogs.com/fw9i--v0I-drx9e96DKoxWZro1FUVYWb_pGsgnDJbfg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDUw/MjU4LTE3OTQ4Mjkz/ODEtNjMyMi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39050258",
+    "format": "5xFile, FLAC, Album"
+   },
+   {
+    "titre": "Excessive Modesty",
+    "artiste": "Rose Sobchak",
+    "annee": 2026,
+    "image": "https://i.discogs.com/SQbjS8e3V3r8yHELDhxCqeBUxQVtmXAmGlpu1l6bXKc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDUw/MjU1LTE3OTQ4Mjkz/NzgtMzkwNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39050255",
     "format": "5xFile, FLAC, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "ed-banger-records": {
   "recentes": [
@@ -16441,7 +16552,7 @@
     "format": "Acetate, 12\", Sin"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "einmusika-recordings": {
   "recentes": [
@@ -16621,7 +16732,7 @@
     "format": "14xFile, MP3, Album, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "electronic-music-foundation": {
   "recentes": [
@@ -17375,7 +17486,7 @@
     "format": "2x12\", Album, TP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "epic": {
   "recentes": [
@@ -17420,7 +17531,7 @@
     "format": "File, AAC, Single, 256"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "eq-music": {
   "recentes": [
@@ -17830,7 +17941,7 @@
     "format": "2xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "evolution-records": {
   "recentes": [
@@ -18692,7 +18803,7 @@
     "format": "Box, Album, Ltd + 2xCD"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "federal-distribution": {
   "recentes": [
@@ -19292,6 +19403,51 @@
   ],
   "recentesLe": "2026-11-15"
  },
+ "florina-cassettes": {
+  "recentes": [
+   {
+    "titre": "Civil Twilight",
+    "artiste": "Anthéne",
+    "annee": 2026,
+    "image": "https://i.discogs.com/14XbXz3fVlKY_ddQCCZzZbQGv1MBKHRgfs7By2xaID8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDAy/MzU0LTE3OTQ0MTU3/NTMtODA0NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39002354",
+    "format": "Cass, Album"
+   },
+   {
+    "titre": "Words I Couldn't Say That Day",
+    "artiste": "Silentwave",
+    "annee": 2026,
+    "image": "https://i.discogs.com/O9OBbiRSNSwfzqivSbKrwGtwuBplrv36cInnvBF9uT8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Mzg1/NjYzLTE3ODg5ODIz/MzMtOTYxNC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/38385663",
+    "format": "Cass, Album"
+   },
+   {
+    "titre": "La Distanza Perfetta",
+    "artiste": "Come Le Onde",
+    "annee": 2026,
+    "image": "https://i.discogs.com/ArYCu5p8isMSp0tmSSU6dmXTStpSv5jpp-YSG5HEv9U/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NjM2/NDczLTE3ODIzMzcw/MDUtMjI1My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/37636473",
+    "format": "3xFile, MP3, EP"
+   },
+   {
+    "titre": "Accidental Meetings",
+    "artiste": "Evgeny Bylina",
+    "annee": 2025,
+    "image": "https://i.discogs.com/46A7t-tiTtFInHELNYMv3lzAjg-oAljatvwdyupZArM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MDQ5/MDI0LTE3NjcwMzc4/OTQtNjk3NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/36049024",
+    "format": "Cass, Album"
+   },
+   {
+    "titre": "Parcelles, suite",
+    "artiste": "Lamasz",
+    "annee": 2025,
+    "image": "https://i.discogs.com/COYvxi6XnigLvkE3HIsmtGflCtrLVeSDxsluPkToXKE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MDQ4/ODk4LTE3NjcwMzc4/MzktMTI2Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/36048898",
+    "format": "Cass, Album"
+   }
+  ],
+  "recentesLe": "2026-11-21"
+ },
  "flying-rhino-records": {
   "recentes": [
    {
@@ -19470,7 +19626,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "force-inc-music-works": {
   "recentes": [
@@ -19565,6 +19721,14 @@
  "forensic-records": {
   "recentes": [
    {
+    "titre": "Hex Code / Land of Fungus",
+    "artiste": "Ewan Rill, Shayan Pasha",
+    "annee": 2026,
+    "image": "https://i.discogs.com/b86loTllSbvn2tHRJxge-sv0eEzIxSV8JN9PGaUJ3i0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDYx/OTQ5LTE3OTQ5MzUy/NTYtMjk1Ny5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39061949",
+    "format": "2xFile, MP3, 320"
+   },
+   {
     "titre": "Junk Sculpture",
     "artiste": "The Dominican",
     "annee": 2026,
@@ -19595,17 +19759,9 @@
     "image": "https://i.discogs.com/dWY8xeOcbIPoEybo1GPJovGSmDaStMtLHowwvGBDc4I/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NDAy/ODI1LTE3NTExODg0/MzktMTQ0NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/34402825",
     "format": "2xFile, MP3, 320"
-   },
-   {
-    "titre": "Ego Reset",
-    "artiste": "Dave Walker",
-    "annee": 2025,
-    "image": "https://i.discogs.com/paOascESRQQbx7KohcXT-bOApFZlbFL0eRVcVAmhL8Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMjQ2/NzE0LTE3NDA1MDUw/NDAtNzkxOC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/33246714",
-    "format": "2xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "forestdelic-records": {
   "recentes": [
@@ -19920,7 +20076,7 @@
     "format": "12\", W/Lbl, Sti"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "freerange": {
   "recentes": [
@@ -20240,7 +20396,7 @@
     "format": "12\", Smplr, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "fsoe-recordings": {
   "recentes": [
@@ -20875,20 +21031,20 @@
     "format": "7\", Single"
    },
    {
+    "titre": "I'll Always Love My Mama",
+    "artiste": "The Intruders",
+    "annee": 1973,
+    "image": "https://i.discogs.com/T-_WJ2xlfrpiDK6JKR2_CGktwyU9h-YuSQ-TQIJjeoA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDc2/MzEzLTE3OTUwNjY2/OTItNTY1Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39076313",
+    "format": "7\", Single, Styrene, Ter"
+   },
+   {
     "titre": "Stop Taking My Love For Granted / Inspirational Pleasure",
     "artiste": "Mello Moods*",
     "annee": 1973,
     "image": "https://i.discogs.com/XnE2meMxEBsKRigcepAqJNcK9GkhBi_WldPYhIW2uXU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNjc2/OTI0LTE3MjU3Mjcx/ODctNTM1MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/31676924",
     "format": "7\", Single"
-   },
-   {
-    "titre": "I'll Always Love My Mama",
-    "artiste": "The Intruders",
-    "annee": 1973,
-    "image": "https://i.discogs.com/Msvy98QnTMg35neIWvmDzGV49A4zkH0dDbkVaNjiX5E/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MjAz/NjcwLTE2OTQxNzEw/NzUtMjc3OS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/28203670",
-    "format": "7\", MCA"
    },
    {
     "titre": "If",
@@ -20899,7 +21055,7 @@
     "format": "7\", Single, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "ganja-records": {
   "recentes": [
@@ -21124,7 +21280,7 @@
     "format": "4xFile, WAV"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "gern-blandsten": {
   "recentes": [
@@ -21609,7 +21765,7 @@
     "format": "LP, Album, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "golden-child-entertainment-ltd": {
   "recentes": [
@@ -21794,6 +21950,14 @@
  "gondwana-records": {
   "recentes": [
    {
+    "titre": "Moments Brighter Than The Sun",
+    "artiste": "Rory Green",
+    "annee": 2026,
+    "image": "https://i.discogs.com/36jjBYnDYaShA_IfaOXaiPJIyqlfksxhXY65bzbpVuE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDg0/MzM2LTE3OTUxNDE1/MDgtOTc3MC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39084336",
+    "format": "CD, Album"
+   },
+   {
     "titre": "Eternal Spring",
     "artiste": "Jack Wyllie",
     "annee": 2026,
@@ -21824,17 +21988,9 @@
     "image": "https://i.discogs.com/L5H-4D4xlejE1dy0rekvv48me_FtLYJMDBRfEHLGkss/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NDA1/MjI3LTE3Nzk0NDk0/MjgtNDcwNi5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/37405227",
     "format": "LP, Album"
-   },
-   {
-    "titre": "Interlude",
-    "artiste": "Hanakiv",
-    "annee": 2026,
-    "image": "https://i.discogs.com/C5iDu0GI3kKcMI8HILqRn2yoixDEsDlOHK6MpEj6eco/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MDEy/MzkyLTE3NzU2NzQy/MDAtOTYwNS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/37012392",
-    "format": "LP, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "good-boy-records": {
   "recentes": [
@@ -22014,7 +22170,7 @@
     "format": "12\", W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "gqom-oh": {
   "recentes": [
@@ -22104,7 +22260,7 @@
     "format": "13xFile, WAV"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "grand-royal": {
   "recentes": [
@@ -22195,6 +22351,51 @@
    }
   ],
   "recentesLe": "2026-11-15"
+ },
+ "griffintown-records": {
+  "recentes": [
+   {
+    "titre": "Never Say Never EP",
+    "artiste": "Tommy Vercetti",
+    "annee": 2023,
+    "image": "https://i.discogs.com/MvjWGuISFEVH26IODitO5Cvv_qcI7byc8LX3rEpzix8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMjIw/ODAzLTE3NDAyNjQz/OTYtNDg0NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/33220803",
+    "format": "2xFile, MP3, EP, 320"
+   },
+   {
+    "titre": "Anxious Journey EP",
+    "artiste": "Tommy Vercetti",
+    "annee": 2022,
+    "image": "https://i.discogs.com/j_A-j30fzDJdIyeM7FXR_PEE1Mt9MWJ1cM_tUD0tgsA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMjIw/ODMwLTE3NDAyNjQ3/MTAtODEzOS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/33220830",
+    "format": "2xFile, MP3, EP, 320"
+   },
+   {
+    "titre": "Faux Basse",
+    "artiste": "Darius Syrossian",
+    "annee": 2021,
+    "image": "https://i.discogs.com/_1SeX_E-3DUQPKPHbrNAAsTOO1QFqQWQT64ATYxaKpw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwOTI1/OTc5LTE2Mzc2NjA4/NDUtMTY4OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/20925979",
+    "format": "12\""
+   },
+   {
+    "titre": "Jammin EP",
+    "artiste": "Affani",
+    "annee": 2020,
+    "image": "https://i.discogs.com/4pYCo9-dKidJVKYONGx1CPkvmiLU7k-gzX3zos9oz0A/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NzIw/MDQ5LTE1OTY1NDYx/OTgtNTk1MC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/15720049",
+    "format": "2xFile, MP3, EP, 320"
+   },
+   {
+    "titre": "The Jazz Cat Funk EP",
+    "artiste": "Fellar",
+    "annee": 2019,
+    "image": "https://i.discogs.com/qK40I62b1MpQlbFIAsR5E6bDpAwacF5l7Yx3FSITJEc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NzE3/MzA5LTE1ODAyMjk0/MjUtMjU5My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/14717309",
+    "format": "File, MP3, EP"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "groove-chronicles": {
   "recentes": [
@@ -22464,7 +22665,7 @@
     "format": "12\", Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "hallucination": {
   "recentes": [
@@ -22509,7 +22710,7 @@
     "format": "12\", EP, TP, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "handmade-birds": {
   "recentes": [
@@ -22734,7 +22935,7 @@
     "format": "2xFile, FLAC, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "hardline-sounds": {
   "recentes": [
@@ -22869,7 +23070,7 @@
     "format": "12\", MiniAlbum"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "harthouse": {
   "recentes": [
@@ -23004,7 +23205,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "heat-recordings": {
   "recentes": [
@@ -23049,7 +23250,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "heavenly": {
   "recentes": [
@@ -23814,7 +24015,7 @@
     "format": "3xFile, WAV, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "home-entertainment": {
   "recentes": [
@@ -23949,7 +24150,7 @@
     "format": "3xFile, FLAC, 24-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "hope-recordings": {
   "recentes": [
@@ -24084,10 +24285,18 @@
     "format": "2x12\", Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "hot-creations": {
   "recentes": [
+   {
+    "titre": "Hot Creations Autumn Sampler 2026",
+    "artiste": "Various",
+    "annee": 2026,
+    "image": null,
+    "url": "https://www.discogs.com/release/39052658",
+    "format": "12\", EP"
+   },
    {
     "titre": "Hot Creations Summer Sampler 2026",
     "artiste": "Various",
@@ -24119,17 +24328,9 @@
     "image": "https://i.discogs.com/GR5f4eoQgJ-oqvOf__ZxWLZ7HGc2QjagSQfmaQxl5v0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NTA0/MjQxLTE3NzEwOTE4/NTUtNDkwNi5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/36504241",
     "format": "2xFile, MP3, EP, 320"
-   },
-   {
-    "titre": "Funk Rider",
-    "artiste": "Dale Howard",
-    "annee": 2026,
-    "image": "https://i.discogs.com/gdjZMTTXPx2NvxK9li6dwv-UQR5_wYjKJbleC3Aw5FQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NDA4/MTIxLTE3NzAyNDM3/MzUtMTU4Ni5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/36408121",
-    "format": "2xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "hot-mix-5-records": {
   "recentes": [
@@ -25191,7 +25392,7 @@
     "format": "12\", Maxi"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "in-dust-we-trust": {
   "recentes": [
@@ -25593,7 +25794,7 @@
     "format": "2xFile, FLAC, Single, 16-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "infine": {
   "recentes": [
@@ -26043,7 +26244,7 @@
     "format": "File, ALAC, 24 "
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "internal": {
   "recentes": [
@@ -26133,7 +26334,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "international-feel": {
   "recentes": [
@@ -26626,6 +26827,51 @@
    }
   ],
   "recentesLe": "2026-11-15"
+ },
+ "iturnem": {
+  "recentes": [
+   {
+    "titre": "Reborn",
+    "artiste": "Oscar Escapa",
+    "annee": 2026,
+    "image": "https://i.discogs.com/GX9J746yyzOdf0fPGM0ozZsVlME7bD2PqYQvDcsDgnw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MjE2/NTY5LTE3Nzc1NzEy/MDctMzEzMS5wbmc.jpeg",
+    "url": "https://www.discogs.com/release/37216569",
+    "format": "3xFile, MP3, EP, 320"
+   },
+   {
+    "titre": "Millions Of Women",
+    "artiste": "Misstress Barbara",
+    "annee": 2026,
+    "image": "https://i.discogs.com/PMiWDdgCClwFC0OsMrXihmp-mS3OC7d1hjYn5Ze47OU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2ODE4/MDIwLTE3NzM5MzA5/MTktMTk0NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/36818020",
+    "format": "3xFile, FLAC, EP, 24-"
+   },
+   {
+    "titre": "Supergravity",
+    "artiste": "Ken Ishii",
+    "annee": 2025,
+    "image": "https://i.discogs.com/gbVkJIN9wHxQ8-f9chnVXOK7QMlmqPudxeRESYIVLdY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NDMw/OTA0LTE3NjA5OTEy/OTYtNjkxMC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/35430904",
+    "format": "3xFile, FLAC, EP, 16-"
+   },
+   {
+    "titre": "Nuit Noire",
+    "artiste": "Misstress Barbara & Nicole Moudaber",
+    "annee": 2025,
+    "image": "https://i.discogs.com/FMKOlXJuv7KbP-nAQb39AN5TGp3kL7QPmZYxXEAE2ag/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NDAw/MDY3LTE3NjA3MTEx/MjQtODk4OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/35400067",
+    "format": "2xFile, FLAC"
+   },
+   {
+    "titre": "Pure",
+    "artiste": "Mintech",
+    "annee": 2025,
+    "image": "https://i.discogs.com/pW_SdtmqlyY8gzTp86inQPCYVqSkKmDy5aYoSfvbJTc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NjUz/NjEwLTE3NTM2MDU3/MzgtMzY2Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34653610",
+    "format": "5xFile, MP3, EP, 320"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "jack-trax": {
   "recentes": [
@@ -27149,23 +27395,23 @@
     "format": "12\""
    },
    {
-    "titre": "Vineyard / Repatriation",
-    "artiste": "Dennis Brown",
-    "annee": 2019,
-    "image": "https://i.discogs.com/qsgD8Rbw1YQMAmSbkvmSGhe_DXk76mWv-RLpDeUXJI4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3MTg3/NjI2LTE2ODUwMjk3/NjUtODQzMS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/27187626",
-    "format": "10\", EP, TP"
-   },
-   {
     "titre": "Repatriation",
     "artiste": "Dennis Brown",
     "annee": 2019,
     "image": "https://i.discogs.com/m33In0uzThWExS96wYBEvp8RMz81pJB3SzYiQqHzETo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NTky/MjkyLTE1Nzc3NjQw/NzktODkyOC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/14592292",
     "format": "7\""
+   },
+   {
+    "titre": "Praise Him / Babylon Happening",
+    "artiste": "Horace Andy / Jah Mike",
+    "annee": 2019,
+    "image": "https://i.discogs.com/ipf0dK82NPGw2oXflrrhl83o-jP7GLFWhlwsY6HjrhM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTkz/NzkzLTE1NTcyMjY2/NTEtMzI1Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/13593793",
+    "format": "10\", EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "josie": {
   "recentes": [
@@ -27588,7 +27834,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "kalahari-oyster-cult": {
   "news": [
@@ -27694,7 +27940,52 @@
     "format": "18xFile, FLAC, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
+ },
+ "kalimari-musique": {
+  "recentes": [
+   {
+    "titre": "Din Paduri",
+    "artiste": "Dan Cristian",
+    "annee": 2013,
+    "image": "https://i.discogs.com/ZddVfaSab5MVN86XG4OQrSEPf-u1nLiqLCee8o8sc5U/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NDkz/OTQtMTQ3MjA2MjU1/MC0xMDIwLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8949394",
+    "format": "4xFile, MP3, 320"
+   },
+   {
+    "titre": "Plusteblume",
+    "artiste": "Bodeler",
+    "annee": 2013,
+    "image": "https://i.discogs.com/pTHqO0w9qhsL2aDWDPp1qBnFtExvJbWkeepTwZxQMIQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NDkz/NjgtMTQ3MjA2MjMx/Ny0yNjU0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8949368",
+    "format": "4xFile, MP3, 320"
+   },
+   {
+    "titre": "Lying On The Floor",
+    "artiste": "Y.ø.",
+    "annee": 2013,
+    "image": "https://i.discogs.com/9lWI2MVsBdtxkpmR1CYJUBeMlm2gdsUF4K0ca4LPD3M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NDkz/NTEtMTQ3MjA2MTkz/OS0zMjA3LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8949351",
+    "format": "3xFile, MP3, 320"
+   },
+   {
+    "titre": "Breaking Blocks EP",
+    "artiste": "Revy",
+    "annee": 2013,
+    "image": "https://i.discogs.com/t5k5g1Uu04SDrFKb2cQvU65E3DdSvXk5aH2jSJmLjUo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ4Njc4/MzktMTM3Nzk2MTg4/Ny01MDcyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/4867839",
+    "format": "4xFile, WAV, EP"
+   },
+   {
+    "titre": "Past And Future",
+    "artiste": "Kaitaro",
+    "annee": 2012,
+    "image": "https://i.discogs.com/5t4zcRilwVxXkL6FBW9ulmcDr4VoUee-iw_deSQ3nE0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NDkz/NDEtMTQ3MjA2MTcw/NS04NTExLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8949341",
+    "format": "4xFile, MP3, EP, 320"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "kannibalen-records": {
   "recentes": [
@@ -27784,7 +28075,7 @@
     "format": "CD, Mini, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "kaoz-theory": {
   "recentes": [
@@ -28226,7 +28517,7 @@
     "format": "LP, Album, RSD, Mono, Ltd, Gol"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "king-street-sounds": {
   "recentes": [
@@ -28271,7 +28562,7 @@
     "format": "2xFile, FLAC, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "kitsune": {
   "recentes": [
@@ -28361,7 +28652,7 @@
     "format": "12xFile, AAC, Album, 256"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "kiwi-rekords": {
   "recentes": [
@@ -28496,7 +28787,7 @@
     "format": "12\", Promo, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "klf-communications": {
   "recentes": [
@@ -28915,7 +29206,7 @@
     "format": "11xFile, MP3, Album, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "koyote-records": {
   "recentes": [
@@ -29243,7 +29534,7 @@
     "format": "7xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "la-rama-records": {
   "recentes": [
@@ -29289,6 +29580,19 @@
    }
   ],
   "recentesLe": "2026-11-20"
+ },
+ "la-rama-tapes": {
+  "recentes": [
+   {
+    "titre": "Music For Spiritual Beings 01",
+    "artiste": "Jesse Futerman, Kris Guilty",
+    "annee": 2017,
+    "image": "https://i.discogs.com/XXdKHrDFl-QIRYAJ9b8uKgsyfG_GfjeE9ooL911Lw2o/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMjA2/OTk4LTE0OTM0MDI3/OTgtMTUzNC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/10206998",
+    "format": "Cass, Mixed, Mixtape"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "la-vida": {
   "recentes": [
@@ -29452,7 +29756,7 @@
     "format": "12\", Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "late-music": {
   "recentes": [
@@ -29891,7 +30195,7 @@
     "format": "CDr, Album, Num, Promo, Wat"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "lethal-theory": {
   "recentes": [
@@ -30776,7 +31080,7 @@
     "format": "5xFile, FLAC"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "logic-records": {
   "recentes": [
@@ -31001,7 +31305,7 @@
     "format": "CD, Single, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "lot49": {
   "recentes": [
@@ -31541,7 +31845,7 @@
     "format": "2xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "magnet-music-ltd": {
   "recentes": [
@@ -33043,7 +33347,7 @@
     "format": "12\", Promo, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "memory-records": {
   "recentes": [
@@ -33252,7 +33556,7 @@
     "format": "5xFile, FLAC, EP, 24-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "metalheadz": {
   "recentes": [
@@ -33432,7 +33736,7 @@
     "format": "LP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "metroplex": {
   "recentes": [
@@ -33776,7 +34080,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "midnight-cult": {
   "recentes": [
@@ -33858,7 +34162,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "mille-plateaux": {
   "recentes": [
@@ -34120,7 +34424,7 @@
     "format": "Cass, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "mitchbal-records": {
   "recentes": [
@@ -34178,7 +34482,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "mnrk-music-group": {
   "recentes": [
@@ -34358,7 +34662,7 @@
     "format": "2xFile, MP3, Single, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "moby-dick-records": {
   "recentes": [
@@ -34987,7 +35291,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "mosaert": {
   "recentes": [
@@ -35270,7 +35574,7 @@
     "format": "2xLP, Album, Dlx, Ltd, 140"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "moveltraxx": {
   "recentes": [
@@ -35606,7 +35910,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "murder-capital": {
   "recentes": [
@@ -35786,7 +36090,7 @@
     "format": "8xFile, FLAC, 16-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "music-on-vinyl": {
   "recentes": [
@@ -36002,8 +36306,61 @@
   ],
   "recentesLe": "2026-11-16"
  },
+ "naff": {
+  "recentes": [
+   {
+    "titre": "Volume 2",
+    "artiste": "Chestnut People",
+    "annee": 2026,
+    "image": "https://i.discogs.com/iDzJWQN5-YTDmPNndde2fbCWuMpXDwo98j8mj1BHy4o/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MjA5/NDU4LTE3OTEzODk5/MTAtNTMxOS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/38209458",
+    "format": "12\""
+   },
+   {
+    "titre": "Fold",
+    "artiste": "Jump Source",
+    "annee": 2026,
+    "image": "https://i.discogs.com/55XFMQmGlmS7atcwr1XBS4Pez_MlUCVoVHiV_TEG3Gs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MDQ1/NTgwLTE3ODU3MDAw/MDYtNTg1Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/38045580",
+    "format": "11xFile, FLAC"
+   },
+   {
+    "titre": "Sky Burial",
+    "artiste": "Piezo",
+    "annee": 2026,
+    "image": "https://i.discogs.com/bC8VHAreBd8nxSqD5AuF6gb8XKCfDDjelHP1f6Zhw7c/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3ODE5/NjY4LTE3ODU3ODY4/NDItMzEwNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/37819668",
+    "format": "LP"
+   },
+   {
+    "titre": "Rest Here - Expanded",
+    "artiste": "Car Culture",
+    "annee": 2026,
+    "image": "https://i.discogs.com/NddHejVYnIXPHYM6ttgtNktvIbFjTPkESogSlgpZwbc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NjAx/ODQ0LTE3ODEyMDg5/MzctNDY1OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/37601844",
+    "format": "CD, Dlx"
+   },
+   {
+    "titre": "glob",
+    "artiste": "glob deejay",
+    "annee": 2026,
+    "image": "https://i.discogs.com/au9FSL9b6s1bgIReHDo7JNK7CJPEyG4wqZFqAt64jqA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzM0/NDk3LTE3ODU3NjA1/MzUtODEzMS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/36734497",
+    "format": "12\""
+   }
+  ],
+  "recentesLe": "2026-11-21"
+ },
  "napalm-records": {
   "recentes": [
+   {
+    "titre": "The Reckoning",
+    "artiste": "Angelus Apatrida",
+    "annee": 2026,
+    "image": "https://i.discogs.com/iYgXkohHecR8CWWp7l3DfwRPn5FrrW8obykUjynSAEs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk3/NjgzLTE3OTUxOTE4/NDgtMzA5Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39097683",
+    "format": "CD, EP, Ltd"
+   },
    {
     "titre": "Ørlǫg",
     "artiste": "SKÁLD",
@@ -36035,17 +36392,9 @@
     "image": "https://i.discogs.com/mW_VfrUOKH-gpnDq98zffBndtNplf05PVggNNK0gQxk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3OTkw/ODMwLTE3ODUxNTM4/MzktODkyMy5wbmc.jpeg",
     "url": "https://www.discogs.com/release/37990830",
     "format": "LP, Album, Ltd, Mar"
-   },
-   {
-    "titre": "Alter Bridge",
-    "artiste": "Alter Bridge",
-    "annee": 2026,
-    "image": "https://i.discogs.com/j2NgeGM4cegEWnhWE-pBJgeQInF8A0J7XRQ95eziaZo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NTY0/MTg1LTE3ODY2NjI5/OTMtODY1Ni5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/37564185",
-    "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "narada": {
   "recentes": [
@@ -36135,7 +36484,7 @@
     "format": "CDr, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "nec-records": {
   "recentes": [
@@ -36288,7 +36637,7 @@
     "annee": 2026,
     "image": null,
     "url": "https://www.discogs.com/release/38986973",
-    "format": "CD, Album"
+    "format": "CDr, Album"
    },
    {
     "titre": "One Car Hits Another",
@@ -36315,7 +36664,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "network-records": {
   "recentes": [
@@ -36720,7 +37069,7 @@
     "format": "CDr, Maxi, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "nexus-media": {
   "recentes": [
@@ -36855,7 +37204,7 @@
     "format": "4xFile, FLAC, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "night-mode": {
   "recentes": [
@@ -37260,7 +37609,7 @@
     "format": "2xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "noise-poison-records": {
   "recentes": [
@@ -37350,7 +37699,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "noisemaker": {
   "recentes": [
@@ -37911,7 +38260,7 @@
     "format": "File, MP3, Single, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "nukleuz": {
   "recentes": [
@@ -38485,7 +38834,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "optimo-music": {
   "recentes": [
@@ -38620,7 +38969,7 @@
     "format": "Cass"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "orbit-records": {
   "recentes": [
@@ -39385,7 +39734,7 @@
     "format": "12\", S/Sided, Ltd, Cle"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "palms-out-sounds": {
   "recentes": [
@@ -39475,7 +39824,7 @@
     "format": "File, AAC, Single, VBR"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "pan": {
   "recentes": [
@@ -39745,7 +40094,7 @@
     "format": "7\", Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "parkwood-entertainment": {
   "recentes": [
@@ -40483,7 +40832,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "perc-trax": {
   "recentes": [
@@ -40573,7 +40922,7 @@
     "format": "2xFile, WAV"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "perfecto": {
   "recentes": [
@@ -41028,7 +41377,7 @@
     "format": "12\", Promo, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "planet-dog": {
   "recentes": [
@@ -41118,7 +41467,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "planet-mu": {
   "recentes": [
@@ -41274,7 +41623,7 @@
     "format": "4xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "playhouse": {
   "recentes": [
@@ -41409,7 +41758,7 @@
     "format": "CDr, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "pmr-records": {
   "recentes": [
@@ -42001,7 +42350,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "power-of-voice-communications": {
   "recentes": [
@@ -42091,7 +42440,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "press-play-recordings": {
   "recentes": [
@@ -42382,7 +42731,7 @@
     "format": "Cass, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "profile-records": {
   "recentes": [
@@ -42742,7 +43091,7 @@
     "format": "4xFile, FLAC, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "psychik-genocide": {
   "recentes": [
@@ -43948,6 +44297,51 @@
   ],
   "recentesLe": "2026-11-17"
  },
+ "red-channel-records": {
+  "recentes": [
+   {
+    "titre": "Drifting Away",
+    "artiste": "Spartaa Featuring Jordan Grace",
+    "annee": 2024,
+    "image": "https://i.discogs.com/3HrayaijEIaGvqnAI62oem-CDhEJb20M9WE5biIXPGw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNzA3/OTExLTE3MzU1ODcx/OTYtOTc2Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/32707911",
+    "format": "2xFile, MP3, Single, 320"
+   },
+   {
+    "titre": "Look At Me",
+    "artiste": "Shio Tian",
+    "annee": 2024,
+    "image": "https://i.discogs.com/QJQdXQVy7462-R_JE-1YECDkWVWFWBut_kTizcXVYyE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTU4/Mjg2LTE3MDkyMTU1/MjAtOTQ0Ny5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/29958286",
+    "format": "2xFile, MP3, 320"
+   },
+   {
+    "titre": "Escape The Future",
+    "artiste": "V.Rock & Deadfunk",
+    "annee": 2024,
+    "image": "https://i.discogs.com/UGiQm7uasHIpzwJyzmnC6m_HZ35YG4QNIilBmFdCtvU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTUy/NjIyLTE3MDkxNTE2/NDAtNzM0Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/29952622",
+    "format": "File, MP3, 320"
+   },
+   {
+    "titre": "Hauntin' Squad",
+    "artiste": "Filippo Peschi, Alexander Pokudov",
+    "annee": 2024,
+    "image": "https://i.discogs.com/OmKSmKB-a7VlRfi0zM8qQKquwTdAQCqntZxeuf30ORU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTUy/NTQxLTE3MDkxNTEy/NDAtNjg0My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/29952541",
+    "format": "File, MP3, 320"
+   },
+   {
+    "titre": "Mind Control",
+    "artiste": "Elvis Ojeda",
+    "annee": 2024,
+    "image": "https://i.discogs.com/RUwAD6evEnGnIDORPGIAPfh1lJjCIOhN5zaBpbLwotk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTUx/OTk4LTE3MDkxNDgz/MTEtMTMyMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/29951998",
+    "format": "2xFile, MP3, 320"
+   }
+  ],
+  "recentesLe": "2026-11-21"
+ },
  "red-rhino-europe": {
   "recentes": [
    {
@@ -44692,7 +45086,7 @@
     "format": "7\", Ltd"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "revealed-recordings": {
   "recentes": [
@@ -44782,7 +45176,7 @@
     "format": "12\", Maxi"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "rham": {
   "recentes": [
@@ -45295,7 +45689,7 @@
     "format": "11xFile, FLAC, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "rotjecore": {
   "recentes": [
@@ -45835,7 +46229,7 @@
     "format": "2xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "rush-hour": {
   "recentes": [
@@ -45906,6 +46300,30 @@
  "sacred-technology": {
   "recentes": [
    {
+    "titre": "Digital Spirit",
+    "artiste": "Magnetica",
+    "annee": 2026,
+    "image": "https://i.discogs.com/_T0ulaXJFbZrjyTyl8IbCers0kPK448xwPSaLq30xLI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk0/NjA1LTE3OTUxNzA0/MzAtOTA5NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39094605",
+    "format": "File, WAV, Single"
+   },
+   {
+    "titre": "Omni",
+    "artiste": "Electric Universe × NoFace",
+    "annee": 2026,
+    "image": "https://i.discogs.com/EWvXXdiCiIyp3KhW2TwF4QFSstLAkT0KkENnDOrJmJE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk0/NTkwLTE3OTUxNzAy/ODUtMjE1Ny5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39094590",
+    "format": "File, WAV, Single"
+   },
+   {
+    "titre": "God Intoxicated State (Artifex Remix)",
+    "artiste": "Outside The Universe • Burn In Noise",
+    "annee": 2026,
+    "image": "https://i.discogs.com/260tvMn-NJUdq4XRsDyl8yEyslrvuiPJBfLT234565k/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk0/NTY2LTE3OTUxNzAx/MzEtNjkxOS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39094566",
+    "format": "File, WAV, Single"
+   },
+   {
     "titre": "Bright Side Of The Sun (Talpa Remix)",
     "artiste": "BLiSS & Volcano On Mars",
     "annee": 2026,
@@ -45920,33 +46338,9 @@
     "image": "https://i.discogs.com/R_pzKzQniUnFpXBmZW1o5_61MG1gFhuUjLQuIK2BeQw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MzMy/ODAwLTE3ODg1MDc3/MzYtNjYwOS5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38332800",
     "format": "File, WAV, Single"
-   },
-   {
-    "titre": "Conversations",
-    "artiste": "Outsiders & Volcano On Mars",
-    "annee": 2026,
-    "image": "https://i.discogs.com/45GPfwEEmRuZqDozq1nvyxzAuss4wiFjPTq-KVh4M2o/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MzMy/Nzc5LTE3ODg1MDc2/MTktMzE4My5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38332779",
-    "format": "File, WAV, Single"
-   },
-   {
-    "titre": "Oren Sa Vajra",
-    "artiste": "Mindplex",
-    "annee": 2026,
-    "image": "https://i.discogs.com/nAxwpzgVu0WKyFgF1SwfUqLHWH3MD06IZ29OImOjLNM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MjEw/NDAzLTE3ODczMjEx/OTUtMjc5NS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38210403",
-    "format": "File, WAV, Single"
-   },
-   {
-    "titre": "Echoes Of The Wild",
-    "artiste": "Magnetica",
-    "annee": 2026,
-    "image": "https://i.discogs.com/jCx8j1s01INE5levdCFpSAgunjp-WRAjq442t-KdGgM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MDI0/NjEwLTE3ODU0ODg5/OTktNTgzMC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38024610",
-    "format": "File, WAV, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "safe-trip": {
   "recentes": [
@@ -46036,7 +46430,7 @@
     "format": "LP, Album, Ltd, Pur"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "sam-records": {
   "recentes": [
@@ -46126,7 +46520,7 @@
     "format": "6xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "satellite": {
   "recentes": [
@@ -46523,7 +46917,7 @@
     "format": "7\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "science": {
   "recentes": [
@@ -46748,7 +47142,7 @@
     "format": "4xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "second-state": {
   "recentes": [
@@ -46843,6 +47237,14 @@
  "semantica": {
   "recentes": [
    {
+    "titre": "20 Años. Layered from the Individual",
+    "artiste": "Various",
+    "annee": 2026,
+    "image": "https://i.discogs.com/nEQD3Ck8Gzok_c0dZRx922cQJR4fVz5vytrM-e5m5vk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDY0/NjAxLTE3OTQ5NTUy/OTItMzE4Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39064601",
+    "format": "2x12\", Tra"
+   },
+   {
     "titre": "Lux Nigra",
     "artiste": "Various",
     "annee": 2026,
@@ -46873,17 +47275,9 @@
     "image": "https://i.discogs.com/JZUtxpkg45LIrlJq1L7izGeHjnGT9Sehu6pz7lC6la8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Njg0/OTEzLTE3OTE2NzM4/NzktNTIwMi5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38684913",
     "format": "6xFile, FLAC"
-   },
-   {
-    "titre": "When Time Stopped",
-    "artiste": "Decka",
-    "annee": 2026,
-    "image": "https://i.discogs.com/RkwG3GZUH0kM9CNeHQ9ts-UGWahaXaG0dK8SSgsjV1Q/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NDM5/MTc0LTE3ODk1MDI0/MjktMTkzMy5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38439174",
-    "format": "6xFile, FLAC"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "semishigure": {
   "recentes": [
@@ -47018,7 +47412,7 @@
     "format": "5xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "shall-not-fade": {
   "recentes": [
@@ -47428,47 +47822,31 @@
  "signature-records": {
   "recentes": [
    {
-    "titre": "Tricklemore Sea",
-    "artiste": "Calibre",
-    "annee": 2026,
-    "image": "https://i.discogs.com/JRsAVwTFAw2aBwU1vhmJY747qci4aiMW8v01x1GDoHI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MjY3/ODI0LTE3ODEyNjY3/OTEtOTg3OC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/37267824",
+    "titre": "The Songs Of Bessie Smith",
+    "artiste": "Teresa Brewer, Count Basie",
+    "annee": 1997,
+    "image": null,
+    "url": "https://www.discogs.com/release/22801709",
+    "format": "Cass, Album"
+   },
+   {
+    "titre": "That's A Plenty",
+    "artiste": "Yank Lawson",
+    "annee": 1993,
+    "image": "https://i.discogs.com/Slvbc0Ghh6MDKfAWz9ylquC9_62tz2bpyhe07ySIcy8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExMzQ3/NjA0LTE2MTIxNDUw/OTUtMTg3Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/11347604",
     "format": "CD, Album"
    },
    {
-    "titre": "They Want You",
-    "artiste": "Calibre",
-    "annee": 2026,
-    "image": "https://i.discogs.com/BIdb62xKP18q5biOT2p7Frf1Eei9n7ypw4kcdiDoe5E/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzU4/Njg5LTE3NzMzOTU4/NjMtOTI4NC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/36758689",
-    "format": "CD, Album, Dig"
-   },
-   {
-    "titre": "Doing It For You / No Man Is An Island",
-    "artiste": "Calibre & Chelou",
-    "annee": 2025,
-    "image": "https://i.discogs.com/m45Vy-rY0LFgvmo6BI83dug0Ri5UaYqX0jZuWHjq6hk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NDcx/MTc3LTE3NTE4NzU2/MjItMTk0Ni5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/34471177",
-    "format": "12\""
-   },
-   {
-    "titre": "Little Foot",
-    "artiste": "Calibre",
-    "annee": 2025,
-    "image": "https://i.discogs.com/2NcsdyP64baNZoa8sQ5PxCMnwI55JGEBAPd2y43SC5Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0Mjk3/NDM4LTE3NTAyMjI3/OTUtMzk3NC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/34297438",
-    "format": "2xCD, Album"
-   },
-   {
-    "titre": "Lungs (Calibre Extended Remixes)",
-    "artiste": "Ruti",
-    "annee": 2024,
-    "image": "https://i.discogs.com/jmbbY-ZsUbRHgTMFMzc-hhZxWBc6SnoO0S8Ke0TIlmk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMDI3/NTYxLTE3MTk0MDQy/MjAtNzUwMS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/31027561",
-    "format": "12\""
+    "titre": "The Cotton Connection",
+    "artiste": "Teresa Brewer & Mercer Ellington",
+    "annee": 1989,
+    "image": "https://i.discogs.com/XTdhy2Y7-jqwmc_bND8_YKL7KQ4IV53Ze3qB0gtUCIM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk0NDU3/OTItMTQ4MDczMjkx/My00NjA3LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/9445792",
+    "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "silver-label": {
   "recentes": [
@@ -47804,10 +48182,18 @@
     "format": "4xFile, FLAC"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "smalltown-supersound": {
   "recentes": [
+   {
+    "titre": "Towards A Cosmic Music - Noise Minimalism, Norway, 1991-2001",
+    "artiste": "Various",
+    "annee": 2026,
+    "image": null,
+    "url": "https://www.discogs.com/release/39099213",
+    "format": "2xLP, Ltd"
+   },
    {
     "titre": "Memoria",
     "artiste": "Carmen Villain",
@@ -47839,17 +48225,9 @@
     "image": "https://i.discogs.com/-bU-mZGQn-5XdQM-vwjIaO54uqX0Cb5w3WV79QK3rx4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MTk4/MDE3LTE3ODAzOTgy/NzgtOTY4My5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/37198017",
     "format": "12\", Ltd"
-   },
-   {
-    "titre": "Voice",
-    "artiste": "Sofia Jernberg",
-    "annee": 2026,
-    "image": "https://i.discogs.com/uUrmF6RpJeEPS9dxkDYbOsKLeakhFKkFHJ-9FIO5TI0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzUx/NzU5LTE3NzM1Nzc3/MTQtNjYyNS5wbmc.jpeg",
-    "url": "https://www.discogs.com/release/36751759",
-    "format": "LP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "smallville-records": {
   "recentes": [
@@ -48087,7 +48465,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "smugglers-way": {
   "recentes": [
@@ -48333,7 +48711,7 @@
     "format": "LP, Album, Two"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "soleilmoon-recordings": {
   "recentes": [
@@ -48902,7 +49280,7 @@
     "format": "CD, Mixed"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "sound-of-scandinavia": {
   "recentes": [
@@ -49172,7 +49550,7 @@
     "format": "4xFile, WAV, EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "source-direct-recordings": {
   "recentes": [
@@ -49509,7 +49887,7 @@
     "format": "8xFile, MP3, Album, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "speedsadd": {
   "recentes": [
@@ -49604,6 +49982,14 @@
  "spinnin-records": {
   "recentes": [
    {
+    "titre": "Saviour",
+    "artiste": "Boaboa",
+    "annee": 2026,
+    "image": "https://i.discogs.com/BKCWSKyGqFhB-bAiAVqS72BRp_DknbVtNqQIJsq3D8Q/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDM0/NDYzLTE3OTQ2OTAw/NTQtNDI4Ny5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39034463",
+    "format": "File, FLAC, Single, 24-"
+   },
+   {
     "titre": "Gimme Dat",
     "artiste": "Morten*",
     "annee": 2026,
@@ -49634,17 +50020,9 @@
     "image": "https://i.discogs.com/z0a3P_RrJXnEs58-k1sU4x-5LfO4cEqhDatZxifwWAk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MTYw/Nzc0LTE3ODY4NjQ2/ODEtNDgyNi5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38160774",
     "format": "File, FLAC, Single, 24-"
-   },
-   {
-    "titre": "What Are We Gonna Do",
-    "artiste": "Jaxstyle, Jon*",
-    "annee": 2026,
-    "image": "https://i.discogs.com/p3rShgy3JWHr_ev4PGcxjSDJLrqwO4vfiNzN-ka1HcI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MTQ1/ODg1LTE3ODY3MjQ4/MjUtNTY2MS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38145885",
-    "format": "File, FLAC, Single, 24-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "spinnin-remixes": {
   "recentes": [
@@ -50541,7 +50919,7 @@
     "format": "12\", W/Lbl, Sta"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "stockhausen-verlag": {
   "recentes": [
@@ -50766,7 +51144,7 @@
     "format": "2xCDr, Promo, Smplr"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "streetwise": {
   "recentes": [
@@ -50980,7 +51358,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "sub-pop": {
   "recentes": [
@@ -52192,7 +52570,7 @@
     "format": "LP, S/Sided, Etch, Ltd, Cle"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "take-me-to-the-hospital": {
   "recentes": [
@@ -52295,7 +52673,7 @@
     "format": "10\", Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tantrumm-records": {
   "recentes": [
@@ -52385,7 +52763,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "target-records": {
   "recentes": [
@@ -52607,7 +52985,7 @@
     "format": "File, FLAC"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tech-itch-recordings": {
   "recentes": [
@@ -53205,7 +53583,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "the-books-of-bokonon": {
   "recentes": [
@@ -53263,7 +53641,7 @@
     "format": "12\", EP, TP, W/Lbl"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "the-null-corporation": {
   "recentes": [
@@ -53856,7 +54234,7 @@
     "titre": "Peaches EP",
     "artiste": "J Wax",
     "annee": 2026,
-    "image": "https://i.discogs.com/U-YFg7aUud5PH86y0tNWVP8Wcd_wGP4TV7IrarbiRpw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzQy/NDIwLTE3OTIxOTQw/MzEtOTgyNC5qcGVn.jpeg",
+    "image": "https://i.discogs.com/7JabS3zpzvP8k7jVlzdwFDPePYpeTijkvXOu7N65xXY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzQy/NDIwLTE3OTUxODEz/NDAtMTQ4Ni5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38742420",
     "format": "12\", EP"
    },
@@ -53885,7 +54263,7 @@
     "format": "12\", EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tip-records": {
   "recentes": [
@@ -53975,7 +54353,7 @@
     "format": "2xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tk-records": {
   "recentes": [
@@ -54123,7 +54501,7 @@
     "format": "4xFile, FLAC, EP, 16-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tomlab": {
   "recentes": [
@@ -54213,7 +54591,7 @@
     "format": "7\", Single, Ltd, Rub"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tone-casualties": {
   "recentes": [
@@ -54263,6 +54641,14 @@
  "toolroom-records": {
   "recentes": [
    {
+    "titre": "Toolroom Trax Sampler Vol. 8",
+    "artiste": "Various",
+    "annee": 2026,
+    "image": null,
+    "url": "https://www.discogs.com/release/39071855",
+    "format": "12\", EP"
+   },
+   {
     "titre": "Girls Are Dancin'",
     "artiste": "Don Diablo",
     "annee": 2026,
@@ -54293,17 +54679,9 @@
     "image": "https://i.discogs.com/FfwZ7vtTKxKr62phhLgzxawFhNa4SYnIWuoUNeGlRsA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NjQz/ODM0LTE3OTEzODg3/MzMtNDc4OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38643834",
     "format": "File, MP3, 320"
-   },
-   {
-    "titre": "Miami Vice",
-    "artiste": "DJ PP, Mark Knight, James Hurr",
-    "annee": 2026,
-    "image": "https://i.discogs.com/00fGjVlYHZ48wzZyhtTANMq_XbZdYnhh6G2YMaT4Ag4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NjQz/ODAxLTE3OTEzODg1/NTgtMTQ2Ni5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38643801",
-    "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "top-dawg-entertainment": {
   "recentes": [
@@ -54962,7 +55340,7 @@
     "format": "4xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "traum-schallplatten": {
   "recentes": [
@@ -55404,7 +55782,7 @@
     "format": "3xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "tripoli-trax": {
   "recentes": [
@@ -56034,7 +56412,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "ufo-records-ltd": {
   "recentes": [
@@ -56206,7 +56584,7 @@
     "format": "CD, Maxi, Promo"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "ultra-records": {
   "recentes": [
@@ -56386,7 +56764,7 @@
     "format": "File, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "underground": {
   "recentes": [
@@ -56694,7 +57072,7 @@
     "format": "8xCass, Mixed"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "unity-promotions": {
   "recentes": [
@@ -56723,7 +57101,7 @@
     "format": "12\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "universal-music-france": {
   "recentes": [
@@ -57089,7 +57467,7 @@
     "format": "7\""
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "urban": {
   "recentes": [
@@ -57420,7 +57798,7 @@
     "titre": "Vega Records 5 Pack Unreleased VII",
     "artiste": "Various",
     "annee": 2026,
-    "image": null,
+    "image": "https://i.discogs.com/T0EcvONCIjmywk7GSP2LnMGy24e-fv4AHmTH661F2iA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODIz/NjA2LTE3OTUyMzcx/MzgtNTc1Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38823606",
     "format": "5x12\", Smplr"
    },
@@ -57449,7 +57827,7 @@
     "format": "5xFile, MP3, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "velvet-inc": {
   "recentes": [
@@ -57494,7 +57872,7 @@
     "format": "2xLP, TP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "versatile-records": {
   "recentes": [
@@ -57724,14 +58102,6 @@
  "vinyl-fanatiks": {
   "recentes": [
    {
-    "titre": "My Sound Rule EP / Volume Two EP (The Run Out Special)",
-    "artiste": "The X Men",
-    "annee": 2026,
-    "image": "https://i.discogs.com/_o2h8JEco0N9otOEQk_hFM4lw-24TCEpNeS94YAo0Ls/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODI2/NjAzLTE3OTMwMDQy/MzUtNjEzMS5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38826603",
-    "format": "12\", S/Edition, Yel"
-   },
-   {
     "titre": "Safe & Sound Vol. 3",
     "artiste": "EQ & Mastersafe",
     "annee": 2026,
@@ -57740,7 +58110,7 @@
     "format": "12\", EP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "vinyl-on-demand": {
   "recentes": [
@@ -57933,7 +58303,52 @@
     "format": "12\", TP"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
+ },
+ "visage-musique": {
+  "recentes": [
+   {
+    "titre": "Perspective Tronquée",
+    "artiste": "Non-Lieu",
+    "annee": 2021,
+    "image": "https://i.discogs.com/IQueZQJVuaWNBW5Xo23pNIC5x5LOyT8mbJSssV3CBaA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzNzUz/MzYwLTE2NTY2OTky/MjMtNTk5NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/23753360",
+    "format": "Cass, EP"
+   },
+   {
+    "titre": "Un Amour D'Été",
+    "artiste": "Gold Zebra",
+    "annee": 2016,
+    "image": "https://i.discogs.com/2I9ATkl1FnDMRFduzEIAynygDOdpOXIVYvg8xFTkRr4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzMz/MDc5LTE1NDA5MTYw/NTctODAyNi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/12733079",
+    "format": "10xFile, FLAC"
+   },
+   {
+    "titre": "Fugitive",
+    "artiste": "Xarah Dion",
+    "annee": 2016,
+    "image": "https://i.discogs.com/7quZZiKUFxuVbAosUggljoWVtx2xdj15AOlZduRFXDQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzMjg4/OTgtMTQ3ODY5MDI5/Ni0yMDU2LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/9328898",
+    "format": "CD, Album"
+   },
+   {
+    "titre": "Split",
+    "artiste": "Automelodi / Xarah Dion",
+    "annee": 2016,
+    "image": "https://i.discogs.com/LyFntgSQ9JigEzQQm_gCyuNWYICfEbWBZUFFccvDupI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3ODE3/MjAtMTQ2ODY1OTgy/Mi01ODgwLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8781720",
+    "format": "7\", Single, Ltd"
+   },
+   {
+    "titre": "Trashbag",
+    "artiste": "Brusque Twins",
+    "annee": 2016,
+    "image": "https://i.discogs.com/MVAzACzP5bw0oAJ4QaHjWzby4E4mWPTNK7mRK-2SsCU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3MjAy/MzAtMTQ2NzMwNjQx/Ni0yMzIwLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/8720230",
+    "format": "12\", Ltd, Cle"
+   }
+  ],
+  "recentesLe": "2026-11-21"
  },
  "vision-recordings": {
   "recentes": [
@@ -58212,7 +58627,7 @@
     "format": "File, FLAC, Single"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "vulture-music": {
   "recentes": [
@@ -58955,7 +59370,7 @@
     "format": "CD"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "west-end-records": {
   "recentes": [
@@ -59357,7 +59772,7 @@
     "format": "3xFile, MP3, EP, 320"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "wildstar-records": {
   "recentes": [
@@ -59579,7 +59994,7 @@
     "format": "LP, Album, Ltd"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "wrap-records": {
   "recentes": [
@@ -59629,6 +60044,30 @@
  "x-img": {
   "recentes": [
    {
+    "titre": "Bautismo De Fuego",
+    "artiste": "La Sanguijuela",
+    "annee": 2026,
+    "image": "https://i.discogs.com/38xz4VGZZ4WDEorgfOa3JuS8hmfcT8o1QkKffT-onoI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDM2/ODYzLTE3OTQ3MDkz/NzUtNDcyNi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39036863",
+    "format": "2xFile, FLAC, 24-"
+   },
+   {
+    "titre": "Salvation",
+    "artiste": "Unconscious",
+    "annee": 2026,
+    "image": "https://i.discogs.com/XW0MiWu87hkZ1bSFAoyFVf9BTQu7FV8OEpZHYbePx3A/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDM2/ODQ1LTE3OTQ3MDky/NzMtMzAwNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39036845",
+    "format": "2xFile, FLAC, 16-"
+   },
+   {
+    "titre": "Analog Fear",
+    "artiste": "Control Fields",
+    "annee": 2026,
+    "image": "https://i.discogs.com/35ETOaSd1tkspF9SMD4KJrmDutAPkdF6wG70xSPW7j4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDM2/ODQyLTE3OTQ3MDky/MjAtOTA1OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/39036842",
+    "format": "2xFile, FLAC, 16-"
+   },
+   {
     "titre": "Friction Code",
     "artiste": "Control Fields",
     "annee": 2026,
@@ -59643,33 +60082,9 @@
     "image": "https://i.discogs.com/g_WTfbrbe0H6NSSu2nSqfR84IiHOy1vlML5R1BYdFlY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Mjgx/ODEyLTE3ODgwMDU1/NjctNjgyOC5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/38281812",
     "format": "2xFile, FLAC, Single, 24-"
-   },
-   {
-    "titre": "La Bestia",
-    "artiste": "La Sanguijuela",
-    "annee": 2026,
-    "image": "https://i.discogs.com/tAJsWkXsS45iFIm2cAEeu2g1MKQVZhbcN3WJwNGhEnE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MjI1/MzAxLTE3ODc0NzAz/MTgtNjc5MC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38225301",
-    "format": "2xFile, FLAC, EP, 16-"
-   },
-   {
-    "titre": "Tesoros Infernales",
-    "artiste": "Red Deviil",
-    "annee": 2026,
-    "image": "https://i.discogs.com/59UBp_0W4-78pdhHBOe50_vR0QRsGZxqnSZ9noTb79k/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MjI1/Mjc0LTE3ODc0NzAw/ODItNTI1MC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38225274",
-    "format": "9xFile, FLAC, Album, 24-"
-   },
-   {
-    "titre": "Rules Of Engagement",
-    "artiste": "I.M.P.",
-    "annee": 2026,
-    "image": "https://i.discogs.com/ek6fcrpKBM_DmkEm53UtXZwCmLMMfnuwzrwD8E-8bvI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MTQ3/ODQxLTE3ODY3NDA4/NTctNzg1MC5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/38147841",
-    "format": "4xFile, FLAC, EP, 16-"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "x-kalay": {
   "recentes": [
@@ -59924,7 +60339,7 @@
     "format": "Cass, Mixed, Mixtape, Promo, C90"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "yard-music": {
   "recentes": [
@@ -60162,7 +60577,7 @@
     "format": "2x12\", Album, Ltd, Cre"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "young-turks": {
   "recentes": [
@@ -60527,7 +60942,7 @@
     "format": "CD, Album"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  },
  "ztt": {
   "recentes": [
@@ -60577,6 +60992,6 @@
     "format": "LP, Ltd, Whi + CD, Ltd"
    }
   ],
-  "recentesLe": "2026-11-14"
+  "recentesLe": "2026-11-21"
  }
 }
