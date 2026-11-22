@@ -32,6 +32,16 @@
    "slug": "zyx-records"
   },
   {
+   "titre": "Dirt Box",
+   "artiste": "Pig",
+   "annee": 2026,
+   "image": "https://i.discogs.com/x-b1j9wxhWNoGJzdIuBYaoTnPauCrt-PXCXeLJFJjGE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDc5/NjA3LTE3OTUxMDA2/NzgtMzIxNi5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39079607",
+   "format": "9xFile, FLAC, EP, 24-",
+   "label": "Metropolis",
+   "slug": "metropolis"
+  },
+  {
    "titre": "Nondi...",
    "artiste": "Nondi_",
    "annee": 2026,
@@ -170,16 +180,6 @@
    "format": "2xFile, MP3, 320",
    "label": "Masters Of Hardcore",
    "slug": "masters-of-hardcore"
-  },
-  {
-   "titre": "Enemy",
-   "artiste": "Control",
-   "annee": 2026,
-   "image": "https://i.discogs.com/Xo8y8DFZ7aH_mvtm4UGQ9nLxswf8oKyYNHXNGXmsfXw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDAw/NzQzLTE3OTQ1MDI1/NDItMTI2Ni5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/39000743",
-   "format": "LP, Album, Ltd",
-   "label": "Ant-Zen",
-   "slug": "ant-zen"
   }
  ]
 }
