@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-21T19:26:44.996Z",
+ "fait": "2026-11-22T07:03:36.612Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "LOFT, UZAT, THE_PITCH 2 MINI: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/loft-uzat-free-plugins/",
+   "date": "2026-11-22T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/loft-free-plugins-11-22-26.jpg",
+   "resume": "This week’s roundup of the best free plugins features a reverb with drawable tails, a lo-fi multi-effect, and a free pitch correction plugin: LOFT, UZAT, and THE_PITCH 2 MINI. Free Plugins of the Week 13X Audio LOFT…",
+   "integral": true
+  },
   {
    "source": "musicradar",
    "titre": "“I recorded almost 70 tracks in two months”: How lockdown turmoil, studio setbacks and a 14-year-old VST inspired John Talabot's new album as OR",
@@ -62,15 +71,6 @@
    "date": "2026-11-20T15:27:22.000Z",
    "image": "https://musictech.com/wp-content/uploads/2025/11/the-midnight-dimlit-studio-credit-press@1400x1050.jpg",
    "resume": "Synthwave duo The Midnight appeared on MusicTech ’s My Forever Studio podcast last week, where Tim McEwan revealed how vital Roland ’s Juno is to their synthwave sound. Across the podcast, made in partnership with…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Live and DJ Cyber Deals: New Offers from Alto, dB Technologies, Mackie, and Denon DJ",
-   "lien": "https://www.gearnews.com/pa-live-deals-thomann-cyberweek/",
-   "date": "2026-11-20T13:39:50.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/cyber-deals-2026-live-dj-ft.jpg",
-   "resume": "A new batch of offers has landed in the Thomann Cyber Deals sale, including PA equipment and DJ gear, with deals on consoles, controllers, and mixers. Live & DJ Cyber Deals: Live and DJ Cyber Deals: Even More Deals…",
    "integral": true
   },
   {
