@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-22T07:03:36.612Z",
+ "fait": "2026-11-22T19:49:36.481Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Teenage Engineering Made the CD Player Something You Can Actually Perform With",
+   "lien": "https://midnightrebels.com/teenage-engineering-ep-bc-1-cd-player/",
+   "date": "2026-11-22T18:46:41.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/ep-bc-1-studio.webp?resize=1160%2C653&ssl=1",
+   "resume": "Teenage Engineering calls its first CD player, the EP/BC-1, “a modern take on a classic CD player.” It went on sale on November 20 and costs $329 in the US. That is real money for a format many people have not touched…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "GTA 6 Electronic Music Radio You Can Play in Your Browser",
+   "lien": "https://midnightrebels.com/gta-6-electronic-music-radio/",
+   "date": "2026-11-22T18:00:29.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/65.webp?resize=1160%2C652&ssl=1",
+   "resume": "I was on the balcony of my condo, listening to Flower in a Hurricane by Justice and smoking my last stick. I was trying to think of what to draft next. The article never came. An idea showed up instead. What if I had…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "LOFT, UZAT, THE_PITCH 2 MINI: Free Plugins of the Week",
@@ -92,24 +110,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "How a Berlin Techno Venue Ended Up Hosting a Military AI Launch",
-   "lien": "https://midnightrebels.com/kraftwerk-berlin-helsing-military-ai-launch/",
-   "date": "2026-11-19T20:46:58.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/helsing-clarity-operator.webp?resize=1160%2C774&ssl=1",
-   "resume": "On November 11, the Munich defence company Helsing launched a military AI system called Clarity inside Kraftwerk Berlin, the former power station that houses Tresor, OHM and Berlin Atonal. A week later, the venue’s head…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "EP vs LP Explained for Producers in the Age of Shorter Songs",
-   "lien": "https://midnightrebels.com/ep-vs-lp-explained-shorter-songs/",
-   "date": "2026-11-19T16:24:13.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2027-grammy-dance-nominees-featured.webp?fit=1600%2C900&ssl=1",
-   "resume": "It is easy to start releasing music today without ever learning what an EP or an LP is. You upload, pick a release type and move on. But those labels follow rules, and the music they describe has changed shape. I am a…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "FabFilter plugins are some of the best in the business – and a bunch of them are heavily discounted ahead of Black Friday",
    "lien": "https://musictech.com/news/gear/fabfilter-black-friday-sale/",
@@ -129,20 +129,20 @@
   },
   {
    "source": "musicradar",
-   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
-   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
-   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
    "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
    "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
    "date": "2026-11-19T10:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
    "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
+   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
+   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
    "integral": true
   },
   {
