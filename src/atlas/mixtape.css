@@ -140,7 +140,7 @@
   display: block;
   padding: 0;
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: none;
   cursor: zoom-in;
   box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
@@ -151,7 +151,7 @@
   height: auto;
   max-width: 21rem;
   max-height: 21rem;
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
 }
 
 /* ═══ DEUX TIERS, UN TIERS ═══ */
@@ -226,7 +226,7 @@
   min-width: 14rem;
   padding: var(--espace-8);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--fond);
   box-shadow: 0 18px 50px rgb(0 0 0 / 0.55);
 }
@@ -238,7 +238,7 @@
   min-height: 40px;
   padding: 0 var(--espace-12);
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
@@ -259,7 +259,7 @@
 .mx-partage-menu .mx-partage-reel {
   margin-top: var(--espace-4);
   border-top: 1px solid var(--filet);
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 var(--rayon-carte) var(--rayon-carte);
   color: var(--accent);
   font-weight: 700;
 }
@@ -329,7 +329,7 @@
   min-height: 5.5rem;
   padding: var(--espace-12) var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: var(--ink-primary);
   font: inherit;
@@ -366,7 +366,7 @@
   gap: var(--espace-16);
   margin-bottom: var(--espace-24);
   padding: var(--espace-16) var(--espace-24);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--accent-voile);
 }
 .mx-invitation p {
@@ -559,7 +559,7 @@
   gap: var(--espace-12);
   min-height: 36px;
   padding: 0 var(--espace-8);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   font-size: 0.9rem;
   text-decoration: none;
 }
@@ -607,7 +607,7 @@
   display: block;
   aspect-ratio: 1;
   margin-bottom: var(--espace-4);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   background: var(--voile-05);
 }
@@ -703,7 +703,7 @@
 }
 .mx-page .mx-colonne > .mx-chiffres {
   border: 1px solid var(--filet);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
 }
 
 /* ═══ LE REEL ═══ Une fenetre par-dessus la page : l'apercu vertical a
@@ -754,7 +754,7 @@
   width: auto;
   height: min(36rem, 70svh);
   aspect-ratio: 9 / 16;
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: #000;
 }
 .mx-reel-mots {
@@ -886,7 +886,7 @@
   gap: var(--espace-4);
   padding: var(--espace-12) var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
 }
 .mx-fiche dt {
@@ -912,7 +912,7 @@
   align-items: baseline;
   gap: var(--espace-12);
   padding: var(--espace-8) var(--espace-12);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
 }
 .mx-piste-en-cours {
   background: var(--accent-voile);

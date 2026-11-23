@@ -22,7 +22,7 @@
 
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
   /* Le bandeau est pose en bas : son ombre part vers le haut, comme pour
      tout ce qui est pose en bas. */
   box-shadow: var(--ombre-flottante-haut);
@@ -93,7 +93,7 @@ body:has(.hm) .pwa-bandeau {
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: var(--weight-track);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   border: var(--rule-width) solid var(--rule-hairline);
   cursor: pointer;
   white-space: nowrap;
@@ -127,7 +127,7 @@ body:has(.hm) .pwa-bandeau {
   margin: 0 var(--espace-4);
   vertical-align: -0.3rem;
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   color: var(--ink-primary);
 }
 

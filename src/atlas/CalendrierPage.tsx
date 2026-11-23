@@ -833,27 +833,38 @@ export function CalendrierPage() {
   /* LES AFFICHES DE LA BANNIERE : les cinq prochaines soirees qui en ont
      une, dans l'ordre des dates. Aucune requete de plus, c'est la liste deja
      chargee. Voir HeroAccueil.tsx. */
-  const affichesHero = useMemo<readonly AfficheHero[]>(
-    () =>
-      /* UNE MEME IMAGE NE REVIENT PAS. Mesure le 28 septembre 2026 sur un
-         iPhone : quatre soirees d'une meme salle portaient la meme photo, et
-         la banniere montrait quatre fois le meme batiment.
+  const affichesHero = useMemo<readonly AfficheHero[]>(() => {
+    /* UNE MEME IMAGE NE REVIENT PAS. Mesure le 28 septembre 2026 sur un
+       iPhone : quatre soirees d'une meme salle portaient la meme photo, et
+       la banniere montrait quatre fois le meme batiment.
 
-         ET UNE MEME SALLE NON PLUS. Le meme jour, sur la rangee de bureau,
-         deux soirees differentes du meme lieu portaient le meme programme
-         du mois, sous deux adresses d'image differentes : comparer les
-         adresses ne le voyait pas. Une affiche par salle, la premiere en
-         date. */
-      /* LES SOIREES MISES EN AVANT PASSENT DEVANT : c'est une partie de ce
-         que l'organisateur a paye. */
-      enAvantDabord(soirees ?? [], vedettes)
-        .filter((s): s is Soiree & { affiche: string } => Boolean(s.affiche))
-        .filter((s, i, tous) => tous.findIndex((x) => x.affiche === s.affiche) === i)
-        .filter((s, i, tous) => !s.lieu || tous.findIndex((x) => x.lieu?.trim().toLowerCase() === s.lieu?.trim().toLowerCase()) === i)
-        .slice(0, 5)
-        .map((s) => ({ id: s.id, titre: s.titre, affiche: s.affiche })),
-    [soirees, vedettes]
-  );
+       ET UNE MEME SALLE NON PLUS. Le meme jour, sur la rangee de bureau,
+       deux soirees differentes du meme lieu portaient le meme programme
+       du mois, sous deux adresses d'image differentes : comparer les
+       adresses ne le voyait pas. Une affiche par salle, la premiere en
+       date.
+
+       LES SOIREES MISES EN AVANT PASSENT DEVANT : c'est une partie de ce
+       que l'organisateur a paye.
+
+       LES SOIREES SANS AFFICHE COMPLETENT LA RANGEE (ADR-125). A Montreal,
+       la plupart des soirees relevees n'ont pas d'image : la banniere
+       restait vide sur sa moitie droite. Elle se complete maintenant avec
+       les prochaines soirees, dans leur affiche dessinee (date, salle,
+       style), qui dit autant de vrai qu'une photo. */
+    const ordre = enAvantDabord(soirees ?? [], vedettes);
+    const salle = (s: Soiree) => s.lieu?.trim().toLowerCase() ?? '';
+    const choisies: Soiree[] = [];
+    const ajouter = (s: Soiree) => {
+      if (choisies.length >= 5 || choisies.includes(s)) return;
+      if (s.affiche && choisies.some((x) => x.affiche === s.affiche)) return;
+      if (salle(s) && choisies.some((x) => salle(x) === salle(s))) return;
+      choisies.push(s);
+    };
+    ordre.filter((s) => Boolean(s.affiche)).forEach(ajouter);
+    ordre.forEach(ajouter);
+    return choisies.map((s) => ({ id: s.id, titre: s.titre, soiree: s }));
+  }, [soirees, vedettes]);
 
   /* LA BANDE « A L'AFFICHE » : les soirees mises en avant et a venir, en
      tete de la liste quelle que soit la tranche regardee. */
@@ -1058,6 +1069,7 @@ export function CalendrierPage() {
             nCeSoir={nombreDe([cleDuJour(new Date())])}
             nWeekend={nombreDe(clesWeekend)}
             affiches={affichesHero}
+            fuseau={fuseau}
             onCeSoir={() => {
               setVue('aujourdhui');
               setDateChoisie(null);

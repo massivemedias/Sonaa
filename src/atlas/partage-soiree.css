@@ -12,7 +12,7 @@
 .ps-bouton {
   padding: var(--espace-8) var(--espace-16);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
@@ -47,7 +47,7 @@
   display: block;
   width: min(14rem, 100%);
   margin-top: var(--espace-12);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   border: var(--rule-width) solid var(--rule-hairline);
 }

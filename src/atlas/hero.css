@@ -159,6 +159,10 @@
 .hero-affiche-vide:hover {
   transform: none;
 }
+/* L'affiche dessinee prend le format des vraies (ADR-125). */
+.hero-affiche .cal-gen {
+  aspect-ratio: 4 / 5;
+}
 .hero-affiche img {
   display: block;
   width: 100%;

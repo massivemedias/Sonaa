@@ -135,13 +135,11 @@ interface Dictionnaire {
   /* LA DECENNIE DE NAISSANCE D'UNE FAMILLE, sur sa tuile. Prise du plus
      ancien genre qu'elle contient. */
   readonly decennie: (d: number) => string;
-  /* LES TROIS MOTS SOUS LES GRANDS CHIFFRES de la page des styles, depuis la
-     v2 : le nombre est lu dans le corpus, le mot vient d'ici. */
-  readonly statGenres: string;
-  readonly statFamilles: string;
-  readonly statMorceaux: string;
+  /* LE CHAPEAU DE LA PAGE DES STYLES, sous son titre d'affiche (ADR-125) :
+     il remplace les trois boites a grand chiffre de la v2. Le nombre de
+     morceaux arrive deja formate dans la langue du site. */
+  readonly stylesChapeau: (morceaux: string) => string;
   readonly genresAppuyez: (n: number) => string;
-  readonly famillesAppuyez: (n: number) => string;
   readonly nGenres: (n: number) => string;
   readonly nDerives: (n: number) => string;
   readonly nMorceaux: (n: number) => string;
@@ -1303,11 +1301,8 @@ const FR: Dictionnaire = {
   aucunGenreDeCeNom: 'Aucun genre de ce nom.',
   retourAtlas: "SONAA, revenir à l'accueil",
   decennie: (d) => `Années ${d}`,
-  statGenres: 'Genres',
-  statFamilles: 'Familles',
-  statMorceaux: 'Morceaux',
+  stylesChapeau: (m) => `Leur histoire, leurs morceaux, leurs labels, et un cours pour produire chacun. ${m} morceaux à écouter.`,
   genresAppuyez: (n) => `${n} genres. Appuyez pour ouvrir.`,
-  famillesAppuyez: (n) => `${n} familles. Appuyez pour ouvrir.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} dérivé${n > 1 ? 's' : ''}`,
   nMorceaux: (n) => `${n} morceau${n > 1 ? 'x' : ''}`,
@@ -2491,11 +2486,8 @@ const EN: Dictionnaire = {
   aucunGenreDeCeNom: 'No genre by that name.',
   retourAtlas: 'SONAA, back to home',
   decennie: (d) => `${d}s`,
-  statGenres: 'Genres',
-  statFamilles: 'Families',
-  statMorceaux: 'Tracks',
+  stylesChapeau: (m) => `Their history, their tracks, their labels, and a lesson on producing each one. ${m} tracks to play.`,
   genresAppuyez: (n) => `${n} genres. Tap to open.`,
-  famillesAppuyez: (n) => `${n} families. Tap to open.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} offshoot${n > 1 ? 's' : ''}`,
   nMorceaux: (n) => `${n} track${n > 1 ? 's' : ''}`,

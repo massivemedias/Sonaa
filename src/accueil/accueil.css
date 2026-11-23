@@ -84,7 +84,10 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(to right, rgb(0 0 0 / 0.97) 0%, rgb(0 0 0 / 0.9) 34%, rgb(0 0 0 / 0.45) 64%, rgb(0 0 0 / 0.2) 100%),
+    /* Plus dense jusqu'au bord des portes (ADR-125) : leurs petits libelles
+       se posaient sur des pochettes claires a moitie voilees, et « 1 511
+       labels » se lisait sur l'etiquette d'un disque. */
+    linear-gradient(to right, rgb(0 0 0 / 0.97) 0%, rgb(0 0 0 / 0.93) 48%, rgb(0 0 0 / 0.55) 70%, rgb(0 0 0 / 0.2) 100%),
     linear-gradient(to bottom, rgb(0 0 0 / 0.55) 0%, transparent 22%, transparent 60%, var(--fond) 96%);
 }
 
@@ -175,7 +178,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   /* la moitie gauche, celle du titre : le mur garde la droite */
-  max-width: 52rem;
+  max-width: 48rem;
   border-block: 1px solid var(--filet-fort);
   counter-reset: ac-porte;
 }
@@ -219,7 +222,12 @@
   background: var(--voile-04);
 }
 .ac-porte-nom {
-  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  /* « Calendrier », dix lettres, touchait le filet de la case voisine en
+     francais (ADR-125). MESURE : ce mot occupe 5,3 fois son corps dans la
+     condensee, et une case fait au plus 192 px, 160 utiles : le plafond
+     descend de 2 a 1,75 rem. Pas d'unite de conteneur ici : un conteneur
+     isole les compteurs CSS, et les sept portes se numerotaient toutes 01. */
+  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
   line-height: 1;
   transition: color 160ms ease;
 }
@@ -325,6 +333,14 @@
   margin-top: -7%;
   object-fit: cover;
   transition: scale 300ms ease;
+}
+/* L'AFFICHE DESSINEE N'EST PAS UNE PHOTO : elle ne deborde pas de son cadre.
+   Le debord de 14 % sert au glissement des images ; applique a l'affiche
+   generee, il poussait son bas hors du cadre, et le mois, le lieu et le
+   style d'une soiree sans affiche etaient coupes (vu le 23 novembre 2026). */
+.ac-cadre > .cal-gen {
+  height: 100%;
+  margin-top: 0;
 }
 a:hover > .ac-cadre > img,
 a:hover > .ac-cadre > .cal-gen {
@@ -517,9 +533,10 @@ a:hover > .ac-cadre > .cal-gen {
 }
 .ac-defile-nom i {
   flex: none;
-  width: 0.22em;
-  height: 0.22em;
-  border-radius: 50%;
+  /* un petit carre de la couleur de la famille, plus une pastille ronde
+     (ADR-125) : les formes de l'Atlas, pas les points lumineux */
+  width: 0.18em;
+  height: 0.18em;
   background: oklch(0.72 0.15 var(--teinte));
 }
 .ac-defile-rang-2 .ac-defile-nom {
@@ -544,6 +561,7 @@ a:hover > .ac-cadre > .cal-gen {
 .ac-famille {
   position: relative;
   isolation: isolate;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -570,22 +588,31 @@ a:hover > .ac-cadre > .cal-gen {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+  /* Un voile neutre, sans lavis ni bandeau de couleur en haut (ADR-125) :
+     la couleur de la famille passe dans le carre devant le compte. */
+  background: linear-gradient(to top, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.42) 58%, rgb(0 0 0 / 0.1) 100%);
 }
-.ac-famille::before {
+.ac-famille-n::before {
   content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 6px;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: var(--espace-8);
+  vertical-align: 0.05em;
   background: oklch(0.72 0.15 var(--teinte));
 }
 .ac-famille:hover .ac-famille-image {
   scale: 1.07;
 }
 .ac-famille-nom {
-  font-size: 1.9rem;
+  /* LE NOM TIENT SUR SA TUILE (ADR-125) : « Downtempo » et « Industrial »
+     depassaient d'une tuile de 176 px et etaient coupes au bord. Le corps
+     suit la largeur, comme sur la page des styles : MESURE, « Downtempo »
+     occupe 5,98 fois son corps ; on divise par 6,3. */
+  font-size: min(1.9rem, calc((100cqi - 2 * var(--espace-16)) / 6.3));
   line-height: 0.9;
   font-weight: 800;
+  white-space: nowrap;
 }
 .ac-famille-n {
   font-size: 0.8rem;
@@ -854,9 +881,9 @@ a:hover > .ac-cadre > .cal-gen {
       }
     }
     /* Les images glissent dans leur cadre pendant que la carte traverse
-       l'ecran : la profondeur, sans rien deplacer d'autre. */
+       l'ecran : la profondeur, sans rien deplacer d'autre. L'affiche
+       dessinee reste fixe : elle n'a pas de debord a faire glisser. */
     .ac-cadre > img,
-    .ac-cadre > .cal-gen,
     .ac-famille-image {
       animation: ac-px-cadre linear both;
       animation-timeline: view();

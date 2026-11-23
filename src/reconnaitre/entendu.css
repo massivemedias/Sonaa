@@ -18,14 +18,14 @@
   gap: var(--espace-12);
   align-items: center;
   padding: var(--espace-8) var(--espace-12);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   border: 1px solid var(--filet);
 }
 .entendu-pochette {
   width: 3rem;
   height: 3rem;
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   object-fit: cover;
   background: var(--surface-margin);
 }
@@ -47,7 +47,7 @@
 }
 .entendu-youtube {
   padding: var(--espace-8) var(--espace-12);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   border: 1px solid var(--filet);
   color: var(--ink-primary);
   font-size: 0.85rem;

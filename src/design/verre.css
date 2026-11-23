@@ -30,26 +30,25 @@
  *
  * Un navigateur sans filtre d'arriere-plan verrait la page defiler au
  * travers d'un voile a 40 %, illisible. Il recoit une surface opaque du
- * theme. Meme chose pour qui a demande moins de transparence au systeme. */
+ * theme. Meme chose pour qui a demande moins de transparence au systeme.
+ *
+ * ═══ LE VERRE NE SERT PLUS QU'A CE QUI FLOTTE, DEPUIS ADR-125 ═══
+ *
+ * Il habillait aussi les cartes de contenu : tuiles de styles, soirees,
+ * articles, mixtapes, fiche d'un genre, pied de page. Sur le noir, chacune
+ * devenait une boite cernee d'un filet, et la page une pile de boites, ce
+ * que Mika deteste (CLAUDE.md, « boites partout »). L'accueil et l'Atlas
+ * n'en avaient plus depuis ADR-117 et ADR-121 : le contenu y est pose sur
+ * le fond, separe par des filets. Les autres pages suivent. Il ne reste en
+ * verre que ce qui passe au-dessus de la page : les barres, le menu du
+ * compte, la feuille d'une soiree, la surcouche du micro, le mini-lecteur. */
 
 .entete-site,
 .pv-tete,
 .authb-bouton,
-.pv-tuile,
-.cal-soiree,
-.cal-ville,
 .cal-feuille,
-.news-carte,
-.news-grand,
-.news-une,
-.news-source-carte,
-.sp-item,
-.sp-carte-artiste,
-.pv-fiche,
-.rc-fiche,
 .rc-deplie,
-.mini,
-.pied {
+.mini {
   border: 0;
   background: var(--verre-fond);
   -webkit-backdrop-filter: var(--verre-flou);
@@ -70,9 +69,9 @@
 }
 
 /* LE TROISIEME NIVEAU N'EST PLUS DU VERRE : un voile plat, sans flou. */
-:is(.entete-site, .pv-tete, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied)
-  :is(.entete-site, .pv-tete, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied)
-  :is(.entete-site, .pv-tete, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied) {
+:is(.entete-site, .pv-tete, .authb-bouton, .cal-feuille, .rc-deplie, .mini)
+  :is(.entete-site, .pv-tete, .authb-bouton, .cal-feuille, .rc-deplie, .mini)
+  :is(.entete-site, .pv-tete, .authb-bouton, .cal-feuille, .rc-deplie, .mini) {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background: var(--voile-06);
@@ -84,21 +83,9 @@
   .entete-site,
   .pv-tete,
     .authb-bouton,
-  .pv-tuile,
-  .cal-soiree,
-  .cal-ville,
   .cal-feuille,
-  .news-carte,
-  .news-grand,
-  .news-une,
-  .news-source-carte,
-  .sp-item,
-  .sp-carte-artiste,
-  .pv-fiche,
-  .rc-fiche,
   .rc-deplie,
-  .mini,
-  .pied {
+  .mini {
     background: var(--verre-opaque);
   }
 }
@@ -106,21 +93,9 @@
   .entete-site,
   .pv-tete,
     .authb-bouton,
-  .pv-tuile,
-  .cal-soiree,
-  .cal-ville,
   .cal-feuille,
-  .news-carte,
-  .news-grand,
-  .news-une,
-  .news-source-carte,
-  .sp-item,
-  .sp-carte-artiste,
-  .pv-fiche,
-  .rc-fiche,
   .rc-deplie,
-  .mini,
-  .pied {
+  .mini {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: var(--verre-opaque);

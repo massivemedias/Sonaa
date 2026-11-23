@@ -22,8 +22,10 @@
 
 .pied {
   margin-top: var(--espace-48);
-  /* EN VERRE DEPOLI, depuis ADR-089 : la matiere vient de design/verre.css,
-     et le filet du haut est le filet interieur du verre. */
+  /* SUR LE FOND DE LA PAGE, UN FILET AU-DESSUS, ET RIEN D'AUTRE (ADR-125).
+     C'etait la demande de Mika du 22 septembre 2026, rappelee plus bas ; le
+     verre depoli l'avait recouverte d'une boite cernee sur ses quatre cotes. */
+  border-top: 1px solid var(--filet);
   /* RESTE EN INTER malgre ADR-117 : en mono, la rangee ne tenait plus sur
      une ligne a 1024 px avec une ville detectee longue (check:pied). */
   font-family: var(--font-ui);
@@ -99,11 +101,12 @@
 
 .pied-pouls {
   flex: none;
+  /* UN PETIT CARRE PLEIN, SANS LUEUR (ADR-125) : la pastille lumineuse est
+     un des tics que Mika ne veut plus voir. Le vert reste, il dit « en
+     ligne ». */
   width: 6px;
   height: 6px;
-  border-radius: 50%;
   background: oklch(var(--lt-72) 0.16 145);
-  box-shadow: 0 0 8px oklch(var(--lt-72) 0.16 145 / 0.8);
 }
 
 .pied-villes {

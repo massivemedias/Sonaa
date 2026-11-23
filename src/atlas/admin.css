@@ -29,7 +29,7 @@
     min-height: 2.5rem;
     padding: var(--espace-8) var(--espace-12);
     border: 0;
-    border-radius: 10px;
+    border-radius: var(--rayon-carte);
     justify-content: flex-start;
   }
   .admin-menu .pf-onglet:hover {
@@ -76,7 +76,7 @@
 .admin-etiquette {
   margin-left: var(--espace-8);
   padding: 2px var(--espace-8);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: var(--ink-primary);
   color: var(--surface-plate);
   font-size: 0.68rem;
@@ -121,7 +121,7 @@
 .admin-mise-gestes button {
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-16);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--encre-forte-2);
   font-family: inherit;
@@ -196,7 +196,7 @@
   max-width: 100%;
   padding: var(--espace-8);
   border: 1px solid var(--voile-16);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: inherit;
   font: inherit;
@@ -207,7 +207,7 @@
   max-width: 300px;
   aspect-ratio: 9 / 16;
   height: auto;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: #000000;
 }
 .rj-gestes {

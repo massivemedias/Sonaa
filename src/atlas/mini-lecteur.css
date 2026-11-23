@@ -117,7 +117,7 @@ body .pv-corps {
   flex: none;
   width: 44px;
   height: 44px;
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   background: var(--surface-margin);
 }

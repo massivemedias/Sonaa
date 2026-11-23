@@ -89,7 +89,7 @@
   box-sizing: border-box;
   background: var(--verre-fond);
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   padding: var(--espace-8) var(--espace-12);
   color: inherit;
   font: inherit;
@@ -255,8 +255,10 @@
   }
 }
 .cal-soiree .cal-texte {
-  /* de l'air sous l'affiche avant le titre (Mika, 11 novembre 2026) */
-  padding: var(--espace-12) var(--espace-16) var(--espace-16);
+  /* de l'air sous l'affiche avant le titre (Mika, 11 novembre 2026). Le
+     texte s'aligne sur le bord de l'affiche : sans la boite de verre, un
+     retrait lateral le decalait dans le vide (ADR-125). */
+  padding: var(--espace-12) 0 var(--espace-16);
 }
 
 .cal-affiche {
@@ -378,7 +380,7 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
 }
 .cal-gen-ligne .cal-gen-jour {
   align-self: center;
@@ -391,7 +393,7 @@
 .cal-gen-fiche {
   aspect-ratio: 16 / 9;
   max-height: 34vh;
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   margin: 0 0 var(--espace-16);
 }
 @media (min-width: 860px) {
@@ -558,7 +560,7 @@
   width: 44px;
   height: 44px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
 }
 
@@ -613,7 +615,7 @@
   margin-right: var(--espace-8);
   padding: 1px var(--espace-8);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: var(--serrage);
@@ -868,7 +870,7 @@
   width: 2.1rem;
   height: 2.1rem;
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: 50%;
   background: none;
   color: var(--ink-primary);
   font-size: 1.15rem;
@@ -926,7 +928,7 @@
   max-height: 34vh;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
   margin: 0 0 var(--espace-16);
 }
@@ -1008,7 +1010,7 @@
   margin-top: var(--espace-8);
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--accent);
   font: inherit;
@@ -1079,8 +1081,12 @@
   display: inline-flex;
   align-items: center;
   gap: var(--espace-8);
-  padding: var(--espace-4) var(--espace-8) var(--espace-4) var(--espace-12);
-  border-radius: 999px;
+  /* UN CHAMP A SIMPLE TRAIT, comme ceux de l'Atlas (ADR-121, ADR-125) :
+     la pilule de verre qui l'entourait est partie avec le verre. */
+  min-height: 40px;
+  padding: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  transition: border-color 160ms ease;
 }
 /* LE MOT DEVANT SE LIT : en demi-gras. Mika, le 23 septembre 2026, sur
    VILLE et QUAND a 0,72 rem en maigre : « ecrit petit et trop fin ». Le
@@ -1127,8 +1133,9 @@
    affiche apres chaque choix a la souris : « ya toujours un highlight
    rectangulaire », le 23 septembre 2026. Le focus se dit par la capsule
    elle-meme, dont le verre s'eclaircit : pas de forme nouvelle, pas de bleu. */
+.cal-ville:hover,
 .cal-ville:focus-within {
-  --verre-fond: var(--verre-fond-survol);
+  border-bottom-color: var(--accent);
 }
 
 /* ═══ LA BARRE COMPACTE ═══ Voir CalendrierPage.tsx. Les vues sont des
@@ -1151,7 +1158,7 @@
   gap: var(--espace-4);
   padding: var(--espace-4) var(--espace-8);
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-secondary);
   font: inherit;
@@ -1204,9 +1211,18 @@
 
 /* Sous la banniere, le titre de la liste n'est plus le titre de la page :
    il annonce ce qui suit, et rien de plus. Voir HeroAccueil.tsx. */
+/* L'INTERTITRE QUI ANNONCE LA LISTE, a la taille de ceux de l'Atlas et des
+   Mixtapes, sous le meme filet (ADR-125). */
+.credits-head.cal-tete-courte {
+  max-width: none;
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+}
 .cal-tete-courte h2 {
-  margin: 0;
-  font-size: 1.35rem;
+  margin: 0 0 var(--espace-16);
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  color: var(--encre-vive);
 }
 
 /* ═══ LA BARRE SUR TELEPHONE : DEUX SELECTEURS DE MEME LARGEUR ═══
@@ -1277,7 +1293,7 @@
   margin: 0 var(--espace-8) var(--espace-4) 0;
   padding: 1px var(--espace-8);
   border: 1px solid color-mix(in oklab, var(--accent-jaune) 55%, transparent);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   color: var(--accent-jaune);
   font-size: 0.6875rem;
   font-weight: 700;
@@ -1334,7 +1350,7 @@
   margin-top: var(--espace-24);
   padding: var(--espace-16);
   border: 1px solid color-mix(in oklab, var(--accent-jaune) 35%, transparent);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
 }
 .mav h4 {
   margin: 0 0 var(--espace-8);
@@ -1368,7 +1384,7 @@
 .mav-form textarea {
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: var(--encre-2);
   font-family: inherit;

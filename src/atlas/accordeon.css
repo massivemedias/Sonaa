@@ -86,7 +86,7 @@
   height: 34px;
   padding: 0 var(--espace-12);
   border: 1px solid var(--voile-14);
-  border-radius: 17px;
+  border-radius: var(--rayon-carte);
   background: var(--leve-3);
   color: inherit;
   font: inherit;
@@ -237,7 +237,7 @@ body:has(.pwa-bandeau) .ac-corps {
   flex: none;
   margin-left: var(--espace-8);
   padding: 0 var(--espace-8);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   background: oklch(var(--lt-70) 0.15 var(--ac-hue) / 0.16);
   color: oklch(var(--lt-78) 0.06 var(--ac-hue));
   font-size: 0.68rem;

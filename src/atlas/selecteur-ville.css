@@ -20,7 +20,7 @@
   box-sizing: border-box;
   background: var(--surface-margin);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   padding: var(--espace-8) var(--espace-12);
   color: var(--ink-primary);
   font: inherit;
@@ -46,7 +46,7 @@
   overflow-y: auto;
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
 }
 
 .sv-option {
@@ -55,7 +55,7 @@
   align-items: baseline;
   gap: var(--espace-16);
   padding: var(--espace-8);
-  border-radius: 5px;
+  border-radius: var(--rayon-carte);
   cursor: pointer;
 }
 

@@ -27,7 +27,7 @@
   max-width: 520px;
   aspect-ratio: 1080 / 580;
   height: auto;
-  border-radius: 18px;
+  border-radius: var(--rayon-carte);
   border: 1px solid var(--filet);
   background: #000000;
 }
@@ -49,7 +49,7 @@
   min-height: 44px;
   padding: 0 var(--espace-16);
   border: 1px solid var(--voile-16);
-  border-radius: 22px;
+  border-radius: var(--rayon-carte);
   background: transparent;
   color: var(--encre-moyenne);
   font: inherit;

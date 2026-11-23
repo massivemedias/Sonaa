@@ -23,7 +23,7 @@
   flex-direction: column;
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
   font-family: var(--font-ui);
   color: var(--ink-primary);
   box-shadow: var(--ombre-flottante);
@@ -92,7 +92,7 @@
   color: var(--ink-primary);
   background: var(--surface-margin);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   resize: vertical;
 }
 
@@ -156,7 +156,7 @@
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: var(--weight-track);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   border: var(--rule-width) solid var(--rule-hairline);
   cursor: pointer;
 }
@@ -209,7 +209,7 @@
   color: var(--ink-secondary);
   background: transparent;
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   cursor: pointer;
 }
 
@@ -248,7 +248,7 @@
   padding: var(--espace-16);
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
 }
 
 .prop-votes {
@@ -268,7 +268,7 @@
   color: var(--ink-secondary);
   background: transparent;
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   cursor: pointer;
 }
 
@@ -350,7 +350,7 @@
   color: var(--ink-secondary);
   background: transparent;
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   cursor: pointer;
 }
 
@@ -386,7 +386,7 @@
   color: var(--ink-primary);
   background: var(--surface-margin);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
 }
 
 @media (max-width: 560px) {
@@ -404,7 +404,7 @@
   margin: var(--espace-16) 0;
   padding: var(--espace-12);
   border: 1px solid var(--voile-12);
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
 }
 .mod-fermeture label {
   display: block;
@@ -421,7 +421,7 @@
   flex: 1 1 14rem;
   padding: var(--espace-8);
   border: 1px solid var(--voile-16);
-  border-radius: 5px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-04);
   color: inherit;
   font: inherit;

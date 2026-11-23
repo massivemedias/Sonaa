@@ -346,7 +346,9 @@ let repli = '';
     coupe.textContent = '* { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; transition: none !important; }';
     document.head.appendChild(coupe);
     const cv = document.createElement('canvas'); cv.width = cv.height = 1; const cx = cv.getContext('2d', { willReadFrequently: true }); const alpha = (c) => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = 'rgba(0,0,0,0)'; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return cx.getImageData(0, 0, 1, 1).data[3] / 255; };
-    const surfaces = [...document.querySelectorAll('.entete-site, .barre-bas, .cal-soiree, .cal-ville, .pied, .authb-bouton')]
+    /* Le pied, les cartes de soiree et les champs du calendrier ne sont plus
+       en verre depuis ADR-125 : seules les surfaces qui flottent le restent. */
+    const surfaces = [...document.querySelectorAll('.entete-site, .barre-bas, .mini, .authb-bouton')]
       .filter((e) => e.getBoundingClientRect().height > 0)
       .map((e) => ({ nom: e.className.split(' ')[0], fond: getComputedStyle(e).backgroundColor, alpha: alpha(getComputedStyle(e).backgroundColor) }));
     return JSON.stringify({ remplacees, surfaces });
