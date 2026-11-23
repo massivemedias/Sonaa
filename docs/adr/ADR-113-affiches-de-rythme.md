@@ -1,6 +1,6 @@
 # ADR-113 : une affiche de rythme par style, et ses couleurs dans tout le site
 
-Date : 30 octobre 2026. Statut : accepté.
+Date : 30 octobre 2026. Statut : accepté. L'affiche a quitté les pages de style le 23 novembre 2026 (ADR-126).
 
 ## Pourquoi
 

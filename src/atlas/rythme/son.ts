@@ -32,8 +32,6 @@ import { dureeDuPas, etatAu, pasParTemps, plan, type Cycle } from './arrangement
 import { charger, fichierDe, KICKS_DURS, kitDuMotif } from './echantillons.ts';
 import { BASSES_MESUREES, INSTRUMENTS, sonAccorde, zoneDe, type Son } from './instruments.ts';
 
-export { dureeDuPas } from './arrangement.ts';
-
 const AVANCE = 0.12;
 const PERIODE_MS = 25;
 

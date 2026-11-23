@@ -49,26 +49,6 @@ const COURS = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours.j
 const COURS_EN = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours-en.json', import.meta.url)), 'utf8')) as Record<string, Cours>;
 const RYTHMES = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/rythmes.json', import.meta.url)), 'utf8')) as Record<string, Motif>;
 
-/* LE MOTIF RYTHMIQUE EN TEXTE (ADR-113). La page l'anime sur une toile, que
-   les moteurs ne lisent pas ; ici il est ecrit comme un producteur le note,
-   une ligne par piste, X pour une frappe accentuee, x pour une frappe douce,
-   un point pour un silence, par groupes d'un temps. « acid house drum
-   pattern » est une recherche que les gens font. */
-function motifEnTexte(id: string, langue: 'fr' | 'en'): string {
-  const m = RYTHMES[id];
-  if (!m) return '';
-  const parTemps = m.pas === 12 ? 3 : 4;
-  const largeur = Math.max(...m.pistes.map((p) => p[langue].length));
-  const lignes = m.pistes.map((p) => {
-    const cases = p.pas.map((v) => (v === 2 ? 'X' : v === 1 ? 'x' : '.'));
-    const groupes: string[] = [];
-    for (let i = 0; i < cases.length; i += parTemps) groupes.push(cases.slice(i, i + parTemps).join(''));
-    return `${p[langue].padEnd(largeur)}  ${groupes.join(' ')}`;
-  });
-  const titre = langue === 'fr' ? 'Le motif rythmique' : 'The drum pattern';
-  const mesure = langue === 'fr' ? 'mesure' : 'bar';
-  return `<h2>${titre}</h2><p>${m.bpm} BPM, ${mesure} ${h(m.mesure)}${langue === 'fr' ? ' :' : ':'} ${h(m.resume[langue].toLowerCase())}. ${h(m.racine[langue])}</p><pre>${h(lignes.join('\n'))}</pre>`;
-}
 const ARTISTES = (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/artistes.json', import.meta.url)), 'utf8')) as { parGenre: Record<string, string[]> }).parGenre;
 
 interface Cours {
@@ -383,7 +363,6 @@ for (const s of styles) {
       (g.description ? `<p>${h(g.description)}</p>` : '') +
       (g.tracks.length ? `<h2>${g.tracks.length} morceaux de référence</h2><ol>${g.tracks.map((t) => `<li>${h(t.artist)} : ${h(t.title)}${t.year ? ` (${t.year})` : ''}</li>`).join('')}</ol>` : '') +
       (fiche ? `<h2>Fiche technique</h2><ul>${fiche}</ul>` : '') +
-      motifEnTexte(g.id, 'fr') +
       (artistes.length ? `<h2>Artistes du style</h2><p>${h(artistes.slice(0, 30).join(', '))}</p>` : '') +
       (cours ? `<h2>Produire ce style</h2><p>Un cours écrit pour SONAA, en français, à partir des sources citées : un point de départ, pas une recette.</p>${rubriques}` : '') +
       (filiation ? `<h2>La filiation</h2>${filiation}` : '') +
@@ -534,7 +513,6 @@ for (const s of styles) {
       `<p>${h(en.description)}</p>` +
       (g.tracks.length ? `<h2>${g.tracks.length} reference tracks</h2><ol>${g.tracks.map((t) => `<li>${h(t.artist)}: ${h(t.title)}${t.year ? ` (${t.year})` : ''}</li>`).join('')}</ol>` : '') +
       (fiche ? `<h2>At a glance</h2><ul>${fiche}</ul>` : '') +
-      motifEnTexte(g.id, 'en') +
       `<h2>Producing ${h(g.label)}</h2><p>${h(en.production)}</p>${rubriquesEn}` +
       (filiationEn ? `<h2>Lineage</h2>${filiationEn}` : '') +
       (artistes.length ? `<h2>Artists</h2><p>${h(artistes.slice(0, 30).join(', '))}</p>` : '') +

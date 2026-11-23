@@ -1,23 +1,20 @@
 /* LA CARTE DE RYTHME, DESSINEE SUR UNE TOILE.
 
-   Deux usages, deux densites :
-   - Sur la page d'un style (`FormatAffiche = 'page'`, 1080 x 580) : un
-     sequenceur minimaliste qui ne repete ni le titre du style, ni la famille,
-     ni les machines, ni l'historique (deja dans la fiche a gauche), ni le
-     radar circulaire. Il montre uniquement le tempo et la mesure, la grille
-     de pas et la progression du morceau.
-   - A l'export image/video (`'fil'` 1080 x 1350 ou `'reel'` 1080 x 1920) :
-     l'affiche editoriale epuree de SONAA, sans radar circulaire, centree sur
-     la typographie, la grille de pas et la signature sonaa.ca. */
+   A l'export image/video (`'fil'` 1080 x 1350 ou `'reel'` 1080 x 1920) :
+   l'affiche editoriale epuree de SONAA, sans radar circulaire, centree sur
+   la typographie, la grille de pas et la signature sonaa.ca. Le Reel du
+   jeudi s'en sert (reel/dessin-reel.ts).
+
+   Le format 'page', le sequenceur pose sur chaque page de style, est parti
+   avec l'affiche le 23 novembre 2026 (ADR-126). */
 
 import type { Motif } from '../../lib/rythmes.ts';
 import type { Etat } from './arrangement.ts';
 
 export const LARGEUR_RYTHME = 1080;
-export const HAUTEUR_PAGE = 580;
 export const HAUTEUR_RYTHME = 1350;
 
-export type FormatAffiche = 'page' | 'fil' | 'reel';
+export type FormatAffiche = 'fil' | 'reel';
 export const HAUTEUR_REEL = 1920;
 
 /* Les cinq teintes de piste, dans l'ordre fixe des jetons --piste-1 a
@@ -197,54 +194,6 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   const W = LARGEUR_RYTHME;
   const etat = instant.etat ?? null;
   const pistes = motif.pistes.slice(0, 5);
-
-  if (format === 'page') {
-    const H = HAUTEUR_PAGE;
-    const M = 52;
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, W, H);
-
-    const filet = (y: number, alpha = 0.1): void => {
-      ctx.fillStyle = `rgba(231, 231, 231, ${alpha})`;
-      ctx.fillRect(M, y, W - 2 * M, 1);
-    };
-
-    /* En-tete minimaliste : tempo et tonalite a gauche, devise a droite. */
-    ctx.textBaseline = 'alphabetic';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = CREME;
-    ctx.font = `700 44px ${SANS}`;
-    const tempoTxt = `${motif.bpm}`;
-    ctx.fillText(tempoTxt, M, 76);
-    const lTempo = ctx.measureText(tempoTxt).width;
-
-    ctx.fillStyle = CREME_DOUCE;
-    ctx.font = `600 17px ${SANS}`;
-    const metaTxt = `BPM · ${motif.mesure}${motif.tonalite ? ` · ${motif.tonalite}` : ''}`;
-    ctx.fillText(metaTxt, M + lTempo + 14, 72);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = AMBRE;
-    ajuster(ctx, textes.devise, (t) => `500 ${t}px ${SANS}`, 21, 440);
-    ctx.fillText(textes.devise, W - M, 72);
-
-    filet(104, 0.12);
-
-    /* Grille de sequencage epuree au centre. */
-    const ecartLigne = pistes.length > 4 ? 64 : 74;
-    const hautGrille = pistes.length > 4 ? 174 : 182;
-    dessinerGrille(ctx, motif, textes, instant, M, 260, W - M, hautGrille, ecartLigne);
-
-    /* Pied minimal : progression a gauche, signature rythmique a droite. */
-    filet(492, 0.12);
-    dessinerEtapes(ctx, textes, etat, M, 536);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = CREME_DOUCE;
-    ajuster(ctx, textes.resume, (t) => `500 ${t}px ${SANS}`, 16, 520);
-    ctx.fillText(textes.resume, W - M, 536);
-    return;
-  }
 
   /* FORMAT EXPORT ('fil' 1080 x 1350 ou 'reel' 1080 x 1920) :
      planche editoriale minimaliste sans radar circulaire. */

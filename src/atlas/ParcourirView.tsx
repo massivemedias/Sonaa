@@ -49,7 +49,6 @@ import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
 import { nomDeMachine, useFamilleAnglaise, useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
-import { RythmeDuStyle } from './RythmeDuStyle.tsx';
 import { LogoLabel } from './LogoLabel.tsx';
 import { labelsDuStyle, type EntreeLabel } from '../lib/labels.ts';
 import INDEX_LABELS from '../data/labels-index.json';
@@ -789,110 +788,102 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           2026 : plus de bouton, plus d'etat ouvert ou ferme, le panneau est
           la, deplie, sous la description et avant les morceaux. Son intitule
           part avec le bouton : sans rien a ouvrir, il ne nommait plus rien. */}
-      {/* LA FICHE ET L'AFFICHE DE RYTHME COTE A COTE sur un grand ecran,
-          l'une sous l'autre sur telephone (rythme.css). */}
-      <div className="pv-fiche-et-rythme">
-        <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
-          {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
+      <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+        {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
 
-              Elle avait ete descendue en bas de page, puis remontee dans cette
-              fiche a cote de la ligne qu'elle illustre. Les deux placements
-              repondaient a la mauvaise question. Le verdict de Mika est net :
-              elle ne sert a rien. Une photo generique de TR-909, la meme pour
-              tous les genres qui la citent, n'apprend rien que la ligne
-              « Machines » ne dise deja, et elle occupe la place d'un contenu
-              qui, lui, manque. Les 31 fichiers et le script qui les a
-              rassembles restent au depot : c'est le rendu qui s'arrete, pas la
-              collecte, et rien n'est detruit si l'usage revient. */}
-          <dl className="pv-faits">
-            {genre.bpmRange && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.tempo}</dt>
-                <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
-              </div>
-            )}
-            {genre.annee > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.apparition}</dt>
-                <dd className="pv-fait-val">
-                  {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
-                </dd>
-              </div>
-            )}
-            {genre.machines.length > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.machines}</dt>
-                <dd className="pv-fait-val">
-                  <span className="pv-machines">
-                    {genre.machines.map((m) => (
-                      <span className="pv-machine" key={m}>{nomDeMachine(m)}</span>
-                    ))}
-                  </span>
-                </dd>
-              </div>
-            )}
-            {/* LE SON, SOUS LES MACHINES. Le champ portait les deux, sous la
-                seule etiquette « Machines » : « Distorsion en chaine » et
-                « Filtres en mouvement permanent » n'en sont pas. Ces phrases
-                disent comment le son se fabrique, ce qui est la deuxieme
-                question du producteur, pas la premiere. Elles ont donc leur
-                ligne au lieu de mentir sur celle d'a cote. */}
-            {sonorites.length > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.sonorites}</dt>
-                <dd className="pv-fait-val">
-                  <span className="pv-machines">
-                    {sonorites.map((x) => (
-                      <span className="pv-machine pv-son" key={x}>{x}</span>
-                    ))}
-                  </span>
-                </dd>
-              </div>
-            )}
-            {/* LES LABELS DU STYLE, recoupes (voir labelsDuStyle) : ceux que
-                la fiche nomme, ranges par leurs morceaux du style dans
-                l'atlas, puis ceux que l'atlas y ajoute. Chacun ouvre sa page
-                avec ce style deja choisi. */}
-            {labels.length > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.labels}</dt>
-                <dd className="pv-fait-val">
-                  <span className="pv-labels">
-                    {labels.map((l) =>
-                      l.entree ? (
-                        <a key={l.entree.s} className="pv-label" href={`#/labels/${l.entree.s}?style=${genre.id}`} title={t.labelsDuStyleAide(l.nom, genre.label)}>
-                          <LogoLabel nom={l.nom} url={l.entree.l} taille="petit" />
-                          {l.nom}
-                        </a>
-                      ) : (
-                        <span key={l.nom} className="pv-label pv-label-nu">
-                          {l.nom}
-                        </span>
-                      )
-                    )}
-                  </span>
-                </dd>
-              </div>
-            )}
-            {genre.artistesCles.length > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.artistes}</dt>
-                <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
-              </div>
-            )}
-            {derives > 0 && (
-              <div className="pv-fait">
-                <dt className="pv-fait-cle">{t.descendance}</dt>
-                <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
-              </div>
-            )}
-          </dl>
-        </section>
-
-      {/* L'AFFICHE DE RYTHME, avec la fiche et avant les morceaux : le motif
-          du style, qui se joue et se telecharge (RythmeDuStyle.tsx). */}
-      <RythmeDuStyle genreId={genre.id} titre={genre.label} famille={famille.label} familleId={famille.id} />
-      </div>
+            Elle avait ete descendue en bas de page, puis remontee dans cette
+            fiche a cote de la ligne qu'elle illustre. Les deux placements
+            repondaient a la mauvaise question. Le verdict de Mika est net :
+            elle ne sert a rien. Une photo generique de TR-909, la meme pour
+            tous les genres qui la citent, n'apprend rien que la ligne
+            « Machines » ne dise deja, et elle occupe la place d'un contenu
+            qui, lui, manque. Les 31 fichiers et le script qui les a
+            rassembles restent au depot : c'est le rendu qui s'arrete, pas la
+            collecte, et rien n'est detruit si l'usage revient. */}
+        <dl className="pv-faits">
+          {genre.bpmRange && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.tempo}</dt>
+              <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
+            </div>
+          )}
+          {genre.annee > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.apparition}</dt>
+              <dd className="pv-fait-val">
+                {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
+              </dd>
+            </div>
+          )}
+          {genre.machines.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.machines}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-machines">
+                  {genre.machines.map((m) => (
+                    <span className="pv-machine" key={m}>{nomDeMachine(m)}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          )}
+          {/* LE SON, SOUS LES MACHINES. Le champ portait les deux, sous la
+              seule etiquette « Machines » : « Distorsion en chaine » et
+              « Filtres en mouvement permanent » n'en sont pas. Ces phrases
+              disent comment le son se fabrique, ce qui est la deuxieme
+              question du producteur, pas la premiere. Elles ont donc leur
+              ligne au lieu de mentir sur celle d'a cote. */}
+          {sonorites.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.sonorites}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-machines">
+                  {sonorites.map((x) => (
+                    <span className="pv-machine pv-son" key={x}>{x}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          )}
+          {/* LES LABELS DU STYLE, recoupes (voir labelsDuStyle) : ceux que
+              la fiche nomme, ranges par leurs morceaux du style dans
+              l'atlas, puis ceux que l'atlas y ajoute. Chacun ouvre sa page
+              avec ce style deja choisi. */}
+          {labels.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.labels}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-labels">
+                  {labels.map((l) =>
+                    l.entree ? (
+                      <a key={l.entree.s} className="pv-label" href={`#/labels/${l.entree.s}?style=${genre.id}`} title={t.labelsDuStyleAide(l.nom, genre.label)}>
+                        <LogoLabel nom={l.nom} url={l.entree.l} taille="petit" />
+                        {l.nom}
+                      </a>
+                    ) : (
+                      <span key={l.nom} className="pv-label pv-label-nu">
+                        {l.nom}
+                      </span>
+                    )
+                  )}
+                </span>
+              </dd>
+            </div>
+          )}
+          {genre.artistesCles.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.artistes}</dt>
+              <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
+            </div>
+          )}
+          {derives > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.descendance}</dt>
+              <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
+            </div>
+          )}
+        </dl>
+      </section>
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
 
