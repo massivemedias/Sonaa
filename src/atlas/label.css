@@ -817,96 +817,218 @@ a.lb-source {
   border-bottom-color: var(--accent);
   color: var(--accent);
 }
-.lbc-cadre-wrap {
-  position: relative;
+/* LA CARTE A GAUCHE, LA LISTE A DROITE, comme un plan de ville : la
+   colonne range les villes, puis montre les labels de celle qu'on choisit.
+   Sur un telephone, la liste passe sous la carte. Aucune boite : des filets
+   entre les rangees, et rien colle au bord gauche (DESIGN.md, section 10). */
+.lbc-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--filet-fort);
   border-bottom: 1px solid var(--filet-fort);
-  overflow: hidden;
-  background: #121212;
 }
 .lbc-cadre {
   width: 100%;
-  height: 440px;
+  height: 480px;
+  background: #121212;
 }
-.lbc-fiche {
-  position: absolute;
-  left: var(--espace-16);
-  bottom: var(--espace-16);
-  z-index: 4;
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) 44px;
-  align-items: center;
-  gap: var(--espace-12);
-  max-width: min(440px, calc(100% - 32px));
-  padding: var(--espace-12);
-  border: 1px solid var(--accent);
-  background: oklch(0.06 0 0 / 0.96);
-  box-shadow: 0 18px 42px oklch(0 0 0 / 0.75);
-}
-.lbc-fiche .lb-logo {
-  width: 56px;
-  height: 56px;
-}
-.lbc-fiche-texte {
-  display: grid;
-  gap: 3px;
+.lbc-panneau {
+  position: relative;
+  box-sizing: border-box;
   min-width: 0;
+  max-height: 34rem;
+  overflow-y: auto;
+  padding: var(--espace-16) 0 var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+  scrollbar-width: thin;
 }
-.lbc-fiche-nom {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--ink-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+@media (min-width: 960px) {
+  .lbc-corps {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+    column-gap: var(--espace-24);
+  }
+  .lbc-panneau {
+    height: 480px;
+    max-height: none;
+    border-top: 0;
+    overscroll-behavior: contain;
+  }
 }
-.lbc-fiche-lieu {
-  font-size: 0.78rem;
+
+/* L'index des villes : le nom, le pays dessous, le nombre de labels a droite. */
+.lbc-index-titre {
+  margin: 0 0 var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  color: var(--accent);
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
 }
-.lbc-fiche-meta {
+.lbc-villes + .lbc-index-titre,
+.lbc-tout + .lbc-index-titre {
+  margin-top: var(--espace-24);
+}
+.lbc-villes,
+.lbc-labels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--filet-fort);
+}
+.lbc-ville {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'nom n'
+    'pays n';
+  align-items: center;
+  column-gap: var(--espace-12);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--espace-8) var(--espace-4) var(--espace-8) 0;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.lbc-ville-nom {
+  grid-area: nom;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  transition: color 160ms ease;
+}
+.lbc-ville-pays {
+  grid-area: pays;
   font-size: 0.75rem;
   color: var(--ink-secondary);
 }
-.lbc-fiche-lien {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-top: 2px;
-  color: var(--ink-primary);
-  font-size: 0.8125rem;
+.lbc-ville-n {
+  grid-area: n;
+  font-family: var(--police-mono);
+  font-size: 0.875rem;
   font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.lbc-fiche-lien:hover {
+  font-variant-numeric: tabular-nums;
   color: var(--accent);
 }
-.lbc-fiche-fermer {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid var(--filet-fort);
-  background: transparent;
-  color: var(--ink-primary);
-  font: inherit;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
+.lbc-ville:hover .lbc-ville-nom {
+  color: var(--accent);
 }
-.lbc-fiche-fermer:hover {
-  border-color: var(--accent);
+.lbc-ville:focus-visible,
+.lbc-labels a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.lbc-tout,
+.lbc-retour {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.lbc-tout {
+  margin-top: var(--espace-8);
+  color: var(--ink-primary);
+}
+.lbc-retour {
+  color: var(--ink-secondary);
+}
+.lbc-tout:hover,
+.lbc-retour:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+.lbc-tout:focus-visible,
+.lbc-retour:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* La ville choisie : son nom en capitales d'affiche, puis ses labels. */
+.lbc-lieu-nom {
+  margin: var(--espace-8) 0 0;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
+  overflow-wrap: anywhere;
+}
+.lbc-lieu-faits {
+  margin: var(--espace-8) 0 var(--espace-16);
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.lbc-labels a {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  grid-template-areas:
+    'logo nom'
+    'logo faits';
+  align-items: center;
+  column-gap: var(--espace-12);
+  min-height: 56px;
+  padding: var(--espace-8) 0;
+  border-bottom: 1px solid var(--filet-fort);
+  color: inherit;
+  text-decoration: none;
+}
+.lbc-labels .lb-logo {
+  grid-area: logo;
+  width: 40px;
+}
+.lbc-labels .lb-logo-monogramme {
+  font-size: 0.75rem;
+}
+.lbc-label-nom {
+  grid-area: nom;
+  align-self: end;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+  transition: color 160ms ease;
+}
+.lbc-label-faits {
+  grid-area: faits;
+  align-self: start;
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.lbc-label-faits:empty {
+  display: none;
+}
+.lbc-labels a:hover .lbc-label-nom,
+.lbc-labels [aria-current='true'] .lbc-label-nom {
   color: var(--accent);
 }
 @media (max-width: 640px) {
   .lbc-cadre {
-    height: 350px;
+    height: 360px;
   }
-  .lbc-fiche {
-    left: var(--espace-8);
-    right: var(--espace-8);
-    bottom: var(--espace-8);
-    max-width: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lbc-ville-nom,
+  .lbc-label-nom {
+    transition: none;
   }
 }

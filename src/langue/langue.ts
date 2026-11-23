@@ -555,14 +555,18 @@ interface Dictionnaire {
   readonly labelsFiltreQuebec: (n: number) => string;
   readonly labelQuebecCanada: string;
   readonly labelsCarteTitre: string;
-  readonly labelsCarteSousTitre: (nLabels: number, nPays: number) => string;
+  readonly labelsCarteSousTitre: (nLabels: number, nVilles: number, nPays: number) => string;
+  readonly labelsCarteVilles: string;
+  readonly labelsCarteToutesVilles: (n: number) => string;
+  readonly labelsCarteRetour: string;
+  readonly labelsCarteSansVille: string;
+  readonly labelsCarteNombre: (n: number) => string;
   readonly labelsZoneMonde: string;
   readonly labelsZoneMontreal: string;
   readonly labelsZoneAmeriques: string;
   readonly labelsZoneEurope: string;
   readonly labelsZoneAsieAfrique: string;
   readonly labelMaisonMere: (lieu: string) => string;
-  readonly labelVoirFiche: string;
   readonly labelVoirSurCarte: string;
   readonly labelsTous: (n: number) => string;
   readonly labelLogoCredit: (credit: string) => string;
@@ -1716,15 +1720,19 @@ const FR: Dictionnaire = {
   labelsFiltreQuebec: (n) => `Québec (${n})`,
   labelQuebecCanada: 'Québec, Canada',
   labelsCarteTitre: 'Carte mondiale des maisons mères',
-  labelsCarteSousTitre: (nLabels, nPays) =>
-    `${nLabels.toLocaleString('fr-CA')} maisons mères géolocalisées dans ${nPays} pays, là où chaque label électronique est établi même lorsque ses artistes sont internationaux.`,
+  labelsCarteSousTitre: (nLabels, nVilles, nPays) =>
+    `${nLabels.toLocaleString('fr-CA')} labels dans ${nVilles} villes de ${nPays} pays, là où chacun est établi même quand ses artistes viennent d’ailleurs. Choisissez une ville pour voir ses labels.`,
+  labelsCarteVilles: 'Les villes',
+  labelsCarteToutesVilles: (n) => `Afficher les ${n} villes`,
+  labelsCarteRetour: 'Toutes les villes',
+  labelsCarteSansVille: 'Ville non renseignée',
+  labelsCarteNombre: (n) => `${n.toLocaleString('fr-CA')} label${n > 1 ? 's' : ''}`,
   labelsZoneMonde: 'Monde',
   labelsZoneMontreal: 'Montréal & Québec',
   labelsZoneAmeriques: 'Amériques',
   labelsZoneEurope: 'Europe',
   labelsZoneAsieAfrique: 'Asie, Afrique & Océanie',
   labelMaisonMere: (lieu) => `Maison mère : ${lieu}`,
-  labelVoirFiche: 'Ouvrir la fiche du label',
   labelVoirSurCarte: 'Voir la maison mère sur la carte',
   labelsTous: (n) => `Tous les labels (${n})`,
   labelLogoCredit: (credit) => `Logo : ${credit}`,
@@ -2915,15 +2923,19 @@ const EN: Dictionnaire = {
   labelsFiltreQuebec: (n) => `Quebec (${n})`,
   labelQuebecCanada: 'Quebec, Canada',
   labelsCarteTitre: 'World map of label headquarters',
-  labelsCarteSousTitre: (nLabels, nPays) =>
-    `${nLabels.toLocaleString('en-CA')} headquarters mapped across ${nPays} countries, showing where each electronic music label is based even when its roster is international.`,
+  labelsCarteSousTitre: (nLabels, nVilles, nPays) =>
+    `${nLabels.toLocaleString('en-CA')} labels in ${nVilles} cities across ${nPays} countries, where each one is based even when its artists come from elsewhere. Pick a city to see its labels.`,
+  labelsCarteVilles: 'Cities',
+  labelsCarteToutesVilles: (n) => `Show all ${n} cities`,
+  labelsCarteRetour: 'All cities',
+  labelsCarteSansVille: 'City not recorded',
+  labelsCarteNombre: (n) => `${n.toLocaleString('en-CA')} label${n === 1 ? '' : 's'}`,
   labelsZoneMonde: 'World',
   labelsZoneMontreal: 'Montreal & Quebec',
   labelsZoneAmeriques: 'Americas',
   labelsZoneEurope: 'Europe',
   labelsZoneAsieAfrique: 'Asia, Africa & Oceania',
   labelMaisonMere: (lieu) => `Headquarters: ${lieu}`,
-  labelVoirFiche: 'Open label page',
   labelVoirSurCarte: 'Show headquarters on map',
   labelsTous: (n) => `All labels (${n})`,
   labelLogoCredit: (credit) => `Logo: ${credit}`,

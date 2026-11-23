@@ -426,7 +426,6 @@ function Galerie() {
   }, []);
 
   const quebecLabels = useMemo(() => ENTREES.filter((e) => e.q === 1).sort(ordreDeNotoriete), []);
-  const totalMaisonsMeres = useMemo(() => ENTREES.filter((e) => Boolean(e.g)).length, []);
 
   const lesPays = useMemo(() => {
     const n = new Map<string, number>();
@@ -527,13 +526,7 @@ function Galerie() {
         </div>
       </header>
 
-      <CarteLabels
-        entrees={liste}
-        totalGlobal={totalMaisonsMeres}
-        nbPaysGlobal={lesPays.length}
-        filtreActif={Boolean(terme || pays)}
-        slugCible={slugCible}
-      />
+      <CarteLabels toutes={ENTREES} entrees={liste} filtreActif={Boolean(terme || pays)} slugCible={slugCible} />
 
       {uneVue && UNE.length > 0 && (
         <div className="lbg-section">
