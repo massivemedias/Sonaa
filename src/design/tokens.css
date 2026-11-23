@@ -491,6 +491,18 @@
      plus petites ». Le plafond passe de 45 a 36 px, le plancher de 28 a 24. */
   /* en condensee depuis ADR-117 : plus haute pour la meme largeur */
   --titre-section: clamp(2.4rem, 8vw, 3.75rem);
+  /* LE TITRE D'UNE PAGE, depuis ADR-125 : le nom de la page en capitales
+     d'affiche, a la taille des titres de l'accueil et de l'Atlas. Mixtapes,
+     News, Labels, Track ID et les pages document l'ecrivaient a 32, 60 ou
+     68 px selon la feuille ; une seule grandeur, plafonnee a 6 rem. */
+  --titre-page: clamp(3.25rem, 8vw, 6rem);
+  /* L'INTERTITRE D'UNE PAGE, sous son filet (ADR-125) : Artistes, Dernieres
+     mixtapes, 12 morceaux, Calendrier, Labels du Quebec, Vos dernieres
+     ecoutes. Une grandeur, lue par cinq feuilles. */
+  --titre-intertitre: clamp(1.9rem, 4vw, 2.75rem);
+  /* LE NOM D'UNE RANGEE DE LISTE, en capitales d'affiche : une mixtape dans
+     sa liste, un club dans le classement de l'Atlas. */
+  --titre-rangee: clamp(1.5rem, 2.6vw, 2.1rem);
   /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
      2026 : certaines images de flux font plusieurs milliers de pixels de
      haut et occupaient plusieurs ecrans a elles seules. */

@@ -133,7 +133,7 @@
 .fs-bilan {
   margin: 0;
   padding: var(--espace-12) var(--espace-16);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--accent-voile);
   color: var(--ink-primary);
   font-size: 0.875rem;
@@ -222,7 +222,7 @@
   min-height: 44px;
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: var(--ink-primary);
   font: inherit;

@@ -71,7 +71,7 @@
   cursor: pointer;
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-18);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   font-size: 0.8125rem;
 }
 /* Le champ natif est laid et intraduisible ; le libelle qui l'enveloppe fait
@@ -109,7 +109,7 @@
 .sp-label input[type='file'] {
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: var(--encre-2);
   font-family: inherit;
@@ -170,17 +170,88 @@
 
 /* --- Les listes --------------------------------------------------------- */
 
+/* DES RANGEES SUR DES FILETS, PLUS DES CARTES (ADR-125). Chaque mixtape
+   etait une boite de verre cernee ; la liste se lit maintenant comme le
+   classement de l'Atlas, un filet entre deux rangees et un sous la derniere. */
 .sp-liste {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--espace-16);
+  border-bottom: 1px solid var(--filet);
 }
-/* La matiere du verre vient de verre.css : ici, le retrait et le rayon. */
 .sp-item {
-  padding: var(--espace-16);
-  border-radius: var(--rayon-carte);
+  padding: var(--espace-24) 0;
+  border-top: 1px solid var(--filet);
+}
+/* LA RANGEE PUBLIQUE : la pochette a gauche sur toute la hauteur, le titre
+   puis la forme d'onde a droite. Les deux enveloppes s'effacent de la grille
+   (display: contents), si bien que la pochette, le texte et le lecteur en
+   sont les trois cases. Le profil et l'administration gardent leur rangee
+   avec ses boutons, sans cette grille. */
+.sp-item-public {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--espace-24);
+  row-gap: var(--espace-8);
+  align-items: start;
+}
+.sp-item-public .sp-item-tete,
+.sp-item-public .sp-item-titre {
+  display: contents;
+}
+.sp-item-public .sp-vignette {
+  grid-row: span 2;
+}
+.sp-item-public .sp-vignette img,
+.sp-item-public .sp-vignette .sp-avatar-vide {
+  width: 7.5rem;
+  height: 7.5rem;
+  font-size: 2.4rem;
+}
+.sp-item.sp-item-public h3 {
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-rangee);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.sp-item.sp-item-public h3 + .sp-aide {
+  margin-top: var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+}
+.sp-item-public .sp-aide a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.sp-item-public .sp-aide a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 699px) {
+  .sp-item-public {
+    column-gap: var(--espace-16);
+  }
+  .sp-item-public .sp-vignette img,
+  .sp-item-public .sp-vignette .sp-avatar-vide {
+    width: 4.5rem;
+    height: 4.5rem;
+    font-size: 1.6rem;
+  }
+  /* au telephone, le lecteur reprend toute la largeur sous la pochette */
+  .sp-item-public .sp-vignette {
+    grid-row: auto;
+  }
+  .sp-item-public > :last-child {
+    grid-column: 1 / -1;
+  }
 }
 .sp-item-tete {
   display: flex;
@@ -213,7 +284,7 @@
 .sp-item-actions button {
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-16);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--encre-forte-2);
   font-family: inherit;
@@ -229,7 +300,7 @@
 .sp-vignette .sp-avatar-vide {
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   object-fit: cover;
   font-size: 1.1rem;
 }
@@ -247,7 +318,7 @@
 .sp-tete-set .sp-vignette .sp-avatar-vide {
   width: 4.5rem;
   height: 4.5rem;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   font-size: 1.8rem;
 }
 .sp-fil {
@@ -366,7 +437,7 @@
 .ls-onde:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
 }
 
 .ls-temps {
@@ -402,7 +473,7 @@
   position: relative;
   cursor: pointer;
   border: 1px dashed var(--voile-18);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   padding: var(--espace-16);
   text-align: center;
   transition: border-color 120ms ease, background-color 120ms ease;
@@ -481,34 +552,55 @@
   margin: var(--espace-24) 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
-  gap: var(--espace-16);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
+  gap: var(--espace-32) var(--espace-16);
 }
-/* LE PORTRAIT EST UNE CARTE DE VERRE, dont la recette vit dans verre.css, et
-   il se souleve au survol : la meme grammaire que les cartes du calendrier. */
+/* LE PORTRAIT SUR LE FOND, SANS CARTE (ADR-125). Il etait pose dans une
+   boite de verre qui se soulevait ; il reste le visage, le nom en capitales
+   d'affiche, et le compte en petit libelle. Au survol, le portrait grossit
+   un peu et le nom passe a l'accent. */
 .sp-carte-artiste {
   display: grid;
   justify-items: center;
-  gap: var(--espace-4);
-  padding: var(--espace-16) var(--espace-12) var(--espace-16);
-  border-radius: var(--rayon-carte);
+  gap: var(--espace-8);
   text-align: center;
   color: inherit;
   text-decoration: none;
-  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 400ms ease;
 }
-@media (hover: hover) and (pointer: fine) {
-  .sp-carte-artiste:hover {
-    transform: translateY(-6px);
-    --verre-fond: var(--verre-fond-survol);
-  }
+.sp-carte-artiste .sp-portrait {
+  width: 8.5rem;
+  height: 8.5rem;
+  margin-bottom: var(--espace-8);
+  transition: scale 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .sp-carte-nom {
-  font-weight: 700;
-  font-size: 0.9375rem;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: 1.45rem;
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  transition: color 200ms ease;
 }
-.sp-carte-artiste:hover .sp-carte-nom {
-  text-decoration: underline;
+.sp-carte-artiste .sp-aide {
+  font-family: var(--police-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sp-carte-artiste:hover .sp-portrait {
+    scale: 1.05;
+  }
+  .sp-carte-artiste:hover .sp-carte-nom {
+    color: var(--accent);
+  }
+}
+.sp-carte-artiste:focus-visible .sp-carte-nom {
+  color: var(--accent);
 }
 
 .sp-portrait {
@@ -540,14 +632,29 @@
   color: inherit;
 }
 
-.sp-sous-titre-premier {
-  margin-top: var(--espace-24);
+/* L'INTERTITRE D'UNE PAGE, comme ceux de l'Atlas : capitales d'affiche
+   sous un filet qui ouvre la section (ADR-125). */
+.sp-sous-titre.sp-sous-titre-premier {
+  margin-top: var(--espace-16);
 }
 .sp-sous-titre {
-  margin: var(--espace-32) 0 var(--espace-8);
-  font-size: 1.0625rem;
-  font-weight: 700;
-  color: var(--ink-primary);
+  margin: var(--espace-64) 0 var(--espace-24);
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
+}
+/* Sous un intertitre, la premiere rangee n'a pas besoin de son filet :
+   celui de l'intertitre ouvre deja la liste. */
+.sp-sous-titre + .sp-liste > .sp-item:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 /* --- Les styles choisis --------------------------------------------------- */
@@ -565,7 +672,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
 }
 .sp-lien {
   margin-top: var(--espace-8);
@@ -586,7 +693,7 @@
 .sp-pochette {
   width: 7rem;
   height: 7rem;
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   object-fit: cover;
   flex: none;
 }
@@ -692,7 +799,7 @@
   min-height: 2.4rem;
   padding: 0 var(--espace-16);
   border: 1px solid var(--voile-14);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   color: var(--encre-douce-2);
   font-size: 0.9rem;
   font-weight: 600;
@@ -759,7 +866,7 @@
   align-items: start;
   padding: var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-04);
 }
 .ev-affiche {
@@ -767,7 +874,7 @@
   width: 96px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
 }
 .ev-affiche-vide {
   background: var(--voile-08);
@@ -865,7 +972,7 @@
   width: 48px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-08);
 }
 .ev-rangee .ev-titre {

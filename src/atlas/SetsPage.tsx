@@ -355,7 +355,7 @@ function RetourAuxMixtapes({ libelle }: { libelle: string }) {
 
 export function ListeUnSet({ set, sansArtiste }: { set: SetDJ; sansArtiste?: boolean }) {
   return (
-    <li className="sp-item">
+    <li className="sp-item sp-item-public">
       <div className="sp-item-tete">
         <div className="sp-item-titre">
           <Vignette set={set} />

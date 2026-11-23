@@ -197,7 +197,7 @@
   padding: var(--espace-4) var(--espace-8);
   background: var(--encre-vive-2);
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   color: var(--plaque-3);
   font-family: var(--font-ui);
   font-size: 0.68rem;
@@ -216,7 +216,7 @@
      une seule ecriture de la palette. */
   background: oklch(0.42 0.11 var(--hm-hue, 250));
   border: 1px solid var(--fond, var(--plaque));
-  border-radius: 3px;
+  border-radius: var(--rayon-carte);
   color: oklch(0.98 0.01 var(--hm-hue, 250));
   font-family: var(--font-ui);
   cursor: pointer;
@@ -274,7 +274,7 @@
   padding: var(--espace-8) var(--espace-12);
   background: color-mix(in oklab, var(--fond, var(--plaque)) 92%, transparent);
   border: 1px solid var(--rule-hairline, var(--filet));
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   color: var(--ink-primary, var(--encre-2));
   font-size: 0.78rem;
   line-height: 1.35;

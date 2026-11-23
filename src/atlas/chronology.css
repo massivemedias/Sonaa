@@ -92,7 +92,7 @@
 
 .chrono-family {
   background: var(--plaque-3);
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
 }
 
@@ -233,7 +233,7 @@
 
 .chrono-column {
   background: var(--plaque);
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -479,7 +479,7 @@
     border: none;
     padding: var(--espace-4) var(--espace-8);
     background: var(--voile-05);
-    border-radius: 3px;
+    border-radius: var(--rayon-carte);
   }
 
   .chrono-decade-label {
@@ -521,7 +521,7 @@
   gap: 2px;
   padding: 2px;
   border: 1px solid var(--rule-hairline, var(--filet));
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
 }
 
 .chrono-selecteur button {
@@ -529,7 +529,7 @@
   padding: 0 var(--espace-16);
   background: transparent;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   color: var(--ink-secondary, var(--encre-douce));
   font-family: var(--font-ui);
   font-size: 0.875rem;

@@ -14,7 +14,7 @@
 .carte-boite {
   height: clamp(22rem, 64dvh, 44rem);
   border: 1px solid var(--filet);
-  border-radius: 18px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
 }
 .carte-boite.maplibregl-map {
@@ -103,7 +103,7 @@
   left: 50%;
   padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--filet);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   background: var(--fond);
   color: var(--ink-primary);
   font-size: 0.8rem;
@@ -126,7 +126,7 @@
 :is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-group {
   overflow: hidden;
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--fond);
   box-shadow: none;
 }
@@ -171,7 +171,7 @@
   overflow-y: auto;
   padding: var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--fond);
   box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
 }
@@ -220,7 +220,7 @@
   width: 100%;
   padding: var(--espace-4);
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: inherit;
   font: inherit;
@@ -308,7 +308,7 @@
   gap: var(--espace-8);
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
@@ -378,7 +378,7 @@
 .iti-fiche-carte {
   height: clamp(16rem, 42dvh, 24rem);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
 }
 .carte-panneau-retour {

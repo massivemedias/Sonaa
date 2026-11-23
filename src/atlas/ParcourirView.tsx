@@ -53,8 +53,6 @@ import { RythmeDuStyle } from './RythmeDuStyle.tsx';
 import { LogoLabel } from './LogoLabel.tsx';
 import { labelsDuStyle, type EntreeLabel } from '../lib/labels.ts';
 import INDEX_LABELS from '../data/labels-index.json';
-import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
-import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './parcourir.css';
 import { pochetteDeLaFamille } from '../accueil/pochettes.ts';
 
@@ -387,47 +385,20 @@ export function ParcourirView() {
       <main className="pv-corps" ref={corps}>
         {niveau.k === 'familles' && (
           <>
-            {/* ═══ LA QUESTION, EN HAUT DE L'ATLAS ═══
+            {/* ═══ LE TITRE DE LA PAGE, EN AFFICHE (ADR-125) ═══
 
-                La reconnaissance a quitte le menu le 21 septembre 2026. Ce
-                n'est pas une section, c'est un geste, et il ne se cherche pas
-                dans une rangee de portes : il se pose quand on entend quelque
-                chose qu'on ne sait pas nommer, c'est-a-dire ici, devant
-                quatorze familles et deux cent trente-trois genres.
-
-                LE BOUTON PORTE LE MOT DU MILIEU, PAS LE NOM DE L'OUTIL.
-                « Track ID », depuis le 1er octobre 2026, est ce qu'on ecrit
-                sous un set pour demander un morceau ; « Reconnaitre » disait
-                ce que la machine fait. C'est aussi le titre de la page
-                d'arrivee, donc la meme clef du dictionnaire aux deux bouts. Le bouton est celui de l'accueil, depuis le 30
-                septembre 2026 : voir reconnaitre/BoutonTrack.tsx.
-
-                UN LIEN, ET NON UN BOUTON : il change d'adresse. Le clavier,
-                le clic du milieu et le menu contextuel marchent donc sans
-                qu'on ait rien a ecrire. */}
-            <Apparition>
-              <BoutonTrack href={ADRESSE_ECOUTER} />
-            </Apparition>
-            {/* LES TROIS GRANDS CHIFFRES DE LA V2, lus dans le corpus. Voir
-                parcourir.css pour la raison d'etre ici et non sur l'accueil. */}
-            <Apparition i={1} className="pv-stats">
-              <div className="pv-stat">
-                <span className="pv-stat-n">{TOUS.length}</span>
-                <span className="pv-stat-mot">{t.statGenres}</span>
-              </div>
-              <div className="pv-stat">
-                <span className="pv-stat-n">{FAMILIES.length}</span>
-                <span className="pv-stat-mot">{t.statFamilles}</span>
-              </div>
-              <div className="pv-stat">
-                <span className="pv-stat-n">
-                  {/* LE NOMBRE SUIT LA LANGUE DU SITE, pas celle du navigateur : un
-                      visiteur anglophone qui lit la page en francais voyait
-                      « 2,382 » sous un mot francais. */}
-                  {N_MORCEAUX.toLocaleString(langue === 'fr' ? 'fr-CA' : 'en-CA')}
-                </span>
-                <span className="pv-stat-mot">{t.statMorceaux}</span>
-              </div>
+                La page ouvrait sur le bandeau jaune de Track ID, puis trois
+                boites a grand chiffre et petit mot : le gabarit de tableau de
+                bord que Mika ne veut plus voir. Track ID a retrouve sa place
+                dans la barre du haut, en jaune, sur toutes les pages ; le
+                bandeau doublait ce bouton. Les trois chiffres passent dans le
+                titre et le chapeau, comme sur l'accueil : le nombre se lit
+                dans une phrase, pas dans une case. */}
+            <Apparition className="pv-page-tete">
+              <h1 className="pv-page-titre">{t.accueilStylesTitre(TOUS.length, FAMILIES.length)}</h1>
+              <p className="pv-page-chapeau">
+                {t.stylesChapeau(N_MORCEAUX.toLocaleString(langue === 'fr' ? 'fr-CA' : 'en-CA'))}
+              </p>
             </Apparition>
             {/* ═══ LA MEME TUILE QUE POUR UN GENRE, SANS UNE LIGNE DE PLUS ═══
 
@@ -444,7 +415,6 @@ export function ParcourirView() {
                 La ligne de detail suit le meme moule : « 1994 · 3 derives »
                 pour un genre, « Annees 1980 · 23 genres » pour une famille.
                 Quand, puis combien. */}
-            <p className="pv-intro">{t.famillesAppuyez(FAMILIES.length)}</p>
             <div className="pv-grille">
               {FAMILIES.map((f, fi) => {
                 /* LA TUILE D'UNE FAMILLE PORTE SA POCHETTE ET SA COULEUR, comme
@@ -480,8 +450,13 @@ export function ParcourirView() {
 
         {niveau.k === 'famille' && familleCourante && (
           <>
-            <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
-            <div className="pv-grille" style={{ ['--teinte' as string]: familleCourante.hue }}>
+            {/* LE NOM DE LA FAMILLE EN GRAND, au-dessus de ses genres : la barre
+                du haut le portait seule, en petit (ADR-125). */}
+            <Apparition className="pv-page-tete">
+              <h2 className="pv-page-titre">{familleCourante.label}</h2>
+              <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
+            </Apparition>
+            <div className="pv-grille pv-grille-genres" style={{ ['--teinte' as string]: familleCourante.hue }}>
               {/* UNE TUILE DE PLUS POUR UN NOM QU'ON CHERCHE. Mika, le 14 septembre
                   2026 : Deep Techno et Hypnotic Techno sont le meme genre, mais
                   quelqu'un qui cherche l'un des deux noms doit le voir dans la
@@ -749,7 +724,13 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
 
   return (
     <>
-      <section className="pv-hero" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+      {/* --mot : le mot le plus long du nom, en lettres. Le titre d'affiche se
+          regle dessus pour ne jamais couper « Electroacoustique » au
+          telephone (ADR-125), comme les tuiles de la grille. */}
+      <section
+        className="pv-hero"
+        style={{ '--pv-hue': famille.hue, '--mot': lettresDuMot(genre.label) } as React.CSSProperties}
+      >
         <BandeauImages tracks={tracks} hue={famille.hue} />
         <div className="pv-hero-texte">
         <button className="pv-hero-famille" onClick={allerFamille}>

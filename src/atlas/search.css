@@ -315,7 +315,7 @@
   text-transform: uppercase;
   color: var(--ink-secondary);
   border: 1px solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   padding: var(--espace-4) var(--espace-12);
   cursor: pointer;
 }
@@ -360,7 +360,7 @@
   color: var(--sur-accent);
   background: var(--accent);
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   padding: var(--espace-8) var(--espace-16);
   cursor: pointer;
 }
@@ -395,7 +395,7 @@
   margin: var(--espace-4) var(--espace-8) var(--espace-8);
   padding: var(--espace-12) var(--espace-16) var(--espace-12);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   cursor: default;
 }
 .search-artiste-etiquette {
@@ -421,7 +421,7 @@
 .search-style-lien {
   padding: var(--espace-4) var(--espace-12);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-secondary);
   font-family: inherit;
@@ -469,5 +469,5 @@
 }
 .search-hit-labelpage .lb-logo-petit {
   width: 20px;
-  border-radius: 5px;
+  border-radius: var(--rayon-carte);
 }

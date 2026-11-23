@@ -25,12 +25,16 @@
 
 import { t } from '../langue/langue.ts';
 import { Apparition } from '../design/mouvement.tsx';
+import type { Soiree } from '../lib/agenda.ts';
+import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import './hero.css';
 
+/* UNE SOIREE, ET NON PLUS UNE ADRESSE D'IMAGE : faute d'affiche, la
+   banniere dessine la sienne (voir AfficheGeneree.tsx et ADR-125). */
 export interface AfficheHero {
   readonly id: string;
   readonly titre: string;
-  readonly affiche: string;
+  readonly soiree: Soiree;
 }
 
 interface Props {
@@ -38,6 +42,8 @@ interface Props {
   readonly nCeSoir: number;
   readonly nWeekend: number;
   readonly affiches: readonly AfficheHero[];
+  /** Le fuseau de la ville, pour l'heure ecrite sur une affiche dessinee. */
+  readonly fuseau: string;
   readonly onCeSoir: () => void;
   readonly onWeekend: () => void;
   readonly onVille: () => void;
@@ -56,6 +62,7 @@ export function HeroAccueil({
   nCeSoir,
   nWeekend,
   affiches,
+  fuseau,
   onCeSoir,
   onWeekend,
   onVille,
@@ -110,7 +117,7 @@ export function HeroAccueil({
         <Apparition i={1} className="hero-collage" aria-label={t.heroAffiches}>
           {affiches.slice(0, N_AFFICHES).map((a) => (
             <button key={a.id} type="button" className="hero-affiche" onClick={() => onAffiche(a.id)} title={a.titre}>
-              <img src={a.affiche} alt="" loading="lazy" decoding="async" draggable={false} />
+              <ImageDeSoiree soiree={a.soiree} fuseau={fuseau} variante="carte" className="hero-affiche-image" />
             </button>
           ))}
         </Apparition>

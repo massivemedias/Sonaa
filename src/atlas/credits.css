@@ -136,13 +136,13 @@
 /* LE TITRE EST EN ENCRE PLEINE, DEPUIS ADR-089 : le degrade de la v2 est
    parti avec le mauve. Declare ici pour toutes les pages qui partagent cet
    en-tete. */
-.credits-head h1 {
-  margin: var(--espace-24) 0 var(--espace-4);
-  font-size: var(--titre-section);
+.credits-head h1,
+.sets-page > h1 {
+  margin: var(--espace-24) 0 var(--espace-16);
+  font-size: var(--titre-page);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-  color: var(--ink-primary);
+  line-height: 0.86;
+  color: var(--encre-vive);
 }
 
 .credits-lede {
@@ -264,6 +264,17 @@
 
 /* Voir le commentaire sur `.credits` : le vide d'une page courte se range
    au-dessus du pied et non en dessous. */
+/* LE PIED TOUCHE LE BAS DE LA FENETRE, ET JAMAIS LE CONTENU (ADR-125).
+   Le retrait bas de la page passait SOUS le pied : une bande noire de 64 px
+   le decollait du bord. Et la marge automatique valait zero sur une page
+   longue, si bien que le pied collait a la derniere mixtape. Le retrait
+   passe donc au-dessus du pied, porte par ce qui le precede. */
+.credits:has(> .pied) {
+  padding-bottom: 0;
+}
+.credits > :has(+ .pied) {
+  margin-bottom: var(--espace-64);
+}
 .credits > .pied {
   margin-top: auto;
 }

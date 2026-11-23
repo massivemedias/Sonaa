@@ -28,7 +28,7 @@
   gap: var(--espace-8);
   padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--voile-16);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-05);
   color: var(--encre-forte-4);
   font-family: inherit;
@@ -64,7 +64,7 @@
   margin-top: var(--espace-8);
   padding: var(--espace-8) var(--espace-16);
   border: 1px solid var(--voile-18);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--encre-forte-4);
   font-family: inherit;
@@ -79,7 +79,7 @@
   margin-top: var(--espace-12);
   padding: var(--espace-16);
   border: 1px solid var(--voile-12);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--plaque);
 }
 .cs-recherche {
@@ -87,7 +87,7 @@
   box-sizing: border-box;
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--voile-14);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: var(--creux-3);
   color: var(--encre-2);
   font-family: inherit;
@@ -123,7 +123,7 @@
 .cs-genres button {
   padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--voile-14);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--encre-forte-2);
   font-family: inherit;

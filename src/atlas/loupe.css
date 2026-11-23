@@ -21,7 +21,7 @@
 .loupe img {
   max-width: 100%;
   max-height: 90vh;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   cursor: default;
 }
 .loupe-fermer {

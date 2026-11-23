@@ -34,7 +34,7 @@
 .cours-bloc {
   padding: var(--espace-16) var(--espace-16) var(--espace-24);
   border: 1px solid var(--filet);
-  border-radius: 20px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
 }
 .cours-bloc-titre {
@@ -132,7 +132,7 @@
 }
 .cours-case {
   aspect-ratio: 1;
-  border-radius: 4px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-06);
   transition: transform 80ms ease, background 80ms ease;
 }
@@ -225,7 +225,7 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-06);
 }
 .cours-machine-texte {
@@ -313,7 +313,7 @@
   align-items: start;
   padding: var(--espace-12) var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--ink-primary);
@@ -374,7 +374,7 @@
   row-gap: 2px;
   padding: var(--espace-12) var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   font-size: 0.875rem;
   line-height: 1.5;
   color: var(--ink-secondary);
@@ -456,7 +456,7 @@
   align-items: center;
   padding: 1px var(--espace-8);
   border: 1px solid color-mix(in oklab, var(--accent-jaune) 50%, transparent);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   color: var(--accent-jaune);
   font-size: 0.75rem;
   font-weight: 600;

@@ -212,7 +212,7 @@
 .pv-resultat-famille {
   flex: none;
   padding: var(--espace-4) var(--espace-8);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.22);
   color: oklch(var(--lt-84) 0.1 var(--pv-hue));
   font-size: 0.72rem;
@@ -226,7 +226,7 @@
   margin: var(--espace-8) 0 var(--espace-12);
   padding: var(--espace-12) var(--espace-16) var(--espace-16);
   border: 1px solid var(--voile-14);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-04);
 }
 .pv-resultat-etiquette {
@@ -255,7 +255,7 @@
 .pv-resultat-style {
   padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-14);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-08);
   color: var(--encre-vive);
   font: inherit;
@@ -301,56 +301,37 @@ body:has(.pwa-bandeau) .pv-corps {
 
 /* La sortie vers les autres vues, en pied de la premiere page seulement : on
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
-/* LE BOUTON QUI POSE LA QUESTION est celui de l'accueil depuis le 30
-   septembre 2026 : son dessin vit dans reconnaitre/bouton-track.css. Ici,
-   il ne prend que sa place, en tete de la grille et de sa largeur, comme
-   les tuiles au-dessous. */
-.pv-corps .bt {
-  display: flex;
-  width: 100%;
+/* ═══ LE TITRE DE LA PAGE, EN AFFICHE (ADR-125) ═══
+   Il remplace le bandeau de Track ID et les trois boites a grand chiffre :
+   les nombres se lisent dans le titre et le chapeau, comme sur l'accueil. */
+.pv-page-tete {
+  margin: var(--espace-32) 0 var(--espace-32);
+}
+.pv-page-titre {
+  margin: 0;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-page);
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
+}
+.pv-page-chapeau {
+  text-wrap: pretty;
+  max-width: 42rem;
   margin: var(--espace-16) 0 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-secondary);
 }
-.pv-corps .bt-egaliseur {
-  margin-left: auto;
-}
-
-/* ═══ LES TROIS GRANDS CHIFFRES, DEPUIS LA V2 ═══
-
-   Le prototype ouvre sur un grand chiffre et un petit mot dessous : genres,
-   familles, morceaux. Ils sont lus dans le corpus, pas ecrits, et ils vivent
-   ici plutot que sur l'accueil parce que c'est la seule page qui charge deja
-   le corpus : les mettre sur le calendrier aurait tire 1,2 Mo dans son
-   paquet pour trois nombres. */
-.pv-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--espace-8);
+.pv-page-tete .pv-intro {
   margin: var(--espace-16) 0 0;
-}
-.pv-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--espace-4);
-  padding: var(--espace-12) var(--espace-12);
-  border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
-  border: 1px solid var(--filet);
-}
-.pv-stat-n {
-  /* 22 PX AU PLANCHER : a 110 px de colonne sur un ecran de 375, « 2 382 »
-     en 25,6 px touchait ses deux bords. */
-  font-size: clamp(1.375rem, 3.4vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-primary);
-}
-.pv-stat-mot {
-  font-size: 0.62rem;
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--chasse-mono);
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -448,6 +429,10 @@ body:has(.pwa-bandeau) .pv-corps {
   /* LA TUILE EST EN VERRE, DEPUIS ADR-089 : la matiere de la plaque exterieure
      vient de design/verre.css, sans bordure ni ombre portee, et la tuile se
      souleve au survol. La forme, la hauteur fixe et la grille ne bougent pas. */
+  /* Le verre posait aussi le fond et la bordure ; sans lui, un bouton
+     reprend ceux du navigateur, gris et en relief. On les retire ici. */
+  border: 0;
+  background: none;
   border-radius: var(--rayon-carte);
   color: var(--encre-vive-3);
   font: inherit;
@@ -667,19 +652,17 @@ body:has(.pwa-bandeau) .pv-corps {
   object-fit: cover;
   transition: scale 400ms ease;
 }
+/* LE VOILE SOUS LE NOM, NEUTRE. Il portait en haut un lavis de la couleur
+   de la famille, et un bandeau de 6 px de cette couleur fermait le bord
+   superieur : une bordure de couleur sur un seul cote, de la meme famille
+   que le crochet (ADR-125). La couleur passe dans le petit carre devant le
+   compte, comme les formes de l'Atlas. */
 .pv-tuile-famille::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.4) 62%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
-}
-.pv-tuile-famille::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 6px;
-  background: oklch(0.72 0.15 var(--teinte));
+  background: linear-gradient(to top, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.5) 58%, rgb(0 0 0 / 0.1) 100%);
 }
 .pv-tuile-famille .pv-tuile-carte {
   justify-content: flex-end;
@@ -703,6 +686,15 @@ body:has(.pwa-bandeau) .pv-corps {
   white-space: nowrap;
   hyphens: manual;
   -webkit-hyphens: manual;
+}
+.pv-tuile-famille .pv-tuile-detail::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: var(--espace-8);
+  vertical-align: 0.05em;
+  background: oklch(0.72 0.15 var(--teinte));
 }
 .pv-tuile-famille .pv-tuile-detail {
   margin-top: var(--espace-8);
@@ -741,42 +733,40 @@ body:has(.pwa-bandeau) .pv-corps {
 
 .pv-hero {
   position: relative;
-  margin: var(--espace-12) calc(-1 * var(--espace-12)) 0;
-  background: linear-gradient(
-    170deg,
-    oklch(var(--lt-46) 0.15 var(--pv-hue)),
-    var(--fond) 92%
-  );
+  margin: var(--espace-12) 0 0;
+  /* UN BANDEAU PHOTOGRAPHIQUE, SANS LAVIS DE COULEUR (ADR-125). Il etait
+     peint d'un degrade de la teinte de la famille ; ce sont maintenant les
+     pochettes du style, sous un voile noir plus dense du cote du texte. La
+     couleur de la famille reste dans le petit carre devant son nom. */
+  background: var(--fond);
   overflow: hidden;
+  container-type: inline-size;
 }
 .pv-hero-texte {
   position: relative;
   z-index: 1;
-  padding: var(--espace-16) var(--espace-16) var(--espace-16);
+  /* Aligne sur la colonne : le bandeau n'a plus de fond qui deborde. */
+  padding: var(--espace-48) 0 var(--espace-16);
 }
 
 /* --- Le bandeau d'images --------------------------------------------------- */
 
+/* UNE BANDE DE POCHETTES CARREES, CALEE A DROITE (ADR-125). Elles etaient
+   etirees en quatre bandes larges, recadrees au point de ne plus se
+   reconnaitre. Chacune garde maintenant son carre, a la hauteur du bandeau,
+   et la bande deborde sous le texte, ou le voile la fait disparaitre : la
+   meme grammaire que le mur de pochettes de l'accueil. */
 .pv-mosaique {
   position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-}
-/* Deux ou trois pochettes seulement : on remplit la largeur plutot que de
-   laisser un quart de vide, qui se lit comme une image manquante. */
-.pv-mosaique[data-n='2'] {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-}
-.pv-mosaique[data-n='3'] {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
+  inset: 0 0 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 100%;
 }
 .pv-mosaique img {
-  width: 100%;
+  flex: none;
   height: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
   display: block;
 }
@@ -786,12 +776,12 @@ body:has(.pwa-bandeau) .pv-corps {
 .pv-mosaique-voile {
   position: absolute;
   inset: 0;
+  /* Le noir de la page a gauche, ou la bande rejoint le titre, puis la
+     pochette qui se devoile vers la droite ; un second voile fond le bas
+     dans la page, pour que la bande n'ait pas de bord dur. */
   background:
-    linear-gradient(
-      170deg,
-      oklch(var(--lt-34) 0.13 var(--pv-hue) / 0.86),
-      var(--panneau-97) 88%
-    );
+    linear-gradient(0deg, var(--fond) 0%, transparent 35%),
+    linear-gradient(90deg, var(--fond) 0%, rgb(0 0 0 / 0.6) 40%, rgb(0 0 0 / 0.2) 100%);
 }
 
 /* --- Les deux lectures : histoire et fabrication --- */
@@ -808,7 +798,7 @@ body:has(.pwa-bandeau) .pv-corps {
   min-height: 44px;
   padding: 0 var(--espace-16);
   border: 1px solid var(--voile-16);
-  border-radius: 22px;
+  border-radius: var(--rayon-carte);
   background: transparent;
   color: var(--encre-moyenne);
   font: inherit;
@@ -876,7 +866,7 @@ body:has(.pwa-bandeau) .pv-corps {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: var(--leve-3);
 }
 .pv-illu figcaption {
@@ -912,8 +902,6 @@ body:has(.pwa-bandeau) .pv-corps {
 
 .pv-fiche {
   margin: var(--espace-24) 0 0;
-  padding: var(--espace-16) var(--espace-16) var(--espace-16);
-  border-radius: var(--rayon-carte);
 }
 .pv-fiche-titre {
   margin: 0 0 var(--espace-16);
@@ -970,7 +958,7 @@ a.pv-label:focus-visible {
 }
 .pv-machine {
   padding: var(--espace-4) var(--espace-8);
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
   background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.18);
   color: oklch(var(--lt-88) 0.05 var(--pv-hue));
   font-size: 0.75rem;
@@ -997,34 +985,61 @@ a.pv-label:focus-visible {
 .pv-hero-famille {
   /* 44 px COMME LES AUTRES : ce n'est pas une etiquette, c'est un raccourci
      qui remonte a la famille. Mesuree a 27 px, elle etait sous la regle que
-     tout le reste de cette vue respecte. */
+     tout le reste de cette vue respecte.
+
+     UN LIEN DE RETOUR, PLUS UNE PASTILLE (ADR-125) : le nom de la famille en
+     petit libelle, precede du carre de sa couleur, comme sur les tuiles. */
   display: inline-flex;
   align-items: center;
+  gap: var(--espace-8);
   min-height: 44px;
-  padding: 0 var(--espace-16);
+  padding: 0;
   border: 0;
-  border-radius: 11px;
-  background: var(--voile-18);
+  background: none;
   color: var(--encre-vive-3);
-  font: inherit;
+  font-family: var(--police-mono);
   font-size: 0.72rem;
-  letter-spacing: var(--serrage);
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
   text-transform: uppercase;
   cursor: pointer;
 }
+.pv-hero-famille::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: oklch(0.72 0.15 var(--pv-hue));
+}
+.pv-hero-famille:hover,
+.pv-hero-famille:focus-visible {
+  color: var(--accent);
+}
+/* LE NOM DU STYLE EST LE TITRE DE LA PAGE, A LA TAILLE DES AUTRES (ADR-125).
+   Il etait a 26 px. Son corps se regle sur le mot le plus long (--mot) et la
+   largeur du bandeau : MESURE, une lettre de ces titres occupe au plus 0,66
+   fois le corps ; on compte 0,7, comme les tuiles. */
 .pv-hero-nom {
-  font-family: inherit;
-  margin: var(--espace-8) 0 var(--espace-4);
-  font-size: 1.625rem;
-  font-weight: 700;
-  line-height: 1.1;
+  margin: var(--espace-8) 0 var(--espace-16);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: min(var(--titre-page), calc((100cqi - 2 * var(--espace-16)) / (var(--mot, 8) * 0.7)));
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
 }
 .pv-hero-faits {
   display: flex;
   flex-wrap: wrap;
   gap: var(--espace-8);
-  margin: 0 0 var(--espace-16);
-  font-size: 0.75rem;
+  margin: 0 0 var(--espace-24);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   color: var(--voile-78);
 }
 .pv-hero-faits span + span::before {
@@ -1039,14 +1054,22 @@ a.pv-label:focus-visible {
   min-height: 52px;
   padding: 0 var(--espace-24);
   border: 0;
-  border-radius: 26px;
-  background: var(--encre-vive-2);
-  color: var(--fond);
+  border-radius: var(--rayon-carte);
+  /* EN JAUNE, comme les autres appels du site (« Choisir votre ville »,
+     Track ID) : il etait blanc, le seul bouton blanc du site (ADR-125). */
+  background: var(--accent);
+  color: var(--sur-accent);
   font: inherit;
-  font-family: inherit;
-  font-size: 0.875rem;
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
+  transition: background 160ms ease;
+}
+.pv-hero-play:hover {
+  background: var(--accent-jaune);
 }
 .pv-hero-play svg {
   width: 15px;
@@ -1064,7 +1087,7 @@ a.pv-label:focus-visible {
 .pv-alerte {
   margin: var(--espace-12) 0 0;
   padding: var(--espace-12) var(--espace-16);
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: oklch(var(--lt-45) 0.13 55 / 0.28);
   color: oklch(var(--lt-93) 0.05 70);
   font-size: 0.755rem;
@@ -1100,7 +1123,7 @@ a.pv-label:focus-visible {
   flex: none;
   width: 48px;
   height: 48px;
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   background: var(--leve-4);
 }
@@ -1178,23 +1201,31 @@ a.pv-label:focus-visible {
   /* Une liste de definitions porte des marges par defaut qui cassent la
      grille : on les remet a zero ici plutot que dans une regle globale. */
   padding: 0;
-  margin: var(--espace-16) 0 0;
+  margin: 0;
   display: grid;
-  gap: var(--espace-8);
+  border-bottom: 1px solid var(--filet);
 }
+/* UNE FICHE TECHNIQUE SUR FILETS, PLUS UNE BOITE (ADR-125) : chaque ligne
+   sous un filet fin, la cle en petit libelle, la valeur a sa droite. */
 .pv-fait {
   display: flex;
-  gap: var(--espace-8);
+  gap: var(--espace-16);
   align-items: baseline;
-  font-size: 0.75rem;
+  padding: var(--espace-12) 0;
+  border-top: 1px solid var(--filet);
+  font-size: 0.8125rem;
   line-height: 1.45;
 }
 /* « Tempo », « Machines », « Labels » : des mots isoles a 12 px, le cas type
    ou un serrage negatif colle les lettres. */
 .pv-fait-cle {
-  letter-spacing: var(--serrage-ui);
   flex: none;
-  min-width: 5.2rem;
+  min-width: 7rem;
+  font-family: var(--police-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   color: var(--encre-tierce-3);
 }
 .pv-fait-val {
@@ -1227,12 +1258,20 @@ a.pv-label:focus-visible {
   color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
+/* L'INTERTITRE D'UNE PAGE DE STYLE, comme ceux de l'Atlas et des Mixtapes :
+   capitales d'affiche sous un filet (ADR-125). */
 .pv-titre-liste {
-  letter-spacing: var(--serrage-ui);
-  margin: var(--espace-24) 0 var(--espace-4);
-  font-family: inherit;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  margin: var(--espace-48) 0 var(--espace-8);
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
 }
 
 .pv-sr {
@@ -1280,12 +1319,15 @@ a.pv-label:focus-visible {
     font-size: 0.875rem;
   }
   .pv-hero {
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 20px;
+    border-radius: var(--rayon-carte);
+  }
+  .pv-hero {
+    min-height: 340px;
+    display: flex;
+    align-items: flex-end;
   }
   .pv-hero-texte {
-    padding: var(--espace-32) var(--espace-32) var(--espace-32);
+    padding: var(--espace-48) 0 var(--espace-24);
   }
   /* LA DESCRIPTION RESTE SUR UNE COLONNE.
 
@@ -1396,9 +1438,6 @@ a.pv-label:focus-visible {
   .pv-article-titre {
     font-size: 1.3125rem;
   }
-  .pv-hero-nom {
-    font-size: 2.275rem;
-  }
   /* SUR GRAND ECRAN LA LOUPE OBEIT A DEUX CONTRAINTES, PAS UNE.
 
      Mesure a 2000 px : la grille de tuiles s'arretait a 1700, bord droit de
@@ -1436,7 +1475,7 @@ a.pv-label:focus-visible {
   gap: var(--espace-4);
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--voile-09);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-02);
   color: inherit;
   text-decoration: none;
@@ -1588,4 +1627,68 @@ a.pv-label:focus-visible {
   body .pv-corps {
     padding-bottom: var(--espace-24);
   }
+}
+
+/* ═══ LES GENRES D'UNE FAMILLE : UN INDEX SUR FILETS (ADR-125) ═══
+
+   Chaque genre etait une plaque de verre contenant une carte en degrade :
+   deux boites l'une dans l'autre, seize fois par page. La grille devient un
+   index, comme les portes de l'accueil : un filet au-dessus de chaque nom,
+   le nom en capitales d'affiche, l'annee dans la couleur de la famille, et
+   l'accent au survol. Les colonnes et leur largeur ne changent pas.
+
+   Ecrit en fin de feuille et qualifie par la grille : ces regles doivent
+   passer devant celles de la tuile, qui restent pour les familles. */
+.pv-grille-genres {
+  column-gap: var(--espace-24);
+  row-gap: 0;
+  border-bottom: 1px solid var(--filet);
+}
+.pv-grille-genres .pv-tuile {
+  min-height: 0;
+  padding: 0;
+  border-top: 1px solid var(--filet);
+  border-radius: 0;
+}
+.pv-grille-genres .pv-tuile-carte {
+  justify-content: flex-start;
+  padding: var(--espace-16) 0 var(--espace-24);
+  background: none;
+}
+.pv-grille-genres .pv-tuile-nom {
+  transition: color 160ms ease;
+}
+.pv-grille-genres .pv-tuile .pv-tuile-detail {
+  margin-top: var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-grille-genres .pv-tuile.pv-tuile-genre:hover {
+    transform: none;
+  }
+  .pv-grille-genres .pv-tuile.pv-tuile-genre:hover .pv-tuile-carte {
+    background: none;
+  }
+  .pv-grille-genres .pv-tuile.pv-tuile-genre:hover .pv-tuile-nom {
+    color: var(--accent);
+  }
+  .pv-grille-genres .pv-tuile.pv-tuile-genre:hover .pv-tuile-detail {
+    color: oklch(0.78 0.12 var(--teinte, 60));
+    opacity: 1;
+  }
+}
+.pv-grille-genres .pv-tuile.pv-tuile-genre:focus-visible .pv-tuile-carte {
+  background: none;
+}
+.pv-grille-genres .pv-tuile.pv-tuile-genre:focus-visible .pv-tuile-nom {
+  color: var(--accent);
+}
+.pv-grille-genres .pv-tuile.pv-tuile-genre:focus-visible .pv-tuile-detail {
+  color: oklch(0.78 0.12 var(--teinte, 60));
 }

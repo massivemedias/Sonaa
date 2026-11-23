@@ -35,12 +35,11 @@
 }
 .lb-nom {
   margin: 0;
-  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  font-size: var(--titre-page);
   font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  line-height: 0.86;
   text-wrap: balance;
-  color: var(--ink-primary);
+  color: var(--encre-vive);
 }
 .lb-faits {
   margin: 0;
@@ -191,7 +190,7 @@ a.lb-source {
   gap: var(--espace-12);
   align-items: center;
   padding: var(--espace-8);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   transition: background 160ms ease;
 }
 .lb-piste:hover,
@@ -204,7 +203,7 @@ a.lb-source {
   height: 52px;
   padding: 0;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   background: var(--voile-08);
   cursor: pointer;
@@ -266,7 +265,7 @@ a.lb-source {
 .lb-sorties-bloc {
   padding: var(--espace-16) var(--espace-16) var(--espace-24);
   border: 1px solid var(--filet);
-  border-radius: 20px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
 }
 .lb-sorties {
@@ -289,7 +288,7 @@ a.lb-source {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-08);
   margin-bottom: var(--espace-4);
   transition: transform 200ms ease;
@@ -340,7 +339,7 @@ a.lb-source {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-08);
   margin-bottom: var(--espace-4);
   transition: transform 200ms ease;
@@ -400,7 +399,7 @@ a.lb-source {
   gap: var(--espace-12);
   min-height: 44px;
   padding: var(--espace-8);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   color: inherit;
   text-decoration: none;
   background: var(--verre-fond);
@@ -414,7 +413,7 @@ a.lb-source {
   width: 72px;
   height: 48px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--rayon-carte);
 }
 .lb-news-texte {
   display: grid;
@@ -510,34 +509,70 @@ a.lb-source {
 .lbg-outils {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espace-8);
+  gap: var(--espace-8) var(--espace-32);
   align-items: center;
-  margin-top: var(--espace-8);
+  margin-top: var(--espace-16);
 }
+/* L'INTERTITRE DE L'INDEX DES LABELS, comme ceux des autres pages : capitales
+   d'affiche sous un filet (ADR-125). Sur la fiche d'un label, le petit
+   libelle reste. */
+.lbg .lbg-section > .lb-titre {
+  margin: 0 0 var(--espace-24);
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  color: var(--encre-vive);
+}
+/* DES CHAMPS A SIMPLE TRAIT ET DES MOTS SOULIGNES, comme les outils de
+   l'Atlas (ADR-121, ADR-125). Ils etaient quatre boites cote a cote. */
 .lbg-chercher,
-.lbg-pays,
-.lbg-qc {
+.lbg-pays {
   box-sizing: border-box;
   min-height: 44px;
-  padding: 0 var(--espace-16);
-  border: 1px solid var(--filet);
-  border-radius: var(--rayon-pilule);
-  background: var(--verre-fond);
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--filet-fort);
+  border-radius: 0;
+  background-color: transparent;
   color: var(--ink-primary);
   font: inherit;
   font-size: 0.875rem;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.lbg-chercher:hover,
+.lbg-pays:hover,
+.lbg-chercher:focus,
+.lbg-pays:focus {
+  border-bottom-color: var(--accent);
 }
 .lbg-qc {
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  transition: border-color 160ms ease, color 160ms ease;
+  color: var(--ink-secondary);
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
 }
 .lbg-qc:hover {
-  border-color: var(--accent);
+  color: var(--ink-primary);
 }
 .lbg-qc[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  color: var(--accent);
 }
 .lbg-chercher {
   flex: 1 1 16rem;
@@ -561,25 +596,30 @@ a.lb-source {
 }
 .lbg-tri {
   display: inline-flex;
-  padding: 3px;
-  border: 1px solid var(--filet);
-  border-radius: var(--rayon-pilule);
+  gap: var(--espace-24);
 }
 .lbg-tri button {
-  min-height: 36px;
-  padding: 0 var(--espace-16);
+  min-height: 44px;
+  padding: 0;
   border: 0;
-  border-radius: var(--rayon-pilule);
+  border-bottom: 2px solid transparent;
   background: none;
   color: var(--ink-secondary);
   font: inherit;
-  font-size: 0.8125rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.lbg-tri button:hover {
+  color: var(--ink-primary);
 }
 .lbg-tri button[aria-pressed='true'] {
-  background: var(--accent);
-  color: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  color: var(--accent);
 }
 
 .lbg-section {

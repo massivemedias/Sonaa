@@ -85,7 +85,7 @@
   gap: var(--espace-4);
   margin: 0 0 var(--espace-8);
   padding: var(--espace-4);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-05);
 }
 .pf .pf-onglet {
@@ -93,7 +93,7 @@
   min-height: 44px;
   padding: 0 var(--espace-16);
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   color: var(--ink-secondary);
 }
 .pf .pf-onglet:hover {
@@ -124,7 +124,7 @@
 .pf .pf-carte {
   margin-top: var(--espace-16);
   padding: var(--espace-24);
-  border-radius: 18px;
+  border-radius: var(--rayon-carte);
 }
 .pf-grille > .pf-carte {
   margin-top: var(--espace-16);
@@ -152,7 +152,7 @@
   gap: var(--espace-12);
   margin: 0 0 var(--espace-16);
   padding: var(--espace-12) var(--espace-16);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--accent-voile);
   color: var(--ink-primary);
   font-size: 0.92rem;
@@ -237,7 +237,7 @@
   height: 9rem;
   padding: 0;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: linear-gradient(120deg, var(--accent-voile), var(--voile-05));
 }
 .pf-banniere img {
@@ -297,7 +297,7 @@
   min-height: 40px;
   padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--filet);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   color: var(--encre-2);
   font-family: inherit;

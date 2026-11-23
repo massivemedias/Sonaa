@@ -14,12 +14,11 @@
 }
 /* Le titre est en encre pleine, comme tous les titres de section. */
 .news-manchette h1 {
-  margin: 0;
-  font-size: var(--titre-section);
+  margin: var(--espace-24) 0 0;
+  font-size: var(--titre-page);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-  color: var(--ink-primary);
+  line-height: 0.86;
+  color: var(--encre-vive);
 }
 .news-edition {
   margin: var(--espace-4) 0 var(--espace-8);
@@ -41,24 +40,33 @@
 .news-filtres {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espace-8);
+  gap: var(--espace-8) var(--espace-24);
   margin: 0 0 var(--espace-24);
 }
 .news-filtre {
-  padding: var(--espace-8) var(--espace-16);
-  border: 1px solid var(--filet);
-  border-radius: var(--rayon-pilule);
-  background: var(--verre-fond);
+  /* DES MOTS SOULIGNES, PLUS DES BOUTONS EN BOITE (ADR-125) : les types de
+     l'Atlas se choisissent ainsi depuis ADR-121. */
+  min-height: 40px;
+  padding: 0 0 var(--espace-4);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
   color: var(--ink-secondary);
   font: inherit;
-  font-size: 0.9rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.news-filtre:hover {
+  color: var(--ink-primary);
 }
 .news-filtre-actif {
-  color: var(--sur-accent);
-  background: var(--accent);
-  border-color: transparent;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .news-note {
@@ -85,7 +93,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
   transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -210,14 +218,16 @@
 .news-carte,
 .news-grand,
 .news-une {
-  padding: var(--espace-16);
+  /* SANS RETRAIT : l'article est pose sur le fond, son image s'aligne sur
+     la colonne (ADR-125). Le retrait venait de la boite de verre. */
+  padding: 0;
   border-radius: var(--rayon-carte);
   transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 400ms ease;
 }
 .news-carte .news-image,
 .news-grand .news-image,
 .news-une .news-image {
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -298,7 +308,7 @@
   flex-direction: column;
   gap: var(--espace-4);
   padding: var(--espace-16);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
 }
 .news-source-nom {
   font-weight: 600;
@@ -331,7 +341,7 @@
 .news-source-filtrer {
   padding: var(--espace-4) var(--espace-8);
   border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
@@ -464,7 +474,7 @@
   object-fit: contain;
   object-position: left center;
   margin: var(--espace-16) 0;
-  border-radius: 6px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
 }
 .lecture p {
@@ -534,7 +544,7 @@
 .lecture-suite-bouton {
   display: inline-block;
   padding: var(--espace-12) var(--espace-24);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   background: var(--ink-primary);
   color: var(--surface-plate);
   font-weight: 600;
@@ -609,7 +619,7 @@
   padding: var(--espace-8);
   margin: 0 calc(-1 * var(--espace-8));
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: inherit;
   font: inherit;
@@ -631,7 +641,7 @@
   width: 56px;
   height: 56px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
 }
 

@@ -671,6 +671,16 @@ La couleur d'une famille, d'un état ou d'une alerte passe par le texte, une
 petite forme (carré, losange) ou un aplat entier, jamais par un bord. Le
 contrôle `npm run check:crochets` le vérifie à chaque publication.
 
+**Plus de boîtes autour du contenu (23 novembre 2026,
+[ADR-125](docs/adr/ADR-125-l-affiche-partout.md)).** L'affiche de club
+d'ADR-117 vaut sur toutes les pages. Le verre dépoli ne sert plus qu'à ce
+qui flotte (barres, menus, feuilles, mini-lecteur) ; une carte de contenu
+est posée sur le fond et séparée par des filets. Tous les coins lisent les
+jetons de 2 px, sauf les vrais cercles. Un titre de page est en capitales
+d'affiche à `--titre-page`, un intertitre sous un filet à
+`--titre-intertitre`. Un filtre est un mot souligné ou un champ à simple
+trait, jamais une pilule.
+
 **Révisé le 21 septembre 2026, et c'est un renversement.** La première ligne de
 cette section interdisait le dégradé violet-bleu, les cartes arrondies à ombre
 portée, le glassmorphism et le grand chiffre à petit label. Elle a été opposée

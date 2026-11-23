@@ -48,7 +48,7 @@
   right: 0;
   bottom: -1px;
   height: 3px;
-  border-radius: 3px 3px 0 0;
+  border-radius: var(--rayon-carte) var(--rayon-carte) 0 0;
   background: var(--accent);
 }
 .mq-vues .mq-vue:hover {
@@ -128,7 +128,7 @@
   height: 100%;
   padding: var(--espace-16);
   border: 1px solid var(--filet);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   transition: border-color 160ms ease, background 160ms ease;
 }
@@ -364,14 +364,14 @@ a.mq-puce:hover {
   width: fit-content;
   margin: 0 0 var(--espace-24);
   padding: var(--espace-4);
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-05);
 }
 .mq-genre {
   min-height: 38px;
   padding: 0 var(--espace-16);
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-secondary);
   font: inherit;
@@ -473,7 +473,7 @@ a.mq-puce:hover {
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-05);
 }
 .mq-video-image {
@@ -541,7 +541,7 @@ a.mq-puce:hover {
   width: 100%;
   padding: var(--espace-12);
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
@@ -589,7 +589,7 @@ a.mq-puce:hover {
   gap: var(--espace-12);
   align-items: start;
   padding: var(--espace-12);
-  border-radius: 12px;
+  border-radius: var(--rayon-carte);
 }
 .mq-discussion-icone {
   width: 18px;
@@ -610,7 +610,7 @@ a.mq-puce:hover {
   justify-content: space-between;
   gap: var(--espace-16);
   padding: var(--espace-16) var(--espace-24);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--accent-voile);
 }
 .mq-invitation p {

@@ -25,16 +25,20 @@
 .rc-bouton {
   position: relative;
   overflow: visible;
-  min-width: 15rem;
-  min-height: 3.8rem;
+  /* LE GESTE DE LA PAGE, EN GRAND, dans le libelle des boutons du site :
+     petites capitales espacees sur l'aplat jaune (ADR-125). */
+  min-width: 18rem;
+  min-height: 4.5rem;
   padding: 0 var(--espace-32);
   border: 1px solid transparent;
   border-radius: var(--rayon-pilule);
   background: var(--accent);
   color: var(--sur-accent);
-  font-family: var(--font-ui);
-  font-size: 1.1rem;
+  font-family: var(--police-mono);
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
   transition: filter 160ms ease, transform 160ms ease;
 }
@@ -177,7 +181,7 @@
   width: 120px;
   height: 120px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--surface-margin);
 }
 .rc-morceau-texte {
@@ -242,7 +246,7 @@
   gap: var(--espace-12);
   align-items: center;
   padding: var(--espace-12);
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   background: var(--voile-06);
   border: 1px solid var(--filet);
   font-size: 0.9rem;
@@ -253,7 +257,7 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: 10px;
+  border-radius: var(--rayon-carte);
   overflow: hidden;
   background: var(--surface-margin);
   color: var(--ink-secondary);
@@ -345,7 +349,7 @@
 .rc-refus,
 .rc-accord {
   padding: var(--espace-8) var(--espace-16);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -404,14 +408,14 @@
   gap: var(--espace-24);
   align-items: start;
   padding: var(--espace-24);
-  border-radius: 22px;
+  border-radius: var(--rayon-carte);
 }
 .rc-fiche-pochette img,
 .rc-fiche-vide {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 16px;
+  border-radius: var(--rayon-carte);
   object-fit: cover;
   background: var(--surface-margin);
 }
@@ -488,7 +492,7 @@
   display: inline-flex;
   align-items: center;
   padding: var(--espace-12) var(--espace-16);
-  border-radius: 999px;
+  border-radius: var(--rayon-carte);
   border: 1px solid var(--filet);
   color: var(--ink-primary);
   font-weight: 600;
@@ -503,4 +507,26 @@
   .rc-geste {
     min-height: 44px;
   }
+}
+
+/* L'INTERTITRE DES ECOUTES PASSEES, comme ceux des autres pages : capitales
+   d'affiche (ADR-125). Le petit libelle gris des pages document ne tenait
+   pas sous un bouton de cette taille. */
+.rc .credits-body h2.rc-titre {
+  margin: var(--espace-32) 0 var(--espace-16);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
+}
+/* Le bouton loge dans l'intertitre garde le corps d'un libelle. */
+.rc .credits-body h2.rc-titre button {
+  font-family: var(--police-mono);
+  font-stretch: 100%;
+  font-size: 0.72rem;
+  line-height: 1.3;
 }
