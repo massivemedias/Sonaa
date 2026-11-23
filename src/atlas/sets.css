@@ -16,19 +16,27 @@
   width: 100%;
 }
 
-/* UN VOILE PLAT, SANS FLOU : le bloc n'est pas dans la liste du verre, il
-   prend le fond de verre et un filet, lus dans les jetons. */
+/* UN BLOC DE FORMULAIRE SUR LE FOND, OUVERT PAR UN FILET (ADR-125). Il
+   etait une boite au fond de verre cernee d'un filet ; le profil, ses
+   soirees et l'administration en empilaient quatre ou cinq par page. Son
+   titre passe en capitales d'affiche. */
 .sets-bloc {
   margin: var(--espace-32) 0 0;
-  padding: var(--espace-16) var(--espace-24) var(--espace-24);
-  border: 1px solid var(--filet);
-  border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
+  padding: var(--espace-24) 0 0;
+  border: 0;
+  border-top: 1px solid var(--filet-fort);
+  border-radius: 0;
+  background: none;
 }
 .sets-bloc h2 {
   margin: 0 0 var(--espace-16);
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-size: var(--titre-rangee);
+  font-weight: 850;
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
 }
 
 /* --- L'identite --------------------------------------------------------- */
@@ -108,9 +116,9 @@
 .sp-label textarea,
 .sp-label input[type='file'] {
   padding: var(--espace-8) var(--espace-12);
-  border: 1px solid var(--filet);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
+  background: none;
   color: var(--encre-2);
   font-family: inherit;
   font-size: 0.9375rem;
@@ -126,6 +134,10 @@
    `calc(1em + 2px)` et non 17 px : le texte fait 15 px sur ordinateur et 14
    sur telephone, une valeur absolue serait juste d'un cote et fausse de
    l'autre. */
+.sp-label :is(input, textarea):focus {
+  border-color: var(--accent);
+  outline: none;
+}
 .sp-label textarea {
   resize: vertical;
   line-height: calc(1em + 2px);
@@ -143,13 +155,18 @@
 
 .sp-action {
   justify-self: start;
-  padding: var(--espace-8) var(--espace-16);
+  min-height: 44px;
+  padding: 0 var(--espace-24);
   border: none;
   border-radius: var(--rayon-pilule);
   /* L'accent, en plein : ce qui se presse le porte. */
   background: var(--accent);
   color: var(--sur-accent);
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
 }
 .sp-action:disabled {

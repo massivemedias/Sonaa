@@ -865,7 +865,6 @@ interface Dictionnaire {
   readonly jAimeMot: string;
   readonly voirLeProfil: string;
   readonly dAutresMixtapes: string;
-  readonly mixtapeMot: string;
   readonly reelTitre: string;
   readonly reelAide: string;
   readonly reelDebut: (t: string) => string;
@@ -2021,7 +2020,6 @@ const FR: Dictionnaire = {
   jAimeMot: 'J’aime',
   voirLeProfil: 'Voir le profil',
   dAutresMixtapes: 'D’autres mixtapes',
-  mixtapeMot: 'Mixtape',
   reelTitre: 'Créer un reel',
   reelAide:
     'Une vidéo verticale d’une minute, avec la pochette, le titre, la description et un extrait de la mixtape. ' +
@@ -3210,7 +3208,6 @@ const EN: Dictionnaire = {
   jAimeMot: 'Likes',
   voirLeProfil: 'See profile',
   dAutresMixtapes: 'More mixtapes',
-  mixtapeMot: 'Mixtape',
   reelTitre: 'Make a reel',
   reelAide:
     'A one minute vertical video with the cover, the title, the description and an excerpt of the mixtape. ' +
