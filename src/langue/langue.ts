@@ -554,6 +554,16 @@ interface Dictionnaire {
   readonly labelsSceneQuebec: (n: number) => string;
   readonly labelsFiltreQuebec: (n: number) => string;
   readonly labelQuebecCanada: string;
+  readonly labelsCarteTitre: string;
+  readonly labelsCarteSousTitre: (nLabels: number, nPays: number) => string;
+  readonly labelsZoneMonde: string;
+  readonly labelsZoneMontreal: string;
+  readonly labelsZoneAmeriques: string;
+  readonly labelsZoneEurope: string;
+  readonly labelsZoneAsieAfrique: string;
+  readonly labelMaisonMere: (lieu: string) => string;
+  readonly labelVoirFiche: string;
+  readonly labelVoirSurCarte: string;
   readonly labelsTous: (n: number) => string;
   readonly labelLogoCredit: (credit: string) => string;
   readonly labelDansLeStyle: (style: string, n: number) => string;
@@ -1705,6 +1715,17 @@ const FR: Dictionnaire = {
   labelsSceneQuebec: (n) => `Labels du Québec (${n})`,
   labelsFiltreQuebec: (n) => `Québec (${n})`,
   labelQuebecCanada: 'Québec, Canada',
+  labelsCarteTitre: 'Carte mondiale des maisons mères',
+  labelsCarteSousTitre: (nLabels, nPays) =>
+    `${nLabels.toLocaleString('fr-CA')} maisons mères géolocalisées dans ${nPays} pays, là où chaque label électronique est établi même lorsque ses artistes sont internationaux.`,
+  labelsZoneMonde: 'Monde',
+  labelsZoneMontreal: 'Montréal & Québec',
+  labelsZoneAmeriques: 'Amériques',
+  labelsZoneEurope: 'Europe',
+  labelsZoneAsieAfrique: 'Asie, Afrique & Océanie',
+  labelMaisonMere: (lieu) => `Maison mère : ${lieu}`,
+  labelVoirFiche: 'Ouvrir la fiche du label',
+  labelVoirSurCarte: 'Voir la maison mère sur la carte',
   labelsTous: (n) => `Tous les labels (${n})`,
   labelLogoCredit: (credit) => `Logo : ${credit}`,
   labelDansLeStyle: (style, n) => `${style} : ${n} morceau${n > 1 ? 'x' : ''} dans l’atlas`,
@@ -2893,6 +2914,17 @@ const EN: Dictionnaire = {
   labelsSceneQuebec: (n) => `Quebec labels (${n})`,
   labelsFiltreQuebec: (n) => `Quebec (${n})`,
   labelQuebecCanada: 'Quebec, Canada',
+  labelsCarteTitre: 'World map of label headquarters',
+  labelsCarteSousTitre: (nLabels, nPays) =>
+    `${nLabels.toLocaleString('en-CA')} headquarters mapped across ${nPays} countries, showing where each electronic music label is based even when its roster is international.`,
+  labelsZoneMonde: 'World',
+  labelsZoneMontreal: 'Montreal & Quebec',
+  labelsZoneAmeriques: 'Americas',
+  labelsZoneEurope: 'Europe',
+  labelsZoneAsieAfrique: 'Asia, Africa & Oceania',
+  labelMaisonMere: (lieu) => `Headquarters: ${lieu}`,
+  labelVoirFiche: 'Open label page',
+  labelVoirSurCarte: 'Show headquarters on map',
   labelsTous: (n) => `All labels (${n})`,
   labelLogoCredit: (credit) => `Logo: ${credit}`,
   labelDansLeStyle: (style, n) => `${style}: ${n} track${n > 1 ? 's' : ''} in the atlas`,

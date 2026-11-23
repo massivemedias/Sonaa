@@ -79,6 +79,12 @@ export interface FicheLabel extends ActuDuLabel {
   readonly pays: string | null;
   /** Label fonde ou etabli au Quebec (Montreal, Quebec, etc.). */
   readonly quebec?: boolean;
+  /** Ville de la maison mere (siege social), meme si les artistes sont internationaux. */
+  readonly ville?: { readonly fr: string; readonly en: string } | null;
+  readonly latitude?: number | null;
+  readonly longitude?: number | null;
+  /** Label generaliste hors musique electronique : conserve en archive, masque de la galerie. */
+  readonly horsElectronique?: boolean;
   readonly annee: number | null;
   readonly fondateurs: readonly string[];
   readonly site: string | null;
@@ -132,6 +138,10 @@ export interface EntreeLabel {
   readonly p: string | null;
   /** 1 si le label appartient a la scene electronique du Quebec. */
   readonly q?: 1;
+  /** Ville de la maison mere (siege social). */
+  readonly v?: { readonly fr: string; readonly en: string } | null;
+  /** Coordonnees GPS [latitude, longitude] de la maison mere. */
+  readonly g?: readonly [number, number] | null;
   readonly a: number | null;
   /** L'adresse du logo, pour la galerie et la recherche. */
   readonly l?: string | null;
@@ -210,6 +220,10 @@ const CODES_DES_PAYS: Readonly<Record<string, string>> = {
   Égypte: 'EG', 'Corée du Sud': 'KR', Hongrie: 'HU', Islande: 'IS', 'Émirats arabes unis': 'AE', Danemark: 'DK', Suisse: 'CH',
   Autriche: 'AT', Irlande: 'IE', Portugal: 'PT', Pologne: 'PL', Russie: 'RU', Brésil: 'BR', Mexique: 'MX', Grèce: 'GR',
   'Afrique du Sud': 'ZA', 'Nouvelle-Zélande': 'NZ', Israël: 'IL', Inde: 'IN', Chine: 'CN', Argentine: 'AR', Tchéquie: 'CZ',
+  Ukraine: 'UA', Slovénie: 'SI', Ouganda: 'UG', Colombie: 'CO', 'Arabie saoudite': 'SA', Géorgie: 'GE', Serbie: 'RS',
+  Roumanie: 'RO', Lituanie: 'LT', Bulgarie: 'BG', Turquie: 'TR', Chili: 'CL', Équateur: 'EC', 'Costa Rica': 'CR',
+  Taïwan: 'TW', 'Hong Kong': 'HK', Thaïlande: 'TH', Philippines: 'PH', Malaisie: 'MY', Indonésie: 'ID', Chypre: 'CY',
+  Venezuela: 'VE', Singapour: 'SG', Estonie: 'EE', Lettonie: 'LV', Maroc: 'MA', Pérou: 'PE', Uruguay: 'UY',
 };
 
 export function nomDuPays(pays: string, langue: string): string {
@@ -220,6 +234,27 @@ export function nomDuPays(pays: string, langue: string): string {
   } catch {
     return pays;
   }
+}
+
+/** Formate l'emplacement de la maison mere d'un label (ville + province/pays). */
+export function lieuMaisonMere(
+  ville: { readonly fr: string; readonly en: string } | null | undefined,
+  pays: string | null | undefined,
+  quebec: boolean | undefined,
+  langue: string
+): string | null {
+  const v = ville ? (langue === 'en' ? ville.en : ville.fr) : null;
+  const p = pays ? nomDuPays(pays, langue) : null;
+  if (v && p) {
+    if (v.toLowerCase().includes(p.toLowerCase())) return v;
+    if (quebec && !/qu[eé]bec/i.test(v)) {
+      return `${v}, ${langue === 'en' ? 'Quebec' : 'Québec'}, ${p}`;
+    }
+    return `${v}, ${p}`;
+  }
+  if (v) return v;
+  if (quebec) return langue === 'en' ? 'Quebec, Canada' : 'Québec, Canada';
+  return p;
 }
 
 /* LES LABELS D'UN STYLE. Mika, le 1er octobre 2026 : « dans les styles,

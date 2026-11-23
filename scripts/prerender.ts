@@ -37,7 +37,7 @@ import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
-import { actuSansReeditions, cleDeLabel, labelsDuStyle, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { actuSansReeditions, cleDeLabel, labelsDuStyle, lieuMaisonMere, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
 import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from '../src/data/lieux-et-festivals.ts';
 import { MARQUES, type GroupeMarque } from '../src/data/marques.ts';
 import type { Motif } from '../src/lib/rythmes.ts';
@@ -1395,9 +1395,9 @@ const ACTU_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels-actu.js
   ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels-actu.json', import.meta.url)), 'utf8')) as Record<string, ActuDuLabel>)
   : {};
 const FICHES_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)))
-  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[]).map(
-      (f): FicheLabel => ({ ...f, ...actuSansReeditions(ACTU_LABELS[f.slug]) })
-    )
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[])
+      .filter((f) => !f.horsElectronique)
+      .map((f): FicheLabel => ({ ...f, ...actuSansReeditions(ACTU_LABELS[f.slug]) }))
   : [];
 const morceauxParCle = new Map<string, { titre: string; artiste: string; annee: number | null; genre: string; chemin: string }[]>();
 FAMILIES.forEach((f, fi) => {
@@ -1439,8 +1439,8 @@ if (FICHES_LABELS.length > 0) {
 
 for (const f of FICHES_LABELS) {
   const morceaux = f.cles.flatMap((k) => morceauxParCle.get(k) ?? []);
-  const lieuFr = f.quebec ? 'Québec, Canada' : f.pays;
-  const lieuEn = f.quebec ? 'Quebec, Canada' : f.pays;
+  const lieuFr = lieuMaisonMere(f.ville, f.pays, f.quebec, 'fr');
+  const lieuEn = lieuMaisonMere(f.ville, f.pays, f.quebec, 'en');
   const faits = [lieuFr, f.annee ? `fondé en ${f.annee}` : null, f.fondateurs.length > 0 ? `par ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
   const resume = f.resume.fr ?? f.resume.en ?? f.profil ?? '';
   const aPageEn = Boolean(f.resume.en);

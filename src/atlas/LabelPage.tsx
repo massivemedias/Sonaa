@@ -28,7 +28,8 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
-import { actuSansReeditions, cleDeLabel, estMajor, nomDuPays, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { actuSansReeditions, cleDeLabel, estMajor, lieuMaisonMere, nomDuPays, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { CarteLabels } from './CarteLabels.tsx';
 import { SOURCES } from '../data/news-sources.ts';
 import { slug } from '../lib/chemins.ts';
 import INDEX from '../data/labels-index.json';
@@ -38,9 +39,12 @@ import './credits.css';
 import './label.css';
 
 const ENTREES = INDEX as readonly EntreeLabel[];
+const SLUGS_ENTREES = new Set(ENTREES.map((e) => e.s));
 /* Les dernieres sorties des labels connus, voir scripts/lib/actu-labels.ts
-   (sortiesALaUne) ; les memes que sur l'accueil. */
-const UNE = (SORTIES_UNE as { sorties: readonly { titre: string; artiste: string; image: string | null; url: string; label: string; slug: string }[] }).sorties;
+   (sortiesALaUne) ; les memes que sur l'accueil, filtrees aux labels electroniques. */
+const UNE = (SORTIES_UNE as { sorties: readonly { titre: string; artiste: string; image: string | null; url: string; label: string; slug: string }[] }).sorties.filter(
+  (s) => SLUGS_ENTREES.has(s.slug)
+);
 const FORMAT_JOUR = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', { day: 'numeric', month: 'short', year: 'numeric' });
 const PAQUET_GALERIE = 60;
 
@@ -55,7 +59,7 @@ const chargerToutes = (): Promise<readonly FicheLabel[]> => {
   toutes ??= Promise.all([import('../data/labels.json'), import('../data/labels-actu.json')]).then(([m, a]) => {
     const fiches = (m.default ?? m) as unknown as readonly FicheLabel[];
     const actu = (a.default ?? a) as unknown as Record<string, ActuDuLabel>;
-    return fiches.map((f) => ({ ...f, ...actuSansReeditions(actu[f.slug]) }));
+    return fiches.filter((f) => !f.horsElectronique).map((f) => ({ ...f, ...actuSansReeditions(actu[f.slug]) }));
   });
   return toutes;
 };
@@ -181,8 +185,8 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
   const resume = langue === 'en' ? (fiche.resume.en ?? fiche.resume.fr) : (fiche.resume.fr ?? fiche.resume.en);
   const langueDuResume = langue === 'en' ? (fiche.resume.en ? 'en' : 'fr') : fiche.resume.fr ? 'fr' : 'en';
   const wiki = langueDuResume === 'fr' ? (fiche.wiki.fr ?? fiche.wiki.en) : (fiche.wiki.en ?? fiche.wiki.fr);
-  const lieu = fiche.quebec ? t.labelQuebecCanada : fiche.pays ? nomDuPays(fiche.pays, langue) : null;
-  const faits = [lieu, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
+  const lieu = lieuMaisonMere(fiche.ville, fiche.pays, fiche.quebec, langue);
+  const faits = [lieu ? t.labelMaisonMere(lieu) : null, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
     (x): x is string => Boolean(x)
   );
 
@@ -218,6 +222,9 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
             <a href={fiche.discogs} target="_blank" rel="noreferrer noopener">
               {t.labelVoirDiscogs}
             </a>
+          )}
+          {fiche.latitude != null && fiche.longitude != null && (
+            <a href={`#/labels?carte=${fiche.slug}`}>{t.labelVoirSurCarte}</a>
           )}
         </p>
         {fiche.logo?.source === 'commons' && fiche.logo.credit && fiche.logo.page && (
@@ -403,15 +410,23 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
    tri A a Z, un filtre par pays. En tete, les huit incontournables en
    grand. */
 function Galerie() {
-  const lirePaysInitial = (): string => /[?&]pays=([^&#]+)/.exec(window.location.hash)?.[1] ?? '';
+  const lirePaysInitial = (): string => decodeURIComponent(/[?&]pays=([^&#]+)/.exec(window.location.hash)?.[1] ?? '');
+  const lireCarteInitiale = (): string | null => /[?&]carte=([^&#]+)/.exec(window.location.hash)?.[1] ?? null;
   const [terme, setTerme] = useState('');
   const [tri, setTri] = useState<'connus' | 'alpha'>('connus');
   const [pays, setPays] = useState(lirePaysInitial);
+  const [slugCible, setSlugCible] = useState<string | null>(lireCarteInitiale);
   useEffect(() => {
     document.title = `${t.lesLabels} · SONAA`;
+    const suivre = (): void => {
+      setSlugCible(lireCarteInitiale());
+    };
+    window.addEventListener('hashchange', suivre);
+    return () => window.removeEventListener('hashchange', suivre);
   }, []);
 
   const quebecLabels = useMemo(() => ENTREES.filter((e) => e.q === 1).sort(ordreDeNotoriete), []);
+  const totalMaisonsMeres = useMemo(() => ENTREES.filter((e) => Boolean(e.g)).length, []);
 
   const lesPays = useMemo(() => {
     const n = new Map<string, number>();
@@ -455,7 +470,7 @@ function Galerie() {
   }, [combien, reste.length]);
 
   const carte = (e: EntreeLabel, grande: boolean) => {
-    const lieu = e.q === 1 ? t.labelQuebecCanada : e.p ? nomDuPays(e.p, langue) : null;
+    const lieu = lieuMaisonMere(e.v, e.p, e.q === 1, langue);
     return (
       <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
         <a href={`#/labels/${e.s}`}>
@@ -511,6 +526,14 @@ function Galerie() {
           </select>
         </div>
       </header>
+
+      <CarteLabels
+        entrees={liste}
+        totalGlobal={totalMaisonsMeres}
+        nbPaysGlobal={lesPays.length}
+        filtreActif={Boolean(terme || pays)}
+        slugCible={slugCible}
+      />
 
       {uneVue && UNE.length > 0 && (
         <div className="lbg-section">

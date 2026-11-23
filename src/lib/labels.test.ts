@@ -2,7 +2,9 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, nomsDeLabels, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
+import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, lieuMaisonMere, nomsDeLabels, nomDuPays, ordreDeNotoriete, type EntreeLabel, type FicheLabel } from './labels.ts';
+import INDEX_REEL from '../data/labels-index.json';
+import FICHES_REELLES from '../data/labels.json';
 
 const index: EntreeLabel[] = [
   { s: 'f-communications', n: 'F Communications', k: ['f communications'], c: 1, p: 'France', a: 1994 },
@@ -79,5 +81,42 @@ describe('les noms d une case de fiche', () => {
     expect(nomsDeLabels('Ilian Tape (parenté)')).toEqual(['Ilian Tape']);
     expect(nomsDeLabels('Oasis/Casablanca')).toEqual(['Oasis', 'Casablanca']);
     expect(nomsDeLabels('genre éteint ; quelques rééditions et hommages dispersés')).toEqual([]);
+  });
+});
+
+describe('maisons meres et purete 100 % musique electronique', () => {
+  it('formate proprement la maison mere en francais et en anglais', () => {
+    expect(lieuMaisonMere({ fr: 'Montréal, Québec', en: 'Montreal, Quebec' }, 'Canada', true, 'fr')).toBe(
+      'Montréal, Québec, Canada'
+    );
+    expect(lieuMaisonMere({ fr: 'Montréal, Québec', en: 'Montreal, Quebec' }, 'Canada', true, 'en')).toBe(
+      'Montreal, Quebec, Canada'
+    );
+    expect(lieuMaisonMere({ fr: 'Berlin', en: 'Berlin' }, 'Allemagne', false, 'en')).toBe('Berlin, Germany');
+  });
+
+  it('geolocalise VRSTL Records a Montreal (Canada) et exclut les majors hors electronique', () => {
+    const entrees = INDEX_REEL as unknown as readonly EntreeLabel[];
+    const fiches = FICHES_REELLES as unknown as readonly FicheLabel[];
+
+    expect(entrees.length).toBeGreaterThanOrEqual(1420);
+    const geoloc = entrees.filter((e) => Array.isArray(e.g) && e.g.length === 2);
+    expect(geoloc.length).toBeGreaterThanOrEqual(1380);
+
+    const vrstlIdx = entrees.find((e) => e.s === 'vrstl-records');
+    const vrstlFiche = fiches.find((f) => f.slug === 'vrstl-records');
+    expect(vrstlIdx).toBeDefined();
+    expect(vrstlIdx?.p).toBe('Canada');
+    expect(vrstlIdx?.q).toBe(1);
+    expect(vrstlIdx?.v?.fr).toContain('Montréal');
+    expect(vrstlIdx?.g?.[0]).toBeCloseTo(45.5017, 1);
+    expect(vrstlIdx?.g?.[1]).toBeCloseTo(-73.5673, 1);
+    expect(vrstlFiche?.resume.fr).toContain('Amérique du Sud');
+
+    /* Aucun label generaliste hors electronique (Sony, Universal, Columbia, Motown, Blue Note) dans l'index public. */
+    for (const horsSlug of ['sony-music', 'universal-music-group', 'columbia', 'motown', 'alligator-records', 'blue-note']) {
+      expect(entrees.find((e) => e.s === horsSlug)).toBeUndefined();
+      expect(fiches.find((f) => f.slug === horsSlug)?.horsElectronique).toBe(true);
+    }
   });
 });

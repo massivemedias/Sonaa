@@ -135,6 +135,9 @@ interface AjoutLabel {
   readonly nom: string;
   readonly pays: string;
   readonly quebec?: boolean;
+  readonly ville?: { readonly fr: string; readonly en: string };
+  readonly latitude?: number;
+  readonly longitude?: number;
   readonly annee?: number;
   readonly fondateurs: readonly string[];
   readonly site: string;
@@ -150,13 +153,16 @@ const AJOUTS: readonly AjoutLabel[] = [
     nom: 'VRSTL Records',
     pays: 'Canada',
     quebec: true,
+    ville: { fr: 'Montréal, Québec', en: 'Montreal, Quebec' },
+    latitude: 45.5017,
+    longitude: -73.5673,
     annee: 2024,
     fondateurs: ['Maudite Machine'],
     site: 'https://vrstlrecords.com',
     discogsId: 3752945,
     resume: {
-      fr: "Label montréalais fondé en 2024 par le producteur et compositeur de musique électronique Maudite Machine, dédié à la dark disco, à l'indie dance et aux rythmes électroniques hypnotiques.",
-      en: 'Montreal-based record label founded in 2024 by electronic music producer and composer Maudite Machine, dedicated to dark disco, indie dance and hypnotic club electronics.',
+      fr: "Label indépendant montréalais fondé en 2024 par le producteur et compositeur de musique électronique Maudite Machine, dédié à la dark disco, à l'indie dance, à la darkwave et aux rythmes club hypnotiques, réunissant des artistes du Québec, d'Amérique du Sud (Argentine, Brésil) et d'Europe (Alex Decker, Manüman, Julián Rocchi, Jabba 2.3, Lealtica, Audio Sin, Thomas' Church).",
+      en: "Montreal-based independent record label founded in 2024 by electronic music producer and composer Maudite Machine, dedicated to dark disco, indie dance, darkwave and hypnotic club electronics, showcasing artists from Quebec, South America (Argentina, Brazil) and Europe (Alex Decker, Manüman, Julián Rocchi, Jabba 2.3, Lealtica, Audio Sin, Thomas' Church).",
     },
   },
   {
@@ -2464,9 +2470,13 @@ for (const { l, wd } of retenus) {
     cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? []), ...(ajout?.cles ?? [])])],
     anciens: [...new Set([...(anciens.get(l.cle) ?? []), ...(ajout?.anciens ?? [])])],
     n: l.n,
-    pays: ajout?.quebec ? 'Canada' : (wd?.pays ?? ajout?.pays ?? null),
+    pays: ajout?.quebec ? 'Canada' : (wd?.pays ?? avant?.pays ?? ajout?.pays ?? null),
     ...(avant?.quebec || ajout?.quebec ? { quebec: true } : {}),
-    annee: wd?.annee ?? ajout?.annee ?? null,
+    ...(avant?.horsElectronique ? { horsElectronique: true } : {}),
+    ville: ajout?.ville ?? avant?.ville ?? null,
+    latitude: ajout?.latitude ?? avant?.latitude ?? null,
+    longitude: ajout?.longitude ?? avant?.longitude ?? null,
+    annee: wd?.annee ?? avant?.annee ?? ajout?.annee ?? null,
     fondateurs: wd && (fondateurs.get(wd.item)?.length ?? 0) > 0 ? (fondateurs.get(wd.item) ?? []) : (ajout?.fondateurs ?? []),
     site: wd?.site ?? ajout?.site ?? null,
     wiki: { ...(wd?.frwiki ? { fr: wd.frwiki } : {}), ...(wd?.enwiki ? { en: wd.enwiki } : {}) },
@@ -2507,14 +2517,39 @@ for (const groupe of parDiscogs.values()) {
   for (const f of autres) fiches.delete(f.slug);
 }
 
+/* Conserve les fiches enrichies hors corpus lors des moissons nocturnes. */
+if (!SEULEMENT && !REFAIRE) {
+  for (const [s, f] of deja) {
+    if (!fiches.has(s)) fiches.set(s, f);
+  }
+}
+
 const tout = [...fiches.values()].sort((a, b) => a.nom.localeCompare(b.nom));
 writeFileSync(SORTIE, `${JSON.stringify(tout, null, 1)}\n`);
-/* L'INDEX DE LA RECHERCHE, a part et minuscule : la recherche le charge a
-   chaque ouverture, et n'a besoin que du nom, des cles et de l'adresse. La
-   fiche entiere ne se charge que sur la page du label. */
+/* L'INDEX DE LA RECHERCHE, a part et minuscule : la recherche et la carte des
+   maisons meres le chargent a chaque ouverture, uniquement pour les labels
+   100 % electroniques. */
 writeFileSync(
   INDEX,
-  `${JSON.stringify(tout.map((f) => ({ s: f.slug, n: f.nom, k: f.cles, c: f.n, p: f.pays, ...(f.quebec ? { q: 1 as const } : {}), a: f.annee, l: f.logo?.url ?? null, r: succes(f) })))}\n`
+  `${JSON.stringify(
+    tout
+      .filter((f) => !f.horsElectronique)
+      .map((f) => ({
+        s: f.slug,
+        n: f.nom,
+        k: f.cles,
+        c: f.n,
+        p: f.pays,
+        ...(f.quebec ? { q: 1 as const } : {}),
+        ...(f.ville ? { v: f.ville } : {}),
+        ...(f.latitude != null && f.longitude != null
+          ? { g: [Number(f.latitude.toFixed(4)), Number(f.longitude.toFixed(4))] as const }
+          : {}),
+        a: f.annee,
+        l: f.logo?.url ?? null,
+        r: succes(f),
+      }))
+  )}\n`
 );
 const avecResume = tout.filter((f) => f.resume.fr || f.resume.en || f.profil).length;
 const avecSorties = tout.filter((f) => f.sorties.length > 0).length;
