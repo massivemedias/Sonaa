@@ -63,6 +63,7 @@ revenir à un ancien commit.
 
 ## Où lire le reste
 
+- `contexte.md` : état à jour des chantiers en cours (styles, labels, festivals, calendrier).
 - `ARCHITECTURE.md` : les décisions ADR-001 à ADR-083.
 - `docs/adr/` : une décision par fichier, à partir d'ADR-084.
 - `DESIGN.md` : la direction artistique et ses interdits.
