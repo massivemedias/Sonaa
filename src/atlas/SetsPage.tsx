@@ -485,7 +485,6 @@ function PageDUnSet({ id }: { id: string }) {
   }
 
   const pochette = urlPochette(set.cover_path);
-  const image = pochette ?? urlAvatar(set.artiste_avatar);
   const styles = (set.genre_ids ?? []).map(styleDuGenre).filter((x): x is StyleDuSet => x !== null);
 
   return (
@@ -494,12 +493,12 @@ function PageDUnSet({ id }: { id: string }) {
       <main className="credits sets-page mx-page">
         <RetourAuxMixtapes libelle={t.lesMixtapesTitre} />
 
+        {/* PLUS DE SURTITRE NI DE POCHETTE FLOUTEE EN FOND (ADR-125) : le mot
+            « Mixtape » au-dessus du titre etait un surtitre de gabarit, et le
+            flou peignait le bandeau d'un lavis. Le titre parle seul, la
+            pochette est montree nette a droite. */}
         <header className="mx-tete">
-          <div className="mx-tete-fond" aria-hidden="true">
-            {image && <img src={image} alt="" />}
-          </div>
           <div className="mx-tete-mots">
-            <p className="mx-surtitre">{t.mixtapeMot}</p>
             <h1 className="mx-titre">{set.titre}</h1>
             <a className="mx-tete-artiste" href={`#/mixtapes/a/${set.user_id}`}>
               {set.artiste_nom ?? t.artisteSansNom}

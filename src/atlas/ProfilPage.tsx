@@ -471,10 +471,10 @@ export function ProfilPage() {
             on arrive sur cette page sans compte, et un texte qui dit
             « connectez-vous » sans rien a presser renvoie chercher ou. Il
             demande le panneau commun plutot que d'en dessiner un second. */}
-        <p>
+        <p className="pf-connexion">
           <button
             type="button"
-            className="contrib-primaire"
+            className="sp-action"
             onClick={() => window.dispatchEvent(new Event('sonaa:connexion'))}
           >
             {t.seConnecter}
@@ -540,8 +540,9 @@ export function ProfilPage() {
           )}
           <span className="zd-avatar-voile">{t.deposerOuCliquer}</span>
         </ZoneDepot>
+        {/* PLUS DE SURTITRE « MON PROFIL » (ADR-125) : le menu du haut le dit
+            deja, souligne ; le nom de l'artiste ouvre la page. */}
         <div className="pf-tete-mots">
-          <p className="pf-surtitre">{t.monProfil}</p>
           <h1 className="pf-nom">{nom.trim() || t.artisteSansNom}</h1>
           {faits.length > 0 && <p className="pf-faits">{faits.join(' · ')}</p>}
           <p className="pf-aide-photo">{t.photoLimite}</p>

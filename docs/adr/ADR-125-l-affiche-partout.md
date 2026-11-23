@@ -87,10 +87,38 @@ qui flottent : le pied et les cartes n'en sont plus. Captures à 1440 et
 390 px de l'accueil, du calendrier, des styles, d'une famille, de deux
 styles, des mixtapes, des news, des labels et de Track ID.
 
+## Seconde passe, le même jour : une mixtape, un label, le profil
+
+Mika : « reprends le profil, la page d'une mixtape et d'un label ».
+
+- **Une mixtape** : plus de surtitre « Mixtape » ni de pochette floutée en
+  fond. Le titre en capitales d'affiche, l'artiste en libellé jaune, les
+  styles en mono séparés par des barres obliques, la pochette nette à
+  droite. La fiche passe de huit boîtes à chiffre à des lignes sur filets,
+  l'invitation à créer un compte perd son aplat brun, la carte de l'artiste
+  sa boîte, et ses chiffres tiennent sur une ligne.
+- **Un label** : ses disques les plus connus, nets et carrés, calés à
+  droite sous un voile noir, au lieu d'une lueur floutée. « Les labels »
+  devient un lien de retour fléché, ses styles des mots soulignés, ses
+  morceaux et ses news des rangées sur filets, la colonne des disques sort
+  de sa boîte.
+- **Le profil** : plus de surtitre « Mon profil », le nom en capitales
+  d'affiche, des onglets soulignés au lieu d'une piste grise, des blocs
+  ouverts par un filet au lieu de boîtes de verre (la même classe sert aux
+  soirées du profil et à l'administration), des champs à trait, la règle du
+  dépôt sans aplat teinté. Sans compte, le bouton de connexion est jaune.
+- **La page publique d'un artiste** sans bannière : sa dernière pochette,
+  nette et voilée, au lieu d'une lueur floutée.
+
+Corrigé en passant : au téléphone, le texte d'un label sortait de l'écran
+à droite. La rangée défilante de ses cinq dernières sorties élargissait la
+colonne à 724 px ; la colonne ne s'élargit plus à son contenu.
+
 ## Ce que cela ne fait pas
 
-- Le profil, l'administration, la modération et le formulaire d'une soirée
-  gardent leur mise en page ; ils prennent seulement les coins droits.
+- L'administration, la modération et le formulaire d'une soirée gardent
+  leur mise en page ; ils prennent les coins droits et les blocs ouverts
+  par un filet.
 - Les titres d'articles des News restent en casse normale : ce sont des
   phrases qu'on lit.
 - Aucune couleur, aucune police n'est ajoutée : tout vient des jetons

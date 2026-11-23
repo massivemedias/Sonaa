@@ -16,7 +16,6 @@
   flex: none;
   width: 9.5rem;
   height: 9.5rem;
-  box-shadow: 0 0 0 3px var(--fond), 0 0 0 5px var(--accent);
 }
 .pf-portrait img,
 .pf-portrait .sp-avatar-vide {
@@ -33,21 +32,17 @@
 .pf-tete-mots {
   min-width: 0;
 }
-.pf-surtitre {
-  margin: 0 0 var(--espace-4);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
+/* LE NOM DE L'ARTISTE EN CAPITALES D'AFFICHE (ADR-125), plafonne comme le
+   titre d'une mixtape : un nom d'artiste peut etre long. */
 .credits .pf-nom {
   margin: 0;
-  font-size: clamp(2rem, 5.2vw, 3.6rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: var(--serrage);
-  text-transform: none;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: min(var(--titre-page), 4.5rem);
+  line-height: 0.88;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   color: var(--encre-vive);
   overflow-wrap: anywhere;
 }
@@ -65,6 +60,10 @@
   align-items: center;
   min-height: 44px;
   margin-top: var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   font-weight: 600;
   color: var(--ink-primary);
   text-decoration: none;
@@ -82,27 +81,38 @@
      s'etirait sur toute la largeur. */
   align-self: flex-start;
   flex-wrap: wrap;
-  gap: var(--espace-4);
+  /* DES ONGLETS SOULIGNES SUR UN FILET, comme ceux des News (ADR-125) :
+     plus de piste grise ni d'onglet en aplat jaune. */
+  gap: 0 var(--espace-24);
   margin: 0 0 var(--espace-8);
-  padding: var(--espace-4);
-  border-radius: var(--rayon-carte);
-  background: var(--voile-05);
+  padding: 0;
+  /* sans filet a lui : celui du premier bloc, juste dessous, suffit */
+  border-radius: 0;
+  background: none;
 }
 .pf .pf-onglet {
   gap: var(--espace-8);
   min-height: 44px;
-  padding: 0 var(--espace-16);
+  padding: 0;
   border: 0;
-  border-radius: var(--rayon-carte);
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
   color: var(--ink-secondary);
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
 }
 .pf .pf-onglet:hover {
   color: var(--ink-primary);
-  background: var(--voile-05);
+  background: none;
 }
 .pf .pf-onglet[aria-current='page'] {
-  background: var(--accent);
-  color: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  background: none;
+  color: var(--accent);
 }
 .pf-onglet-icone {
   width: 15px;
@@ -123,8 +133,8 @@
 }
 .pf .pf-carte {
   margin-top: var(--espace-16);
-  padding: var(--espace-24);
-  border-radius: var(--rayon-carte);
+  padding: var(--espace-24) 0 0;
+  border-radius: 0;
 }
 .pf-grille > .pf-carte {
   margin-top: var(--espace-16);
@@ -146,14 +156,16 @@
 .pf-depot {
   border-color: var(--accent-voile);
 }
+/* LA REGLE DU DEPOT : l'icone jaune et la phrase, sans l'aplat teinte qui
+   en faisait une alerte (ADR-125). */
 .pf-regle {
   display: flex;
   align-items: flex-start;
   gap: var(--espace-12);
   margin: 0 0 var(--espace-16);
-  padding: var(--espace-12) var(--espace-16);
-  border-radius: var(--rayon-carte);
-  background: var(--accent-voile);
+  padding: 0;
+  border-radius: 0;
+  background: none;
   color: var(--ink-primary);
   font-size: 0.92rem;
   line-height: 1.45;
@@ -179,20 +191,30 @@
   align-items: center;
   gap: var(--espace-8);
 }
+/* L'ETAT D'UNE MIXTAPE EN PETIT LIBELLE, plus en pastille (ADR-125) :
+   « En ligne » a l'accent, les autres en encre. */
 .pf-puce {
   display: inline-flex;
   align-items: center;
   min-height: 22px;
-  padding: 0 var(--espace-8);
-  border-radius: var(--rayon-pilule);
-  background: var(--voile-1);
+  padding: 0;
+  border-radius: 0;
+  background: none;
   color: var(--ink-primary);
-  font-size: 0.72rem;
+  font-family: var(--police-mono);
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
 }
 .pf-puce-en-ligne {
-  background: var(--accent);
-  color: var(--sur-accent);
+  background: none;
+  color: var(--accent);
+}
+/* SANS COMPTE : la phrase, puis le bouton jaune, avec de l'air entre
+   les deux. */
+.pf-connexion {
+  margin-top: var(--espace-24);
 }
 
 @media (max-width: 640px) {
@@ -207,7 +229,7 @@
     height: 7rem;
   }
   .pf .pf-carte {
-    padding: var(--espace-16);
+    padding: var(--espace-16) 0 0;
   }
 }
 
@@ -238,7 +260,8 @@
   padding: 0;
   overflow: hidden;
   border-radius: var(--rayon-carte);
-  background: linear-gradient(120deg, var(--accent-voile), var(--voile-05));
+  /* neutre : le lavis jaune-brun qui la remplissait est parti (ADR-125) */
+  background: none;
 }
 .pf-banniere img {
   display: block;
@@ -296,9 +319,9 @@
   min-width: 0;
   min-height: 40px;
   padding: var(--espace-8) var(--espace-12);
-  border: 1px solid var(--filet);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
+  background: none;
   color: var(--encre-2);
   font-family: inherit;
   font-size: 0.9375rem;
