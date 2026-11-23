@@ -75,6 +75,13 @@ jobs:
         continue-on-error: true
         run: npm run ingerer:lepointdevente
 
+      # Calendriers directs des salles electro de Montreal (Squarespace JSON
+      # et WordPress REST : Newspeak, New City Gas, Ausgang Plaza, Bar Le Ritz
+      # PDB, Theatre Fairmount). HTTP 200 sans CAPTCHA.
+      - name: Salles de Montreal (Squarespace + WordPress)
+        continue-on-error: true
+        run: npm run ingerer:salles-mtl
+
       # ── Les artistes ─────────────────────────────────────────────────
       - name: Releve des artistes (cache d'une nuit a l'autre)
         uses: actions/cache@v4

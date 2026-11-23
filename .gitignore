@@ -44,5 +44,8 @@ scripts/donnees/lepointdevente-releve.json
 
 # Le releve Ticketmaster : meme statut, meme regle que les trois autres.
 scripts/donnees/ticketmaster-releve*.json
+
+# Le releve des salles de Montreal (Squarespace + WordPress) : meme statut.
+scripts/donnees/salles-mtl-releve.json
 worker/.wrangler/
 __pycache__/
