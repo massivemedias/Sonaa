@@ -39,23 +39,21 @@ morceaux par style).
 
 ---
 
-## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (23 nov 2026, commit `8a74cda`)
+## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (23 nov 2026)
 
-- **1 454 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
-  `src/data/labels-index.json`, `scripts/moissonner-labels.ts`), dont **1 441 géolocalisés**
-  dans 49 pays et **72 labels québécois** (`q: 1`, dont **VRSTL Records** basé à Montréal).
+- **1 529 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
+  `src/data/labels-index.json`, `scripts/moissonner-labels.ts`), dont **128 labels québécois**
+  (`q: 1`, dont **VRSTL Records**, **SOAME Records**, **Lazy Days Recordings**, **AlpaKa MuziK**,
+  **Tech Safari Records**, **SPF Infini**, **Voyage Funktastique**, **Kohlenstoff Records**,
+  **Moderna Records**, **Slugz Music**, **OCTOV**, **Detuned Transmissions**, **Epsilonlab**,
+  **Complot**, **Default Recordings**, **idioms**, **wave logs**, **Gravecult Records**,
+  **Monkey Dub Recording**, **Quantum Digits Recordings**, **Alterflow** à Québec et
+  **Tour de Bras** à Rimouski).
+- **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
 - **Carte interactive mondiale** (`src/atlas/CarteLabels.tsx`) affichant la maison mère de
   chaque label, alignée sur la charte affiche de club d'ADR-125 (`src/atlas/label.css`).
-- **À faire (demandé par Mika, interrompu par un quota 429)** :
-  - ajouter les petits micro-labels québécois manquants, à commencer par **SOAME Records**
-    (`soamerecords.bandcamp.com`, minimal techno / microhouse / électroacoustique à Montréal,
-    Youg, Pheek, Simon Chioini, Maraud), plus **Lazy Days Recordings**, **SPF Infini**,
-    **Fixture Records**, **Tona Serenad**, **Techsafari Records**, **Slugz Music**,
-    **Voyage Funktastique**, **Kohlenstoff Records**, **Moderna Records**, **Daps Records**,
-    **Lillerne Tapes**, **Audio Research**, etc. ;
-  - corriger la ville de `NAFF` (`naff`) actuellement indiquée à Toronto au lieu de Montréal.
 
 ---
 
