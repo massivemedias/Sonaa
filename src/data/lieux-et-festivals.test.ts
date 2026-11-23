@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from './lieux-et-festivals.ts';
+import {
+  LIEUX_ET_FESTIVALS,
+  PAYS_LIEUX,
+  TOUS_LIEUX_ET_FESTIVALS,
+  TOUS_PAYS_LIEUX,
+  VILLES_CLUBS,
+} from './lieux-et-festivals.ts';
 import { soireesPourLieu } from '../atlas/soirees-du-lieu.ts';
 import type { Soiree } from '../lib/agenda.ts';
 
@@ -62,14 +68,59 @@ describe('Atlas des clubs et festivals', () => {
     }
   });
 
-  it('recense au moins 550 festivals électroniques (dont 540+ de 2 000+ places) dans 73 pays sur tous les continents', () => {
+  it('recense au moins 670 festivals électroniques actifs dans 75 pays et masque tous les festivals disparus (Eclipse, Valhalla, MEG, etc.)', () => {
     const festivals = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
-    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(73);
-    expect(festivals.length).toBeGreaterThanOrEqual(550);
-    expect(festivals.filter((f) => f.capacite >= 2000).length).toBeGreaterThanOrEqual(540);
+    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(75);
+    expect(TOUS_PAYS_LIEUX.length).toBeGreaterThanOrEqual(PAYS_LIEUX.length);
+    expect(festivals.length).toBeGreaterThanOrEqual(670);
+    expect(festivals.filter((f) => f.capacite >= 2000).length).toBeGreaterThanOrEqual(650);
+
+    /* Aucun festival disparu ne doit apparaitre dans LIEUX_ET_FESTIVALS, mais ils
+       restent conserves en archive dans TOUS_LIEUX_ET_FESTIVALS (drapeau reversible). */
+    expect(LIEUX_ET_FESTIVALS.some((l) => l.inactif)).toBe(false);
+    const archives = TOUS_LIEUX_ET_FESTIVALS.filter((l) => l.inactif);
+    expect(archives.length).toBeGreaterThanOrEqual(65);
+    for (const idDisparu of [
+      'eclipse-festival-quebec',
+      'valhalla-sound-circus-quebec',
+      'meg-montreal-canada',
+      'aim-electronic-music-festival-montreal',
+      'openmind-festival-quebec',
+      'monstercat-compound-vancouver-canada',
+      'bomfest-edmonton',
+      'woodstower-lyon',
+      'electrobeach-barcares',
+      'saga-festival-bucarest-roumanie',
+      'labyrinth-japon',
+      'time-warp-buenos-aires-argentine',
+    ]) {
+      expect(LIEUX_ET_FESTIVALS.find((f) => f.id === idDisparu)).toBeUndefined();
+      expect(TOUS_LIEUX_ET_FESTIVALS.find((f) => f.id === idDisparu)?.inactif).toBe(true);
+    }
+
+    /* Canada : couverture exhaustive d'un ocean a l'autre (65 festivals actifs). */
+    const canadaFestivals = festivals.filter((f) => f.paysCode === 'CA');
+    expect(canadaFestivals.length).toBeGreaterThanOrEqual(65);
+    const nomsCanada = canadaFestivals.map((f) => f.nom);
+    expect(nomsCanada).toContain('Palomosa');
+    expect(nomsCanada).toContain('Unity Electro Fest');
+    expect(nomsCanada).toContain('Soul Rise Festival');
+    expect(nomsCanada).toContain('Dooms Night');
+    expect(nomsCanada).toContain('Igloofest Edmonton');
+    expect(nomsCanada).toContain('DSTRKT Festival');
+    expect(nomsCanada).toContain('BCKYRD Festival');
+    expect(nomsCanada).toContain('MEME (Manitoba Electronic Music Exhibition)');
+    expect(nomsCanada).toContain('Emotion Arts & Music Festival');
+    expect(nomsCanada).toContain('Vibrancy Festival');
+    expect(nomsCanada).toContain('Magnetic World Music Festival');
+
+    /* Aucun pays actif sans lieu ni festival actif. */
+    for (const p of PAYS_LIEUX) {
+      expect(LIEUX_ET_FESTIVALS.some((l) => l.paysCode === p.code)).toBe(true);
+    }
 
     const ids = new Set<string>();
-    for (const lieu of LIEUX_ET_FESTIVALS) {
+    for (const lieu of TOUS_LIEUX_ET_FESTIVALS) {
       expect(ids.has(lieu.id)).toBe(false);
       ids.add(lieu.id);
     }
@@ -78,6 +129,10 @@ describe('Atlas des clubs et festivals', () => {
     for (const f of festivals) {
       expect(codesPays.has(f.paysCode)).toBe(true);
     }
+
+    /* Garbicz reclasse en Pologne (PL), Hibernation reclasse en Andorre (AD). */
+    expect(festivals.find((f) => f.id === 'garbicz-festival-allemagne')?.paysCode).toBe('PL');
+    expect(festivals.find((f) => f.id === 'hibernation-festival-pyrenees-france')?.paysCode).toBe('AD');
 
     const suti = festivals.find((f) => f.id === 'suti-festival-portugal');
     expect(suti).toBeDefined();
@@ -125,7 +180,7 @@ describe('Atlas des clubs et festivals', () => {
       expect(f.latitude).toBeGreaterThanOrEqual(-45);
       expect(f.latitude).toBeLessThanOrEqual(71);
       expect(f.longitude).toBeGreaterThanOrEqual(-130);
-      expect(f.longitude).toBeLessThanOrEqual(176);
+      expect(f.longitude).toBeLessThanOrEqual(180);
     }
   });
 

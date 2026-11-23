@@ -6,9 +6,14 @@
  * une capacite de plus de 1000 personnes et je voudrais aussi que tu fasses
  * une carte interactive mondiale ».
  *
+ * Mika, le 23 novembre 2026 : audit complet pays par pays en commencant par le
+ * Canada pour retirer de l'affichage les festivals qui ne se font plus (gardes
+ * en archive via le drapeau reversible `inactif: true`) et enrichir tous les
+ * festivals electroniques actifs verifies (2025-2026).
+ *
  * Les clubs couvrent les 20 villes du calendrier SONAA (scripts/donnees/villes.json) :
  * chaque ville renvoie directement vers son agenda /soirees/<slug>/.
- * Les festivals sont classes par pays, avec une capacite d'au moins 1 000
+ * Les festivals actifs sont classes par pays, avec une capacite d'au moins 1 000
  * personnes (ainsi que Be Tulum et Nomade Tulum au Mexique demandes par Mika). */
 
 export interface VilleClub {
@@ -33,6 +38,8 @@ export interface LieuOuFestival {
   readonly type: 'club' | 'festival';
   /** Salle de spectacle ou lieu en location (secondaire, sans styles attribues). */
   readonly estSalle?: boolean;
+  /** Festival ou lieu qui n'est plus actif : conserve en archive, masque du site et de la carte. */
+  readonly inactif?: boolean;
   readonly paysCode: string;
   /** Slug parmi les 20 villes de SONAA quand le lieu s'y trouve. */
   readonly villeSlug?: string;
@@ -47,80 +54,691 @@ export interface LieuOuFestival {
   readonly description: { readonly fr: string; readonly en: string };
 }
 
-export const PAYS_LIEUX: readonly PaysLieu[] = [
-  { code: 'CA', nom: { fr: 'Canada', en: 'Canada' }, latitude: 45.5017, longitude: -73.5673 },
-  { code: 'MX', nom: { fr: 'Mexique', en: 'Mexico' }, latitude: 20.2114, longitude: -87.4654 },
-  { code: 'US', nom: { fr: 'États-Unis', en: 'United States' }, latitude: 41.8781, longitude: -87.6298 },
-  { code: 'DE', nom: { fr: 'Allemagne', en: 'Germany' }, latitude: 52.52, longitude: 13.405 },
-  { code: 'NL', nom: { fr: 'Pays-Bas', en: 'Netherlands' }, latitude: 52.3676, longitude: 4.9041 },
-  { code: 'GB', nom: { fr: 'Royaume-Uni', en: 'United Kingdom' }, latitude: 51.5074, longitude: -0.1278 },
-  { code: 'FR', nom: { fr: 'France', en: 'France' }, latitude: 46.6034, longitude: 2.3488 },
-  { code: 'ES', nom: { fr: 'Espagne', en: 'Spain' }, latitude: 41.3874, longitude: 2.1686 },
-  { code: 'BE', nom: { fr: 'Belgique', en: 'Belgium' }, latitude: 50.8503, longitude: 4.3517 },
-  { code: 'PT', nom: { fr: 'Portugal', en: 'Portugal' }, latitude: 39.823, longitude: -7.239 },
-  { code: 'IT', nom: { fr: 'Italie', en: 'Italy' }, latitude: 45.0703, longitude: 7.6869 },
-  { code: 'HR', nom: { fr: 'Croatie', en: 'Croatia' }, latitude: 43.8, longitude: 15.64 },
-  { code: 'RO', nom: { fr: 'Roumanie', en: 'Romania' }, latitude: 44.241, longitude: 28.621 },
-  { code: 'PL', nom: { fr: 'Pologne', en: 'Poland' }, latitude: 50.0647, longitude: 19.945 },
-  { code: 'CH', nom: { fr: 'Suisse', en: 'Switzerland' }, latitude: 46.8182, longitude: 8.2275 },
-  { code: 'HU', nom: { fr: 'Hongrie', en: 'Hungary' }, latitude: 47.4979, longitude: 19.0402 },
-  { code: 'AT', nom: { fr: 'Autriche', en: 'Austria' }, latitude: 47.5162, longitude: 14.5501 },
-  { code: 'RS', nom: { fr: 'Serbie', en: 'Serbia' }, latitude: 45.2551, longitude: 19.8452 },
-  { code: 'AL', nom: { fr: 'Albanie', en: 'Albania' }, latitude: 40.15, longitude: 19.63 },
-  { code: 'JP', nom: { fr: 'Japon', en: 'Japan' }, latitude: 35.6762, longitude: 139.6503 },
-  { code: 'AU', nom: { fr: 'Australie', en: 'Australia' }, latitude: -37.8136, longitude: 144.9631 },
-  { code: 'BR', nom: { fr: 'Brésil', en: 'Brazil' }, latitude: -23.5505, longitude: -46.6333 },
-  { code: 'GR', nom: { fr: 'Grèce', en: 'Greece' }, latitude: 39.6243, longitude: 19.9217 },
-  { code: 'MT', nom: { fr: 'Malte', en: 'Malta' }, latitude: 35.8989, longitude: 14.5146 },
-  { code: 'MA', nom: { fr: 'Maroc', en: 'Morocco' }, latitude: 31.5085, longitude: -9.7595 },
-  { code: 'CZ', nom: { fr: 'Tchéquie', en: 'Czechia' }, latitude: 50.0755, longitude: 14.4378 },
-  { code: 'BG', nom: { fr: 'Bulgarie', en: 'Bulgaria' }, latitude: 41.58, longitude: 24.78 },
-  { code: 'GE', nom: { fr: 'Géorgie', en: 'Georgia' }, latitude: 41.7151, longitude: 44.8271 },
-  { code: 'LT', nom: { fr: 'Lituanie', en: 'Lithuania' }, latitude: 54.6872, longitude: 25.2797 },
-  { code: 'CO', nom: { fr: 'Colombie', en: 'Colombia' }, latitude: 4.711, longitude: -74.0721 },
-  { code: 'CR', nom: { fr: 'Costa Rica', en: 'Costa Rica' }, latitude: 9.618, longitude: -84.629 },
-  { code: 'TH', nom: { fr: 'Thaïlande', en: 'Thailand' }, latitude: 12.9236, longitude: 100.8825 },
-  { code: 'ID', nom: { fr: 'Indonésie', en: 'Indonesia' }, latitude: -8.65, longitude: 115.13 },
-  { code: 'SI', nom: { fr: 'Slovénie', en: 'Slovenia' }, latitude: 46.1785, longitude: 13.7312 },
-  { code: 'IE', nom: { fr: 'Irlande', en: 'Ireland' }, latitude: 53.4792, longitude: -7.3586 },
-  { code: 'DK', nom: { fr: 'Danemark', en: 'Denmark' }, latitude: 55.6931, longitude: 12.6114 },
-  { code: 'SE', nom: { fr: 'Suède', en: 'Sweden' }, latitude: 59.3293, longitude: 18.0686 },
-  { code: 'NO', nom: { fr: 'Norvège', en: 'Norway' }, latitude: 60.0425, longitude: 9.1525 },
-  { code: 'FI', nom: { fr: 'Finlande', en: 'Finland' }, latitude: 60.2152, longitude: 24.8395 },
-  { code: 'EE', nom: { fr: 'Estonie', en: 'Estonia' }, latitude: 58.3758, longitude: 24.4965 },
-  { code: 'LV', nom: { fr: 'Lettonie', en: 'Latvia' }, latitude: 56.9612, longitude: 24.1125 },
-  { code: 'SK', nom: { fr: 'Slovaquie', en: 'Slovakia' }, latitude: 48.669, longitude: 18.091 },
-  { code: 'BA', nom: { fr: 'Bosnie-Herzégovine', en: 'Bosnia and Herzegovina' }, latitude: 43.8563, longitude: 18.4131 },
-  { code: 'ME', nom: { fr: 'Monténégro', en: 'Montenegro' }, latitude: 42.1952, longitude: 18.9685 },
-  { code: 'MK', nom: { fr: 'Macédoine du Nord', en: 'North Macedonia' }, latitude: 41.1172, longitude: 20.8019 },
-  { code: 'CY', nom: { fr: 'Chypre', en: 'Cyprus' }, latitude: 34.6685, longitude: 33.0312 },
-  { code: 'TR', nom: { fr: 'Turquie', en: 'Turkey' }, latitude: 41.0667, longitude: 29.0172 },
-  { code: 'AM', nom: { fr: 'Arménie', en: 'Armenia' }, latitude: 40.9612, longitude: 44.6512 },
-  { code: 'AR', nom: { fr: 'Argentine', en: 'Argentina' }, latitude: -34.6037, longitude: -58.3816 },
-  { code: 'CL', nom: { fr: 'Chili', en: 'Chile' }, latitude: -33.4489, longitude: -70.6693 },
-  { code: 'PE', nom: { fr: 'Pérou', en: 'Peru' }, latitude: -12.0575, longitude: -77.0844 },
-  { code: 'UY', nom: { fr: 'Uruguay', en: 'Uruguay' }, latitude: -34.9125, longitude: -54.8712 },
-  { code: 'EC', nom: { fr: 'Équateur', en: 'Ecuador' }, latitude: -1.8264, longitude: -80.7539 },
-  { code: 'PA', nom: { fr: 'Panama', en: 'Panama' }, latitude: 9.5469, longitude: -79.6642 },
-  { code: 'GT', nom: { fr: 'Guatemala', en: 'Guatemala' }, latitude: 14.6907, longitude: -91.2025 },
-  { code: 'DO', nom: { fr: 'République dominicaine', en: 'Dominican Republic' }, latitude: 18.4861, longitude: -68.4055 },
-  { code: 'ZA', nom: { fr: 'Afrique du Sud', en: 'South Africa' }, latitude: -33.9249, longitude: 18.4241 },
-  { code: 'EG', nom: { fr: 'Égypte', en: 'Egypt' }, latitude: 27.3942, longitude: 33.6782 },
-  { code: 'TN', nom: { fr: 'Tunisie', en: 'Tunisia' }, latitude: 33.9989, longitude: 7.8422 },
-  { code: 'KE', nom: { fr: 'Kenya', en: 'Kenya' }, latitude: -3.6305, longitude: 39.8499 },
-  { code: 'AE', nom: { fr: 'Émirats arabes unis', en: 'United Arab Emirates' }, latitude: 24.9602, longitude: 55.1506 },
-  { code: 'SA', nom: { fr: 'Arabie saoudite', en: 'Saudi Arabia' }, latitude: 25.0657, longitude: 46.5414 },
-  { code: 'LB', nom: { fr: 'Liban', en: 'Lebanon' }, latitude: 34.2553, longitude: 35.6581 },
-  { code: 'IN', nom: { fr: 'Inde', en: 'India' }, latitude: 15.603, longitude: 73.7436 },
-  { code: 'KR', nom: { fr: 'Corée du Sud', en: 'South Korea' }, latitude: 37.4363, longitude: 127.0201 },
-  { code: 'TW', nom: { fr: 'Taïwan', en: 'Taiwan' }, latitude: 24.0711, longitude: 121.6094 },
-  { code: 'VN', nom: { fr: 'Vietnam', en: 'Vietnam' }, latitude: 10.1812, longitude: 103.9685 },
-  { code: 'SG', nom: { fr: 'Singapour', en: 'Singapore' }, latitude: 1.2541, longitude: 103.813 },
-  { code: 'MY', nom: { fr: 'Malaisie', en: 'Malaysia' }, latitude: 3.0672, longitude: 101.607 },
-  { code: 'PH', nom: { fr: 'Philippines', en: 'Philippines' }, latitude: 14.5896, longitude: 120.9747 },
-  { code: 'CN', nom: { fr: 'Chine', en: 'China' }, latitude: 30.5928, longitude: 114.3055 },
-  { code: 'HK', nom: { fr: 'Hong Kong', en: 'Hong Kong' }, latitude: 22.2839, longitude: 114.1615 },
-  { code: 'NZ', nom: { fr: 'Nouvelle-Zélande', en: 'New Zealand' }, latitude: -36.1264, longitude: 174.575 },
+export const TOUS_PAYS_LIEUX: readonly PaysLieu[] = [
+  {
+    "code": "CA",
+    "nom": {
+      "fr": "Canada",
+      "en": "Canada"
+    },
+    "latitude": 45.5017,
+    "longitude": -73.5673
+  },
+  {
+    "code": "MX",
+    "nom": {
+      "fr": "Mexique",
+      "en": "Mexico"
+    },
+    "latitude": 20.2114,
+    "longitude": -87.4654
+  },
+  {
+    "code": "US",
+    "nom": {
+      "fr": "États-Unis",
+      "en": "United States"
+    },
+    "latitude": 41.8781,
+    "longitude": -87.6298
+  },
+  {
+    "code": "DE",
+    "nom": {
+      "fr": "Allemagne",
+      "en": "Germany"
+    },
+    "latitude": 52.52,
+    "longitude": 13.405
+  },
+  {
+    "code": "NL",
+    "nom": {
+      "fr": "Pays-Bas",
+      "en": "Netherlands"
+    },
+    "latitude": 52.3676,
+    "longitude": 4.9041
+  },
+  {
+    "code": "GB",
+    "nom": {
+      "fr": "Royaume-Uni",
+      "en": "United Kingdom"
+    },
+    "latitude": 51.5074,
+    "longitude": -0.1278
+  },
+  {
+    "code": "FR",
+    "nom": {
+      "fr": "France",
+      "en": "France"
+    },
+    "latitude": 46.6034,
+    "longitude": 2.3488
+  },
+  {
+    "code": "ES",
+    "nom": {
+      "fr": "Espagne",
+      "en": "Spain"
+    },
+    "latitude": 41.3874,
+    "longitude": 2.1686
+  },
+  {
+    "code": "BE",
+    "nom": {
+      "fr": "Belgique",
+      "en": "Belgium"
+    },
+    "latitude": 50.8503,
+    "longitude": 4.3517
+  },
+  {
+    "code": "PT",
+    "nom": {
+      "fr": "Portugal",
+      "en": "Portugal"
+    },
+    "latitude": 39.823,
+    "longitude": -7.239
+  },
+  {
+    "code": "IT",
+    "nom": {
+      "fr": "Italie",
+      "en": "Italy"
+    },
+    "latitude": 45.0703,
+    "longitude": 7.6869
+  },
+  {
+    "code": "HR",
+    "nom": {
+      "fr": "Croatie",
+      "en": "Croatia"
+    },
+    "latitude": 43.8,
+    "longitude": 15.64
+  },
+  {
+    "code": "RO",
+    "nom": {
+      "fr": "Roumanie",
+      "en": "Romania"
+    },
+    "latitude": 44.241,
+    "longitude": 28.621
+  },
+  {
+    "code": "PL",
+    "nom": {
+      "fr": "Pologne",
+      "en": "Poland"
+    },
+    "latitude": 50.0647,
+    "longitude": 19.945
+  },
+  {
+    "code": "CH",
+    "nom": {
+      "fr": "Suisse",
+      "en": "Switzerland"
+    },
+    "latitude": 46.8182,
+    "longitude": 8.2275
+  },
+  {
+    "code": "HU",
+    "nom": {
+      "fr": "Hongrie",
+      "en": "Hungary"
+    },
+    "latitude": 47.4979,
+    "longitude": 19.0402
+  },
+  {
+    "code": "AT",
+    "nom": {
+      "fr": "Autriche",
+      "en": "Austria"
+    },
+    "latitude": 47.5162,
+    "longitude": 14.5501
+  },
+  {
+    "code": "RS",
+    "nom": {
+      "fr": "Serbie",
+      "en": "Serbia"
+    },
+    "latitude": 45.2551,
+    "longitude": 19.8452
+  },
+  {
+    "code": "AL",
+    "nom": {
+      "fr": "Albanie",
+      "en": "Albania"
+    },
+    "latitude": 40.15,
+    "longitude": 19.63
+  },
+  {
+    "code": "JP",
+    "nom": {
+      "fr": "Japon",
+      "en": "Japan"
+    },
+    "latitude": 35.6762,
+    "longitude": 139.6503
+  },
+  {
+    "code": "AU",
+    "nom": {
+      "fr": "Australie",
+      "en": "Australia"
+    },
+    "latitude": -37.8136,
+    "longitude": 144.9631
+  },
+  {
+    "code": "BR",
+    "nom": {
+      "fr": "Brésil",
+      "en": "Brazil"
+    },
+    "latitude": -23.5505,
+    "longitude": -46.6333
+  },
+  {
+    "code": "GR",
+    "nom": {
+      "fr": "Grèce",
+      "en": "Greece"
+    },
+    "latitude": 39.6243,
+    "longitude": 19.9217
+  },
+  {
+    "code": "MT",
+    "nom": {
+      "fr": "Malte",
+      "en": "Malta"
+    },
+    "latitude": 35.8989,
+    "longitude": 14.5146
+  },
+  {
+    "code": "MA",
+    "nom": {
+      "fr": "Maroc",
+      "en": "Morocco"
+    },
+    "latitude": 31.5085,
+    "longitude": -9.7595
+  },
+  {
+    "code": "CZ",
+    "nom": {
+      "fr": "Tchéquie",
+      "en": "Czechia"
+    },
+    "latitude": 50.0755,
+    "longitude": 14.4378
+  },
+  {
+    "code": "BG",
+    "nom": {
+      "fr": "Bulgarie",
+      "en": "Bulgaria"
+    },
+    "latitude": 41.58,
+    "longitude": 24.78
+  },
+  {
+    "code": "GE",
+    "nom": {
+      "fr": "Géorgie",
+      "en": "Georgia"
+    },
+    "latitude": 41.7151,
+    "longitude": 44.8271
+  },
+  {
+    "code": "LT",
+    "nom": {
+      "fr": "Lituanie",
+      "en": "Lithuania"
+    },
+    "latitude": 54.6872,
+    "longitude": 25.2797
+  },
+  {
+    "code": "CO",
+    "nom": {
+      "fr": "Colombie",
+      "en": "Colombia"
+    },
+    "latitude": 4.711,
+    "longitude": -74.0721
+  },
+  {
+    "code": "CR",
+    "nom": {
+      "fr": "Costa Rica",
+      "en": "Costa Rica"
+    },
+    "latitude": 9.618,
+    "longitude": -84.629
+  },
+  {
+    "code": "TH",
+    "nom": {
+      "fr": "Thaïlande",
+      "en": "Thailand"
+    },
+    "latitude": 12.9236,
+    "longitude": 100.8825
+  },
+  {
+    "code": "ID",
+    "nom": {
+      "fr": "Indonésie",
+      "en": "Indonesia"
+    },
+    "latitude": -8.65,
+    "longitude": 115.13
+  },
+  {
+    "code": "SI",
+    "nom": {
+      "fr": "Slovénie",
+      "en": "Slovenia"
+    },
+    "latitude": 46.1785,
+    "longitude": 13.7312
+  },
+  {
+    "code": "IE",
+    "nom": {
+      "fr": "Irlande",
+      "en": "Ireland"
+    },
+    "latitude": 53.4792,
+    "longitude": -7.3586
+  },
+  {
+    "code": "DK",
+    "nom": {
+      "fr": "Danemark",
+      "en": "Denmark"
+    },
+    "latitude": 55.6931,
+    "longitude": 12.6114
+  },
+  {
+    "code": "SE",
+    "nom": {
+      "fr": "Suède",
+      "en": "Sweden"
+    },
+    "latitude": 59.3293,
+    "longitude": 18.0686
+  },
+  {
+    "code": "NO",
+    "nom": {
+      "fr": "Norvège",
+      "en": "Norway"
+    },
+    "latitude": 60.0425,
+    "longitude": 9.1525
+  },
+  {
+    "code": "FI",
+    "nom": {
+      "fr": "Finlande",
+      "en": "Finland"
+    },
+    "latitude": 60.2152,
+    "longitude": 24.8395
+  },
+  {
+    "code": "EE",
+    "nom": {
+      "fr": "Estonie",
+      "en": "Estonia"
+    },
+    "latitude": 58.3758,
+    "longitude": 24.4965
+  },
+  {
+    "code": "LV",
+    "nom": {
+      "fr": "Lettonie",
+      "en": "Latvia"
+    },
+    "latitude": 56.9612,
+    "longitude": 24.1125
+  },
+  {
+    "code": "SK",
+    "nom": {
+      "fr": "Slovaquie",
+      "en": "Slovakia"
+    },
+    "latitude": 48.669,
+    "longitude": 18.091
+  },
+  {
+    "code": "BA",
+    "nom": {
+      "fr": "Bosnie-Herzégovine",
+      "en": "Bosnia and Herzegovina"
+    },
+    "latitude": 43.8563,
+    "longitude": 18.4131
+  },
+  {
+    "code": "ME",
+    "nom": {
+      "fr": "Monténégro",
+      "en": "Montenegro"
+    },
+    "latitude": 42.1952,
+    "longitude": 18.9685
+  },
+  {
+    "code": "MK",
+    "nom": {
+      "fr": "Macédoine du Nord",
+      "en": "North Macedonia"
+    },
+    "latitude": 41.1172,
+    "longitude": 20.8019
+  },
+  {
+    "code": "CY",
+    "nom": {
+      "fr": "Chypre",
+      "en": "Cyprus"
+    },
+    "latitude": 34.6685,
+    "longitude": 33.0312
+  },
+  {
+    "code": "TR",
+    "nom": {
+      "fr": "Turquie",
+      "en": "Turkey"
+    },
+    "latitude": 41.0667,
+    "longitude": 29.0172
+  },
+  {
+    "code": "AM",
+    "nom": {
+      "fr": "Arménie",
+      "en": "Armenia"
+    },
+    "latitude": 40.9612,
+    "longitude": 44.6512
+  },
+  {
+    "code": "AR",
+    "nom": {
+      "fr": "Argentine",
+      "en": "Argentina"
+    },
+    "latitude": -34.6037,
+    "longitude": -58.3816
+  },
+  {
+    "code": "CL",
+    "nom": {
+      "fr": "Chili",
+      "en": "Chile"
+    },
+    "latitude": -33.4489,
+    "longitude": -70.6693
+  },
+  {
+    "code": "PE",
+    "nom": {
+      "fr": "Pérou",
+      "en": "Peru"
+    },
+    "latitude": -12.0575,
+    "longitude": -77.0844
+  },
+  {
+    "code": "UY",
+    "nom": {
+      "fr": "Uruguay",
+      "en": "Uruguay"
+    },
+    "latitude": -34.9125,
+    "longitude": -54.8712
+  },
+  {
+    "code": "EC",
+    "nom": {
+      "fr": "Équateur",
+      "en": "Ecuador"
+    },
+    "latitude": -1.8264,
+    "longitude": -80.7539
+  },
+  {
+    "code": "PA",
+    "nom": {
+      "fr": "Panama",
+      "en": "Panama"
+    },
+    "latitude": 9.5469,
+    "longitude": -79.6642
+  },
+  {
+    "code": "GT",
+    "nom": {
+      "fr": "Guatemala",
+      "en": "Guatemala"
+    },
+    "latitude": 14.6907,
+    "longitude": -91.2025
+  },
+  {
+    "code": "DO",
+    "nom": {
+      "fr": "République dominicaine",
+      "en": "Dominican Republic"
+    },
+    "latitude": 18.4861,
+    "longitude": -68.4055
+  },
+  {
+    "code": "ZA",
+    "nom": {
+      "fr": "Afrique du Sud",
+      "en": "South Africa"
+    },
+    "latitude": -33.9249,
+    "longitude": 18.4241
+  },
+  {
+    "code": "EG",
+    "nom": {
+      "fr": "Égypte",
+      "en": "Egypt"
+    },
+    "latitude": 27.3942,
+    "longitude": 33.6782
+  },
+  {
+    "code": "TN",
+    "nom": {
+      "fr": "Tunisie",
+      "en": "Tunisia"
+    },
+    "latitude": 33.9989,
+    "longitude": 7.8422
+  },
+  {
+    "code": "KE",
+    "nom": {
+      "fr": "Kenya",
+      "en": "Kenya"
+    },
+    "latitude": -3.6305,
+    "longitude": 39.8499
+  },
+  {
+    "code": "AE",
+    "nom": {
+      "fr": "Émirats arabes unis",
+      "en": "United Arab Emirates"
+    },
+    "latitude": 24.9602,
+    "longitude": 55.1506
+  },
+  {
+    "code": "SA",
+    "nom": {
+      "fr": "Arabie saoudite",
+      "en": "Saudi Arabia"
+    },
+    "latitude": 25.0657,
+    "longitude": 46.5414
+  },
+  {
+    "code": "LB",
+    "nom": {
+      "fr": "Liban",
+      "en": "Lebanon"
+    },
+    "latitude": 34.2553,
+    "longitude": 35.6581
+  },
+  {
+    "code": "IN",
+    "nom": {
+      "fr": "Inde",
+      "en": "India"
+    },
+    "latitude": 15.603,
+    "longitude": 73.7436
+  },
+  {
+    "code": "KR",
+    "nom": {
+      "fr": "Corée du Sud",
+      "en": "South Korea"
+    },
+    "latitude": 37.4363,
+    "longitude": 127.0201
+  },
+  {
+    "code": "TW",
+    "nom": {
+      "fr": "Taïwan",
+      "en": "Taiwan"
+    },
+    "latitude": 24.0711,
+    "longitude": 121.6094
+  },
+  {
+    "code": "VN",
+    "nom": {
+      "fr": "Vietnam",
+      "en": "Vietnam"
+    },
+    "latitude": 10.1812,
+    "longitude": 103.9685
+  },
+  {
+    "code": "SG",
+    "nom": {
+      "fr": "Singapour",
+      "en": "Singapore"
+    },
+    "latitude": 1.2541,
+    "longitude": 103.813
+  },
+  {
+    "code": "MY",
+    "nom": {
+      "fr": "Malaisie",
+      "en": "Malaysia"
+    },
+    "latitude": 3.0672,
+    "longitude": 101.607
+  },
+  {
+    "code": "PH",
+    "nom": {
+      "fr": "Philippines",
+      "en": "Philippines"
+    },
+    "latitude": 14.5896,
+    "longitude": 120.9747
+  },
+  {
+    "code": "CN",
+    "nom": {
+      "fr": "Chine",
+      "en": "China"
+    },
+    "latitude": 30.5928,
+    "longitude": 114.3055
+  },
+  {
+    "code": "HK",
+    "nom": {
+      "fr": "Hong Kong",
+      "en": "Hong Kong"
+    },
+    "latitude": 22.2839,
+    "longitude": 114.1615
+  },
+  {
+    "code": "NZ",
+    "nom": {
+      "fr": "Nouvelle-Zélande",
+      "en": "New Zealand"
+    },
+    "latitude": -36.1264,
+    "longitude": 174.575
+  },
+  {
+    "code": "AD",
+    "nom": {
+      "fr": "Andorre",
+      "en": "Andorra"
+    },
+    "latitude": 42.5428,
+    "longitude": 1.7336
+  },
+  {
+    "code": "PR",
+    "nom": {
+      "fr": "Porto Rico",
+      "en": "Puerto Rico"
+    },
+    "latitude": 18.4419,
+    "longitude": -66.0172
+  },
+  {
+    "code": "SX",
+    "nom": {
+      "fr": "Saint-Martin",
+      "en": "Saint Martin"
+    },
+    "latitude": 18.0825,
+    "longitude": -63.0631
+  }
 ];
 
 /* LES VINGT VILLES, depuis le 12 novembre 2026 (ADR-118) : les plus grandes
@@ -128,6344 +746,9972 @@ export const PAYS_LIEUX: readonly PaysLieu[] = [
    garde Montreal, Montpellier, Toulouse et beaucoup d'autres grandes villes,
    vingt en tout ; les plus petites, tu les flushes ». */
 export const VILLES_CLUBS: readonly VilleClub[] = [
-  { slug: 'montreal-ca', nom: { fr: 'Montréal', en: 'Montreal' }, paysCode: 'CA', latitude: 45.5017, longitude: -73.5673, aCalendrier: true },
-  { slug: 'toronto-ca', nom: { fr: 'Toronto', en: 'Toronto' }, paysCode: 'CA', latitude: 43.6532, longitude: -79.3832, aCalendrier: true },
-  { slug: 'newyork-us', nom: { fr: 'New York', en: 'New York' }, paysCode: 'US', latitude: 40.7128, longitude: -74.006, aCalendrier: true },
-  { slug: 'losangeles-us', nom: { fr: 'Los Angeles', en: 'Los Angeles' }, paysCode: 'US', latitude: 34.0522, longitude: -118.2437, aCalendrier: true },
-  { slug: 'chicago-us', nom: { fr: 'Chicago', en: 'Chicago' }, paysCode: 'US', latitude: 41.8781, longitude: -87.6298, aCalendrier: true },
-  { slug: 'miami-us', nom: { fr: 'Miami', en: 'Miami' }, paysCode: 'US', latitude: 25.7617, longitude: -80.1918, aCalendrier: true },
-  { slug: 'mexico-mx', nom: { fr: 'Mexico', en: 'Mexico City' }, paysCode: 'MX', latitude: 19.4326, longitude: -99.1332, aCalendrier: true },
-  { slug: 'saopaulo-br', nom: { fr: 'São Paulo', en: 'Sao Paulo' }, paysCode: 'BR', latitude: -23.5505, longitude: -46.6333, aCalendrier: true },
-  { slug: 'londres-gb', nom: { fr: 'Londres', en: 'London' }, paysCode: 'GB', latitude: 51.5074, longitude: -0.1278, aCalendrier: true },
-  { slug: 'paris-fr', nom: { fr: 'Paris', en: 'Paris' }, paysCode: 'FR', latitude: 48.8566, longitude: 2.3522, aCalendrier: true },
-  { slug: 'lyon-fr', nom: { fr: 'Lyon', en: 'Lyon' }, paysCode: 'FR', latitude: 45.764, longitude: 4.8357, aCalendrier: true },
-  { slug: 'marseille-fr', nom: { fr: 'Marseille', en: 'Marseille' }, paysCode: 'FR', latitude: 43.2965, longitude: 5.3698, aCalendrier: true },
-  { slug: 'toulouse-fr', nom: { fr: 'Toulouse', en: 'Toulouse' }, paysCode: 'FR', latitude: 43.6047, longitude: 1.4442, aCalendrier: true },
-  { slug: 'montpellier-fr', nom: { fr: 'Montpellier', en: 'Montpellier' }, paysCode: 'FR', latitude: 43.6108, longitude: 3.8767, aCalendrier: true },
-  { slug: 'berlin-de', nom: { fr: 'Berlin', en: 'Berlin' }, paysCode: 'DE', latitude: 52.52, longitude: 13.405, aCalendrier: true },
-  { slug: 'amsterdam-nl', nom: { fr: 'Amsterdam', en: 'Amsterdam' }, paysCode: 'NL', latitude: 52.3676, longitude: 4.9041, aCalendrier: true },
-  { slug: 'bruxelles-be', nom: { fr: 'Bruxelles', en: 'Brussels' }, paysCode: 'BE', latitude: 50.8503, longitude: 4.3517, aCalendrier: true },
-  { slug: 'barcelone-es', nom: { fr: 'Barcelone', en: 'Barcelona' }, paysCode: 'ES', latitude: 41.3874, longitude: 2.1686, aCalendrier: true },
-  { slug: 'madrid-es', nom: { fr: 'Madrid', en: 'Madrid' }, paysCode: 'ES', latitude: 40.4168, longitude: -3.7038, aCalendrier: true },
-  { slug: 'tokyo-jp', nom: { fr: 'Tokyo', en: 'Tokyo' }, paysCode: 'JP', latitude: 35.6762, longitude: 139.6503, aCalendrier: true },
+  {
+    "slug": "montreal-ca",
+    "nom": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "paysCode": "CA",
+    "latitude": 45.5017,
+    "longitude": -73.5673,
+    "aCalendrier": true
+  },
+  {
+    "slug": "toronto-ca",
+    "nom": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "paysCode": "CA",
+    "latitude": 43.6532,
+    "longitude": -79.3832,
+    "aCalendrier": true
+  },
+  {
+    "slug": "newyork-us",
+    "nom": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "paysCode": "US",
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "aCalendrier": true
+  },
+  {
+    "slug": "losangeles-us",
+    "nom": {
+      "fr": "Los Angeles",
+      "en": "Los Angeles"
+    },
+    "paysCode": "US",
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "aCalendrier": true
+  },
+  {
+    "slug": "chicago-us",
+    "nom": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "paysCode": "US",
+    "latitude": 41.8781,
+    "longitude": -87.6298,
+    "aCalendrier": true
+  },
+  {
+    "slug": "miami-us",
+    "nom": {
+      "fr": "Miami",
+      "en": "Miami"
+    },
+    "paysCode": "US",
+    "latitude": 25.7617,
+    "longitude": -80.1918,
+    "aCalendrier": true
+  },
+  {
+    "slug": "mexico-mx",
+    "nom": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "paysCode": "MX",
+    "latitude": 19.4326,
+    "longitude": -99.1332,
+    "aCalendrier": true
+  },
+  {
+    "slug": "saopaulo-br",
+    "nom": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "paysCode": "BR",
+    "latitude": -23.5505,
+    "longitude": -46.6333,
+    "aCalendrier": true
+  },
+  {
+    "slug": "londres-gb",
+    "nom": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "paysCode": "GB",
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "aCalendrier": true
+  },
+  {
+    "slug": "paris-fr",
+    "nom": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "paysCode": "FR",
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "aCalendrier": true
+  },
+  {
+    "slug": "lyon-fr",
+    "nom": {
+      "fr": "Lyon",
+      "en": "Lyon"
+    },
+    "paysCode": "FR",
+    "latitude": 45.764,
+    "longitude": 4.8357,
+    "aCalendrier": true
+  },
+  {
+    "slug": "marseille-fr",
+    "nom": {
+      "fr": "Marseille",
+      "en": "Marseille"
+    },
+    "paysCode": "FR",
+    "latitude": 43.2965,
+    "longitude": 5.3698,
+    "aCalendrier": true
+  },
+  {
+    "slug": "toulouse-fr",
+    "nom": {
+      "fr": "Toulouse",
+      "en": "Toulouse"
+    },
+    "paysCode": "FR",
+    "latitude": 43.6047,
+    "longitude": 1.4442,
+    "aCalendrier": true
+  },
+  {
+    "slug": "montpellier-fr",
+    "nom": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "paysCode": "FR",
+    "latitude": 43.6108,
+    "longitude": 3.8767,
+    "aCalendrier": true
+  },
+  {
+    "slug": "berlin-de",
+    "nom": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "paysCode": "DE",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "aCalendrier": true
+  },
+  {
+    "slug": "amsterdam-nl",
+    "nom": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "paysCode": "NL",
+    "latitude": 52.3676,
+    "longitude": 4.9041,
+    "aCalendrier": true
+  },
+  {
+    "slug": "bruxelles-be",
+    "nom": {
+      "fr": "Bruxelles",
+      "en": "Brussels"
+    },
+    "paysCode": "BE",
+    "latitude": 50.8503,
+    "longitude": 4.3517,
+    "aCalendrier": true
+  },
+  {
+    "slug": "barcelone-es",
+    "nom": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "paysCode": "ES",
+    "latitude": 41.3874,
+    "longitude": 2.1686,
+    "aCalendrier": true
+  },
+  {
+    "slug": "madrid-es",
+    "nom": {
+      "fr": "Madrid",
+      "en": "Madrid"
+    },
+    "paysCode": "ES",
+    "latitude": 40.4168,
+    "longitude": -3.7038,
+    "aCalendrier": true
+  },
+  {
+    "slug": "tokyo-jp",
+    "nom": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "paysCode": "JP",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "aCalendrier": true
+  }
 ];
 
-export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
-  /* ═══ CLUBS : LES 23 VILLES DE SONAA ═══ */
-
-  /* Montréal */
-  {
-    id: 'stereo-montreal',
-    nom: 'Stereo',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5162,
-    longitude: -73.5621,
-    capacite: 600,
-    annee: 1998,
-    styles: ['House', 'Techno', 'Progressive House', 'Deep House'],
-    site: 'https://www.stereonightclub.net',
-    description: {
-      fr: "Temple afterhours fondé en 1998 par Angel Moraes sur la rue Sainte-Catherine, célèbre dans le monde entier pour son système sonore analogique sur mesure, son plancher suspendu et ses marathons sans alcool jusqu'au dimanche midi.",
-      en: 'Legendary afterhours temple founded in 1998 by Angel Moraes on Sainte-Catherine Street, world-renowned for its custom analog sound system, sprung wooden dancefloor and alcohol-free marathon sets.',
-    },
-  },
-  {
-    id: 'newspeak-montreal',
-    nom: 'Newspeak',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5125,
-    longitude: -73.5665,
-    capacite: 350,
-    annee: 2015,
-    styles: ['Techno', 'Indie Dance', 'House', 'Bass'],
-    site: 'https://www.newspeakmtl.com',
-    description: {
-      fr: 'Club intimiste du Quartier des spectacles rue Sainte-Élisabeth, doté d’un plafond lumineux réactif et d’une programmation serrée mêlant techno, indie dance, electro et UK bass.',
-      en: 'Intimate club in the Quartier des spectacles on Sainte-Élisabeth Street, featuring a reactive light ceiling and a sharp booking policy spanning techno, indie dance, electro and UK bass.',
-    },
-  },
-  {
-    id: 'salon-daome-montreal',
-    nom: 'Le Salon Daomé',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5227,
-    longitude: -73.5818,
-    capacite: 250,
-    annee: 2001,
-    styles: ['House', 'Deep House', 'Minimal', 'Techno'],
-    site: 'https://lesalondaome.com',
-    description: {
-      fr: 'Institution du Plateau Mont-Royal depuis 2001, pilier de la scène locale montréalaise où se croisent résidents house, minimal, techno mélodique et invités internationaux en format club de proximité.',
-      en: 'Plateau Mont-Royal institution since 2001, a cornerstone of the local Montreal scene hosting house, minimal and melodic techno residents alongside international guests.',
-    },
-  },
-  {
-    id: 'sat-montreal',
-    nom: 'SAT (Société des arts technologiques)',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5097,
-    longitude: -73.5633,
-    capacite: 900,
-    annee: 1996,
-    styles: ['Techno', 'IDM', 'Ambient', 'Electro'],
-    site: 'https://sat.qc.ca',
-    description: {
-      fr: 'Centre d’arts numériques boulevard Saint-Laurent abritant la Satosphère (dôme immersif à 360 degrés) et un espace club où se tiennent les nuits MUTEK et les soirées techno et expérimentales.',
-      en: 'Digital arts center on Saint-Laurent Boulevard housing the Satosphère (360-degree immersive dome) and a ground-floor club venue hosting MUTEK nights and experimental techno events.',
-    },
-  },
-
-  /* Toronto */
-  {
-    id: 'coda-toronto',
-    nom: 'CODA',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'toronto-ca',
-    ville: { fr: 'Toronto', en: 'Toronto' },
-    latitude: 43.6656,
-    longitude: -79.4114,
-    capacite: 650,
-    annee: 2014,
-    styles: ['Techno', 'House', 'Tech House'],
-    site: 'https://codatoronto.com',
-    description: {
-      fr: 'Référence club de Toronto à l’angle de Bathurst et Bloor, propulsée par un système PK Sound massif dans un sous-sol brut dédié à la techno et à la house.',
-      en: 'Flagship Toronto underground club at Bathurst and Bloor, powered by a massive PK Sound system in a raw basement dedicated to techno and house.',
-    },
-  },
-  {
-    id: 'standard-time-toronto',
-    nom: 'Standard Time',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'toronto-ca',
-    ville: { fr: 'Toronto', en: 'Toronto' },
-    latitude: 43.6693,
-    longitude: -79.4375,
-    capacite: 350,
-    annee: 2022,
-    styles: ['House', 'Disco', 'Breaks', 'Leftfield'],
-    site: 'https://standardtime.ca',
-    description: {
-      fr: 'Espace audiophile et club de Geary Avenue associant écoute haute-fidélité et programmation pointue entre house, disco, breaks, dub et électronique hybride.',
-      en: 'Geary Avenue audiophile listening space and club pairing hi-fi acoustics with forward-thinking house, disco, breaks, dub and leftfield bookings.',
-    },
-  },
-  {
-    id: 'vertigo-toronto',
-    nom: 'Vertigo',
-    type: 'club',
-    paysCode: 'CA',
-    villeSlug: 'toronto-ca',
-    ville: { fr: 'Toronto', en: 'Toronto' },
-    latitude: 43.6596,
-    longitude: -79.3788,
-    capacite: 400,
-    annee: 2016,
-    styles: ['Techno', 'Tech House', 'Progressive House'],
-    site: 'https://www.instagram.com/vertigotoronto/',
-    description: {
-      fr: 'Club afterhours souterrain du centre-ville de Toronto rue Gerrard, prisé pour ses longues sessions nocturnes et matinales de techno et de house.',
-      en: 'Downtown Toronto underground afterhours club on Gerrard Street, known for late-night and early-morning techno and house sessions.',
-    },
-  },
-
-  /* Vancouver */
-  /* Québec */
-  /* Ottawa */
-  /* Calgary */
-  /* Winnipeg */
-  /* Halifax */
-  /* Berlin */
-  {
-    id: 'berghain-berlin',
-    nom: 'Berghain / Panorama Bar',
-    type: 'club',
-    paysCode: 'DE',
-    villeSlug: 'berlin-de',
-    ville: { fr: 'Berlin', en: 'Berlin' },
-    latitude: 52.5111,
-    longitude: 13.443,
-    capacite: 1500,
-    annee: 2004,
-    styles: ['Techno', 'House', 'Electro', 'Experimental'],
-    site: 'https://www.berghain.berlin',
-    description: {
-      fr: 'Ancienne centrale thermique de Friedrichshain devenue depuis 2004 l’épicentre mondial de la techno (au rez-de-chaussée) et de la house (au Panorama Bar à l’étage), lors des Klubnächte du samedi soir au lundi matin.',
-      en: 'Former Friedrichshain power plant that became the global epicenter of techno (on the main floor) and house (upstairs at Panorama Bar) during its weekend-long Klubnächte.',
-    },
-  },
-  {
-    id: 'tresor-berlin',
-    nom: 'Tresor',
-    type: 'club',
-    paysCode: 'DE',
-    villeSlug: 'berlin-de',
-    ville: { fr: 'Berlin', en: 'Berlin' },
-    latitude: 52.5103,
-    longitude: 13.4198,
-    capacite: 1200,
-    annee: 1991,
-    styles: ['Techno', 'Detroit Techno', 'Acid Techno', 'Industrial'],
-    site: 'https://tresorberlin.com',
-    description: {
-      fr: 'Fondé en mars 1991 par Dimitri Hegemann dans la salle des coffres de Wertheim avant de rejoindre l’usine Kraftwerk Köpenicker Straße, scellant l’axe historique entre Berlin et Detroit.',
-      en: 'Founded in March 1991 by Dimitri Hegemann in the Wertheim vault before moving to the Kraftwerk plant on Köpenicker Straße, forging the historic Berlin-Detroit techno axis.',
-    },
-  },
-  {
-    id: 'rso-berlin',
-    nom: 'RSO.BERLIN (Revier Südost)',
-    type: 'club',
-    paysCode: 'DE',
-    villeSlug: 'berlin-de',
-    ville: { fr: 'Berlin', en: 'Berlin' },
-    latitude: 52.4547,
-    longitude: 13.5119,
-    capacite: 1200,
-    annee: 2020,
-    styles: ['Techno', 'Hard Techno', 'Electro', 'House'],
-    site: 'https://www.rso.berlin',
-    description: {
-      fr: 'Complexe industriel de Schöneweide créé par l’équipe de Griessmuehle dans une ancienne brasserie, équipé d’un système Kirsch Audio redoutable et d’un vaste jardin en plein air.',
-      en: 'Industrial complex in Schöneweide created by the team behind Griessmuehle inside a former brewery, featuring a custom Kirsch Audio system and a sprawling open-air yard.',
-    },
-  },
-  {
-    id: 'sisyphos-berlin',
-    nom: 'Sisyphos',
-    type: 'club',
-    paysCode: 'DE',
-    villeSlug: 'berlin-de',
-    ville: { fr: 'Berlin', en: 'Berlin' },
-    latitude: 52.4931,
-    longitude: 13.4918,
-    capacite: 1500,
-    annee: 2009,
-    styles: ['Techno', 'House', 'Melodic Techno', 'Minimal'],
-    site: 'https://sisyphos-berlin.net',
-    description: {
-      fr: 'Ancienne fabrique de biscuits pour chiens au bord de la Spree, mêlant la caverne techno du Hammerhalle, le Wintergarten et des espaces sablonneux ouverts tout le week-end sans interruption.',
-      en: 'Former dog-biscuit factory near the Spree combining the dark Hammerhalle techno room, Wintergarten and sandy open-air spaces running non-stop all weekend.',
-    },
-  },
-
-  /* Londres */
-  {
-    id: 'fabric-londres',
-    nom: 'fabric',
-    type: 'club',
-    paysCode: 'GB',
-    villeSlug: 'londres-gb',
-    ville: { fr: 'Londres', en: 'London' },
-    latitude: 51.5196,
-    longitude: -0.1025,
-    capacite: 1600,
-    annee: 1999,
-    styles: ['Techno', 'House', 'Drum & Bass', 'UK Bass'],
-    site: 'https://www.fabriclondon.com',
-    description: {
-      fr: 'Labyrinthe de brique sous les anciens entrepôts frigorifiques de Smithfield à Farringdon, célèbre pour son plancher vibrant (« bodysonic ») en Room 1 et sa série historique de compilations.',
-      en: 'Brick labyrinth beneath the former Smithfield cold stores in Farringdon, famous for its vibrating bodysonic dancefloor in Room 1 and its legendary mix series.',
-    },
-  },
-  {
-    id: 'fold-londres',
-    nom: 'FOLD',
-    type: 'club',
-    paysCode: 'GB',
-    villeSlug: 'londres-gb',
-    ville: { fr: 'Londres', en: 'London' },
-    latitude: 51.5204,
-    longitude: 0.0041,
-    capacite: 600,
-    annee: 2018,
-    styles: ['Techno', 'Electro', 'Industrial', 'Breaks'],
-    site: 'https://www.fold.london',
-    description: {
-      fr: 'Club indépendant fondé par des artistes dans une ancienne imprimerie industrielle de Canning Town, doté d’une licence 24 heures et de ses marathons UNFOLD du dimanche.',
-      en: 'Artist-run independent club inside a former industrial printing factory in Canning Town, holding a 24-hour license and hosting the Sunday UNFOLD marathon sessions.',
-    },
-  },
-  {
-    id: 'phonox-londres',
-    nom: 'Phonox',
-    type: 'club',
-    paysCode: 'GB',
-    villeSlug: 'londres-gb',
-    ville: { fr: 'Londres', en: 'London' },
-    latitude: 51.4628,
-    longitude: -0.1147,
-    capacite: 550,
-    annee: 2015,
-    styles: ['House', 'UK Garage', 'Techno', 'Disco'],
-    site: 'https://phonox.co.uk',
-    description: {
-      fr: 'Club de Brixton conçu autour d’une seule piste centrale et d’un système Funktion-One réglé au millimètre, privilégiant les longs sets étendus.',
-      en: 'Brixton club designed around a single dancefloor and a finely tuned Funktion-One sound system, championing extended all-night sets.',
-    },
-  },
-
-  /* Paris */
-  {
-    id: 'rex-club-paris',
-    nom: 'Rex Club',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'paris-fr',
-    ville: { fr: 'Paris', en: 'Paris' },
-    latitude: 48.8706,
-    longitude: 2.3477,
-    capacite: 800,
-    annee: 1988,
-    styles: ['Techno', 'House', 'Electro', 'Indie Dance'],
-    site: 'https://rexclub.com',
-    description: {
-      fr: 'Doyen des clubs électroniques parisiens sous le cinéma Le Grand Rex depuis les soirées Wake Up de Laurent Garnier en 1992, équipé d’un mur de diffusion immersif L-Acoustics.',
-      en: 'Historic bastion of Parisian club culture beneath the Grand Rex cinema since Laurent Garnier’s Wake Up nights in 1992, equipped with an immersive L-Acoustics sound system.',
-    },
-  },
-  {
-    id: 'la-machine-paris',
-    nom: 'La Machine du Moulin Rouge',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'paris-fr',
-    ville: { fr: 'Paris', en: 'Paris' },
-    latitude: 48.8841,
-    longitude: 2.3324,
-    capacite: 1200,
-    annee: 2010,
-    styles: ['Techno', 'House', 'Bass', 'Dark Disco'],
-    site: 'https://www.lamachinedumoulinrouge.com',
-    description: {
-      fr: 'Complexe sur quatre niveaux à Pigalle réunissant Le Central (ancienne chaufferie du Moulin Rouge) et La Chaufferie en sous-sol pour les collectifs techno, bass et dark disco.',
-      en: 'Four-level Pigalle venue combining Le Central (the former Moulin Rouge boiler room) and the basement Chaufferie for techno, bass and dark disco collectives.',
-    },
-  },
-  {
-    id: 'essaim-paris',
-    nom: 'Essaim',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'paris-fr',
-    ville: { fr: 'Paris', en: 'Paris' },
-    latitude: 48.8712,
-    longitude: 2.3651,
-    capacite: 450,
-    annee: 2024,
-    styles: ['Techno', 'House', 'Minimal', 'Electro'],
-    site: 'https://essaim-paris.com',
-    description: {
-      fr: 'Club audiophile du 10e arrondissement fondé par d’anciens piliers de Concrete, pensé pour une jauge volontairement réduite et une écoute précise.',
-      en: 'Audiophile club in the 10th arrondissement founded by veterans of Concrete, designed around a deliberately intimate capacity and precision acoustics.',
-    },
-  },
-
-  /* Montpellier */
-  {
-    id: 'dieze-warehouse-montpellier',
-    nom: 'Dieze Warehouse',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'montpellier-fr',
-    ville: { fr: 'Montpellier', en: 'Montpellier' },
-    latitude: 43.5889,
-    longitude: 3.8758,
-    capacite: 1500,
-    annee: 2016,
-    styles: ['Techno', 'Hard Techno', 'Trance', 'House'],
-    site: 'https://www.instagram.com/diezewarehouse/',
-    description: {
-      fr: 'Entrepôt industriel du quartier Marché Gare à Montpellier, navire amiral des grands formats techno, rave et hard techno du sud de la France.',
-      en: 'Industrial warehouse in Montpellier’s Marché Gare district, flagship venue for large-scale techno, rave and hard techno events in southern France.',
-    },
-  },
-  {
-    id: 'rockstore-montpellier',
-    nom: 'Le Rockstore',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'montpellier-fr',
-    ville: { fr: 'Montpellier', en: 'Montpellier' },
-    latitude: 43.6067,
-    longitude: 3.8814,
-    capacite: 850,
-    annee: 1986,
-    estSalle: true,
-    styles: [],
-    site: 'https://www.rockstore.fr',
-    description: {
-      fr: 'Salle mythique à la Cadillac rouge encastrée rue de Verdun, où les nuits électroniques prennent le relais à minuit jusqu’à l’aube.',
-      en: 'Iconic venue on Rue de Verdun marked by the red Cadillac embedded in its facade, where electronic club nights run from midnight until dawn.',
-    },
-  },
-
-  /* Toulouse */
-  {
-    id: 'le-bikini-toulouse',
-    nom: 'Le Bikini',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'toulouse-fr',
-    ville: { fr: 'Toulouse', en: 'Toulouse' },
-    latitude: 43.5491,
-    longitude: 1.4828,
-    capacite: 1500,
-    annee: 1983,
-    styles: ['Techno', 'Drum & Bass', 'Electro', 'House'],
-    site: 'https://lebikini.com',
-    description: {
-      fr: 'Institution toulousaine au bord du canal du Midi avec piscine extérieure, réputée pour l’acoustique exceptionnelle de sa grande salle lors des nuits techno et bass.',
-      en: 'Toulouse institution along the Canal du Midi with an outdoor pool, acclaimed for the acoustics of its main room during all-night techno and bass events.',
-    },
-  },
-  {
-    id: 'le-rex-toulouse',
-    nom: 'Le Rex de Toulouse',
-    type: 'club',
-    paysCode: 'FR',
-    villeSlug: 'toulouse-fr',
-    ville: { fr: 'Toulouse', en: 'Toulouse' },
-    latitude: 43.6119,
-    longitude: 1.4384,
-    capacite: 450,
-    annee: 2014,
-    styles: ['House', 'Techno', 'Indie Dance'],
-    site: 'https://lerextoulouse.com',
-    description: {
-      fr: 'Ancien cinéma de quartier avenue Honoré-Serres reconverti en club et salle de concerts, coeur des collectifs électroniques du centre-ville de Toulouse.',
-      en: 'Former neighborhood cinema on Avenue Honoré-Serres converted into a club and live venue at the center of Toulouse’s electronic collectives.',
-    },
-  },
-
-  /* Amsterdam */
-  {
-    id: 'radion-amsterdam',
-    nom: 'RADION',
-    type: 'club',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam', en: 'Amsterdam' },
-    latitude: 52.3446,
-    longitude: 4.8286,
-    capacite: 900,
-    annee: 2015,
-    styles: ['Techno', 'Electro', 'Experimental', 'House'],
-    site: 'https://www.radion.amsterdam',
-    description: {
-      fr: 'Installé dans l’ancien centre dentaire universitaire ACTA, ce club brut à licence 24 heures incarne la scène techno hypnotique et expérimentale d’Amsterdam.',
-      en: 'Housed in the former ACTA dental center, this raw 24-hour licensed venue embodies Amsterdam’s hypnotic and experimental techno scene.',
-    },
-  },
-  {
-    id: 'shelter-amsterdam',
-    nom: 'Shelter Amsterdam',
-    type: 'club',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam', en: 'Amsterdam' },
-    latitude: 52.3839,
-    longitude: 4.9022,
-    capacite: 700,
-    annee: 2016,
-    styles: ['House', 'Techno', 'Tech House', 'Melodic Techno'],
-    site: 'https://shelteramsterdam.nl',
-    description: {
-      fr: 'Bunker souterrain en béton sous la tour A’DAM sur la rive nord de l’IJ, accessible par traversier gratuit depuis la gare centrale.',
-      en: 'Concrete underground bunker beneath the A’DAM Tower on the northern bank of the IJ, reached via free ferry from Amsterdam Central Station.',
-    },
-  },
-  {
-    id: 'lofi-amsterdam',
-    nom: 'Lofi',
-    type: 'club',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam', en: 'Amsterdam' },
-    latitude: 52.3908,
-    longitude: 4.8437,
-    capacite: 1500,
-    annee: 2019,
-    styles: ['House', 'Techno', 'Indie Dance', 'Electro'],
-    site: 'https://lofi.amsterdam',
-    description: {
-      fr: 'Ancien dépôt d’autobus de Sloterdijk doté d’une grande cour industrielle (« The Courtyard ») pour les journées en plein air et d’un entrepôt sombre pour la nuit.',
-      en: 'Former bus garage in Sloterdijk featuring a sprawling industrial Courtyard for daytime open-airs and a dark warehouse room for the night.',
-    },
-  },
-
-  /* Barcelone */
-  {
-    id: 'nitsa-barcelone',
-    nom: 'Nitsa Club (Sala Apolo)',
-    type: 'club',
-    paysCode: 'ES',
-    villeSlug: 'barcelone-es',
-    ville: { fr: 'Barcelone', en: 'Barcelona' },
-    latitude: 41.3744,
-    longitude: 2.1696,
-    capacite: 1200,
-    annee: 1994,
-    styles: ['Techno', 'House', 'Electro', 'Indie Dance'],
-    site: 'https://www.nitsa.com',
-    description: {
-      fr: 'Résidence électronique historique de la Sala Apolo depuis trente ans, où les lustres d’époque surplombent l’une des programmations les plus aventureuses d’Europe.',
-      en: 'Thirty-year electronic residency inside Sala Apolo, where vintage chandeliers hang over one of Europe’s most forward-thinking club programs.',
-    },
-  },
-  {
-    id: 'razzmatazz-barcelone',
-    nom: 'Razzmatazz (The Loft)',
-    type: 'club',
-    paysCode: 'ES',
-    villeSlug: 'barcelone-es',
-    ville: { fr: 'Barcelone', en: 'Barcelona' },
-    latitude: 41.3977,
-    longitude: 2.1911,
-    capacite: 2000,
-    annee: 2000,
-    styles: ['Techno', 'Electro', 'Indie Dance', 'Bass'],
-    site: 'https://www.salarazzmatazz.com',
-    description: {
-      fr: 'Complexe géant de cinq salles dans une usine de Poblenou, dont l’étage supérieur The Loft et Lolita accueille les grands noms de la techno et de l’électro.',
-      en: 'Five-room industrial complex in Poblenou whose upstairs rooms, The Loft and Lolita, host leading names in techno, electro and leftfield club music.',
-    },
-  },
-  {
-    id: 'input-barcelone',
-    nom: 'INPUT High Fidelity Dance Club',
-    type: 'club',
-    paysCode: 'ES',
-    villeSlug: 'barcelone-es',
-    ville: { fr: 'Barcelone', en: 'Barcelona' },
-    latitude: 41.3692,
-    longitude: 2.1469,
-    capacite: 1000,
-    annee: 2016,
-    styles: ['Techno', 'Tech House', 'Melodic Techno'],
-    site: 'https://www.inputbcn.com',
-    description: {
-      fr: 'Club audiophile sur la colline de Montjuïc conçu autour d’un traitement acoustique intégral et d’un mur de LED monumental.',
-      en: 'Audiophile club on Montjuïc hill engineered around full-room acoustic treatment and a monumental LED matrix.',
-    },
-  },
-
-  /* New York */
-  {
-    id: 'basement-new-york',
-    nom: 'BASEMENT',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'newyork-us',
-    ville: { fr: 'New York', en: 'New York' },
-    latitude: 40.7161,
-    longitude: -73.9139,
-    capacite: 700,
-    annee: 2019,
-    styles: ['Techno', 'Industrial', 'House', 'Acid Techno'],
-    site: 'https://basementny.net',
-    description: {
-      fr: 'Dédale de couloirs de brique et de catacombes sous le Knockdown Center à Maspeth (Queens), fer de lance du renouveau techno et queer rave new-yorkais.',
-      en: 'Brick-vaulted labyrinth beneath the Knockdown Center in Maspeth, Queens, spearheading New York’s techno and queer rave resurgence.',
-    },
-  },
-  {
-    id: 'nowadays-new-york',
-    nom: 'Nowadays',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'newyork-us',
-    ville: { fr: 'New York', en: 'New York' },
-    latitude: 40.6991,
-    longitude: -73.9016,
-    capacite: 800,
-    annee: 2015,
-    styles: ['House', 'Techno', 'Ambient', 'Leftfield'],
-    site: 'https://nowadays.nyc',
-    description: {
-      fr: 'Fondé à Ridgewood par Justin Carter et Eamon Harkin (Mister Saturday Night), célèbre pour son système SBS Slammer et ses marathons Nonstop de plus de 24 heures.',
-      en: 'Founded in Ridgewood by Justin Carter and Eamon Harkin (Mister Saturday Night), famed for its custom SBS Slammer sound system and 24-hour Nonstop marathons.',
-    },
-  },
-  {
-    id: 'public-records-new-york',
-    nom: 'Public Records',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'newyork-us',
-    ville: { fr: 'New York', en: 'New York' },
-    latitude: 40.6808,
-    longitude: -73.9854,
-    capacite: 400,
-    annee: 2019,
-    styles: ['House', 'Minimal', 'Ambient', 'Disco'],
-    site: 'https://publicrecords.nyc',
-    description: {
-      fr: 'Espace culturel et Sound Room audiophile à Gowanus (Brooklyn), doté d’enceintes en bois sur mesure signées Devon Turnbull (OJAS).',
-      en: 'Cultural space and audiophile Sound Room in Gowanus, Brooklyn, featuring custom wooden horn speakers built by Devon Turnbull (OJAS).',
-    },
-  },
-
-  /* Los Angeles */
-  {
-    id: 'sound-nightclub-la',
-    nom: 'Sound Nightclub',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'losangeles-us',
-    ville: { fr: 'Los Angeles', en: 'Los Angeles' },
-    latitude: 34.1018,
-    longitude: -118.3359,
-    capacite: 650,
-    annee: 2013,
-    styles: ['House', 'Melodic Techno', 'Indie Dance', 'Tech House'],
-    site: 'https://www.soundnightclub.com',
-    description: {
-      fr: 'Club de Las Palmas Avenue à Hollywood conçu autour d’un système Funktion-One quadraphonique sur mesure et de boiseries acoustiques.',
-      en: 'Las Palmas Avenue club in Hollywood built around a custom quadraphonic Funktion-One sound system and warm acoustic woodwork.',
-    },
-  },
-  {
-    id: '1720-la',
-    nom: '1720',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'losangeles-us',
-    ville: { fr: 'Los Angeles', en: 'Los Angeles' },
-    latitude: 34.0273,
-    longitude: -118.2421,
-    capacite: 1100,
-    annee: 2018,
-    styles: ['Techno', 'Electro', 'Bass', 'Industrial'],
-    site: 'https://1720.la',
-    description: {
-      fr: 'Entrepôt industriel du Warehouse District au sud de Downtown LA, point de ralliement des tournées techno, electro, bass et expérimentales.',
-      en: 'Industrial venue in the Warehouse District south of Downtown LA, a hub for underground techno, electro, bass and experimental tours.',
-    },
-  },
-
-  /* Detroit */
-  /* Chicago */
-  {
-    id: 'smartbar-chicago',
-    nom: 'smartbar',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'chicago-us',
-    ville: { fr: 'Chicago', en: 'Chicago' },
-    latitude: 41.9499,
-    longitude: -87.6589,
-    capacite: 400,
-    annee: 1982,
-    styles: ['House', 'Chicago House', 'Techno', 'Disco'],
-    site: 'https://smartbarchicago.com',
-    description: {
-      fr: 'Sous-sol historique sous le Metro sur Clark Street depuis 1982, sanctuaire de la house de Chicago où ont résidé Frankie Knuckles, Derrick Carter et The Blessed Madonna.',
-      en: 'Historic basement club beneath the Metro on Clark Street since 1982, a sanctuary of Chicago house that has hosted residencies by Frankie Knuckles, Derrick Carter and The Blessed Madonna.',
-    },
-  },
-  {
-    id: 'radius-chicago',
-    nom: 'Radius Chicago',
-    type: 'club',
-    paysCode: 'US',
-    villeSlug: 'chicago-us',
-    ville: { fr: 'Chicago', en: 'Chicago' },
-    latitude: 41.8529,
-    longitude: -87.6431,
-    capacite: 3500,
-    annee: 2020,
-    styles: ['Techno', 'House', 'Melodic Techno', 'Tech House'],
-    site: 'https://www.radius-chicago.com',
-    description: {
-      fr: 'Ancienne usine sidérurgique de 5 000 m² dans le quartier de Pilsen reconvertie en cathédrale électronique pour les grands formats club et les nuits ARC.',
-      en: 'Former 55,000-square-foot steel factory in Pilsen transformed into a warehouse venue for large-scale electronic productions and ARC after-hours.',
-    },
-  },
-
-  /* Mexico */
-  {
-    id: 'bar-oriente-mexico',
-    nom: 'Bar Oriente',
-    type: 'club',
-    paysCode: 'MX',
-    villeSlug: 'mexico-mx',
-    ville: { fr: 'Mexico', en: 'Mexico City' },
-    latitude: 19.4212,
-    longitude: -99.1631,
-    capacite: 350,
-    annee: 2016,
-    styles: ['Indie Dance', 'Dark Disco', 'Italo', 'Acid'],
-    site: 'https://www.instagram.com/bar_oriente/',
-    description: {
-      fr: 'Épicentre de Roma Norte pour la dark disco, l’indie dance, l’EBM et l’italo mexicains, réunissant deux salles et les figures de la scène CDMX.',
-      en: 'Roma Norte epicenter for Mexico City’s dark disco, indie dance, EBM and Italo scene across two rooms.',
-    },
-  },
-  {
-    id: 'looloo-studio-mexico',
-    nom: 'LooLoo Studio',
-    type: 'club',
-    paysCode: 'MX',
-    villeSlug: 'mexico-mx',
-    ville: { fr: 'Mexico', en: 'Mexico City' },
-    latitude: 19.4281,
-    longitude: -99.1564,
-    capacite: 600,
-    annee: 2019,
-    styles: ['Melodic Techno', 'Indie Dance', 'House', 'Techno'],
-    site: 'https://www.instagram.com/looloostudio/',
-    description: {
-      fr: 'Club du quartier Juárez à Mexico reconnu pour son tunnel lumineux immersif et sa programmation internationale de melodic techno, d’indie dance et de house.',
-      en: 'Colonia Juárez club in Mexico City known for its immersive light tunnel and international bookings across melodic techno, indie dance and house.',
-    },
-  },
-  {
-    id: 'yuyu-mexico',
-    nom: 'YuYu',
-    type: 'club',
-    paysCode: 'MX',
-    villeSlug: 'mexico-mx',
-    ville: { fr: 'Mexico', en: 'Mexico City' },
-    latitude: 19.4294,
-    longitude: -99.1542,
-    capacite: 250,
-    annee: 2017,
-    styles: ['Techno', 'Electro', 'Bass', 'Breaks'],
-    site: 'https://yuyu.mx',
-    description: {
-      fr: 'Sous-sol intimiste sous une demeure historique de la rue Versalles à Juárez, dédié aux sonorités club expérimentales, techno, breaks et bass.',
-      en: 'Intimate basement beneath a historic mansion on Calle Versalles in Juárez, dedicated to forward-thinking techno, electro, breaks and bass.',
-    },
-  },
-
-  /* Tokyo */
-  {
-    id: 'womb-tokyo',
-    nom: 'WOMB',
-    type: 'club',
-    paysCode: 'JP',
-    villeSlug: 'tokyo-jp',
-    ville: { fr: 'Tokyo', en: 'Tokyo' },
-    latitude: 35.6584,
-    longitude: 139.6952,
-    capacite: 1000,
-    annee: 2000,
-    styles: ['Techno', 'House', 'Drum & Bass', 'Tech House'],
-    site: 'https://www.womb.co.jp',
-    description: {
-      fr: 'Institution sur quatre niveaux au coeur de Maruyamacho à Shibuya, célèbre pour son immense boule à facettes centrale et son système sonore Phazon / Adamson.',
-      en: 'Four-story institution in Shibuya’s Maruyamacho district, famous for its giant central mirror ball and precision-engineered sound system.',
-    },
-  },
-  {
-    id: 'vent-tokyo',
-    nom: 'VENT',
-    type: 'club',
-    paysCode: 'JP',
-    villeSlug: 'tokyo-jp',
-    ville: { fr: 'Tokyo', en: 'Tokyo' },
-    latitude: 35.6626,
-    longitude: 139.7131,
-    capacite: 350,
-    annee: 2016,
-    styles: ['Techno', 'House', 'Minimal', 'Ambient'],
-    site: 'http://vent-tokyo.net',
-    description: {
-      fr: 'Sous-sol audiophile d’Omotesando conçu avec des panneaux acoustiques suspendus et des enceintes ruban Taguchi sur mesure.',
-      en: 'Audiophile basement club in Omotesando engineered with suspended acoustic baffling and custom Taguchi ribbon speakers.',
-    },
-  },
-  {
-    id: 'zerotokyo-tokyo',
-    nom: 'ZEROTOKYO',
-    type: 'club',
-    paysCode: 'JP',
-    villeSlug: 'tokyo-jp',
-    ville: { fr: 'Tokyo', en: 'Tokyo' },
-    latitude: 35.6958,
-    longitude: 139.7006,
-    capacite: 1500,
-    annee: 2023,
-    styles: ['Techno', 'House', 'Bass', 'Trance'],
-    site: 'https://zerotokyo.jp',
-    description: {
-      fr: 'Vaste complexe souterrain sur trois étages sous la tour Kabukicho à Shinjuku, nouveau vaisseau amiral des nuits électroniques tokyoïtes.',
-      en: 'Three-level underground club complex beneath the Tokyu Kabukicho Tower in Shinjuku, flagship venue for large-scale Tokyo electronic nights.',
-    },
-  },
-
-  /* Melbourne */
-  /* São Paulo */
-  {
-    id: 'd-edge-sao-paulo',
-    nom: 'D-EDGE',
-    type: 'club',
-    paysCode: 'BR',
-    villeSlug: 'saopaulo-br',
-    ville: { fr: 'São Paulo', en: 'Sao Paulo' },
-    latitude: -23.5269,
-    longitude: -46.6634,
-    capacite: 800,
-    annee: 2003,
-    styles: ['Techno', 'House', 'Minimal', 'Indie Dance'],
-    site: 'https://d-edge.com.br',
-    description: {
-      fr: 'Fondé par Renato Ratier à Barra Funda et dessiné par Muti Randolph, célèbre pour son architecture lumineuse réactive au son et sa terrasse ouverte au lever du jour.',
-      en: 'Founded by Renato Ratier in Barra Funda and designed by Muti Randolph, renowned for its sound-reactive sculptural lighting and sunrise rooftop terrace.',
-    },
-  },
-  {
-    id: 'fabriketa-sao-paulo',
-    nom: 'Fabriketa',
-    type: 'club',
-    paysCode: 'BR',
-    villeSlug: 'saopaulo-br',
-    ville: { fr: 'São Paulo', en: 'Sao Paulo' },
-    latitude: -23.5418,
-    longitude: -46.6152,
-    capacite: 2000,
-    annee: 2015,
-    styles: ['Techno', 'House', 'Indie Dance', 'Acid'],
-    site: 'https://www.instagram.com/fabriketasp/',
-    description: {
-      fr: 'Ancienne usine du début du XXe siècle dans le quartier de Brás où se tiennent les grandes raves indépendantes paulistes (Mamba Negra, Gop Tun, ODD).',
-      en: 'Early 20th-century industrial complex in the Brás district hosting São Paulo’s major independent raves and collectives (Mamba Negra, Gop Tun, ODD).',
-    },
-  },
-
-  /* ═══ FESTIVALS : PAR PAYS (CAPACITÉ 1 000+ PERSONNES + BE TULUM & NÔMADE) ═══ */
-
-  /* Mexique (MX) */
-  {
-    id: 'be-tulum-mexique',
-    nom: 'Be Tulum',
-    type: 'festival',
-    paysCode: 'MX',
-    ville: { fr: 'Tulum', en: 'Tulum' },
-    latitude: 20.1389,
-    longitude: -87.4622,
-    capacite: 1200,
-    annee: 2010,
-    mois: { fr: 'Décembre - Janvier (saison Tulum)', en: 'December - January (Tulum season)' },
-    styles: ['Indie Dance', 'Dark Disco', 'Melodic House', 'Deep House'],
-    site: 'https://betulum.com',
-    description: {
-      fr: 'Sanctuaire musical entre jungle maya et mer des Caraïbes à Tulum, accueillant tout l’hiver des résidences et vitrines de labels indie dance, dark disco et melodic house.',
-      en: 'Musical sanctuary between the Mayan jungle and the Caribbean Sea in Tulum, hosting winter label showcases and residencies across indie dance, dark disco and melodic house.',
-    },
-  },
-  {
-    id: 'nomade-tulum-mexique',
-    nom: 'Nômade Tulum',
-    type: 'festival',
-    paysCode: 'MX',
-    ville: { fr: 'Tulum', en: 'Tulum' },
-    latitude: 20.1376,
-    longitude: -87.4628,
-    capacite: 1200,
-    annee: 2015,
-    mois: { fr: 'Décembre - Janvier (saison Tulum)', en: 'December - January (Tulum season)' },
-    styles: ['Deep House', 'Indie Dance', 'Downtempo', 'Melodic Techno'],
-    site: 'https://nomadetulum.com',
-    description: {
-      fr: 'Hôte emblématique de la côte de Tulum réunissant rituels électroniques en bord de mer, sets au coucher du soleil et nuits deep house, organic house et indie dance.',
-      en: 'Emblematic Tulum beachfront gathering blending seaside electronic rituals, sunset live sessions and deep house, organic house and indie dance showcases.',
-    },
-  },
-  {
-    id: 'zamna-festival-mexique',
-    nom: 'Zamna Festival',
-    type: 'festival',
-    paysCode: 'MX',
-    ville: { fr: 'Tulum', en: 'Tulum' },
-    latitude: 20.1862,
-    longitude: -87.5089,
-    capacite: 15000,
-    annee: 2017,
-    mois: { fr: 'Décembre - Janvier', en: 'December - January' },
-    styles: ['Melodic Techno', 'Indie Dance', 'House', 'Techno'],
-    site: 'https://zamnafestival.com',
-    description: {
-      fr: 'Grand rassemblement hivernal au coeur d’un cénote entouré par onze hectares de jungle à Tulum, accueillant Afterlife, Circoloco, Mayan Warrior et Diynamic.',
-      en: 'Major winter festival set around an open-air cenote across 27 acres of Tulum jungle, hosting Afterlife, Circoloco, Mayan Warrior and Diynamic.',
-    },
-  },
-  {
-    id: 'mutek-mx-mexique',
-    nom: 'MUTEK MX',
-    type: 'festival',
-    paysCode: 'MX',
-    villeSlug: 'mexico-mx',
-    ville: { fr: 'Mexico', en: 'Mexico City' },
-    latitude: 19.4326,
-    longitude: -99.1412,
-    capacite: 6000,
-    annee: 2003,
-    mois: { fr: 'Octobre - Novembre', en: 'October - November' },
-    styles: ['Ambient', 'IDM', 'Techno', 'Experimental'],
-    site: 'https://mutek.mx',
-    description: {
-      fr: 'Édition mexicaine du festival MUTEK investissant musées, usines et salles patrimoniales de Mexico pour ses programmes Nocturne et A/Visions.',
-      en: 'Mexican edition of MUTEK taking over museums, factories and heritage venues across Mexico City for its Nocturne and A/Visions programs.',
-    },
-  },
-  {
-    id: 'bahidora-mexique',
-    nom: 'Carnaval de Bahidorá',
-    type: 'festival',
-    paysCode: 'MX',
-    ville: { fr: 'Las Estacas (Morelos)', en: 'Las Estacas (Morelos)' },
-    latitude: 18.7311,
-    longitude: -99.1128,
-    capacite: 12000,
-    annee: 2013,
-    mois: { fr: 'Février', en: 'February' },
-    styles: ['House', 'Techno', 'Nu-Disco', 'Bass'],
-    site: 'https://bahidora.com',
-    description: {
-      fr: 'Festival de trois jours autour des sources naturelles de Las Estacas au sud de Mexico, mêlant scènes house et techno nocturnes, arts visuels et musiques électroniques latines.',
-      en: 'Three-day festival around the natural springs of Las Estacas south of Mexico City, blending all-night house and techno stages with Latin electronic music.',
-    },
-  },
-
-  /* Canada (CA) */
-  {
-    id: 'mutek-montreal-canada',
-    nom: 'MUTEK Montréal',
-    type: 'festival',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5088,
-    longitude: -73.5661,
-    capacite: 8000,
-    annee: 2000,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Techno', 'Ambient', 'IDM', 'Experimental'],
-    site: 'https://montreal.mutek.org',
-    description: {
-      fr: 'Fondé en 2000 par Alain Mongeau à Montréal, festival de référence mondiale consacré à la performance live électronique et à la création audiovisuelle numérique.',
-      en: 'Founded in 2000 by Alain Mongeau in Montreal, a world-renowned festival dedicated to live electronic performance and digital audiovisual art.',
-    },
-  },
-  {
-    id: 'piknic-electronik-canada',
-    nom: 'Piknic Électronik',
-    type: 'festival',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5126,
-    longitude: -73.5342,
-    capacite: 6500,
-    annee: 2003,
-    mois: { fr: 'Mai - Octobre', en: 'May - October' },
-    styles: ['House', 'Techno', 'Indie Dance', 'Melodic Techno'],
-    site: 'https://piknicelectronik.com',
-    description: {
-      fr: 'Rendez-vous dominical en plein air au parc Jean-Drapeau face à la silhouette de Montréal, réunissant deux scènes électroniques chaque semaine de mai à octobre.',
-      en: 'Weekly open-air Sunday gathering at Parc Jean-Drapeau facing the Montreal skyline, running two electronic stages from May through October.',
-    },
-  },
-  {
-    id: 'igloofest-canada',
-    nom: 'Igloofest',
-    type: 'festival',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5048,
-    longitude: -73.5515,
-    capacite: 12000,
-    annee: 2007,
-    mois: { fr: 'Janvier - Février', en: 'January - February' },
-    styles: ['Techno', 'House', 'Tech House', 'Bass'],
-    site: 'https://igloofest.ca',
-    description: {
-      fr: 'Le festival électronique le plus froid du monde sur les quais du Vieux-Port de Montréal, célébrant la techno et la house sous la neige par moins vingt degrés.',
-      en: 'The coldest electronic music festival in the world on the quays of the Old Port of Montreal, celebrating techno and house in sub-zero winter temperatures.',
-    },
-  },
-  {
-    id: 'shambhala-canada',
-    nom: 'Shambhala Music Festival',
-    type: 'festival',
-    paysCode: 'CA',
-    ville: { fr: 'Salmo (Colombie-Britannique)', en: 'Salmo (British Columbia)' },
-    latitude: 49.1242,
-    longitude: -117.2581,
-    capacite: 18000,
-    annee: 1998,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Bass', 'Drum & Bass', 'House', 'Techno'],
-    site: 'https://www.shambhalamusicfestival.com',
-    description: {
-      fr: 'Festival indépendant sans commanditaire sur la ferme Salmo River Ranch dans les montagnes Kootenay, célèbre pour ses six scènes permanentes et ses systèmes PK Sound.',
-      en: 'Sponsor-free independent festival on the Salmo River Ranch in the Kootenay Mountains, famous for its six permanent stages and PK Sound systems.',
-    },
-  },
-  {
-    id: 'ilesoniq-canada',
-    nom: 'îLESONIQ',
-    type: 'festival',
-    paysCode: 'CA',
-    villeSlug: 'montreal-ca',
-    ville: { fr: 'Montréal', en: 'Montreal' },
-    latitude: 45.5131,
-    longitude: -73.5321,
-    capacite: 35000,
-    annee: 2014,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['House', 'Techno', 'Bass', 'Trance'],
-    site: 'https://ilesoniq.com',
-    description: {
-      fr: 'Grand festival électronique d’été sur trois scènes au parc Jean-Drapeau à Montréal, réunissant house, techno, bass music et grandes productions internationales.',
-      en: 'Major three-stage summer electronic festival at Montreal’s Parc Jean-Drapeau, bringing together house, techno, bass music and arena-scale productions.',
-    },
-  },
-
-  /* États-Unis (US) */
-  {
-    id: 'movement-detroit-us',
-    nom: 'Movement Electronic Music Festival',
-    type: 'festival',
-    paysCode: 'US',
-        ville: { fr: 'Detroit', en: 'Detroit' },
-    latitude: 42.3278,
-    longitude: -83.0447,
-    capacite: 35000,
-    annee: 2000,
-    mois: { fr: 'Mai (Memorial Day)', en: 'May (Memorial Day)' },
-    styles: ['Detroit Techno', 'Techno', 'House', 'Electro'],
-    site: 'https://movementfestival.com',
-    description: {
-      fr: 'Pélerinage annuel au Hart Plaza sur les rives de la rivière Detroit, là où est née la techno en 1988, réunissant trois générations de pionniers et la scène mondiale.',
-      en: 'Annual pilgrimage at Hart Plaza on the Detroit Riverfront in the birthplace of techno, uniting three generations of Detroit pioneers with the global scene.',
-    },
-  },
-  {
-    id: 'arc-music-festival-us',
-    nom: 'ARC Music Festival',
-    type: 'festival',
-    paysCode: 'US',
-    villeSlug: 'chicago-us',
-    ville: { fr: 'Chicago', en: 'Chicago' },
-    latitude: 41.8851,
-    longitude: -87.6644,
-    capacite: 25000,
-    annee: 2021,
-    mois: { fr: 'Août - Septembre (Labor Day)', en: 'August - September (Labor Day)' },
-    styles: ['Chicago House', 'House', 'Techno', 'Melodic Techno'],
-    site: 'https://arcmusicfestival.com',
-    description: {
-      fr: 'Grand rassemblement d’Union Park célébrant l’héritage de la house de Chicago aux côtés des scènes techno, tech house et melodic techno internationales.',
-      en: 'Union Park gathering celebrating Chicago’s house music heritage alongside international techno, tech house and melodic techno stages.',
-    },
-  },
-  {
-    id: 'making-time-us',
-    nom: 'Making Time ∞',
-    type: 'festival',
-    paysCode: 'US',
-    ville: { fr: 'Philadelphie', en: 'Philadelphia' },
-    latitude: 39.8758,
-    longitude: -75.2131,
-    capacite: 5000,
-    annee: 2021,
-    mois: { fr: 'Septembre', en: 'September' },
-    styles: ['Leftfield', 'Techno', 'IDM', 'Indie Dance'],
-    site: 'https://makingtimeisrad.com',
-    description: {
-      fr: 'Festival indépendant conçu par Dave P dans l’enceinte historique de Fort Mifflin (1771), acclamé pour son approche transcendantale mêlant techno, IDM, ambient et club expérimental.',
-      en: 'Independent festival curated by Dave P inside historic 1771 Fort Mifflin, acclaimed for its transcendental programming across techno, IDM, ambient and leftfield club music.',
-    },
-  },
-  {
-    id: 'iii-points-us',
-    nom: 'III Points',
-    type: 'festival',
-    paysCode: 'US',
-    villeSlug: 'miami-us',
-    ville: { fr: 'Miami', en: 'Miami' },
-    latitude: 25.8009,
-    longitude: -80.2044,
-    capacite: 30000,
-    annee: 2013,
-    mois: { fr: 'Octobre', en: 'October' },
-    styles: ['Techno', 'Indie Dance', 'House', 'Electro'],
-    site: 'https://www.iiipoints.com',
-    description: {
-      fr: 'Festival nocturne au coeur du quartier industriel de Wynwood à Miami, dont les scènes restent ouvertes jusqu’à 5 heures du matin.',
-      en: 'Nocturnal urban festival in Miami’s industrial Wynwood district, featuring club and warehouse stages running until 5 a.m.',
-    },
-  },
-
-  /* Allemagne (DE) */
-  {
-    id: 'time-warp-allemagne',
-    nom: 'Time Warp',
-    type: 'festival',
-    paysCode: 'DE',
-    ville: { fr: 'Mannheim', en: 'Mannheim' },
-    latitude: 49.4682,
-    longitude: 8.5244,
-    capacite: 18000,
-    annee: 1994,
-    mois: { fr: 'Avril', en: 'April' },
-    styles: ['Techno', 'House', 'Minimal', 'Tech House'],
-    site: 'https://www.time-warp.de',
-    description: {
-      fr: 'Institution fondée en 1994 à Mannheim dans les halls de la Maimarkthalle, célèbre pour ses dix-neuf heures ininterrompues et les levers de soleil du Floor 3.',
-      en: 'Institution founded in 1994 inside Mannheim’s Maimarkthalle, famous for its 19-hour non-stop techno and house marathon and iconic Floor 3 sunrises.',
-    },
-  },
-  {
-    id: 'fusion-festival-allemagne',
-    nom: 'Fusion Festival',
-    type: 'festival',
-    paysCode: 'DE',
-    ville: { fr: 'Lärz (Müritz)', en: 'Lärz (Müritz)' },
-    latitude: 53.3078,
-    longitude: 12.7358,
-    capacite: 70000,
-    annee: 1997,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['Techno', 'House', 'Downtempo', 'Bass'],
-    site: 'https://www.fusion-festival.de',
-    description: {
-      fr: 'Cité utopique et autogérée sur une ancienne base aérienne militaire à Lärz au nord de Berlin, réunissant des dizaines de scènes électroniques jour et nuit.',
-      en: 'Countercultural gathering on a former military airfield in Lärz north of Berlin, uniting dozens of electronic stages day and night.',
-    },
-  },
-  {
-    id: 'berlin-atonal-allemagne',
-    nom: 'Berlin Atonal',
-    type: 'festival',
-    paysCode: 'DE',
-    villeSlug: 'berlin-de',
-    ville: { fr: 'Berlin', en: 'Berlin' },
-    latitude: 52.5105,
-    longitude: 13.4201,
-    capacite: 3500,
-    annee: 1982,
-    mois: { fr: 'Août - Septembre', en: 'August - September' },
-    styles: ['Industrial', 'Ambient', 'Experimental', 'Techno'],
-    site: 'https://berlin-atonal.com',
-    description: {
-      fr: 'Fondé en 1982 par Dimitri Hegemann puis relancé en 2013 dans l’immense nef de béton de Kraftwerk Berlin, dédié aux créations sonores et visuelles radicales.',
-      en: 'Founded in 1982 by Dimitri Hegemann and relaunched in 2013 inside the cavernous concrete nave of Kraftwerk Berlin, dedicated to radical sonic and visual art.',
-    },
-  },
-  {
-    id: 'nature-one-allemagne',
-    nom: 'Nature One',
-    type: 'festival',
-    paysCode: 'DE',
-    ville: { fr: 'Kastellaun (Pydna)', en: 'Kastellaun (Pydna)' },
-    latitude: 50.0442,
-    longitude: 7.4275,
-    capacite: 60000,
-    annee: 1995,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Techno', 'Trance', 'Hardcore', 'House'],
-    site: 'https://www.nature-one.de',
-    description: {
-      fr: 'L’une des plus grandes raves historiques d’Allemagne sur l’ancienne base de missiles de Pydna, avec quatre scènes principales et dix-neuf bunkers de clubs.',
-      en: 'One of Germany’s largest historic raves held on the former Pydna missile base, featuring four main floors and nineteen club bunkers.',
-    },
-  },
-
-  /* Pays-Bas (NL) */
-  {
-    id: 'dekmantel-pays-bas',
-    nom: 'Dekmantel Festival',
-    type: 'festival',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam', en: 'Amsterdam' },
-    latitude: 52.3164,
-    longitude: 4.8322,
-    capacite: 15000,
-    annee: 2013,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Techno', 'Electro', 'House', 'Leftfield'],
-    site: 'https://www.dekmantelfestival.com',
-    description: {
-      fr: 'Installé dans la forêt d’Amsterdamse Bos et le long de l’IJ, référence mondiale des curateurs pour ses scènes UFO (techno/electro) et Selectors (diggers et raretés).',
-      en: 'Set in the Amsterdamse Bos forest and along the IJ, a global curator benchmark for its UFO (techno/electro) and Selectors stages.',
-    },
-  },
-  {
-    id: 'awakenings-pays-bas',
-    nom: 'Awakenings Festival',
-    type: 'festival',
-    paysCode: 'NL',
-    ville: { fr: 'Hilvarenbeek / Amsterdam', en: 'Hilvarenbeek / Amsterdam' },
-    latitude: 51.5228,
-    longitude: 5.1258,
-    capacite: 40000,
-    annee: 1997,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'Hard Techno', 'Melodic Techno', 'Minimal'],
-    site: 'https://www.awakenings.com',
-    description: {
-      fr: 'Né au Westergasfabriek d’Amsterdam en 1997, le plus grand festival en plein air au monde entièrement consacré à la techno sous toutes ses formes.',
-      en: 'Born at Amsterdam’s Westergasfabriek in 1997, the world’s largest open-air festival devoted entirely to techno across eight monumental stages.',
-    },
-  },
-  {
-    id: 'draaimolen-pays-bas',
-    nom: 'Draaimolen Festival',
-    type: 'festival',
-    paysCode: 'NL',
-    ville: { fr: 'Tilburg', en: 'Tilburg' },
-    latitude: 51.5917,
-    longitude: 5.1061,
-    capacite: 12500,
-    annee: 2013,
-    mois: { fr: 'Septembre', en: 'September' },
-    styles: ['Techno', 'Bass', 'Electro', 'Experimental'],
-    site: 'https://www.draaimolen.nu',
-    description: {
-      fr: 'Festival indépendant niché dans le domaine forestier du MOB Complex à Tilburg, célèbre pour ses scènes architecturales intégrées aux arbres et ses duos exclusifs.',
-      en: 'Independent festival nestled in the forested MOB Complex in Tilburg, renowned for its architectural forest stages and one-off back-to-back sets.',
-    },
-  },
-  {
-    id: 'dgtl-amsterdam-pays-bas',
-    nom: 'DGTL Amsterdam',
-    type: 'festival',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam', en: 'Amsterdam' },
-    latitude: 52.4012,
-    longitude: 4.8919,
-    capacite: 20000,
-    annee: 2013,
-    mois: { fr: 'Avril (Pâques)', en: 'April (Easter)' },
-    styles: ['Techno', 'House', 'Indie Dance', 'Electro'],
-    site: 'https://dgtl.nl',
-    description: {
-      fr: 'Festival d’ouverture de la saison européenne sur les anciens chantiers navals NDSM d’Amsterdam, pionnier du fonctionnement circulaire zéro déchet.',
-      en: 'European season opener at Amsterdam’s former NDSM shipyards, a pioneer in circular and zero-waste festival production.',
-    },
-  },
-  {
-    id: 'solstice-ruigoord-pays-bas',
-    nom: 'Solstice Festival',
-    type: 'festival',
-    paysCode: 'NL',
-    villeSlug: 'amsterdam-nl',
-    ville: { fr: 'Amsterdam (Ruigoord)', en: 'Amsterdam (Ruigoord)' },
-    latitude: 52.4106,
-    longitude: 4.7536,
-    capacite: 3000,
-    mois: { fr: 'Juin (solstice)', en: 'June (solstice)' },
-    styles: ['Psy', 'Progressive Trance', 'Ambient'],
-    site: 'https://www.instagram.com/solstice_festival_ruigoord/',
-    description: {
-      fr: 'Une journée de psytrance au village libre de Ruigoord, en bordure d’Amsterdam, le samedi du solstice d’été, organisée par Trance Orient Express : scène principale, piste psychédélique et espace chill-out.',
-      en: 'A one-day psytrance gathering in the free village of Ruigoord, on the edge of Amsterdam, on the summer solstice Saturday, run by Trance Orient Express: main stage, psychedelic floor and chill-out space.',
-    },
-  },
-
-  /* Espagne (ES) */
-  {
-    id: 'sonar-espagne',
-    nom: 'Sónar',
-    type: 'festival',
-    paysCode: 'ES',
-    villeSlug: 'barcelone-es',
-    ville: { fr: 'Barcelone', en: 'Barcelona' },
-    latitude: 41.3547,
-    longitude: 2.1281,
-    capacite: 40000,
-    annee: 1994,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['Techno', 'IDM', 'House', 'Experimental'],
-    site: 'https://sonar.es',
-    description: {
-      fr: 'Fondé en 1994 à Barcelone, partagé entre Sónar by Day (création expérimentale et conférences Sónar+D) et Sónar by Night (scènes géantes jusqu’au lever du soleil).',
-      en: 'Founded in 1994 in Barcelona, split between Sónar by Day (experimental showcases and Sónar+D) and Sónar by Night (arena-scale electronic stages until sunrise).',
-    },
-  },
-  {
-    id: 'monegros-espagne',
-    nom: 'Monegros Desert Festival',
-    type: 'festival',
-    paysCode: 'ES',
-    ville: { fr: 'Fraga (Désert de Los Monegros)', en: 'Fraga (Monegros Desert)' },
-    latitude: 41.5194,
-    longitude: 0.2211,
-    capacite: 50000,
-    annee: 1994,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'Hard Techno', 'Drum & Bass', 'House'],
-    site: 'https://monegrosfestival.com',
-    description: {
-      fr: 'Rave monumentale de vingt-deux heures fondée par la famille Arnau en plein désert aragonais, réunissant plus de dix scènes dans la poussière et la chaleur.',
-      en: 'Monumental 22-hour desert rave founded by the Arnau family in the Aragonese desert, uniting more than ten stages in the dust.',
-    },
-  },
-  {
-    id: 'offweek-festival-espagne',
-    nom: 'OffWeek Festival',
-    type: 'festival',
-    paysCode: 'ES',
-    villeSlug: 'barcelone-es',
-    ville: { fr: 'Barcelone', en: 'Barcelona' },
-    latitude: 41.4111,
-    longitude: 2.2264,
-    capacite: 25000,
-    annee: 2018,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['Melodic Techno', 'House', 'Tech House', 'Indie Dance'],
-    site: 'https://offweekfestival.com',
-    description: {
-      fr: 'Rendez-vous des grands labels électroniques (Afterlife, Diynamic, Solid Grooves, Brunch Electronik) face à la Méditerranée au Parc del Fòrum de Barcelone.',
-      en: 'Showcase festival for major electronic imprints (Afterlife, Diynamic, Solid Grooves, Brunch Electronik) overlooking the Mediterranean at Barcelona’s Parc del Fòrum.',
-    },
-  },
-
-  /* Belgique (BE) */
-  {
-    id: 'horst-belgique',
-    nom: 'Horst Arts & Music',
-    type: 'festival',
-    paysCode: 'BE',
-    ville: { fr: 'Vilvorde (Asiat Park)', en: 'Vilvoorde (Asiat Park)' },
-    latitude: 50.9358,
-    longitude: 4.4322,
-    capacite: 12000,
-    annee: 2014,
-    mois: { fr: 'Mai', en: 'May' },
-    styles: ['Techno', 'Bass', 'Leftfield', 'House'],
-    site: 'https://www.horstartsandmusic.com',
-    description: {
-      fr: 'Dialogue entre architecture contemporaine, arts visuels et musiques club sur l’ancienne base militaire d’Asiat Park au nord de Bruxelles.',
-      en: 'Dialogue between contemporary architecture, visual art and forward-thinking club music on the former Asiat Park military site north of Brussels.',
-    },
-  },
-  {
-    id: 'paradise-city-belgique',
-    nom: 'Paradise City Festival',
-    type: 'festival',
-    paysCode: 'BE',
-    ville: { fr: 'Steenokkerzeel', en: 'Steenokkerzeel' },
-    latitude: 50.9169,
-    longitude: 4.5214,
-    capacite: 14000,
-    annee: 2015,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['House', 'Techno', 'Indie Dance', 'Melodic Techno'],
-    site: 'https://paradisecity.be',
-    description: {
-      fr: 'Festival électronique autour des douves du château de Ribaucourt, reconnu comme l’un des événements musicaux les plus écologiques au monde.',
-      en: 'Electronic festival set around the moat of Ribaucourt Castle, recognized as one of the world’s most environmentally sustainable music events.',
-    },
-  },
-  {
-    id: 'tomorrowland-belgique',
-    nom: 'Tomorrowland',
-    type: 'festival',
-    paysCode: 'BE',
-    ville: { fr: 'Boom', en: 'Boom' },
-    latitude: 51.0911,
-    longitude: 4.3853,
-    capacite: 70000,
-    annee: 2005,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'House', 'Trance', 'Melodic Techno'],
-    site: 'https://www.tomorrowland.com',
-    description: {
-      fr: 'Le plus vaste rassemblement mondial des musiques électroniques au domaine provincial De Schorre à Boom, accueillant seize scènes des labels Core et Atmosphere jusqu’à la Mainstage.',
-      en: 'The world’s largest electronic music gathering at De Schorre in Boom, hosting sixteen stages from the underground Core and Atmosphere tents to the Mainstage.',
-    },
-  },
-
-  /* France (FR) */
-  {
-    id: 'nuits-sonores-france',
-    nom: 'Nuits Sonores',
-    type: 'festival',
-    paysCode: 'FR',
-    villeSlug: 'lyon-fr',
-    ville: { fr: 'Lyon', en: 'Lyon' },
-    latitude: 45.7364,
-    longitude: 4.8247,
-    capacite: 25000,
-    annee: 2003,
-    mois: { fr: 'Mai (Ascension)', en: 'May' },
-    styles: ['Techno', 'Indie Dance', 'Dark Disco', 'Experimental'],
-    site: 'https://nuits-sonores.com',
-    description: {
-      fr: 'Festival urbain indépendant investissant chaque printemps d’anciennes usines lyonnaises (La Sucrière, les Grandes Locos) pour ses Days curatés par des artistes et ses grandes Nuits.',
-      en: 'Independent urban festival taking over former industrial sites in Lyon (La Sucrière, Grandes Locos) for artist-curated Days and warehouse Nights.',
-    },
-  },
-  {
-    id: 'astropolis-france',
-    nom: 'Astropolis',
-    type: 'festival',
-    paysCode: 'FR',
-    ville: { fr: 'Brest (Manoir de Keroual)', en: 'Brest (Keroual Manor)' },
-    latitude: 48.4239,
-    longitude: -4.5442,
-    capacite: 15000,
-    annee: 1995,
-    mois: { fr: 'Juin - Juillet', en: 'June - July' },
-    styles: ['Techno', 'Acid', 'Hardcore', 'Electro'],
-    site: 'https://astropolis.org',
-    description: {
-      fr: 'Le plus ancien festival techno de France, né des raves clandestines bretonnes en 1995 et culminant toute la nuit dans les bois du manoir de Keroual.',
-      en: 'France’s oldest techno festival, born out of clandestine Breton raves in 1995 and culminating in an all-night gathering in the woods of Keroual Manor.',
-    },
-  },
-  {
-    id: 'positive-education-france',
-    nom: 'Positive Education',
-    type: 'festival',
-    paysCode: 'FR',
-    ville: { fr: 'Saint-Étienne', en: 'Saint-Étienne' },
-    latitude: 45.4511,
-    longitude: 4.3853,
-    capacite: 6000,
-    annee: 2015,
-    mois: { fr: 'Novembre', en: 'November' },
-    styles: ['Techno', 'Industrial', 'Dark Disco', 'Bass'],
-    site: 'https://positiveeducation.fr',
-    description: {
-      fr: 'Rendez-vous automnal dans l’ancienne manufacture d’armes de la Cité du Design à Saint-Étienne, dédié à la techno sombre, à l’EBM et aux esthétiques post-punk.',
-      en: 'Autumn gathering inside the former arms factory at Saint-Étienne’s Cité du Design, dedicated to dark techno, EBM, bass and post-punk electronics.',
-    },
-  },
-
-  /* Royaume-Uni (GB) */
-  {
-    id: 'houghton-royaume-uni',
-    nom: 'Houghton Festival',
-    type: 'festival',
-    paysCode: 'GB',
-    ville: { fr: 'Norfolk (Houghton Hall)', en: 'Norfolk (Houghton Hall)' },
-    latitude: 52.8258,
-    longitude: 0.6578,
-    capacite: 12000,
-    annee: 2017,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Minimal', 'House', 'Electro', 'Techno'],
-    site: 'https://www.houghtonfestival.co.uk',
-    description: {
-      fr: 'Conçu et curaté par Craig Richards autour du lac et des bois de Houghton Hall dans le Norfolk, avec licence 24 heures et systèmes sonores audiophiles.',
-      en: 'Conceived and curated by Craig Richards across the lake and woods of Houghton Hall in Norfolk, with a 24-hour license and bespoke audiophile sound systems.',
-    },
-  },
-  {
-    id: 'junction-2-royaume-uni',
-    nom: 'Junction 2',
-    type: 'festival',
-    paysCode: 'GB',
-    villeSlug: 'londres-gb',
-    ville: { fr: 'Londres', en: 'London' },
-    latitude: 51.4958,
-    longitude: -0.3175,
-    capacite: 18000,
-    annee: 2016,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'House', 'Tech House', 'Electro'],
-    site: 'https://www.junction2.london',
-    description: {
-      fr: 'Festival londonien à Boston Manor Park célèbre pour sa scène « The Bridge » nichée directement sous le viaduc en béton de l’autoroute M4.',
-      en: 'West London festival at Boston Manor Park famed for “The Bridge” stage built directly beneath the concrete viaduct of the M4 motorway.',
-    },
-  },
-  {
-    id: 'boomtown-royaume-uni',
-    nom: 'Boomtown',
-    type: 'festival',
-    paysCode: 'GB',
-    ville: { fr: 'Winchester (Matterley Estate)', en: 'Winchester (Matterley Estate)' },
-    latitude: 51.0539,
-    longitude: -1.2422,
-    capacite: 65000,
-    annee: 2009,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Drum & Bass', 'Jungle', 'UK Garage', 'Acid Techno'],
-    site: 'https://www.boomtownfair.co.uk',
-    description: {
-      fr: 'Ville éphémère théâtrale dans la vallée de Matterley, capitale mondiale de la drum and bass, de la jungle, du UK garage et des sound systems dub.',
-      en: 'Immersive theatrical city built in the Matterley Bowl, a global stronghold for drum and bass, jungle, UK garage and dub sound systems.',
-    },
-  },
-
-  /* Portugal (PT) */
-  {
-    id: 'boom-festival-portugal',
-    nom: 'Boom Festival',
-    type: 'festival',
-    paysCode: 'PT',
-    ville: { fr: 'Idanha-a-Nova', en: 'Idanha-a-Nova' },
-    latitude: 39.9511,
-    longitude: -7.1528,
-    capacite: 40000,
-    annee: 1997,
-    mois: { fr: 'Juillet (biennal)', en: 'July (biennial)' },
-    styles: ['Psy', 'Techno', 'Ambient', 'Downtempo'],
-    site: 'https://boomfestival.org',
-    description: {
-      fr: 'Biennale psychédélique indépendante au bord du lac d’Idanha-a-Nova, réunissant le Dance Temple (psytrance) et l’Alchemy Circle (techno hypnotique et deep).',
-      en: 'Independent psychedelic biennale on the shores of Idanha-a-Nova lake, uniting the Dance Temple (psytrance) and Alchemy Circle (hypnotic techno).',
-    },
-  },
-  {
-    id: 'waking-life-portugal',
-    nom: 'Waking Life',
-    type: 'festival',
-    paysCode: 'PT',
-    ville: { fr: 'Crato (Alentejo)', en: 'Crato (Alentejo)' },
-    latitude: 39.2869,
-    longitude: -7.6439,
-    capacite: 7500,
-    annee: 2017,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['Ambient', 'Minimal', 'Techno', 'Experimental'],
-    site: 'https://wakinglife.pt',
-    description: {
-      fr: 'Six jours autour d’un lac de l’Alentejo portugais dédiés à la dub techno, à la minimal, à l’ambient et aux performances live au lever du soleil.',
-      en: 'Six-day lakeside gathering in Portugal’s Alentejo region dedicated to dub techno, minimal, ambient and sunrise live performances.',
-    },
-  },
-  {
-    id: 'neopop-portugal',
-    nom: 'Neopop Electronic Music Festival',
-    type: 'festival',
-    paysCode: 'PT',
-    ville: { fr: 'Viana do Castelo', en: 'Viana do Castelo' },
-    latitude: 41.6918,
-    longitude: -8.8344,
-    capacite: 12000,
-    annee: 2006,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Techno', 'Electro', 'House'],
-    site: 'https://www.neopopfestival.com',
-    description: {
-      fr: 'Rendez-vous techno majeur du nord du Portugal au pied du fort de Santiago da Barra et de l’océan Atlantique.',
-      en: 'Flagship northern Portuguese techno festival held beside the historic Fort of Santiago da Barra on the Atlantic coast.',
-    },
-  },
-
-  /* Italie (IT) */
-  {
-    id: 'kappa-futurfestival-italie',
-    nom: 'Kappa FuturFestival',
-    type: 'festival',
-    paysCode: 'IT',
-    ville: { fr: 'Turin (Parco Dora)', en: 'Turin (Parco Dora)' },
-    latitude: 45.0914,
-    longitude: 7.6694,
-    capacite: 35000,
-    annee: 2012,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'House', 'Tech House', 'Melodic Techno'],
-    site: 'https://www.kappafuturfestival.it',
-    description: {
-      fr: 'Installé sous les piliers d’acier monumentaux des anciennes usines Michelin et Fiat au Parco Dora de Turin, grand rendez-vous techno et house italien.',
-      en: 'Set beneath the monumental steel pillars of former Michelin and Fiat factories in Turin’s Parco Dora, Italy’s flagship techno and house festival.',
-    },
-  },
-  {
-    id: 'terraforma-italie',
-    nom: 'Terraforma',
-    type: 'festival',
-    paysCode: 'IT',
-    ville: { fr: 'Milan (Villa Arconati)', en: 'Milan (Villa Arconati)' },
-    latitude: 45.5489,
-    longitude: 9.0786,
-    capacite: 3500,
-    annee: 2014,
-    mois: { fr: 'Juin', en: 'June' },
-    styles: ['Ambient', 'Experimental', 'Techno', 'Dub'],
-    site: 'https://www.terraformafestival.com',
-    description: {
-      fr: 'Festival consacré à l’expérimentation sonore et à l’écologie dans les jardins baroques de la Villa Arconati près de Milan.',
-      en: 'Festival dedicated to sonic experimentation and sustainability in the baroque woodland gardens of Villa Arconati near Milan.',
-    },
-  },
-
-  /* Croatie (HR) */
-  {
-    id: 'dimensions-croatie',
-    nom: 'Dimensions Festival',
-    type: 'festival',
-    paysCode: 'HR',
-    ville: { fr: 'Tisno', en: 'Tisno' },
-    latitude: 43.8014,
-    longitude: 15.6422,
-    capacite: 5000,
-    annee: 2012,
-    mois: { fr: 'Août - Septembre', en: 'August - September' },
-    styles: ['Electro', 'Techno', 'House', 'Breaks'],
-    site: 'https://www.dimensionsfestival.com',
-    description: {
-      fr: 'Festival de référence sur la côte dalmate et la discothèque à ciel ouvert de Barbarella’s, dédié à l’electro, à la Detroit techno, aux breaks et à la house.',
-      en: 'Landmark festival on the Dalmatian coast and the open-air Barbarella’s Discotheque, dedicated to electro, Detroit techno, breaks and house.',
-    },
-  },
-  {
-    id: 'sonus-croatie',
-    nom: 'Sonus Festival',
-    type: 'festival',
-    paysCode: 'HR',
-    ville: { fr: 'Île de Pag (Zrće)', en: 'Pag Island (Zrće)' },
-    latitude: 44.5397,
-    longitude: 14.9144,
-    capacite: 12000,
-    annee: 2013,
-    mois: { fr: 'Août', en: 'August' },
-    styles: ['Techno', 'Tech House', 'Minimal', 'House'],
-    site: 'https://www.sonus-festival.com',
-    description: {
-      fr: 'Cinq jours et cinq nuits produits par l’équipe de Time Warp dans les clubs à ciel ouvert de la plage de Zrće et sur des bateaux en mer Adriatique.',
-      en: 'Five days and five nights produced by the Time Warp team across open-air clubs on Zrće Beach and boat parties on the Adriatic Sea.',
-    },
-  },
-
-  /* Roumanie (RO) */
-  {
-    id: 'sunwaves-roumanie',
-    nom: 'Sunwaves Festival',
-    type: 'festival',
-    paysCode: 'RO',
-    ville: { fr: 'Mamaia (Mer Noire)', en: 'Mamaia (Black Sea)' },
-    latitude: 44.2739,
-    longitude: 28.6186,
-    capacite: 12000,
-    annee: 2007,
-    mois: { fr: 'Mai & Septembre', en: 'May & September' },
-    styles: ['Minimal', 'House', 'Tech House', 'Techno'],
-    site: 'https://sunwaves-fest.ro',
-    description: {
-      fr: 'Marathon continu jour et nuit sur le sable de la mer Noire, épicentre mondial de la ro-minimal (Rhadoo, Petre Inspirescu, Raresh) et des sets de vingt-quatre heures.',
-      en: 'Non-stop day-and-night marathon on the shores of the Black Sea, global epicenter of Ro-minimal (Rhadoo, Petre Inspirescu, Raresh) and 24-hour sets.',
-    },
-  },
-
-  /* Pologne (PL) */
-  {
-    id: 'unsound-pologne',
-    nom: 'Unsound',
-    type: 'festival',
-    paysCode: 'PL',
-    ville: { fr: 'Cracovie', en: 'Krakow' },
-    latitude: 50.0647,
-    longitude: 19.945,
-    capacite: 5000,
-    annee: 2003,
-    mois: { fr: 'Octobre', en: 'October' },
-    styles: ['Experimental', 'Ambient', 'Industrial', 'Techno'],
-    site: 'https://www.unsound.pl',
-    description: {
-      fr: 'Festival d’avant-garde à Cracovie investissant l’ancien hôtel brutaliste Forum Przestrzenie pour ses nuits club déconstruites et ses créations mondiales.',
-      en: 'Avant-garde festival in Krakow taking over the brutalist former Hotel Forum for deconstructed club nights and world-premiere commissions.',
-    },
-  },
-  {
-    id: 'audioriver-pologne',
-    nom: 'Audioriver Festival',
-    type: 'festival',
-    paysCode: 'PL',
-    ville: { fr: 'Łódź', en: 'Łódź' },
-    latitude: 51.7592,
-    longitude: 19.456,
-    capacite: 30000,
-    annee: 2006,
-    mois: { fr: 'Juillet', en: 'July' },
-    styles: ['Techno', 'Drum & Bass', 'House', 'Melodic Techno'],
-    site: 'https://www.audioriver.pl',
-    description: {
-      fr: 'Le plus grand festival des musiques électroniques de Pologne, réunissant techno, drum and bass, house et live électroniques.',
-      en: 'Poland’s largest electronic music festival, uniting techno, drum and bass, house and electronic live acts.',
-    },
-  },
-
-  /* Japon (JP) */
-  {
-    id: 'labyrinth-japon',
-    nom: 'The Labyrinth',
-    type: 'festival',
-    paysCode: 'JP',
-    ville: { fr: 'Niigata (Naeba)', en: 'Niigata (Naeba)' },
-    latitude: 36.7911,
-    longitude: 138.7844,
-    capacite: 2500,
-    annee: 2001,
-    mois: { fr: 'Septembre - Octobre', en: 'September - October' },
-    styles: ['Techno', 'Ambient', 'Minimal'],
-    site: 'https://www.mindgames.jp',
-    description: {
-      fr: 'Conçu par Russ (Mindgames) dans une clairière montagneuse de Niigata autour d’une seule scène et d’un système Funktion-One quadridirectionnel d’une pureté acoustique légendaire.',
-      en: 'Curated by Russ (Mindgames) in a mountain clearing in Niigata around a single stage and a quadraphonic Funktion-One system of legendary acoustic purity.',
-    },
-  },
-  {
-    id: 'rainbow-disco-club-japon',
-    nom: 'Rainbow Disco Club',
-    type: 'festival',
-    paysCode: 'JP',
-    ville: { fr: 'Higashiizu (Shizuoka)', en: 'Higashiizu (Shizuoka)' },
-    latitude: 34.8194,
-    longitude: 139.0411,
-    capacite: 5000,
-    annee: 2010,
-    mois: { fr: 'Avril', en: 'April' },
-    styles: ['House', 'Disco', 'Techno', 'Nu-Disco'],
-    site: 'https://www.rainbowdiscoclub.com',
-    description: {
-      fr: 'Festival de trois jours dans les collines verdoyantes de la péninsule d’Izu au Japon, célébrant la house, le disco, la balearic et la techno.',
-      en: 'Three-day camping festival in the green hills of Japan’s Izu Peninsula celebrating house, disco, balearic and techno.',
-    },
-  },
-
-  /* Australie (AU) */
-  {
-    id: 'pitch-music-arts-australie',
-    nom: 'Pitch Music & Arts',
-    type: 'festival',
-    paysCode: 'AU',
-    ville: { fr: 'Moyston (Victoria)', en: 'Moyston (Victoria)' },
-    latitude: -37.2981,
-    longitude: 142.7711,
-    capacite: 12000,
-    annee: 2017,
-    mois: { fr: 'Mars', en: 'March' },
-    styles: ['Techno', 'House', 'Electro', 'Indie Dance'],
-    site: 'https://www.pitchfestival.com.au',
-    description: {
-      fr: 'Quatre jours au pied des monts Grampians dans l’État de Victoria autour d’un pavillon brutaliste de béton et d’échafaudages.',
-      en: 'Four-day gathering at the foothills of the Grampians mountain range in Victoria built around brutalist pavilion architecture.',
-    },
-  },
-
-  /* Brésil (BR) */
-  {
-    id: 'dgtl-sao-paulo-bresil',
-    nom: 'DGTL São Paulo',
-    type: 'festival',
-    paysCode: 'BR',
-    villeSlug: 'saopaulo-br',
-    ville: { fr: 'São Paulo', en: 'Sao Paulo' },
-    latitude: -23.5186,
-    longitude: -46.6714,
-    capacite: 12000,
-    annee: 2017,
-    mois: { fr: 'Avril - Novembre', en: 'April - November' },
-    styles: ['Techno', 'House', 'Indie Dance', 'Electro'],
-    site: 'https://saopaulo.dgtl.nl',
-    description: {
-      fr: 'Édition sud-américaine du festival DGTL investissant d’immenses entrepôts industriels et pavillons de São Paulo.',
-      en: 'South American edition of DGTL taking over massive industrial warehouses and pavilions in São Paulo.',
-    },
-  },
-  {
-    id: 'gop-tun-festival-bresil',
-    nom: 'Gop Tun Festival',
-    type: 'festival',
-    paysCode: 'BR',
-    villeSlug: 'saopaulo-br',
-    ville: { fr: 'São Paulo', en: 'Sao Paulo' },
-    latitude: -23.5472,
-    longitude: -46.6331,
-    capacite: 8000,
-    annee: 2012,
-    mois: { fr: 'Avril', en: 'April' },
-    styles: ['House', 'Disco', 'Indie Dance', 'Techno'],
-    site: 'https://goptun.com',
-    description: {
-      fr: 'Festival né du collectif pauliste Gop Tun sur quatre scènes mêlant house, disco, indie dance, live électroniques et techno.',
-      en: 'Four-stage festival born from the São Paulo collective Gop Tun, blending house, disco, indie dance, live electronics and techno.',
-    },
-  },
-  /* ═══ NOUVEAUX CLUBS PAR VILLE (ENRICHISSEMENT) ═══ */
-  {
-    id: "stereobar-montreal",
-    nom: "StereoBar",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5161,
-    longitude: -73.5622,
-    capacite: 250,
-    annee: 2012,
-    styles: ["House","Minimal","Deep House","Techno"],
-    site: "https://www.stereonightclub.net",
-    description: {
-      fr: "Le petit frère intimiste au rez-de-chaussée du Stereo rue Sainte-Catherine Est, doté lui aussi d’un système sonore analogique d’exception pour les nuits house, minimal et techno jusqu’à 3 heures.",
-      en: "The intimate ground-floor sibling of Stereo on Sainte-Catherine Street East, featuring its own custom analog sound system for house, minimal and techno nights until 3 a.m.",
-    },
-  },
-  {
-    id: "bar-datcha-montreal",
-    nom: "Bar Datcha",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5229,
-    longitude: -73.5931,
-    capacite: 200,
-    annee: 2014,
-    styles: ["House","Disco","Techno","Leftfield"],
-    site: "https://www.bardatcha.com",
-    description: {
-      fr: "Repaire nocturne incontournable du Mile End sur l’avenue Laurier Ouest, propulsé par un système Funktion-One pour des sélections house, disco, afro house et électronique pointue.",
-      en: "Essential Mile End nightspot on Laurier Avenue West powered by a Funktion-One sound system, hosting house, disco, afro house and leftfield selectors.",
-    },
-  },
-  {
-    id: "systeme-montreal",
-    nom: "Système",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5378,
-    longitude: -73.6064,
-    capacite: 250,
-    annee: 2022,
-    styles: ["Techno","House","Breaks","UK Bass"],
-    site: "https://www.instagram.com/systeme.mtl/",
-    description: {
-      fr: "Club underground et espace audiophile de la rue Saint-Hubert dans La Petite-Patrie, quartier général des collectifs techno, breaks, UK bass et des nuits Music Is My Sanctuary.",
-      en: "Underground club and audiophile venue on Saint-Hubert Street in La Petite-Patrie, home to Montreal techno, breaks and UK bass collectives.",
-    },
-  },
-  {
-    id: "le-belmont-montreal",
-    nom: "Le Belmont",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5228,
-    longitude: -73.5821,
-    capacite: 350,
-    annee: 2004,
-    styles: ["Drum & Bass","Bass","Dubstep","Techno"],
-    site: "https://lebelmont.com",
-    description: {
-      fr: "Institution de l’angle Saint-Laurent et Mont-Royal depuis plus de vingt ans, bastion montréalais des nuits drum and bass, dubstep, bass music et raves locales.",
-      en: "Cornerstone venue at Saint-Laurent and Mont-Royal for over two decades, Montreal’s stronghold for drum and bass, dubstep, bass music and local raves.",
-    },
-  },
-  {
-    id: "le-red-room-montreal",
-    nom: "Le Red Room",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5168,
-    longitude: -73.5658,
-    capacite: 250,
-    annee: 2021,
-    styles: ["Techno","Hard Techno","Bass","Trance"],
-    site: "https://leredroom.com",
-    description: {
-      fr: "Club souterrain de la rue Saint-Denis au Quartier latin équipé en PK Sound, dédié à la techno rapide, à la hard techno, à la trance et aux collectifs bass.",
-      en: "Quartier Latin underground club on Saint-Denis Street outfitted with PK Sound, dedicated to fast techno, hard techno, trance and bass collectives.",
-    },
-  },
-  {
-    id: "new-city-gas-montreal",
-    nom: "New City Gas",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.4937,
-    longitude: -73.5597,
-    capacite: 3500,
-    annee: 2012,
-    styles: ["House","Tech House","Melodic Techno","Dance"],
-    site: "https://newcitygas.com",
-    description: {
-      fr: "Complexe monumental installé dans une ancienne usine de gaz de charbon de 1859 à Griffintown, accueillant les plus grandes têtes d’affiche internationales sur deux étages.",
-      en: "Monumental two-level venue inside an 1859 heritage coal-gas complex in Griffintown, hosting major international electronic headliners.",
-    },
-  },
-  {
-    id: "mtelus-montreal",
-    nom: "MTELUS",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5105,
-    longitude: -73.5631,
-    capacite: 2300,
-    annee: 1997,
-    estSalle: true,
-    styles: [],
-    site: "https://mtelus.com",
-    description: {
-      fr: "Grande salle historique de la rue Sainte-Catherine Est (anciennement Metropolis) au coeur du Quartier des spectacles, scène reine des tournées live électroniques et des grandes nuits MUTEK.",
-      en: "Historic 2,300-capacity hall on Sainte-Catherine Street East (formerly Metropolis), the premier Montreal stage for live electronic tours and MUTEK showcases.",
-    },
-  },
-  {
-    id: "club-soda-montreal",
-    nom: "Club Soda",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5101,
-    longitude: -73.5637,
-    capacite: 900,
-    annee: 1982,
-    estSalle: true,
-    styles: [],
-    site: "https://clubsoda.ca",
-    description: {
-      fr: "Salle emblématique à la marquise lumineuse boulevard Saint-Laurent, accueillant depuis 1982 les lives électroniques, les nuits MUTEK et les soirées club internationales.",
-      en: "Landmark venue beneath its neon marquee on Saint-Laurent Boulevard, hosting live electronic acts, MUTEK nights and international club events.",
-    },
-  },
-  {
-    id: "foufounes-electriques-montreal",
-    nom: "Les Foufounes Électriques",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5108,
-    longitude: -73.5624,
-    capacite: 700,
-    annee: 1983,
-    estSalle: true,
-    styles: [],
-    site: "https://foufouneselectriques.com",
-    description: {
-      fr: "Institution contre-culturelle montréalaise fondée en 1983 rue Sainte-Catherine Est, accueillant sur plusieurs niveaux raves, soirées industrielles, EBM, drum and bass et dubstep.",
-      en: "Montreal countercultural institution founded in 1983 on Sainte-Catherine Street East, hosting raves, industrial, EBM, drum and bass and dubstep nights across multiple floors.",
-    },
-  },
-  {
-    id: "ausgang-plaza-montreal",
-    nom: "Ausgang Plaza",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5339,
-    longitude: -73.6012,
-    capacite: 400,
-    annee: 2018,
-    estSalle: true,
-    styles: [],
-    site: "https://ausgangplaza.com",
-    description: {
-      fr: "Espace brut et salle pluridisciplinaire de la rue Saint-Hubert prisée par les collectifs rave indépendants, les vitrines techno et les lancements audiovisuels.",
-      en: "Raw multidisciplinary venue on Saint-Hubert Street favored by independent rave collectives, techno showcases and audiovisual nights.",
-    },
-  },
-  {
-    id: "bar-le-ritz-pdb-montreal",
-    nom: "Bar Le Ritz PDB",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5326,
-    longitude: -73.6174,
-    capacite: 250,
-    annee: 2014,
-    estSalle: true,
-    styles: [],
-    site: "https://barleritzpdb.com",
-    description: {
-      fr: "Salle autogérée de la rue Jean-Talon Ouest dans le Mile-Ex (anciennement Il Motore), épicentre des nuits expérimentales, EBM, techno industrielle, synthwave et ambient.",
-      en: "Collectively run venue on Jean-Talon Street West in Mile-Ex (formerly Il Motore), an epicenter for experimental electronics, EBM, industrial techno and ambient.",
-    },
-  },
-  {
-    id: "velvet-speakeasy-montreal",
-    nom: "Velvet Speakeasy (Auberge Saint-Gabriel)",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5062,
-    longitude: -73.5542,
-    capacite: 250,
-    annee: 2011,
-    styles: ["House","Deep House","Melodic Techno","Tech House"],
-    site: "https://velvetspeakeasy.ca",
-    description: {
-      fr: "Caveau souterrain aux voûtes de pierre datant de 1754 sous l’Auberge Saint-Gabriel dans le Vieux-Montréal, dédié à la house, à la deep house et à la techno mélodique.",
-      en: "Underground 1754 stone-vaulted cellar beneath Auberge Saint-Gabriel in Old Montreal, dedicated to house, deep house and melodic techno.",
-    },
-  },
-  {
-    id: "sans-soleil-montreal",
-    nom: "Sans Soleil Bar",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5071,
-    longitude: -73.5608,
-    capacite: 120,
-    annee: 2022,
-    styles: ["House","Dub","Ambient","Disco"],
-    site: "https://www.instagram.com/sanssoleilbar/",
-    description: {
-      fr: "Listening bar hi-fi souterrain caché au Quartier chinois rue Saint-Urbain, où les sélecteurs jouent sur vinyle à travers des enceintes pavillonnaires vintage haute fidélité.",
-      en: "Subterranean hi-fi listening bar hidden in Chinatown on Saint-Urbain Street, where selectors spin vinyl through vintage horn-loaded speakers.",
-    },
-  },
-  {
-    id: "theatre-fairmount-montreal",
-    nom: "Théâtre Fairmount",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal", en: "Montreal" },
-    latitude: 45.5218,
-    longitude: -73.5975,
-    capacite: 500,
-    annee: 2015,
-    estSalle: true,
-    styles: [],
-    site: "https://theatrefairmount.com",
-    description: {
-      fr: "Salle de 500 places de l’avenue du Parc dans le Mile End, accueillant les tournées électroniques internationales, les DJ sets prolongés et les soirées disco et house.",
-      en: "500-capacity Mile End venue on Park Avenue hosting international electronic live tours, extended DJ sets and house and disco nights.",
-    },
-  },
-  {
-    id: "wiggle-room-toronto",
-    nom: "Wiggle Room",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto", en: "Toronto" },
-    latitude: 43.6519,
-    longitude: -79.4072,
-    capacite: 300,
-    annee: 2019,
-    styles: ["House","Tech House","Breaks","Funky House"],
-    site: "https://wiggleroomtoronto.com",
-    description: {
-      fr: "Club indépendant de Dundas Street West surnommé « Home of the Bouncy Beats », réputé pour sa communauté chaleureuse et sa programmation house, breaks et tech house.",
-      en: "Independent club on Dundas Street West dubbed the “Home of the Bouncy Beats”, known for its welcoming community and house, breaks and tech house nights.",
-    },
-  },
-  {
-    id: "bambis-toronto",
-    nom: "Bambi’s",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto", en: "Toronto" },
-    latitude: 43.6494,
-    longitude: -79.4249,
-    capacite: 150,
-    annee: 2013,
-    styles: ["Techno","Electro","Leftfield","House"],
-    site: "https://www.instagram.com/bambistoronto/",
-    description: {
-      fr: "Caveau intimiste au pied de la côte de Dundas West, épicentre des sélecteurs underground, de la techno expérimentale et des résidences locales de Toronto.",
-      en: "Intimate basement room at the bottom of the Dundas West hill, a hub for underground selectors, experimental techno and local Toronto residencies.",
-    },
-  },
-  {
-    id: "history-toronto",
-    nom: "History",
-    type: "club",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto", en: "Toronto" },
-    latitude: 43.6672,
-    longitude: -79.3125,
-    capacite: 2500,
-    annee: 2021,
-    estSalle: true,
-    styles: [],
-    site: "https://www.historytoronto.com",
-    description: {
-      fr: "Grande salle de 2 500 places dans les Beaches sur Queen Street East, accueillant les grandes tournées électroniques et les têtes d’affiche house, techno et bass.",
-      en: "2,500-capacity hall on Queen Street East in the Beaches, hosting major international electronic tours and house, techno and bass headliners.",
-    },
-  },
-  {
-    id: "kitkatclub-berlin",
-    nom: "KitKatClub",
-    type: "club",
-    paysCode: "DE",
-    villeSlug: "berlin-de",
-    ville: { fr: "Berlin", en: "Berlin" },
-    latitude: 52.5112,
-    longitude: 13.4167,
-    capacite: 1300,
-    annee: 1994,
-    styles: ["Techno","Trance","Hard Techno","House"],
-    site: "https://kitkatclub.org",
-    description: {
-      fr: "Institution berlinoise fondée en 1994 par Simon Thaur et Kirsten Krüger sur Köpenicker Straße, célèbre pour sa piscine intérieure, ses nuits Symbiotikka et Gegen et sa liberté radicale.",
-      en: "Berlin institution founded in 1994 on Köpenicker Straße, famous for its indoor pool, Symbiotikka and Gegen nights, and radical hedonistic freedom.",
-    },
-  },
-  {
-    id: "kater-blau-berlin",
-    nom: "Kater Blau",
-    type: "club",
-    paysCode: "DE",
-    villeSlug: "berlin-de",
-    ville: { fr: "Berlin", en: "Berlin" },
-    latitude: 52.5122,
-    longitude: 13.4258,
-    capacite: 1000,
-    annee: 2014,
-    styles: ["House","Deep House","Melodic Techno","Minimal"],
-    site: "https://www.katerblau.de",
-    description: {
-      fr: "Héritier de Bar 25 et KaterHolzig amarré au bord de la Spree sur Holzmarktstraße, célèbre pour ses terrasses en bois et ses marathons house et deep techno de soixante heures.",
-      en: "Successor to Bar 25 and KaterHolzig on the banks of the Spree at Holzmarkt, famed for its wooden decks and 60-hour house and deep techno marathons.",
-    },
-  },
-  {
-    id: "about-blank-berlin",
-    nom: "://about blank",
-    type: "club",
-    paysCode: "DE",
-    villeSlug: "berlin-de",
-    ville: { fr: "Berlin", en: "Berlin" },
-    latitude: 52.5024,
-    longitude: 13.4671,
-    capacite: 900,
-    annee: 2010,
-    styles: ["Techno","House","Breaks","Electro"],
-    site: "https://aboutblank.li",
-    description: {
-      fr: "Club autogéré près d’Ostkreuz à Friedrichshain, reconnu pour son immense jardin arboré ouvert en été et ses résidences engagées ( Staub, Homopatik).",
-      en: "Collectively run club near Ostkreuz in Friedrichshain, celebrated for its sprawling leafy garden in summer and flagship residencies like Staub and Homopatik.",
-    },
-  },
-  {
-    id: "club-der-visionaere-berlin",
-    nom: "Club der Visionaere",
-    type: "club",
-    paysCode: "DE",
-    villeSlug: "berlin-de",
-    ville: { fr: "Berlin", en: "Berlin" },
-    latitude: 52.4969,
-    longitude: 13.4533,
-    capacite: 450,
-    annee: 2000,
-    styles: ["Minimal","Microhouse","House","Deep House"],
-    site: "https://clubdervisionaere.com",
-    description: {
-      fr: "Ancien hangar à bateaux sur pilotis au bord du canal de la Spree à Kreuzberg, berceau mondial des après-midis et nuits minimal et microhouse (Ricardo Villalobos, Perlon).",
-      en: "Waterside boathouse on stilts along the Flutgraben canal in Kreuzberg, global home of minimal and microhouse day-into-night sessions.",
-    },
-  },
-  {
-    id: "drumsheds-londres",
-    nom: "Drumsheds",
-    type: "club",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres", en: "London" },
-    latitude: 51.6114,
-    longitude: -0.0419,
-    capacite: 15000,
-    annee: 2023,
-    styles: ["Techno","Drum & Bass","House","UK Bass"],
-    site: "https://drumshedslondon.com",
-    description: {
-      fr: "Le plus grand club intérieur d’Europe (15 000 places), aménagé par l’équipe de Printworks dans un ancien entrepôt IKEA monumental à Meridian Water au nord de Londres.",
-      en: "Europe’s largest indoor club venue (15,000 capacity), created by the team behind Printworks inside a monumental former IKEA warehouse at Meridian Water.",
-    },
-  },
-  {
-    id: "corsica-studios-londres",
-    nom: "Corsica Studios",
-    type: "club",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres", en: "London" },
-    latitude: 51.4941,
-    longitude: -0.0987,
-    capacite: 500,
-    annee: 2002,
-    styles: ["Techno","UK Bass","Jungle","Experimental"],
-    site: "https://www.corsicastudios.com",
-    description: {
-      fr: "Deux arches ferroviaires sous la gare d’Elephant & Castle équipées en Funktion-One, sanctuaire indépendant des nuits techno, dubstep, jungle et expérimentales.",
-      en: "Two railway arches beneath Elephant & Castle station equipped with Funktion-One sound, an independent sanctuary for techno, dubstep, jungle and experimental nights.",
-    },
-  },
-  {
-    id: "e1-londres",
-    nom: "E1",
-    type: "club",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres", en: "London" },
-    latitude: 51.5084,
-    longitude: -0.0602,
-    capacite: 1600,
-    annee: 2017,
-    styles: ["Techno","Hard Techno","House"],
-    site: "https://e1ldn.com",
-    description: {
-      fr: "Entrepôt industriel de Wapping dans l’Est londonien célèbre pour le mur sonore Funktion-One sur mesure de sa salle Warehouse (« Wall of Sound »).",
-      en: "Wapping industrial warehouse in East London renowned for the bespoke Funktion-One “Wall of Sound” in its main Warehouse room.",
-    },
-  },
-  {
-    id: "fvtvr-paris",
-    nom: "FVTVR",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris", en: "Paris" },
-    latitude: 48.8408,
-    longitude: 2.3702,
-    capacite: 900,
-    annee: 2023,
-    styles: ["Techno","House","Electro","Experimental"],
-    site: "https://www.instagram.com/fvtvr_paris/",
-    description: {
-      fr: "Nef brutaliste de béton sous la Cité de la Mode et du Design quai d’Austerlitz, accueillant les grands plateaux techno, electro et avant-garde à Paris.",
-      en: "Brutalist concrete nave beneath the Cité de la Mode et du Design on Quai d’Austerlitz, hosting forward-thinking techno, electro and avant-garde lineups.",
-    },
-  },
-  {
-    id: "kilometre25-paris",
-    nom: "Kilomètre25",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris", en: "Paris" },
-    latitude: 48.8994,
-    longitude: 2.3921,
-    capacite: 2200,
-    annee: 2021,
-    styles: ["Techno","Hard Techno","Trance","House"],
-    site: "https://www.kilometre25.fr",
-    description: {
-      fr: "Club à ciel ouvert sous le boulevard périphérique parisien à la porte de la Villette, réunissant techno, hard techno et house du printemps à l’automne.",
-      en: "Open-air club beneath the Paris ring road at Porte de la Villette, hosting techno, hard techno and house from spring through autumn.",
-    },
-  },
-  {
-    id: "mia-mao-paris",
-    nom: "Mia Mao",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris", en: "Paris" },
-    latitude: 48.8952,
-    longitude: 2.3911,
-    capacite: 3000,
-    annee: 2025,
-    styles: ["Techno","Industrial","Hard Techno","Electro"],
-    site: "https://www.instagram.com/miamao.paris/",
-    description: {
-      fr: "Immense cathédrale industrielle de 3 000 m² à La Villette dotée d’une politique sans photo et conçue pour les grandes nuits techno à Paris.",
-      en: "Massive 3,000-square-meter industrial warehouse at La Villette featuring a strict no-photo policy and built for large-scale Parisian techno nights.",
-    },
-  },
-  {
-    id: "melomane-club-montpellier",
-    nom: "Mélomane Club",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "montpellier-fr",
-    ville: { fr: "Montpellier", en: "Montpellier" },
-    latitude: 43.5861,
-    longitude: 3.8842,
-    capacite: 450,
-    annee: 2016,
-    styles: ["Techno","Drum & Bass","Trance","Bass"],
-    site: "https://melomaneclub.fr",
-    description: {
-      fr: "Club indépendant de la rue du Lantissargues équipé d’un système L-Acoustics, repaire des collectifs techno, psytrance, drum and bass et dub de Montpellier.",
-      en: "Independent club on Rue du Lantissargues equipped with an L-Acoustics system, home to Montpellier’s techno, psytrance, drum and bass and dub collectives.",
-    },
-  },
-  {
-    id: "antirouille-montpellier",
-    nom: "L’Antirouille",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "montpellier-fr",
-    ville: { fr: "Montpellier", en: "Montpellier" },
-    latitude: 43.6061,
-    longitude: 3.8738,
-    capacite: 500,
-    annee: 1995,
-    styles: ["Techno","House","Electro","Bass"],
-    site: "https://antirouille.net",
-    description: {
-      fr: "Club historique de la rue Anatole-France au centre de Montpellier, pilier des nuits techno, house et bass music depuis les années 1990.",
-      en: "Historic club on Rue Anatole-France in central Montpellier, a pillar of local techno, house and bass music nights since the 1990s.",
-    },
-  },
-  {
-    id: "interference-toulouse",
-    nom: "Interférence",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "toulouse-fr",
-    ville: { fr: "Toulouse", en: "Toulouse" },
-    latitude: 43.6214,
-    longitude: 1.4912,
-    capacite: 2500,
-    annee: 2024,
-    styles: ["Techno","Hard Techno","House","Trance"],
-    site: "https://interference-toulouse.fr",
-    description: {
-      fr: "Vaste complexe événementiel de Balma aux portes de Toulouse, devenu le nouveau vaisseau amiral des grandes nuits techno, rave et hard techno de la région.",
-      en: "Large-scale venue in Balma on the edge of Toulouse, the flagship hall for major techno, rave and hard techno productions in the region.",
-    },
-  },
-  {
-    id: "cri-de-la-mouette-toulouse",
-    nom: "Le Cri de la Mouette",
-    type: "club",
-    paysCode: "FR",
-    villeSlug: "toulouse-fr",
-    ville: { fr: "Toulouse", en: "Toulouse" },
-    latitude: 43.6088,
-    longitude: 1.4239,
-    capacite: 300,
-    annee: 1999,
-    styles: ["House","Techno","Minimal","Electro"],
-    site: "https://www.instagram.com/lecridelamouette/",
-    description: {
-      fr: "Péniche historique amarrée sur le canal de Brienne à Toulouse, où la cale se transforme chaque week-end en club intimiste house, minimal et techno.",
-      en: "Historic barge moored on the Canal de Brienne in Toulouse, whose hold transforms every weekend into an intimate house, minimal and techno club.",
-    },
-  },
-  {
-    id: "bret-amsterdam",
-    nom: "BRET",
-    type: "club",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Amsterdam", en: "Amsterdam" },
-    latitude: 52.3886,
-    longitude: 4.8384,
-    capacite: 350,
-    annee: 2015,
-    styles: ["Minimal","House","Techno","Microhouse"],
-    site: "https://www.bret.bar",
-    description: {
-      fr: "Cube rouge de conteneurs maritimes recyclés face à la gare de Sloterdijk, célèbre pour ses marathons intimistes VBX et SlapFunk pendant ADE et tout l’été.",
-      en: "Red cube built from upcycled shipping containers outside Sloterdijk station, famous for its intimate VBX and SlapFunk marathons during ADE and all summer.",
-    },
-  },
-  {
-    id: "garage-noord-amsterdam",
-    nom: "Garage Noord",
-    type: "club",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Amsterdam", en: "Amsterdam" },
-    latitude: 52.3847,
-    longitude: 4.9258,
-    capacite: 250,
-    annee: 2017,
-    styles: ["Leftfield","Techno","Breaks","Jungle"],
-    site: "https://garagenoord.com",
-    description: {
-      fr: "Ancien garage de réparation automobile d’Amsterdam-Noord transformé en club pointu dédié aux esthétiques club hybrides, breaks, jungle et techno expérimentale.",
-      en: "Former auto repair shop in Amsterdam-Noord converted into a forward-thinking club dedicated to leftfield electronics, breaks, jungle and experimental techno.",
-    },
-  },
-  {
-    id: "moog-barcelone",
-    nom: "Moog",
-    type: "club",
-    paysCode: "ES",
-    villeSlug: "barcelone-es",
-    ville: { fr: "Barcelone", en: "Barcelona" },
-    latitude: 41.3781,
-    longitude: 2.1749,
-    capacite: 350,
-    annee: 1996,
-    styles: ["Techno","Electro","Acid","House"],
-    site: "https://www.masimas.com/moog",
-    description: {
-      fr: "Bunker techno ouvert sept soirs sur sept au coeur du Raval près des Ramblas depuis 1996, fidèle à la techno pure, à l’electro et à l’acid.",
-      en: "Seven-nights-a-week techno bunker in the heart of El Raval off La Rambla since 1996, devoted to pure techno, electro and acid.",
-    },
-  },
-  {
-    id: "macarena-barcelone",
-    nom: "Macarena Club",
-    type: "club",
-    paysCode: "ES",
-    villeSlug: "barcelone-es",
-    ville: { fr: "Barcelone", en: "Barcelona" },
-    latitude: 41.3792,
-    longitude: 2.1774,
-    capacite: 150,
-    annee: 2001,
-    styles: ["House","Minimal","Microhouse","Tech House"],
-    site: "https://macarenaclub.com",
-    description: {
-      fr: "Micro-club du quartier gothique de Barcelone où la cabine DJ trône au milieu de la piste pour une proximité totale avec les artistes house et minimal.",
-      en: "Intimate Gothic Quarter micro-club in Barcelona with the DJ booth right in the center of the dancefloor for house and minimal sessions.",
-    },
-  },
-  {
-    id: "knockdown-center-new-york",
-    nom: "Knockdown Center",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "newyork-us",
-    ville: { fr: "New York", en: "New York" },
-    latitude: 40.7163,
-    longitude: -73.9141,
-    capacite: 3200,
-    annee: 2014,
-    styles: ["Techno","House","Experimental","Indie Dance"],
-    site: "https://knockdown.center",
-    description: {
-      fr: "Ancienne manufacture de portes de 1903 sur 5 000 m² à la frontière de Brooklyn et du Queens, accueillant le Wire Festival, les nuits Ruins en plein air et les grandes tournées.",
-      en: "Sprawling 1903 former door factory straddling the Brooklyn-Queens border, hosting Wire Festival, open-air Ruins sessions and large-scale electronic events.",
-    },
-  },
-  {
-    id: "bossa-nova-new-york",
-    nom: "Bossa Nova Civic Club",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "newyork-us",
-    ville: { fr: "New York", en: "New York" },
-    latitude: 40.6968,
-    longitude: -73.9275,
-    capacite: 180,
-    annee: 2012,
-    styles: ["Techno","Industrial","Acid","Leftfield"],
-    site: "https://bossanovacivicclub.com",
-    description: {
-      fr: "Bar-club enfumé sous le métro aérien de Myrtle Avenue à Bushwick, berceau de toute une génération de producteurs et DJs techno et expérimentaux de Brooklyn.",
-      en: "Fog-filled club beneath the elevated train on Myrtle Avenue in Bushwick, incubator for a generation of Brooklyn techno and experimental artists.",
-    },
-  },
-  {
-    id: "elsewhere-new-york",
-    nom: "Elsewhere",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "newyork-us",
-    ville: { fr: "New York", en: "New York" },
-    latitude: 40.7094,
-    longitude: -73.9232,
-    capacite: 1200,
-    annee: 2017,
-    styles: ["House","Techno","UK Bass","Indie Dance"],
-    site: "https://www.elsewhere.club",
-    description: {
-      fr: "Complexe de trois étages à Bushwick réunissant The Hall, Zone One et un vaste toit-terrasse panoramique face à Manhattan.",
-      en: "Three-level Bushwick venue combining The Hall, Zone One and a panoramic open-air rooftop overlooking the Manhattan skyline.",
-    },
-  },
-  {
-    id: "exchange-la",
-    nom: "Exchange LA",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "losangeles-us",
-    ville: { fr: "Los Angeles", en: "Los Angeles" },
-    latitude: 34.0451,
-    longitude: -118.2528,
-    capacite: 1500,
-    annee: 2010,
-    styles: ["Techno","Trance","House","Tech House"],
-    site: "https://exchangela.com",
-    description: {
-      fr: "Installé dans l’ancien édifice Art déco de la Bourse de Los Angeles (1929) sur Spring Street, sur quatre étages dominés par la salle des marchés.",
-      en: "Housed inside the historic 1929 Art Deco Los Angeles Stock Exchange building on Spring Street across four levels.",
-    },
-  },
-  {
-    id: "avalon-hollywood-la",
-    nom: "Avalon Hollywood",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "losangeles-us",
-    ville: { fr: "Los Angeles", en: "Los Angeles" },
-    latitude: 34.1028,
-    longitude: -118.3269,
-    capacite: 1500,
-    annee: 2003,
-    styles: ["Trance","House","Techno","Progressive House"],
-    site: "https://avalonhollywood.com",
-    description: {
-      fr: "Monument historique de Vine Street face à Capitol Records à Hollywood, célèbre pour ses marathons jusqu’à l’aube sur système EAW Avalon sur mesure.",
-      en: "Historic Vine Street landmark across from Capitol Records in Hollywood, famous for dawn marathons on its custom EAW Avalon sound system.",
-    },
-  },
-  {
-    id: "spybar-chicago",
-    nom: "Spybar",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "chicago-us",
-    ville: { fr: "Chicago", en: "Chicago" },
-    latitude: 41.8936,
-    longitude: -87.6358,
-    capacite: 350,
-    annee: 1998,
-    styles: ["House","Techno","Tech House","Minimal"],
-    site: "https://spybarchicago.com",
-    description: {
-      fr: "Sous-sol intimiste de River North actif depuis 1998 sur Franklin Street, pilier des nuits house et techno underground de Chicago.",
-      en: "Intimate River North basement club active since 1998 on Franklin Street, a pillar of Chicago’s underground house and techno circuit.",
-    },
-  },
-  {
-    id: "podlasie-club-chicago",
-    nom: "Podlasie Club",
-    type: "club",
-    paysCode: "US",
-    villeSlug: "chicago-us",
-    ville: { fr: "Chicago", en: "Chicago" },
-    latitude: 41.9347,
-    longitude: -87.7172,
-    capacite: 200,
-    annee: 2022,
-    styles: ["Techno","Italo","Electro","House"],
-    site: "https://podlasieclub.com",
-    description: {
-      fr: "Ancien bar polonais historique d’Avondale transformé en club électronique pointu pour les sélecteurs techno, italo disco, wave et house.",
-      en: "Historic Polish neighborhood tavern in Avondale reborn as an intimate club for techno, Italo disco, wave and house selectors.",
-    },
-  },
-  {
-    id: "funk-club-mexico",
-    nom: "Fünk Club",
-    type: "club",
-    paysCode: "MX",
-    villeSlug: "mexico-mx",
-    ville: { fr: "Mexico", en: "Mexico City" },
-    latitude: 19.4108,
-    longitude: -99.1683,
-    capacite: 350,
-    annee: 2019,
-    styles: ["House","Techno","Minimal","Tech House"],
-    site: "https://www.instagram.com/funkclubcdmx/",
-    description: {
-      fr: "Bunker souterrain de la Condesa sur l’avenue Insurgentes Sur, équipé d’un système Funktion-One réglé pour la house et la techno.",
-      en: "Subterranean bunker in Condesa on Avenida Insurgentes Sur, outfitted with a precision-tuned Funktion-One system for house and techno.",
-    },
-  },
-  {
-    id: "mn-roy-mexico",
-    nom: "M.N. Roy",
-    type: "club",
-    paysCode: "MX",
-    villeSlug: "mexico-mx",
-    ville: { fr: "Mexico", en: "Mexico City" },
-    latitude: 19.4169,
-    longitude: -99.1558,
-    capacite: 300,
-    annee: 2011,
-    styles: ["House","Indie Dance","Techno","Deep House"],
-    site: "https://www.instagram.com/mnroyclub/",
-    description: {
-      fr: "Club secret installé dans l’ancienne demeure historique du révolutionnaire indien M.N. Roy à Roma Norte, haut lieu des fins de nuit de Mexico.",
-      en: "Secret club housed inside the former Roma Norte residence of Indian revolutionary M.N. Roy, a late-night fixture of Mexico City.",
-    },
-  },
-  {
-    id: "circus-tokyo",
-    nom: "Circus Tokyo",
-    type: "club",
-    paysCode: "JP",
-    villeSlug: "tokyo-jp",
-    ville: { fr: "Tokyo", en: "Tokyo" },
-    latitude: 35.6542,
-    longitude: 139.7061,
-    capacite: 250,
-    annee: 2015,
-    styles: ["UK Bass","Techno","Breaks","Jungle"],
-    site: "https://circus-tokyo.jp",
-    description: {
-      fr: "Sous-sol brut de Shibuya dédié aux courants club avancés, de la UK bass à la techno industrielle en passant par le grime et la jungle.",
-      en: "Raw basement club in Shibuya dedicated to forward-thinking club sounds spanning UK bass, industrial techno, grime and jungle.",
-    },
-  },
-  {
-    id: "oath-tokyo",
-    nom: "Red Bar / Oath",
-    type: "club",
-    paysCode: "JP",
-    villeSlug: "tokyo-jp",
-    ville: { fr: "Tokyo", en: "Tokyo" },
-    latitude: 35.6581,
-    longitude: 139.6994,
-    capacite: 150,
-    annee: 2009,
-    styles: ["House","Disco","Deep House","Techno"],
-    site: "https://bar-oath.com",
-    description: {
-      fr: "Salon souterrain feutré sous des lustres baroques à Dogenzaka (Shibuya), célèbre pour ses nuits house et disco jusqu’au premier train du matin.",
-      en: "Velvet-draped subterranean lounge beneath baroque chandeliers in Dogenzaka, Shibuya, famous for house and disco sessions until the first morning train.",
-    },
-  },
-  {
-    id: "ephigenia-sao-paulo",
-    nom: "Ephigenia",
-    type: "club",
-    paysCode: "BR",
-    villeSlug: "saopaulo-br",
-    ville: { fr: "São Paulo", en: "Sao Paulo" },
-    latitude: -23.5419,
-    longitude: -46.6382,
-    capacite: 600,
-    annee: 2023,
-    styles: ["House","Techno","Disco","Breaks"],
-    site: "https://www.instagram.com/ephigeniasp/",
-    description: {
-      fr: "Installé aux 22e et 23e étages d’un gratte-ciel du centre historique de São Paulo avec vue panoramique sur le viaduc Santa Ifigênia.",
-      en: "Perched on the 22nd and 23rd floors of a historic downtown São Paulo high-rise overlooking the Santa Ifigênia Viaduct.",
-    },
-  },
-  {
-    id: "caracol-sao-paulo",
-    nom: "Caracol",
-    type: "club",
-    paysCode: "BR",
-    villeSlug: "saopaulo-br",
-    ville: { fr: "São Paulo", en: "Sao Paulo" },
-    latitude: -23.5278,
-    longitude: -46.6594,
-    capacite: 350,
-    annee: 2017,
-    styles: ["House","Disco","Leftfield","Techno"],
-    site: "https://www.instagram.com/caracolbar/",
-    description: {
-      fr: "Club audiophile de Barra Funda conçu autour d’un système sonore haute fidélité et d’une piste intimiste dédiée aux diggers brésiliens et internationaux.",
-      en: "Barra Funda audiophile club built around a custom hi-fi sound system and an intimate dancefloor for Brazilian and international selectors.",
-    },
-  },
-  /* ═══ NOUVEAUX FESTIVALS PAR PAYS (ENRICHISSEMENT) ═══ */
-  {
-    id: "veld-toronto-canada",
-    nom: "Veld Music Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto", en: "Toronto" },
-    latitude: 43.7431,
-    longitude: -79.4694,
-    capacite: 40000,
-    annee: 2012,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Bass","Trance"],
-    site: "https://veldmusicfestival.com",
-    description: {
-      fr: "Le plus grand festival électronique d’Ontario au parc Downsview de Toronto, réunissant trois scènes géantes dont le chapiteau Sirkus dédié à la house et à la techno.",
-      en: "Ontario’s largest electronic music festival at Toronto’s Downsview Park, uniting three massive stages including the underground-focused Sirkus tent.",
-    },
-  },
-  {
-    id: "escapade-ottawa-canada",
-    nom: "Escapade Music Festival",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Ottawa", en: "Ottawa" },
-    latitude: 45.3986,
-    longitude: -75.6836,
-    capacite: 25000,
-    annee: 2010,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["House","Bass","Trance","Techno"],
-    site: "https://www.escapademf.com",
-    description: {
-      fr: "Grand rassemblement électronique de trois jours au parc Lansdowne à Ottawa, attirant des festivaliers de tout l’Est du Canada autour de la house, de la bass et de la trance.",
-      en: "Major three-day electronic festival at Lansdowne Park in Ottawa, drawing fans from across Eastern Canada for house, bass and trance.",
-    },
-  },
-  {
-    id: "electric-island-toronto-canada",
-    nom: "Electric Island",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto", en: "Toronto" },
-    latitude: 43.6289,
-    longitude: -79.4158,
-    capacite: 10000,
-    annee: 2013,
-    mois: { fr: "Mai - Septembre", en: "May - September" },
-    styles: ["House","Techno","Melodic Techno","Deep House"],
-    site: "https://www.electricisland.to",
-    description: {
-      fr: "Série de festivals en plein air lors des longs week-ends d’été au bord du lac Ontario à Toronto, dédiée aux grands noms internationaux de la house et de la techno.",
-      en: "Summer long-weekend open-air festival series along the Lake Ontario waterfront in Toronto, showcasing international house and techno headliners.",
-    },
-  },
-  {
-    id: "bass-coast-canada",
-    nom: "Bass Coast Festival",
-    type: "festival",
-    paysCode: "CA",
-    ville: { fr: "Merritt (Colombie-Britannique)", en: "Merritt (British Columbia)" },
-    latitude: 50.0975,
-    longitude: -120.7931,
-    capacite: 6500,
-    annee: 2009,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Bass","UK Bass","House","Techno"],
-    site: "https://basscoast.ca",
-    description: {
-      fr: "Festival indépendant fondé par Andrea Graham (The Librarian) et Liz Thomson dans la vallée Nicola, acclamé pour sa direction artistique bass music, house et installations sculpturales.",
-      en: "Independent boutique festival founded by Andrea Graham (The Librarian) and Liz Thomson in the Nicola Valley, acclaimed for its bass, house and sculptural art curation.",
-    },
-  },
-  {
-    id: "chasing-summer-calgary-canada",
-    nom: "Chasing Summer",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Calgary", en: "Calgary" },
-    latitude: 51.0972,
-    longitude: -113.9978,
-    capacite: 18000,
-    annee: 2013,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Trance","Bass","Tech House"],
-    site: "https://www.chasingsummerfestival.com",
-    description: {
-      fr: "Le plus grand festival électronique en plein air des Prairies canadiennes, organisé chaque mois d’août à Calgary sur plusieurs scènes.",
-      en: "Western Canada’s largest outdoor electronic music festival on the Prairies, held every August in Calgary.",
-    },
-  },
-  {
-    id: "badlands-calgary-canada",
-    nom: "Badlands Music Festival",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Calgary", en: "Calgary" },
-    latitude: 51.0422,
-    longitude: -114.0794,
-    capacite: 12000,
-    annee: 2014,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Drum & Bass","Bass","Tech House"],
-    site: "https://www.badlandsmusicfest.com",
-    description: {
-      fr: "Marathon électronique de dix jours au centre-ville de Calgary en juillet, enchaînant têtes d’affiche house, drum and bass, techno et bass music.",
-      en: "Ten-day electronic marathon in downtown Calgary every July, featuring house, drum and bass, techno and bass music headliners.",
-    },
-  },
-  {
-    id: "contact-vancouver-canada",
-    nom: "Contact Winter Music Festival",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Vancouver", en: "Vancouver" },
-    latitude: 49.2767,
-    longitude: -123.1119,
-    capacite: 15000,
-    annee: 2012,
-    mois: { fr: "Décembre", en: "December" },
-    styles: ["House","Bass","Techno","Trance"],
-    site: "https://contact-festival.com",
-    description: {
-      fr: "Grand rassemblement électronique hivernal de la côte Ouest canadienne à Vancouver pour clore l’année entre Noël et le Jour de l’An.",
-      en: "Western Canada’s flagship indoor winter electronic festival in Vancouver, held every December between Christmas and New Year’s Eve.",
-    },
-  },
-  {
-    id: "fvded-vancouver-canada",
-    nom: "FVDED in the Park",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Vancouver (Surrey)", en: "Vancouver (Surrey)" },
-    latitude: 49.1808,
-    longitude: -122.8492,
-    capacite: 25000,
-    annee: 2015,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Drum & Bass","Bass","UK Garage"],
-    site: "https://fvdedinthepark.com",
-    description: {
-      fr: "Grand festival d’été au parc Holland dans le Grand Vancouver, doté d’une programmation électronique de premier plan (house, UK garage, drum and bass, bass).",
-      en: "Major summer festival at Holland Park in Metro Vancouver featuring a heavyweight electronic lineup across house, UK garage, drum and bass and bass.",
-    },
-  },
-  {
-    id: "edc-las-vegas-us",
-    nom: "EDC Las Vegas (Electric Daisy Carnival)",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Las Vegas", en: "Las Vegas" },
-    latitude: 36.2725,
-    longitude: -115.0103,
-    capacite: 150000,
-    annee: 1997,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["House","Techno","Bass","Trance"],
-    site: "https://lasvegas.electricdaisycarnival.com",
-    description: {
-      fr: "Le plus grand festival électronique d’Amérique du Nord au Las Vegas Motor Speedway, fonctionnant du coucher au lever du soleil devant 150 000 personnes par nuit sur huit scènes dont NeonGARDEN et Factory 93.",
-      en: "North America’s largest electronic music festival at the Las Vegas Motor Speedway, running from dusk till dawn for 150,000 attendees per night across eight stages including NeonGARDEN.",
-    },
-  },
-  {
-    id: "ultra-miami-us",
-    nom: "Ultra Music Festival",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "miami-us",
-    ville: { fr: "Miami", en: "Miami" },
-    latitude: 25.7743,
-    longitude: -80.1859,
-    capacite: 55000,
-    annee: 1999,
-    mois: { fr: "Mars", en: "March" },
-    styles: ["Techno","House","Trance","Bass"],
-    site: "https://ultramusicfestival.com",
-    description: {
-      fr: "Point d’orgue de la Miami Music Week à Bayfront Park, abritant la mégastructure RESISTANCE dédiée à Carl Cox et aux têtes d’affiche mondiales de la techno et de la house.",
-      en: "Flagship festival of Miami Music Week at Bayfront Park, home to the iconic RESISTANCE Megastructure hosted by Carl Cox and global techno and house leaders.",
-    },
-  },
-  {
-    id: "crssd-san-diego-us",
-    nom: "CRSSD Festival",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "San Diego", en: "San Diego" },
-    latitude: 32.7214,
-    longitude: -117.1725,
-    capacite: 15000,
-    annee: 2015,
-    mois: { fr: "Mars & Septembre", en: "March & September" },
-    styles: ["House","Techno","Indie Dance","Live Electronic"],
-    site: "https://www.crssdfest.com",
-    description: {
-      fr: "Festival semestriel sur le front de mer de Waterfront Park à San Diego, célèbre pour ses scènes City Steps (techno), The Palms (house) et Ocean View (lives électroniques).",
-      en: "Biannual waterfront festival at San Diego’s Waterfront Park, renowned for its City Steps (techno), The Palms (house) and Ocean View (live electronic) stages.",
-    },
-  },
-  {
-    id: "portola-san-francisco-us",
-    nom: "Portola Music Festival",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "San Francisco", en: "San Francisco" },
-    latitude: 37.7528,
-    longitude: -122.3711,
-    capacite: 40000,
-    annee: 2022,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Live Electronic","House","Techno","UK Bass"],
-    site: "https://portolamusicfestival.com",
-    description: {
-      fr: "Installé sur les quais industriels du Pier 80 à San Francisco avec son gigantesque hangar Warehouse de 25 000 places consacré à la culture club.",
-      en: "Set on the industrial docks of Pier 80 in San Francisco, anchored by its cavernous 25,000-capacity Warehouse stage.",
-    },
-  },
-  {
-    id: "electric-forest-us",
-    nom: "Electric Forest",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Rothbury (Michigan)", en: "Rothbury (Michigan)" },
-    latitude: 43.5247,
-    longitude: -86.3642,
-    capacite: 45000,
-    annee: 2011,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Bass","House","Downtempo","Techno"],
-    site: "https://www.electricforest.com",
-    description: {
-      fr: "Quatre jours d’immersion au coeur de la forêt Sherwood dans le Michigan, mêlant installations lumineuses monumentales, bass music et scènes house.",
-      en: "Four-day immersive gathering inside Michigan’s Sherwood Forest, blending monumental light installations with bass music and house stages.",
-    },
-  },
-  {
-    id: "seismic-austin-us",
-    nom: "Seismic Dance Event",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Austin (Texas)", en: "Austin (Texas)" },
-    latitude: 30.2094,
-    longitude: -97.7058,
-    capacite: 10000,
-    annee: 2018,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["Techno","House","Melodic Techno","Tech House"],
-    site: "https://www.seismicdanceevent.com",
-    description: {
-      fr: "Le festival boutique de référence du sud des États-Unis au Concourse Project d’Austin, entièrement consacré à la house et à la techno underground.",
-      en: "The American South’s premier boutique underground house and techno festival, held at The Concourse Project in Austin.",
-    },
-  },
-  {
-    id: "lost-lands-us",
-    nom: "Lost Lands",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Legend Valley (Ohio)", en: "Legend Valley (Ohio)" },
-    latitude: 39.9394,
-    longitude: -82.4044,
-    capacite: 45000,
-    annee: 2017,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Dubstep","Bass","Drum & Bass"],
-    site: "https://www.lostlandsfestival.com",
-    description: {
-      fr: "Fondé par le producteur canadien Excision en Ohio, le plus grand rassemblement mondial consacré au dubstep, à la bass music et à la drum and bass.",
-      en: "Founded by Canadian producer Excision in Ohio, the world’s largest festival dedicated to dubstep, heavy bass music and drum and bass.",
-    },
-  },
-  {
-    id: "lightning-in-a-bottle-us",
-    nom: "Lightning in a Bottle",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Buena Vista Lake (Californie)", en: "Buena Vista Lake (California)" },
-    latitude: 35.2361,
-    longitude: -119.2869,
-    capacite: 22000,
-    annee: 2004,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["House","Techno","Bass","Downtempo"],
-    site: "https://www.libfestival.org",
-    description: {
-      fr: "Festival californien produit par le collectif Do LaB autour des scènes architecturales Woogie (house et techno) et Thunder (bass music).",
-      en: "California festival produced by the Do LaB collective around the architectural Woogie (house and techno) and Thunder (bass) stages.",
-    },
-  },
-  {
-    id: "wire-festival-ny-us",
-    nom: "Wire Festival",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "newyork-us",
-    ville: { fr: "New York", en: "New York" },
-    latitude: 40.7161,
-    longitude: -73.9139,
-    capacite: 4500,
-    annee: 2023,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","Acid Techno","Industrial","Electro"],
-    site: "https://basementny.net",
-    description: {
-      fr: "Marathon techno de trois jours et trois nuits organisé par l’équipe de BASEMENT au Knockdown Center à New York.",
-      en: "Three-day, three-night purist techno marathon curated by the BASEMENT team across the Knockdown Center complex in New York.",
-    },
-  },
-  {
-    id: "edc-mexico-mexique",
-    nom: "EDC Mexico",
-    type: "festival",
-    paysCode: "MX",
-    villeSlug: "mexico-mx",
-    ville: { fr: "Mexico", en: "Mexico City" },
-    latitude: 19.4039,
-    longitude: -99.0903,
-    capacite: 110000,
-    annee: 2014,
-    mois: { fr: "Février", en: "February" },
-    styles: ["House","Techno","Trance","Bass"],
-    site: "https://mexico.electricdaisycarnival.com",
-    description: {
-      fr: "Le plus grand festival électronique d’Amérique latine sur le circuit Autódromo Hermanos Rodríguez de Mexico, rassemblant plus de 100 000 personnes par jour.",
-      en: "Latin America’s largest electronic music festival at Mexico City’s Autódromo Hermanos Rodríguez, drawing over 100,000 attendees per day.",
-    },
-  },
-  {
-    id: "day-zero-tulum-mexique",
-    nom: "Day Zero",
-    type: "festival",
-    paysCode: "MX",
-    ville: { fr: "Tulum (Dos Ojos)", en: "Tulum (Dos Ojos)" },
-    latitude: 20.3247,
-    longitude: -87.3911,
-    capacite: 8000,
-    annee: 2012,
-    mois: { fr: "Janvier", en: "January" },
-    styles: ["House","Deep House","Techno","Indie Dance"],
-    site: "https://dayzerofestival.com",
-    description: {
-      fr: "Créé par Damian Lazarus (Crosstown Rebels) en 2012 à la fin du calendrier maya dans les cénotes de Dos Ojos à Tulum, du coucher du soleil jusqu’au lendemain matin.",
-      en: "Created by Damian Lazarus (Crosstown Rebels) in 2012 at the end of the Mayan calendar inside the Dos Ojos cenote park in Tulum, running from sunset through sunrise.",
-    },
-  },
-  {
-    id: "akamba-mexique",
-    nom: "Akamba Festival",
-    type: "festival",
-    paysCode: "MX",
-    ville: { fr: "Tequila (Jalisco)", en: "Tequila (Jalisco)" },
-    latitude: 20.8819,
-    longitude: -103.8325,
-    capacite: 8000,
-    annee: 2018,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["House","Indie Dance","Downtempo","Techno"],
-    site: "https://akamba.mx",
-    description: {
-      fr: "Festival électronique au milieu des champs d’agaves bleus au pied du volcan de Tequila à Jalisco.",
-      en: "Open-air electronic festival set amid blue agave fields at the foot of the Tequila volcano in Jalisco.",
-    },
-  },
-  {
-    id: "nation-of-gondwana-allemagne",
-    nom: "Nation of Gondwana",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Grünefeld (près de Berlin)", en: "Grünefeld (near Berlin)" },
-    latitude: 52.6772,
-    longitude: 12.9689,
-    capacite: 12000,
-    annee: 1995,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Ambient","Electro"],
-    site: "https://pyonen.de",
-    description: {
-      fr: "Organisé depuis 1995 par le collectif Pyonen autour d’un lac à l’ouest de Berlin, l’un des festivals en plein air les plus authentiques de la culture rave berlinoise.",
-      en: "Organized since 1995 by the Pyonen collective around a lake west of Berlin, one of the most authentic open-air gatherings of Berlin rave culture.",
-    },
-  },
-  {
-    id: "stone-techno-allemagne",
-    nom: "Stone Techno Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Essen (Zeche Zollverein)", en: "Essen (Zeche Zollverein)" },
-    latitude: 51.4864,
-    longitude: 7.0447,
-    capacite: 10000,
-    annee: 2020,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","Hardgroove","Electro","Hypnotic Techno"],
-    site: "https://www.thethirdroom.de",
-    description: {
-      fr: "Produit par The Third Room en partenariat avec ARTE Concert au coeur de l’ancienne mine de charbon Zeche Zollverein classée à l’UNESCO.",
-      en: "Produced by The Third Room in partnership with ARTE Concert across the UNESCO World Heritage Zeche Zollverein coal mine complex in Essen.",
-    },
-  },
-  {
-    id: "garbicz-festival-allemagne",
-    nom: "Garbicz Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Garbicz (axe Berlin - Pologne)", en: "Garbicz (Berlin - Poland border)" },
-    latitude: 52.3136,
-    longitude: 14.9711,
-    capacite: 8000,
-    annee: 2013,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Deep House","Minimal","House","Techno"],
-    site: "https://garbiczfestival.com",
-    description: {
-      fr: "Rendez-vous forestier et lacustre de la communauté des clubs berlinois (Kater Blau, Sisyphos) à une heure à l’est de Berlin.",
-      en: "Forest and lakeside gathering born from Berlin’s Kater Blau and Sisyphos community an hour east of the German capital.",
-    },
-  },
-  {
-    id: "mayday-dortmund-allemagne",
-    nom: "MAYDAY",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Dortmund (Westfalenhallen)", en: "Dortmund (Westfalenhallen)" },
-    latitude: 51.4964,
-    longitude: 7.4558,
-    capacite: 18000,
-    annee: 1991,
-    mois: { fr: "Avril (30 avril)", en: "April (April 30)" },
-    styles: ["Techno","Hard Techno","Trance","Hardcore"],
-    site: "https://www.mayday.de",
-    description: {
-      fr: "La mère de toutes les raves en salle en Allemagne, fondée en décembre 1991 à Berlin pour sauver la radio DT64 et installée depuis dans les Westfalenhallen de Dortmund.",
-      en: "The mother of all German indoor raves, founded in December 1991 in Berlin and held every April 30 across Dortmund’s Westfalenhallen.",
-    },
-  },
-  {
-    id: "parookaville-allemagne",
-    nom: "Parookaville",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Weeze (Aéroport)", en: "Weeze (Airport)" },
-    latitude: 51.6025,
-    longitude: 6.1422,
-    capacite: 75000,
-    annee: 2015,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Techno","Hardstyle","Trance"],
-    site: "https://www.parookaville.com",
-    description: {
-      fr: "Ville-festival éphémère érigée dans les hangars et pistes de l’ancienne base aérienne de la Royal Air Force à Weeze en Rhénanie.",
-      en: "Ephemeral festival city erected across the shelters and runways of the former Royal Air Force base in Weeze.",
-    },
-  },
-  {
-    id: "sonnemondsterne-allemagne",
-    nom: "SonneMondSterne (SMS)",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Saalburg-Ebersdorf", en: "Saalburg-Ebersdorf" },
-    latitude: 50.4958,
-    longitude: 11.7244,
-    capacite: 40000,
-    annee: 1997,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Drum & Bass","Electro"],
-    site: "https://www.sonnemondsterne.de",
-    description: {
-      fr: "Grand festival en plein air au bord du barrage de Bleiloch en Thuringe, actif depuis 1997 avec scènes sur la plage et bateau de croisière électronique.",
-      en: "Major open-air electronic festival on the shores of the Bleiloch reservoir in Thuringia, running since 1997.",
-    },
-  },
-  {
-    id: "ade-amsterdam-pays-bas",
-    nom: "Amsterdam Dance Event (ADE)",
-    type: "festival",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Amsterdam", en: "Amsterdam" },
-    latitude: 52.3702,
-    longitude: 4.8952,
-    capacite: 100000,
-    annee: 1996,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["Techno","House","Trance","Electro"],
-    site: "https://www.amsterdam-dance-event.nl",
-    description: {
-      fr: "Le plus grand festival de clubs et sommet professionnel de musique électronique au monde, réunissant plus de 2 500 artistes dans 200 lieux d’Amsterdam pendant cinq jours.",
-      en: "The world’s largest club festival and electronic music conference, uniting over 2,500 artists across 200 Amsterdam venues over five days.",
-    },
-  },
-  {
-    id: "mysteryland-pays-bas",
-    nom: "Mysteryland",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Haarlemmermeer", en: "Haarlemmermeer" },
-    latitude: 52.3292,
-    longitude: 4.6658,
-    capacite: 60000,
-    annee: 1993,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Hardstyle","Trance"],
-    site: "https://www.mysteryland.nl",
-    description: {
-      fr: "Fondé en 1993, le plus ancien festival de musique électronique en activité au monde, organisé autour de la pyramide du parc Floriade près d’Amsterdam.",
-      en: "Founded in 1993, the world’s longest-running electronic music festival, held around the pyramid hill of the Floriade grounds near Amsterdam.",
-    },
-  },
-  {
-    id: "loveland-amsterdam-pays-bas",
-    nom: "Loveland Festival",
-    type: "festival",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Amsterdam (Sloterpark)", en: "Amsterdam (Sloterpark)" },
-    latitude: 52.3694,
-    longitude: 4.8122,
-    capacite: 25000,
-    annee: 1995,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Melodic Techno","Progressive House"],
-    site: "https://loveland.nl",
-    description: {
-      fr: "Institution amstellodamoise au bord du lac de Sloterpark depuis 1995, célébrant la house, la techno mélodique et la progressive house.",
-      en: "Amsterdam lakeside institution in Sloterpark since 1995, celebrating house, techno, melodic techno and progressive house.",
-    },
-  },
-  {
-    id: "defqon-1-pays-bas",
-    nom: "Defqon.1 Weekend Festival",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Biddinghuizen", en: "Biddinghuizen" },
-    latitude: 52.4414,
-    longitude: 5.7586,
-    capacite: 65000,
-    annee: 2003,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Hardstyle","Hardcore","Gabber","Hard Techno"],
-    site: "https://www.q-dance.com",
-    description: {
-      fr: "La Mecque mondiale des styles hard (hardstyle, hardcore, gabber, industrial hardcore) organisée par Q-dance sur quatre jours à Biddinghuizen.",
-      en: "The global Mecca of harder styles (hardstyle, hardcore, gabber, industrial hardcore) staged by Q-dance across four days in Biddinghuizen.",
-    },
-  },
-  {
-    id: "asot-rotterdam-pays-bas",
-    nom: "A State of Trance (ASOT)",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Rotterdam (Ahoy)", en: "Rotterdam (Ahoy)" },
-    latitude: 51.8825,
-    longitude: 4.4883,
-    capacite: 35000,
-    annee: 2001,
-    mois: { fr: "Février", en: "February" },
-    styles: ["Trance","Progressive House","Techno"],
-    site: "https://festival.astateoftrance.com",
-    description: {
-      fr: "Le plus grand rassemblement mondial consacré à la musique trance, fondé par Armin van Buuren et organisé dans les halls de Rotterdam Ahoy.",
-      en: "The world’s premier trance music gathering, founded by Armin van Buuren and staged across the halls of Rotterdam Ahoy.",
-    },
-  },
-  {
-    id: "soenda-utrecht-pays-bas",
-    nom: "Soenda Festival",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Utrecht (Ruigenhoekse Polder)", en: "Utrecht (Ruigenhoekse Polder)" },
-    latitude: 52.1422,
-    longitude: 5.1256,
-    capacite: 15000,
-    annee: 2009,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["Techno","Hard Techno","House","Electro"],
-    site: "https://www.soenda.com",
-    description: {
-      fr: "Grand rassemblement techno et house au nord d’Utrecht, reconnu pour la qualité de ses six scènes curatées.",
-      en: "Major techno and house festival north of Utrecht, celebrated for its six tightly curated stages.",
-    },
-  },
-  {
-    id: "peacock-society-france",
-    nom: "Peacock Society",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris", en: "Paris" },
-    latitude: 48.7711,
-    longitude: 2.4533,
-    capacite: 25000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Hard Techno","UK Bass"],
-    site: "https://peacocksociety.fr",
-    description: {
-      fr: "Grand rendez-vous électronique du Grand Paris réunissant les scènes techno, house, hardgroove et UK bass internationales.",
-      en: "Flagship Greater Paris electronic music festival uniting international techno, house, hardgroove and UK bass stages.",
-    },
-  },
-  {
-    id: "cercle-festival-france",
-    nom: "Cercle Festival",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris (Musée de l’Air et de l’Espace, Le Bourget)", en: "Paris (Air and Space Museum, Le Bourget)" },
-    latitude: 48.9472,
-    longitude: 2.4347,
-    capacite: 24000,
-    annee: 2019,
-    mois: { fr: "Mai (biennal)", en: "May (biennial)" },
-    styles: ["Melodic Techno","House","Indie Dance","Techno"],
-    site: "https://festival.cercle.io",
-    description: {
-      fr: "Organisé par le média français Cercle sur le tarmac du Musée de l’Air et de l’Espace au Bourget, avec trois scènes installées sous la fusée Ariane 5, un Concorde et un A380.",
-      en: "Staged by Cercle on the tarmac of the Air and Space Museum at Le Bourget near Paris, with three stages set beneath the Ariane 5 rocket, the Concorde and an A380.",
-    },
-  },
-  {
-    id: "family-piknik-france",
-    nom: "Family Piknik",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "montpellier-fr",
-    ville: { fr: "Montpellier / Frontignan", en: "Montpellier / Frontignan" },
-    latitude: 43.4472,
-    longitude: 3.7558,
-    capacite: 20000,
-    annee: 2012,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Melodic Techno","Minimal"],
-    site: "https://www.familypiknikfestival.com",
-    description: {
-      fr: "Festival méditerranéen fondé par Tom Pooks près de Montpellier, célèbre pour ses longs sets house, techno et melodic techno en plein air.",
-      en: "Mediterranean open-air festival founded by Tom Pooks near Montpellier, famed for extended house, techno and melodic techno sets.",
-    },
-  },
-  {
-    id: "plages-electroniques-france",
-    nom: "Les Plages Électroniques",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Cannes", en: "Cannes" },
-    latitude: 43.5506,
-    longitude: 7.0189,
-    capacite: 50000,
-    annee: 2006,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Bass","Melodic Techno"],
-    site: "https://www.plages-electroniques.com",
-    description: {
-      fr: "Trois jours de fête les pieds dans l’eau sur la plage et le toit du Palais des Festivals de Cannes, devant plus de 50 000 festivaliers.",
-      en: "Three days of beachfront and rooftop electronic stages at the Palais des Festivals in Cannes, drawing over 50,000 attendees.",
-    },
-  },
-  {
-    id: "tomorrowland-winter-france",
-    nom: "Tomorrowland Winter",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Alpe d’Huez", en: "Alpe d’Huez" },
-    latitude: 45.0922,
-    longitude: 6.0697,
-    capacite: 22000,
-    annee: 2019,
-    mois: { fr: "Mars", en: "March" },
-    styles: ["House","Techno","Melodic Techno","Trance"],
-    site: "https://winter.tomorrowland.com",
-    description: {
-      fr: "Édition hivernale de Tomorrowland perchée entre 1 860 et 3 330 mètres d’altitude sur les pistes de l’Alpe d’Huez dans les Alpes françaises.",
-      en: "Winter mountain edition of Tomorrowland perched between 1,860 and 3,330 meters on the slopes of Alpe d’Huez in the French Alps.",
-    },
-  },
-  {
-    id: "marvellous-island-france",
-    nom: "Marvellous Island",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Torcy (Grand Paris)", en: "Torcy (Greater Paris)" },
-    latitude: 48.8639,
-    longitude: 2.6514,
-    capacite: 25000,
-    annee: 2013,
-    mois: { fr: "Mai (Pentecôte)", en: "May (Pentecost)" },
-    styles: ["House","Techno","Tech House","Hard Techno"],
-    site: "https://marvellous-island.fr",
-    description: {
-      fr: "Festival électronique au bord de la plage et du lac de Vaires-Torcy en Île-de-France, ouvrant la saison des festivals d’été autour de cinq scènes.",
-      en: "Lakeside and beach electronic festival at Vaires-Torcy in Greater Paris, opening the French summer season across five stages.",
-    },
-  },
-  {
-    id: "hadra-trance-festival-france",
-    nom: "Hadra Trance Festival",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Vieure (Allier)", en: "Vieure (Allier)" },
-    latitude: 46.5042,
-    longitude: 2.8758,
-    capacite: 10000,
-    annee: 2005,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Psy","Ambient","Downtempo","Techno"],
-    site: "https://www.hadra.net",
-    description: {
-      fr: "Le grand rassemblement psychédélique français au bord du plan d’eau de Vieure, dédié à la psytrance, à la darkprog, au dub et à l’ambient.",
-      en: "France’s flagship psychedelic gathering on the shores of Lake Vieure, dedicated to psytrance, progressive, dub and ambient.",
-    },
-  },
-  {
-    id: "creamfields-royaume-uni",
-    nom: "Creamfields",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Daresbury (Cheshire)", en: "Daresbury (Cheshire)" },
-    latitude: 53.3414,
-    longitude: -2.6269,
-    capacite: 70000,
-    annee: 1998,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Trance","Drum & Bass"],
-    site: "https://creamfields.com",
-    description: {
-      fr: "Né du club Cream de Liverpool en 1998, le plus grand festival électronique en plein air du Royaume-Uni avec sa structure géante Steel Yard.",
-      en: "Born out of Liverpool’s Cream club in 1998, the UK’s largest open-air electronic dance festival featuring the monumental Steel Yard superstructure.",
-    },
-  },
-  {
-    id: "terminal-v-royaume-uni",
-    nom: "Terminal V",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Édimbourg", en: "Edinburgh" },
-    latitude: 55.9414,
-    longitude: -3.3725,
-    capacite: 20000,
-    annee: 2017,
-    mois: { fr: "Avril & Octobre", en: "April & October" },
-    styles: ["Techno","Hard Techno","House","Electro"],
-    site: "https://terminalv.co.uk",
-    description: {
-      fr: "Le plus grand festival techno d’Écosse dans les immenses hangars du Royal Highland Centre d’Édimbourg.",
-      en: "Scotland’s largest techno festival, staged inside the vast aircraft-hangar halls of Edinburgh’s Royal Highland Centre.",
-    },
-  },
-  {
-    id: "field-day-londres-royaume-uni",
-    nom: "Field Day",
-    type: "festival",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres", en: "London" },
-    latitude: 51.5364,
-    longitude: -0.0392,
-    capacite: 35000,
-    annee: 2007,
-    mois: { fr: "Mai - Août", en: "May - August" },
-    styles: ["Techno","UK Bass","IDM","House"],
-    site: "https://fielddayfestivals.com",
-    description: {
-      fr: "Rendez-vous londonien dédié aux têtes d’affiche de l’électronique d’avant-garde (Aphex Twin, Bicep, Chemical Brothers, Kraftwerk) et à la scène club britannique.",
-      en: "Landmark London festival championing avant-garde electronic headliners (Aphex Twin, Bicep, Chemical Brothers) and UK club culture.",
-    },
-  },
-  {
-    id: "gala-londres-royaume-uni",
-    nom: "GALA Festival",
-    type: "festival",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres (Peckham Rye Park)", en: "London (Peckham Rye Park)" },
-    latitude: 51.4567,
-    longitude: -0.0658,
-    capacite: 15000,
-    annee: 2016,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["House","Disco","UK Garage","Techno"],
-    site: "https://thisisgala.co.uk",
-    description: {
-      fr: "Trois jours à Peckham Rye Park au sud de Londres, célébrant l’héritage du Paradise Garage, de la house, du disco et des collectifs indépendants londoniens.",
-      en: "Three days in South London’s Peckham Rye Park celebrating the heritage of Paradise Garage, house, disco and independent London collectives.",
-    },
-  },
-  {
-    id: "lost-village-royaume-uni",
-    nom: "Lost Village",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Norton Disney (Lincolnshire)", en: "Norton Disney (Lincolnshire)" },
-    latitude: 53.1339,
-    longitude: -0.6742,
-    capacite: 20000,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Disco","Techno","Indie Dance"],
-    site: "https://lostvillagefestival.com",
-    description: {
-      fr: "Festival immersif au milieu d’une forêt abandonnée du Lincolnshire, créé par les fondateurs de Moda Black (Jaymo & Andy George).",
-      en: "Immersive forest festival in Lincolnshire created by Moda Black founders Jaymo & Andy George, blending house, disco and techno.",
-    },
-  },
-  {
-    id: "aquasella-espagne",
-    nom: "Aquasella",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Arriondas (Asturies)", en: "Arriondas (Asturias)" },
-    latitude: 43.3889,
-    longitude: -5.1858,
-    capacite: 25000,
-    annee: 1997,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Hardgroove","Tech House","Hard Techno"],
-    site: "https://aquasella.com",
-    description: {
-      fr: "Pèlerinage techno historique depuis 1997 dans la vallée de la rivière Sella au coeur des montagnes des Asturies.",
-      en: "Historic techno pilgrimage running since 1997 in the Sella River valley in the mountains of Asturias.",
-    },
-  },
-  {
-    id: "brunch-electronik-festival-espagne",
-    nom: "Brunch Electronik Festival",
-    type: "festival",
-    paysCode: "ES",
-    villeSlug: "barcelone-es",
-    ville: { fr: "Barcelone", en: "Barcelona" },
-    latitude: 41.4108,
-    longitude: 2.2261,
-    capacite: 30000,
-    annee: 2023,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Melodic Techno","Techno","Indie Dance"],
-    site: "https://brunchelectronikfestival.com",
-    description: {
-      fr: "Grand rassemblement estival de trois jours entre le Parc del Fòrum et les jardins de Montjuïc à Barcelone.",
-      en: "Major three-day summer festival spanning Barcelona’s Parc del Fòrum and the gardens of Montjuïc.",
-    },
-  },
-  {
-    id: "dreambeach-espagne",
-    nom: "Dreambeach",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Almería", en: "Almería" },
-    latitude: 36.8358,
-    longitude: -2.3239,
-    capacite: 35000,
-    annee: 2013,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Drum & Bass","House","Hardstyle"],
-    site: "https://www.dreambeach.es",
-    description: {
-      fr: "Grand festival de la côte andalouse à Almería avec son immense chapiteau Dreams Tent dédié à la techno et une scène majeure drum and bass.",
-      en: "Flagship Andalusian coast festival in Almería featuring the massive Dreams Tent for underground techno alongside a major drum and bass stage.",
-    },
-  },
-  {
-    id: "mira-festival-barcelone-espagne",
-    nom: "MIRA Digital Arts Festival",
-    type: "festival",
-    paysCode: "ES",
-    villeSlug: "barcelone-es",
-    ville: { fr: "Barcelone", en: "Barcelona" },
-    latitude: 41.3642,
-    longitude: 2.1328,
-    capacite: 5000,
-    annee: 2011,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["Ambient","IDM","Experimental","Techno"],
-    site: "https://mirafestival.com",
-    description: {
-      fr: "Festival barcelonais d’arts numériques et de performances audiovisuelles électroniques à la Fira Montjuïc.",
-      en: "Barcelona digital arts and audiovisual electronic music festival held at Fira Montjuïc.",
-    },
-  },
-  {
-    id: "extrema-outdoor-belgique",
-    nom: "Extrema Outdoor Belgium",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Houthalen-Helchteren", en: "Houthalen-Helchteren" },
-    latitude: 51.0528,
-    longitude: 5.3944,
-    capacite: 25000,
-    annee: 2011,
-    mois: { fr: "Mai (Pentecôte)", en: "May (Pentecost)" },
-    styles: ["Techno","House","Melodic Techno","Tech House"],
-    site: "https://extrema.be",
-    description: {
-      fr: "Trois jours au bord du lac de De Plas dans le Limbourg belge, réunissant les plus grands labels house et techno européens.",
-      en: "Three days by the lake of De Plas in Belgian Limburg, hosting showcases by Europe’s leading house and techno labels.",
-    },
-  },
-  {
-    id: "rampage-open-air-belgique",
-    nom: "Rampage Open Air",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Lommel", en: "Lommel" },
-    latitude: 51.2094,
-    longitude: 5.2531,
-    capacite: 25000,
-    annee: 2019,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Drum & Bass","Dubstep","Bass"],
-    site: "https://www.rampage.eu",
-    description: {
-      fr: "Le plus grand festival de drum and bass et de dubstep de la planète, décliné en version plein air de quatre jours à Lommel.",
-      en: "The largest drum and bass and dubstep festival on the planet, staged across four open-air days in Lommel.",
-    },
-  },
-  {
-    id: "dour-festival-belgique",
-    nom: "Dour Festival",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Dour", en: "Dour" },
-    latitude: 50.3911,
-    longitude: 3.7989,
-    capacite: 50000,
-    annee: 1989,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","Drum & Bass","Bass","Electro"],
-    site: "https://www.dourfestival.eu",
-    description: {
-      fr: "Institution belge de cinq jours célèbre pour sa mythique scène électronique De Balzaal et ses marathons nocturnes techno, rave et bass music.",
-      en: "Five-day Belgian institution renowned for its monumental De Balzaal electronic stage and all-night techno, rave and bass marathons.",
-    },
-  },
-  {
-    id: "voltage-festival-belgique",
-    nom: "Voltage Festival",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Zwevegem (Transfo)", en: "Zwevegem (Transfo)" },
-    latitude: 50.8169,
-    longitude: 3.3486,
-    capacite: 10000,
-    annee: 2016,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Industrial","Acid Techno","Hardgroove"],
-    site: "https://www.voltagefestival.com",
-    description: {
-      fr: "Festival techno installé dans les salles de turbines et les transformateurs de l’ancienne centrale électrique classée Transfo à Zwevegem.",
-      en: "Purist techno festival staged inside the turbine halls and transformers of the heritage-listed Transfo power plant in Zwevegem.",
-    },
-  },
-  {
-    id: "sonar-lisboa-portugal",
-    nom: "Sónar Lisboa",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Lisbonne (Parque Eduardo VII)", en: "Lisbon (Parque Eduardo VII)" },
-    latitude: 38.7292,
-    longitude: -9.1528,
-    capacite: 18000,
-    annee: 2022,
-    mois: { fr: "Mars - Avril", en: "March - April" },
-    styles: ["Techno","House","Club","Experimental"],
-    site: "https://sonarlisboa.pt",
-    description: {
-      fr: "Édition portugaise de Sónar au coeur du Parque Eduardo VII à Lisbonne, mêlant Sónar by Day et Sónar by Night dans le Pavilhão Carlos Lopes.",
-      en: "Portuguese edition of Sónar in Lisbon’s Parque Eduardo VII, uniting Sónar by Day and Sónar by Night around Pavilhão Carlos Lopes.",
-    },
-  },
-  {
-    id: "semibreve-portugal",
-    nom: "Semibreve",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Braga", en: "Braga" },
-    latitude: 41.5494,
-    longitude: -8.4225,
-    capacite: 3000,
-    annee: 2011,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["Ambient","Experimental","IDM"],
-    site: "https://www.festivalsemibreve.com",
-    description: {
-      fr: "Rendez-vous international de musique électronique exploratoire et d’art numérique dans le théâtre centenaire Theatro Circo de Braga.",
-      en: "International festival for exploratory electronic music and digital art held inside Braga’s historic Theatro Circo.",
-    },
-  },
-  {
-    id: "c2c-festival-italie",
-    nom: "C2C Festival (Club To Club)",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Turin (Lingotto)", en: "Turin (Lingotto)" },
-    latitude: 45.0319,
-    longitude: 7.6656,
-    capacite: 15000,
-    annee: 2002,
-    mois: { fr: "Octobre - Novembre", en: "October - November" },
-    styles: ["Experimental","IDM","UK Bass","Techno"],
-    site: "https://clubtoclub.it",
-    description: {
-      fr: "Fondé en 2002 à Turin dans les anciens halls Fiat du Lingotto et les OGR, festival de référence pour l’avant-garde pop et électronique mondiale.",
-      en: "Founded in 2002 in Turin across the historic Lingotto Fiat halls and OGR, Italy’s benchmark festival for avant-garde electronic music.",
-    },
-  },
-  {
-    id: "polifonic-italie",
-    nom: "Polifonic",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Vallée d’Itria (Pouilles)", en: "Itria Valley (Puglia)" },
-    latitude: 40.8211,
-    longitude: 17.3622,
-    capacite: 6000,
-    annee: 2017,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Disco","Techno","Leftfield"],
-    site: "https://www.polifonic.it",
-    description: {
-      fr: "Quatre jours entre les masserias blanches, les oliveraies et les plages des Pouilles, célébrant la house, l’italo disco et la techno.",
-      en: "Four days across whitewashed masserias, olive groves and beaches in Puglia, celebrating house, Italo disco and techno.",
-    },
-  },
-  {
-    id: "nameless-festival-italie",
-    nom: "Nameless Festival",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Annone di Brianza (Lac de Côme)", en: "Annone di Brianza (Lake Como)" },
-    latitude: 45.8039,
-    longitude: 9.3314,
-    capacite: 35000,
-    annee: 2013,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["House","Techno","Bass","EDM"],
-    site: "https://namelessfestival.it",
-    description: {
-      fr: "Vaste festival en plein air au pied des montagnes du lac de Côme en Lombardie, réunissant quatre scènes électroniques.",
-      en: "Expansive open-air festival at the foot of the Lake Como mountains in Lombardy across four electronic stages.",
-    },
-  },
-  {
-    id: "love-international-croatie",
-    nom: "Love International",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Tisno", en: "Tisno" },
-    latitude: 43.8016,
-    longitude: 15.6425,
-    capacite: 4000,
-    annee: 2016,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Disco","Balearic","Techno"],
-    site: "https://loveinternationalfestival.com",
-    description: {
-      fr: "Héritier du Garden Festival dans la baie privée de Tisno, célèbre pour ses levers de soleil à Barbarella’s Discotheque et ses boat parties adriatiques.",
-      en: "Heir to The Garden Festival in Tisno’s private bay, famous for its sunrise sessions at Barbarella’s Discotheque and Adriatic boat parties.",
-    },
-  },
-  {
-    id: "dekmantel-selectors-croatie",
-    nom: "Dekmantel Selectors",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Tisno", en: "Tisno" },
-    latitude: 43.8012,
-    longitude: 15.6419,
-    capacite: 3000,
-    annee: 2016,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Electro","Techno","Disco"],
-    site: "https://www.dekmantelselectors.com",
-    description: {
-      fr: "Édition intimiste de Dekmantel limitée à 3 000 passionnés sur la côte dalmate, consacrée à l’art du DJing et des collectionneurs de disques.",
-      en: "Intimate Adriatic edition of Dekmantel capped at 3,000 attendees in Tisno, devoted to the art of DJing and deep record digging.",
-    },
-  },
-  {
-    id: "ultra-europe-croatie",
-    nom: "Ultra Europe",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Split (Park Mladeži)", en: "Split (Park Mladeži)" },
-    latitude: 43.5189,
-    longitude: 16.4458,
-    capacite: 45000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Techno","Trance","Progressive House"],
-    site: "https://ultraeurope.com",
-    description: {
-      fr: "L’édition européenne d’Ultra au stade de Split suivie d’escales sur les îles dalmates de Brač, Hvar et Vis.",
-      en: "Ultra’s flagship European destination festival in Split, followed by island parties across Brač, Hvar and Vis.",
-    },
-  },
-  {
-    id: "untold-roumanie",
-    nom: "UNTOLD Festival",
-    type: "festival",
-    paysCode: "RO",
-    ville: { fr: "Cluj-Napoca", en: "Cluj-Napoca" },
-    latitude: 46.7681,
-    longitude: 23.5722,
-    capacite: 90000,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","Trance","Drum & Bass"],
-    site: "https://untold.com",
-    description: {
-      fr: "Le plus grand festival de Roumanie au coeur de la Transylvanie à Cluj-Napoca, dont la scène Galaxy abrite quatre nuits de techno ininterrompue.",
-      en: "Romania’s largest festival in the heart of Transylvania in Cluj-Napoca, whose Galaxy stage hosts four nights of non-stop techno.",
-    },
-  },
-  {
-    id: "electric-castle-roumanie",
-    nom: "Electric Castle",
-    type: "festival",
-    paysCode: "RO",
-    ville: { fr: "Bonțida (Château Bánffy)", en: "Bonțida (Bánffy Castle)" },
-    latitude: 46.9094,
-    longitude: 23.8092,
-    capacite: 40000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Drum & Bass","Techno","House","Bass"],
-    site: "https://electriccastle.ro",
-    description: {
-      fr: "Cinq jours et cinq nuits 24h/24 dans le domaine du château baroque Bánffy en Transylvanie.",
-      en: "Round-the-clock five-day festival on the grounds of the baroque Bánffy Castle in Transylvania.",
-    },
-  },
-  {
-    id: "sunrise-festival-pologne",
-    nom: "Sunrise Festival",
-    type: "festival",
-    paysCode: "PL",
-    ville: { fr: "Kołobrzeg (Mer Baltique)", en: "Kołobrzeg (Baltic Sea)" },
-    latitude: 54.1869,
-    longitude: 15.6358,
-    capacite: 35000,
-    annee: 2003,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Trance","Techno","Melodic Techno"],
-    site: "https://sunrisefestival.pl",
-    description: {
-      fr: "Grand rassemblement électronique sur l’ancien aérodrome de Podczele au bord de la mer Baltique en Pologne.",
-      en: "Major electronic music gathering on the former Podczele airfield along Poland’s Baltic coast.",
-    },
-  },
-  {
-    id: "tauron-nowa-muzyka-pologne",
-    nom: "Tauron Nowa Muzyka",
-    type: "festival",
-    paysCode: "PL",
-    ville: { fr: "Katowice (Strefa Kultury)", en: "Katowice (Culture Zone)" },
-    latitude: 50.2639,
-    longitude: 19.0294,
-    capacite: 12000,
-    annee: 2006,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["IDM","Techno","Leftfield","Ambient"],
-    site: "https://festiwalnowamuzyka.pl",
-    description: {
-      fr: "Installé sur le site de l’ancienne mine de charbon Katowice en Silésie, mêlant musique électronique d’avant-garde, jazz futuriste et club.",
-      en: "Held on the grounds of the former Katowice coal mine in Silesia, blending avant-garde electronics, future jazz and club culture.",
-    },
-  },
-  {
-    id: "street-parade-suisse",
-    nom: "Street Parade",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Zurich", en: "Zurich" },
-    latitude: 47.3661,
-    longitude: 8.5442,
-    capacite: 200000,
-    annee: 1992,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Trance","Melodic Techno"],
-    site: "https://www.streetparade.com",
-    description: {
-      fr: "Fondée en 1992 par Marek Krynski autour du bassin du lac de Zurich, la plus grande technoparade au monde avec trente Love Mobiles et huit grandes scènes.",
-      en: "Founded in 1992 around the Zurich lake basin, the world’s largest techno parade with thirty Love Mobiles and eight lakeside stages.",
-    },
-  },
-  {
-    id: "caprices-festival-suisse",
-    nom: "Caprices Festival",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Crans-Montana", en: "Crans-Montana" },
-    latitude: 46.3114,
-    longitude: 7.4792,
-    capacite: 12000,
-    annee: 2004,
-    mois: { fr: "Avril", en: "April" },
-    styles: ["Minimal","House","Techno","Deep House"],
-    site: "https://capricesfestival.com",
-    description: {
-      fr: "Célèbre dans le monde entier pour sa verrière panoramique Modernity perchée à 2 200 mètres d’altitude face aux sommets des Alpes valaisannes.",
-      en: "World-famous for its glass-enclosed Modernity stage perched at 2,200 meters overlooking the Swiss Alps in Crans-Montana.",
-    },
-  },
-  {
-    id: "polaris-festival-suisse",
-    nom: "Polaris Festival",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Verbier", en: "Verbier" },
-    latitude: 46.0961,
-    longitude: 7.2286,
-    capacite: 6000,
-    annee: 2015,
-    mois: { fr: "Novembre - Décembre", en: "November - December" },
-    styles: ["Techno","House","Detroit Techno","Electro"],
-    site: "https://polarisfestival.ch",
-    description: {
-      fr: "Fondé par Mirko Loko à Verbier dans les Alpes suisses (et berceau du label Polaris), réunissant les légendes de Detroit, de Chicago et l’avant-garde européenne.",
-      en: "Founded by Mirko Loko in Verbier in the Swiss Alps (and birthplace of the Polaris label), uniting Detroit and Chicago legends with the European vanguard.",
-    },
-  },
-  {
-    id: "electron-festival-suisse",
-    nom: "Electron Festival",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Genève", en: "Geneva" },
-    latitude: 46.2011,
-    longitude: 6.1358,
-    capacite: 12000,
-    annee: 2004,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","House","Bass","Experimental"],
-    site: "https://electronfestival.ch",
-    description: {
-      fr: "Le grand rendez-vous printanier des cultures électroniques à Genève, investissant l’Usine, le Palladium et les clubs de la ville.",
-      en: "Geneva’s flagship spring festival of electronic cultures, taking over L’Usine, Palladium and clubs across the city.",
-    },
-  },
-  {
-    id: "ozora-festival-hongrie",
-    nom: "O.Z.O.R.A. Festival",
-    type: "festival",
-    paysCode: "HU",
-    ville: { fr: "Dádpuszta", en: "Dádpuszta" },
-    latitude: 46.7628,
-    longitude: 18.4239,
-    capacite: 35000,
-    annee: 1999,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Psy","Ambient","Downtempo","Techno"],
-    site: "https://ozorafestival.eu",
-    description: {
-      fr: "Né lors de l’éclipse solaire de 1999 dans les collines hongroises de Dádpuszta, l’un des deux plus grands rassemblements mondiaux de culture psytrance et chillout (The Dome, Pumpui).",
-      en: "Born during the 1999 solar eclipse in the rolling hills of Dádpuszta, one of the world’s foremost psytrance and ambient gatherings.",
-    },
-  },
-  {
-    id: "sziget-colosseum-hongrie",
-    nom: "Sziget (Colosseum & Bolt Party Arena)",
-    type: "festival",
-    paysCode: "HU",
-    ville: { fr: "Budapest (Île d’Óbuda)", en: "Budapest (Óbuda Island)" },
-    latitude: 47.5519,
-    longitude: 19.0553,
-    capacite: 30000,
-    annee: 1993,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Drum & Bass","Melodic Techno"],
-    site: "https://szigetfestival.com",
-    description: {
-      fr: "Sur l’île d’Óbuda au milieu du Danube à Budapest, l’amphithéâtre de palettes en bois du Colosseum et la Party Arena accueillent six nuits électroniques.",
-      en: "On Óbuda Island in the Danube in Budapest, the wooden-pallet Colosseum amphitheatre and Party Arena host six nights of techno and house.",
-    },
-  },
-  {
-    id: "electric-love-autriche",
-    nom: "Electric Love Festival",
-    type: "festival",
-    paysCode: "AT",
-    ville: { fr: "Salzbourg (Salzburgring)", en: "Salzburg (Salzburgring)" },
-    latitude: 47.8236,
-    longitude: 13.1642,
-    capacite: 45000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Hardstyle","Drum & Bass","Techno"],
-    site: "https://www.electriclove.at",
-    description: {
-      fr: "Installé sur le circuit automobile du Salzburgring au coeur de la région des lacs autrichiens.",
-      en: "Set on the Salzburgring motorsport circuit in the heart of the Austrian Lake District near Salzburg.",
-    },
-  },
-  {
-    id: "elevate-festival-autriche",
-    nom: "Elevate Festival",
-    type: "festival",
-    paysCode: "AT",
-    ville: { fr: "Graz (Schlossberg)", en: "Graz (Schlossberg)" },
-    latitude: 47.0764,
-    longitude: 15.4375,
-    capacite: 8000,
-    annee: 2005,
-    mois: { fr: "Mars", en: "March" },
-    styles: ["Experimental","Techno","IDM","Ambient"],
-    site: "https://elevate.at",
-    description: {
-      fr: "Festival de musiques électroniques d’avant-garde niché dans les tunnels souterrains Dom im Berg creusés sous la colline du Schlossberg à Graz.",
-      en: "Avant-garde electronic music festival held inside the Dom im Berg subterranean tunnels carved into the Schlossberg hill in Graz.",
-    },
-  },
-  {
-    id: "exit-dance-arena-serbie",
-    nom: "EXIT Festival (mts Dance Arena)",
-    type: "festival",
-    paysCode: "RS",
-    ville: { fr: "Novi Sad (Forteresse de Petrovaradin)", en: "Novi Sad (Petrovaradin Fortress)" },
-    latitude: 45.2528,
-    longitude: 19.8633,
-    capacite: 50000,
-    annee: 2000,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Melodic Techno","Tech House"],
-    site: "https://www.exitfest.org",
-    description: {
-      fr: "Célèbre pour sa colossale mts Dance Arena nichée dans les douves de la forteresse du XVIIIe siècle de Petrovaradin surplombant le Danube, où les sets se terminent à 9 heures du matin en plein soleil.",
-      en: "World-famous for its colossal mts Dance Arena set inside the trenches of the 18th-century Petrovaradin Fortress above the Danube, with closing sets running until 9 a.m.",
-    },
-  },
-  {
-    id: "lovefest-serbie",
-    nom: "Lovefest",
-    type: "festival",
-    paysCode: "RS",
-    ville: { fr: "Vrnjačka Banja", en: "Vrnjačka Banja" },
-    latitude: 43.6214,
-    longitude: 20.8961,
-    capacite: 20000,
-    annee: 2007,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Minimal","Tech House"],
-    site: "https://lovefest.rs",
-    description: {
-      fr: "Trois jours et trois nuits autour du lac de Vrnjačka Banja en Serbie, dédiés aux scènes Fire (techno), Ultra Energy (house/electro) et 99 (club intimiste).",
-      en: "Three days and nights by the lake in Vrnjačka Banja, Serbia, across the Fire (techno), Ultra Energy (house/electro) and 99 stages.",
-    },
-  },
-  {
-    id: "unum-festival-albanie",
-    nom: "UNUM Festival",
-    type: "festival",
-    paysCode: "AL",
-    ville: { fr: "Shëngjin (Rana e Hedhun)", en: "Shëngjin (Rana e Hedhun)" },
-    latitude: 41.8258,
-    longitude: 19.5758,
-    capacite: 10000,
-    annee: 2019,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Minimal","House","Techno","Microhouse"],
-    site: "https://www.unumfestival.com",
-    description: {
-      fr: "Six jours non-stop 24h/24 sur la plage de Rana e Hedhun en Albanie, célèbre pour sa scène Pine Stage sous les pins qui ne s’arrête jamais.",
-      en: "Six days of non-stop 24-hour music on Rana e Hedhun beach in Albania, famous for its round-the-clock Pine Stage beneath the trees.",
-    },
-  },
-  {
-    id: "kala-festival-albanie",
-    nom: "Kala Festival",
-    type: "festival",
-    paysCode: "AL",
-    ville: { fr: "Dhërmi (Riviera albanaise)", en: "Dhërmi (Albanian Riviera)" },
-    latitude: 40.1436,
-    longitude: 19.6392,
-    capacite: 3500,
-    annee: 2018,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["House","Disco","Balearic","Deep House"],
-    site: "https://www.kala.al",
-    description: {
-      fr: "Une semaine dans les criques turquoises de Dhërmi sur la Riviera albanaise, dédiée à la house, au disco, au boogie et aux longs sets en bord de mer.",
-      en: "Week-long boutique gathering on the turquoise coves of Dhërmi on the Albanian Riviera, dedicated to house, disco, boogie and seaside extended sets.",
-    },
-  },
-  {
-    id: "mutek-jp-japon",
-    nom: "MUTEK.JP",
-    type: "festival",
-    paysCode: "JP",
-    villeSlug: "tokyo-jp",
-    ville: { fr: "Tokyo (Shibuya)", en: "Tokyo (Shibuya)" },
-    latitude: 35.6585,
-    longitude: 139.7013,
-    capacite: 3500,
-    annee: 2016,
-    mois: { fr: "Novembre - Décembre", en: "November - December" },
-    styles: ["Ambient","IDM","Experimental","Techno"],
-    site: "https://mutek.jp",
-    description: {
-      fr: "Antenne japonaise du festival montréalais MUTEK à Shibuya, réunissant créateurs audiovisuels nippons et internationaux.",
-      en: "Japanese edition of Montreal’s MUTEK festival in Shibuya, uniting Japanese and international audiovisual and electronic pioneers.",
-    },
-  },
-  {
-    id: "ultra-japan-japon",
-    nom: "Ultra Japan",
-    type: "festival",
-    paysCode: "JP",
-    villeSlug: "tokyo-jp",
-    ville: { fr: "Tokyo (Odaiba)", en: "Tokyo (Odaiba)" },
-    latitude: 35.6258,
-    longitude: 139.7764,
-    capacite: 35000,
-    annee: 2014,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","House","Progressive House","Bass"],
-    site: "https://ultrajapan.com",
-    description: {
-      fr: "Grand rassemblement électronique en plein air dans la baie de Tokyo à Odaiba, doté d’une scène RESISTANCE consacrée à la techno et à la house.",
-      en: "Major open-air electronic festival on Tokyo Bay in Odaiba, featuring a dedicated RESISTANCE stage for techno and house.",
-    },
-  },
-  {
-    id: "beyond-the-valley-australie",
-    nom: "Beyond The Valley",
-    type: "festival",
-    paysCode: "AU",
-    ville: { fr: "Barunah Plains (Victoria)", en: "Barunah Plains (Victoria)" },
-    latitude: -38.0611,
-    longitude: 143.9244,
-    capacite: 35000,
-    annee: 2014,
-    mois: { fr: "Décembre - Janvier (Nouvel An)", en: "December - January (New Year)" },
-    styles: ["House","Techno","Eurodance","UK Garage"],
-    site: "https://www.beyondthevalley.com.au",
-    description: {
-      fr: "Grand festival du Nouvel An dans l’État de Victoria avec son amphithéâtre Dance Dome de 100 mètres de large dédié à la techno et à la house.",
-      en: "Flagship Victorian New Year’s festival featuring the 100-meter-wide open-air Dance Dome dedicated to techno and house.",
-    },
-  },
-  {
-    id: "strawberry-fields-australie",
-    nom: "Strawberry Fields",
-    type: "festival",
-    paysCode: "AU",
-    ville: { fr: "Tocumwal (Murray River)", en: "Tocumwal (Murray River)" },
-    latitude: -35.8114,
-    longitude: 145.5628,
-    capacite: 10000,
-    annee: 2009,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["House","Disco","Techno","Downtempo"],
-    site: "https://www.strawberry-fields.com.au",
-    description: {
-      fr: "Trois jours dans le bush australien au bord de la rivière Murray, célébrant la house, le disco, la techno et le live électronique.",
-      en: "Three days in the Australian bush along the Murray River celebrating house, disco, techno and live electronic music.",
-    },
-  },
-  {
-    id: "time-warp-brasil",
-    nom: "Time Warp Brasil",
-    type: "festival",
-    paysCode: "BR",
-    villeSlug: "saopaulo-br",
-    ville: { fr: "São Paulo (Autódromo de Interlagos)", en: "Sao Paulo (Interlagos)" },
-    latitude: -23.7011,
-    longitude: -46.6972,
-    capacite: 20000,
-    annee: 2018,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","House","Melodic Techno","Hard Techno"],
-    site: "https://time-warp.com.br",
-    description: {
-      fr: "L’édition sud-américaine officielle de Time Warp à São Paulo, transposant les célèbres architectures lumineuses Cave 2.0 devant le public brésilien.",
-      en: "Official South American edition of Time Warp in São Paulo, bringing its signature Cave 2.0 lighting architecture to Brazil.",
-    },
-  },
-  {
-    id: "tomorrowland-brasil",
-    nom: "Tomorrowland Brasil",
-    type: "festival",
-    paysCode: "BR",
-    ville: { fr: "Itu (État de São Paulo)", en: "Itu (São Paulo State)" },
-    latitude: -23.3389,
-    longitude: -47.2558,
-    capacite: 60000,
-    annee: 2015,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["House","Techno","Trance","Progressive House"],
-    site: "https://brasil.tomorrowland.com",
-    description: {
-      fr: "Grand rassemblement au Parque Maeda d’Itu dans l’État de São Paulo, réunissant six scènes dont Core et Freedom.",
-      en: "Massive gathering at Parque Maeda in Itu, São Paulo state, uniting six stages including Core and Freedom.",
-    },
-  },
-  {
-    id: "universo-paralello-bresil",
-    nom: "Universo Paralello",
-    type: "festival",
-    paysCode: "BR",
-    ville: { fr: "Pratigi (Bahia)", en: "Pratigi (Bahia)" },
-    latitude: -13.7258,
-    longitude: -38.9936,
-    capacite: 25000,
-    annee: 2000,
-    mois: { fr: "Décembre - Janvier (biennal)", en: "December - January (biennial)" },
-    styles: ["Psy","Techno","House","Downtempo"],
-    site: "https://universoparalello.org",
-    description: {
-      fr: "Fondé par Juarez Petrillo (le père de Vintage Culture et Swarup) sur la plage de cocotiers de Pratigi à Bahia pour huit jours autour du Nouvel An.",
-      en: "Founded by Juarez Petrillo on the palm-fringed beach of Pratigi in Bahia, running eight days over New Year’s across psytrance, techno and house stages.",
-    },
-  },
-  {
-    id: "suti-festival-portugal",
-    nom: "Suti Festival",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Benquerença (Penamacor)", en: "Benquerenca (Penamacor)" },
-    latitude: 40.2286,
-    longitude: -7.2044,
-    capacite: 2500,
-    annee: 2020,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Psytech","Darkprog","Psy","Indie Dance","Downtempo"],
-    site: "https://sutifestival.com",
-    description: {
-      fr: "Rassemblement intimiste de cinq jours à la Praia Fluvial O Moinho de Benquerença (Penamacor), pointu sur la psytech, la darkprog, la psytrance, l’indie dance et le downtempo autour de la Semo Stage et du Groove Garden.",
-      en: "Intimate five-day gathering at Praia Fluvial O Moinho in Benquerença (Penamacor), dedicated to psytech, darkprog, psytrance, indie dance and downtempo across the Semo Stage and Groove Garden.",
-    },
-  },
-  {
-    id: "zna-gathering-portugal",
-    nom: "ZNA Gathering",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Montargil (Alentejo)", en: "Montargil (Alentejo)" },
-    latitude: 39.0833,
-    longitude: -8.1667,
-    capacite: 6000,
-    annee: 2013,
-    mois: { fr: "Juillet - Août (biennal)", en: "July - August (biennial)" },
-    styles: ["Goa Trance","Psy","Ambient","Downtempo"],
-    site: "https://znagathering.com",
-    description: {
-      fr: "Rendez-vous biennal au bord du lac de Montargil consacré à l’âge d’or de la goa trance rétro-futuriste, à la psytrance analogique des années 1990 et au chill-out hypnotique.",
-      en: "Biennial lakeside gathering in Montargil dedicated to the golden era of retro-futuristic Goa trance, 1990s analog psytrance and hypnotic chill-out.",
-    },
-  },
-  {
-    id: "forte-festival-portugal",
-    nom: "Festival Forte",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Montemor-o-Velho (Château)", en: "Montemor-o-Velho Castle" },
-    latitude: 40.1756,
-    longitude: -8.6833,
-    capacite: 5000,
-    annee: 2014,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Industrial Techno","Experimental","EBM"],
-    site: "https://www.fortefestival.com",
-    description: {
-      fr: "Enceinte médiévale du château de Montemor-o-Velho transformée en laboratoire audiovisuel radical pour la techno industrielle, l’EBM et les performances génératives.",
-      en: "Medieval walls of Montemor-o-Velho Castle transformed into a radical audiovisual laboratory for industrial techno, EBM and generative art.",
-    },
-  },
-  {
-    id: "insomnia-festival-portugal",
-    nom: "Insomnia Electronic Music & Arts Festival",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "São Gião (Serra da Estrela)", en: "Sao Giao (Serra da Estrela)" },
-    latitude: 40.3361,
-    longitude: -7.8014,
-    capacite: 3500,
-    annee: 2014,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Psy","Psytech","Progressive Trance","Techno"],
-    site: "https://insomnia-festival.com",
-    description: {
-      fr: "Festival en forêt de pins au pied de la Serra da Estrela, réunissant psytrance, psytech et techno progressive autour d’une rivière naturelle.",
-      en: "Pine-forest festival at the foot of the Serra da Estrela mountains, uniting psytrance, psytech and progressive techno along a mountain stream.",
-    },
-  },
-  {
-    id: "brunch-electronik-lisboa",
-    nom: "Brunch Electronik Lisboa",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Lisbonne (Tapada da Ajuda)", en: "Lisbon (Tapada da Ajuda)" },
-    latitude: 38.7122,
-    longitude: -9.1844,
-    capacite: 8000,
-    annee: 2016,
-    mois: { fr: "Juillet - Septembre", en: "July - September" },
-    styles: ["House","Techno","Melodic Techno"],
-    site: "https://lisboa.brunchelectronik.com",
-    description: {
-      fr: "Grands après-midis électroniques en plein air dans le parc botanique de la Tapada da Ajuda surplombant le Tage et le pont du 25-Avril.",
-      en: "Open-air daytime electronic series in the botanical park of Tapada da Ajuda overlooking the Tagus River and 25 de Abril Bridge.",
-    },
-  },
-  {
-    id: "lisb-on-jardim-sonoro",
-    nom: "Lisb-ON Jardim Sonoro",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Lisbonne (Parque Eduardo VII)", en: "Lisbon (Eduardo VII Park)" },
-    latitude: 38.7281,
-    longitude: -9.1519,
-    capacite: 10000,
-    annee: 2014,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["House","Disco","Techno","Deep House"],
-    site: "https://lisb-on.pt",
-    description: {
-      fr: "Trois jours de house, disco et techno sous les arbres centenaires du jardin Jardim Amália Rodrigues et du Parque Eduardo VII au cœur de Lisbonne.",
-      en: "Three days of house, disco and techno beneath the century-old trees of Eduardo VII Park in central Lisbon.",
-    },
-  },
-  {
-    id: "rfm-somnii-portugal",
-    nom: "RFM SOMNII Intermarché",
-    type: "festival",
-    paysCode: "PT",
-    ville: { fr: "Figueira da Foz (Praia do Relógio)", en: "Figueira da Foz (Praia do Relogio)" },
-    latitude: 40.1508,
-    longitude: -8.8667,
-    capacite: 35000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["EDM","House","Hardstyle","Big Room"],
-    site: "https://rfmsomnii.com",
-    description: {
-      fr: "Le plus grand festival électronique de plage du Portugal sur le sable immense de la Praia do Relógio à Figueira da Foz.",
-      en: "Portugal’s largest beach electronic festival on the vast sands of Praia do Relógio in Figueira da Foz.",
-    },
-  },
-  {
-    id: "dream-nation-paris",
-    nom: "Dream Nation Festival",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris Nord (Villepinte)", en: "Paris Nord (Villepinte)" },
-    latitude: 48.9708,
-    longitude: 2.5186,
-    capacite: 40000,
-    annee: 2014,
-    mois: { fr: "Septembre - Octobre", en: "September - October" },
-    styles: ["Techno","Hard Techno","Psy","Drum & Bass","Hardcore"],
-    site: "https://www.dreamnation.fr",
-    description: {
-      fr: "Grand rassemblement nocturne aux portes de Paris fédérant toutes les chapelles à haut BPM : techno, hard techno, trance psychédélique, bass music et hardcore.",
-      en: "Major nocturnal festival at the gates of Paris uniting high-BPM electronic subcultures from techno and hard techno to psytrance, bass music and hardcore.",
-    },
-  },
-  {
-    id: "chateau-perche-france",
-    nom: "Château Perché Festival",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Auvergne / Bourgogne (Château itinérant)", en: "Auvergne / Burgundy (Nomadic Castle)" },
-    latitude: 46.5122,
-    longitude: 3.1244,
-    capacite: 8000,
-    annee: 2015,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Indie Dance","Dark Disco","Techno","House","Downtempo"],
-    site: "https://chateauperche.com",
-    description: {
-      fr: "Laboratoire costumé et décalé investissant chaque été un château historique français avec dix scènes d’indie dance, dark disco, techno, house et ambient.",
-      en: "Costumed arts and electronic music gathering taking over a historic French castle each summer with ten stages of indie dance, dark disco, techno and ambient.",
-    },
-  },
-  {
-    id: "madame-loyal-france",
-    nom: "Madame Loyal",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Paris (Cirque Micheletty) & Bordeaux", en: "Paris (Cirque Micheletty) & Bordeaux" },
-    latitude: 48.9389,
-    longitude: 2.3125,
-    capacite: 15000,
-    annee: 2021,
-    mois: { fr: "Mai - Octobre", en: "May - October" },
-    styles: ["House","French Touch","Indie Dance","Techno"],
-    site: "https://madameloyal.com",
-    description: {
-      fr: "Fête foraine électronique sous chapiteaux de cirque mêlant manèges, acrobates, figures de la French Touch, house, indie dance et techno.",
-      en: "Electronic funfair under circus big tops blending carnival rides, acrobats, French Touch icons, house, indie dance and techno.",
-    },
-  },
-  {
-    id: "delta-festival-marseille",
-    nom: "Delta Festival",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "marseille-fr",
-    ville: { fr: "Marseille (Plages du Prado)", en: "Marseille (Prado Beaches)" },
-    latitude: 43.2575,
-    longitude: 5.3742,
-    capacite: 50000,
-    annee: 2015,
-    mois: { fr: "Août - Septembre", en: "August - September" },
-    styles: ["Techno","House","Hard Techno","Trance"],
-    site: "https://www.delta-festival.com",
-    description: {
-      fr: "Cinq jours les pieds dans l’eau sur les plages du Prado à Marseille avec plusieurs scènes dédiées à la techno, la hard techno et la house.",
-      en: "Five-day waterfront festival on the Prado beaches in Marseille featuring multiple stages dedicated to techno, hard techno and house.",
-    },
-  },
-  {
-    id: "electrobeach-barcares",
-    nom: "Electrobeach Music Festival (EMF)",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Le Barcarès (Pyrénées-Orientales)", en: "Le Barcares (Southern France)" },
-    latitude: 42.8189,
-    longitude: 3.0406,
-    capacite: 45000,
-    annee: 2009,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["EDM","Techno","Hardstyle","House"],
-    site: "https://www.electrobeach.com",
-    description: {
-      fr: "Grand festival méditerranéen au pied du paquebot Lydia à Port-Barcarès, réunissant mainstage internationale, scène techno et scène hardstyle.",
-      en: "Mediterranean beach festival beside the Lydia ocean liner in Port-Barcarès, uniting an international mainstage with dedicated techno and hardstyle arenas.",
-    },
-  },
-  {
-    id: "elektric-park-chatou",
-    nom: "Elektric Park Festival",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Chatou (Île des Impressionnistes)", en: "Chatou (Impressionists Island, Paris)" },
-    latitude: 48.8872,
-    longitude: 2.1614,
-    capacite: 15000,
-    annee: 2010,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Electro","Techno","Bass","Hardcore","Psy"],
-    site: "https://www.elektricpark.com",
-    description: {
-      fr: "Fondé par Joachim Garraud sur l’Île des Impressionnistes à Chatou (anciennement Inox Park), croisant techno, bass music, psytrance et hardcore au bord de la Seine.",
-      en: "Founded by Joachim Garraud on the Île des Impressionnistes in Chatou (formerly Inox Park), spanning techno, bass music, psytrance and hardcore along the Seine.",
-    },
-  },
-  {
-    id: "paco-tyson-nantes",
-    nom: "Paco Tyson",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Nantes", en: "Nantes" },
-    latitude: 47.2044,
-    longitude: -1.6089,
-    capacite: 12000,
-    annee: 2017,
-    mois: { fr: "Avril", en: "April" },
-    styles: ["Techno","Acid","House","Drum & Bass","Hardcore"],
-    site: "https://pacotyson.fr",
-    description: {
-      fr: "Rendez-vous printanier des musiques électroniques à Nantes sous grands chapiteaux, réputé pour ses programmations techno, acid, house et rave sans concession.",
-      en: "Spring electronic festival under big tops in Nantes, renowned for its uncompromising techno, acid, house and rave lineups.",
-    },
-  },
-  {
-    id: "panoramas-morlaix",
-    nom: "Festival Panoramas",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Morlaix (Bretagne)", en: "Morlaix (Brittany)" },
-    latitude: 48.5778,
-    longitude: -3.8281,
-    capacite: 14000,
-    annee: 1998,
-    mois: { fr: "Avril", en: "April" },
-    styles: ["Techno","Hard Techno","Electro","Trance"],
-    site: "https://www.panoramasfestival.com",
-    description: {
-      fr: "Institution bretonne au parc des expositions de Langolvas à Morlaix, ouvrant chaque printemps la saison des festivals électroniques dans le Grand Ouest.",
-      en: "Brittany institution in Morlaix kicking off the western French electronic festival season every spring since 1998.",
-    },
-  },
-  {
-    id: "ethereal-decibel-france",
-    nom: "Ethereal Decibel Festival",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Saint-Symphorien-des-Monts (Normandie)", en: "Saint-Symphorien-des-Monts (Normandy)" },
-    latitude: 48.5439,
-    longitude: -1.0011,
-    capacite: 8000,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Psy","Psytech","Darkprog","Techno","Downtempo"],
-    site: "https://etherealdecibel.com",
-    description: {
-      fr: "Principal rassemblement psychédélique et psytech en France dans le parc d’un domaine normand au bord d’un lac, alliant scénographies monumentales et arts numériques.",
-      en: "France’s leading psychedelic and psytech gathering on a lakeside estate in Normandy, combining monumental stage design with digital arts.",
-    },
-  },
-  {
-    id: "insane-festival-apt",
-    nom: "Insane Festival",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Apt (Luberon)", en: "Apt (Luberon)" },
-    latitude: 43.8825,
-    longitude: 5.3789,
-    capacite: 35000,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Hard Techno","Psy","Hardcore"],
-    site: "https://insanefestival.com",
-    description: {
-      fr: "Trois jours au bord du plan d’eau de la Riaille à Apt dans le Luberon, devenus l’un des bastions de la techno, de la hard techno et de la psytrance dans le Sud.",
-      en: "Three-day lakeside festival in Apt in the Luberon, a major stronghold for techno, hard techno and psytrance in southern France.",
-    },
-  },
-  {
-    id: "kolorz-festival-carpentras",
-    nom: "Kolorz Festival",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Carpentras (Provence)", en: "Carpentras (Provence)" },
-    latitude: 44.0553,
-    longitude: 5.0481,
-    capacite: 10000,
-    annee: 2010,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Melodic Techno"],
-    site: "https://kolorzfestival.com",
-    description: {
-      fr: "Festival provençal à Carpentras célébrant la techno et la house dans des cadres patrimoniaux et en plein air.",
-      en: "Provençal electronic festival in Carpentras celebrating techno and house in open-air heritage venues.",
-    },
-  },
-  {
-    id: "scopitone-nantes",
-    nom: "Scopitone",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Nantes (Île de Nantes)", en: "Nantes (Ile de Nantes)" },
-    latitude: 47.2061,
-    longitude: -1.5642,
-    capacite: 20000,
-    annee: 2002,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Electro","Techno","Experimental","IDM"],
-    site: "https://scopitone.org",
-    description: {
-      fr: "Biennale des cultures électroniques et des arts numériques pilotée par Stereolux sur l’Île de Nantes, mêlant nuits techno et installations immersives.",
-      en: "Electronic cultures and digital arts festival curated by Stereolux on the Île de Nantes, combining club nights with immersive installations.",
-    },
-  },
-  {
-    id: "calvi-on-the-rocks",
-    nom: "Calvi on the Rocks",
-    type: "festival",
-    paysCode: "FR",
-    ville: { fr: "Calvi (Corse)", en: "Calvi (Corsica)" },
-    latitude: 42.5661,
-    longitude: 8.7578,
-    capacite: 8000,
-    annee: 2003,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Indie Dance","House","Disco","French Touch"],
-    site: "https://www.calviontherocks.com",
-    description: {
-      fr: "Cinq jours entre plages de Balagne et citadelle génoise de Calvi, berceau estival de l’indie dance, du disco et de la French Touch.",
-      en: "Five days between the beaches of Balagne and the Genoese citadel of Calvi, a summer stronghold for indie dance, disco and French Touch.",
-    },
-  },
-  {
-    id: "macki-music-festival",
-    nom: "Macki Music Festival",
-    type: "festival",
-    paysCode: "FR",
-    villeSlug: "paris-fr",
-    ville: { fr: "Carrières-sur-Seine (Grand Paris)", en: "Carrieres-sur-Seine (Greater Paris)" },
-    latitude: 48.9056,
-    longitude: 2.1789,
-    capacite: 5000,
-    annee: 2014,
-    mois: { fr: "Juin - Juillet", en: "June - July" },
-    styles: ["House","Leftfield","Disco","UK Bass"],
-    site: "https://mackimusicfestival.fr",
-    description: {
-      fr: "Fondé par les collectifs La Mamie’s et Cracki Records au bord de la Seine, rendez-vous solaire de la house, des musiques diggers et du leftfield.",
-      en: "Founded by La Mamie’s and Cracki Records on the banks of the Seine, a sun-drenched gathering for house, crate-digging disco and leftfield club sounds.",
-    },
-  },
-  {
-    id: "igloofest-quebec",
-    nom: "Igloofest Québec",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Québec (Place Jean-Béliveau)", en: "Quebec City (Place Jean-Beliveau)" },
-    latitude: 46.8261,
-    longitude: -71.2464,
-    capacite: 8000,
-    annee: 2023,
-    mois: { fr: "Mars", en: "March" },
-    styles: ["House","Techno","Tech House"],
-    site: "https://quebec.igloofest.ca",
-    description: {
-      fr: "Déclinaison hivernale d’Igloofest dans la capitale québécoise sur la Place Jean-Béliveau, avec combinaisons de neige et têtes d’affiche house et techno.",
-      en: "Winter edition of Igloofest in Quebec City on Place Jean-Béliveau, bringing snowsuits and international house and techno headliners to the capital.",
-    },
-  },
-  {
-    id: "igloofest-gatineau",
-    nom: "Igloofest Gatineau",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Gatineau / Ottawa (Place Zibi)", en: "Gatineau / Ottawa (Place Zibi)" },
-    latitude: 45.4242,
-    longitude: -75.7169,
-    capacite: 6000,
-    annee: 2024,
-    mois: { fr: "Février", en: "February" },
-    styles: ["House","Techno","Progressive House"],
-    site: "https://gatineau.igloofest.ca",
-    description: {
-      fr: "Trois soirs de danse sous zéro au bord de la rivière des Outaouais à la Place des Festivals Zibi entre Gatineau et Ottawa.",
-      en: "Three sub-zero nights of open-air dancing along the Ottawa River at Place des Festivals Zibi between Gatineau and Ottawa.",
-    },
-  },
-  {
-    id: "riverside-festival-gatineau",
-    nom: "Riverside Festival",
-    type: "festival",
-    paysCode: "CA",
-        ville: { fr: "Gatineau / Ottawa (Musée canadien de l’histoire)", en: "Gatineau / Ottawa (Canadian Museum of History)" },
-    latitude: 45.4294,
-    longitude: -75.7089,
-    capacite: 10000,
-    annee: 2013,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","House","Bass","Drum & Bass"],
-    site: "https://www.riversidefestival.ca",
-    description: {
-      fr: "Trois jours sur l’esplanade du Musée canadien de l’histoire face à la colline du Parlement, réunissant techno, house et bass music.",
-      en: "Three-day festival on the plaza of the Canadian Museum of History facing Parliament Hill, uniting techno, house and bass music.",
-    },
-  },
-  {
-    id: "future-forest-canada",
-    nom: "Future Forest",
-    type: "festival",
-    paysCode: "CA",
-    ville: { fr: "Sheffield / Fredericton (Nouveau-Brunswick)", en: "Sheffield / Fredericton (New Brunswick)" },
-    latitude: 46.0681,
-    longitude: -66.4528,
-    capacite: 5000,
-    annee: 2012,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Bass", "Techno", "House", "Psytech", "Drum & Bass"],
-    site: "https://futureforest.ca",
-    description: {
-      fr: "Grand festival électronique en forêt au Nouveau-Brunswick (Futureforest), célèbre dans tout l’Est du Canada pour ses trois scènes immersives, sa sonorisation PK Sound et sa programmation bass, techno, house et psytech.",
-      en: "Major forest electronic festival in New Brunswick (Futureforest), renowned across Eastern Canada for its three immersive stages, PK Sound rigs and bass, techno, house and psytech programming.",
-    },
-  },
-  {
-    id: "wicked-woods-bc",
-    nom: "Wicked Woods Music Festival",
-    type: "festival",
-    paysCode: "CA",
-    ville: { fr: "Fairmont Hot Springs (Colombie-Britannique)", en: "Fairmont Hot Springs (British Columbia)" },
-    latitude: 50.3289,
-    longitude: -115.8542,
-    capacite: 4500,
-    annee: 2017,
-    mois: { fr: "Août - Septembre", en: "August - September" },
-    styles: ["Bass","House","Drum & Bass","Funk"],
-    site: "https://www.wickedwoods.ca",
-    description: {
-      fr: "Rassemblement dans la vallée du fleuve Columbia au pied des Rocheuses canadiennes, porté par la culture sound system de l’Ouest canadien.",
-      en: "Gathering in the Columbia Valley at the foot of the Canadian Rockies, powered by Western Canadian sound-system culture.",
-    },
-  },
-  {
-    id: "electric-love-bc",
-    nom: "Electric Love Music Festival",
-    type: "festival",
-    paysCode: "CA",
-    ville: { fr: "Pritchard / Kamloops (Colombie-Britannique)", en: "Pritchard / Kamloops (British Columbia)" },
-    latitude: 50.6819,
-    longitude: -119.8322,
-    capacite: 3500,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Bass","Drum & Bass","Psy","Techno"],
-    site: "https://electriclove.dance",
-    description: {
-      fr: "Quatre jours sur les terres des Premières Nations Secwépemc en Colombie-Britannique autour de cinq scènes house, bass, drum & bass et psytrance.",
-      en: "Four days in Secwépemc territory in British Columbia featuring five stages spanning house, bass, drum & bass and psytrance.",
-    },
-  },
-  {
-    id: "bomfest-edmonton",
-    nom: "BOMFEST",
-    type: "festival",
-    paysCode: "CA",
-    ville: { fr: "Edmonton (Alberta)", en: "Edmonton (Alberta)" },
-    latitude: 53.5444,
-    longitude: -113.4908,
-    capacite: 15000,
-    annee: 2017,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["House","Techno","Bass","Progressive House"],
-    site: "https://www.bomfest.ca",
-    description: {
-      fr: "Grand rendez-vous électronique d’été organisé par Boodang à Edmonton, réunissant les têtes d’affiche house, techno et bass dans les Prairies.",
-      en: "Major summer electronic festival organized by Boodang in Edmonton, bringing international house, techno and bass headliners to Alberta.",
-    },
-  },
-  {
-    id: "promise-cherry-beach-toronto",
-    nom: "Promise Cherry Beach",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Toronto (Cherry Beach)", en: "Toronto (Cherry Beach)" },
-    latitude: 43.6369,
-    longitude: -79.3436,
-    capacite: 2500,
-    annee: 2001,
-    mois: { fr: "Juin - Septembre", en: "June - September" },
-    styles: ["House","Techno","Disco","Deep House"],
-    site: "https://www.promisecherrybeach.ca",
-    description: {
-      fr: "Institution dominicale en plein air sur la plage de Cherry Beach au bord du lac Ontario depuis 2001, pilier communautaire de la scène house et techno torontoise.",
-      en: "Sunday open-air institution on Cherry Beach along Lake Ontario since 2001, a beloved pillar of Toronto’s house and techno community.",
-    },
-  },
-  {
-    id: "whole-festival-ferropolis",
-    nom: "Whole - United Queer Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Gräfenhainichen (Ferropolis)", en: "Grafenhainichen (Ferropolis)" },
-    latitude: 51.7562,
-    longitude: 12.4492,
-    capacite: 8000,
-    annee: 2017,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Trance","Acid","Electro"],
-    site: "https://wholefestival.com",
-    description: {
-      fr: "Trois jours non-stop sur la presqu’île industrielle de Ferropolis (« la ville de fer ») fédérant les collectifs queer de Berlin, d’Europe et d’Amérique.",
-      en: "Three non-stop days on the industrial peninsula of Ferropolis (‘City of Iron’), uniting queer electronic collectives from Berlin, Europe and the Americas.",
-    },
-  },
-  {
-    id: "indian-spirit-germany",
-    nom: "Indian Spirit Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Eldena (Mecklembourg)", en: "Eldena (Mecklenburg)" },
-    latitude: 53.2681,
-    longitude: 11.4522,
-    capacite: 20000,
-    annee: 1999,
-    mois: { fr: "Août - Septembre", en: "August - September" },
-    styles: ["Psy","Progressive Trance","Goa Trance"],
-    site: "https://www.indian-spirit.de",
-    description: {
-      fr: "Le plus grand rassemblement psytrance de fin d’été en Allemagne du Nord, clôturant la saison européenne des open airs psychédéliques depuis 1999.",
-      en: "Northern Germany’s largest late-summer psytrance festival, closing the European open-air psychedelic season since 1999.",
-    },
-  },
-  {
-    id: "antaris-project-germany",
-    nom: "Antaris Project",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Stölln (Brandebourg)", en: "Stolln (Brandenburg)" },
-    latitude: 52.7394,
-    longitude: 12.3911,
-    capacite: 8000,
-    annee: 1995,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Psy","Goa Trance","Psytech","Ambient"],
-    site: "https://www.antaris-project.de",
-    description: {
-      fr: "Doyen historique de la culture goa et psytrance en Allemagne sur l’aérodrome d’Otto-Lilienthal à Stölln dans le Brandebourg.",
-      en: "Historic cornerstone of Goa and psytrance culture in Germany on the Otto Lilienthal airfield in Stölln, Brandenburg.",
-    },
-  },
-  {
-    id: "voov-experience-germany",
-    nom: "VooV Experience",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Putlitz (Brandebourg)", en: "Putlitz (Brandenburg)" },
-    latitude: 53.2514,
-    longitude: 12.0439,
-    capacite: 12000,
-    annee: 1991,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Psy","Progressive Trance","Goa Trance"],
-    site: "https://www.voov-festival.de",
-    description: {
-      fr: "Né en 1991 à Putlitz, l’un des tout premiers festivals psytrance et goa d’Europe, toujours fidèle à ses racines psychédéliques.",
-      en: "Born in 1991 in Putlitz, one of Europe’s very first psytrance and Goa festivals, still true to its psychedelic roots.",
-    },
-  },
-  {
-    id: "airbeat-one-germany",
-    nom: "Airbeat One Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Neustadt-Glewe (Mecklembourg)", en: "Neustadt-Glewe (Mecklenburg)" },
-    latitude: 53.3611,
-    longitude: 11.6119,
-    capacite: 65000,
-    annee: 2002,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["EDM","Hardstyle","Techno","Psy"],
-    site: "https://airbeat-one.de",
-    description: {
-      fr: "Immense festival sur l’aérodrome de Neustadt-Glewe entre Hambourg et Berlin, avec des scènes monumentales dédiées au hardstyle, à la techno et à la psytrance.",
-      en: "Massive airfield festival in Neustadt-Glewe between Hamburg and Berlin with monumental stages dedicated to hardstyle, techno and psytrance.",
-    },
-  },
-  {
-    id: "echelon-festival-bavaria",
-    nom: "Echelon Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Bad Aibling (Bavière)", en: "Bad Aibling (Bavaria)" },
-    latitude: 47.8781,
-    longitude: 11.9844,
-    capacite: 25000,
-    annee: 2009,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Hard Techno","House","Melodic Techno"],
-    site: "https://www.echelon-festival.de",
-    description: {
-      fr: "Organisé au pied des radômes géants de l’ancienne station d’écoute américaine de Bad Aibling face aux Alpes bavaroises.",
-      en: "Set beneath the giant radome spheres of the former US listening station in Bad Aibling facing the Bavarian Alps.",
-    },
-  },
-  {
-    id: "sea-you-freiburg",
-    nom: "Sea You Festival (Beach Republic)",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Fribourg-en-Brisgau (Tunisee)", en: "Freiburg im Breisgau (Tunisee)" },
-    latitude: 48.0631,
-    longitude: 7.8136,
-    capacite: 30000,
-    annee: 2014,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Hard Techno","Psy"],
-    site: "https://www.seayou-festival.de",
-    description: {
-      fr: "Sept scènes autour et sur le lac Tunisee près de Fribourg, où l’on écoute la techno les pieds dans l’eau ou sur un téléski nautique.",
-      en: "Seven stages around Lake Tunisee near Freiburg, where dancers experience techno in the water and beside wakeboard cables.",
-    },
-  },
-  {
-    id: "ikarus-festival-memmingen",
-    nom: "Ikarus Festival",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Memmingen (Allgäu)", en: "Memmingen (Allgau)" },
-    latitude: 47.9889,
-    longitude: 10.2394,
-    capacite: 35000,
-    annee: 2015,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["Techno","Melodic Techno","Hard Techno","Psy"],
-    site: "https://www.ikarus-festival.de",
-    description: {
-      fr: "Ancienne base aérienne militaire de Memmingen transformée en forêt féerique, hangars bruts et scènes techno et psytrance.",
-      en: "Former military airbase in Memmingen transformed into enchanted forest stages and raw hangars for techno and psytrance.",
-    },
-  },
-  {
-    id: "nachtiville-germany",
-    nom: "Nachtiville (par Nachtdigital)",
-    type: "festival",
-    paysCode: "DE",
-    ville: { fr: "Weissenhäuser Strand (Mer Baltique)", en: "Weissenhauser Strand (Baltic Sea)" },
-    latitude: 54.3119,
-    longitude: 10.7856,
-    capacite: 3500,
-    annee: 1998,
-    mois: { fr: "Janvier", en: "January" },
-    styles: ["Techno","House","Leftfield","Electro"],
-    site: "https://nachtiville.de",
-    description: {
-      fr: "Héritier du mythique Nachtdigital d’Olganitz, investissant en plein hiver un complexe aquatique subtropical sur la côte de la mer Baltique.",
-      en: "Heir to the legendary Nachtdigital in Olganitz, taking over a subtropical water-park resort on the Baltic coast in mid-winter.",
-    },
-  },
-  {
-    id: "verknipt-festival-netherlands",
-    nom: "Verknipt Festival",
-    type: "festival",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Amsterdam (ArenA) & Utrecht (Strijkviertel)", en: "Amsterdam (ArenA) & Utrecht" },
-    latitude: 52.3144,
-    longitude: 4.9419,
-    capacite: 40000,
-    annee: 2012,
-    mois: { fr: "Juin - Juillet", en: "June - July" },
-    styles: ["Hard Techno","Industrial Techno","Schranz","Acid Techno"],
-    site: "https://verknipt.org",
-    description: {
-      fr: "Épicentre mondial de la nouvelle vague hard techno, industrial et schranz, remplissant aussi bien le lac de Strijkviertel que les 40 000 places de la Johan Cruijff ArenA.",
-      en: "Global epicenter of the new hard techno, industrial and schranz wave, filling both Lake Strijkviertel and the 40,000-capacity Johan Cruijff ArenA.",
-    },
-  },
-  {
-    id: "liquicity-festival-netherlands",
-    nom: "Liquicity Festival",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Alkmaar (Geestmerambacht)", en: "Alkmaar (Geestmerambacht)" },
-    latitude: 52.6908,
-    longitude: 4.7831,
-    capacite: 18000,
-    annee: 2015,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Drum & Bass","Liquid DnB","Jungle"],
-    site: "https://festival.liquicity.com",
-    description: {
-      fr: "Trois jours dans le parc naturel de Geestmerambacht au nord d’Amsterdam, référence mondiale de la liquid drum & bass et de la drum & bass mélodique.",
-      en: "Three days in the Geestmerambacht nature reserve north of Amsterdam, the world’s premier gathering for liquid and melodic drum & bass.",
-    },
-  },
-  {
-    id: "wildeburg-netherlands",
-    nom: "Wildeburg",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Kraggenburg (Noordoostpolder)", en: "Kraggenburg (Noordoostpolder)" },
-    latitude: 52.6681,
-    longitude: 5.9158,
-    capacite: 12000,
-    annee: 2016,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["House","Techno","Leftfield","Indie Dance","Ambient"],
-    site: "https://wildeburg.nl",
-    description: {
-      fr: "Labyrinthe de bambous, de cabanes et de clairières ouvert 24 h sur 24 pendant quatre jours à Kraggenburg, sans horaires affichés à l’avance.",
-      en: "Round-the-clock labyrinth of bamboo groves, wooden hideouts and forest clearings in Kraggenburg running four days straight.",
-    },
-  },
-  {
-    id: "lentekabinet-amsterdam",
-    nom: "Lentekabinet (par Dekmantel)",
-    type: "festival",
-    paysCode: "NL",
-    villeSlug: "amsterdam-nl",
-    ville: { fr: "Oostzaan / Amsterdam (Het Twiske)", en: "Oostzaan / Amsterdam (Het Twiske)" },
-    latitude: 52.4561,
-    longitude: 4.8922,
-    capacite: 10000,
-    annee: 2012,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["House","Leftfield","Techno","Disco","Electro"],
-    site: "https://www.hetlentekabinet.nl",
-    description: {
-      fr: "Le petit frère printanier et bucolique de Dekmantel au bord de l’eau dans la réserve naturelle Het Twiske au nord d’Amsterdam.",
-      en: "Dekmantel’s bucolic spring sibling on the waterfront of the Het Twiske nature reserve just north of Amsterdam.",
-    },
-  },
-  {
-    id: "rewire-festival-the-hague",
-    nom: "Rewire Festival",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "La Haye", en: "The Hague" },
-    latitude: 52.0781,
-    longitude: 4.3125,
-    capacite: 10000,
-    annee: 2011,
-    mois: { fr: "Avril", en: "April" },
-    styles: ["Experimental","Ambient","IDM","Leftfield","Deconstructed Club"],
-    site: "https://www.rewirefestival.nl",
-    description: {
-      fr: "Festival international des musiques aventureuses investissant églises, théâtres et anciens bâtiments industriels de La Haye.",
-      en: "International festival for adventurous electronic and experimental music across churches, theaters and industrial spaces in The Hague.",
-    },
-  },
-  {
-    id: "dominator-festival-netherlands",
-    nom: "Dominator Festival",
-    type: "festival",
-    paysCode: "NL",
-    ville: { fr: "Eersel (E3 Strand)", en: "Eersel (E3 Strand)" },
-    latitude: 51.3514,
-    longitude: 5.3442,
-    capacite: 50000,
-    annee: 2005,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Hardcore","Gabber","Uptempo","Industrial Hardcore"],
-    site: "https://www.dominatorfestival.com",
-    description: {
-      fr: "Co-produit par Q-dance et Art of Dance sur la plage d’Eersel, le plus grand festival hardcore et gabber en plein air au monde.",
-      en: "Co-produced by Q-dance and Art of Dance on the beach of Eersel, the world’s largest open-air hardcore and gabber festival.",
-    },
-  },
-  {
-    id: "parklife-manchester",
-    nom: "Parklife Festival",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Manchester (Heaton Park)", en: "Manchester (Heaton Park)" },
-    latitude: 53.5358,
-    longitude: -2.2544,
-    capacite: 80000,
-    annee: 2010,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["House","UK Garage","Techno","Drum & Bass"],
-    site: "https://parklife.uk.com",
-    description: {
-      fr: "Orchestré par l’équipe de The Warehouse Project à Heaton Park, le plus grand festival métropolitain du nord de l’Angleterre.",
-      en: "Curated by the team behind The Warehouse Project at Heaton Park, the largest metropolitan music festival in northern England.",
-    },
-  },
-  {
-    id: "waterworks-london",
-    nom: "Waterworks Festival",
-    type: "festival",
-    paysCode: "GB",
-    villeSlug: "londres-gb",
-    ville: { fr: "Londres (Gunnersbury Park)", en: "London (Gunnersbury Park)" },
-    latitude: 51.4989,
-    longitude: -0.2892,
-    capacite: 15000,
-    annee: 2021,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["UK Bass","Techno","Leftfield","Jungle","Breaks"],
-    site: "https://waterworksfestival.co.uk",
-    description: {
-      fr: "Sept scènes circulaires et immersives à Gunnersbury Park, dédiées au son underground britannique : UK bass, techno, breaks et jungle.",
-      en: "Seven circular, sound-obsessed stages in Gunnersbury Park dedicated to cutting-edge UK bass, techno, breaks and jungle.",
-    },
-  },
-  {
-    id: "gottwood-wales",
-    nom: "Gottwood Festival",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Anglesey (Pays de Galles)", en: "Anglesey (Wales)" },
-    latitude: 53.3944,
-    longitude: -4.5419,
-    capacite: 5000,
-    annee: 2010,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Minimal","House","Techno","Breaks","Electro"],
-    site: "https://www.gottwood.co.uk",
-    description: {
-      fr: "Festival boutique caché dans les bois du domaine de Carreglwyd sur l’île d’Anglesey au Pays de Galles, prisé pour sa minimal, sa house et son electro.",
-      en: "Woodland boutique festival hidden on the Carreglwyd estate on the Isle of Anglesey in Wales, prized for minimal, house and electro.",
-    },
-  },
-  {
-    id: "freerotation-wales",
-    nom: "Freerotation",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Baskerville Hall (Pays de Galles)", en: "Baskerville Hall (Wales)" },
-    latitude: 52.0911,
-    longitude: -3.1442,
-    capacite: 1000,
-    annee: 2007,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","Electro","House","Experimental","Ambient"],
-    site: "https://www.freerotation.com",
-    description: {
-      fr: "Rassemblement culte de passionnés et de producteurs au manoir de Baskerville Hall au Pays de Galles, célèbre pour son système sonore quadriphonique.",
-      en: "Cult gathering of producers and devotees at Baskerville Hall in Wales, famed for its quadraphonic sound system and deep musical focus.",
-    },
-  },
-  {
-    id: "riverside-festival-glasgow",
-    nom: "Riverside Festival Glasgow",
-    type: "festival",
-    paysCode: "GB",
-    ville: { fr: "Glasgow (Riverside Museum)", en: "Glasgow (Riverside Museum)" },
-    latitude: 55.8653,
-    longitude: -4.3061,
-    capacite: 12000,
-    annee: 2013,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","House","Electro","Hard Techno"],
-    site: "https://www.riversidefestivalglasgow.com",
-    description: {
-      fr: "Le grand rendez-vous électronique d’Écosse au bord de la rivière Clyde devant l’architecture de Zaha Hadid, co-programmé avec le Sub Club.",
-      en: "Scotland’s premier outdoor electronic festival on the banks of the River Clyde beside Zaha Hadid’s Riverside Museum.",
-    },
-  },
-  {
-    id: "own-spirit-spain",
-    nom: "Own Spirit Festival",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Baldellou (Huesca / Aragon)", en: "Baldellou (Huesca / Aragon)" },
-    latitude: 41.9189,
-    longitude: 0.5472,
-    capacite: 4000,
-    annee: 2015,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Psy","Psytech","Darkprog","Downtempo"],
-    site: "https://ownspiritfestival.org",
-    description: {
-      fr: "Six jours au bord du lac de retenue de Santa Ana dans les pré-Pyrénées aragonaises, bastion ibérique de la psytrance, de la psytech et du downtempo.",
-      en: "Six days beside the turquoise reservoir of Santa Ana in the Aragonese pre-Pyrenees, Spain’s flagship gathering for psytrance, psytech and downtempo.",
-    },
-  },
-  {
-    id: "medusa-sunbeach-cullera",
-    nom: "Medusa Sunbeach Festival",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Cullera (Valence)", en: "Cullera (Valencia)" },
-    latitude: 39.1628,
-    longitude: -0.2408,
-    capacite: 55000,
-    annee: 2014,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Hard Techno","EDM","House","Remember"],
-    site: "https://www.medusasunbeach.com",
-    description: {
-      fr: "Immense festival en bord de mer à Cullera au sud de Valence, réunissant une scène techno souterraine colossale, la hard techno et la culture « Ruta del Bakalao ».",
-      en: "Massive beachfront festival in Cullera south of Valencia, uniting a colossal underground techno arena, hard techno and Valencian club heritage.",
-    },
-  },
-  {
-    id: "a-summer-story-madrid",
-    nom: "A Summer Story",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Madrid (Ciudad del Rock, Arganda del Rey)", en: "Madrid (Ciudad del Rock)" },
-    latitude: 40.3114,
-    longitude: -3.4839,
-    capacite: 35000,
-    annee: 2015,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Techno","Hard Techno","EDM","Trance"],
-    site: "https://asummerstory.com",
-    description: {
-      fr: "Deux nuits à la Ciudad del Rock près de Madrid pour lancer l’été espagnol autour des poids lourds de la techno, de la hard techno et de la trance.",
-      en: "Two nights at Madrid’s Ciudad del Rock launching the Spanish summer around heavyweights of techno, hard techno and trance.",
-    },
-  },
-  {
-    id: "mugako-vitoria",
-    nom: "Mugako Festival",
-    type: "festival",
-    paysCode: "ES",
-    ville: { fr: "Vitoria-Gasteiz (Pays basque)", en: "Vitoria-Gasteiz (Basque Country)" },
-    latitude: 42.8467,
-    longitude: -2.6716,
-    capacite: 3000,
-    annee: 2015,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["Techno","Electro","IDM","Experimental"],
-    site: "https://mugakofestival.com",
-    description: {
-      fr: "Rendez-vous pointu au musée d’art contemporain Artium de Vitoria-Gasteiz au Pays basque, dédié à la techno mentale, à l’electro et à l’IDM.",
-      en: "Curated gathering at the Artium Museum of Contemporary Art in Vitoria-Gasteiz in the Basque Country, dedicated to deep techno, electro and IDM.",
-    },
-  },
-  {
-    id: "modem-festival-croatie",
-    nom: "Mo:Dem (Momento Demento)",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Primišlje (Slunj)", en: "Primislje (Slunj)" },
-    latitude: 45.1489,
-    longitude: 15.4836,
-    capacite: 8000,
-    annee: 2012,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Darkprog","Psytech","Psy","Experimental","Downtempo"],
-    site: "https://modemfestival.com",
-    description: {
-      fr: "Référence mondiale absolue de la darkprog, de la forest psytrance et de la psytech (scènes The Hive, The Swamp et The Seed) au fond d’un canyon boisé traversé par la rivière Mrežnica.",
-      en: "Global benchmark for darkprog, forest psytrance and psytech (across The Hive, The Swamp and The Seed stages) in a wooded canyon along the Mrežnica River.",
-    },
-  },
-  {
-    id: "outlook-origins-tisno",
-    nom: "Outlook Origins",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Tisno (The Garden Resort)", en: "Tisno (The Garden Resort)" },
-    latitude: 43.8018,
-    longitude: 15.6428,
-    capacite: 5000,
-    annee: 2008,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Dubstep","Drum & Bass","Jungle","UK Garage","Grime"],
-    site: "https://www.outlookfestival.com",
-    description: {
-      fr: "La mecque européenne de la culture sound system britannique sur la côte dalmate : dubstep originel, jungle, drum & bass, UK garage et dub.",
-      en: "Europe’s spiritual home for sound-system culture on the Dalmatian coast, celebrating dubstep, jungle, drum & bass, UK garage and dub.",
-    },
-  },
-  {
-    id: "defected-croatia-tisno",
-    nom: "Defected Croatia",
-    type: "festival",
-    paysCode: "HR",
-    ville: { fr: "Tisno (The Garden Resort)", en: "Tisno (The Garden Resort)" },
-    latitude: 43.8011,
-    longitude: 15.6416,
-    capacite: 5000,
-    annee: 2016,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Soulful House","Disco","Deep House"],
-    site: "https://defected.com",
-    description: {
-      fr: "Cinq jours de house vocale, de disco et de boat parties sur l’Adriatique orchestrés par le label londonien Defected Records et Glitterbox.",
-      en: "Five days of vocal house, disco and Adriatic boat parties hosted by London powerhouse Defected Records and Glitterbox.",
-    },
-  },
-  {
-    id: "decibel-open-air-florence",
-    nom: "Decibel Open Air",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Florence (Parco delle Cascine)", en: "Florence (Parco delle Cascine)" },
-    latitude: 43.7831,
-    longitude: 11.2211,
-    capacite: 25000,
-    annee: 2018,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","Hard Techno","Melodic Techno","House"],
-    site: "https://www.decibelopenair.com",
-    description: {
-      fr: "Grand rendez-vous techno et melodic techno de fin d’été à Florence, réunissant des scènes géantes signées elrow et Terminal V.",
-      en: "Major late-summer techno and melodic techno gathering in Florence featuring giant stages curated with elrow and Terminal V.",
-    },
-  },
-  {
-    id: "ortigia-sound-system-sicily",
-    nom: "Ortigia Sound System",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Syracuse (Île d’Ortygie, Sicile)", en: "Syracuse (Ortigia Island, Sicily)" },
-    latitude: 37.0611,
-    longitude: 15.2933,
-    capacite: 5000,
-    annee: 2014,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Leftfield","Experimental","Techno","House"],
-    site: "https://ortigiasoundsystem.com",
-    description: {
-      fr: "Festival insulaire sur la presqu’île baroque d’Ortygie en Sicile, croisant rythmes méditerranéens et avant-garde électronique.",
-      en: "Island festival on the baroque peninsula of Ortigia in Sicily, bridging Mediterranean rhythms with the global electronic avant-garde.",
-    },
-  },
-  {
-    id: "waha-festival-romania",
-    nom: "Waha Festival",
-    type: "festival",
-    paysCode: "RO",
-    ville: { fr: "Bățanii Mari (Covasna, Transylvanie)", en: "Batanii Mari (Covasna, Transylvania)" },
-    latitude: 46.0886,
-    longitude: 25.6914,
-    capacite: 5000,
-    annee: 2012,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Minimal","Rominimal","Psy","Psytech","Ambient"],
-    site: "https://wahafestival.ro",
-    description: {
-      fr: "Retraite musicale de cinq jours dans une clairière des Carpates en Transylvanie, réunissant une scène rominimal (microhouse) et une scène psytrance et psytech.",
-      en: "Five-day mountain retreat in a Carpathian clearing in Transylvania, uniting a dedicated rominimal microhouse stage with psytrance and psytech.",
-    },
-  },
-  {
-    id: "hard-summer-los-angeles",
-    nom: "HARD Summer Music Festival",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "losangeles-us",
-    ville: { fr: "Los Angeles (Hollywood Park, Inglewood)", en: "Los Angeles (Hollywood Park, Inglewood)" },
-    latitude: 33.9533,
-    longitude: -118.3386,
-    capacite: 60000,
-    annee: 2007,
-    mois: { fr: "Août", en: "August" },
-    styles: ["House","Techno","UK Garage","Bass","Tech House"],
-    site: "https://www.hardsummer.com",
-    description: {
-      fr: "Institution angeleno fondée en 2007, réunissant à Inglewood le meilleur de la house, de la techno, de l’UK garage et de la bass music.",
-      en: "Los Angeles institution founded in 2007, bringing together top-tier house, techno, UK garage and bass music at Hollywood Park in Inglewood.",
-    },
-  },
-  {
-    id: "beyond-wonderland-socal",
-    nom: "Beyond Wonderland SoCal",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "losangeles-us",
-    ville: { fr: "San Bernardino (NOS Events Center)", en: "San Bernardino (NOS Events Center)" },
-    latitude: 34.0886,
-    longitude: -117.2911,
-    capacite: 65000,
-    annee: 2010,
-    mois: { fr: "Mars", en: "March" },
-    styles: ["House","Techno","Trance","Drum & Bass","Dubstep"],
-    site: "https://socal.beyondwonderland.com",
-    description: {
-      fr: "Grand rassemblement printanier d’Insomniac en Californie du Sud avec scènes Factory 93 (techno), Dreamstate (trance) et Bassrush.",
-      en: "Major spring Insomniac festival in Southern California featuring dedicated Factory 93 (techno), Dreamstate (trance) and Bassrush stages.",
-    },
-  },
-  {
-    id: "dreamstate-socal",
-    nom: "Dreamstate SoCal",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "losangeles-us",
-    ville: { fr: "Long Beach (Queen Mary Waterfront)", en: "Long Beach (Queen Mary Waterfront)" },
-    latitude: 33.7528,
-    longitude: -118.1889,
-    capacite: 25000,
-    annee: 2015,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["Trance","Psy","Progressive Trance","Tech Trance"],
-    site: "https://socal.dreamstateusa.com",
-    description: {
-      fr: "Le plus grand festival d’Amérique du Nord entièrement consacré à la trance, à l’uplifting et à la psytrance, face au paquebot Queen Mary à Long Beach.",
-      en: "North America’s largest festival dedicated exclusively to trance, uplifting and psytrance on the Queen Mary waterfront in Long Beach.",
-    },
-  },
-  {
-    id: "sustain-release-new-york",
-    nom: "Sustain-Release",
-    type: "festival",
-    paysCode: "US",
-    villeSlug: "newyork-us",
-    ville: { fr: "Monticello (Catskills, État de New York)", en: "Monticello (Catskills, New York)" },
-    latitude: 41.6514,
-    longitude: -74.6625,
-    capacite: 1500,
-    annee: 2014,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","Leftfield","Bass","House","Electro"],
-    site: "https://sustain-release.com",
-    description: {
-      fr: "Fondé par Aurora Halal dans un camp d’été des montagnes Catskills au nord de New York, le rassemblement underground le plus influent de la côte Est.",
-      en: "Founded by Aurora Halal at a summer camp in the Catskill Mountains north of NYC, the East Coast’s most influential underground gathering.",
-    },
-  },
-  {
-    id: "the-great-beyond-minnesota",
-    nom: "The Great Beyond",
-    type: "festival",
-    paysCode: "US",
-    ville: { fr: "Granite Falls (Minnesota)", en: "Granite Falls (Minnesota)" },
-    latitude: 44.7825,
-    longitude: -95.5122,
-    capacite: 2500,
-    annee: 2018,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","Acid","Hypnotic Techno","Electro"],
-    site: "https://greatbeyond.us",
-    description: {
-      fr: "Sanctuaire de la techno pure, de l’acid et du son du Midwest américain dans la vallée de la rivière Minnesota.",
-      en: "Sanctuary for pure hypnotic techno, acid and Midwest rave heritage in the Minnesota River Valley.",
-    },
-  },
-  {
-    id: "free-earth-festival-greece",
-    nom: "Free Earth Festival",
-    type: "festival",
-    paysCode: "GR",
-    ville: { fr: "Asprovalta (Chalcidique)", en: "Asprovalta (Halkidiki)" },
-    latitude: 40.7222,
-    longitude: 23.7069,
-    capacite: 8000,
-    annee: 2013,
-    mois: { fr: "Août - Septembre", en: "August - September" },
-    styles: ["Psy","Psytech","Darkprog","Downtempo"],
-    site: "https://freeearth-festival.com",
-    description: {
-      fr: "Grand rassemblement psychédélique sur une plage de la mer Égée en Chalcidique, avec trois scènes dédiées à la psytrance, à la psytech et au chill-out.",
-      en: "Major Aegean beachfront psychedelic gathering in Halkidiki featuring three stages dedicated to psytrance, psytech and chill-out.",
-    },
-  },
-  {
-    id: "phaex-festival-corfu",
-    nom: "Phaex Festival",
-    type: "festival",
-    paysCode: "GR",
-    ville: { fr: "Corfou (Île ionienne)", en: "Corfu (Ionian Island)" },
-    latitude: 39.6243,
-    longitude: 19.9217,
-    capacite: 8000,
-    annee: 2022,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Hard Techno","Melodic Techno"],
-    site: "https://phaex.com",
-    description: {
-      fr: "Quatre jours de techno et de house à travers les forteresses vénitiennes, les clubs en plein air et les plages de l’île de Corfou.",
-      en: "Four days of techno and house across Venetian fortresses, open-air clubs and beaches on the island of Corfu.",
-    },
-  },
-  {
-    id: "primer-music-festival-athens",
-    nom: "Primer Music Festival",
-    type: "festival",
-    paysCode: "GR",
-    ville: { fr: "Athènes (Plateia Nerou)", en: "Athens (Plateia Nerou)" },
-    latitude: 37.9394,
-    longitude: 23.6869,
-    capacite: 25000,
-    annee: 2018,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["House","Techno","Melodic Techno","EDM"],
-    site: "https://primermusicfestival.com",
-    description: {
-      fr: "Le plus grand festival électronique de Grèce sur l’esplanade maritime de Plateia Nerou au bord du golfe Saronique à Athènes.",
-      en: "Greece’s largest electronic music festival on the waterfront plaza of Plateia Nerou along the Saronic Gulf in Athens.",
-    },
-  },
-  {
-    id: "glitch-festival-malta",
-    nom: "Glitch Festival",
-    type: "festival",
-    paysCode: "MT",
-    ville: { fr: "Rabat / Mdina (Gianpula Village)", en: "Rabat / Mdina (Gianpula Village)" },
-    latitude: 35.8758,
-    longitude: 14.4214,
-    capacite: 15000,
-    annee: 2016,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Hard Techno","House","Electro","Acid"],
-    site: "https://www.glitchfestival.com",
-    description: {
-      fr: "Sept scènes au pied de la cité fortifiée de Mdina à Malte, complétées par des raves dans des grottes anciennes et des boat parties en Méditerranée.",
-      en: "Seven stages beneath the fortified city of Mdina in Malta, complete with ancient cave raves and Mediterranean boat parties.",
-    },
-  },
-  {
-    id: "moga-festival-essaouira",
-    nom: "MOGA Festival Essaouira",
-    type: "festival",
-    paysCode: "MA",
-    ville: { fr: "Essaouira", en: "Essaouira" },
-    latitude: 31.5085,
-    longitude: -9.7595,
-    capacite: 10000,
-    annee: 2016,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["Indie Dance","House","Deep House","Minimal","Techno"],
-    site: "https://www.mogafestival.com",
-    description: {
-      fr: "Dialogue unique entre la culture Gnaoua marocaine et les musiques électroniques mondiales (indie dance, house, minimal) dans la cité atlantique d’Essaouira (avec une édition jumelle à Caparica au Portugal).",
-      en: "Unique dialogue between Moroccan Gnawa heritage and global electronic music (indie dance, house, minimal) in the Atlantic port city of Essaouira.",
-    },
-  },
-  {
-    id: "oasis-festival-morocco",
-    nom: "Oasis Festival",
-    type: "festival",
-    paysCode: "MA",
-    ville: { fr: "Marrakech / Dakhla", en: "Marrakech / Dakhla" },
-    latitude: 31.6295,
-    longitude: -7.9811,
-    capacite: 6000,
-    annee: 2015,
-    mois: { fr: "Septembre - Novembre", en: "September - November" },
-    styles: ["House","Techno","Indie Dance","Afro House"],
-    site: "https://theoasisfest.com",
-    description: {
-      fr: "Pionnier des festivals électroniques boutique au Maroc, réunissant la scène nord-africaine et les têtes d’affiche house et techno internationales.",
-      en: "Pioneer of boutique electronic festivals in Morocco, uniting North African talent with international house and techno headliners.",
-    },
-  },
-  {
-    id: "let-it-roll-czechia",
-    nom: "Let It Roll",
-    type: "festival",
-    paysCode: "CZ",
-    ville: { fr: "Milovice / Most (Bohême)", en: "Milovice / Most (Bohemia)" },
-    latitude: 50.2411,
-    longitude: 14.8886,
-    capacite: 30000,
-    annee: 2002,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Drum & Bass","Neurofunk","Jump Up","Jungle"],
-    site: "https://www.letitroll.eu",
-    description: {
-      fr: "Le plus grand festival entièrement consacré à la drum & bass au monde, rassemblant 30 000 passionnés autour de scénographies robotiques monumentales.",
-      en: "The world’s largest festival dedicated entirely to drum & bass, uniting 30,000 fans around monumental robotic stage designs.",
-    },
-  },
-  {
-    id: "beats-for-love-ostrava",
-    nom: "Beats for Love",
-    type: "festival",
-    paysCode: "CZ",
-    ville: { fr: "Ostrava (Dolní Vítkovice)", en: "Ostrava (Dolni Vitkovice)" },
-    latitude: 49.8194,
-    longitude: 18.2806,
-    capacite: 45000,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","Drum & Bass","House","Hardstyle"],
-    site: "https://www.b4l.cz",
-    description: {
-      fr: "Le plus grand festival électronique d’Europe centrale, niché au milieu des hauts fourneaux géants du complexe sidérurgique classé de Dolní Vítkovice à Ostrava.",
-      en: "Central Europe’s largest electronic festival, set amid the giant blast furnaces of the historic Dolní Vítkovice ironworks in Ostrava.",
-    },
-  },
-  {
-    id: "master-of-puppets-czechia",
-    nom: "Master of Puppets Festival",
-    type: "festival",
-    paysCode: "CZ",
-    ville: { fr: "Bystřice nad Pernštejnem (Moravie)", en: "Bystrice nad Pernstejnem (Moravia)" },
-    latitude: 49.5228,
-    longitude: 16.2614,
-    capacite: 5000,
-    annee: 2014,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Psy","Darkprog","Psytech","Hi-Tech"],
-    site: "https://www.mastersofpuppets.net",
-    description: {
-      fr: "Rendez-vous mondial des courants les plus souterrains et rapides du psychédélisme : darkpsy, forest, hi-tech, darkprog et psytech.",
-      en: "Global gathering for the fastest and deepest underground psychedelic currents: darkpsy, forest, hi-tech, darkprog and psytech.",
-    },
-  },
-  {
-    id: "meadows-in-the-mountains-bulgaria",
-    nom: "Meadows in the Mountains",
-    type: "festival",
-    paysCode: "BG",
-    ville: { fr: "Polkovnik Serafimovo (Monts Rhodopes)", en: "Polkovnik Serafimovo (Rhodope Mountains)" },
-    latitude: 41.5289,
-    longitude: 24.7811,
-    capacite: 2500,
-    annee: 2011,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["House","Leftfield","Disco","Broken Beat","Ambient"],
-    site: "https://www.meadowsinthemountains.com",
-    description: {
-      fr: "Perché à 850 mètres d’altitude dans les monts Rhodopes au-dessus d’une mer de nuages au lever du soleil, festival culte de house, broken beat et musiques organiques.",
-      en: "Perched at 850 meters in the Rhodope Mountains above a sea of sunrise clouds, a cult festival for house, broken beat and organic grooves.",
-    },
-  },
-  {
-    id: "exe-beach-festival-bulgaria",
-    nom: "EXE Beach Festival",
-    type: "festival",
-    paysCode: "BG",
-    ville: { fr: "Sozopol (Mer Noire)", en: "Sozopol (Black Sea)" },
-    latitude: 42.3922,
-    longitude: 27.7056,
-    capacite: 10000,
-    annee: 2019,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Techno","House","Tech House","Melodic Techno"],
-    site: "https://exefestival.com",
-    description: {
-      fr: "Grand rendez-vous techno et house sur la plage de Kite Bar à Sozopol au bord de la mer Noire.",
-      en: "Major techno and house beach gathering in Sozopol on the Bulgarian Black Sea coast.",
-    },
-  },
-  {
-    id: "echowaves-georgia",
-    nom: "Echowaves / 4GB Festival",
-    type: "festival",
-    paysCode: "GE",
-    ville: { fr: "Tbilissi / Saguramo", en: "Tbilisi / Saguramo" },
-    latitude: 41.8889,
-    longitude: 44.7611,
-    capacite: 8000,
-    annee: 2011,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","House","Minimal","Electro"],
-    site: "https://www.4gb.ge",
-    description: {
-      fr: "Hommage annuel au pionnier géorgien Gio Bakanidze près de Tbilissi, pilier fondateur de l’extraordinaire renaissance techno géorgienne autour de Bassiani.",
-      en: "Annual tribute to Georgian pioneer Gio Bakanidze near Tbilisi, a founding pillar of Georgia’s extraordinary techno renaissance.",
-    },
-  },
-  {
-    id: "yaga-gathering-lithuania",
-    nom: "Yaga Gathering",
-    type: "festival",
-    paysCode: "LT",
-    ville: { fr: "Spengla (Forêt de Dzūkija)", en: "Spengla (Dzukija Forest)" },
-    latitude: 54.3411,
-    longitude: 24.7128,
-    capacite: 3500,
-    annee: 2003,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Psytech","Dark Disco","Psy","Techno","Ambient"],
-    site: "https://www.yaga.lt",
-    description: {
-      fr: "Rassemblement d’art et de musique électronique au bord du lac Spengla dans la forêt de Dzūkija en Lituanie, célèbre pour sa scène Dusk (dark disco, psytech, techno hypnotique).",
-      en: "Forest art and electronic gathering by Lake Spengla in Lithuania’s Dzūkija National Park, famed for its Dusk Stage (dark disco, psytech and hypnotic techno).",
-    },
-  },
-  {
-    id: "baum-festival-bogota",
-    nom: "Baum Festival",
-    type: "festival",
-    paysCode: "CO",
-    ville: { fr: "Bogotá (Corferias)", en: "Bogota (Corferias)" },
-    latitude: 4.6308,
-    longitude: -74.0919,
-    capacite: 35000,
-    annee: 2015,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Techno","Hard Techno","House","Electro"],
-    site: "https://www.baumfestival.com",
-    description: {
-      fr: "La plus grande rave de Colombie à Corferias au cœur de Bogotá, témoignant de la ferveur exceptionnelle de la capitale colombienne pour la techno.",
-      en: "Colombia’s largest rave at Corferias in the heart of Bogotá, showcasing the Colombian capital’s extraordinary passion for techno.",
-    },
-  },
-  {
-    id: "ritvales-medellin",
-    nom: "Ritvales",
-    type: "festival",
-    paysCode: "CO",
-    ville: { fr: "Medellín (Parque Norte)", en: "Medellin (Parque Norte)" },
-    latitude: 6.2694,
-    longitude: -75.5658,
-    capacite: 30000,
-    annee: 2018,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["Techno","House","Melodic Techno","Indie Dance"],
-    site: "https://ritvales.com",
-    description: {
-      fr: "Deux jours en plein air au Parque Norte de Medellín réunissant quatre scènes techno, house et indie dance au cœur de la vallée d’Aburrá.",
-      en: "Two-day open-air festival at Medellín’s Parque Norte uniting four stages of techno, house and indie dance in the Aburrá Valley.",
-    },
-  },
-  {
-    id: "ocaso-festival-costa-rica",
-    nom: "Ocaso Underground Music Festival",
-    type: "festival",
-    paysCode: "CR",
-    ville: { fr: "Jacó / Tamarindo (Pacifique)", en: "Jaco / Tamarindo (Pacific Coast)" },
-    latitude: 9.618,
-    longitude: -84.629,
-    capacite: 5000,
-    annee: 2017,
-    mois: { fr: "Janvier", en: "January" },
-    styles: ["House","Techno","Tech House","Minimal"],
-    site: "https://ocasofestival.com",
-    description: {
-      fr: "Rendez-vous hivernal entre jungle et océan Pacifique au Costa Rica, dédié aux sonorités house et techno underground.",
-      en: "Winter gathering between rainforest and the Pacific Ocean in Costa Rica, dedicated to underground house and techno.",
-    },
-  },
-  {
-    id: "envision-festival-costa-rica",
-    nom: "Envision Festival",
-    type: "festival",
-    paysCode: "CR",
-    ville: { fr: "Uvita (Rancho La Merced)", en: "Uvita (Rancho La Merced)" },
-    latitude: 9.1636,
-    longitude: -83.7439,
-    capacite: 8000,
-    annee: 2011,
-    mois: { fr: "Février - Mars", en: "February - March" },
-    styles: ["Bass","House","Techno","Downtempo","Psytech"],
-    site: "https://envisionfestival.com",
-    description: {
-      fr: "Sept jours où la jungle primaire rejoint la plage d’Uvita sur la côte pacifique du Costa Rica, autour d’architectures organiques en bambou.",
-      en: "Seven days where primary rainforest meets the beach in Uvita on Costa Rica’s Pacific coast, built around monumental bamboo stage architecture.",
-    },
-  },
-  {
-    id: "wonderfruit-thailand",
-    nom: "Wonderfruit",
-    type: "festival",
-    paysCode: "TH",
-    ville: { fr: "Pattaya (The Fields at Siam Country Club)", en: "Pattaya (The Fields at Siam Country Club)" },
-    latitude: 12.9236,
-    longitude: 100.9625,
-    capacite: 25000,
-    annee: 2014,
-    mois: { fr: "Décembre", en: "December" },
-    styles: ["House","Techno","Leftfield","Ambient","Minimal"],
-    site: "https://wonderfruit.co",
-    description: {
-      fr: "Laboratoire culturel et sonore en Thaïlande célèbre pour son Polygon Live (dôme sonore 360 degrés), sa Quarry nocturne (techno et minimal) et ses pavillons d’architectes.",
-      en: "Cultural and sonic playground in Thailand renowned for its 360-degree Polygon Live dome, nocturnal Quarry stage (techno and minimal) and architectural pavilions.",
-    },
-  },
-  {
-    id: "s2o-songkran-bangkok",
-    nom: "S2O Songkran Music Festival",
-    type: "festival",
-    paysCode: "TH",
-    ville: { fr: "Bangkok (Live Park Rama 9)", en: "Bangkok (Live Park Rama 9)" },
-    latitude: 13.7486,
-    longitude: 100.6042,
-    capacite: 50000,
-    annee: 2015,
-    mois: { fr: "Avril", en: "April" },
-    styles: ["EDM","House","Techno","Bass"],
-    site: "https://www.s2ofestival.com",
-    description: {
-      fr: "Célébration électronique du Nouvel An thaïlandais (Songkran) à Bangkok sous des canons à eau géants à 360 degrés.",
-      en: "Electronic celebration of Thai New Year (Songkran) in Bangkok beneath 360-degree high-pressure water cannons.",
-    },
-  },
-  {
-    id: "djakarta-warehouse-project",
-    nom: "Djakarta Warehouse Project (DWP)",
-    type: "festival",
-    paysCode: "ID",
-    ville: { fr: "Jakarta & Bali (GWK Cultural Park)", en: "Jakarta & Bali (GWK Cultural Park)" },
-    latitude: -8.8104,
-    longitude: 115.1676,
-    capacite: 40000,
-    annee: 2008,
-    mois: { fr: "Décembre", en: "December" },
-    styles: ["House","Techno","EDM","Trance"],
-    site: "https://djakartawarehouse.com",
-    description: {
-      fr: "L’un des plus grands festivals électroniques d’Asie du Sud-Est, alternant entre Jakarta et les falaises calcaires du parc culturel Garuda Wisnu Kencana à Bali.",
-      en: "One of Southeast Asia’s largest electronic festivals, alternating between Jakarta and the limestone cliffs of GWK Cultural Park in Bali.",
-    },
-  },
-  {
-    id: "suara-festival-bali",
-    nom: "Suara Festival",
-    type: "festival",
-    paysCode: "ID",
-    ville: { fr: "Tabanan (Nuanu Creative City, Bali)", en: "Tabanan (Nuanu Creative City, Bali)" },
-    latitude: -8.6258,
-    longitude: 115.0844,
-    capacite: 5000,
-    annee: 2022,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Indie Dance","House","Melodic Techno","Downtempo"],
-    site: "https://www.suarafestival.com",
-    description: {
-      fr: "Festival artistique en bord d’océan au cœur du village créatif de Nuanu à Bali, dédié à l’indie dance, la house et l’architecture en bambou.",
-      en: "Oceanfront arts and electronic festival inside Bali’s Nuanu Creative City, dedicated to indie dance, house and bamboo architecture.",
-    },
-  },
-  {
-    id: "shankra-festival-switzerland",
-    nom: "Shankra Festival",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Lostallo (Val Mesolcina, Grisons)", en: "Lostallo (Grisons)" },
-    latitude: 46.3114,
-    longitude: 9.1936,
-    capacite: 10000,
-    annee: 2015,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Psy","Psytech","Goa Trance","Downtempo"],
-    site: "https://shankrafestival.org",
-    description: {
-      fr: "Cinq jours au fond d’une vallée alpine des Grisons encadrée de cascades, grand rendez-vous suisse de la psytrance, de la psytech et de la goa.",
-      en: "Five days in a waterfall-ringed Alpine valley in Graubünden, Switzerland’s premier gathering for psytrance, psytech and Goa trance.",
-    },
-  },
-  {
-    id: "burning-mountain-switzerland",
-    nom: "Burning Mountain Festival",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Zernez (Engadine, Grisons)", en: "Zernez (Engadin, Grisons)" },
-    latitude: 46.7014,
-    longitude: 10.0939,
-    capacite: 6500,
-    annee: 2010,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Psy","Progressive Trance","Psytech"],
-    site: "https://www.burning-mountain.ch",
-    description: {
-      fr: "Perché à 1 470 mètres d’altitude dans la vallée de l’Engadine, mêlant arts du feu, sculptures monumentales, progressive et psytrance.",
-      en: "Set at 1,470 meters in the Engadin valley, combining fire arts, monumental sculptures, progressive trance and psytrance.",
-    },
-  },
-  {
-    id: "hive-air-switzerland",
-    nom: "Hive Air",
-    type: "festival",
-    paysCode: "CH",
-    ville: { fr: "Wohlen (Argovie, près de Zurich)", en: "Wohlen (near Zurich)" },
-    latitude: 47.3522,
-    longitude: 8.2789,
-    capacite: 15000,
-    annee: 2019,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["House","Techno","Melodic Techno","Indie Dance"],
-    site: "https://www.hiveair.ch",
-    description: {
-      fr: "Le grand open air estival orchestré par le club zurichois Hive, réunissant quatre scènes house, techno et indie dance.",
-      en: "Flagship summer open-air curated by Zurich’s legendary Hive club, uniting four stages of house, techno and indie dance.",
-    },
-  },
-  {
-    id: "daad-gathering-hungary",
-    nom: "DAAD Gathering",
-    type: "festival",
-    paysCode: "HU",
-    ville: { fr: "Dádpuszta (Igar)", en: "Dadpuszta (Igar)" },
-    latitude: 46.7625,
-    longitude: 18.4239,
-    capacite: 6000,
-    annee: 2021,
-    mois: { fr: "Juin - Juillet", en: "June - July" },
-    styles: ["Techno","Psytech","Minimal","House","Ambient"],
-    site: "https://daad.hu",
-    description: {
-      fr: "Organisé par l’équipe d’O.Z.O.R.A. sur les mêmes collines de Dádpuszta, mais entièrement consacré à la techno hypnotique, à la psytech, au minimal et à l’ambient.",
-      en: "Created by the O.Z.O.R.A. team in the rolling hills of Dádpuszta, dedicated to hypnotic techno, psytech, minimal and ambient.",
-    },
-  },
-  {
-    id: "b-my-lake-balaton",
-    nom: "B My Lake Festival",
-    type: "festival",
-    paysCode: "HU",
-    ville: { fr: "Lac Balaton / Velence", en: "Lake Balaton / Velence" },
-    latitude: 46.8833,
-    longitude: 17.8833,
-    capacite: 20000,
-    annee: 2013,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Techno","Hard Techno","House","Tech House"],
-    site: "https://bmylake.hu",
-    description: {
-      fr: "La mecque hongroise de la techno contemporaine et de la tech house au bord de l’eau.",
-      en: "Hungary’s lakeside stronghold for contemporary techno, hard techno and tech house.",
-    },
-  },
-  {
-    id: "springfestival-graz",
-    nom: "Springfestival Graz",
-    type: "festival",
-    paysCode: "AT",
-    ville: { fr: "Graz (Schlossberg & lieux urbains)", en: "Graz (Schlossberg & Urban Venues)" },
-    latitude: 47.0707,
-    longitude: 15.4395,
-    capacite: 15000,
-    annee: 2001,
-    mois: { fr: "Mai - Juin", en: "May - June" },
-    styles: ["Techno","House","Drum & Bass","Experimental"],
-    site: "https://www.springfestival.at",
-    description: {
-      fr: "Cinq jours d’art électronique et de culture club à Graz, investissant notamment les tunnels souterrains de la colline du Schlossberg.",
-      en: "Five days of electronic art and club culture in Graz, notably taking over the subterranean tunnels inside the Schlossberg hill.",
-    },
-  },
-  {
-    id: "flow-festival-austria",
-    nom: "Flow Experience Festival",
-    type: "festival",
-    paysCode: "AT",
-    ville: { fr: "Wiener Neustadt (Basse-Autriche)", en: "Wiener Neustadt (Lower Austria)" },
-    latitude: 47.8167,
-    longitude: 16.25,
-    capacite: 5000,
-    annee: 2014,
-    mois: { fr: "Juin - Juillet", en: "June - July" },
-    styles: ["Psy","Progressive Trance","Psytech","Downtempo"],
-    site: "https://www.flow-festival.at",
-    description: {
-      fr: "Principal open air psychédélique et progressive trance d’Autriche au sud de Vienne.",
-      en: "Austria’s leading open-air psychedelic and progressive trance gathering south of Vienna.",
-    },
-  },
-  {
-    id: "bravo-gnp-mexico",
-    nom: "Bravo GNP",
-    type: "festival",
-    paysCode: "MX",
-    ville: { fr: "Valle de Bravo (État de Mexico)", en: "Valle de Bravo (State of Mexico)" },
-    latitude: 19.195,
-    longitude: -100.1328,
-    capacite: 8000,
-    annee: 2017,
-    mois: { fr: "Octobre - Novembre", en: "October - November" },
-    styles: ["Indie Dance","House","Techno","Disco"],
-    site: "https://bravognp.com",
-    description: {
-      fr: "Nuit et jour sous les pins de Valle de Bravo à deux heures de Mexico, réunissant scènes indie dance, house et techno au milieu de la forêt.",
-      en: "Day-and-night gathering beneath the pines of Valle de Bravo two hours from Mexico City, uniting indie dance, house and techno in the forest.",
-    },
-  },
-  {
-    id: "tropico-acapulco",
-    nom: "Festival Trópico",
-    type: "festival",
-    paysCode: "MX",
-    ville: { fr: "Acapulco (Pierre Mundo Imperial)", en: "Acapulco (Pacific Coast)" },
-    latitude: 16.7836,
-    longitude: -99.8058,
-    capacite: 8000,
-    annee: 2013,
-    mois: { fr: "Décembre", en: "December" },
-    styles: ["Disco","Indie Dance","House","Leftfield"],
-    site: "https://tropicomx.com",
-    description: {
-      fr: "Trois jours de disco, d’indie dance et de house les pieds dans le sable sur la côte Pacifique mexicaine.",
-      en: "Three days of disco, indie dance and house in the sand on Mexico’s Pacific coast.",
-    },
-  },
-  {
-    id: "sundream-baja-mexico",
-    nom: "Sundream Baja",
-    type: "festival",
-    paysCode: "MX",
-    ville: { fr: "San José del Cabo (Basse-Californie du Sud)", en: "San Jose del Cabo (Baja California Sur)" },
-    latitude: 23.0444,
-    longitude: -109.6778,
-    capacite: 3500,
-    annee: 2022,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Melodic House","Indie Dance","Deep House","Techno"],
-    site: "https://sundream.org",
-    description: {
-      fr: "Fondé par RÜFÜS DU SOL à El Ganzo au bord de la mer de Cortés, quatre jours de melodic house, d’indie dance et de sets au lever du soleil.",
-      en: "Curated by RÜFÜS DU SOL on the Sea of Cortez in Baja California, featuring four days of melodic house, indie dance and sunrise sets.",
-    },
-  },
-  {
-    id: "warung-day-festival-curitiba",
-    nom: "Warung Day Festival",
-    type: "festival",
-    paysCode: "BR",
-    ville: { fr: "Curitiba (Pedreira Paulo Leminski)", en: "Curitiba (Pedreira Paulo Leminski)" },
-    latitude: -25.3844,
-    longitude: -49.2764,
-    capacite: 20000,
-    annee: 2014,
-    mois: { fr: "Mai", en: "May" },
-    styles: ["Progressive House","Melodic Techno","Deep House","Techno"],
-    site: "https://warungdayfestival.com.br",
-    description: {
-      fr: "L’esprit du mythique club Warung Beach Club transposé dans l’immense carrière de pierre Pedreira Paulo Leminski à Curitiba.",
-      en: "The spirit of the legendary Warung Beach Club brought to the monumental stone quarry of Pedreira Paulo Leminski in Curitiba.",
-    },
-  },
-  {
-    id: "xxxperience-brasil",
-    nom: "XXXPERIENCE Festival",
-    type: "festival",
-    paysCode: "BR",
-    ville: { fr: "Itu (État de São Paulo)", en: "Itu (Sao Paulo State)" },
-    latitude: -23.3395,
-    longitude: -47.2562,
-    capacite: 30000,
-    annee: 1996,
-    mois: { fr: "Novembre", en: "November" },
-    styles: ["Psy","Techno","House","Progressive House"],
-    site: "https://xxxperience.com.br",
-    description: {
-      fr: "Né en 1996 comme rave psytrance, devenu le plus ancien et l’un des plus grands festivals électroniques du Brésil.",
-      en: "Born in 1996 as an outdoor psytrance rave, now Brazil’s longest-running major electronic festival.",
-    },
-  },
-  {
-    id: "esoteric-festival-australia",
-    nom: "Esoteric Festival",
-    type: "festival",
-    paysCode: "AU",
-    ville: { fr: "Donald (Victoria)", en: "Donald (Victoria)" },
-    latitude: -36.3686,
-    longitude: 142.9869,
-    capacite: 10000,
-    annee: 2017,
-    mois: { fr: "Mars (Labour Day Weekend)", en: "March" },
-    styles: ["Psy","Psytech","Bush Techno","Glitch","Drum & Bass"],
-    site: "https://esotericfestival.com.au",
-    description: {
-      fr: "Le grand « bush doof » australien dans le Victoria, vitrine mondiale de la bush techno, de la psytech australienne (style Zenon Records) et de la psytrance.",
-      en: "Australia’s flagship ‘bush doof’ in Victoria, a global showcase for Australian bush techno, Zenonesque psytech and psytrance.",
-    },
-  },
-  {
-    id: "subsonic-music-festival-australia",
-    nom: "Subsonic Music Festival",
-    type: "festival",
-    paysCode: "AU",
-    ville: { fr: "Riverwood Downs (Nouvelle-Galles du Sud)", en: "Riverwood Downs (New South Wales)" },
-    latitude: -32.2219,
-    longitude: 151.8386,
-    capacite: 6000,
-    annee: 2009,
-    mois: { fr: "Décembre", en: "December" },
-    styles: ["House","Techno","Minimal","Psytech"],
-    site: "https://subsonicmusic.com.au",
-    description: {
-      fr: "Trois jours au bord de la rivière Karuah au pied des Barrington Tops au nord de Sydney, réunissant house, techno et minimal.",
-      en: "Three days beside the Karuah River in the foothills of the Barrington Tops north of Sydney, uniting house, techno and minimal.",
-    },
-  },
-  {
-    id: "rural-japan",
-    nom: "rural",
-    type: "festival",
-    paysCode: "JP",
-    ville: { fr: "Niigata / Nagano (Alpes japonaises)", en: "Niigata / Nagano (Japanese Alps)" },
-    latitude: 36.9389,
-    longitude: 138.8122,
-    capacite: 1500,
-    annee: 2009,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Hypnotic Techno","Experimental","Ambient","IDM","Electro"],
-    site: "https://rural-jp.com",
-    description: {
-      fr: "Rendez-vous en plein air ultra-pointu dans les montagnes japonaises, vénéré pour sa sélection de techno hypnotique, d’ambient et d’électronique expérimentale.",
-      en: "Revered open-air mountain gathering in Japan, celebrated globally for its uncompromising curation of hypnotic techno, ambient and experimental electronics.",
-    },
-  },
-  {
-    id: "rebirth-festival-japan",
-    nom: "Re:birth Festival",
-    type: "festival",
-    paysCode: "JP",
-    ville: { fr: "Yamanashi / Île de Sado", en: "Yamanashi / Sado Island" },
-    latitude: 35.6639,
-    longitude: 138.5683,
-    capacite: 3000,
-    annee: 2013,
-    mois: { fr: "Mai - Septembre", en: "May - September" },
-    styles: ["Psy","Psytech","Techno","Goa Trance"],
-    site: "https://www.rebirth-festival.com",
-    description: {
-      fr: "Point de rencontre de la scène psytrance, psytech et techno japonaise en pleine nature.",
-      en: "Outdoor meeting point for Japan’s revered psytrance, psytech and underground techno communities.",
-    },
-  },
-  {
-    id: "voodoo-village-belgium",
-    nom: "Voodoo Village",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Grimbergen (Château de Humbeek)", en: "Grimbergen (Humbeek Castle)" },
-    latitude: 50.9772,
-    longitude: 4.3758,
-    capacite: 15000,
-    annee: 2015,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Melodic Techno","House","Indie Dance","Techno"],
-    site: "https://voodoovillage.be",
-    description: {
-      fr: "Dans les bois entourant le château de Humbeek aux portes de Bruxelles, cinq scènes scénographiées entre house, indie dance, melodic techno et techno.",
-      en: "In the woods surrounding Humbeek Castle near Brussels, featuring five bespoke stages spanning house, indie dance, melodic techno and techno.",
-    },
-  },
-  {
-    id: "space-safari-belgium",
-    nom: "Space Safari",
-    type: "festival",
-    paysCode: "BE",
-    ville: { fr: "Massembre (Heer-sur-Meuse, Ardennes)", en: "Massembre (Belgian Ardennes)" },
-    latitude: 50.1636,
-    longitude: 4.8469,
-    capacite: 5000,
-    annee: 2016,
-    mois: { fr: "Août - Septembre", en: "August - September" },
-    styles: ["Psy","Acid","Techno","Goa Trance"],
-    site: "https://spacesafari.be",
-    description: {
-      fr: "Quatre jours dans un domaine boisé des Ardennes belges à la frontière française, réunissant psytrance, goa belge, acid et techno.",
-      en: "Four days in a wooded domain in the Belgian Ardennes on the French border, uniting psytrance, Belgian Goa, acid and techno.",
-    },
-  },
-  {
-    id: "wao-festival-italy",
-    nom: "WAO Festival",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "San Venanzo (Mont Peglia, Ombrie)", en: "San Venanzo (Mount Peglia, Umbria)" },
-    latitude: 42.8458,
-    longitude: 12.2125,
-    capacite: 4000,
-    annee: 2015,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Psy","Psytech","Darkprog","Downtempo"],
-    site: "https://www.waofestival.org",
-    description: {
-      fr: "Six jours au sommet du mont Peglia (réserve de biosphère UNESCO en Ombrie), référence italienne de la psytrance, de la psytech et de l’écoconstruction.",
-      en: "Six days atop Mount Peglia (a UNESCO biosphere reserve in Umbria), Italy’s leading gathering for psytrance, psytech and eco-architecture.",
-    },
-  },
-  {
-    id: "nextones-italy",
-    nom: "Nextones",
-    type: "festival",
-    paysCode: "IT",
-    ville: { fr: "Val d’Ossola (Cava La Beola di Monte, Piémont)", en: "Val d Ossola (Piedmont)" },
-    latitude: 46.1539,
-    longitude: 8.2914,
-    capacite: 3000,
-    annee: 2014,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Experimental","Techno","Ambient","IDM"],
-    site: "https://www.nextones.eu",
-    description: {
-      fr: "Festival international d’art audiovisuel et de musique électronique niché au creux d’une ancienne carrière de pierre monumentale dans les Alpes piémontaises.",
-      en: "International audiovisual and electronic music festival set inside a monumental stone quarry in the Piedmontese Alps.",
-    },
-  },
-  {
-    id: "wisloujscie-gdansk",
-    nom: "Wisłoujście Festival",
-    type: "festival",
-    paysCode: "PL",
-    ville: { fr: "Gdańsk (Forteresse de Wisłoujście)", en: "Gdansk (Wisloujscie Fortress)" },
-    latitude: 54.3956,
-    longitude: 18.6794,
-    capacite: 12000,
-    annee: 2018,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","House","Electro","Drum & Bass"],
-    site: "https://wisloujscie.com",
-    description: {
-      fr: "Trois nuits autour des douves et des bastions en brique de la forteresse maritime du XVIe siècle de Wisłoujście à Gdańsk.",
-      en: "Three nights around the moats and brick bastions of the 16th-century maritime Wisłoujście Fortress in Gdańsk.",
-    },
-  },
-  {
-    id: "mioritmic-cluj",
-    nom: "Mioritmic",
-    type: "festival",
-    paysCode: "RO",
-    ville: { fr: "Cluj-Napoca (Forêt de Hoia-Baciu)", en: "Cluj-Napoca (Hoia-Baciu Forest)" },
-    latitude: 46.7744,
-    longitude: 23.5219,
-    capacite: 6000,
-    annee: 2013,
-    mois: { fr: "Octobre", en: "October" },
-    styles: ["Minimal","Rominimal","Microhouse","Techno"],
-    site: "https://www.mioritmic.ro",
-    description: {
-      fr: "Aux côtés de Sunwaves, le grand pèlerinage automnal du rominimal et de la microhouse à la lisière de la mystérieuse forêt de Hoia-Baciu à Cluj-Napoca.",
-      en: "Alongside Sunwaves, the essential autumn pilgrimage for rominimal and microhouse on the edge of the Hoia-Baciu forest in Cluj-Napoca.",
-    },
-  },
-  {
-    id: "apgrade-belgrade",
-    nom: "Apgrade Weekend",
-    type: "festival",
-    paysCode: "RS",
-    ville: { fr: "Belgrade (Port de Belgrade)", en: "Belgrade (Port of Belgrade)" },
-    latitude: 44.8239,
-    longitude: 20.4761,
-    capacite: 8000,
-    annee: 2015,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","House","Indie Dance","Electro"],
-    site: "https://apgrade.org",
-    description: {
-      fr: "Grand rendez-vous électronique de Belgrade dans les hangars industriels du port au bord du Danube.",
-      en: "Belgrade’s premier underground electronic gathering in the industrial hangars of the Port of Belgrade along the Danube.",
-    },
-  },
-  {
-    id: "ion-festival-albania",
-    nom: "ION Festival",
-    type: "festival",
-    paysCode: "AL",
-    ville: { fr: "Dhërmi (Riviera albanaise)", en: "Dhermi (Albanian Riviera)" },
-    latitude: 40.1458,
-    longitude: 19.6406,
-    capacite: 5000,
-    annee: 2022,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Techno","House","Electro","Breaks","UK Bass"],
-    site: "https://www.ionfestival.com",
-    description: {
-      fr: "Une semaine de techno, d’electro et de house conçue par l’équipe londonienne de Junction 2 dans la crique de Dhërmi et le canyon de Gjipe en Albanie.",
-      en: "Week-long techno, electro and house gathering curated by the London team behind Junction 2 across Dhërmi cove and Gjipe Canyon in Albania.",
-    },
-  },
-  {
-    id: "anjunadeep-explorations-albania",
-    nom: "Anjunadeep Explorations",
-    type: "festival",
-    paysCode: "AL",
-    ville: { fr: "Dhërmi (Riviera albanaise)", en: "Dhermi (Albanian Riviera)" },
-    latitude: 40.1436,
-    longitude: 19.6389,
-    capacite: 5000,
-    annee: 2019,
-    mois: { fr: "Juin", en: "June" },
-    styles: ["Deep House","Progressive House","Melodic House"],
-    site: "https://anjunadeep.com",
-    description: {
-      fr: "Cinq nuits au bord de la mer Ionienne orchestrées par le label londonien Anjunadeep autour de la deep house et de la progressive mélodique.",
-      en: "Five nights by the Ionian Sea hosted by London label Anjunadeep, celebrating melodic and deep progressive house.",
-    },
-  },
-  {
-    id: "timeless-festival-quebec",
-    nom: "Timeless Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal / Sainte-Agathe-de-Lotbinière (Québec)", en: "Montreal / Sainte-Agathe-de-Lotbiniere (Quebec)" },
-    latitude: 46.3861,
-    longitude: -71.4119,
-    capacite: 5000,
-    annee: 2018,
-    mois: { fr: "Septembre (Fête du Travail)", en: "September (Labour Day Weekend)" },
-    styles: ["Psy","Psytech","Techno","Bass","Progressive Trance"],
-    site: "https://www.festochebamboche.com",
-    description: {
-      fr: "Grand rassemblement électronique en plein air de quatre jours au Parc de la Chute (entre Montréal et Québec) lors de la fin de semaine de la fête du Travail, réunissant psytrance (scène Neverland), psytech, techno et bass music.",
-      en: "Major four-day open-air camping festival at Parc de la Chute (between Montreal and Quebec City) over Labour Day weekend, uniting psytrance (Neverland stage), psytech, techno and bass music.",
-    },
-  },
-  {
-    id: "eclipse-festival-quebec",
-    nom: "Eclipse Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal / Sainte-Thérèse-de-la-Gatineau (Québec)", en: "Montreal / Outaouais (Quebec)" },
-    latitude: 46.2944,
-    longitude: -75.9911,
-    capacite: 6000,
-    annee: 1999,
-    mois: { fr: "Juillet - Août", en: "July - August" },
-    styles: ["Psy","Psytech","Progressive Trance","Techno","Downtempo"],
-    site: "https://eclipsefestival.com",
-    description: {
-      fr: "Fondé par Techsafari au Québec, l’un des rassemblements psytrance, progressive, techno et arts visuels en pleine nature les plus emblématiques d’Amérique du Nord.",
-      en: "Founded by Techsafari in Quebec, one of North America’s most iconic open-air psytrance, progressive, techno and visionary arts gatherings.",
-    },
-  },
-  {
-    id: "aim-electronic-music-festival-montreal",
-    nom: "AIM Electronic Music Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal / Saint-André-d’Argenteuil (Parc Carillon)", en: "Montreal / Carillon Park (Quebec)" },
-    latitude: 45.5686,
-    longitude: -74.3742,
-    capacite: 8000,
-    annee: 2015,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Techno","House","Progressive House","Melodic Techno"],
-    site: "https://aimfestival.ca",
-    description: {
-      fr: "Festival montréalais en plein air célèbre pour ses marathons de 32 heures de musique électronique sans interruption au bord de la rivière des Outaouais.",
-      en: "Montreal-area open-air festival famed for its non-stop 32-hour electronic music marathons along the Ottawa River.",
-    },
-  },
-  {
-    id: "valhalla-sound-circus-quebec",
-    nom: "Valhalla Sound Circus",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal / Outaouais (Québec)", en: "Montreal / Outaouais (Quebec)" },
-    latitude: 45.8819,
-    longitude: -75.0844,
-    capacite: 4500,
-    annee: 2013,
-    mois: { fr: "Juillet", en: "July" },
-    styles: ["Bass","Dubstep","Drum & Bass","Techno","UK Bass"],
-    site: "https://valhalla-project.ca",
-    description: {
-      fr: "Pèlerinage majeur de la bass music, du dubstep, de la drum & bass et de la culture sound system en forêt au Québec.",
-      en: "Major Quebec forest pilgrimage for bass music, dubstep, drum & bass and heavy sound-system culture.",
-    },
-  },
-  {
-    id: "off-piknic-montreal",
-    nom: "OfF Piknic",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Montréal (Parc Jean-Drapeau)", en: "Montreal (Parc Jean-Drapeau)" },
-    latitude: 45.5126,
-    longitude: -73.5332,
-    capacite: 12000,
-    annee: 2014,
-    mois: { fr: "Mai - Octobre", en: "May - October" },
-    styles: ["Techno","Melodic Techno","House","Progressive House"],
-    site: "https://piknicelectronik.com",
-    description: {
-      fr: "Série de grands formats nocturnes et événementiels de Piknic Électronik au Parc Jean-Drapeau, accueillant les tournées mondiales techno, melodic techno et house à Montréal.",
-      en: "Large-scale special event series by Piknic Électronik at Parc Jean-Drapeau, hosting world-touring techno, melodic techno and house headliners in Montreal.",
-    },
-  },
-  {
-    id: "groove-and-bass-festival-quebec",
-    nom: "Groove & Bass Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Bryson (Pontiac / Outaouais, Québec)", en: "Bryson (Pontiac / Outaouais, Quebec)" },
-    latitude: 45.6611,
-    longitude: -76.6258,
-    capacite: 5000,
-    annee: 2017,
-    mois: { fr: "Juillet - Août (Vacances de la construction)", en: "July - August" },
-    styles: ["Bass","Drum & Bass","Psy","Techno","House","Downtempo"],
-    site: "https://groovenbass.com",
-    description: {
-      fr: "Grand rassemblement de cinq jours au Paradise Leisure Park de Bryson au bord de la rivière des Outaouais au Québec, réunissant bass music, drum & bass, scène psytrance dédiée, techno, house et temple downtempo.",
-      en: "Five-day camping gathering at Paradise Leisure Park in Bryson along the Ottawa River in Quebec, uniting heavy bass music, drum & bass, a dedicated psytrance stage, techno, house and a downtempo temple.",
-    },
-  },
-  {
-    id: "openmind-festival-quebec",
-    nom: "OpenMind Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "La Patrie / Estrie (Québec)", en: "Eastern Townships (Quebec)" },
-    latitude: 45.3986,
-    longitude: -71.2464,
-    capacite: 3000,
-    annee: 2011,
-    mois: { fr: "Juin - Juillet", en: "June - July" },
-    styles: ["Psy","Psytech","Techno","Downtempo","House"],
-    site: "https://lesprojetsopenmind.org",
-    description: {
-      fr: "Pionnier des festivals électroniques et artistiques autogérés en nature au Québec, mêlant psytrance, psytech, techno, arts visuels et écoconstruction.",
-      en: "Pioneer of community-driven open-air electronic and arts festivals in Quebec, blending psytrance, psytech, techno, visionary art and eco-building.",
-    },
-  },
-  {
-    id: "atmos-fest-quebec",
-    nom: "Atmos Fest",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Notre-Dame-de-Montauban (Mauricie, Québec)", en: "Notre-Dame-de-Montauban (Mauricie, Quebec)" },
-    latitude: 46.8406,
-    longitude: -72.2478,
-    capacite: 2500,
-    annee: 2021,
-    mois: { fr: "Août", en: "August" },
-    styles: ["Techno","Melodic Techno","Afro House","House"],
-    site: "https://atmosfest.ca",
-    description: {
-      fr: "Festival en plein air au bord d’un lac en Mauricie entre Montréal et Québec, dédié à la techno, à la melodic techno et à l’afro house.",
-      en: "Lakeside open-air camping festival in Mauricie between Montreal and Quebec City, dedicated to techno, melodic techno and afro house.",
-    },
-  },
-  {
-    id: "delirium-fall-in-bass-quebec",
-    nom: "Delirium / Fall in Bass",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "montreal-ca",
-    ville: { fr: "Papineauville (Outaouais, Québec)", en: "Papineauville (Outaouais, Quebec)" },
-    latitude: 45.6194,
-    longitude: -75.0167,
-    capacite: 2500,
-    annee: 2019,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["Dubstep","Bass","Drum & Bass","Riddim"],
-    site: "https://www.facebook.com/FallInBassFestival",
-    description: {
-      fr: "Rendez-vous champêtre des amateurs de grosses basses, de dubstep, de riddim et de drum & bass en Outaouais au Québec.",
-      en: "Countryside camping gathering for heavy bass, dubstep, riddim and drum & bass fans in the Outaouais region of Quebec.",
-    },
-  },
-  {
-    id: "harvest-festival-ontario",
-    nom: "Harvest Festival",
-    type: "festival",
-    paysCode: "CA",
-    villeSlug: "toronto-ca",
-    ville: { fr: "Burk’s Falls (Screaming Heads, Ontario)", en: "Burk s Falls (Screaming Heads, Ontario)" },
-    latitude: 45.6039,
-    longitude: -79.5419,
-    capacite: 3500,
-    annee: 1999,
-    mois: { fr: "Septembre", en: "September" },
-    styles: ["House","Techno","Psytech","Breaks","Downtempo"],
-    site: "https://harvestfestival.org",
-    description: {
-      fr: "Rassemblement légendaire depuis 1999 au domaine des sculptures monumentales Screaming Heads (Midlothian Castle) en Ontario, réunissant house, techno, breaks et psytech.",
-      en: "Legendary gathering held since 1999 among the monumental Screaming Heads sculptures at Midlothian Castle in Ontario, uniting house, techno, breaks and psytech.",
-    },
+export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
+  {
+    "id": "stereo-montreal",
+    "nom": "Stereo",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5162,
+    "longitude": -73.5621,
+    "capacite": 600,
+    "annee": 1998,
+    "styles": [
+      "House",
+      "Techno",
+      "Progressive House",
+      "Deep House"
+    ],
+    "site": "https://www.stereonightclub.net",
+    "description": {
+      "fr": "Temple afterhours fondé en 1998 par Angel Moraes sur la rue Sainte-Catherine, célèbre dans le monde entier pour son système sonore analogique sur mesure, son plancher suspendu et ses marathons sans alcool jusqu'au dimanche midi.",
+      "en": "Legendary afterhours temple founded in 1998 by Angel Moraes on Sainte-Catherine Street, world-renowned for its custom analog sound system, sprung wooden dancefloor and alcohol-free marathon sets."
+    }
+  },
+  {
+    "id": "newspeak-montreal",
+    "nom": "Newspeak",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5125,
+    "longitude": -73.5665,
+    "capacite": 350,
+    "annee": 2015,
+    "styles": [
+      "Techno",
+      "Indie Dance",
+      "House",
+      "Bass"
+    ],
+    "site": "https://www.newspeakmtl.com",
+    "description": {
+      "fr": "Club intimiste du Quartier des spectacles rue Sainte-Élisabeth, doté d’un plafond lumineux réactif et d’une programmation serrée mêlant techno, indie dance, electro et UK bass.",
+      "en": "Intimate club in the Quartier des spectacles on Sainte-Élisabeth Street, featuring a reactive light ceiling and a sharp booking policy spanning techno, indie dance, electro and UK bass."
+    }
+  },
+  {
+    "id": "salon-daome-montreal",
+    "nom": "Le Salon Daomé",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5227,
+    "longitude": -73.5818,
+    "capacite": 250,
+    "annee": 2001,
+    "styles": [
+      "House",
+      "Deep House",
+      "Minimal",
+      "Techno"
+    ],
+    "site": "https://lesalondaome.com",
+    "description": {
+      "fr": "Institution du Plateau Mont-Royal depuis 2001, pilier de la scène locale montréalaise où se croisent résidents house, minimal, techno mélodique et invités internationaux en format club de proximité.",
+      "en": "Plateau Mont-Royal institution since 2001, a cornerstone of the local Montreal scene hosting house, minimal and melodic techno residents alongside international guests."
+    }
+  },
+  {
+    "id": "sat-montreal",
+    "nom": "SAT (Société des arts technologiques)",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5097,
+    "longitude": -73.5633,
+    "capacite": 900,
+    "annee": 1996,
+    "styles": [
+      "Techno",
+      "IDM",
+      "Ambient",
+      "Electro"
+    ],
+    "site": "https://sat.qc.ca",
+    "description": {
+      "fr": "Centre d’arts numériques boulevard Saint-Laurent abritant la Satosphère (dôme immersif à 360 degrés) et un espace club où se tiennent les nuits MUTEK et les soirées techno et expérimentales.",
+      "en": "Digital arts center on Saint-Laurent Boulevard housing the Satosphère (360-degree immersive dome) and a ground-floor club venue hosting MUTEK nights and experimental techno events."
+    }
+  },
+  {
+    "id": "coda-toronto",
+    "nom": "CODA",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6656,
+    "longitude": -79.4114,
+    "capacite": 650,
+    "annee": 2014,
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://codatoronto.com",
+    "description": {
+      "fr": "Référence club de Toronto à l’angle de Bathurst et Bloor, propulsée par un système PK Sound massif dans un sous-sol brut dédié à la techno et à la house.",
+      "en": "Flagship Toronto underground club at Bathurst and Bloor, powered by a massive PK Sound system in a raw basement dedicated to techno and house."
+    }
+  },
+  {
+    "id": "standard-time-toronto",
+    "nom": "Standard Time",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6693,
+    "longitude": -79.4375,
+    "capacite": 350,
+    "annee": 2022,
+    "styles": [
+      "House",
+      "Disco",
+      "Breaks",
+      "Leftfield"
+    ],
+    "site": "https://standardtime.ca",
+    "description": {
+      "fr": "Espace audiophile et club de Geary Avenue associant écoute haute-fidélité et programmation pointue entre house, disco, breaks, dub et électronique hybride.",
+      "en": "Geary Avenue audiophile listening space and club pairing hi-fi acoustics with forward-thinking house, disco, breaks, dub and leftfield bookings."
+    }
+  },
+  {
+    "id": "vertigo-toronto",
+    "nom": "Vertigo",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6596,
+    "longitude": -79.3788,
+    "capacite": 400,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Progressive House"
+    ],
+    "site": "https://www.instagram.com/vertigotoronto/",
+    "description": {
+      "fr": "Club afterhours souterrain du centre-ville de Toronto rue Gerrard, prisé pour ses longues sessions nocturnes et matinales de techno et de house.",
+      "en": "Downtown Toronto underground afterhours club on Gerrard Street, known for late-night and early-morning techno and house sessions."
+    }
+  },
+  {
+    "id": "berghain-berlin",
+    "nom": "Berghain / Panorama Bar",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5111,
+    "longitude": 13.443,
+    "capacite": 1500,
+    "annee": 2004,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://www.berghain.berlin",
+    "description": {
+      "fr": "Ancienne centrale thermique de Friedrichshain devenue depuis 2004 l’épicentre mondial de la techno (au rez-de-chaussée) et de la house (au Panorama Bar à l’étage), lors des Klubnächte du samedi soir au lundi matin.",
+      "en": "Former Friedrichshain power plant that became the global epicenter of techno (on the main floor) and house (upstairs at Panorama Bar) during its weekend-long Klubnächte."
+    }
+  },
+  {
+    "id": "tresor-berlin",
+    "nom": "Tresor",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5103,
+    "longitude": 13.4198,
+    "capacite": 1200,
+    "annee": 1991,
+    "styles": [
+      "Techno",
+      "Detroit Techno",
+      "Acid Techno",
+      "Industrial"
+    ],
+    "site": "https://tresorberlin.com",
+    "description": {
+      "fr": "Fondé en mars 1991 par Dimitri Hegemann dans la salle des coffres de Wertheim avant de rejoindre l’usine Kraftwerk Köpenicker Straße, scellant l’axe historique entre Berlin et Detroit.",
+      "en": "Founded in March 1991 by Dimitri Hegemann in the Wertheim vault before moving to the Kraftwerk plant on Köpenicker Straße, forging the historic Berlin-Detroit techno axis."
+    }
+  },
+  {
+    "id": "rso-berlin",
+    "nom": "RSO.BERLIN (Revier Südost)",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.4547,
+    "longitude": 13.5119,
+    "capacite": 1200,
+    "annee": 2020,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Electro",
+      "House"
+    ],
+    "site": "https://www.rso.berlin",
+    "description": {
+      "fr": "Complexe industriel de Schöneweide créé par l’équipe de Griessmuehle dans une ancienne brasserie, équipé d’un système Kirsch Audio redoutable et d’un vaste jardin en plein air.",
+      "en": "Industrial complex in Schöneweide created by the team behind Griessmuehle inside a former brewery, featuring a custom Kirsch Audio system and a sprawling open-air yard."
+    }
+  },
+  {
+    "id": "sisyphos-berlin",
+    "nom": "Sisyphos",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.4931,
+    "longitude": 13.4918,
+    "capacite": 1500,
+    "annee": 2009,
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Minimal"
+    ],
+    "site": "https://sisyphos-berlin.net",
+    "description": {
+      "fr": "Ancienne fabrique de biscuits pour chiens au bord de la Spree, mêlant la caverne techno du Hammerhalle, le Wintergarten et des espaces sablonneux ouverts tout le week-end sans interruption.",
+      "en": "Former dog-biscuit factory near the Spree combining the dark Hammerhalle techno room, Wintergarten and sandy open-air spaces running non-stop all weekend."
+    }
+  },
+  {
+    "id": "fabric-londres",
+    "nom": "fabric",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.5196,
+    "longitude": -0.1025,
+    "capacite": 1600,
+    "annee": 1999,
+    "styles": [
+      "Techno",
+      "House",
+      "Drum & Bass",
+      "UK Bass"
+    ],
+    "site": "https://www.fabriclondon.com",
+    "description": {
+      "fr": "Labyrinthe de brique sous les anciens entrepôts frigorifiques de Smithfield à Farringdon, célèbre pour son plancher vibrant (« bodysonic ») en Room 1 et sa série historique de compilations.",
+      "en": "Brick labyrinth beneath the former Smithfield cold stores in Farringdon, famous for its vibrating bodysonic dancefloor in Room 1 and its legendary mix series."
+    }
+  },
+  {
+    "id": "fold-londres",
+    "nom": "FOLD",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.5204,
+    "longitude": 0.0041,
+    "capacite": 600,
+    "annee": 2018,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Industrial",
+      "Breaks"
+    ],
+    "site": "https://www.fold.london",
+    "description": {
+      "fr": "Club indépendant fondé par des artistes dans une ancienne imprimerie industrielle de Canning Town, doté d’une licence 24 heures et de ses marathons UNFOLD du dimanche.",
+      "en": "Artist-run independent club inside a former industrial printing factory in Canning Town, holding a 24-hour license and hosting the Sunday UNFOLD marathon sessions."
+    }
+  },
+  {
+    "id": "phonox-londres",
+    "nom": "Phonox",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.4628,
+    "longitude": -0.1147,
+    "capacite": 550,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "UK Garage",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://phonox.co.uk",
+    "description": {
+      "fr": "Club de Brixton conçu autour d’une seule piste centrale et d’un système Funktion-One réglé au millimètre, privilégiant les longs sets étendus.",
+      "en": "Brixton club designed around a single dancefloor and a finely tuned Funktion-One sound system, championing extended all-night sets."
+    }
+  },
+  {
+    "id": "rex-club-paris",
+    "nom": "Rex Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8706,
+    "longitude": 2.3477,
+    "capacite": 800,
+    "annee": 1988,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Indie Dance"
+    ],
+    "site": "https://rexclub.com",
+    "description": {
+      "fr": "Doyen des clubs électroniques parisiens sous le cinéma Le Grand Rex depuis les soirées Wake Up de Laurent Garnier en 1992, équipé d’un mur de diffusion immersif L-Acoustics.",
+      "en": "Historic bastion of Parisian club culture beneath the Grand Rex cinema since Laurent Garnier’s Wake Up nights in 1992, equipped with an immersive L-Acoustics sound system."
+    }
+  },
+  {
+    "id": "la-machine-paris",
+    "nom": "La Machine du Moulin Rouge",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8841,
+    "longitude": 2.3324,
+    "capacite": 1200,
+    "annee": 2010,
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "Dark Disco"
+    ],
+    "site": "https://www.lamachinedumoulinrouge.com",
+    "description": {
+      "fr": "Complexe sur quatre niveaux à Pigalle réunissant Le Central (ancienne chaufferie du Moulin Rouge) et La Chaufferie en sous-sol pour les collectifs techno, bass et dark disco.",
+      "en": "Four-level Pigalle venue combining Le Central (the former Moulin Rouge boiler room) and the basement Chaufferie for techno, bass and dark disco collectives."
+    }
+  },
+  {
+    "id": "essaim-paris",
+    "nom": "Essaim",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8712,
+    "longitude": 2.3651,
+    "capacite": 450,
+    "annee": 2024,
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Electro"
+    ],
+    "site": "https://essaim-paris.com",
+    "description": {
+      "fr": "Club audiophile du 10e arrondissement fondé par d’anciens piliers de Concrete, pensé pour une jauge volontairement réduite et une écoute précise.",
+      "en": "Audiophile club in the 10th arrondissement founded by veterans of Concrete, designed around a deliberately intimate capacity and precision acoustics."
+    }
+  },
+  {
+    "id": "dieze-warehouse-montpellier",
+    "nom": "Dieze Warehouse",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.5889,
+    "longitude": 3.8758,
+    "capacite": 1500,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Trance",
+      "House"
+    ],
+    "site": "https://www.instagram.com/diezewarehouse/",
+    "description": {
+      "fr": "Entrepôt industriel du quartier Marché Gare à Montpellier, navire amiral des grands formats techno, rave et hard techno du sud de la France.",
+      "en": "Industrial warehouse in Montpellier’s Marché Gare district, flagship venue for large-scale techno, rave and hard techno events in southern France."
+    }
+  },
+  {
+    "id": "rockstore-montpellier",
+    "nom": "Le Rockstore",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6067,
+    "longitude": 3.8814,
+    "capacite": 850,
+    "annee": 1986,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://www.rockstore.fr",
+    "description": {
+      "fr": "Salle mythique à la Cadillac rouge encastrée rue de Verdun, où les nuits électroniques prennent le relais à minuit jusqu’à l’aube.",
+      "en": "Iconic venue on Rue de Verdun marked by the red Cadillac embedded in its facade, where electronic club nights run from midnight until dawn."
+    }
+  },
+  {
+    "id": "le-bikini-toulouse",
+    "nom": "Le Bikini",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse",
+      "en": "Toulouse"
+    },
+    "latitude": 43.5491,
+    "longitude": 1.4828,
+    "capacite": 1500,
+    "annee": 1983,
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "Electro",
+      "House"
+    ],
+    "site": "https://lebikini.com",
+    "description": {
+      "fr": "Institution toulousaine au bord du canal du Midi avec piscine extérieure, réputée pour l’acoustique exceptionnelle de sa grande salle lors des nuits techno et bass.",
+      "en": "Toulouse institution along the Canal du Midi with an outdoor pool, acclaimed for the acoustics of its main room during all-night techno and bass events."
+    }
+  },
+  {
+    "id": "le-rex-toulouse",
+    "nom": "Le Rex de Toulouse",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse",
+      "en": "Toulouse"
+    },
+    "latitude": 43.6119,
+    "longitude": 1.4384,
+    "capacite": 450,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://lerextoulouse.com",
+    "description": {
+      "fr": "Ancien cinéma de quartier avenue Honoré-Serres reconverti en club et salle de concerts, coeur des collectifs électroniques du centre-ville de Toulouse.",
+      "en": "Former neighborhood cinema on Avenue Honoré-Serres converted into a club and live venue at the center of Toulouse’s electronic collectives."
+    }
+  },
+  {
+    "id": "radion-amsterdam",
+    "nom": "RADION",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3446,
+    "longitude": 4.8286,
+    "capacite": 900,
+    "annee": 2015,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Experimental",
+      "House"
+    ],
+    "site": "https://www.radion.amsterdam",
+    "description": {
+      "fr": "Installé dans l’ancien centre dentaire universitaire ACTA, ce club brut à licence 24 heures incarne la scène techno hypnotique et expérimentale d’Amsterdam.",
+      "en": "Housed in the former ACTA dental center, this raw 24-hour licensed venue embodies Amsterdam’s hypnotic and experimental techno scene."
+    }
+  },
+  {
+    "id": "shelter-amsterdam",
+    "nom": "Shelter Amsterdam",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3839,
+    "longitude": 4.9022,
+    "capacite": 700,
+    "annee": 2016,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://shelteramsterdam.nl",
+    "description": {
+      "fr": "Bunker souterrain en béton sous la tour A’DAM sur la rive nord de l’IJ, accessible par traversier gratuit depuis la gare centrale.",
+      "en": "Concrete underground bunker beneath the A’DAM Tower on the northern bank of the IJ, reached via free ferry from Amsterdam Central Station."
+    }
+  },
+  {
+    "id": "lofi-amsterdam",
+    "nom": "Lofi",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3908,
+    "longitude": 4.8437,
+    "capacite": 1500,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance",
+      "Electro"
+    ],
+    "site": "https://lofi.amsterdam",
+    "description": {
+      "fr": "Ancien dépôt d’autobus de Sloterdijk doté d’une grande cour industrielle (« The Courtyard ») pour les journées en plein air et d’un entrepôt sombre pour la nuit.",
+      "en": "Former bus garage in Sloterdijk featuring a sprawling industrial Courtyard for daytime open-airs and a dark warehouse room for the night."
+    }
+  },
+  {
+    "id": "nitsa-barcelone",
+    "nom": "Nitsa Club (Sala Apolo)",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3744,
+    "longitude": 2.1696,
+    "capacite": 1200,
+    "annee": 1994,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Indie Dance"
+    ],
+    "site": "https://www.nitsa.com",
+    "description": {
+      "fr": "Résidence électronique historique de la Sala Apolo depuis trente ans, où les lustres d’époque surplombent l’une des programmations les plus aventureuses d’Europe.",
+      "en": "Thirty-year electronic residency inside Sala Apolo, where vintage chandeliers hang over one of Europe’s most forward-thinking club programs."
+    }
+  },
+  {
+    "id": "razzmatazz-barcelone",
+    "nom": "Razzmatazz (The Loft)",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3977,
+    "longitude": 2.1911,
+    "capacite": 2000,
+    "annee": 2000,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Indie Dance",
+      "Bass"
+    ],
+    "site": "https://www.salarazzmatazz.com",
+    "description": {
+      "fr": "Complexe géant de cinq salles dans une usine de Poblenou, dont l’étage supérieur The Loft et Lolita accueille les grands noms de la techno et de l’électro.",
+      "en": "Five-room industrial complex in Poblenou whose upstairs rooms, The Loft and Lolita, host leading names in techno, electro and leftfield club music."
+    }
+  },
+  {
+    "id": "input-barcelone",
+    "nom": "INPUT High Fidelity Dance Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3692,
+    "longitude": 2.1469,
+    "capacite": 1000,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://www.inputbcn.com",
+    "description": {
+      "fr": "Club audiophile sur la colline de Montjuïc conçu autour d’un traitement acoustique intégral et d’un mur de LED monumental.",
+      "en": "Audiophile club on Montjuïc hill engineered around full-room acoustic treatment and a monumental LED matrix."
+    }
+  },
+  {
+    "id": "basement-new-york",
+    "nom": "BASEMENT",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.7161,
+    "longitude": -73.9139,
+    "capacite": 700,
+    "annee": 2019,
+    "styles": [
+      "Techno",
+      "Industrial",
+      "House",
+      "Acid Techno"
+    ],
+    "site": "https://basementny.net",
+    "description": {
+      "fr": "Dédale de couloirs de brique et de catacombes sous le Knockdown Center à Maspeth (Queens), fer de lance du renouveau techno et queer rave new-yorkais.",
+      "en": "Brick-vaulted labyrinth beneath the Knockdown Center in Maspeth, Queens, spearheading New York’s techno and queer rave resurgence."
+    }
+  },
+  {
+    "id": "nowadays-new-york",
+    "nom": "Nowadays",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.6991,
+    "longitude": -73.9016,
+    "capacite": 800,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "Techno",
+      "Ambient",
+      "Leftfield"
+    ],
+    "site": "https://nowadays.nyc",
+    "description": {
+      "fr": "Fondé à Ridgewood par Justin Carter et Eamon Harkin (Mister Saturday Night), célèbre pour son système SBS Slammer et ses marathons Nonstop de plus de 24 heures.",
+      "en": "Founded in Ridgewood by Justin Carter and Eamon Harkin (Mister Saturday Night), famed for its custom SBS Slammer sound system and 24-hour Nonstop marathons."
+    }
+  },
+  {
+    "id": "public-records-new-york",
+    "nom": "Public Records",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.6808,
+    "longitude": -73.9854,
+    "capacite": 400,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Minimal",
+      "Ambient",
+      "Disco"
+    ],
+    "site": "https://publicrecords.nyc",
+    "description": {
+      "fr": "Espace culturel et Sound Room audiophile à Gowanus (Brooklyn), doté d’enceintes en bois sur mesure signées Devon Turnbull (OJAS).",
+      "en": "Cultural space and audiophile Sound Room in Gowanus, Brooklyn, featuring custom wooden horn speakers built by Devon Turnbull (OJAS)."
+    }
+  },
+  {
+    "id": "sound-nightclub-la",
+    "nom": "Sound Nightclub",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles",
+      "en": "Los Angeles"
+    },
+    "latitude": 34.1018,
+    "longitude": -118.3359,
+    "capacite": 650,
+    "annee": 2013,
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Indie Dance",
+      "Tech House"
+    ],
+    "site": "https://www.soundnightclub.com",
+    "description": {
+      "fr": "Club de Las Palmas Avenue à Hollywood conçu autour d’un système Funktion-One quadraphonique sur mesure et de boiseries acoustiques.",
+      "en": "Las Palmas Avenue club in Hollywood built around a custom quadraphonic Funktion-One sound system and warm acoustic woodwork."
+    }
+  },
+  {
+    "id": "1720-la",
+    "nom": "1720",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles",
+      "en": "Los Angeles"
+    },
+    "latitude": 34.0273,
+    "longitude": -118.2421,
+    "capacite": 1100,
+    "annee": 2018,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Bass",
+      "Industrial"
+    ],
+    "site": "https://1720.la",
+    "description": {
+      "fr": "Entrepôt industriel du Warehouse District au sud de Downtown LA, point de ralliement des tournées techno, electro, bass et expérimentales.",
+      "en": "Industrial venue in the Warehouse District south of Downtown LA, a hub for underground techno, electro, bass and experimental tours."
+    }
+  },
+  {
+    "id": "smartbar-chicago",
+    "nom": "smartbar",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "latitude": 41.9499,
+    "longitude": -87.6589,
+    "capacite": 400,
+    "annee": 1982,
+    "styles": [
+      "House",
+      "Chicago House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://smartbarchicago.com",
+    "description": {
+      "fr": "Sous-sol historique sous le Metro sur Clark Street depuis 1982, sanctuaire de la house de Chicago où ont résidé Frankie Knuckles, Derrick Carter et The Blessed Madonna.",
+      "en": "Historic basement club beneath the Metro on Clark Street since 1982, a sanctuary of Chicago house that has hosted residencies by Frankie Knuckles, Derrick Carter and The Blessed Madonna."
+    }
+  },
+  {
+    "id": "radius-chicago",
+    "nom": "Radius Chicago",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "latitude": 41.8529,
+    "longitude": -87.6431,
+    "capacite": 3500,
+    "annee": 2020,
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://www.radius-chicago.com",
+    "description": {
+      "fr": "Ancienne usine sidérurgique de 5 000 m² dans le quartier de Pilsen reconvertie en cathédrale électronique pour les grands formats club et les nuits ARC.",
+      "en": "Former 55,000-square-foot steel factory in Pilsen transformed into a warehouse venue for large-scale electronic productions and ARC after-hours."
+    }
+  },
+  {
+    "id": "bar-oriente-mexico",
+    "nom": "Bar Oriente",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4212,
+    "longitude": -99.1631,
+    "capacite": 350,
+    "annee": 2016,
+    "styles": [
+      "Indie Dance",
+      "Dark Disco",
+      "Italo",
+      "Acid"
+    ],
+    "site": "https://www.instagram.com/bar_oriente/",
+    "description": {
+      "fr": "Épicentre de Roma Norte pour la dark disco, l’indie dance, l’EBM et l’italo mexicains, réunissant deux salles et les figures de la scène CDMX.",
+      "en": "Roma Norte epicenter for Mexico City’s dark disco, indie dance, EBM and Italo scene across two rooms."
+    }
+  },
+  {
+    "id": "looloo-studio-mexico",
+    "nom": "LooLoo Studio",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4281,
+    "longitude": -99.1564,
+    "capacite": 600,
+    "annee": 2019,
+    "styles": [
+      "Melodic Techno",
+      "Indie Dance",
+      "House",
+      "Techno"
+    ],
+    "site": "https://www.instagram.com/looloostudio/",
+    "description": {
+      "fr": "Club du quartier Juárez à Mexico reconnu pour son tunnel lumineux immersif et sa programmation internationale de melodic techno, d’indie dance et de house.",
+      "en": "Colonia Juárez club in Mexico City known for its immersive light tunnel and international bookings across melodic techno, indie dance and house."
+    }
+  },
+  {
+    "id": "yuyu-mexico",
+    "nom": "YuYu",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4294,
+    "longitude": -99.1542,
+    "capacite": 250,
+    "annee": 2017,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Bass",
+      "Breaks"
+    ],
+    "site": "https://yuyu.mx",
+    "description": {
+      "fr": "Sous-sol intimiste sous une demeure historique de la rue Versalles à Juárez, dédié aux sonorités club expérimentales, techno, breaks et bass.",
+      "en": "Intimate basement beneath a historic mansion on Calle Versalles in Juárez, dedicated to forward-thinking techno, electro, breaks and bass."
+    }
+  },
+  {
+    "id": "womb-tokyo",
+    "nom": "WOMB",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "latitude": 35.6584,
+    "longitude": 139.6952,
+    "capacite": 1000,
+    "annee": 2000,
+    "styles": [
+      "Techno",
+      "House",
+      "Drum & Bass",
+      "Tech House"
+    ],
+    "site": "https://www.womb.co.jp",
+    "description": {
+      "fr": "Institution sur quatre niveaux au coeur de Maruyamacho à Shibuya, célèbre pour son immense boule à facettes centrale et son système sonore Phazon / Adamson.",
+      "en": "Four-story institution in Shibuya’s Maruyamacho district, famous for its giant central mirror ball and precision-engineered sound system."
+    }
+  },
+  {
+    "id": "vent-tokyo",
+    "nom": "VENT",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "latitude": 35.6626,
+    "longitude": 139.7131,
+    "capacite": 350,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Ambient"
+    ],
+    "site": "http://vent-tokyo.net",
+    "description": {
+      "fr": "Sous-sol audiophile d’Omotesando conçu avec des panneaux acoustiques suspendus et des enceintes ruban Taguchi sur mesure.",
+      "en": "Audiophile basement club in Omotesando engineered with suspended acoustic baffling and custom Taguchi ribbon speakers."
+    }
+  },
+  {
+    "id": "zerotokyo-tokyo",
+    "nom": "ZEROTOKYO",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "latitude": 35.6958,
+    "longitude": 139.7006,
+    "capacite": 1500,
+    "annee": 2023,
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "Trance"
+    ],
+    "site": "https://zerotokyo.jp",
+    "description": {
+      "fr": "Vaste complexe souterrain sur trois étages sous la tour Kabukicho à Shinjuku, nouveau vaisseau amiral des nuits électroniques tokyoïtes.",
+      "en": "Three-level underground club complex beneath the Tokyu Kabukicho Tower in Shinjuku, flagship venue for large-scale Tokyo electronic nights."
+    }
+  },
+  {
+    "id": "d-edge-sao-paulo",
+    "nom": "D-EDGE",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5269,
+    "longitude": -46.6634,
+    "capacite": 800,
+    "annee": 2003,
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Indie Dance"
+    ],
+    "site": "https://d-edge.com.br",
+    "description": {
+      "fr": "Fondé par Renato Ratier à Barra Funda et dessiné par Muti Randolph, célèbre pour son architecture lumineuse réactive au son et sa terrasse ouverte au lever du jour.",
+      "en": "Founded by Renato Ratier in Barra Funda and designed by Muti Randolph, renowned for its sound-reactive sculptural lighting and sunrise rooftop terrace."
+    }
+  },
+  {
+    "id": "fabriketa-sao-paulo",
+    "nom": "Fabriketa",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5418,
+    "longitude": -46.6152,
+    "capacite": 2000,
+    "annee": 2015,
+    "styles": [
+      "Techno",
+      "House",
+      "Indie Dance",
+      "Acid"
+    ],
+    "site": "https://www.instagram.com/fabriketasp/",
+    "description": {
+      "fr": "Ancienne usine du début du XXe siècle dans le quartier de Brás où se tiennent les grandes raves indépendantes paulistes (Mamba Negra, Gop Tun, ODD).",
+      "en": "Early 20th-century industrial complex in the Brás district hosting São Paulo’s major independent raves and collectives (Mamba Negra, Gop Tun, ODD)."
+    }
+  },
+  {
+    "id": "be-tulum-mexique",
+    "nom": "Be Tulum",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Tulum",
+      "en": "Tulum"
+    },
+    "latitude": 20.1389,
+    "longitude": -87.4622,
+    "capacite": 1200,
+    "annee": 2010,
+    "mois": {
+      "fr": "Décembre - Janvier (saison Tulum)",
+      "en": "December - January (Tulum season)"
+    },
+    "styles": [
+      "Indie Dance",
+      "Dark Disco",
+      "Melodic House",
+      "Deep House"
+    ],
+    "site": "https://betulum.com",
+    "description": {
+      "fr": "Sanctuaire musical entre jungle maya et mer des Caraïbes à Tulum, accueillant tout l’hiver des résidences et vitrines de labels indie dance, dark disco et melodic house.",
+      "en": "Musical sanctuary between the Mayan jungle and the Caribbean Sea in Tulum, hosting winter label showcases and residencies across indie dance, dark disco and melodic house."
+    }
+  },
+  {
+    "id": "nomade-tulum-mexique",
+    "nom": "Nômade Tulum",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Tulum",
+      "en": "Tulum"
+    },
+    "latitude": 20.1376,
+    "longitude": -87.4628,
+    "capacite": 1200,
+    "annee": 2015,
+    "mois": {
+      "fr": "Décembre - Janvier (saison Tulum)",
+      "en": "December - January (Tulum season)"
+    },
+    "styles": [
+      "Deep House",
+      "Indie Dance",
+      "Downtempo",
+      "Melodic Techno"
+    ],
+    "site": "https://nomadetulum.com",
+    "description": {
+      "fr": "Hôte emblématique de la côte de Tulum réunissant rituels électroniques en bord de mer, sets au coucher du soleil et nuits deep house, organic house et indie dance.",
+      "en": "Emblematic Tulum beachfront gathering blending seaside electronic rituals, sunset live sessions and deep house, organic house and indie dance showcases."
+    }
+  },
+  {
+    "id": "zamna-festival-mexique",
+    "nom": "Zamna Festival",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Tulum",
+      "en": "Tulum"
+    },
+    "latitude": 20.1862,
+    "longitude": -87.5089,
+    "capacite": 15000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Décembre - Janvier",
+      "en": "December - January"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Indie Dance",
+      "House",
+      "Techno"
+    ],
+    "site": "https://zamnafestival.com",
+    "description": {
+      "fr": "Grand rassemblement hivernal au coeur d’un cénote entouré par onze hectares de jungle à Tulum, accueillant Afterlife, Circoloco, Mayan Warrior et Diynamic.",
+      "en": "Major winter festival set around an open-air cenote across 27 acres of Tulum jungle, hosting Afterlife, Circoloco, Mayan Warrior and Diynamic."
+    }
+  },
+  {
+    "id": "mutek-mx-mexique",
+    "nom": "MUTEK MX",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4326,
+    "longitude": -99.1412,
+    "capacite": 6000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Octobre - Novembre",
+      "en": "October - November"
+    },
+    "styles": [
+      "Ambient",
+      "IDM",
+      "Techno",
+      "Experimental"
+    ],
+    "site": "https://mutek.mx",
+    "description": {
+      "fr": "Édition mexicaine du festival MUTEK investissant musées, usines et salles patrimoniales de Mexico pour ses programmes Nocturne et A/Visions.",
+      "en": "Mexican edition of MUTEK taking over museums, factories and heritage venues across Mexico City for its Nocturne and A/Visions programs."
+    }
+  },
+  {
+    "id": "bahidora-mexique",
+    "nom": "Carnaval de Bahidorá",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Las Estacas (Morelos)",
+      "en": "Las Estacas (Morelos)"
+    },
+    "latitude": 18.7311,
+    "longitude": -99.1128,
+    "capacite": 12000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Nu-Disco",
+      "Bass"
+    ],
+    "site": "https://bahidora.com",
+    "description": {
+      "fr": "Festival de trois jours autour des sources naturelles de Las Estacas au sud de Mexico, mêlant scènes house et techno nocturnes, arts visuels et musiques électroniques latines.",
+      "en": "Three-day festival around the natural springs of Las Estacas south of Mexico City, blending all-night house and techno stages with Latin electronic music."
+    }
+  },
+  {
+    "id": "mutek-montreal-canada",
+    "nom": "MUTEK Montréal",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5088,
+    "longitude": -73.5661,
+    "capacite": 8000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Ambient",
+      "IDM",
+      "Experimental"
+    ],
+    "site": "https://montreal.mutek.org",
+    "description": {
+      "fr": "Fondé en 2000 par Alain Mongeau à Montréal, festival de référence mondiale consacré à la performance live électronique et à la création audiovisuelle numérique.",
+      "en": "Founded in 2000 by Alain Mongeau in Montreal, a world-renowned festival dedicated to live electronic performance and digital audiovisual art."
+    }
+  },
+  {
+    "id": "piknic-electronik-canada",
+    "nom": "Piknic Électronik",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5126,
+    "longitude": -73.5342,
+    "capacite": 6500,
+    "annee": 2003,
+    "mois": {
+      "fr": "Mai - Octobre",
+      "en": "May - October"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance",
+      "Melodic Techno"
+    ],
+    "site": "https://piknicelectronik.com",
+    "description": {
+      "fr": "Rendez-vous dominical en plein air au parc Jean-Drapeau face à la silhouette de Montréal, réunissant deux scènes électroniques chaque semaine de mai à octobre.",
+      "en": "Weekly open-air Sunday gathering at Parc Jean-Drapeau facing the Montreal skyline, running two electronic stages from May through October."
+    }
+  },
+  {
+    "id": "igloofest-canada",
+    "nom": "Igloofest",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5048,
+    "longitude": -73.5515,
+    "capacite": 12000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Janvier - Février",
+      "en": "January - February"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Bass"
+    ],
+    "site": "https://igloofest.ca",
+    "description": {
+      "fr": "Le festival électronique le plus froid du monde sur les quais du Vieux-Port de Montréal, célébrant la techno et la house sous la neige par moins vingt degrés.",
+      "en": "The coldest electronic music festival in the world on the quays of the Old Port of Montreal, celebrating techno and house in sub-zero winter temperatures."
+    }
+  },
+  {
+    "id": "shambhala-canada",
+    "nom": "Shambhala Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Salmo (Colombie-Britannique)",
+      "en": "Salmo (British Columbia)"
+    },
+    "latitude": 49.1242,
+    "longitude": -117.2581,
+    "capacite": 18000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Bass",
+      "Drum & Bass",
+      "House",
+      "Techno"
+    ],
+    "site": "https://www.shambhalamusicfestival.com",
+    "description": {
+      "fr": "Festival indépendant sans commanditaire sur la ferme Salmo River Ranch dans les montagnes Kootenay, célèbre pour ses six scènes permanentes et ses systèmes PK Sound.",
+      "en": "Sponsor-free independent festival on the Salmo River Ranch in the Kootenay Mountains, famous for its six permanent stages and PK Sound systems."
+    }
+  },
+  {
+    "id": "ilesoniq-canada",
+    "nom": "îLESONIQ",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5131,
+    "longitude": -73.5321,
+    "capacite": 35000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Trance"
+    ],
+    "site": "https://ilesoniq.com",
+    "description": {
+      "fr": "Grand festival électronique d’été sur trois scènes au parc Jean-Drapeau à Montréal, réunissant house, techno, bass music et grandes productions internationales.",
+      "en": "Major three-stage summer electronic festival at Montreal’s Parc Jean-Drapeau, bringing together house, techno, bass music and arena-scale productions."
+    }
+  },
+  {
+    "id": "movement-detroit-us",
+    "nom": "Movement Electronic Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Detroit",
+      "en": "Detroit"
+    },
+    "latitude": 42.3278,
+    "longitude": -83.0447,
+    "capacite": 35000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Mai (Memorial Day)",
+      "en": "May (Memorial Day)"
+    },
+    "styles": [
+      "Detroit Techno",
+      "Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://movementfestival.com",
+    "description": {
+      "fr": "Pélerinage annuel au Hart Plaza sur les rives de la rivière Detroit, là où est née la techno en 1988, réunissant trois générations de pionniers et la scène mondiale.",
+      "en": "Annual pilgrimage at Hart Plaza on the Detroit Riverfront in the birthplace of techno, uniting three generations of Detroit pioneers with the global scene."
+    }
+  },
+  {
+    "id": "arc-music-festival-us",
+    "nom": "ARC Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "latitude": 41.8851,
+    "longitude": -87.6644,
+    "capacite": 25000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Août - Septembre (Labor Day)",
+      "en": "August - September (Labor Day)"
+    },
+    "styles": [
+      "Chicago House",
+      "House",
+      "Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://arcmusicfestival.com",
+    "description": {
+      "fr": "Grand rassemblement d’Union Park célébrant l’héritage de la house de Chicago aux côtés des scènes techno, tech house et melodic techno internationales.",
+      "en": "Union Park gathering celebrating Chicago’s house music heritage alongside international techno, tech house and melodic techno stages."
+    }
+  },
+  {
+    "id": "making-time-us",
+    "nom": "Making Time ∞",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Philadelphie",
+      "en": "Philadelphia"
+    },
+    "latitude": 39.8758,
+    "longitude": -75.2131,
+    "capacite": 5000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Leftfield",
+      "Techno",
+      "IDM",
+      "Indie Dance"
+    ],
+    "site": "https://makingtimeisrad.com",
+    "description": {
+      "fr": "Festival indépendant conçu par Dave P dans l’enceinte historique de Fort Mifflin (1771), acclamé pour son approche transcendantale mêlant techno, IDM, ambient et club expérimental.",
+      "en": "Independent festival curated by Dave P inside historic 1771 Fort Mifflin, acclaimed for its transcendental programming across techno, IDM, ambient and leftfield club music."
+    }
+  },
+  {
+    "id": "iii-points-us",
+    "nom": "III Points",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami",
+      "en": "Miami"
+    },
+    "latitude": 25.8009,
+    "longitude": -80.2044,
+    "capacite": 30000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Techno",
+      "Indie Dance",
+      "House",
+      "Electro"
+    ],
+    "site": "https://www.iiipoints.com",
+    "description": {
+      "fr": "Festival nocturne au coeur du quartier industriel de Wynwood à Miami, dont les scènes restent ouvertes jusqu’à 5 heures du matin.",
+      "en": "Nocturnal urban festival in Miami’s industrial Wynwood district, featuring club and warehouse stages running until 5 a.m."
+    }
+  },
+  {
+    "id": "time-warp-allemagne",
+    "nom": "Time Warp",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Mannheim",
+      "en": "Mannheim"
+    },
+    "latitude": 49.4682,
+    "longitude": 8.5244,
+    "capacite": 18000,
+    "annee": 1994,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Tech House"
+    ],
+    "site": "https://www.time-warp.de",
+    "description": {
+      "fr": "Institution fondée en 1994 à Mannheim dans les halls de la Maimarkthalle, célèbre pour ses dix-neuf heures ininterrompues et les levers de soleil du Floor 3.",
+      "en": "Institution founded in 1994 inside Mannheim’s Maimarkthalle, famous for its 19-hour non-stop techno and house marathon and iconic Floor 3 sunrises."
+    }
+  },
+  {
+    "id": "fusion-festival-allemagne",
+    "nom": "Fusion Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Lärz (Müritz)",
+      "en": "Lärz (Müritz)"
+    },
+    "latitude": 53.3078,
+    "longitude": 12.7358,
+    "capacite": 70000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Downtempo",
+      "Bass"
+    ],
+    "site": "https://www.fusion-festival.de",
+    "description": {
+      "fr": "Cité utopique et autogérée sur une ancienne base aérienne militaire à Lärz au nord de Berlin, réunissant des dizaines de scènes électroniques jour et nuit.",
+      "en": "Countercultural gathering on a former military airfield in Lärz north of Berlin, uniting dozens of electronic stages day and night."
+    }
+  },
+  {
+    "id": "berlin-atonal-allemagne",
+    "nom": "Berlin Atonal",
+    "type": "festival",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5105,
+    "longitude": 13.4201,
+    "capacite": 3500,
+    "annee": 1982,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Industrial",
+      "Ambient",
+      "Experimental",
+      "Techno"
+    ],
+    "site": "https://berlin-atonal.com",
+    "description": {
+      "fr": "Fondé en 1982 par Dimitri Hegemann puis relancé en 2013 dans l’immense nef de béton de Kraftwerk Berlin, dédié aux créations sonores et visuelles radicales.",
+      "en": "Founded in 1982 by Dimitri Hegemann and relaunched in 2013 inside the cavernous concrete nave of Kraftwerk Berlin, dedicated to radical sonic and visual art."
+    }
+  },
+  {
+    "id": "nature-one-allemagne",
+    "nom": "Nature One",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Kastellaun (Pydna)",
+      "en": "Kastellaun (Pydna)"
+    },
+    "latitude": 50.0442,
+    "longitude": 7.4275,
+    "capacite": 60000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Trance",
+      "Hardcore",
+      "House"
+    ],
+    "site": "https://www.nature-one.de",
+    "description": {
+      "fr": "L’une des plus grandes raves historiques d’Allemagne sur l’ancienne base de missiles de Pydna, avec quatre scènes principales et dix-neuf bunkers de clubs.",
+      "en": "One of Germany’s largest historic raves held on the former Pydna missile base, featuring four main floors and nineteen club bunkers."
+    }
+  },
+  {
+    "id": "dekmantel-pays-bas",
+    "nom": "Dekmantel Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3164,
+    "longitude": 4.8322,
+    "capacite": 15000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "House",
+      "Leftfield"
+    ],
+    "site": "https://www.dekmantelfestival.com",
+    "description": {
+      "fr": "Installé dans la forêt d’Amsterdamse Bos et le long de l’IJ, référence mondiale des curateurs pour ses scènes UFO (techno/electro) et Selectors (diggers et raretés).",
+      "en": "Set in the Amsterdamse Bos forest and along the IJ, a global curator benchmark for its UFO (techno/electro) and Selectors stages."
+    }
+  },
+  {
+    "id": "awakenings-pays-bas",
+    "nom": "Awakenings Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Hilvarenbeek / Amsterdam",
+      "en": "Hilvarenbeek / Amsterdam"
+    },
+    "latitude": 51.5228,
+    "longitude": 5.1258,
+    "capacite": 40000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Melodic Techno",
+      "Minimal"
+    ],
+    "site": "https://www.awakenings.com",
+    "description": {
+      "fr": "Né au Westergasfabriek d’Amsterdam en 1997, le plus grand festival en plein air au monde entièrement consacré à la techno sous toutes ses formes.",
+      "en": "Born at Amsterdam’s Westergasfabriek in 1997, the world’s largest open-air festival devoted entirely to techno across eight monumental stages."
+    }
+  },
+  {
+    "id": "draaimolen-pays-bas",
+    "nom": "Draaimolen Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Tilburg",
+      "en": "Tilburg"
+    },
+    "latitude": 51.5917,
+    "longitude": 5.1061,
+    "capacite": 12500,
+    "annee": 2013,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Bass",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://www.draaimolen.nu",
+    "description": {
+      "fr": "Festival indépendant niché dans le domaine forestier du MOB Complex à Tilburg, célèbre pour ses scènes architecturales intégrées aux arbres et ses duos exclusifs.",
+      "en": "Independent festival nestled in the forested MOB Complex in Tilburg, renowned for its architectural forest stages and one-off back-to-back sets."
+    }
+  },
+  {
+    "id": "dgtl-amsterdam-pays-bas",
+    "nom": "DGTL Amsterdam",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.4012,
+    "longitude": 4.8919,
+    "capacite": 20000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Avril (Pâques)",
+      "en": "April (Easter)"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Indie Dance",
+      "Electro"
+    ],
+    "site": "https://dgtl.nl",
+    "description": {
+      "fr": "Festival d’ouverture de la saison européenne sur les anciens chantiers navals NDSM d’Amsterdam, pionnier du fonctionnement circulaire zéro déchet.",
+      "en": "European season opener at Amsterdam’s former NDSM shipyards, a pioneer in circular and zero-waste festival production."
+    }
+  },
+  {
+    "id": "solstice-ruigoord-pays-bas",
+    "nom": "Solstice Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Ruigoord)",
+      "en": "Amsterdam (Ruigoord)"
+    },
+    "latitude": 52.4106,
+    "longitude": 4.7536,
+    "capacite": 3000,
+    "mois": {
+      "fr": "Juin (solstice)",
+      "en": "June (solstice)"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Ambient"
+    ],
+    "site": "https://www.instagram.com/solstice_festival_ruigoord/",
+    "description": {
+      "fr": "Une journée de psytrance au village libre de Ruigoord, en bordure d’Amsterdam, le samedi du solstice d’été, organisée par Trance Orient Express : scène principale, piste psychédélique et espace chill-out.",
+      "en": "A one-day psytrance gathering in the free village of Ruigoord, on the edge of Amsterdam, on the summer solstice Saturday, run by Trance Orient Express: main stage, psychedelic floor and chill-out space."
+    }
+  },
+  {
+    "id": "sonar-espagne",
+    "nom": "Sónar",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3547,
+    "longitude": 2.1281,
+    "capacite": 40000,
+    "annee": 1994,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "IDM",
+      "House",
+      "Experimental"
+    ],
+    "site": "https://sonar.es",
+    "description": {
+      "fr": "Fondé en 1994 à Barcelone, partagé entre Sónar by Day (création expérimentale et conférences Sónar+D) et Sónar by Night (scènes géantes jusqu’au lever du soleil).",
+      "en": "Founded in 1994 in Barcelona, split between Sónar by Day (experimental showcases and Sónar+D) and Sónar by Night (arena-scale electronic stages until sunrise)."
+    }
+  },
+  {
+    "id": "monegros-espagne",
+    "nom": "Monegros Desert Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Fraga (Désert de Los Monegros)",
+      "en": "Fraga (Monegros Desert)"
+    },
+    "latitude": 41.5194,
+    "longitude": 0.2211,
+    "capacite": 50000,
+    "annee": 1994,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Drum & Bass",
+      "House"
+    ],
+    "site": "https://monegrosfestival.com",
+    "description": {
+      "fr": "Rave monumentale de vingt-deux heures fondée par la famille Arnau en plein désert aragonais, réunissant plus de dix scènes dans la poussière et la chaleur.",
+      "en": "Monumental 22-hour desert rave founded by the Arnau family in the Aragonese desert, uniting more than ten stages in the dust."
+    }
+  },
+  {
+    "id": "offweek-festival-espagne",
+    "nom": "OffWeek Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.4111,
+    "longitude": 2.2264,
+    "capacite": 25000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Tech House",
+      "Indie Dance"
+    ],
+    "site": "https://offweekfestival.com",
+    "description": {
+      "fr": "Rendez-vous des grands labels électroniques (Afterlife, Diynamic, Solid Grooves, Brunch Electronik) face à la Méditerranée au Parc del Fòrum de Barcelone.",
+      "en": "Showcase festival for major electronic imprints (Afterlife, Diynamic, Solid Grooves, Brunch Electronik) overlooking the Mediterranean at Barcelona’s Parc del Fòrum."
+    }
+  },
+  {
+    "id": "horst-belgique",
+    "nom": "Horst Arts & Music",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Vilvorde (Asiat Park)",
+      "en": "Vilvoorde (Asiat Park)"
+    },
+    "latitude": 50.9358,
+    "longitude": 4.4322,
+    "capacite": 12000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Bass",
+      "Leftfield",
+      "House"
+    ],
+    "site": "https://www.horstartsandmusic.com",
+    "description": {
+      "fr": "Dialogue entre architecture contemporaine, arts visuels et musiques club sur l’ancienne base militaire d’Asiat Park au nord de Bruxelles.",
+      "en": "Dialogue between contemporary architecture, visual art and forward-thinking club music on the former Asiat Park military site north of Brussels."
+    }
+  },
+  {
+    "id": "paradise-city-belgique",
+    "nom": "Paradise City Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Steenokkerzeel",
+      "en": "Steenokkerzeel"
+    },
+    "latitude": 50.9169,
+    "longitude": 4.5214,
+    "capacite": 14000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance",
+      "Melodic Techno"
+    ],
+    "site": "https://paradisecity.be",
+    "description": {
+      "fr": "Festival électronique autour des douves du château de Ribaucourt, reconnu comme l’un des événements musicaux les plus écologiques au monde.",
+      "en": "Electronic festival set around the moat of Ribaucourt Castle, recognized as one of the world’s most environmentally sustainable music events."
+    }
+  },
+  {
+    "id": "tomorrowland-belgique",
+    "nom": "Tomorrowland",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Boom",
+      "en": "Boom"
+    },
+    "latitude": 51.0911,
+    "longitude": 4.3853,
+    "capacite": 70000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Melodic Techno"
+    ],
+    "site": "https://www.tomorrowland.com",
+    "description": {
+      "fr": "Le plus vaste rassemblement mondial des musiques électroniques au domaine provincial De Schorre à Boom, accueillant seize scènes des labels Core et Atmosphere jusqu’à la Mainstage.",
+      "en": "The world’s largest electronic music gathering at De Schorre in Boom, hosting sixteen stages from the underground Core and Atmosphere tents to the Mainstage."
+    }
+  },
+  {
+    "id": "nuits-sonores-france",
+    "nom": "Nuits Sonores",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "lyon-fr",
+    "ville": {
+      "fr": "Lyon",
+      "en": "Lyon"
+    },
+    "latitude": 45.7364,
+    "longitude": 4.8247,
+    "capacite": 25000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Mai (Ascension)",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Indie Dance",
+      "Dark Disco",
+      "Experimental"
+    ],
+    "site": "https://nuits-sonores.com",
+    "description": {
+      "fr": "Festival urbain indépendant investissant chaque printemps d’anciennes usines lyonnaises (La Sucrière, les Grandes Locos) pour ses Days curatés par des artistes et ses grandes Nuits.",
+      "en": "Independent urban festival taking over former industrial sites in Lyon (La Sucrière, Grandes Locos) for artist-curated Days and warehouse Nights."
+    }
+  },
+  {
+    "id": "astropolis-france",
+    "nom": "Astropolis",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Brest (Manoir de Keroual)",
+      "en": "Brest (Keroual Manor)"
+    },
+    "latitude": 48.4239,
+    "longitude": -4.5442,
+    "capacite": 15000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "Techno",
+      "Acid",
+      "Hardcore",
+      "Electro"
+    ],
+    "site": "https://astropolis.org",
+    "description": {
+      "fr": "Le plus ancien festival techno de France, né des raves clandestines bretonnes en 1995 et culminant toute la nuit dans les bois du manoir de Keroual.",
+      "en": "France’s oldest techno festival, born out of clandestine Breton raves in 1995 and culminating in an all-night gathering in the woods of Keroual Manor."
+    }
+  },
+  {
+    "id": "positive-education-france",
+    "nom": "Positive Education",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Saint-Étienne",
+      "en": "Saint-Étienne"
+    },
+    "latitude": 45.4511,
+    "longitude": 4.3853,
+    "capacite": 6000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "Industrial",
+      "Dark Disco",
+      "Bass"
+    ],
+    "site": "https://positiveeducation.fr",
+    "description": {
+      "fr": "Rendez-vous automnal dans l’ancienne manufacture d’armes de la Cité du Design à Saint-Étienne, dédié à la techno sombre, à l’EBM et aux esthétiques post-punk.",
+      "en": "Autumn gathering inside the former arms factory at Saint-Étienne’s Cité du Design, dedicated to dark techno, EBM, bass and post-punk electronics."
+    }
+  },
+  {
+    "id": "houghton-royaume-uni",
+    "nom": "Houghton Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Norfolk (Houghton Hall)",
+      "en": "Norfolk (Houghton Hall)"
+    },
+    "latitude": 52.8258,
+    "longitude": 0.6578,
+    "capacite": 12000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Electro",
+      "Techno"
+    ],
+    "site": "https://www.houghtonfestival.co.uk",
+    "description": {
+      "fr": "Conçu et curaté par Craig Richards autour du lac et des bois de Houghton Hall dans le Norfolk, avec licence 24 heures et systèmes sonores audiophiles.",
+      "en": "Conceived and curated by Craig Richards across the lake and woods of Houghton Hall in Norfolk, with a 24-hour license and bespoke audiophile sound systems."
+    }
+  },
+  {
+    "id": "junction-2-royaume-uni",
+    "nom": "Junction 2",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.4958,
+    "longitude": -0.3175,
+    "capacite": 18000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Electro"
+    ],
+    "site": "https://www.junction2.london",
+    "description": {
+      "fr": "Festival londonien à Boston Manor Park célèbre pour sa scène « The Bridge » nichée directement sous le viaduc en béton de l’autoroute M4.",
+      "en": "West London festival at Boston Manor Park famed for “The Bridge” stage built directly beneath the concrete viaduct of the M4 motorway."
+    }
+  },
+  {
+    "id": "boomtown-royaume-uni",
+    "nom": "Boomtown",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Winchester (Matterley Estate)",
+      "en": "Winchester (Matterley Estate)"
+    },
+    "latitude": 51.0539,
+    "longitude": -1.2422,
+    "capacite": 65000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Jungle",
+      "UK Garage",
+      "Acid Techno"
+    ],
+    "site": "https://www.boomtownfair.co.uk",
+    "description": {
+      "fr": "Ville éphémère théâtrale dans la vallée de Matterley, capitale mondiale de la drum and bass, de la jungle, du UK garage et des sound systems dub.",
+      "en": "Immersive theatrical city built in the Matterley Bowl, a global stronghold for drum and bass, jungle, UK garage and dub sound systems."
+    }
+  },
+  {
+    "id": "boom-festival-portugal",
+    "nom": "Boom Festival",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Idanha-a-Nova",
+      "en": "Idanha-a-Nova"
+    },
+    "latitude": 39.9511,
+    "longitude": -7.1528,
+    "capacite": 40000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Juillet (biennal)",
+      "en": "July (biennial)"
+    },
+    "styles": [
+      "Psy",
+      "Techno",
+      "Ambient",
+      "Downtempo"
+    ],
+    "site": "https://boomfestival.org",
+    "description": {
+      "fr": "Biennale psychédélique indépendante au bord du lac d’Idanha-a-Nova, réunissant le Dance Temple (psytrance) et l’Alchemy Circle (techno hypnotique et deep).",
+      "en": "Independent psychedelic biennale on the shores of Idanha-a-Nova lake, uniting the Dance Temple (psytrance) and Alchemy Circle (hypnotic techno)."
+    }
+  },
+  {
+    "id": "waking-life-portugal",
+    "nom": "Waking Life",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Crato (Alentejo)",
+      "en": "Crato (Alentejo)"
+    },
+    "latitude": 39.2869,
+    "longitude": -7.6439,
+    "capacite": 7500,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Ambient",
+      "Minimal",
+      "Techno",
+      "Experimental"
+    ],
+    "site": "https://wakinglife.pt",
+    "description": {
+      "fr": "Six jours autour d’un lac de l’Alentejo portugais dédiés à la dub techno, à la minimal, à l’ambient et aux performances live au lever du soleil.",
+      "en": "Six-day lakeside gathering in Portugal’s Alentejo region dedicated to dub techno, minimal, ambient and sunrise live performances."
+    }
+  },
+  {
+    "id": "neopop-portugal",
+    "nom": "Neopop Electronic Music Festival",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Viana do Castelo",
+      "en": "Viana do Castelo"
+    },
+    "latitude": 41.6918,
+    "longitude": -8.8344,
+    "capacite": 12000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "House"
+    ],
+    "site": "https://www.neopopfestival.com",
+    "description": {
+      "fr": "Rendez-vous techno majeur du nord du Portugal au pied du fort de Santiago da Barra et de l’océan Atlantique.",
+      "en": "Flagship northern Portuguese techno festival held beside the historic Fort of Santiago da Barra on the Atlantic coast."
+    }
+  },
+  {
+    "id": "kappa-futurfestival-italie",
+    "nom": "Kappa FuturFestival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Turin (Parco Dora)",
+      "en": "Turin (Parco Dora)"
+    },
+    "latitude": 45.0914,
+    "longitude": 7.6694,
+    "capacite": 35000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://www.kappafuturfestival.it",
+    "description": {
+      "fr": "Installé sous les piliers d’acier monumentaux des anciennes usines Michelin et Fiat au Parco Dora de Turin, grand rendez-vous techno et house italien.",
+      "en": "Set beneath the monumental steel pillars of former Michelin and Fiat factories in Turin’s Parco Dora, Italy’s flagship techno and house festival."
+    }
+  },
+  {
+    "id": "terraforma-italie",
+    "nom": "Terraforma",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Milan (Villa Arconati)",
+      "en": "Milan (Villa Arconati)"
+    },
+    "latitude": 45.5489,
+    "longitude": 9.0786,
+    "capacite": 3500,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Ambient",
+      "Experimental",
+      "Techno",
+      "Dub"
+    ],
+    "site": "https://www.terraformafestival.com",
+    "description": {
+      "fr": "Festival consacré à l’expérimentation sonore et à l’écologie dans les jardins baroques de la Villa Arconati près de Milan.",
+      "en": "Festival dedicated to sonic experimentation and sustainability in the baroque woodland gardens of Villa Arconati near Milan."
+    }
+  },
+  {
+    "id": "dimensions-croatie",
+    "nom": "Dimensions Festival",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno",
+      "en": "Tisno"
+    },
+    "latitude": 43.8014,
+    "longitude": 15.6422,
+    "capacite": 5000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "House",
+      "Breaks"
+    ],
+    "site": "https://www.dimensionsfestival.com",
+    "description": {
+      "fr": "Festival de référence sur la côte dalmate et la discothèque à ciel ouvert de Barbarella’s, dédié à l’electro, à la Detroit techno, aux breaks et à la house.",
+      "en": "Landmark festival on the Dalmatian coast and the open-air Barbarella’s Discotheque, dedicated to electro, Detroit techno, breaks and house."
+    }
+  },
+  {
+    "id": "sonus-croatie",
+    "nom": "Sonus Festival",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Île de Pag (Zrće)",
+      "en": "Pag Island (Zrće)"
+    },
+    "latitude": 44.5397,
+    "longitude": 14.9144,
+    "capacite": 12000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Minimal",
+      "House"
+    ],
+    "site": "https://www.sonus-festival.com",
+    "description": {
+      "fr": "Cinq jours et cinq nuits produits par l’équipe de Time Warp dans les clubs à ciel ouvert de la plage de Zrće et sur des bateaux en mer Adriatique.",
+      "en": "Five days and five nights produced by the Time Warp team across open-air clubs on Zrće Beach and boat parties on the Adriatic Sea."
+    }
+  },
+  {
+    "id": "sunwaves-roumanie",
+    "nom": "Sunwaves Festival",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Mamaia (Mer Noire)",
+      "en": "Mamaia (Black Sea)"
+    },
+    "latitude": 44.2739,
+    "longitude": 28.6186,
+    "capacite": 12000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Mai & Septembre",
+      "en": "May & September"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://sunwaves-fest.ro",
+    "description": {
+      "fr": "Marathon continu jour et nuit sur le sable de la mer Noire, épicentre mondial de la ro-minimal (Rhadoo, Petre Inspirescu, Raresh) et des sets de vingt-quatre heures.",
+      "en": "Non-stop day-and-night marathon on the shores of the Black Sea, global epicenter of Ro-minimal (Rhadoo, Petre Inspirescu, Raresh) and 24-hour sets."
+    },
+    "inactif": true
+  },
+  {
+    "id": "unsound-pologne",
+    "nom": "Unsound",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Cracovie",
+      "en": "Krakow"
+    },
+    "latitude": 50.0647,
+    "longitude": 19.945,
+    "capacite": 5000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "Industrial",
+      "Techno"
+    ],
+    "site": "https://www.unsound.pl",
+    "description": {
+      "fr": "Festival d’avant-garde à Cracovie investissant l’ancien hôtel brutaliste Forum Przestrzenie pour ses nuits club déconstruites et ses créations mondiales.",
+      "en": "Avant-garde festival in Krakow taking over the brutalist former Hotel Forum for deconstructed club nights and world-premiere commissions."
+    }
+  },
+  {
+    "id": "audioriver-pologne",
+    "nom": "Audioriver Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Łódź",
+      "en": "Łódź"
+    },
+    "latitude": 51.7592,
+    "longitude": 19.456,
+    "capacite": 30000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "House",
+      "Melodic Techno"
+    ],
+    "site": "https://www.audioriver.pl",
+    "description": {
+      "fr": "Le plus grand festival des musiques électroniques de Pologne, réunissant techno, drum and bass, house et live électroniques.",
+      "en": "Poland’s largest electronic music festival, uniting techno, drum and bass, house and electronic live acts."
+    }
+  },
+  {
+    "id": "labyrinth-japon",
+    "nom": "The Labyrinth",
+    "type": "festival",
+    "paysCode": "JP",
+    "ville": {
+      "fr": "Niigata (Naeba)",
+      "en": "Niigata (Naeba)"
+    },
+    "latitude": 36.7911,
+    "longitude": 138.7844,
+    "capacite": 2500,
+    "annee": 2001,
+    "mois": {
+      "fr": "Septembre - Octobre",
+      "en": "September - October"
+    },
+    "styles": [
+      "Techno",
+      "Ambient",
+      "Minimal"
+    ],
+    "site": "https://www.mindgames.jp",
+    "description": {
+      "fr": "Conçu par Russ (Mindgames) dans une clairière montagneuse de Niigata autour d’une seule scène et d’un système Funktion-One quadridirectionnel d’une pureté acoustique légendaire.",
+      "en": "Curated by Russ (Mindgames) in a mountain clearing in Niigata around a single stage and a quadraphonic Funktion-One system of legendary acoustic purity."
+    },
+    "inactif": true
+  },
+  {
+    "id": "rainbow-disco-club-japon",
+    "nom": "Rainbow Disco Club",
+    "type": "festival",
+    "paysCode": "JP",
+    "ville": {
+      "fr": "Higashiizu (Shizuoka)",
+      "en": "Higashiizu (Shizuoka)"
+    },
+    "latitude": 34.8194,
+    "longitude": 139.0411,
+    "capacite": 5000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Nu-Disco"
+    ],
+    "site": "https://www.rainbowdiscoclub.com",
+    "description": {
+      "fr": "Festival de trois jours dans les collines verdoyantes de la péninsule d’Izu au Japon, célébrant la house, le disco, la balearic et la techno.",
+      "en": "Three-day camping festival in the green hills of Japan’s Izu Peninsula celebrating house, disco, balearic and techno."
+    }
+  },
+  {
+    "id": "pitch-music-arts-australie",
+    "nom": "Pitch Music & Arts",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Moyston (Victoria)",
+      "en": "Moyston (Victoria)"
+    },
+    "latitude": -37.2981,
+    "longitude": 142.7711,
+    "capacite": 12000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Indie Dance"
+    ],
+    "site": "https://www.pitchfestival.com.au",
+    "description": {
+      "fr": "Quatre jours au pied des monts Grampians dans l’État de Victoria autour d’un pavillon brutaliste de béton et d’échafaudages.",
+      "en": "Four-day gathering at the foothills of the Grampians mountain range in Victoria built around brutalist pavilion architecture."
+    }
+  },
+  {
+    "id": "dgtl-sao-paulo-bresil",
+    "nom": "DGTL São Paulo",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5186,
+    "longitude": -46.6714,
+    "capacite": 12000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Avril - Novembre",
+      "en": "April - November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Indie Dance",
+      "Electro"
+    ],
+    "site": "https://saopaulo.dgtl.nl",
+    "description": {
+      "fr": "Édition sud-américaine du festival DGTL investissant d’immenses entrepôts industriels et pavillons de São Paulo.",
+      "en": "South American edition of DGTL taking over massive industrial warehouses and pavilions in São Paulo."
+    },
+    "inactif": true
+  },
+  {
+    "id": "gop-tun-festival-bresil",
+    "nom": "Gop Tun Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5472,
+    "longitude": -46.6331,
+    "capacite": 8000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Indie Dance",
+      "Techno"
+    ],
+    "site": "https://goptun.com",
+    "description": {
+      "fr": "Festival né du collectif pauliste Gop Tun sur quatre scènes mêlant house, disco, indie dance, live électroniques et techno.",
+      "en": "Four-stage festival born from the São Paulo collective Gop Tun, blending house, disco, indie dance, live electronics and techno."
+    }
+  },
+  {
+    "id": "stereobar-montreal",
+    "nom": "StereoBar",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5161,
+    "longitude": -73.5622,
+    "capacite": 250,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Minimal",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://www.stereonightclub.net",
+    "description": {
+      "fr": "Le petit frère intimiste au rez-de-chaussée du Stereo rue Sainte-Catherine Est, doté lui aussi d’un système sonore analogique d’exception pour les nuits house, minimal et techno jusqu’à 3 heures.",
+      "en": "The intimate ground-floor sibling of Stereo on Sainte-Catherine Street East, featuring its own custom analog sound system for house, minimal and techno nights until 3 a.m."
+    }
+  },
+  {
+    "id": "bar-datcha-montreal",
+    "nom": "Bar Datcha",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5229,
+    "longitude": -73.5931,
+    "capacite": 200,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Leftfield"
+    ],
+    "site": "https://www.bardatcha.com",
+    "description": {
+      "fr": "Repaire nocturne incontournable du Mile End sur l’avenue Laurier Ouest, propulsé par un système Funktion-One pour des sélections house, disco, afro house et électronique pointue.",
+      "en": "Essential Mile End nightspot on Laurier Avenue West powered by a Funktion-One sound system, hosting house, disco, afro house and leftfield selectors."
+    }
+  },
+  {
+    "id": "systeme-montreal",
+    "nom": "Système",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5378,
+    "longitude": -73.6064,
+    "capacite": 250,
+    "annee": 2022,
+    "styles": [
+      "Techno",
+      "House",
+      "Breaks",
+      "UK Bass"
+    ],
+    "site": "https://www.instagram.com/systeme.mtl/",
+    "description": {
+      "fr": "Club underground et espace audiophile de la rue Saint-Hubert dans La Petite-Patrie, quartier général des collectifs techno, breaks, UK bass et des nuits Music Is My Sanctuary.",
+      "en": "Underground club and audiophile venue on Saint-Hubert Street in La Petite-Patrie, home to Montreal techno, breaks and UK bass collectives."
+    }
+  },
+  {
+    "id": "le-belmont-montreal",
+    "nom": "Le Belmont",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5228,
+    "longitude": -73.5821,
+    "capacite": 350,
+    "annee": 2004,
+    "styles": [
+      "Drum & Bass",
+      "Bass",
+      "Dubstep",
+      "Techno"
+    ],
+    "site": "https://lebelmont.com",
+    "description": {
+      "fr": "Institution de l’angle Saint-Laurent et Mont-Royal depuis plus de vingt ans, bastion montréalais des nuits drum and bass, dubstep, bass music et raves locales.",
+      "en": "Cornerstone venue at Saint-Laurent and Mont-Royal for over two decades, Montreal’s stronghold for drum and bass, dubstep, bass music and local raves."
+    }
+  },
+  {
+    "id": "le-red-room-montreal",
+    "nom": "Le Red Room",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5168,
+    "longitude": -73.5658,
+    "capacite": 250,
+    "annee": 2021,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Bass",
+      "Trance"
+    ],
+    "site": "https://leredroom.com",
+    "description": {
+      "fr": "Club souterrain de la rue Saint-Denis au Quartier latin équipé en PK Sound, dédié à la techno rapide, à la hard techno, à la trance et aux collectifs bass.",
+      "en": "Quartier Latin underground club on Saint-Denis Street outfitted with PK Sound, dedicated to fast techno, hard techno, trance and bass collectives."
+    }
+  },
+  {
+    "id": "new-city-gas-montreal",
+    "nom": "New City Gas",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.4937,
+    "longitude": -73.5597,
+    "capacite": 3500,
+    "annee": 2012,
+    "styles": [
+      "House",
+      "Tech House",
+      "Melodic Techno",
+      "Dance"
+    ],
+    "site": "https://newcitygas.com",
+    "description": {
+      "fr": "Complexe monumental installé dans une ancienne usine de gaz de charbon de 1859 à Griffintown, accueillant les plus grandes têtes d’affiche internationales sur deux étages.",
+      "en": "Monumental two-level venue inside an 1859 heritage coal-gas complex in Griffintown, hosting major international electronic headliners."
+    }
+  },
+  {
+    "id": "mtelus-montreal",
+    "nom": "MTELUS",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5105,
+    "longitude": -73.5631,
+    "capacite": 2300,
+    "annee": 1997,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://mtelus.com",
+    "description": {
+      "fr": "Grande salle historique de la rue Sainte-Catherine Est (anciennement Metropolis) au coeur du Quartier des spectacles, scène reine des tournées live électroniques et des grandes nuits MUTEK.",
+      "en": "Historic 2,300-capacity hall on Sainte-Catherine Street East (formerly Metropolis), the premier Montreal stage for live electronic tours and MUTEK showcases."
+    }
+  },
+  {
+    "id": "club-soda-montreal",
+    "nom": "Club Soda",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5101,
+    "longitude": -73.5637,
+    "capacite": 900,
+    "annee": 1982,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://clubsoda.ca",
+    "description": {
+      "fr": "Salle emblématique à la marquise lumineuse boulevard Saint-Laurent, accueillant depuis 1982 les lives électroniques, les nuits MUTEK et les soirées club internationales.",
+      "en": "Landmark venue beneath its neon marquee on Saint-Laurent Boulevard, hosting live electronic acts, MUTEK nights and international club events."
+    }
+  },
+  {
+    "id": "foufounes-electriques-montreal",
+    "nom": "Les Foufounes Électriques",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5108,
+    "longitude": -73.5624,
+    "capacite": 700,
+    "annee": 1983,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://foufouneselectriques.com",
+    "description": {
+      "fr": "Institution contre-culturelle montréalaise fondée en 1983 rue Sainte-Catherine Est, accueillant sur plusieurs niveaux raves, soirées industrielles, EBM, drum and bass et dubstep.",
+      "en": "Montreal countercultural institution founded in 1983 on Sainte-Catherine Street East, hosting raves, industrial, EBM, drum and bass and dubstep nights across multiple floors."
+    }
+  },
+  {
+    "id": "ausgang-plaza-montreal",
+    "nom": "Ausgang Plaza",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5339,
+    "longitude": -73.6012,
+    "capacite": 400,
+    "annee": 2018,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://ausgangplaza.com",
+    "description": {
+      "fr": "Espace brut et salle pluridisciplinaire de la rue Saint-Hubert prisée par les collectifs rave indépendants, les vitrines techno et les lancements audiovisuels.",
+      "en": "Raw multidisciplinary venue on Saint-Hubert Street favored by independent rave collectives, techno showcases and audiovisual nights."
+    }
+  },
+  {
+    "id": "bar-le-ritz-pdb-montreal",
+    "nom": "Bar Le Ritz PDB",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5326,
+    "longitude": -73.6174,
+    "capacite": 250,
+    "annee": 2014,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://barleritzpdb.com",
+    "description": {
+      "fr": "Salle autogérée de la rue Jean-Talon Ouest dans le Mile-Ex (anciennement Il Motore), épicentre des nuits expérimentales, EBM, techno industrielle, synthwave et ambient.",
+      "en": "Collectively run venue on Jean-Talon Street West in Mile-Ex (formerly Il Motore), an epicenter for experimental electronics, EBM, industrial techno and ambient."
+    }
+  },
+  {
+    "id": "velvet-speakeasy-montreal",
+    "nom": "Velvet Speakeasy (Auberge Saint-Gabriel)",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5062,
+    "longitude": -73.5542,
+    "capacite": 250,
+    "annee": 2011,
+    "styles": [
+      "House",
+      "Deep House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://velvetspeakeasy.ca",
+    "description": {
+      "fr": "Caveau souterrain aux voûtes de pierre datant de 1754 sous l’Auberge Saint-Gabriel dans le Vieux-Montréal, dédié à la house, à la deep house et à la techno mélodique.",
+      "en": "Underground 1754 stone-vaulted cellar beneath Auberge Saint-Gabriel in Old Montreal, dedicated to house, deep house and melodic techno."
+    }
+  },
+  {
+    "id": "sans-soleil-montreal",
+    "nom": "Sans Soleil Bar",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5071,
+    "longitude": -73.5608,
+    "capacite": 120,
+    "annee": 2022,
+    "styles": [
+      "House",
+      "Dub",
+      "Ambient",
+      "Disco"
+    ],
+    "site": "https://www.instagram.com/sanssoleilbar/",
+    "description": {
+      "fr": "Listening bar hi-fi souterrain caché au Quartier chinois rue Saint-Urbain, où les sélecteurs jouent sur vinyle à travers des enceintes pavillonnaires vintage haute fidélité.",
+      "en": "Subterranean hi-fi listening bar hidden in Chinatown on Saint-Urbain Street, where selectors spin vinyl through vintage horn-loaded speakers."
+    }
+  },
+  {
+    "id": "theatre-fairmount-montreal",
+    "nom": "Théâtre Fairmount",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal",
+      "en": "Montreal"
+    },
+    "latitude": 45.5218,
+    "longitude": -73.5975,
+    "capacite": 500,
+    "annee": 2015,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://theatrefairmount.com",
+    "description": {
+      "fr": "Salle de 500 places de l’avenue du Parc dans le Mile End, accueillant les tournées électroniques internationales, les DJ sets prolongés et les soirées disco et house.",
+      "en": "500-capacity Mile End venue on Park Avenue hosting international electronic live tours, extended DJ sets and house and disco nights."
+    }
+  },
+  {
+    "id": "wiggle-room-toronto",
+    "nom": "Wiggle Room",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6519,
+    "longitude": -79.4072,
+    "capacite": 300,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Tech House",
+      "Breaks",
+      "Funky House"
+    ],
+    "site": "https://wiggleroomtoronto.com",
+    "description": {
+      "fr": "Club indépendant de Dundas Street West surnommé « Home of the Bouncy Beats », réputé pour sa communauté chaleureuse et sa programmation house, breaks et tech house.",
+      "en": "Independent club on Dundas Street West dubbed the “Home of the Bouncy Beats”, known for its welcoming community and house, breaks and tech house nights."
+    }
+  },
+  {
+    "id": "bambis-toronto",
+    "nom": "Bambi’s",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6494,
+    "longitude": -79.4249,
+    "capacite": 150,
+    "annee": 2013,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Leftfield",
+      "House"
+    ],
+    "site": "https://www.instagram.com/bambistoronto/",
+    "description": {
+      "fr": "Caveau intimiste au pied de la côte de Dundas West, épicentre des sélecteurs underground, de la techno expérimentale et des résidences locales de Toronto.",
+      "en": "Intimate basement room at the bottom of the Dundas West hill, a hub for underground selectors, experimental techno and local Toronto residencies."
+    }
+  },
+  {
+    "id": "history-toronto",
+    "nom": "History",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6672,
+    "longitude": -79.3125,
+    "capacite": 2500,
+    "annee": 2021,
+    "estSalle": true,
+    "styles": [],
+    "site": "https://www.historytoronto.com",
+    "description": {
+      "fr": "Grande salle de 2 500 places dans les Beaches sur Queen Street East, accueillant les grandes tournées électroniques et les têtes d’affiche house, techno et bass.",
+      "en": "2,500-capacity hall on Queen Street East in the Beaches, hosting major international electronic tours and house, techno and bass headliners."
+    }
+  },
+  {
+    "id": "kitkatclub-berlin",
+    "nom": "KitKatClub",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5112,
+    "longitude": 13.4167,
+    "capacite": 1300,
+    "annee": 1994,
+    "styles": [
+      "Techno",
+      "Trance",
+      "Hard Techno",
+      "House"
+    ],
+    "site": "https://kitkatclub.org",
+    "description": {
+      "fr": "Institution berlinoise fondée en 1994 par Simon Thaur et Kirsten Krüger sur Köpenicker Straße, célèbre pour sa piscine intérieure, ses nuits Symbiotikka et Gegen et sa liberté radicale.",
+      "en": "Berlin institution founded in 1994 on Köpenicker Straße, famous for its indoor pool, Symbiotikka and Gegen nights, and radical hedonistic freedom."
+    }
+  },
+  {
+    "id": "kater-blau-berlin",
+    "nom": "Kater Blau",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5122,
+    "longitude": 13.4258,
+    "capacite": 1000,
+    "annee": 2014,
+    "styles": [
+      "House",
+      "Deep House",
+      "Melodic Techno",
+      "Minimal"
+    ],
+    "site": "https://www.katerblau.de",
+    "description": {
+      "fr": "Héritier de Bar 25 et KaterHolzig amarré au bord de la Spree sur Holzmarktstraße, célèbre pour ses terrasses en bois et ses marathons house et deep techno de soixante heures.",
+      "en": "Successor to Bar 25 and KaterHolzig on the banks of the Spree at Holzmarkt, famed for its wooden decks and 60-hour house and deep techno marathons."
+    }
+  },
+  {
+    "id": "about-blank-berlin",
+    "nom": "://about blank",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.5024,
+    "longitude": 13.4671,
+    "capacite": 900,
+    "annee": 2010,
+    "styles": [
+      "Techno",
+      "House",
+      "Breaks",
+      "Electro"
+    ],
+    "site": "https://aboutblank.li",
+    "description": {
+      "fr": "Club autogéré près d’Ostkreuz à Friedrichshain, reconnu pour son immense jardin arboré ouvert en été et ses résidences engagées ( Staub, Homopatik).",
+      "en": "Collectively run club near Ostkreuz in Friedrichshain, celebrated for its sprawling leafy garden in summer and flagship residencies like Staub and Homopatik."
+    }
+  },
+  {
+    "id": "club-der-visionaere-berlin",
+    "nom": "Club der Visionaere",
+    "type": "club",
+    "paysCode": "DE",
+    "villeSlug": "berlin-de",
+    "ville": {
+      "fr": "Berlin",
+      "en": "Berlin"
+    },
+    "latitude": 52.4969,
+    "longitude": 13.4533,
+    "capacite": 450,
+    "annee": 2000,
+    "styles": [
+      "Minimal",
+      "Microhouse",
+      "House",
+      "Deep House"
+    ],
+    "site": "https://clubdervisionaere.com",
+    "description": {
+      "fr": "Ancien hangar à bateaux sur pilotis au bord du canal de la Spree à Kreuzberg, berceau mondial des après-midis et nuits minimal et microhouse (Ricardo Villalobos, Perlon).",
+      "en": "Waterside boathouse on stilts along the Flutgraben canal in Kreuzberg, global home of minimal and microhouse day-into-night sessions."
+    }
+  },
+  {
+    "id": "drumsheds-londres",
+    "nom": "Drumsheds",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.6114,
+    "longitude": -0.0419,
+    "capacite": 15000,
+    "annee": 2023,
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "House",
+      "UK Bass"
+    ],
+    "site": "https://drumshedslondon.com",
+    "description": {
+      "fr": "Le plus grand club intérieur d’Europe (15 000 places), aménagé par l’équipe de Printworks dans un ancien entrepôt IKEA monumental à Meridian Water au nord de Londres.",
+      "en": "Europe’s largest indoor club venue (15,000 capacity), created by the team behind Printworks inside a monumental former IKEA warehouse at Meridian Water."
+    }
+  },
+  {
+    "id": "corsica-studios-londres",
+    "nom": "Corsica Studios",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.4941,
+    "longitude": -0.0987,
+    "capacite": 500,
+    "annee": 2002,
+    "styles": [
+      "Techno",
+      "UK Bass",
+      "Jungle",
+      "Experimental"
+    ],
+    "site": "https://www.corsicastudios.com",
+    "description": {
+      "fr": "Deux arches ferroviaires sous la gare d’Elephant & Castle équipées en Funktion-One, sanctuaire indépendant des nuits techno, dubstep, jungle et expérimentales.",
+      "en": "Two railway arches beneath Elephant & Castle station equipped with Funktion-One sound, an independent sanctuary for techno, dubstep, jungle and experimental nights."
+    }
+  },
+  {
+    "id": "e1-londres",
+    "nom": "E1",
+    "type": "club",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.5084,
+    "longitude": -0.0602,
+    "capacite": 1600,
+    "annee": 2017,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House"
+    ],
+    "site": "https://e1ldn.com",
+    "description": {
+      "fr": "Entrepôt industriel de Wapping dans l’Est londonien célèbre pour le mur sonore Funktion-One sur mesure de sa salle Warehouse (« Wall of Sound »).",
+      "en": "Wapping industrial warehouse in East London renowned for the bespoke Funktion-One “Wall of Sound” in its main Warehouse room."
+    }
+  },
+  {
+    "id": "fvtvr-paris",
+    "nom": "FVTVR",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8408,
+    "longitude": 2.3702,
+    "capacite": 900,
+    "annee": 2023,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://www.instagram.com/fvtvr_paris/",
+    "description": {
+      "fr": "Nef brutaliste de béton sous la Cité de la Mode et du Design quai d’Austerlitz, accueillant les grands plateaux techno, electro et avant-garde à Paris.",
+      "en": "Brutalist concrete nave beneath the Cité de la Mode et du Design on Quai d’Austerlitz, hosting forward-thinking techno, electro and avant-garde lineups."
+    }
+  },
+  {
+    "id": "kilometre25-paris",
+    "nom": "Kilomètre25",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8994,
+    "longitude": 2.3921,
+    "capacite": 2200,
+    "annee": 2021,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Trance",
+      "House"
+    ],
+    "site": "https://www.kilometre25.fr",
+    "description": {
+      "fr": "Club à ciel ouvert sous le boulevard périphérique parisien à la porte de la Villette, réunissant techno, hard techno et house du printemps à l’automne.",
+      "en": "Open-air club beneath the Paris ring road at Porte de la Villette, hosting techno, hard techno and house from spring through autumn."
+    }
+  },
+  {
+    "id": "mia-mao-paris",
+    "nom": "Mia Mao",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.8952,
+    "longitude": 2.3911,
+    "capacite": 3000,
+    "annee": 2025,
+    "styles": [
+      "Techno",
+      "Industrial",
+      "Hard Techno",
+      "Electro"
+    ],
+    "site": "https://www.instagram.com/miamao.paris/",
+    "description": {
+      "fr": "Immense cathédrale industrielle de 3 000 m² à La Villette dotée d’une politique sans photo et conçue pour les grandes nuits techno à Paris.",
+      "en": "Massive 3,000-square-meter industrial warehouse at La Villette featuring a strict no-photo policy and built for large-scale Parisian techno nights."
+    }
+  },
+  {
+    "id": "melomane-club-montpellier",
+    "nom": "Mélomane Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.5861,
+    "longitude": 3.8842,
+    "capacite": 450,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "Trance",
+      "Bass"
+    ],
+    "site": "https://melomaneclub.fr",
+    "description": {
+      "fr": "Club indépendant de la rue du Lantissargues équipé d’un système L-Acoustics, repaire des collectifs techno, psytrance, drum and bass et dub de Montpellier.",
+      "en": "Independent club on Rue du Lantissargues equipped with an L-Acoustics system, home to Montpellier’s techno, psytrance, drum and bass and dub collectives."
+    }
+  },
+  {
+    "id": "antirouille-montpellier",
+    "nom": "L’Antirouille",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6061,
+    "longitude": 3.8738,
+    "capacite": 500,
+    "annee": 1995,
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Bass"
+    ],
+    "site": "https://antirouille.net",
+    "description": {
+      "fr": "Club historique de la rue Anatole-France au centre de Montpellier, pilier des nuits techno, house et bass music depuis les années 1990.",
+      "en": "Historic club on Rue Anatole-France in central Montpellier, a pillar of local techno, house and bass music nights since the 1990s."
+    }
+  },
+  {
+    "id": "interference-toulouse",
+    "nom": "Interférence",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse",
+      "en": "Toulouse"
+    },
+    "latitude": 43.6214,
+    "longitude": 1.4912,
+    "capacite": 2500,
+    "annee": 2024,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Trance"
+    ],
+    "site": "https://interference-toulouse.fr",
+    "description": {
+      "fr": "Vaste complexe événementiel de Balma aux portes de Toulouse, devenu le nouveau vaisseau amiral des grandes nuits techno, rave et hard techno de la région.",
+      "en": "Large-scale venue in Balma on the edge of Toulouse, the flagship hall for major techno, rave and hard techno productions in the region."
+    }
+  },
+  {
+    "id": "cri-de-la-mouette-toulouse",
+    "nom": "Le Cri de la Mouette",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "toulouse-fr",
+    "ville": {
+      "fr": "Toulouse",
+      "en": "Toulouse"
+    },
+    "latitude": 43.6088,
+    "longitude": 1.4239,
+    "capacite": 300,
+    "annee": 1999,
+    "styles": [
+      "House",
+      "Techno",
+      "Minimal",
+      "Electro"
+    ],
+    "site": "https://www.instagram.com/lecridelamouette/",
+    "description": {
+      "fr": "Péniche historique amarrée sur le canal de Brienne à Toulouse, où la cale se transforme chaque week-end en club intimiste house, minimal et techno.",
+      "en": "Historic barge moored on the Canal de Brienne in Toulouse, whose hold transforms every weekend into an intimate house, minimal and techno club."
+    }
+  },
+  {
+    "id": "bret-amsterdam",
+    "nom": "BRET",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3886,
+    "longitude": 4.8384,
+    "capacite": 350,
+    "annee": 2015,
+    "styles": [
+      "Minimal",
+      "House",
+      "Techno",
+      "Microhouse"
+    ],
+    "site": "https://www.bret.bar",
+    "description": {
+      "fr": "Cube rouge de conteneurs maritimes recyclés face à la gare de Sloterdijk, célèbre pour ses marathons intimistes VBX et SlapFunk pendant ADE et tout l’été.",
+      "en": "Red cube built from upcycled shipping containers outside Sloterdijk station, famous for its intimate VBX and SlapFunk marathons during ADE and all summer."
+    }
+  },
+  {
+    "id": "garage-noord-amsterdam",
+    "nom": "Garage Noord",
+    "type": "club",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3847,
+    "longitude": 4.9258,
+    "capacite": 250,
+    "annee": 2017,
+    "styles": [
+      "Leftfield",
+      "Techno",
+      "Breaks",
+      "Jungle"
+    ],
+    "site": "https://garagenoord.com",
+    "description": {
+      "fr": "Ancien garage de réparation automobile d’Amsterdam-Noord transformé en club pointu dédié aux esthétiques club hybrides, breaks, jungle et techno expérimentale.",
+      "en": "Former auto repair shop in Amsterdam-Noord converted into a forward-thinking club dedicated to leftfield electronics, breaks, jungle and experimental techno."
+    }
+  },
+  {
+    "id": "moog-barcelone",
+    "nom": "Moog",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3781,
+    "longitude": 2.1749,
+    "capacite": 350,
+    "annee": 1996,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Acid",
+      "House"
+    ],
+    "site": "https://www.masimas.com/moog",
+    "description": {
+      "fr": "Bunker techno ouvert sept soirs sur sept au coeur du Raval près des Ramblas depuis 1996, fidèle à la techno pure, à l’electro et à l’acid.",
+      "en": "Seven-nights-a-week techno bunker in the heart of El Raval off La Rambla since 1996, devoted to pure techno, electro and acid."
+    }
+  },
+  {
+    "id": "macarena-barcelone",
+    "nom": "Macarena Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3792,
+    "longitude": 2.1774,
+    "capacite": 150,
+    "annee": 2001,
+    "styles": [
+      "House",
+      "Minimal",
+      "Microhouse",
+      "Tech House"
+    ],
+    "site": "https://macarenaclub.com",
+    "description": {
+      "fr": "Micro-club du quartier gothique de Barcelone où la cabine DJ trône au milieu de la piste pour une proximité totale avec les artistes house et minimal.",
+      "en": "Intimate Gothic Quarter micro-club in Barcelona with the DJ booth right in the center of the dancefloor for house and minimal sessions."
+    }
+  },
+  {
+    "id": "knockdown-center-new-york",
+    "nom": "Knockdown Center",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.7163,
+    "longitude": -73.9141,
+    "capacite": 3200,
+    "annee": 2014,
+    "styles": [
+      "Techno",
+      "House",
+      "Experimental",
+      "Indie Dance"
+    ],
+    "site": "https://knockdown.center",
+    "description": {
+      "fr": "Ancienne manufacture de portes de 1903 sur 5 000 m² à la frontière de Brooklyn et du Queens, accueillant le Wire Festival, les nuits Ruins en plein air et les grandes tournées.",
+      "en": "Sprawling 1903 former door factory straddling the Brooklyn-Queens border, hosting Wire Festival, open-air Ruins sessions and large-scale electronic events."
+    }
+  },
+  {
+    "id": "bossa-nova-new-york",
+    "nom": "Bossa Nova Civic Club",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.6968,
+    "longitude": -73.9275,
+    "capacite": 180,
+    "annee": 2012,
+    "styles": [
+      "Techno",
+      "Industrial",
+      "Acid",
+      "Leftfield"
+    ],
+    "site": "https://bossanovacivicclub.com",
+    "description": {
+      "fr": "Bar-club enfumé sous le métro aérien de Myrtle Avenue à Bushwick, berceau de toute une génération de producteurs et DJs techno et expérimentaux de Brooklyn.",
+      "en": "Fog-filled club beneath the elevated train on Myrtle Avenue in Bushwick, incubator for a generation of Brooklyn techno and experimental artists."
+    }
+  },
+  {
+    "id": "elsewhere-new-york",
+    "nom": "Elsewhere",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.7094,
+    "longitude": -73.9232,
+    "capacite": 1200,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Techno",
+      "UK Bass",
+      "Indie Dance"
+    ],
+    "site": "https://www.elsewhere.club",
+    "description": {
+      "fr": "Complexe de trois étages à Bushwick réunissant The Hall, Zone One et un vaste toit-terrasse panoramique face à Manhattan.",
+      "en": "Three-level Bushwick venue combining The Hall, Zone One and a panoramic open-air rooftop overlooking the Manhattan skyline."
+    }
+  },
+  {
+    "id": "exchange-la",
+    "nom": "Exchange LA",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles",
+      "en": "Los Angeles"
+    },
+    "latitude": 34.0451,
+    "longitude": -118.2528,
+    "capacite": 1500,
+    "annee": 2010,
+    "styles": [
+      "Techno",
+      "Trance",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://exchangela.com",
+    "description": {
+      "fr": "Installé dans l’ancien édifice Art déco de la Bourse de Los Angeles (1929) sur Spring Street, sur quatre étages dominés par la salle des marchés.",
+      "en": "Housed inside the historic 1929 Art Deco Los Angeles Stock Exchange building on Spring Street across four levels."
+    }
+  },
+  {
+    "id": "avalon-hollywood-la",
+    "nom": "Avalon Hollywood",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles",
+      "en": "Los Angeles"
+    },
+    "latitude": 34.1028,
+    "longitude": -118.3269,
+    "capacite": 1500,
+    "annee": 2003,
+    "styles": [
+      "Trance",
+      "House",
+      "Techno",
+      "Progressive House"
+    ],
+    "site": "https://avalonhollywood.com",
+    "description": {
+      "fr": "Monument historique de Vine Street face à Capitol Records à Hollywood, célèbre pour ses marathons jusqu’à l’aube sur système EAW Avalon sur mesure.",
+      "en": "Historic Vine Street landmark across from Capitol Records in Hollywood, famous for dawn marathons on its custom EAW Avalon sound system."
+    }
+  },
+  {
+    "id": "spybar-chicago",
+    "nom": "Spybar",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "latitude": 41.8936,
+    "longitude": -87.6358,
+    "capacite": 350,
+    "annee": 1998,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Minimal"
+    ],
+    "site": "https://spybarchicago.com",
+    "description": {
+      "fr": "Sous-sol intimiste de River North actif depuis 1998 sur Franklin Street, pilier des nuits house et techno underground de Chicago.",
+      "en": "Intimate River North basement club active since 1998 on Franklin Street, a pillar of Chicago’s underground house and techno circuit."
+    }
+  },
+  {
+    "id": "podlasie-club-chicago",
+    "nom": "Podlasie Club",
+    "type": "club",
+    "paysCode": "US",
+    "villeSlug": "chicago-us",
+    "ville": {
+      "fr": "Chicago",
+      "en": "Chicago"
+    },
+    "latitude": 41.9347,
+    "longitude": -87.7172,
+    "capacite": 200,
+    "annee": 2022,
+    "styles": [
+      "Techno",
+      "Italo",
+      "Electro",
+      "House"
+    ],
+    "site": "https://podlasieclub.com",
+    "description": {
+      "fr": "Ancien bar polonais historique d’Avondale transformé en club électronique pointu pour les sélecteurs techno, italo disco, wave et house.",
+      "en": "Historic Polish neighborhood tavern in Avondale reborn as an intimate club for techno, Italo disco, wave and house selectors."
+    }
+  },
+  {
+    "id": "funk-club-mexico",
+    "nom": "Fünk Club",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4108,
+    "longitude": -99.1683,
+    "capacite": 350,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Techno",
+      "Minimal",
+      "Tech House"
+    ],
+    "site": "https://www.instagram.com/funkclubcdmx/",
+    "description": {
+      "fr": "Bunker souterrain de la Condesa sur l’avenue Insurgentes Sur, équipé d’un système Funktion-One réglé pour la house et la techno.",
+      "en": "Subterranean bunker in Condesa on Avenida Insurgentes Sur, outfitted with a precision-tuned Funktion-One system for house and techno."
+    }
+  },
+  {
+    "id": "mn-roy-mexico",
+    "nom": "M.N. Roy",
+    "type": "club",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4169,
+    "longitude": -99.1558,
+    "capacite": 300,
+    "annee": 2011,
+    "styles": [
+      "House",
+      "Indie Dance",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://www.instagram.com/mnroyclub/",
+    "description": {
+      "fr": "Club secret installé dans l’ancienne demeure historique du révolutionnaire indien M.N. Roy à Roma Norte, haut lieu des fins de nuit de Mexico.",
+      "en": "Secret club housed inside the former Roma Norte residence of Indian revolutionary M.N. Roy, a late-night fixture of Mexico City."
+    }
+  },
+  {
+    "id": "circus-tokyo",
+    "nom": "Circus Tokyo",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "latitude": 35.6542,
+    "longitude": 139.7061,
+    "capacite": 250,
+    "annee": 2015,
+    "styles": [
+      "UK Bass",
+      "Techno",
+      "Breaks",
+      "Jungle"
+    ],
+    "site": "https://circus-tokyo.jp",
+    "description": {
+      "fr": "Sous-sol brut de Shibuya dédié aux courants club avancés, de la UK bass à la techno industrielle en passant par le grime et la jungle.",
+      "en": "Raw basement club in Shibuya dedicated to forward-thinking club sounds spanning UK bass, industrial techno, grime and jungle."
+    }
+  },
+  {
+    "id": "oath-tokyo",
+    "nom": "Red Bar / Oath",
+    "type": "club",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo",
+      "en": "Tokyo"
+    },
+    "latitude": 35.6581,
+    "longitude": 139.6994,
+    "capacite": 150,
+    "annee": 2009,
+    "styles": [
+      "House",
+      "Disco",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://bar-oath.com",
+    "description": {
+      "fr": "Salon souterrain feutré sous des lustres baroques à Dogenzaka (Shibuya), célèbre pour ses nuits house et disco jusqu’au premier train du matin.",
+      "en": "Velvet-draped subterranean lounge beneath baroque chandeliers in Dogenzaka, Shibuya, famous for house and disco sessions until the first morning train."
+    }
+  },
+  {
+    "id": "ephigenia-sao-paulo",
+    "nom": "Ephigenia",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5419,
+    "longitude": -46.6382,
+    "capacite": 600,
+    "annee": 2023,
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Breaks"
+    ],
+    "site": "https://www.instagram.com/ephigeniasp/",
+    "description": {
+      "fr": "Installé aux 22e et 23e étages d’un gratte-ciel du centre historique de São Paulo avec vue panoramique sur le viaduc Santa Ifigênia.",
+      "en": "Perched on the 22nd and 23rd floors of a historic downtown São Paulo high-rise overlooking the Santa Ifigênia Viaduct."
+    }
+  },
+  {
+    "id": "caracol-sao-paulo",
+    "nom": "Caracol",
+    "type": "club",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo",
+      "en": "Sao Paulo"
+    },
+    "latitude": -23.5278,
+    "longitude": -46.6594,
+    "capacite": 350,
+    "annee": 2017,
+    "styles": [
+      "House",
+      "Disco",
+      "Leftfield",
+      "Techno"
+    ],
+    "site": "https://www.instagram.com/caracolbar/",
+    "description": {
+      "fr": "Club audiophile de Barra Funda conçu autour d’un système sonore haute fidélité et d’une piste intimiste dédiée aux diggers brésiliens et internationaux.",
+      "en": "Barra Funda audiophile club built around a custom hi-fi sound system and an intimate dancefloor for Brazilian and international selectors."
+    }
+  },
+  {
+    "id": "veld-toronto-canada",
+    "nom": "Veld Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.7431,
+    "longitude": -79.4694,
+    "capacite": 40000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Trance"
+    ],
+    "site": "https://veldmusicfestival.com",
+    "description": {
+      "fr": "Le plus grand festival électronique d’Ontario au parc Downsview de Toronto, réunissant trois scènes géantes dont le chapiteau Sirkus dédié à la house et à la techno.",
+      "en": "Ontario’s largest electronic music festival at Toronto’s Downsview Park, uniting three massive stages including the underground-focused Sirkus tent."
+    }
+  },
+  {
+    "id": "escapade-ottawa-canada",
+    "nom": "Escapade Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Ottawa",
+      "en": "Ottawa"
+    },
+    "latitude": 45.3986,
+    "longitude": -75.6836,
+    "capacite": 25000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Bass",
+      "Trance",
+      "Techno"
+    ],
+    "site": "https://www.escapademf.com",
+    "description": {
+      "fr": "Grand rassemblement électronique de trois jours au parc Lansdowne à Ottawa, attirant des festivaliers de tout l’Est du Canada autour de la house, de la bass et de la trance.",
+      "en": "Major three-day electronic festival at Lansdowne Park in Ottawa, drawing fans from across Eastern Canada for house, bass and trance."
+    }
+  },
+  {
+    "id": "electric-island-toronto-canada",
+    "nom": "Electric Island",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto",
+      "en": "Toronto"
+    },
+    "latitude": 43.6289,
+    "longitude": -79.4158,
+    "capacite": 10000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai - Septembre",
+      "en": "May - September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "Deep House"
+    ],
+    "site": "https://www.electricisland.to",
+    "description": {
+      "fr": "Série de festivals en plein air lors des longs week-ends d’été au bord du lac Ontario à Toronto, dédiée aux grands noms internationaux de la house et de la techno.",
+      "en": "Summer long-weekend open-air festival series along the Lake Ontario waterfront in Toronto, showcasing international house and techno headliners."
+    }
+  },
+  {
+    "id": "bass-coast-canada",
+    "nom": "Bass Coast Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Merritt (Colombie-Britannique)",
+      "en": "Merritt (British Columbia)"
+    },
+    "latitude": 50.0975,
+    "longitude": -120.7931,
+    "capacite": 6500,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Bass",
+      "UK Bass",
+      "House",
+      "Techno"
+    ],
+    "site": "https://basscoast.ca",
+    "description": {
+      "fr": "Festival indépendant fondé par Andrea Graham (The Librarian) et Liz Thomson dans la vallée Nicola, acclamé pour sa direction artistique bass music, house et installations sculpturales.",
+      "en": "Independent boutique festival founded by Andrea Graham (The Librarian) and Liz Thomson in the Nicola Valley, acclaimed for its bass, house and sculptural art curation."
+    }
+  },
+  {
+    "id": "chasing-summer-calgary-canada",
+    "nom": "Chasing Summer",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Calgary",
+      "en": "Calgary"
+    },
+    "latitude": 51.0972,
+    "longitude": -113.9978,
+    "capacite": 18000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Trance",
+      "Bass",
+      "Tech House"
+    ],
+    "site": "https://www.chasingsummerfestival.com",
+    "description": {
+      "fr": "Le plus grand festival électronique en plein air des Prairies canadiennes, organisé chaque mois d’août à Calgary sur plusieurs scènes.",
+      "en": "Western Canada’s largest outdoor electronic music festival on the Prairies, held every August in Calgary."
+    }
+  },
+  {
+    "id": "badlands-calgary-canada",
+    "nom": "Badlands Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Calgary",
+      "en": "Calgary"
+    },
+    "latitude": 51.0422,
+    "longitude": -114.0794,
+    "capacite": 12000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Drum & Bass",
+      "Bass",
+      "Tech House"
+    ],
+    "site": "https://www.badlandsmusicfest.com",
+    "description": {
+      "fr": "Marathon électronique de dix jours au centre-ville de Calgary en juillet, enchaînant têtes d’affiche house, drum and bass, techno et bass music.",
+      "en": "Ten-day electronic marathon in downtown Calgary every July, featuring house, drum and bass, techno and bass music headliners."
+    }
+  },
+  {
+    "id": "contact-vancouver-canada",
+    "nom": "Contact Winter Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver",
+      "en": "Vancouver"
+    },
+    "latitude": 49.2767,
+    "longitude": -123.1119,
+    "capacite": 15000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "House",
+      "Bass",
+      "Techno",
+      "Trance"
+    ],
+    "site": "https://contact-festival.com",
+    "description": {
+      "fr": "Grand rassemblement électronique hivernal de la côte Ouest canadienne à Vancouver pour clore l’année entre Noël et le Jour de l’An.",
+      "en": "Western Canada’s flagship indoor winter electronic festival in Vancouver, held every December between Christmas and New Year’s Eve."
+    }
+  },
+  {
+    "id": "fvded-vancouver-canada",
+    "nom": "FVDED in the Park",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver (Surrey)",
+      "en": "Vancouver (Surrey)"
+    },
+    "latitude": 49.1808,
+    "longitude": -122.8492,
+    "capacite": 25000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Drum & Bass",
+      "Bass",
+      "UK Garage"
+    ],
+    "site": "https://fvdedinthepark.com",
+    "description": {
+      "fr": "Grand festival d’été au parc Holland dans le Grand Vancouver, doté d’une programmation électronique de premier plan (house, UK garage, drum and bass, bass).",
+      "en": "Major summer festival at Holland Park in Metro Vancouver featuring a heavyweight electronic lineup across house, UK garage, drum and bass and bass."
+    }
+  },
+  {
+    "id": "edc-las-vegas-us",
+    "nom": "EDC Las Vegas (Electric Daisy Carnival)",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Las Vegas",
+      "en": "Las Vegas"
+    },
+    "latitude": 36.2725,
+    "longitude": -115.0103,
+    "capacite": 150000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Trance"
+    ],
+    "site": "https://lasvegas.electricdaisycarnival.com",
+    "description": {
+      "fr": "Le plus grand festival électronique d’Amérique du Nord au Las Vegas Motor Speedway, fonctionnant du coucher au lever du soleil devant 150 000 personnes par nuit sur huit scènes dont NeonGARDEN et Factory 93.",
+      "en": "North America’s largest electronic music festival at the Las Vegas Motor Speedway, running from dusk till dawn for 150,000 attendees per night across eight stages including NeonGARDEN."
+    }
+  },
+  {
+    "id": "ultra-miami-us",
+    "nom": "Ultra Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami",
+      "en": "Miami"
+    },
+    "latitude": 25.7743,
+    "longitude": -80.1859,
+    "capacite": 55000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Bass"
+    ],
+    "site": "https://ultramusicfestival.com",
+    "description": {
+      "fr": "Point d’orgue de la Miami Music Week à Bayfront Park, abritant la mégastructure RESISTANCE dédiée à Carl Cox et aux têtes d’affiche mondiales de la techno et de la house.",
+      "en": "Flagship festival of Miami Music Week at Bayfront Park, home to the iconic RESISTANCE Megastructure hosted by Carl Cox and global techno and house leaders."
+    }
+  },
+  {
+    "id": "crssd-san-diego-us",
+    "nom": "CRSSD Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "San Diego",
+      "en": "San Diego"
+    },
+    "latitude": 32.7214,
+    "longitude": -117.1725,
+    "capacite": 15000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Mars & Septembre",
+      "en": "March & September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance",
+      "Live Electronic"
+    ],
+    "site": "https://www.crssdfest.com",
+    "description": {
+      "fr": "Festival semestriel sur le front de mer de Waterfront Park à San Diego, célèbre pour ses scènes City Steps (techno), The Palms (house) et Ocean View (lives électroniques).",
+      "en": "Biannual waterfront festival at San Diego’s Waterfront Park, renowned for its City Steps (techno), The Palms (house) and Ocean View (live electronic) stages."
+    }
+  },
+  {
+    "id": "portola-san-francisco-us",
+    "nom": "Portola Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "San Francisco",
+      "en": "San Francisco"
+    },
+    "latitude": 37.7528,
+    "longitude": -122.3711,
+    "capacite": 40000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Live Electronic",
+      "House",
+      "Techno",
+      "UK Bass"
+    ],
+    "site": "https://portolamusicfestival.com",
+    "description": {
+      "fr": "Installé sur les quais industriels du Pier 80 à San Francisco avec son gigantesque hangar Warehouse de 25 000 places consacré à la culture club.",
+      "en": "Set on the industrial docks of Pier 80 in San Francisco, anchored by its cavernous 25,000-capacity Warehouse stage."
+    }
+  },
+  {
+    "id": "electric-forest-us",
+    "nom": "Electric Forest",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Rothbury (Michigan)",
+      "en": "Rothbury (Michigan)"
+    },
+    "latitude": 43.5247,
+    "longitude": -86.3642,
+    "capacite": 45000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Bass",
+      "House",
+      "Downtempo",
+      "Techno"
+    ],
+    "site": "https://www.electricforest.com",
+    "description": {
+      "fr": "Quatre jours d’immersion au coeur de la forêt Sherwood dans le Michigan, mêlant installations lumineuses monumentales, bass music et scènes house.",
+      "en": "Four-day immersive gathering inside Michigan’s Sherwood Forest, blending monumental light installations with bass music and house stages."
+    }
+  },
+  {
+    "id": "seismic-austin-us",
+    "nom": "Seismic Dance Event",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Austin (Texas)",
+      "en": "Austin (Texas)"
+    },
+    "latitude": 30.2094,
+    "longitude": -97.7058,
+    "capacite": 10000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://www.seismicdanceevent.com",
+    "description": {
+      "fr": "Le festival boutique de référence du sud des États-Unis au Concourse Project d’Austin, entièrement consacré à la house et à la techno underground.",
+      "en": "The American South’s premier boutique underground house and techno festival, held at The Concourse Project in Austin."
+    }
+  },
+  {
+    "id": "lost-lands-us",
+    "nom": "Lost Lands",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Legend Valley (Ohio)",
+      "en": "Legend Valley (Ohio)"
+    },
+    "latitude": 39.9394,
+    "longitude": -82.4044,
+    "capacite": 45000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Dubstep",
+      "Bass",
+      "Drum & Bass"
+    ],
+    "site": "https://www.lostlandsfestival.com",
+    "description": {
+      "fr": "Fondé par le producteur canadien Excision en Ohio, le plus grand rassemblement mondial consacré au dubstep, à la bass music et à la drum and bass.",
+      "en": "Founded by Canadian producer Excision in Ohio, the world’s largest festival dedicated to dubstep, heavy bass music and drum and bass."
+    }
+  },
+  {
+    "id": "lightning-in-a-bottle-us",
+    "nom": "Lightning in a Bottle",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Buena Vista Lake (Californie)",
+      "en": "Buena Vista Lake (California)"
+    },
+    "latitude": 35.2361,
+    "longitude": -119.2869,
+    "capacite": 22000,
+    "annee": 2004,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Downtempo"
+    ],
+    "site": "https://www.libfestival.org",
+    "description": {
+      "fr": "Festival californien produit par le collectif Do LaB autour des scènes architecturales Woogie (house et techno) et Thunder (bass music).",
+      "en": "California festival produced by the Do LaB collective around the architectural Woogie (house and techno) and Thunder (bass) stages."
+    }
+  },
+  {
+    "id": "wire-festival-ny-us",
+    "nom": "Wire Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "New York",
+      "en": "New York"
+    },
+    "latitude": 40.7161,
+    "longitude": -73.9139,
+    "capacite": 4500,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Acid Techno",
+      "Industrial",
+      "Electro"
+    ],
+    "site": "https://basementny.net",
+    "description": {
+      "fr": "Marathon techno de trois jours et trois nuits organisé par l’équipe de BASEMENT au Knockdown Center à New York.",
+      "en": "Three-day, three-night purist techno marathon curated by the BASEMENT team across the Knockdown Center complex in New York."
+    }
+  },
+  {
+    "id": "edc-mexico-mexique",
+    "nom": "EDC Mexico",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico",
+      "en": "Mexico City"
+    },
+    "latitude": 19.4039,
+    "longitude": -99.0903,
+    "capacite": 110000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Bass"
+    ],
+    "site": "https://mexico.electricdaisycarnival.com",
+    "description": {
+      "fr": "Le plus grand festival électronique d’Amérique latine sur le circuit Autódromo Hermanos Rodríguez de Mexico, rassemblant plus de 100 000 personnes par jour.",
+      "en": "Latin America’s largest electronic music festival at Mexico City’s Autódromo Hermanos Rodríguez, drawing over 100,000 attendees per day."
+    }
+  },
+  {
+    "id": "day-zero-tulum-mexique",
+    "nom": "Day Zero",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Tulum (Dos Ojos)",
+      "en": "Tulum (Dos Ojos)"
+    },
+    "latitude": 20.3247,
+    "longitude": -87.3911,
+    "capacite": 8000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Deep House",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://dayzerofestival.com",
+    "description": {
+      "fr": "Créé par Damian Lazarus (Crosstown Rebels) en 2012 à la fin du calendrier maya dans les cénotes de Dos Ojos à Tulum, du coucher du soleil jusqu’au lendemain matin.",
+      "en": "Created by Damian Lazarus (Crosstown Rebels) in 2012 at the end of the Mayan calendar inside the Dos Ojos cenote park in Tulum, running from sunset through sunrise."
+    }
+  },
+  {
+    "id": "akamba-mexique",
+    "nom": "Akamba Festival",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Tequila (Jalisco)",
+      "en": "Tequila (Jalisco)"
+    },
+    "latitude": 20.8819,
+    "longitude": -103.8325,
+    "capacite": 8000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "House",
+      "Indie Dance",
+      "Downtempo",
+      "Techno"
+    ],
+    "site": "https://akamba.mx",
+    "description": {
+      "fr": "Festival électronique au milieu des champs d’agaves bleus au pied du volcan de Tequila à Jalisco.",
+      "en": "Open-air electronic festival set amid blue agave fields at the foot of the Tequila volcano in Jalisco."
+    }
+  },
+  {
+    "id": "nation-of-gondwana-allemagne",
+    "nom": "Nation of Gondwana",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Grünefeld (près de Berlin)",
+      "en": "Grünefeld (near Berlin)"
+    },
+    "latitude": 52.6772,
+    "longitude": 12.9689,
+    "capacite": 12000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Ambient",
+      "Electro"
+    ],
+    "site": "https://pyonen.de",
+    "description": {
+      "fr": "Organisé depuis 1995 par le collectif Pyonen autour d’un lac à l’ouest de Berlin, l’un des festivals en plein air les plus authentiques de la culture rave berlinoise.",
+      "en": "Organized since 1995 by the Pyonen collective around a lake west of Berlin, one of the most authentic open-air gatherings of Berlin rave culture."
+    }
+  },
+  {
+    "id": "stone-techno-allemagne",
+    "nom": "Stone Techno Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Essen (Zeche Zollverein)",
+      "en": "Essen (Zeche Zollverein)"
+    },
+    "latitude": 51.4864,
+    "longitude": 7.0447,
+    "capacite": 10000,
+    "annee": 2020,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hardgroove",
+      "Electro",
+      "Hypnotic Techno"
+    ],
+    "site": "https://www.thethirdroom.de",
+    "description": {
+      "fr": "Produit par The Third Room en partenariat avec ARTE Concert au coeur de l’ancienne mine de charbon Zeche Zollverein classée à l’UNESCO.",
+      "en": "Produced by The Third Room in partnership with ARTE Concert across the UNESCO World Heritage Zeche Zollverein coal mine complex in Essen."
+    }
+  },
+  {
+    "id": "garbicz-festival-allemagne",
+    "nom": "Garbicz Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Garbicz / Torzym (Lubusz)",
+      "en": "Garbicz / Torzym (Lubusz)"
+    },
+    "latitude": 52.3094,
+    "longitude": 14.9961,
+    "capacite": 8000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Deep House",
+      "Minimal",
+      "House",
+      "Techno"
+    ],
+    "site": "https://garbiczfestival.com",
+    "description": {
+      "fr": "Retraite forestière et lacustre mythique en Pologne occidentale à deux heures de Berlin, intimement liée à la scène house, techno et downtempo berlinoise.",
+      "en": "Mythic woodland and lakeside gathering in western Poland near the German border, deeply tied to Berlin’s house, techno and downtempo community."
+    }
+  },
+  {
+    "id": "mayday-dortmund-allemagne",
+    "nom": "MAYDAY",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Dortmund (Westfalenhallen)",
+      "en": "Dortmund (Westfalenhallen)"
+    },
+    "latitude": 51.4964,
+    "longitude": 7.4558,
+    "capacite": 18000,
+    "annee": 1991,
+    "mois": {
+      "fr": "Avril (30 avril)",
+      "en": "April (April 30)"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Trance",
+      "Hardcore"
+    ],
+    "site": "https://www.mayday.de",
+    "description": {
+      "fr": "La mère de toutes les raves en salle en Allemagne, fondée en décembre 1991 à Berlin pour sauver la radio DT64 et installée depuis dans les Westfalenhallen de Dortmund.",
+      "en": "The mother of all German indoor raves, founded in December 1991 in Berlin and held every April 30 across Dortmund’s Westfalenhallen."
+    }
+  },
+  {
+    "id": "parookaville-allemagne",
+    "nom": "Parookaville",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Weeze (Aéroport)",
+      "en": "Weeze (Airport)"
+    },
+    "latitude": 51.6025,
+    "longitude": 6.1422,
+    "capacite": 75000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Hardstyle",
+      "Trance"
+    ],
+    "site": "https://www.parookaville.com",
+    "description": {
+      "fr": "Ville-festival éphémère érigée dans les hangars et pistes de l’ancienne base aérienne de la Royal Air Force à Weeze en Rhénanie.",
+      "en": "Ephemeral festival city erected across the shelters and runways of the former Royal Air Force base in Weeze."
+    }
+  },
+  {
+    "id": "sonnemondsterne-allemagne",
+    "nom": "SonneMondSterne (SMS)",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Saalburg-Ebersdorf",
+      "en": "Saalburg-Ebersdorf"
+    },
+    "latitude": 50.4958,
+    "longitude": 11.7244,
+    "capacite": 40000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Drum & Bass",
+      "Electro"
+    ],
+    "site": "https://www.sonnemondsterne.de",
+    "description": {
+      "fr": "Grand festival en plein air au bord du barrage de Bleiloch en Thuringe, actif depuis 1997 avec scènes sur la plage et bateau de croisière électronique.",
+      "en": "Major open-air electronic festival on the shores of the Bleiloch reservoir in Thuringia, running since 1997."
+    }
+  },
+  {
+    "id": "ade-amsterdam-pays-bas",
+    "nom": "Amsterdam Dance Event (ADE)",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam",
+      "en": "Amsterdam"
+    },
+    "latitude": 52.3702,
+    "longitude": 4.8952,
+    "capacite": 100000,
+    "annee": 1996,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Electro"
+    ],
+    "site": "https://www.amsterdam-dance-event.nl",
+    "description": {
+      "fr": "Le plus grand festival de clubs et sommet professionnel de musique électronique au monde, réunissant plus de 2 500 artistes dans 200 lieux d’Amsterdam pendant cinq jours.",
+      "en": "The world’s largest club festival and electronic music conference, uniting over 2,500 artists across 200 Amsterdam venues over five days."
+    }
+  },
+  {
+    "id": "mysteryland-pays-bas",
+    "nom": "Mysteryland",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Haarlemmermeer",
+      "en": "Haarlemmermeer"
+    },
+    "latitude": 52.3292,
+    "longitude": 4.6658,
+    "capacite": 60000,
+    "annee": 1993,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Hardstyle",
+      "Trance"
+    ],
+    "site": "https://www.mysteryland.nl",
+    "description": {
+      "fr": "Fondé en 1993, le plus ancien festival de musique électronique en activité au monde, organisé autour de la pyramide du parc Floriade près d’Amsterdam.",
+      "en": "Founded in 1993, the world’s longest-running electronic music festival, held around the pyramid hill of the Floriade grounds near Amsterdam."
+    }
+  },
+  {
+    "id": "loveland-amsterdam-pays-bas",
+    "nom": "Loveland Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Sloterpark)",
+      "en": "Amsterdam (Sloterpark)"
+    },
+    "latitude": 52.3694,
+    "longitude": 4.8122,
+    "capacite": 25000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "Progressive House"
+    ],
+    "site": "https://loveland.nl",
+    "description": {
+      "fr": "Institution amstellodamoise au bord du lac de Sloterpark depuis 1995, célébrant la house, la techno mélodique et la progressive house.",
+      "en": "Amsterdam lakeside institution in Sloterpark since 1995, celebrating house, techno, melodic techno and progressive house."
+    }
+  },
+  {
+    "id": "defqon-1-pays-bas",
+    "nom": "Defqon.1 Weekend Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Biddinghuizen",
+      "en": "Biddinghuizen"
+    },
+    "latitude": 52.4414,
+    "longitude": 5.7586,
+    "capacite": 65000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Hardstyle",
+      "Hardcore",
+      "Gabber",
+      "Hard Techno"
+    ],
+    "site": "https://www.q-dance.com",
+    "description": {
+      "fr": "La Mecque mondiale des styles hard (hardstyle, hardcore, gabber, industrial hardcore) organisée par Q-dance sur quatre jours à Biddinghuizen.",
+      "en": "The global Mecca of harder styles (hardstyle, hardcore, gabber, industrial hardcore) staged by Q-dance across four days in Biddinghuizen."
+    }
+  },
+  {
+    "id": "asot-rotterdam-pays-bas",
+    "nom": "A State of Trance (ASOT)",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Rotterdam (Ahoy)",
+      "en": "Rotterdam (Ahoy)"
+    },
+    "latitude": 51.8825,
+    "longitude": 4.4883,
+    "capacite": 35000,
+    "annee": 2001,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "Trance",
+      "Progressive House",
+      "Techno"
+    ],
+    "site": "https://festival.astateoftrance.com",
+    "description": {
+      "fr": "Le plus grand rassemblement mondial consacré à la musique trance, fondé par Armin van Buuren et organisé dans les halls de Rotterdam Ahoy.",
+      "en": "The world’s premier trance music gathering, founded by Armin van Buuren and staged across the halls of Rotterdam Ahoy."
+    }
+  },
+  {
+    "id": "soenda-utrecht-pays-bas",
+    "nom": "Soenda Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Utrecht (Ruigenhoekse Polder)",
+      "en": "Utrecht (Ruigenhoekse Polder)"
+    },
+    "latitude": 52.1422,
+    "longitude": 5.1256,
+    "capacite": 15000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://www.soenda.com",
+    "description": {
+      "fr": "Grand rassemblement techno et house au nord d’Utrecht, reconnu pour la qualité de ses six scènes curatées.",
+      "en": "Major techno and house festival north of Utrecht, celebrated for its six tightly curated stages."
+    }
+  },
+  {
+    "id": "peacock-society-france",
+    "nom": "Peacock Society",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris",
+      "en": "Paris"
+    },
+    "latitude": 48.7711,
+    "longitude": 2.4533,
+    "capacite": 25000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno",
+      "UK Bass"
+    ],
+    "site": "https://peacocksociety.fr",
+    "description": {
+      "fr": "Grand rendez-vous électronique du Grand Paris réunissant les scènes techno, house, hardgroove et UK bass internationales.",
+      "en": "Flagship Greater Paris electronic music festival uniting international techno, house, hardgroove and UK bass stages."
+    }
+  },
+  {
+    "id": "cercle-festival-france",
+    "nom": "Cercle Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Musée de l’Air et de l’Espace, Le Bourget)",
+      "en": "Paris (Air and Space Museum, Le Bourget)"
+    },
+    "latitude": 48.9472,
+    "longitude": 2.4347,
+    "capacite": 24000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Mai (biennal)",
+      "en": "May (biennial)"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Indie Dance",
+      "Techno"
+    ],
+    "site": "https://festival.cercle.io",
+    "description": {
+      "fr": "Organisé par le média français Cercle sur le tarmac du Musée de l’Air et de l’Espace au Bourget, avec trois scènes installées sous la fusée Ariane 5, un Concorde et un A380.",
+      "en": "Staged by Cercle on the tarmac of the Air and Space Museum at Le Bourget near Paris, with three stages set beneath the Ariane 5 rocket, the Concorde and an A380."
+    }
+  },
+  {
+    "id": "family-piknik-france",
+    "nom": "Family Piknik",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier / Frontignan",
+      "en": "Montpellier / Frontignan"
+    },
+    "latitude": 43.4472,
+    "longitude": 3.7558,
+    "capacite": 20000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "Minimal"
+    ],
+    "site": "https://www.familypiknikfestival.com",
+    "description": {
+      "fr": "Festival méditerranéen fondé par Tom Pooks près de Montpellier, célèbre pour ses longs sets house, techno et melodic techno en plein air.",
+      "en": "Mediterranean open-air festival founded by Tom Pooks near Montpellier, famed for extended house, techno and melodic techno sets."
+    }
+  },
+  {
+    "id": "plages-electroniques-france",
+    "nom": "Les Plages Électroniques",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Cannes",
+      "en": "Cannes"
+    },
+    "latitude": 43.5506,
+    "longitude": 7.0189,
+    "capacite": 50000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Melodic Techno"
+    ],
+    "site": "https://www.plages-electroniques.com",
+    "description": {
+      "fr": "Trois jours de fête les pieds dans l’eau sur la plage et le toit du Palais des Festivals de Cannes, devant plus de 50 000 festivaliers.",
+      "en": "Three days of beachfront and rooftop electronic stages at the Palais des Festivals in Cannes, drawing over 50,000 attendees."
+    }
+  },
+  {
+    "id": "tomorrowland-winter-france",
+    "nom": "Tomorrowland Winter",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Alpe d’Huez",
+      "en": "Alpe d’Huez"
+    },
+    "latitude": 45.0922,
+    "longitude": 6.0697,
+    "capacite": 22000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "Trance"
+    ],
+    "site": "https://winter.tomorrowland.com",
+    "description": {
+      "fr": "Édition hivernale de Tomorrowland perchée entre 1 860 et 3 330 mètres d’altitude sur les pistes de l’Alpe d’Huez dans les Alpes françaises.",
+      "en": "Winter mountain edition of Tomorrowland perched between 1,860 and 3,330 meters on the slopes of Alpe d’Huez in the French Alps."
+    }
+  },
+  {
+    "id": "marvellous-island-france",
+    "nom": "Marvellous Island",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Torcy (Grand Paris)",
+      "en": "Torcy (Greater Paris)"
+    },
+    "latitude": 48.8639,
+    "longitude": 2.6514,
+    "capacite": 25000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai (Pentecôte)",
+      "en": "May (Pentecost)"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Hard Techno"
+    ],
+    "site": "https://marvellous-island.fr",
+    "description": {
+      "fr": "Festival électronique au bord de la plage et du lac de Vaires-Torcy en Île-de-France, ouvrant la saison des festivals d’été autour de cinq scènes.",
+      "en": "Lakeside and beach electronic festival at Vaires-Torcy in Greater Paris, opening the French summer season across five stages."
+    }
+  },
+  {
+    "id": "hadra-trance-festival-france",
+    "nom": "Hadra Trance Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Vieure (Allier)",
+      "en": "Vieure (Allier)"
+    },
+    "latitude": 46.5042,
+    "longitude": 2.8758,
+    "capacite": 10000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Psy",
+      "Ambient",
+      "Downtempo",
+      "Techno"
+    ],
+    "site": "https://www.hadra.net",
+    "description": {
+      "fr": "Le grand rassemblement psychédélique français au bord du plan d’eau de Vieure, dédié à la psytrance, à la darkprog, au dub et à l’ambient.",
+      "en": "France’s flagship psychedelic gathering on the shores of Lake Vieure, dedicated to psytrance, progressive, dub and ambient."
+    }
+  },
+  {
+    "id": "creamfields-royaume-uni",
+    "nom": "Creamfields",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Daresbury (Cheshire)",
+      "en": "Daresbury (Cheshire)"
+    },
+    "latitude": 53.3414,
+    "longitude": -2.6269,
+    "capacite": 70000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Drum & Bass"
+    ],
+    "site": "https://creamfields.com",
+    "description": {
+      "fr": "Né du club Cream de Liverpool en 1998, le plus grand festival électronique en plein air du Royaume-Uni avec sa structure géante Steel Yard.",
+      "en": "Born out of Liverpool’s Cream club in 1998, the UK’s largest open-air electronic dance festival featuring the monumental Steel Yard superstructure."
+    }
+  },
+  {
+    "id": "terminal-v-royaume-uni",
+    "nom": "Terminal V",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Édimbourg",
+      "en": "Edinburgh"
+    },
+    "latitude": 55.9414,
+    "longitude": -3.3725,
+    "capacite": 20000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Avril & Octobre",
+      "en": "April & October"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://terminalv.co.uk",
+    "description": {
+      "fr": "Le plus grand festival techno d’Écosse dans les immenses hangars du Royal Highland Centre d’Édimbourg.",
+      "en": "Scotland’s largest techno festival, staged inside the vast aircraft-hangar halls of Edinburgh’s Royal Highland Centre."
+    }
+  },
+  {
+    "id": "field-day-londres-royaume-uni",
+    "nom": "Field Day",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres",
+      "en": "London"
+    },
+    "latitude": 51.5364,
+    "longitude": -0.0392,
+    "capacite": 35000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Mai - Août",
+      "en": "May - August"
+    },
+    "styles": [
+      "Techno",
+      "UK Bass",
+      "IDM",
+      "House"
+    ],
+    "site": "https://fielddayfestivals.com",
+    "description": {
+      "fr": "Rendez-vous londonien dédié aux têtes d’affiche de l’électronique d’avant-garde (Aphex Twin, Bicep, Chemical Brothers, Kraftwerk) et à la scène club britannique.",
+      "en": "Landmark London festival championing avant-garde electronic headliners (Aphex Twin, Bicep, Chemical Brothers) and UK club culture."
+    }
+  },
+  {
+    "id": "gala-londres-royaume-uni",
+    "nom": "GALA Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Peckham Rye Park)",
+      "en": "London (Peckham Rye Park)"
+    },
+    "latitude": 51.4567,
+    "longitude": -0.0658,
+    "capacite": 15000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "UK Garage",
+      "Techno"
+    ],
+    "site": "https://thisisgala.co.uk",
+    "description": {
+      "fr": "Trois jours à Peckham Rye Park au sud de Londres, célébrant l’héritage du Paradise Garage, de la house, du disco et des collectifs indépendants londoniens.",
+      "en": "Three days in South London’s Peckham Rye Park celebrating the heritage of Paradise Garage, house, disco and independent London collectives."
+    }
+  },
+  {
+    "id": "lost-village-royaume-uni",
+    "nom": "Lost Village",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Norton Disney (Lincolnshire)",
+      "en": "Norton Disney (Lincolnshire)"
+    },
+    "latitude": 53.1339,
+    "longitude": -0.6742,
+    "capacite": 20000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://lostvillagefestival.com",
+    "description": {
+      "fr": "Festival immersif au milieu d’une forêt abandonnée du Lincolnshire, créé par les fondateurs de Moda Black (Jaymo & Andy George).",
+      "en": "Immersive forest festival in Lincolnshire created by Moda Black founders Jaymo & Andy George, blending house, disco and techno."
+    }
+  },
+  {
+    "id": "aquasella-espagne",
+    "nom": "Aquasella",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Arriondas (Asturies)",
+      "en": "Arriondas (Asturias)"
+    },
+    "latitude": 43.3889,
+    "longitude": -5.1858,
+    "capacite": 25000,
+    "annee": 1997,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hardgroove",
+      "Tech House",
+      "Hard Techno"
+    ],
+    "site": "https://aquasella.com",
+    "description": {
+      "fr": "Pèlerinage techno historique depuis 1997 dans la vallée de la rivière Sella au coeur des montagnes des Asturies.",
+      "en": "Historic techno pilgrimage running since 1997 in the Sella River valley in the mountains of Asturias."
+    }
+  },
+  {
+    "id": "brunch-electronik-festival-espagne",
+    "nom": "Brunch Electronik Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.4108,
+    "longitude": 2.2261,
+    "capacite": 30000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://brunchelectronikfestival.com",
+    "description": {
+      "fr": "Grand rassemblement estival de trois jours entre le Parc del Fòrum et les jardins de Montjuïc à Barcelone.",
+      "en": "Major three-day summer festival spanning Barcelona’s Parc del Fòrum and the gardens of Montjuïc."
+    }
+  },
+  {
+    "id": "dreambeach-espagne",
+    "nom": "Dreambeach",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Vélez-Málaga / Almería (Andalousie)",
+      "en": "Velez-Malaga / Almeria (Andalusia)"
+    },
+    "latitude": 36.7422,
+    "longitude": -4.0956,
+    "capacite": 35000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "House",
+      "Hardstyle"
+    ],
+    "site": "https://www.dreambeach.es",
+    "description": {
+      "fr": "Grand festival de la côte andalouse à Almería avec son immense chapiteau Dreams Tent dédié à la techno et une scène majeure drum and bass.",
+      "en": "Flagship Andalusian coast festival in Almería featuring the massive Dreams Tent for underground techno alongside a major drum and bass stage."
+    }
+  },
+  {
+    "id": "mira-festival-barcelone-espagne",
+    "nom": "MIRA Digital Arts Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3642,
+    "longitude": 2.1328,
+    "capacite": 5000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Ambient",
+      "IDM",
+      "Experimental",
+      "Techno"
+    ],
+    "site": "https://mirafestival.com",
+    "description": {
+      "fr": "Festival barcelonais d’arts numériques et de performances audiovisuelles électroniques à la Fira Montjuïc.",
+      "en": "Barcelona digital arts and audiovisual electronic music festival held at Fira Montjuïc."
+    }
+  },
+  {
+    "id": "extrema-outdoor-belgique",
+    "nom": "Extrema Outdoor Belgium",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Houthalen-Helchteren",
+      "en": "Houthalen-Helchteren"
+    },
+    "latitude": 51.0528,
+    "longitude": 5.3944,
+    "capacite": 25000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Mai (Pentecôte)",
+      "en": "May (Pentecost)"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://extrema.be",
+    "description": {
+      "fr": "Trois jours au bord du lac de De Plas dans le Limbourg belge, réunissant les plus grands labels house et techno européens.",
+      "en": "Three days by the lake of De Plas in Belgian Limburg, hosting showcases by Europe’s leading house and techno labels."
+    }
+  },
+  {
+    "id": "rampage-open-air-belgique",
+    "nom": "Rampage Open Air",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Lommel",
+      "en": "Lommel"
+    },
+    "latitude": 51.2094,
+    "longitude": 5.2531,
+    "capacite": 25000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Dubstep",
+      "Bass"
+    ],
+    "site": "https://www.rampage.eu",
+    "description": {
+      "fr": "Le plus grand festival de drum and bass et de dubstep de la planète, décliné en version plein air de quatre jours à Lommel.",
+      "en": "The largest drum and bass and dubstep festival on the planet, staged across four open-air days in Lommel."
+    }
+  },
+  {
+    "id": "dour-festival-belgique",
+    "nom": "Dour Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Dour",
+      "en": "Dour"
+    },
+    "latitude": 50.3911,
+    "longitude": 3.7989,
+    "capacite": 50000,
+    "annee": 1989,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "Bass",
+      "Electro"
+    ],
+    "site": "https://www.dourfestival.eu",
+    "description": {
+      "fr": "Institution belge de cinq jours célèbre pour sa mythique scène électronique De Balzaal et ses marathons nocturnes techno, rave et bass music.",
+      "en": "Five-day Belgian institution renowned for its monumental De Balzaal electronic stage and all-night techno, rave and bass marathons."
+    }
+  },
+  {
+    "id": "voltage-festival-belgique",
+    "nom": "Voltage Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Zwevegem (Transfo)",
+      "en": "Zwevegem (Transfo)"
+    },
+    "latitude": 50.8169,
+    "longitude": 3.3486,
+    "capacite": 10000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Industrial",
+      "Acid Techno",
+      "Hardgroove"
+    ],
+    "site": "https://www.voltagefestival.com",
+    "description": {
+      "fr": "Festival techno installé dans les salles de turbines et les transformateurs de l’ancienne centrale électrique classée Transfo à Zwevegem.",
+      "en": "Purist techno festival staged inside the turbine halls and transformers of the heritage-listed Transfo power plant in Zwevegem."
+    },
+    "inactif": true
+  },
+  {
+    "id": "sonar-lisboa-portugal",
+    "nom": "Sónar Lisboa",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Lisbonne (Parque Eduardo VII)",
+      "en": "Lisbon (Parque Eduardo VII)"
+    },
+    "latitude": 38.7292,
+    "longitude": -9.1528,
+    "capacite": 18000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mars - Avril",
+      "en": "March - April"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Club",
+      "Experimental"
+    ],
+    "site": "https://sonarlisboa.pt",
+    "description": {
+      "fr": "Édition portugaise de Sónar au coeur du Parque Eduardo VII à Lisbonne, mêlant Sónar by Day et Sónar by Night dans le Pavilhão Carlos Lopes.",
+      "en": "Portuguese edition of Sónar in Lisbon’s Parque Eduardo VII, uniting Sónar by Day and Sónar by Night around Pavilhão Carlos Lopes."
+    }
+  },
+  {
+    "id": "semibreve-portugal",
+    "nom": "Semibreve",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Braga",
+      "en": "Braga"
+    },
+    "latitude": 41.5494,
+    "longitude": -8.4225,
+    "capacite": 3000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Ambient",
+      "Experimental",
+      "IDM"
+    ],
+    "site": "https://www.festivalsemibreve.com",
+    "description": {
+      "fr": "Rendez-vous international de musique électronique exploratoire et d’art numérique dans le théâtre centenaire Theatro Circo de Braga.",
+      "en": "International festival for exploratory electronic music and digital art held inside Braga’s historic Theatro Circo."
+    }
+  },
+  {
+    "id": "c2c-festival-italie",
+    "nom": "C2C Festival (Club To Club)",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Turin (Lingotto)",
+      "en": "Turin (Lingotto)"
+    },
+    "latitude": 45.0319,
+    "longitude": 7.6656,
+    "capacite": 15000,
+    "annee": 2002,
+    "mois": {
+      "fr": "Octobre - Novembre",
+      "en": "October - November"
+    },
+    "styles": [
+      "Experimental",
+      "IDM",
+      "UK Bass",
+      "Techno"
+    ],
+    "site": "https://clubtoclub.it",
+    "description": {
+      "fr": "Fondé en 2002 à Turin dans les anciens halls Fiat du Lingotto et les OGR, festival de référence pour l’avant-garde pop et électronique mondiale.",
+      "en": "Founded in 2002 in Turin across the historic Lingotto Fiat halls and OGR, Italy’s benchmark festival for avant-garde electronic music."
+    }
+  },
+  {
+    "id": "polifonic-italie",
+    "nom": "Polifonic",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Vallée d’Itria (Pouilles)",
+      "en": "Itria Valley (Puglia)"
+    },
+    "latitude": 40.8211,
+    "longitude": 17.3622,
+    "capacite": 6000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Leftfield"
+    ],
+    "site": "https://www.polifonic.it",
+    "description": {
+      "fr": "Quatre jours entre les masserias blanches, les oliveraies et les plages des Pouilles, célébrant la house, l’italo disco et la techno.",
+      "en": "Four days across whitewashed masserias, olive groves and beaches in Puglia, celebrating house, Italo disco and techno."
+    }
+  },
+  {
+    "id": "nameless-festival-italie",
+    "nom": "Nameless Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Annone di Brianza (Lac de Côme)",
+      "en": "Annone di Brianza (Lake Como)"
+    },
+    "latitude": 45.8039,
+    "longitude": 9.3314,
+    "capacite": 35000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "EDM"
+    ],
+    "site": "https://namelessfestival.it",
+    "description": {
+      "fr": "Vaste festival en plein air au pied des montagnes du lac de Côme en Lombardie, réunissant quatre scènes électroniques.",
+      "en": "Expansive open-air festival at the foot of the Lake Como mountains in Lombardy across four electronic stages."
+    }
+  },
+  {
+    "id": "love-international-croatie",
+    "nom": "Love International",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno",
+      "en": "Tisno"
+    },
+    "latitude": 43.8016,
+    "longitude": 15.6425,
+    "capacite": 4000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Balearic",
+      "Techno"
+    ],
+    "site": "https://loveinternationalfestival.com",
+    "description": {
+      "fr": "Héritier du Garden Festival dans la baie privée de Tisno, célèbre pour ses levers de soleil à Barbarella’s Discotheque et ses boat parties adriatiques.",
+      "en": "Heir to The Garden Festival in Tisno’s private bay, famous for its sunrise sessions at Barbarella’s Discotheque and Adriatic boat parties."
+    }
+  },
+  {
+    "id": "dekmantel-selectors-croatie",
+    "nom": "Dekmantel Selectors",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno",
+      "en": "Tisno"
+    },
+    "latitude": 43.8012,
+    "longitude": 15.6419,
+    "capacite": 3000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Electro",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://www.dekmantelselectors.com",
+    "description": {
+      "fr": "Édition intimiste de Dekmantel limitée à 3 000 passionnés sur la côte dalmate, consacrée à l’art du DJing et des collectionneurs de disques.",
+      "en": "Intimate Adriatic edition of Dekmantel capped at 3,000 attendees in Tisno, devoted to the art of DJing and deep record digging."
+    }
+  },
+  {
+    "id": "ultra-europe-croatie",
+    "nom": "Ultra Europe",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Split (Park Mladeži)",
+      "en": "Split (Park Mladeži)"
+    },
+    "latitude": 43.5189,
+    "longitude": 16.4458,
+    "capacite": 45000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Progressive House"
+    ],
+    "site": "https://ultraeurope.com",
+    "description": {
+      "fr": "L’édition européenne d’Ultra au stade de Split suivie d’escales sur les îles dalmates de Brač, Hvar et Vis.",
+      "en": "Ultra’s flagship European destination festival in Split, followed by island parties across Brač, Hvar and Vis."
+    }
+  },
+  {
+    "id": "untold-roumanie",
+    "nom": "UNTOLD Festival",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Cluj-Napoca",
+      "en": "Cluj-Napoca"
+    },
+    "latitude": 46.7681,
+    "longitude": 23.5722,
+    "capacite": 90000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Drum & Bass"
+    ],
+    "site": "https://untold.com",
+    "description": {
+      "fr": "Le plus grand festival de Roumanie au coeur de la Transylvanie à Cluj-Napoca, dont la scène Galaxy abrite quatre nuits de techno ininterrompue.",
+      "en": "Romania’s largest festival in the heart of Transylvania in Cluj-Napoca, whose Galaxy stage hosts four nights of non-stop techno."
+    }
+  },
+  {
+    "id": "electric-castle-roumanie",
+    "nom": "Electric Castle",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Bonțida (Château Bánffy)",
+      "en": "Bonțida (Bánffy Castle)"
+    },
+    "latitude": 46.9094,
+    "longitude": 23.8092,
+    "capacite": 40000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Techno",
+      "House",
+      "Bass"
+    ],
+    "site": "https://electriccastle.ro",
+    "description": {
+      "fr": "Cinq jours et cinq nuits 24h/24 dans le domaine du château baroque Bánffy en Transylvanie.",
+      "en": "Round-the-clock five-day festival on the grounds of the baroque Bánffy Castle in Transylvania."
+    }
+  },
+  {
+    "id": "sunrise-festival-pologne",
+    "nom": "Sunrise Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Kołobrzeg (Mer Baltique)",
+      "en": "Kołobrzeg (Baltic Sea)"
+    },
+    "latitude": 54.1869,
+    "longitude": 15.6358,
+    "capacite": 35000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Trance",
+      "Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://sunrisefestival.pl",
+    "description": {
+      "fr": "Grand rassemblement électronique sur l’ancien aérodrome de Podczele au bord de la mer Baltique en Pologne.",
+      "en": "Major electronic music gathering on the former Podczele airfield along Poland’s Baltic coast."
+    }
+  },
+  {
+    "id": "tauron-nowa-muzyka-pologne",
+    "nom": "Tauron Nowa Muzyka",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Katowice (Strefa Kultury)",
+      "en": "Katowice (Culture Zone)"
+    },
+    "latitude": 50.2639,
+    "longitude": 19.0294,
+    "capacite": 12000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "IDM",
+      "Techno",
+      "Leftfield",
+      "Ambient"
+    ],
+    "site": "https://festiwalnowamuzyka.pl",
+    "description": {
+      "fr": "Installé sur le site de l’ancienne mine de charbon Katowice en Silésie, mêlant musique électronique d’avant-garde, jazz futuriste et club.",
+      "en": "Held on the grounds of the former Katowice coal mine in Silesia, blending avant-garde electronics, future jazz and club culture."
+    }
+  },
+  {
+    "id": "street-parade-suisse",
+    "nom": "Street Parade",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Zurich",
+      "en": "Zurich"
+    },
+    "latitude": 47.3661,
+    "longitude": 8.5442,
+    "capacite": 200000,
+    "annee": 1992,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Melodic Techno"
+    ],
+    "site": "https://www.streetparade.com",
+    "description": {
+      "fr": "Fondée en 1992 par Marek Krynski autour du bassin du lac de Zurich, la plus grande technoparade au monde avec trente Love Mobiles et huit grandes scènes.",
+      "en": "Founded in 1992 around the Zurich lake basin, the world’s largest techno parade with thirty Love Mobiles and eight lakeside stages."
+    }
+  },
+  {
+    "id": "caprices-festival-suisse",
+    "nom": "Caprices Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Gstaad (Alpes bernoises)",
+      "en": "Gstaad (Bernese Oberland)"
+    },
+    "latitude": 46.4722,
+    "longitude": 7.2869,
+    "capacite": 12000,
+    "annee": 2004,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://capricesfestival.com",
+    "description": {
+      "fr": "Célèbre festival électronique alpin suisse aux scènes vitrées panoramiques en altitude, désormais installé sur les sommets de Gstaad.",
+      "en": "Iconic Swiss high-altitude electronic festival famed for its panoramic glass mountain stages, now hosted on the peaks of Gstaad."
+    }
+  },
+  {
+    "id": "polaris-festival-suisse",
+    "nom": "Polaris Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Verbier",
+      "en": "Verbier"
+    },
+    "latitude": 46.0961,
+    "longitude": 7.2286,
+    "capacite": 6000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Novembre - Décembre",
+      "en": "November - December"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Detroit Techno",
+      "Electro"
+    ],
+    "site": "https://polarisfestival.ch",
+    "description": {
+      "fr": "Fondé par Mirko Loko à Verbier dans les Alpes suisses (et berceau du label Polaris), réunissant les légendes de Detroit, de Chicago et l’avant-garde européenne.",
+      "en": "Founded by Mirko Loko in Verbier in the Swiss Alps (and birthplace of the Polaris label), uniting Detroit and Chicago legends with the European vanguard."
+    }
+  },
+  {
+    "id": "electron-festival-suisse",
+    "nom": "Electron Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Genève",
+      "en": "Geneva"
+    },
+    "latitude": 46.2011,
+    "longitude": 6.1358,
+    "capacite": 12000,
+    "annee": 2004,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "Experimental"
+    ],
+    "site": "https://electronfestival.ch",
+    "description": {
+      "fr": "Le grand rendez-vous printanier des cultures électroniques à Genève, investissant l’Usine, le Palladium et les clubs de la ville.",
+      "en": "Geneva’s flagship spring festival of electronic cultures, taking over L’Usine, Palladium and clubs across the city."
+    }
+  },
+  {
+    "id": "ozora-festival-hongrie",
+    "nom": "O.Z.O.R.A. Festival",
+    "type": "festival",
+    "paysCode": "HU",
+    "ville": {
+      "fr": "Dádpuszta",
+      "en": "Dádpuszta"
+    },
+    "latitude": 46.7628,
+    "longitude": 18.4239,
+    "capacite": 35000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Psy",
+      "Ambient",
+      "Downtempo",
+      "Techno"
+    ],
+    "site": "https://ozorafestival.eu",
+    "description": {
+      "fr": "Né lors de l’éclipse solaire de 1999 dans les collines hongroises de Dádpuszta, l’un des deux plus grands rassemblements mondiaux de culture psytrance et chillout (The Dome, Pumpui).",
+      "en": "Born during the 1999 solar eclipse in the rolling hills of Dádpuszta, one of the world’s foremost psytrance and ambient gatherings."
+    }
+  },
+  {
+    "id": "sziget-colosseum-hongrie",
+    "nom": "Sziget (Colosseum & Bolt Party Arena)",
+    "type": "festival",
+    "paysCode": "HU",
+    "ville": {
+      "fr": "Budapest (Île d’Óbuda)",
+      "en": "Budapest (Óbuda Island)"
+    },
+    "latitude": 47.5519,
+    "longitude": 19.0553,
+    "capacite": 30000,
+    "annee": 1993,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Drum & Bass",
+      "Melodic Techno"
+    ],
+    "site": "https://szigetfestival.com",
+    "description": {
+      "fr": "Sur l’île d’Óbuda au milieu du Danube à Budapest, l’amphithéâtre de palettes en bois du Colosseum et la Party Arena accueillent six nuits électroniques.",
+      "en": "On Óbuda Island in the Danube in Budapest, the wooden-pallet Colosseum amphitheatre and Party Arena host six nights of techno and house."
+    }
+  },
+  {
+    "id": "electric-love-autriche",
+    "nom": "Electric Love Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Salzbourg (Salzburgring)",
+      "en": "Salzburg (Salzburgring)"
+    },
+    "latitude": 47.8236,
+    "longitude": 13.1642,
+    "capacite": 45000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Hardstyle",
+      "Drum & Bass",
+      "Techno"
+    ],
+    "site": "https://www.electriclove.at",
+    "description": {
+      "fr": "Installé sur le circuit automobile du Salzburgring au coeur de la région des lacs autrichiens.",
+      "en": "Set on the Salzburgring motorsport circuit in the heart of the Austrian Lake District near Salzburg."
+    }
+  },
+  {
+    "id": "elevate-festival-autriche",
+    "nom": "Elevate Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Graz (Schlossberg)",
+      "en": "Graz (Schlossberg)"
+    },
+    "latitude": 47.0764,
+    "longitude": 15.4375,
+    "capacite": 8000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "Experimental",
+      "Techno",
+      "IDM",
+      "Ambient"
+    ],
+    "site": "https://elevate.at",
+    "description": {
+      "fr": "Festival de musiques électroniques d’avant-garde niché dans les tunnels souterrains Dom im Berg creusés sous la colline du Schlossberg à Graz.",
+      "en": "Avant-garde electronic music festival held inside the Dom im Berg subterranean tunnels carved into the Schlossberg hill in Graz."
+    }
+  },
+  {
+    "id": "exit-dance-arena-serbie",
+    "nom": "EXIT Festival (mts Dance Arena)",
+    "type": "festival",
+    "paysCode": "RS",
+    "ville": {
+      "fr": "Novi Sad (Forteresse de Petrovaradin)",
+      "en": "Novi Sad (Petrovaradin Fortress)"
+    },
+    "latitude": 45.2528,
+    "longitude": 19.8633,
+    "capacite": 50000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://www.exitfest.org",
+    "description": {
+      "fr": "Célèbre pour sa colossale mts Dance Arena nichée dans les douves de la forteresse du XVIIIe siècle de Petrovaradin surplombant le Danube, où les sets se terminent à 9 heures du matin en plein soleil.",
+      "en": "World-famous for its colossal mts Dance Arena set inside the trenches of the 18th-century Petrovaradin Fortress above the Danube, with closing sets running until 9 a.m."
+    }
+  },
+  {
+    "id": "lovefest-serbie",
+    "nom": "Lovefest",
+    "type": "festival",
+    "paysCode": "RS",
+    "ville": {
+      "fr": "Vrnjačka Banja",
+      "en": "Vrnjačka Banja"
+    },
+    "latitude": 43.6214,
+    "longitude": 20.8961,
+    "capacite": 20000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Tech House"
+    ],
+    "site": "https://lovefest.rs",
+    "description": {
+      "fr": "Trois jours et trois nuits autour du lac de Vrnjačka Banja en Serbie, dédiés aux scènes Fire (techno), Ultra Energy (house/electro) et 99 (club intimiste).",
+      "en": "Three days and nights by the lake in Vrnjačka Banja, Serbia, across the Fire (techno), Ultra Energy (house/electro) and 99 stages."
+    }
+  },
+  {
+    "id": "unum-festival-albanie",
+    "nom": "UNUM Festival",
+    "type": "festival",
+    "paysCode": "AL",
+    "ville": {
+      "fr": "Shëngjin (Rana e Hedhun)",
+      "en": "Shëngjin (Rana e Hedhun)"
+    },
+    "latitude": 41.8258,
+    "longitude": 19.5758,
+    "capacite": 10000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Techno",
+      "Microhouse"
+    ],
+    "site": "https://www.unumfestival.com",
+    "description": {
+      "fr": "Six jours non-stop 24h/24 sur la plage de Rana e Hedhun en Albanie, célèbre pour sa scène Pine Stage sous les pins qui ne s’arrête jamais.",
+      "en": "Six days of non-stop 24-hour music on Rana e Hedhun beach in Albania, famous for its round-the-clock Pine Stage beneath the trees."
+    }
+  },
+  {
+    "id": "kala-festival-albanie",
+    "nom": "Kala Festival",
+    "type": "festival",
+    "paysCode": "AL",
+    "ville": {
+      "fr": "Dhërmi (Riviera albanaise)",
+      "en": "Dhërmi (Albanian Riviera)"
+    },
+    "latitude": 40.1436,
+    "longitude": 19.6392,
+    "capacite": 3500,
+    "annee": 2018,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Balearic",
+      "Deep House"
+    ],
+    "site": "https://www.kala.al",
+    "description": {
+      "fr": "Une semaine dans les criques turquoises de Dhërmi sur la Riviera albanaise, dédiée à la house, au disco, au boogie et aux longs sets en bord de mer.",
+      "en": "Week-long boutique gathering on the turquoise coves of Dhërmi on the Albanian Riviera, dedicated to house, disco, boogie and seaside extended sets."
+    }
+  },
+  {
+    "id": "mutek-jp-japon",
+    "nom": "MUTEK.JP",
+    "type": "festival",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Shibuya)",
+      "en": "Tokyo (Shibuya)"
+    },
+    "latitude": 35.6585,
+    "longitude": 139.7013,
+    "capacite": 3500,
+    "annee": 2016,
+    "mois": {
+      "fr": "Novembre - Décembre",
+      "en": "November - December"
+    },
+    "styles": [
+      "Ambient",
+      "IDM",
+      "Experimental",
+      "Techno"
+    ],
+    "site": "https://mutek.jp",
+    "description": {
+      "fr": "Antenne japonaise du festival montréalais MUTEK à Shibuya, réunissant créateurs audiovisuels nippons et internationaux.",
+      "en": "Japanese edition of Montreal’s MUTEK festival in Shibuya, uniting Japanese and international audiovisual and electronic pioneers."
+    }
+  },
+  {
+    "id": "ultra-japan-japon",
+    "nom": "Ultra Japan",
+    "type": "festival",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Tokyo (Odaiba)",
+      "en": "Tokyo (Odaiba)"
+    },
+    "latitude": 35.6258,
+    "longitude": 139.7764,
+    "capacite": 35000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Progressive House",
+      "Bass"
+    ],
+    "site": "https://ultrajapan.com",
+    "description": {
+      "fr": "Grand rassemblement électronique en plein air dans la baie de Tokyo à Odaiba, doté d’une scène RESISTANCE consacrée à la techno et à la house.",
+      "en": "Major open-air electronic festival on Tokyo Bay in Odaiba, featuring a dedicated RESISTANCE stage for techno and house."
+    }
+  },
+  {
+    "id": "beyond-the-valley-australie",
+    "nom": "Beyond The Valley",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Barunah Plains (Victoria)",
+      "en": "Barunah Plains (Victoria)"
+    },
+    "latitude": -38.0611,
+    "longitude": 143.9244,
+    "capacite": 35000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Décembre - Janvier (Nouvel An)",
+      "en": "December - January (New Year)"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Eurodance",
+      "UK Garage"
+    ],
+    "site": "https://www.beyondthevalley.com.au",
+    "description": {
+      "fr": "Grand festival du Nouvel An dans l’État de Victoria avec son amphithéâtre Dance Dome de 100 mètres de large dédié à la techno et à la house.",
+      "en": "Flagship Victorian New Year’s festival featuring the 100-meter-wide open-air Dance Dome dedicated to techno and house."
+    }
+  },
+  {
+    "id": "strawberry-fields-australie",
+    "nom": "Strawberry Fields",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Tocumwal (Murray River)",
+      "en": "Tocumwal (Murray River)"
+    },
+    "latitude": -35.8114,
+    "longitude": 145.5628,
+    "capacite": 10000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Downtempo"
+    ],
+    "site": "https://www.strawberry-fields.com.au",
+    "description": {
+      "fr": "Trois jours dans le bush australien au bord de la rivière Murray, célébrant la house, le disco, la techno et le live électronique.",
+      "en": "Three days in the Australian bush along the Murray River celebrating house, disco, techno and live electronic music."
+    }
+  },
+  {
+    "id": "time-warp-brasil",
+    "nom": "Time Warp Brasil",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Autódromo de Interlagos)",
+      "en": "Sao Paulo (Interlagos)"
+    },
+    "latitude": -23.7011,
+    "longitude": -46.6972,
+    "capacite": 20000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Hard Techno"
+    ],
+    "site": "https://time-warp.com.br",
+    "description": {
+      "fr": "L’édition sud-américaine officielle de Time Warp à São Paulo, transposant les célèbres architectures lumineuses Cave 2.0 devant le public brésilien.",
+      "en": "Official South American edition of Time Warp in São Paulo, bringing its signature Cave 2.0 lighting architecture to Brazil."
+    }
+  },
+  {
+    "id": "tomorrowland-brasil",
+    "nom": "Tomorrowland Brasil",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "Itu (État de São Paulo)",
+      "en": "Itu (São Paulo State)"
+    },
+    "latitude": -23.3389,
+    "longitude": -47.2558,
+    "capacite": 60000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Progressive House"
+    ],
+    "site": "https://brasil.tomorrowland.com",
+    "description": {
+      "fr": "Grand rassemblement au Parque Maeda d’Itu dans l’État de São Paulo, réunissant six scènes dont Core et Freedom.",
+      "en": "Massive gathering at Parque Maeda in Itu, São Paulo state, uniting six stages including Core and Freedom."
+    }
+  },
+  {
+    "id": "universo-paralello-bresil",
+    "nom": "Universo Paralello",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "Pratigi (Bahia)",
+      "en": "Pratigi (Bahia)"
+    },
+    "latitude": -13.7258,
+    "longitude": -38.9936,
+    "capacite": 25000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Décembre - Janvier (biennal)",
+      "en": "December - January (biennial)"
+    },
+    "styles": [
+      "Psy",
+      "Techno",
+      "House",
+      "Downtempo"
+    ],
+    "site": "https://universoparalello.org",
+    "description": {
+      "fr": "Fondé par Juarez Petrillo (le père de Vintage Culture et Swarup) sur la plage de cocotiers de Pratigi à Bahia pour huit jours autour du Nouvel An.",
+      "en": "Founded by Juarez Petrillo on the palm-fringed beach of Pratigi in Bahia, running eight days over New Year’s across psytrance, techno and house stages."
+    }
+  },
+  {
+    "id": "suti-festival-portugal",
+    "nom": "Suti Festival",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Benquerença (Penamacor)",
+      "en": "Benquerenca (Penamacor)"
+    },
+    "latitude": 40.2286,
+    "longitude": -7.2044,
+    "capacite": 2500,
+    "annee": 2020,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Psytech",
+      "Darkprog",
+      "Psy",
+      "Indie Dance",
+      "Downtempo"
+    ],
+    "site": "https://sutifestival.com",
+    "description": {
+      "fr": "Rassemblement intimiste de cinq jours à la Praia Fluvial O Moinho de Benquerença (Penamacor), pointu sur la psytech, la darkprog, la psytrance, l’indie dance et le downtempo autour de la Semo Stage et du Groove Garden.",
+      "en": "Intimate five-day gathering at Praia Fluvial O Moinho in Benquerença (Penamacor), dedicated to psytech, darkprog, psytrance, indie dance and downtempo across the Semo Stage and Groove Garden."
+    }
+  },
+  {
+    "id": "zna-gathering-portugal",
+    "nom": "ZNA Gathering",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Montargil (Alentejo)",
+      "en": "Montargil (Alentejo)"
+    },
+    "latitude": 39.0833,
+    "longitude": -8.1667,
+    "capacite": 6000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet - Août (biennal)",
+      "en": "July - August (biennial)"
+    },
+    "styles": [
+      "Goa Trance",
+      "Psy",
+      "Ambient",
+      "Downtempo"
+    ],
+    "site": "https://znagathering.com",
+    "description": {
+      "fr": "Rendez-vous biennal au bord du lac de Montargil consacré à l’âge d’or de la goa trance rétro-futuriste, à la psytrance analogique des années 1990 et au chill-out hypnotique.",
+      "en": "Biennial lakeside gathering in Montargil dedicated to the golden era of retro-futuristic Goa trance, 1990s analog psytrance and hypnotic chill-out."
+    }
+  },
+  {
+    "id": "forte-festival-portugal",
+    "nom": "Festival Forte",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Montemor-o-Velho (Château)",
+      "en": "Montemor-o-Velho Castle"
+    },
+    "latitude": 40.1756,
+    "longitude": -8.6833,
+    "capacite": 5000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Industrial Techno",
+      "Experimental",
+      "EBM"
+    ],
+    "site": "https://www.fortefestival.com",
+    "description": {
+      "fr": "Enceinte médiévale du château de Montemor-o-Velho transformée en laboratoire audiovisuel radical pour la techno industrielle, l’EBM et les performances génératives.",
+      "en": "Medieval walls of Montemor-o-Velho Castle transformed into a radical audiovisual laboratory for industrial techno, EBM and generative art."
+    },
+    "inactif": true
+  },
+  {
+    "id": "insomnia-festival-portugal",
+    "nom": "Insomnia Electronic Music & Arts Festival",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "São Gião (Serra da Estrela)",
+      "en": "Sao Giao (Serra da Estrela)"
+    },
+    "latitude": 40.3361,
+    "longitude": -7.8014,
+    "capacite": 3500,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Progressive Trance",
+      "Techno"
+    ],
+    "site": "https://insomnia-festival.com",
+    "description": {
+      "fr": "Festival en forêt de pins au pied de la Serra da Estrela, réunissant psytrance, psytech et techno progressive autour d’une rivière naturelle.",
+      "en": "Pine-forest festival at the foot of the Serra da Estrela mountains, uniting psytrance, psytech and progressive techno along a mountain stream."
+    }
+  },
+  {
+    "id": "brunch-electronik-lisboa",
+    "nom": "Brunch Electronik Lisboa",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Lisbonne (Tapada da Ajuda)",
+      "en": "Lisbon (Tapada da Ajuda)"
+    },
+    "latitude": 38.7122,
+    "longitude": -9.1844,
+    "capacite": 8000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet - Septembre",
+      "en": "July - September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://lisboa.brunchelectronik.com",
+    "description": {
+      "fr": "Grands après-midis électroniques en plein air dans le parc botanique de la Tapada da Ajuda surplombant le Tage et le pont du 25-Avril.",
+      "en": "Open-air daytime electronic series in the botanical park of Tapada da Ajuda overlooking the Tagus River and 25 de Abril Bridge."
+    }
+  },
+  {
+    "id": "lisb-on-jardim-sonoro",
+    "nom": "Lisb-ON Jardim Sonoro",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Lisbonne (Parque Eduardo VII)",
+      "en": "Lisbon (Eduardo VII Park)"
+    },
+    "latitude": 38.7281,
+    "longitude": -9.1519,
+    "capacite": 10000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Deep House"
+    ],
+    "site": "https://lisb-on.pt",
+    "description": {
+      "fr": "Trois jours de house, disco et techno sous les arbres centenaires du jardin Jardim Amália Rodrigues et du Parque Eduardo VII au cœur de Lisbonne.",
+      "en": "Three days of house, disco and techno beneath the century-old trees of Eduardo VII Park in central Lisbon."
+    }
+  },
+  {
+    "id": "rfm-somnii-portugal",
+    "nom": "RFM SOMNII Intermarché",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Figueira da Foz (Praia do Relógio)",
+      "en": "Figueira da Foz (Praia do Relogio)"
+    },
+    "latitude": 40.1508,
+    "longitude": -8.8667,
+    "capacite": 35000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Hardstyle",
+      "Big Room"
+    ],
+    "site": "https://rfmsomnii.com",
+    "description": {
+      "fr": "Le plus grand festival électronique de plage du Portugal sur le sable immense de la Praia do Relógio à Figueira da Foz.",
+      "en": "Portugal’s largest beach electronic festival on the vast sands of Praia do Relógio in Figueira da Foz."
+    }
+  },
+  {
+    "id": "dream-nation-paris",
+    "nom": "Dream Nation Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris Nord (Villepinte)",
+      "en": "Paris Nord (Villepinte)"
+    },
+    "latitude": 48.9708,
+    "longitude": 2.5186,
+    "capacite": 40000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Septembre - Octobre",
+      "en": "September - October"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Psy",
+      "Drum & Bass",
+      "Hardcore"
+    ],
+    "site": "https://www.dreamnation.fr",
+    "description": {
+      "fr": "Grand rassemblement nocturne aux portes de Paris fédérant toutes les chapelles à haut BPM : techno, hard techno, trance psychédélique, bass music et hardcore.",
+      "en": "Major nocturnal festival at the gates of Paris uniting high-BPM electronic subcultures from techno and hard techno to psytrance, bass music and hardcore."
+    }
+  },
+  {
+    "id": "chateau-perche-france",
+    "nom": "Château Perché Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Auvergne / Bourgogne (Château itinérant)",
+      "en": "Auvergne / Burgundy (Nomadic Castle)"
+    },
+    "latitude": 46.5122,
+    "longitude": 3.1244,
+    "capacite": 8000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Indie Dance",
+      "Dark Disco",
+      "Techno",
+      "House",
+      "Downtempo"
+    ],
+    "site": "https://chateauperche.com",
+    "description": {
+      "fr": "Laboratoire costumé et décalé investissant chaque été un château historique français avec dix scènes d’indie dance, dark disco, techno, house et ambient.",
+      "en": "Costumed arts and electronic music gathering taking over a historic French castle each summer with ten stages of indie dance, dark disco, techno and ambient."
+    }
+  },
+  {
+    "id": "madame-loyal-france",
+    "nom": "Madame Loyal",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Cirque Micheletty) & Bordeaux",
+      "en": "Paris (Cirque Micheletty) & Bordeaux"
+    },
+    "latitude": 48.9389,
+    "longitude": 2.3125,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Mai - Octobre",
+      "en": "May - October"
+    },
+    "styles": [
+      "House",
+      "French Touch",
+      "Indie Dance",
+      "Techno"
+    ],
+    "site": "https://madameloyal.com",
+    "description": {
+      "fr": "Fête foraine électronique sous chapiteaux de cirque mêlant manèges, acrobates, figures de la French Touch, house, indie dance et techno.",
+      "en": "Electronic funfair under circus big tops blending carnival rides, acrobats, French Touch icons, house, indie dance and techno."
+    }
+  },
+  {
+    "id": "delta-festival-marseille",
+    "nom": "Delta Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "marseille-fr",
+    "ville": {
+      "fr": "Marseille (Plages du Prado)",
+      "en": "Marseille (Prado Beaches)"
+    },
+    "latitude": 43.2575,
+    "longitude": 5.3742,
+    "capacite": 50000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno",
+      "Trance"
+    ],
+    "site": "https://www.delta-festival.com",
+    "description": {
+      "fr": "Cinq jours les pieds dans l’eau sur les plages du Prado à Marseille avec plusieurs scènes dédiées à la techno, la hard techno et la house.",
+      "en": "Five-day waterfront festival on the Prado beaches in Marseille featuring multiple stages dedicated to techno, hard techno and house."
+    }
+  },
+  {
+    "id": "electrobeach-barcares",
+    "nom": "Electrobeach Music Festival (EMF)",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Le Barcarès (Pyrénées-Orientales)",
+      "en": "Le Barcares (Southern France)"
+    },
+    "latitude": 42.8189,
+    "longitude": 3.0406,
+    "capacite": 45000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "Hardstyle",
+      "House"
+    ],
+    "site": "https://www.electrobeach.com",
+    "description": {
+      "fr": "Grand festival méditerranéen au pied du paquebot Lydia à Port-Barcarès, réunissant mainstage internationale, scène techno et scène hardstyle.",
+      "en": "Mediterranean beach festival beside the Lydia ocean liner in Port-Barcarès, uniting an international mainstage with dedicated techno and hardstyle arenas."
+    },
+    "inactif": true
+  },
+  {
+    "id": "elektric-park-chatou",
+    "nom": "Elektric Park Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Chatou (Île des Impressionnistes)",
+      "en": "Chatou (Impressionists Island, Paris)"
+    },
+    "latitude": 48.8872,
+    "longitude": 2.1614,
+    "capacite": 15000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "Bass",
+      "Hardcore",
+      "Psy"
+    ],
+    "site": "https://www.elektricpark.com",
+    "description": {
+      "fr": "Fondé par Joachim Garraud sur l’Île des Impressionnistes à Chatou (anciennement Inox Park), croisant techno, bass music, psytrance et hardcore au bord de la Seine.",
+      "en": "Founded by Joachim Garraud on the Île des Impressionnistes in Chatou (formerly Inox Park), spanning techno, bass music, psytrance and hardcore along the Seine."
+    }
+  },
+  {
+    "id": "paco-tyson-nantes",
+    "nom": "Paco Tyson",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Nantes",
+      "en": "Nantes"
+    },
+    "latitude": 47.2044,
+    "longitude": -1.6089,
+    "capacite": 12000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Techno",
+      "Acid",
+      "House",
+      "Drum & Bass",
+      "Hardcore"
+    ],
+    "site": "https://pacotyson.fr",
+    "description": {
+      "fr": "Rendez-vous printanier des musiques électroniques à Nantes sous grands chapiteaux, réputé pour ses programmations techno, acid, house et rave sans concession.",
+      "en": "Spring electronic festival under big tops in Nantes, renowned for its uncompromising techno, acid, house and rave lineups."
+    }
+  },
+  {
+    "id": "panoramas-morlaix",
+    "nom": "Festival Panoramas",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Morlaix (Bretagne)",
+      "en": "Morlaix (Brittany)"
+    },
+    "latitude": 48.5778,
+    "longitude": -3.8281,
+    "capacite": 14000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Electro",
+      "Trance"
+    ],
+    "site": "https://www.panoramasfestival.com",
+    "description": {
+      "fr": "Institution bretonne au parc des expositions de Langolvas à Morlaix, ouvrant chaque printemps la saison des festivals électroniques dans le Grand Ouest.",
+      "en": "Brittany institution in Morlaix kicking off the western French electronic festival season every spring since 1998."
+    }
+  },
+  {
+    "id": "ethereal-decibel-france",
+    "nom": "Ethereal Decibel Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Saint-Symphorien-des-Monts (Normandie)",
+      "en": "Saint-Symphorien-des-Monts (Normandy)"
+    },
+    "latitude": 48.5439,
+    "longitude": -1.0011,
+    "capacite": 8000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Darkprog",
+      "Techno",
+      "Downtempo"
+    ],
+    "site": "https://etherealdecibel.com",
+    "description": {
+      "fr": "Principal rassemblement psychédélique et psytech en France dans le parc d’un domaine normand au bord d’un lac, alliant scénographies monumentales et arts numériques.",
+      "en": "France’s leading psychedelic and psytech gathering on a lakeside estate in Normandy, combining monumental stage design with digital arts."
+    }
+  },
+  {
+    "id": "insane-festival-apt",
+    "nom": "Insane Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Apt (Luberon)",
+      "en": "Apt (Luberon)"
+    },
+    "latitude": 43.8825,
+    "longitude": 5.3789,
+    "capacite": 35000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Psy",
+      "Hardcore"
+    ],
+    "site": "https://insanefestival.com",
+    "description": {
+      "fr": "Trois jours au bord du plan d’eau de la Riaille à Apt dans le Luberon, devenus l’un des bastions de la techno, de la hard techno et de la psytrance dans le Sud.",
+      "en": "Three-day lakeside festival in Apt in the Luberon, a major stronghold for techno, hard techno and psytrance in southern France."
+    }
+  },
+  {
+    "id": "kolorz-festival-carpentras",
+    "nom": "Kolorz Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Carpentras (Provence)",
+      "en": "Carpentras (Provence)"
+    },
+    "latitude": 44.0553,
+    "longitude": 5.0481,
+    "capacite": 10000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno"
+    ],
+    "site": "https://kolorzfestival.com",
+    "description": {
+      "fr": "Festival provençal à Carpentras célébrant la techno et la house dans des cadres patrimoniaux et en plein air.",
+      "en": "Provençal electronic festival in Carpentras celebrating techno and house in open-air heritage venues."
+    }
+  },
+  {
+    "id": "scopitone-nantes",
+    "nom": "Scopitone",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Nantes (Île de Nantes)",
+      "en": "Nantes (Ile de Nantes)"
+    },
+    "latitude": 47.2061,
+    "longitude": -1.5642,
+    "capacite": 20000,
+    "annee": 2002,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "Experimental",
+      "IDM"
+    ],
+    "site": "https://scopitone.org",
+    "description": {
+      "fr": "Biennale des cultures électroniques et des arts numériques pilotée par Stereolux sur l’Île de Nantes, mêlant nuits techno et installations immersives.",
+      "en": "Electronic cultures and digital arts festival curated by Stereolux on the Île de Nantes, combining club nights with immersive installations."
+    }
+  },
+  {
+    "id": "calvi-on-the-rocks",
+    "nom": "Calvi on the Rocks",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Calvi (Corse)",
+      "en": "Calvi (Corsica)"
+    },
+    "latitude": 42.5661,
+    "longitude": 8.7578,
+    "capacite": 8000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Indie Dance",
+      "House",
+      "Disco",
+      "French Touch"
+    ],
+    "site": "https://www.calviontherocks.com",
+    "description": {
+      "fr": "Cinq jours entre plages de Balagne et citadelle génoise de Calvi, berceau estival de l’indie dance, du disco et de la French Touch.",
+      "en": "Five days between the beaches of Balagne and the Genoese citadel of Calvi, a summer stronghold for indie dance, disco and French Touch."
+    },
+    "inactif": true
+  },
+  {
+    "id": "macki-music-festival",
+    "nom": "Macki Music Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Carrières-sur-Seine (Grand Paris)",
+      "en": "Carrieres-sur-Seine (Greater Paris)"
+    },
+    "latitude": 48.9056,
+    "longitude": 2.1789,
+    "capacite": 5000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "House",
+      "Leftfield",
+      "Disco",
+      "UK Bass"
+    ],
+    "site": "https://mackimusicfestival.fr",
+    "description": {
+      "fr": "Fondé par les collectifs La Mamie’s et Cracki Records au bord de la Seine, rendez-vous solaire de la house, des musiques diggers et du leftfield.",
+      "en": "Founded by La Mamie’s and Cracki Records on the banks of the Seine, a sun-drenched gathering for house, crate-digging disco and leftfield club sounds."
+    },
+    "inactif": true
+  },
+  {
+    "id": "igloofest-quebec",
+    "nom": "Igloofest Québec",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Québec (Place Jean-Béliveau)",
+      "en": "Quebec City (Place Jean-Beliveau)"
+    },
+    "latitude": 46.8261,
+    "longitude": -71.2464,
+    "capacite": 8000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://quebec.igloofest.ca",
+    "description": {
+      "fr": "Déclinaison hivernale d’Igloofest dans la capitale québécoise sur la Place Jean-Béliveau, avec combinaisons de neige et têtes d’affiche house et techno.",
+      "en": "Winter edition of Igloofest in Quebec City on Place Jean-Béliveau, bringing snowsuits and international house and techno headliners to the capital."
+    }
+  },
+  {
+    "id": "igloofest-gatineau",
+    "nom": "Igloofest Gatineau",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Gatineau / Ottawa (Place Zibi)",
+      "en": "Gatineau / Ottawa (Place Zibi)"
+    },
+    "latitude": 45.4242,
+    "longitude": -75.7169,
+    "capacite": 6000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Progressive House"
+    ],
+    "site": "https://gatineau.igloofest.ca",
+    "description": {
+      "fr": "Trois soirs de danse sous zéro au bord de la rivière des Outaouais à la Place des Festivals Zibi entre Gatineau et Ottawa.",
+      "en": "Three sub-zero nights of open-air dancing along the Ottawa River at Place des Festivals Zibi between Gatineau and Ottawa."
+    }
+  },
+  {
+    "id": "riverside-festival-gatineau",
+    "nom": "Riverside Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Gatineau / Ottawa (Musée canadien de l’histoire)",
+      "en": "Gatineau / Ottawa (Canadian Museum of History)"
+    },
+    "latitude": 45.4294,
+    "longitude": -75.7089,
+    "capacite": 10000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "Drum & Bass"
+    ],
+    "site": "https://www.riversidefestival.ca",
+    "description": {
+      "fr": "Trois jours sur l’esplanade du Musée canadien de l’histoire face à la colline du Parlement, réunissant techno, house et bass music.",
+      "en": "Three-day festival on the plaza of the Canadian Museum of History facing Parliament Hill, uniting techno, house and bass music."
+    }
+  },
+  {
+    "id": "future-forest-canada",
+    "nom": "Future Forest",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Sheffield / Fredericton (Nouveau-Brunswick)",
+      "en": "Sheffield / Fredericton (New Brunswick)"
+    },
+    "latitude": 46.0681,
+    "longitude": -66.4528,
+    "capacite": 5000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Bass",
+      "Techno",
+      "House",
+      "Psytech",
+      "Drum & Bass"
+    ],
+    "site": "https://futureforest.ca",
+    "description": {
+      "fr": "Grand festival électronique en forêt au Nouveau-Brunswick (Futureforest), célèbre dans tout l’Est du Canada pour ses trois scènes immersives, sa sonorisation PK Sound et sa programmation bass, techno, house et psytech.",
+      "en": "Major forest electronic festival in New Brunswick (Futureforest), renowned across Eastern Canada for its three immersive stages, PK Sound rigs and bass, techno, house and psytech programming."
+    }
+  },
+  {
+    "id": "wicked-woods-bc",
+    "nom": "Wicked Woods Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Fairmont Hot Springs (Colombie-Britannique)",
+      "en": "Fairmont Hot Springs (British Columbia)"
+    },
+    "latitude": 50.3289,
+    "longitude": -115.8542,
+    "capacite": 4500,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Bass",
+      "House",
+      "Drum & Bass",
+      "Funk"
+    ],
+    "site": "https://www.wickedwoods.ca",
+    "description": {
+      "fr": "Rassemblement dans la vallée du fleuve Columbia au pied des Rocheuses canadiennes, porté par la culture sound system de l’Ouest canadien.",
+      "en": "Gathering in the Columbia Valley at the foot of the Canadian Rockies, powered by Western Canadian sound-system culture."
+    }
+  },
+  {
+    "id": "electric-love-bc",
+    "nom": "Electric Love Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Pritchard / Kamloops (Colombie-Britannique)",
+      "en": "Pritchard / Kamloops (British Columbia)"
+    },
+    "latitude": 50.6819,
+    "longitude": -119.8322,
+    "capacite": 3500,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Bass",
+      "Drum & Bass",
+      "Psy",
+      "Techno"
+    ],
+    "site": "https://electriclove.dance",
+    "description": {
+      "fr": "Quatre jours sur les terres des Premières Nations Secwépemc en Colombie-Britannique autour de cinq scènes house, bass, drum & bass et psytrance.",
+      "en": "Four days in Secwépemc territory in British Columbia featuring five stages spanning house, bass, drum & bass and psytrance."
+    }
+  },
+  {
+    "id": "bomfest-edmonton",
+    "nom": "BOMFEST",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Edmonton (Alberta)",
+      "en": "Edmonton (Alberta)"
+    },
+    "latitude": 53.5444,
+    "longitude": -113.4908,
+    "capacite": 15000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Progressive House"
+    ],
+    "site": "https://www.bomfest.ca",
+    "description": {
+      "fr": "Grand rendez-vous électronique d’été organisé par Boodang à Edmonton, réunissant les têtes d’affiche house, techno et bass dans les Prairies.",
+      "en": "Major summer electronic festival organized by Boodang in Edmonton, bringing international house, techno and bass headliners to Alberta."
+    },
+    "inactif": true
+  },
+  {
+    "id": "promise-cherry-beach-toronto",
+    "nom": "Promise Cherry Beach",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Cherry Beach)",
+      "en": "Toronto (Cherry Beach)"
+    },
+    "latitude": 43.6369,
+    "longitude": -79.3436,
+    "capacite": 2500,
+    "annee": 2001,
+    "mois": {
+      "fr": "Juin - Septembre",
+      "en": "June - September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://www.promisecherrybeach.ca",
+    "description": {
+      "fr": "Institution dominicale en plein air sur la plage de Cherry Beach au bord du lac Ontario depuis 2001, pilier communautaire de la scène house et techno torontoise.",
+      "en": "Sunday open-air institution on Cherry Beach along Lake Ontario since 2001, a beloved pillar of Toronto’s house and techno community."
+    }
+  },
+  {
+    "id": "whole-festival-ferropolis",
+    "nom": "Whole - United Queer Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Gräfenhainichen (Ferropolis)",
+      "en": "Grafenhainichen (Ferropolis)"
+    },
+    "latitude": 51.7562,
+    "longitude": 12.4492,
+    "capacite": 8000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Trance",
+      "Acid",
+      "Electro"
+    ],
+    "site": "https://wholefestival.com",
+    "description": {
+      "fr": "Trois jours non-stop sur la presqu’île industrielle de Ferropolis (« la ville de fer ») fédérant les collectifs queer de Berlin, d’Europe et d’Amérique.",
+      "en": "Three non-stop days on the industrial peninsula of Ferropolis (‘City of Iron’), uniting queer electronic collectives from Berlin, Europe and the Americas."
+    }
+  },
+  {
+    "id": "indian-spirit-germany",
+    "nom": "Indian Spirit Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Eldena (Mecklembourg)",
+      "en": "Eldena (Mecklenburg)"
+    },
+    "latitude": 53.2681,
+    "longitude": 11.4522,
+    "capacite": 20000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Goa Trance"
+    ],
+    "site": "https://www.indian-spirit.de",
+    "description": {
+      "fr": "Le plus grand rassemblement psytrance de fin d’été en Allemagne du Nord, clôturant la saison européenne des open airs psychédéliques depuis 1999.",
+      "en": "Northern Germany’s largest late-summer psytrance festival, closing the European open-air psychedelic season since 1999."
+    }
+  },
+  {
+    "id": "antaris-project-germany",
+    "nom": "Antaris Project",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Stölln (Brandebourg)",
+      "en": "Stolln (Brandenburg)"
+    },
+    "latitude": 52.7394,
+    "longitude": 12.3911,
+    "capacite": 8000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psy",
+      "Goa Trance",
+      "Psytech",
+      "Ambient"
+    ],
+    "site": "https://www.antaris-project.de",
+    "description": {
+      "fr": "Doyen historique de la culture goa et psytrance en Allemagne sur l’aérodrome d’Otto-Lilienthal à Stölln dans le Brandebourg.",
+      "en": "Historic cornerstone of Goa and psytrance culture in Germany on the Otto Lilienthal airfield in Stölln, Brandenburg."
+    }
+  },
+  {
+    "id": "voov-experience-germany",
+    "nom": "VooV Experience",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Putlitz (Brandebourg)",
+      "en": "Putlitz (Brandenburg)"
+    },
+    "latitude": 53.2514,
+    "longitude": 12.0439,
+    "capacite": 12000,
+    "annee": 1991,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Goa Trance"
+    ],
+    "site": "https://www.voov-festival.de",
+    "description": {
+      "fr": "Né en 1991 à Putlitz, l’un des tout premiers festivals psytrance et goa d’Europe, toujours fidèle à ses racines psychédéliques.",
+      "en": "Born in 1991 in Putlitz, one of Europe’s very first psytrance and Goa festivals, still true to its psychedelic roots."
+    }
+  },
+  {
+    "id": "airbeat-one-germany",
+    "nom": "Airbeat One Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Neustadt-Glewe (Mecklembourg)",
+      "en": "Neustadt-Glewe (Mecklenburg)"
+    },
+    "latitude": 53.3611,
+    "longitude": 11.6119,
+    "capacite": 65000,
+    "annee": 2002,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Techno",
+      "Psy"
+    ],
+    "site": "https://airbeat-one.de",
+    "description": {
+      "fr": "Immense festival sur l’aérodrome de Neustadt-Glewe entre Hambourg et Berlin, avec des scènes monumentales dédiées au hardstyle, à la techno et à la psytrance.",
+      "en": "Massive airfield festival in Neustadt-Glewe between Hamburg and Berlin with monumental stages dedicated to hardstyle, techno and psytrance."
+    }
+  },
+  {
+    "id": "echelon-festival-bavaria",
+    "nom": "Echelon Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Bad Aibling (Bavière)",
+      "en": "Bad Aibling (Bavaria)"
+    },
+    "latitude": 47.8781,
+    "longitude": 11.9844,
+    "capacite": 25000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Melodic Techno"
+    ],
+    "site": "https://www.echelon-festival.de",
+    "description": {
+      "fr": "Organisé au pied des radômes géants de l’ancienne station d’écoute américaine de Bad Aibling face aux Alpes bavaroises.",
+      "en": "Set beneath the giant radome spheres of the former US listening station in Bad Aibling facing the Bavarian Alps."
+    }
+  },
+  {
+    "id": "sea-you-freiburg",
+    "nom": "Sea You Festival (Beach Republic)",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Fribourg-en-Brisgau (Tunisee)",
+      "en": "Freiburg im Breisgau (Tunisee)"
+    },
+    "latitude": 48.0631,
+    "longitude": 7.8136,
+    "capacite": 30000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno",
+      "Psy"
+    ],
+    "site": "https://www.seayou-festival.de",
+    "description": {
+      "fr": "Sept scènes autour et sur le lac Tunisee près de Fribourg, où l’on écoute la techno les pieds dans l’eau ou sur un téléski nautique.",
+      "en": "Seven stages around Lake Tunisee near Freiburg, where dancers experience techno in the water and beside wakeboard cables."
+    }
+  },
+  {
+    "id": "ikarus-festival-memmingen",
+    "nom": "Ikarus Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Memmingen (Allgäu)",
+      "en": "Memmingen (Allgau)"
+    },
+    "latitude": 47.9889,
+    "longitude": 10.2394,
+    "capacite": 35000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "Hard Techno",
+      "Psy"
+    ],
+    "site": "https://www.ikarus-festival.de",
+    "description": {
+      "fr": "Ancienne base aérienne militaire de Memmingen transformée en forêt féerique, hangars bruts et scènes techno et psytrance.",
+      "en": "Former military airbase in Memmingen transformed into enchanted forest stages and raw hangars for techno and psytrance."
+    }
+  },
+  {
+    "id": "nachtiville-germany",
+    "nom": "Nachtiville (par Nachtdigital)",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Weissenhäuser Strand (Mer Baltique)",
+      "en": "Weissenhauser Strand (Baltic Sea)"
+    },
+    "latitude": 54.3119,
+    "longitude": 10.7856,
+    "capacite": 3500,
+    "annee": 1998,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Leftfield",
+      "Electro"
+    ],
+    "site": "https://nachtiville.de",
+    "description": {
+      "fr": "Héritier du mythique Nachtdigital d’Olganitz, investissant en plein hiver un complexe aquatique subtropical sur la côte de la mer Baltique.",
+      "en": "Heir to the legendary Nachtdigital in Olganitz, taking over a subtropical water-park resort on the Baltic coast in mid-winter."
+    },
+    "inactif": true
+  },
+  {
+    "id": "verknipt-festival-netherlands",
+    "nom": "Verknipt Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (ArenA) & Utrecht (Strijkviertel)",
+      "en": "Amsterdam (ArenA) & Utrecht"
+    },
+    "latitude": 52.3144,
+    "longitude": 4.9419,
+    "capacite": 40000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "Hard Techno",
+      "Industrial Techno",
+      "Schranz",
+      "Acid Techno"
+    ],
+    "site": "https://verknipt.org",
+    "description": {
+      "fr": "Épicentre mondial de la nouvelle vague hard techno, industrial et schranz, remplissant aussi bien le lac de Strijkviertel que les 40 000 places de la Johan Cruijff ArenA.",
+      "en": "Global epicenter of the new hard techno, industrial and schranz wave, filling both Lake Strijkviertel and the 40,000-capacity Johan Cruijff ArenA."
+    }
+  },
+  {
+    "id": "liquicity-festival-netherlands",
+    "nom": "Liquicity Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Alkmaar (Geestmerambacht)",
+      "en": "Alkmaar (Geestmerambacht)"
+    },
+    "latitude": 52.6908,
+    "longitude": 4.7831,
+    "capacite": 18000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Liquid DnB",
+      "Jungle"
+    ],
+    "site": "https://festival.liquicity.com",
+    "description": {
+      "fr": "Trois jours dans le parc naturel de Geestmerambacht au nord d’Amsterdam, référence mondiale de la liquid drum & bass et de la drum & bass mélodique.",
+      "en": "Three days in the Geestmerambacht nature reserve north of Amsterdam, the world’s premier gathering for liquid and melodic drum & bass."
+    }
+  },
+  {
+    "id": "wildeburg-netherlands",
+    "nom": "Wildeburg",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Kraggenburg (Noordoostpolder)",
+      "en": "Kraggenburg (Noordoostpolder)"
+    },
+    "latitude": 52.6681,
+    "longitude": 5.9158,
+    "capacite": 12000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Leftfield",
+      "Indie Dance",
+      "Ambient"
+    ],
+    "site": "https://wildeburg.nl",
+    "description": {
+      "fr": "Labyrinthe de bambous, de cabanes et de clairières ouvert 24 h sur 24 pendant quatre jours à Kraggenburg, sans horaires affichés à l’avance.",
+      "en": "Round-the-clock labyrinth of bamboo groves, wooden hideouts and forest clearings in Kraggenburg running four days straight."
+    }
+  },
+  {
+    "id": "lentekabinet-amsterdam",
+    "nom": "Lentekabinet (par Dekmantel)",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Oostzaan / Amsterdam (Het Twiske)",
+      "en": "Oostzaan / Amsterdam (Het Twiske)"
+    },
+    "latitude": 52.4561,
+    "longitude": 4.8922,
+    "capacite": 10000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "House",
+      "Leftfield",
+      "Techno",
+      "Disco",
+      "Electro"
+    ],
+    "site": "https://www.hetlentekabinet.nl",
+    "description": {
+      "fr": "Le petit frère printanier et bucolique de Dekmantel au bord de l’eau dans la réserve naturelle Het Twiske au nord d’Amsterdam.",
+      "en": "Dekmantel’s bucolic spring sibling on the waterfront of the Het Twiske nature reserve just north of Amsterdam."
+    }
+  },
+  {
+    "id": "rewire-festival-the-hague",
+    "nom": "Rewire Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "La Haye",
+      "en": "The Hague"
+    },
+    "latitude": 52.0781,
+    "longitude": 4.3125,
+    "capacite": 10000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "IDM",
+      "Leftfield",
+      "Deconstructed Club"
+    ],
+    "site": "https://www.rewirefestival.nl",
+    "description": {
+      "fr": "Festival international des musiques aventureuses investissant églises, théâtres et anciens bâtiments industriels de La Haye.",
+      "en": "International festival for adventurous electronic and experimental music across churches, theaters and industrial spaces in The Hague."
+    }
+  },
+  {
+    "id": "dominator-festival-netherlands",
+    "nom": "Dominator Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Eersel (E3 Strand)",
+      "en": "Eersel (E3 Strand)"
+    },
+    "latitude": 51.3514,
+    "longitude": 5.3442,
+    "capacite": 50000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Hardcore",
+      "Gabber",
+      "Uptempo",
+      "Industrial Hardcore"
+    ],
+    "site": "https://www.dominatorfestival.com",
+    "description": {
+      "fr": "Co-produit par Q-dance et Art of Dance sur la plage d’Eersel, le plus grand festival hardcore et gabber en plein air au monde.",
+      "en": "Co-produced by Q-dance and Art of Dance on the beach of Eersel, the world’s largest open-air hardcore and gabber festival."
+    }
+  },
+  {
+    "id": "parklife-manchester",
+    "nom": "Parklife Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Manchester (Heaton Park)",
+      "en": "Manchester (Heaton Park)"
+    },
+    "latitude": 53.5358,
+    "longitude": -2.2544,
+    "capacite": 80000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "UK Garage",
+      "Techno",
+      "Drum & Bass"
+    ],
+    "site": "https://parklife.uk.com",
+    "description": {
+      "fr": "Orchestré par l’équipe de The Warehouse Project à Heaton Park, le plus grand festival métropolitain du nord de l’Angleterre.",
+      "en": "Curated by the team behind The Warehouse Project at Heaton Park, the largest metropolitan music festival in northern England."
+    }
+  },
+  {
+    "id": "waterworks-london",
+    "nom": "Waterworks Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Gunnersbury Park)",
+      "en": "London (Gunnersbury Park)"
+    },
+    "latitude": 51.4989,
+    "longitude": -0.2892,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "UK Bass",
+      "Techno",
+      "Leftfield",
+      "Jungle",
+      "Breaks"
+    ],
+    "site": "https://waterworksfestival.co.uk",
+    "description": {
+      "fr": "Sept scènes circulaires et immersives à Gunnersbury Park, dédiées au son underground britannique : UK bass, techno, breaks et jungle.",
+      "en": "Seven circular, sound-obsessed stages in Gunnersbury Park dedicated to cutting-edge UK bass, techno, breaks and jungle."
+    }
+  },
+  {
+    "id": "gottwood-wales",
+    "nom": "Gottwood Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Anglesey (Pays de Galles)",
+      "en": "Anglesey (Wales)"
+    },
+    "latitude": 53.3944,
+    "longitude": -4.5419,
+    "capacite": 5000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Techno",
+      "Breaks",
+      "Electro"
+    ],
+    "site": "https://www.gottwood.co.uk",
+    "description": {
+      "fr": "Festival boutique caché dans les bois du domaine de Carreglwyd sur l’île d’Anglesey au Pays de Galles, prisé pour sa minimal, sa house et son electro.",
+      "en": "Woodland boutique festival hidden on the Carreglwyd estate on the Isle of Anglesey in Wales, prized for minimal, house and electro."
+    }
+  },
+  {
+    "id": "freerotation-wales",
+    "nom": "Freerotation",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Baskerville Hall (Pays de Galles)",
+      "en": "Baskerville Hall (Wales)"
+    },
+    "latitude": 52.0911,
+    "longitude": -3.1442,
+    "capacite": 1000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "House",
+      "Experimental",
+      "Ambient"
+    ],
+    "site": "https://www.freerotation.com",
+    "description": {
+      "fr": "Rassemblement culte de passionnés et de producteurs au manoir de Baskerville Hall au Pays de Galles, célèbre pour son système sonore quadriphonique.",
+      "en": "Cult gathering of producers and devotees at Baskerville Hall in Wales, famed for its quadraphonic sound system and deep musical focus."
+    }
+  },
+  {
+    "id": "riverside-festival-glasgow",
+    "nom": "Riverside Festival Glasgow",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Glasgow (Riverside Museum)",
+      "en": "Glasgow (Riverside Museum)"
+    },
+    "latitude": 55.8653,
+    "longitude": -4.3061,
+    "capacite": 12000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Hard Techno"
+    ],
+    "site": "https://www.riversidefestivalglasgow.com",
+    "description": {
+      "fr": "Le grand rendez-vous électronique d’Écosse au bord de la rivière Clyde devant l’architecture de Zaha Hadid, co-programmé avec le Sub Club.",
+      "en": "Scotland’s premier outdoor electronic festival on the banks of the River Clyde beside Zaha Hadid’s Riverside Museum."
+    }
+  },
+  {
+    "id": "own-spirit-spain",
+    "nom": "Own Spirit Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Baldellou (Huesca / Aragon)",
+      "en": "Baldellou (Huesca / Aragon)"
+    },
+    "latitude": 41.9189,
+    "longitude": 0.5472,
+    "capacite": 4000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Darkprog",
+      "Downtempo"
+    ],
+    "site": "https://ownspiritfestival.org",
+    "description": {
+      "fr": "Six jours au bord du lac de retenue de Santa Ana dans les pré-Pyrénées aragonaises, bastion ibérique de la psytrance, de la psytech et du downtempo.",
+      "en": "Six days beside the turquoise reservoir of Santa Ana in the Aragonese pre-Pyrenees, Spain’s flagship gathering for psytrance, psytech and downtempo."
+    }
+  },
+  {
+    "id": "medusa-sunbeach-cullera",
+    "nom": "Medusa Sunbeach Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Cullera (Valence)",
+      "en": "Cullera (Valencia)"
+    },
+    "latitude": 39.1628,
+    "longitude": -0.2408,
+    "capacite": 55000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "EDM",
+      "House",
+      "Remember"
+    ],
+    "site": "https://www.medusasunbeach.com",
+    "description": {
+      "fr": "Immense festival en bord de mer à Cullera au sud de Valence, réunissant une scène techno souterraine colossale, la hard techno et la culture « Ruta del Bakalao ».",
+      "en": "Massive beachfront festival in Cullera south of Valencia, uniting a colossal underground techno arena, hard techno and Valencian club heritage."
+    }
+  },
+  {
+    "id": "a-summer-story-madrid",
+    "nom": "A Summer Story",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Madrid (Ciudad del Rock, Arganda del Rey)",
+      "en": "Madrid (Ciudad del Rock)"
+    },
+    "latitude": 40.3114,
+    "longitude": -3.4839,
+    "capacite": 35000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "EDM",
+      "Trance"
+    ],
+    "site": "https://asummerstory.com",
+    "description": {
+      "fr": "Deux nuits à la Ciudad del Rock près de Madrid pour lancer l’été espagnol autour des poids lourds de la techno, de la hard techno et de la trance.",
+      "en": "Two nights at Madrid’s Ciudad del Rock launching the Spanish summer around heavyweights of techno, hard techno and trance."
+    }
+  },
+  {
+    "id": "mugako-vitoria",
+    "nom": "Mugako Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Vitoria-Gasteiz (Pays basque)",
+      "en": "Vitoria-Gasteiz (Basque Country)"
+    },
+    "latitude": 42.8467,
+    "longitude": -2.6716,
+    "capacite": 3000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "IDM",
+      "Experimental"
+    ],
+    "site": "https://mugakofestival.com",
+    "description": {
+      "fr": "Rendez-vous pointu au musée d’art contemporain Artium de Vitoria-Gasteiz au Pays basque, dédié à la techno mentale, à l’electro et à l’IDM.",
+      "en": "Curated gathering at the Artium Museum of Contemporary Art in Vitoria-Gasteiz in the Basque Country, dedicated to deep techno, electro and IDM."
+    },
+    "inactif": true
+  },
+  {
+    "id": "modem-festival-croatie",
+    "nom": "Mo:Dem (Momento Demento)",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Primišlje (Slunj)",
+      "en": "Primislje (Slunj)"
+    },
+    "latitude": 45.1489,
+    "longitude": 15.4836,
+    "capacite": 8000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Darkprog",
+      "Psytech",
+      "Psy",
+      "Experimental",
+      "Downtempo"
+    ],
+    "site": "https://modemfestival.com",
+    "description": {
+      "fr": "Référence mondiale absolue de la darkprog, de la forest psytrance et de la psytech (scènes The Hive, The Swamp et The Seed) au fond d’un canyon boisé traversé par la rivière Mrežnica.",
+      "en": "Global benchmark for darkprog, forest psytrance and psytech (across The Hive, The Swamp and The Seed stages) in a wooded canyon along the Mrežnica River."
+    }
+  },
+  {
+    "id": "outlook-origins-tisno",
+    "nom": "Outlook Origins",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno (The Garden Resort)",
+      "en": "Tisno (The Garden Resort)"
+    },
+    "latitude": 43.8018,
+    "longitude": 15.6428,
+    "capacite": 5000,
+    "annee": 2008,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Dubstep",
+      "Drum & Bass",
+      "Jungle",
+      "UK Garage",
+      "Grime"
+    ],
+    "site": "https://www.outlookfestival.com",
+    "description": {
+      "fr": "La mecque européenne de la culture sound system britannique sur la côte dalmate : dubstep originel, jungle, drum & bass, UK garage et dub.",
+      "en": "Europe’s spiritual home for sound-system culture on the Dalmatian coast, celebrating dubstep, jungle, drum & bass, UK garage and dub."
+    }
+  },
+  {
+    "id": "defected-croatia-tisno",
+    "nom": "Defected Croatia",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno (The Garden Resort)",
+      "en": "Tisno (The Garden Resort)"
+    },
+    "latitude": 43.8011,
+    "longitude": 15.6416,
+    "capacite": 5000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Soulful House",
+      "Disco",
+      "Deep House"
+    ],
+    "site": "https://defected.com",
+    "description": {
+      "fr": "Cinq jours de house vocale, de disco et de boat parties sur l’Adriatique orchestrés par le label londonien Defected Records et Glitterbox.",
+      "en": "Five days of vocal house, disco and Adriatic boat parties hosted by London powerhouse Defected Records and Glitterbox."
+    }
+  },
+  {
+    "id": "decibel-open-air-florence",
+    "nom": "Decibel Open Air",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Florence (Parco delle Cascine)",
+      "en": "Florence (Parco delle Cascine)"
+    },
+    "latitude": 43.7831,
+    "longitude": 11.2211,
+    "capacite": 25000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Melodic Techno",
+      "House"
+    ],
+    "site": "https://www.decibelopenair.com",
+    "description": {
+      "fr": "Grand rendez-vous techno et melodic techno de fin d’été à Florence, réunissant des scènes géantes signées elrow et Terminal V.",
+      "en": "Major late-summer techno and melodic techno gathering in Florence featuring giant stages curated with elrow and Terminal V."
+    }
+  },
+  {
+    "id": "ortigia-sound-system-sicily",
+    "nom": "Ortigia Sound System",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Syracuse (Île d’Ortygie, Sicile)",
+      "en": "Syracuse (Ortigia Island, Sicily)"
+    },
+    "latitude": 37.0611,
+    "longitude": 15.2933,
+    "capacite": 5000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Leftfield",
+      "Experimental",
+      "Techno",
+      "House"
+    ],
+    "site": "https://ortigiasoundsystem.com",
+    "description": {
+      "fr": "Festival insulaire sur la presqu’île baroque d’Ortygie en Sicile, croisant rythmes méditerranéens et avant-garde électronique.",
+      "en": "Island festival on the baroque peninsula of Ortigia in Sicily, bridging Mediterranean rhythms with the global electronic avant-garde."
+    }
+  },
+  {
+    "id": "waha-festival-romania",
+    "nom": "Waha Festival",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Bățanii Mari (Covasna, Transylvanie)",
+      "en": "Batanii Mari (Covasna, Transylvania)"
+    },
+    "latitude": 46.0886,
+    "longitude": 25.6914,
+    "capacite": 5000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Minimal",
+      "Rominimal",
+      "Psy",
+      "Psytech",
+      "Ambient"
+    ],
+    "site": "https://wahafestival.ro",
+    "description": {
+      "fr": "Retraite musicale de cinq jours dans une clairière des Carpates en Transylvanie, réunissant une scène rominimal (microhouse) et une scène psytrance et psytech.",
+      "en": "Five-day mountain retreat in a Carpathian clearing in Transylvania, uniting a dedicated rominimal microhouse stage with psytrance and psytech."
+    },
+    "inactif": true
+  },
+  {
+    "id": "hard-summer-los-angeles",
+    "nom": "HARD Summer Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Hollywood Park, Inglewood)",
+      "en": "Los Angeles (Hollywood Park, Inglewood)"
+    },
+    "latitude": 33.9533,
+    "longitude": -118.3386,
+    "capacite": 60000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "UK Garage",
+      "Bass",
+      "Tech House"
+    ],
+    "site": "https://www.hardsummer.com",
+    "description": {
+      "fr": "Institution angeleno fondée en 2007, réunissant à Inglewood le meilleur de la house, de la techno, de l’UK garage et de la bass music.",
+      "en": "Los Angeles institution founded in 2007, bringing together top-tier house, techno, UK garage and bass music at Hollywood Park in Inglewood."
+    }
+  },
+  {
+    "id": "beyond-wonderland-socal",
+    "nom": "Beyond Wonderland SoCal",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "San Bernardino (NOS Events Center)",
+      "en": "San Bernardino (NOS Events Center)"
+    },
+    "latitude": 34.0886,
+    "longitude": -117.2911,
+    "capacite": 65000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Drum & Bass",
+      "Dubstep"
+    ],
+    "site": "https://socal.beyondwonderland.com",
+    "description": {
+      "fr": "Grand rassemblement printanier d’Insomniac en Californie du Sud avec scènes Factory 93 (techno), Dreamstate (trance) et Bassrush.",
+      "en": "Major spring Insomniac festival in Southern California featuring dedicated Factory 93 (techno), Dreamstate (trance) and Bassrush stages."
+    }
+  },
+  {
+    "id": "dreamstate-socal",
+    "nom": "Dreamstate SoCal",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Long Beach (Queen Mary Waterfront)",
+      "en": "Long Beach (Queen Mary Waterfront)"
+    },
+    "latitude": 33.7528,
+    "longitude": -118.1889,
+    "capacite": 25000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Trance",
+      "Psy",
+      "Progressive Trance",
+      "Tech Trance"
+    ],
+    "site": "https://socal.dreamstateusa.com",
+    "description": {
+      "fr": "Le plus grand festival d’Amérique du Nord entièrement consacré à la trance, à l’uplifting et à la psytrance, face au paquebot Queen Mary à Long Beach.",
+      "en": "North America’s largest festival dedicated exclusively to trance, uplifting and psytrance on the Queen Mary waterfront in Long Beach."
+    }
+  },
+  {
+    "id": "sustain-release-new-york",
+    "nom": "Sustain-Release",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "newyork-us",
+    "ville": {
+      "fr": "Monticello (Catskills, État de New York)",
+      "en": "Monticello (Catskills, New York)"
+    },
+    "latitude": 41.6514,
+    "longitude": -74.6625,
+    "capacite": 1500,
+    "annee": 2014,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Leftfield",
+      "Bass",
+      "House",
+      "Electro"
+    ],
+    "site": "https://sustain-release.com",
+    "description": {
+      "fr": "Fondé par Aurora Halal dans un camp d’été des montagnes Catskills au nord de New York, le rassemblement underground le plus influent de la côte Est.",
+      "en": "Founded by Aurora Halal at a summer camp in the Catskill Mountains north of NYC, the East Coast’s most influential underground gathering."
+    }
+  },
+  {
+    "id": "the-great-beyond-minnesota",
+    "nom": "The Great Beyond",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Granite Falls (Minnesota)",
+      "en": "Granite Falls (Minnesota)"
+    },
+    "latitude": 44.7825,
+    "longitude": -95.5122,
+    "capacite": 2500,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Acid",
+      "Hypnotic Techno",
+      "Electro"
+    ],
+    "site": "https://greatbeyond.us",
+    "description": {
+      "fr": "Sanctuaire de la techno pure, de l’acid et du son du Midwest américain dans la vallée de la rivière Minnesota.",
+      "en": "Sanctuary for pure hypnotic techno, acid and Midwest rave heritage in the Minnesota River Valley."
+    }
+  },
+  {
+    "id": "free-earth-festival-greece",
+    "nom": "Free Earth Festival",
+    "type": "festival",
+    "paysCode": "GR",
+    "ville": {
+      "fr": "Asprovalta (Chalcidique)",
+      "en": "Asprovalta (Halkidiki)"
+    },
+    "latitude": 40.7222,
+    "longitude": 23.7069,
+    "capacite": 8000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Darkprog",
+      "Downtempo"
+    ],
+    "site": "https://freeearth-festival.com",
+    "description": {
+      "fr": "Grand rassemblement psychédélique sur une plage de la mer Égée en Chalcidique, avec trois scènes dédiées à la psytrance, à la psytech et au chill-out.",
+      "en": "Major Aegean beachfront psychedelic gathering in Halkidiki featuring three stages dedicated to psytrance, psytech and chill-out."
+    }
+  },
+  {
+    "id": "phaex-festival-corfu",
+    "nom": "Phaex Festival",
+    "type": "festival",
+    "paysCode": "GR",
+    "ville": {
+      "fr": "Corfou (Île ionienne)",
+      "en": "Corfu (Ionian Island)"
+    },
+    "latitude": 39.6243,
+    "longitude": 19.9217,
+    "capacite": 8000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://phaex.com",
+    "description": {
+      "fr": "Quatre jours de techno et de house à travers les forteresses vénitiennes, les clubs en plein air et les plages de l’île de Corfou.",
+      "en": "Four days of techno and house across Venetian fortresses, open-air clubs and beaches on the island of Corfu."
+    }
+  },
+  {
+    "id": "primer-music-festival-athens",
+    "nom": "Primer Music Festival",
+    "type": "festival",
+    "paysCode": "GR",
+    "ville": {
+      "fr": "Athènes (Plateia Nerou)",
+      "en": "Athens (Plateia Nerou)"
+    },
+    "latitude": 37.9394,
+    "longitude": 23.6869,
+    "capacite": 25000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "EDM"
+    ],
+    "site": "https://primermusicfestival.com",
+    "description": {
+      "fr": "Le plus grand festival électronique de Grèce sur l’esplanade maritime de Plateia Nerou au bord du golfe Saronique à Athènes.",
+      "en": "Greece’s largest electronic music festival on the waterfront plaza of Plateia Nerou along the Saronic Gulf in Athens."
+    }
+  },
+  {
+    "id": "glitch-festival-malta",
+    "nom": "Glitch Festival",
+    "type": "festival",
+    "paysCode": "MT",
+    "ville": {
+      "fr": "Rabat / Mdina (Gianpula Village)",
+      "en": "Rabat / Mdina (Gianpula Village)"
+    },
+    "latitude": 35.8758,
+    "longitude": 14.4214,
+    "capacite": 15000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Electro",
+      "Acid"
+    ],
+    "site": "https://www.glitchfestival.com",
+    "description": {
+      "fr": "Sept scènes au pied de la cité fortifiée de Mdina à Malte, complétées par des raves dans des grottes anciennes et des boat parties en Méditerranée.",
+      "en": "Seven stages beneath the fortified city of Mdina in Malta, complete with ancient cave raves and Mediterranean boat parties."
+    }
+  },
+  {
+    "id": "moga-festival-essaouira",
+    "nom": "MOGA Festival Essaouira",
+    "type": "festival",
+    "paysCode": "MA",
+    "ville": {
+      "fr": "Essaouira",
+      "en": "Essaouira"
+    },
+    "latitude": 31.5085,
+    "longitude": -9.7595,
+    "capacite": 10000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Indie Dance",
+      "House",
+      "Deep House",
+      "Minimal",
+      "Techno"
+    ],
+    "site": "https://www.mogafestival.com",
+    "description": {
+      "fr": "Dialogue unique entre la culture Gnaoua marocaine et les musiques électroniques mondiales (indie dance, house, minimal) dans la cité atlantique d’Essaouira (avec une édition jumelle à Caparica au Portugal).",
+      "en": "Unique dialogue between Moroccan Gnawa heritage and global electronic music (indie dance, house, minimal) in the Atlantic port city of Essaouira."
+    }
+  },
+  {
+    "id": "oasis-festival-morocco",
+    "nom": "Oasis Festival",
+    "type": "festival",
+    "paysCode": "MA",
+    "ville": {
+      "fr": "Marrakech / Dakhla",
+      "en": "Marrakech / Dakhla"
+    },
+    "latitude": 31.6295,
+    "longitude": -7.9811,
+    "capacite": 6000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Septembre - Novembre",
+      "en": "September - November"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Indie Dance",
+      "Afro House"
+    ],
+    "site": "https://theoasisfest.com",
+    "description": {
+      "fr": "Pionnier des festivals électroniques boutique au Maroc, réunissant la scène nord-africaine et les têtes d’affiche house et techno internationales.",
+      "en": "Pioneer of boutique electronic festivals in Morocco, uniting North African talent with international house and techno headliners."
+    }
+  },
+  {
+    "id": "let-it-roll-czechia",
+    "nom": "Let It Roll",
+    "type": "festival",
+    "paysCode": "CZ",
+    "ville": {
+      "fr": "Milovice / Most (Bohême)",
+      "en": "Milovice / Most (Bohemia)"
+    },
+    "latitude": 50.2411,
+    "longitude": 14.8886,
+    "capacite": 30000,
+    "annee": 2002,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Neurofunk",
+      "Jump Up",
+      "Jungle"
+    ],
+    "site": "https://www.letitroll.eu",
+    "description": {
+      "fr": "Le plus grand festival entièrement consacré à la drum & bass au monde, rassemblant 30 000 passionnés autour de scénographies robotiques monumentales.",
+      "en": "The world’s largest festival dedicated entirely to drum & bass, uniting 30,000 fans around monumental robotic stage designs."
+    }
+  },
+  {
+    "id": "beats-for-love-ostrava",
+    "nom": "Beats for Love",
+    "type": "festival",
+    "paysCode": "CZ",
+    "ville": {
+      "fr": "Ostrava (Dolní Vítkovice)",
+      "en": "Ostrava (Dolni Vitkovice)"
+    },
+    "latitude": 49.8194,
+    "longitude": 18.2806,
+    "capacite": 45000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "House",
+      "Hardstyle"
+    ],
+    "site": "https://www.b4l.cz",
+    "description": {
+      "fr": "Le plus grand festival électronique d’Europe centrale, niché au milieu des hauts fourneaux géants du complexe sidérurgique classé de Dolní Vítkovice à Ostrava.",
+      "en": "Central Europe’s largest electronic festival, set amid the giant blast furnaces of the historic Dolní Vítkovice ironworks in Ostrava."
+    }
+  },
+  {
+    "id": "master-of-puppets-czechia",
+    "nom": "Master of Puppets Festival",
+    "type": "festival",
+    "paysCode": "CZ",
+    "ville": {
+      "fr": "Bystřice nad Pernštejnem (Moravie)",
+      "en": "Bystrice nad Pernstejnem (Moravia)"
+    },
+    "latitude": 49.5228,
+    "longitude": 16.2614,
+    "capacite": 5000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psy",
+      "Darkprog",
+      "Psytech",
+      "Hi-Tech"
+    ],
+    "site": "https://www.mastersofpuppets.net",
+    "description": {
+      "fr": "Rendez-vous mondial des courants les plus souterrains et rapides du psychédélisme : darkpsy, forest, hi-tech, darkprog et psytech.",
+      "en": "Global gathering for the fastest and deepest underground psychedelic currents: darkpsy, forest, hi-tech, darkprog and psytech."
+    }
+  },
+  {
+    "id": "meadows-in-the-mountains-bulgaria",
+    "nom": "Meadows in the Mountains",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Polkovnik Serafimovo (Monts Rhodopes)",
+      "en": "Polkovnik Serafimovo (Rhodope Mountains)"
+    },
+    "latitude": 41.5289,
+    "longitude": 24.7811,
+    "capacite": 2500,
+    "annee": 2011,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Leftfield",
+      "Disco",
+      "Broken Beat",
+      "Ambient"
+    ],
+    "site": "https://www.meadowsinthemountains.com",
+    "description": {
+      "fr": "Perché à 850 mètres d’altitude dans les monts Rhodopes au-dessus d’une mer de nuages au lever du soleil, festival culte de house, broken beat et musiques organiques.",
+      "en": "Perched at 850 meters in the Rhodope Mountains above a sea of sunrise clouds, a cult festival for house, broken beat and organic grooves."
+    },
+    "inactif": true
+  },
+  {
+    "id": "exe-beach-festival-bulgaria",
+    "nom": "EXE Beach Festival",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Sozopol (Mer Noire)",
+      "en": "Sozopol (Black Sea)"
+    },
+    "latitude": 42.3922,
+    "longitude": 27.7056,
+    "capacite": 10000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://exefestival.com",
+    "description": {
+      "fr": "Grand rendez-vous techno et house sur la plage de Kite Bar à Sozopol au bord de la mer Noire.",
+      "en": "Major techno and house beach gathering in Sozopol on the Bulgarian Black Sea coast."
+    }
+  },
+  {
+    "id": "echowaves-georgia",
+    "nom": "Echowaves / 4GB Festival",
+    "type": "festival",
+    "paysCode": "GE",
+    "ville": {
+      "fr": "Tbilissi / Saguramo",
+      "en": "Tbilisi / Saguramo"
+    },
+    "latitude": 41.8889,
+    "longitude": 44.7611,
+    "capacite": 8000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Minimal",
+      "Electro"
+    ],
+    "site": "https://www.4gb.ge",
+    "description": {
+      "fr": "Hommage annuel au pionnier géorgien Gio Bakanidze près de Tbilissi, pilier fondateur de l’extraordinaire renaissance techno géorgienne autour de Bassiani.",
+      "en": "Annual tribute to Georgian pioneer Gio Bakanidze near Tbilisi, a founding pillar of Georgia’s extraordinary techno renaissance."
+    },
+    "inactif": true
+  },
+  {
+    "id": "yaga-gathering-lithuania",
+    "nom": "Yaga Gathering",
+    "type": "festival",
+    "paysCode": "LT",
+    "ville": {
+      "fr": "Spengla (Forêt de Dzūkija)",
+      "en": "Spengla (Dzukija Forest)"
+    },
+    "latitude": 54.3411,
+    "longitude": 24.7128,
+    "capacite": 3500,
+    "annee": 2003,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psytech",
+      "Dark Disco",
+      "Psy",
+      "Techno",
+      "Ambient"
+    ],
+    "site": "https://www.yaga.lt",
+    "description": {
+      "fr": "Rassemblement d’art et de musique électronique au bord du lac Spengla dans la forêt de Dzūkija en Lituanie, célèbre pour sa scène Dusk (dark disco, psytech, techno hypnotique).",
+      "en": "Forest art and electronic gathering by Lake Spengla in Lithuania’s Dzūkija National Park, famed for its Dusk Stage (dark disco, psytech and hypnotic techno)."
+    }
+  },
+  {
+    "id": "baum-festival-bogota",
+    "nom": "Baum Festival",
+    "type": "festival",
+    "paysCode": "CO",
+    "ville": {
+      "fr": "Bogotá (Corferias)",
+      "en": "Bogota (Corferias)"
+    },
+    "latitude": 4.6308,
+    "longitude": -74.0919,
+    "capacite": 35000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Electro"
+    ],
+    "site": "https://www.baumfestival.com",
+    "description": {
+      "fr": "La plus grande rave de Colombie à Corferias au cœur de Bogotá, témoignant de la ferveur exceptionnelle de la capitale colombienne pour la techno.",
+      "en": "Colombia’s largest rave at Corferias in the heart of Bogotá, showcasing the Colombian capital’s extraordinary passion for techno."
+    }
+  },
+  {
+    "id": "ritvales-medellin",
+    "nom": "Ritvales",
+    "type": "festival",
+    "paysCode": "CO",
+    "ville": {
+      "fr": "Medellín (Parque Norte)",
+      "en": "Medellin (Parque Norte)"
+    },
+    "latitude": 6.2694,
+    "longitude": -75.5658,
+    "capacite": 30000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Indie Dance"
+    ],
+    "site": "https://ritvales.com",
+    "description": {
+      "fr": "Deux jours en plein air au Parque Norte de Medellín réunissant quatre scènes techno, house et indie dance au cœur de la vallée d’Aburrá.",
+      "en": "Two-day open-air festival at Medellín’s Parque Norte uniting four stages of techno, house and indie dance in the Aburrá Valley."
+    }
+  },
+  {
+    "id": "ocaso-festival-costa-rica",
+    "nom": "Ocaso Underground Music Festival",
+    "type": "festival",
+    "paysCode": "CR",
+    "ville": {
+      "fr": "Jacó / Tamarindo (Pacifique)",
+      "en": "Jaco / Tamarindo (Pacific Coast)"
+    },
+    "latitude": 9.618,
+    "longitude": -84.629,
+    "capacite": 5000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Minimal"
+    ],
+    "site": "https://ocasofestival.com",
+    "description": {
+      "fr": "Rendez-vous hivernal entre jungle et océan Pacifique au Costa Rica, dédié aux sonorités house et techno underground.",
+      "en": "Winter gathering between rainforest and the Pacific Ocean in Costa Rica, dedicated to underground house and techno."
+    }
+  },
+  {
+    "id": "envision-festival-costa-rica",
+    "nom": "Envision Festival",
+    "type": "festival",
+    "paysCode": "CR",
+    "ville": {
+      "fr": "Uvita (Rancho La Merced)",
+      "en": "Uvita (Rancho La Merced)"
+    },
+    "latitude": 9.1636,
+    "longitude": -83.7439,
+    "capacite": 8000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Février - Mars",
+      "en": "February - March"
+    },
+    "styles": [
+      "Bass",
+      "House",
+      "Techno",
+      "Downtempo",
+      "Psytech"
+    ],
+    "site": "https://envisionfestival.com",
+    "description": {
+      "fr": "Sept jours où la jungle primaire rejoint la plage d’Uvita sur la côte pacifique du Costa Rica, autour d’architectures organiques en bambou.",
+      "en": "Seven days where primary rainforest meets the beach in Uvita on Costa Rica’s Pacific coast, built around monumental bamboo stage architecture."
+    }
+  },
+  {
+    "id": "wonderfruit-thailand",
+    "nom": "Wonderfruit",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Pattaya (The Fields at Siam Country Club)",
+      "en": "Pattaya (The Fields at Siam Country Club)"
+    },
+    "latitude": 12.9236,
+    "longitude": 100.9625,
+    "capacite": 25000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Leftfield",
+      "Ambient",
+      "Minimal"
+    ],
+    "site": "https://wonderfruit.co",
+    "description": {
+      "fr": "Laboratoire culturel et sonore en Thaïlande célèbre pour son Polygon Live (dôme sonore 360 degrés), sa Quarry nocturne (techno et minimal) et ses pavillons d’architectes.",
+      "en": "Cultural and sonic playground in Thailand renowned for its 360-degree Polygon Live dome, nocturnal Quarry stage (techno and minimal) and architectural pavilions."
+    }
+  },
+  {
+    "id": "s2o-songkran-bangkok",
+    "nom": "S2O Songkran Music Festival",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Bangkok (Live Park Rama 9)",
+      "en": "Bangkok (Live Park Rama 9)"
+    },
+    "latitude": 13.7486,
+    "longitude": 100.6042,
+    "capacite": 50000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://www.s2ofestival.com",
+    "description": {
+      "fr": "Célébration électronique du Nouvel An thaïlandais (Songkran) à Bangkok sous des canons à eau géants à 360 degrés.",
+      "en": "Electronic celebration of Thai New Year (Songkran) in Bangkok beneath 360-degree high-pressure water cannons."
+    }
+  },
+  {
+    "id": "djakarta-warehouse-project",
+    "nom": "Djakarta Warehouse Project (DWP)",
+    "type": "festival",
+    "paysCode": "ID",
+    "ville": {
+      "fr": "Jakarta & Bali (GWK Cultural Park)",
+      "en": "Jakarta & Bali (GWK Cultural Park)"
+    },
+    "latitude": -8.8104,
+    "longitude": 115.1676,
+    "capacite": 40000,
+    "annee": 2008,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "EDM",
+      "Trance"
+    ],
+    "site": "https://djakartawarehouse.com",
+    "description": {
+      "fr": "L’un des plus grands festivals électroniques d’Asie du Sud-Est, alternant entre Jakarta et les falaises calcaires du parc culturel Garuda Wisnu Kencana à Bali.",
+      "en": "One of Southeast Asia’s largest electronic festivals, alternating between Jakarta and the limestone cliffs of GWK Cultural Park in Bali."
+    }
+  },
+  {
+    "id": "suara-festival-bali",
+    "nom": "Suara Festival",
+    "type": "festival",
+    "paysCode": "ID",
+    "ville": {
+      "fr": "Tabanan (Nuanu Creative City, Bali)",
+      "en": "Tabanan (Nuanu Creative City, Bali)"
+    },
+    "latitude": -8.6258,
+    "longitude": 115.0844,
+    "capacite": 5000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Indie Dance",
+      "House",
+      "Melodic Techno",
+      "Downtempo"
+    ],
+    "site": "https://www.suarafestival.com",
+    "description": {
+      "fr": "Festival artistique en bord d’océan au cœur du village créatif de Nuanu à Bali, dédié à l’indie dance, la house et l’architecture en bambou.",
+      "en": "Oceanfront arts and electronic festival inside Bali’s Nuanu Creative City, dedicated to indie dance, house and bamboo architecture."
+    }
+  },
+  {
+    "id": "shankra-festival-switzerland",
+    "nom": "Shankra Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Lostallo (Val Mesolcina, Grisons)",
+      "en": "Lostallo (Grisons)"
+    },
+    "latitude": 46.3114,
+    "longitude": 9.1936,
+    "capacite": 10000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Goa Trance",
+      "Downtempo"
+    ],
+    "site": "https://shankrafestival.org",
+    "description": {
+      "fr": "Cinq jours au fond d’une vallée alpine des Grisons encadrée de cascades, grand rendez-vous suisse de la psytrance, de la psytech et de la goa.",
+      "en": "Five days in a waterfall-ringed Alpine valley in Graubünden, Switzerland’s premier gathering for psytrance, psytech and Goa trance."
+    },
+    "inactif": true
+  },
+  {
+    "id": "burning-mountain-switzerland",
+    "nom": "Burning Mountain Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Zernez (Engadine, Grisons)",
+      "en": "Zernez (Engadin, Grisons)"
+    },
+    "latitude": 46.7014,
+    "longitude": 10.0939,
+    "capacite": 6500,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Psytech"
+    ],
+    "site": "https://www.burning-mountain.ch",
+    "description": {
+      "fr": "Perché à 1 470 mètres d’altitude dans la vallée de l’Engadine, mêlant arts du feu, sculptures monumentales, progressive et psytrance.",
+      "en": "Set at 1,470 meters in the Engadin valley, combining fire arts, monumental sculptures, progressive trance and psytrance."
+    }
+  },
+  {
+    "id": "hive-air-switzerland",
+    "nom": "Hive Air",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Wohlen (Argovie, près de Zurich)",
+      "en": "Wohlen (near Zurich)"
+    },
+    "latitude": 47.3522,
+    "longitude": 8.2789,
+    "capacite": 15000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic Techno",
+      "Indie Dance"
+    ],
+    "site": "https://www.hiveair.ch",
+    "description": {
+      "fr": "Le grand open air estival orchestré par le club zurichois Hive, réunissant quatre scènes house, techno et indie dance.",
+      "en": "Flagship summer open-air curated by Zurich’s legendary Hive club, uniting four stages of house, techno and indie dance."
+    }
+  },
+  {
+    "id": "daad-gathering-hungary",
+    "nom": "DAAD Gathering",
+    "type": "festival",
+    "paysCode": "HU",
+    "ville": {
+      "fr": "Dádpuszta (Igar)",
+      "en": "Dadpuszta (Igar)"
+    },
+    "latitude": 46.7625,
+    "longitude": 18.4239,
+    "capacite": 6000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "Techno",
+      "Psytech",
+      "Minimal",
+      "House",
+      "Ambient"
+    ],
+    "site": "https://daad.hu",
+    "description": {
+      "fr": "Organisé par l’équipe d’O.Z.O.R.A. sur les mêmes collines de Dádpuszta, mais entièrement consacré à la techno hypnotique, à la psytech, au minimal et à l’ambient.",
+      "en": "Created by the O.Z.O.R.A. team in the rolling hills of Dádpuszta, dedicated to hypnotic techno, psytech, minimal and ambient."
+    }
+  },
+  {
+    "id": "b-my-lake-balaton",
+    "nom": "B My Lake Festival",
+    "type": "festival",
+    "paysCode": "HU",
+    "ville": {
+      "fr": "Lac Balaton / Velence",
+      "en": "Lake Balaton / Velence"
+    },
+    "latitude": 46.8833,
+    "longitude": 17.8833,
+    "capacite": 20000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://bmylake.hu",
+    "description": {
+      "fr": "La mecque hongroise de la techno contemporaine et de la tech house au bord de l’eau.",
+      "en": "Hungary’s lakeside stronghold for contemporary techno, hard techno and tech house."
+    }
+  },
+  {
+    "id": "springfestival-graz",
+    "nom": "Springfestival Graz",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Graz (Schlossberg & lieux urbains)",
+      "en": "Graz (Schlossberg & Urban Venues)"
+    },
+    "latitude": 47.0707,
+    "longitude": 15.4395,
+    "capacite": 15000,
+    "annee": 2001,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Drum & Bass",
+      "Experimental"
+    ],
+    "site": "https://www.springfestival.at",
+    "description": {
+      "fr": "Cinq jours d’art électronique et de culture club à Graz, investissant notamment les tunnels souterrains de la colline du Schlossberg.",
+      "en": "Five days of electronic art and club culture in Graz, notably taking over the subterranean tunnels inside the Schlossberg hill."
+    }
+  },
+  {
+    "id": "flow-festival-austria",
+    "nom": "Flow Experience Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Wiener Neustadt (Basse-Autriche)",
+      "en": "Wiener Neustadt (Lower Austria)"
+    },
+    "latitude": 47.8167,
+    "longitude": 16.25,
+    "capacite": 5000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "Psy",
+      "Progressive Trance",
+      "Psytech",
+      "Downtempo"
+    ],
+    "site": "https://www.flow-festival.at",
+    "description": {
+      "fr": "Principal open air psychédélique et progressive trance d’Autriche au sud de Vienne.",
+      "en": "Austria’s leading open-air psychedelic and progressive trance gathering south of Vienna."
+    },
+    "inactif": true
+  },
+  {
+    "id": "bravo-gnp-mexico",
+    "nom": "Bravo GNP",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Valle de Bravo (État de Mexico)",
+      "en": "Valle de Bravo (State of Mexico)"
+    },
+    "latitude": 19.195,
+    "longitude": -100.1328,
+    "capacite": 8000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Octobre - Novembre",
+      "en": "October - November"
+    },
+    "styles": [
+      "Indie Dance",
+      "House",
+      "Techno",
+      "Disco"
+    ],
+    "site": "https://bravognp.com",
+    "description": {
+      "fr": "Nuit et jour sous les pins de Valle de Bravo à deux heures de Mexico, réunissant scènes indie dance, house et techno au milieu de la forêt.",
+      "en": "Day-and-night gathering beneath the pines of Valle de Bravo two hours from Mexico City, uniting indie dance, house and techno in the forest."
+    }
+  },
+  {
+    "id": "tropico-acapulco",
+    "nom": "Festival Trópico",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Acapulco (Pierre Mundo Imperial)",
+      "en": "Acapulco (Pacific Coast)"
+    },
+    "latitude": 16.7836,
+    "longitude": -99.8058,
+    "capacite": 8000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Disco",
+      "Indie Dance",
+      "House",
+      "Leftfield"
+    ],
+    "site": "https://tropicomx.com",
+    "description": {
+      "fr": "Trois jours de disco, d’indie dance et de house les pieds dans le sable sur la côte Pacifique mexicaine.",
+      "en": "Three days of disco, indie dance and house in the sand on Mexico’s Pacific coast."
+    }
+  },
+  {
+    "id": "sundream-baja-mexico",
+    "nom": "Sundream Baja",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "San José del Cabo (Basse-Californie du Sud)",
+      "en": "San Jose del Cabo (Baja California Sur)"
+    },
+    "latitude": 23.0444,
+    "longitude": -109.6778,
+    "capacite": 3500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Melodic House",
+      "Indie Dance",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://sundream.org",
+    "description": {
+      "fr": "Fondé par RÜFÜS DU SOL à El Ganzo au bord de la mer de Cortés, quatre jours de melodic house, d’indie dance et de sets au lever du soleil.",
+      "en": "Curated by RÜFÜS DU SOL on the Sea of Cortez in Baja California, featuring four days of melodic house, indie dance and sunrise sets."
+    },
+    "inactif": true
+  },
+  {
+    "id": "warung-day-festival-curitiba",
+    "nom": "Warung Day Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "Curitiba (Pedreira Paulo Leminski)",
+      "en": "Curitiba (Pedreira Paulo Leminski)"
+    },
+    "latitude": -25.3844,
+    "longitude": -49.2764,
+    "capacite": 20000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Progressive House",
+      "Melodic Techno",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://warungdayfestival.com.br",
+    "description": {
+      "fr": "L’esprit du mythique club Warung Beach Club transposé dans l’immense carrière de pierre Pedreira Paulo Leminski à Curitiba.",
+      "en": "The spirit of the legendary Warung Beach Club brought to the monumental stone quarry of Pedreira Paulo Leminski in Curitiba."
+    }
+  },
+  {
+    "id": "xxxperience-brasil",
+    "nom": "XXXPERIENCE Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "Itu (État de São Paulo)",
+      "en": "Itu (Sao Paulo State)"
+    },
+    "latitude": -23.3395,
+    "longitude": -47.2562,
+    "capacite": 30000,
+    "annee": 1996,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Psy",
+      "Techno",
+      "House",
+      "Progressive House"
+    ],
+    "site": "https://xxxperience.com.br",
+    "description": {
+      "fr": "Né en 1996 comme rave psytrance, devenu le plus ancien et l’un des plus grands festivals électroniques du Brésil.",
+      "en": "Born in 1996 as an outdoor psytrance rave, now Brazil’s longest-running major electronic festival."
+    }
+  },
+  {
+    "id": "esoteric-festival-australia",
+    "nom": "Esoteric Festival",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Donald (Victoria)",
+      "en": "Donald (Victoria)"
+    },
+    "latitude": -36.3686,
+    "longitude": 142.9869,
+    "capacite": 10000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Mars (Labour Day Weekend)",
+      "en": "March"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Bush Techno",
+      "Glitch",
+      "Drum & Bass"
+    ],
+    "site": "https://esotericfestival.com.au",
+    "description": {
+      "fr": "Le grand « bush doof » australien dans le Victoria, vitrine mondiale de la bush techno, de la psytech australienne (style Zenon Records) et de la psytrance.",
+      "en": "Australia’s flagship ‘bush doof’ in Victoria, a global showcase for Australian bush techno, Zenonesque psytech and psytrance."
+    },
+    "inactif": true
+  },
+  {
+    "id": "subsonic-music-festival-australia",
+    "nom": "Subsonic Music Festival",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Riverwood Downs (Nouvelle-Galles du Sud)",
+      "en": "Riverwood Downs (New South Wales)"
+    },
+    "latitude": -32.2219,
+    "longitude": 151.8386,
+    "capacite": 6000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Minimal",
+      "Psytech"
+    ],
+    "site": "https://subsonicmusic.com.au",
+    "description": {
+      "fr": "Trois jours au bord de la rivière Karuah au pied des Barrington Tops au nord de Sydney, réunissant house, techno et minimal.",
+      "en": "Three days beside the Karuah River in the foothills of the Barrington Tops north of Sydney, uniting house, techno and minimal."
+    }
+  },
+  {
+    "id": "rural-japan",
+    "nom": "rural",
+    "type": "festival",
+    "paysCode": "JP",
+    "ville": {
+      "fr": "Niigata / Nagano (Alpes japonaises)",
+      "en": "Niigata / Nagano (Japanese Alps)"
+    },
+    "latitude": 36.9389,
+    "longitude": 138.8122,
+    "capacite": 1500,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Hypnotic Techno",
+      "Experimental",
+      "Ambient",
+      "IDM",
+      "Electro"
+    ],
+    "site": "https://rural-jp.com",
+    "description": {
+      "fr": "Rendez-vous en plein air ultra-pointu dans les montagnes japonaises, vénéré pour sa sélection de techno hypnotique, d’ambient et d’électronique expérimentale.",
+      "en": "Revered open-air mountain gathering in Japan, celebrated globally for its uncompromising curation of hypnotic techno, ambient and experimental electronics."
+    }
+  },
+  {
+    "id": "rebirth-festival-japan",
+    "nom": "Re:birth Festival",
+    "type": "festival",
+    "paysCode": "JP",
+    "ville": {
+      "fr": "Yamanashi / Île de Sado",
+      "en": "Yamanashi / Sado Island"
+    },
+    "latitude": 35.6639,
+    "longitude": 138.5683,
+    "capacite": 3000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai - Septembre",
+      "en": "May - September"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Techno",
+      "Goa Trance"
+    ],
+    "site": "https://www.rebirth-festival.com",
+    "description": {
+      "fr": "Point de rencontre de la scène psytrance, psytech et techno japonaise en pleine nature.",
+      "en": "Outdoor meeting point for Japan’s revered psytrance, psytech and underground techno communities."
+    }
+  },
+  {
+    "id": "voodoo-village-belgium",
+    "nom": "Voodoo Village",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Grimbergen (Château de Humbeek)",
+      "en": "Grimbergen (Humbeek Castle)"
+    },
+    "latitude": 50.9772,
+    "longitude": 4.3758,
+    "capacite": 15000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Indie Dance",
+      "Techno"
+    ],
+    "site": "https://voodoovillage.be",
+    "description": {
+      "fr": "Dans les bois entourant le château de Humbeek aux portes de Bruxelles, cinq scènes scénographiées entre house, indie dance, melodic techno et techno.",
+      "en": "In the woods surrounding Humbeek Castle near Brussels, featuring five bespoke stages spanning house, indie dance, melodic techno and techno."
+    }
+  },
+  {
+    "id": "space-safari-belgium",
+    "nom": "Space Safari",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Massembre (Heer-sur-Meuse, Ardennes)",
+      "en": "Massembre (Belgian Ardennes)"
+    },
+    "latitude": 50.1636,
+    "longitude": 4.8469,
+    "capacite": 5000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Psy",
+      "Acid",
+      "Techno",
+      "Goa Trance"
+    ],
+    "site": "https://spacesafari.be",
+    "description": {
+      "fr": "Quatre jours dans un domaine boisé des Ardennes belges à la frontière française, réunissant psytrance, goa belge, acid et techno.",
+      "en": "Four days in a wooded domain in the Belgian Ardennes on the French border, uniting psytrance, Belgian Goa, acid and techno."
+    }
+  },
+  {
+    "id": "wao-festival-italy",
+    "nom": "WAO Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "San Venanzo (Mont Peglia, Ombrie)",
+      "en": "San Venanzo (Mount Peglia, Umbria)"
+    },
+    "latitude": 42.8458,
+    "longitude": 12.2125,
+    "capacite": 4000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Darkprog",
+      "Downtempo"
+    ],
+    "site": "https://www.waofestival.org",
+    "description": {
+      "fr": "Six jours au sommet du mont Peglia (réserve de biosphère UNESCO en Ombrie), référence italienne de la psytrance, de la psytech et de l’écoconstruction.",
+      "en": "Six days atop Mount Peglia (a UNESCO biosphere reserve in Umbria), Italy’s leading gathering for psytrance, psytech and eco-architecture."
+    }
+  },
+  {
+    "id": "nextones-italy",
+    "nom": "Nextones",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Val d’Ossola (Cava La Beola di Monte, Piémont)",
+      "en": "Val d Ossola (Piedmont)"
+    },
+    "latitude": 46.1539,
+    "longitude": 8.2914,
+    "capacite": 3000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Experimental",
+      "Techno",
+      "Ambient",
+      "IDM"
+    ],
+    "site": "https://www.nextones.eu",
+    "description": {
+      "fr": "Festival international d’art audiovisuel et de musique électronique niché au creux d’une ancienne carrière de pierre monumentale dans les Alpes piémontaises.",
+      "en": "International audiovisual and electronic music festival set inside a monumental stone quarry in the Piedmontese Alps."
+    }
+  },
+  {
+    "id": "wisloujscie-gdansk",
+    "nom": "Wisłoujście Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Gdańsk (Forteresse de Wisłoujście)",
+      "en": "Gdansk (Wisloujscie Fortress)"
+    },
+    "latitude": 54.3956,
+    "longitude": 18.6794,
+    "capacite": 12000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Drum & Bass"
+    ],
+    "site": "https://wisloujscie.com",
+    "description": {
+      "fr": "Trois nuits autour des douves et des bastions en brique de la forteresse maritime du XVIe siècle de Wisłoujście à Gdańsk.",
+      "en": "Three nights around the moats and brick bastions of the 16th-century maritime Wisłoujście Fortress in Gdańsk."
+    }
+  },
+  {
+    "id": "mioritmic-cluj",
+    "nom": "Mioritmic",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Cluj-Napoca (Forêt de Hoia-Baciu)",
+      "en": "Cluj-Napoca (Hoia-Baciu Forest)"
+    },
+    "latitude": 46.7744,
+    "longitude": 23.5219,
+    "capacite": 6000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Minimal",
+      "Rominimal",
+      "Microhouse",
+      "Techno"
+    ],
+    "site": "https://www.mioritmic.ro",
+    "description": {
+      "fr": "Aux côtés de Sunwaves, le grand pèlerinage automnal du rominimal et de la microhouse à la lisière de la mystérieuse forêt de Hoia-Baciu à Cluj-Napoca.",
+      "en": "Alongside Sunwaves, the essential autumn pilgrimage for rominimal and microhouse on the edge of the Hoia-Baciu forest in Cluj-Napoca."
+    },
+    "inactif": true
+  },
+  {
+    "id": "apgrade-belgrade",
+    "nom": "Apgrade Weekend",
+    "type": "festival",
+    "paysCode": "RS",
+    "ville": {
+      "fr": "Belgrade (Port de Belgrade)",
+      "en": "Belgrade (Port of Belgrade)"
+    },
+    "latitude": 44.8239,
+    "longitude": 20.4761,
+    "capacite": 8000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Indie Dance",
+      "Electro"
+    ],
+    "site": "https://apgrade.org",
+    "description": {
+      "fr": "Grand rendez-vous électronique de Belgrade dans les hangars industriels du port au bord du Danube.",
+      "en": "Belgrade’s premier underground electronic gathering in the industrial hangars of the Port of Belgrade along the Danube."
+    }
+  },
+  {
+    "id": "ion-festival-albania",
+    "nom": "ION Festival",
+    "type": "festival",
+    "paysCode": "AL",
+    "ville": {
+      "fr": "Dhërmi (Riviera albanaise)",
+      "en": "Dhermi (Albanian Riviera)"
+    },
+    "latitude": 40.1458,
+    "longitude": 19.6406,
+    "capacite": 5000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Breaks",
+      "UK Bass"
+    ],
+    "site": "https://www.ionfestival.com",
+    "description": {
+      "fr": "Une semaine de techno, d’electro et de house conçue par l’équipe londonienne de Junction 2 dans la crique de Dhërmi et le canyon de Gjipe en Albanie.",
+      "en": "Week-long techno, electro and house gathering curated by the London team behind Junction 2 across Dhërmi cove and Gjipe Canyon in Albania."
+    },
+    "inactif": true
+  },
+  {
+    "id": "anjunadeep-explorations-albania",
+    "nom": "Anjunadeep Explorations",
+    "type": "festival",
+    "paysCode": "AL",
+    "ville": {
+      "fr": "Dhërmi (Riviera albanaise)",
+      "en": "Dhermi (Albanian Riviera)"
+    },
+    "latitude": 40.1436,
+    "longitude": 19.6389,
+    "capacite": 5000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Deep House",
+      "Progressive House",
+      "Melodic House"
+    ],
+    "site": "https://anjunadeep.com",
+    "description": {
+      "fr": "Cinq nuits au bord de la mer Ionienne orchestrées par le label londonien Anjunadeep autour de la deep house et de la progressive mélodique.",
+      "en": "Five nights by the Ionian Sea hosted by London label Anjunadeep, celebrating melodic and deep progressive house."
+    }
+  },
+  {
+    "id": "timeless-festival-quebec",
+    "nom": "Timeless Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal / Sainte-Agathe-de-Lotbinière (Québec)",
+      "en": "Montreal / Sainte-Agathe-de-Lotbiniere (Quebec)"
+    },
+    "latitude": 46.3861,
+    "longitude": -71.4119,
+    "capacite": 5000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Septembre (Fête du Travail)",
+      "en": "September (Labour Day Weekend)"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Techno",
+      "Bass",
+      "Progressive Trance"
+    ],
+    "site": "https://www.festochebamboche.com",
+    "description": {
+      "fr": "Grand rassemblement électronique en plein air de quatre jours au Parc de la Chute (entre Montréal et Québec) lors de la fin de semaine de la fête du Travail, réunissant psytrance (scène Neverland), psytech, techno et bass music.",
+      "en": "Major four-day open-air camping festival at Parc de la Chute (between Montreal and Quebec City) over Labour Day weekend, uniting psytrance (Neverland stage), psytech, techno and bass music."
+    }
+  },
+  {
+    "id": "eclipse-festival-quebec",
+    "nom": "Eclipse Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal / Sainte-Thérèse-de-la-Gatineau (Québec)",
+      "en": "Montreal / Outaouais (Quebec)"
+    },
+    "latitude": 46.2944,
+    "longitude": -75.9911,
+    "capacite": 6000,
+    "annee": 1999,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Progressive Trance",
+      "Techno",
+      "Downtempo"
+    ],
+    "site": "https://eclipsefestival.com",
+    "description": {
+      "fr": "Fondé par Techsafari au Québec, l’un des rassemblements psytrance, progressive, techno et arts visuels en pleine nature les plus emblématiques d’Amérique du Nord.",
+      "en": "Founded by Techsafari in Quebec, one of North America’s most iconic open-air psytrance, progressive, techno and visionary arts gatherings."
+    },
+    "inactif": true
+  },
+  {
+    "id": "aim-electronic-music-festival-montreal",
+    "nom": "AIM Electronic Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal / Saint-André-d’Argenteuil (Parc Carillon)",
+      "en": "Montreal / Carillon Park (Quebec)"
+    },
+    "latitude": 45.5686,
+    "longitude": -74.3742,
+    "capacite": 8000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Progressive House",
+      "Melodic Techno"
+    ],
+    "site": "https://aimfestival.ca",
+    "description": {
+      "fr": "Festival montréalais en plein air célèbre pour ses marathons de 32 heures de musique électronique sans interruption au bord de la rivière des Outaouais.",
+      "en": "Montreal-area open-air festival famed for its non-stop 32-hour electronic music marathons along the Ottawa River."
+    },
+    "inactif": true
+  },
+  {
+    "id": "valhalla-sound-circus-quebec",
+    "nom": "Valhalla Sound Circus",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal / Outaouais (Québec)",
+      "en": "Montreal / Outaouais (Quebec)"
+    },
+    "latitude": 45.8819,
+    "longitude": -75.0844,
+    "capacite": 4500,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "Drum & Bass",
+      "Techno",
+      "UK Bass"
+    ],
+    "site": "https://valhalla-project.ca",
+    "description": {
+      "fr": "Pèlerinage majeur de la bass music, du dubstep, de la drum & bass et de la culture sound system en forêt au Québec.",
+      "en": "Major Quebec forest pilgrimage for bass music, dubstep, drum & bass and heavy sound-system culture."
+    },
+    "inactif": true
+  },
+  {
+    "id": "off-piknic-montreal",
+    "nom": "OfF Piknic",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Parc Jean-Drapeau)",
+      "en": "Montreal (Parc Jean-Drapeau)"
+    },
+    "latitude": 45.5126,
+    "longitude": -73.5332,
+    "capacite": 12000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mai - Octobre",
+      "en": "May - October"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "House",
+      "Progressive House"
+    ],
+    "site": "https://piknicelectronik.com",
+    "description": {
+      "fr": "Série de grands formats nocturnes et événementiels de Piknic Électronik au Parc Jean-Drapeau, accueillant les tournées mondiales techno, melodic techno et house à Montréal.",
+      "en": "Large-scale special event series by Piknic Électronik at Parc Jean-Drapeau, hosting world-touring techno, melodic techno and house headliners in Montreal."
+    }
+  },
+  {
+    "id": "groove-and-bass-festival-quebec",
+    "nom": "Groove & Bass Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Bryson (Pontiac / Outaouais, Québec)",
+      "en": "Bryson (Pontiac / Outaouais, Quebec)"
+    },
+    "latitude": 45.6611,
+    "longitude": -76.6258,
+    "capacite": 5000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juillet - Août (Vacances de la construction)",
+      "en": "July - August"
+    },
+    "styles": [
+      "Bass",
+      "Drum & Bass",
+      "Psy",
+      "Techno",
+      "House",
+      "Downtempo"
+    ],
+    "site": "https://groovenbass.com",
+    "description": {
+      "fr": "Grand rassemblement de cinq jours au Paradise Leisure Park de Bryson au bord de la rivière des Outaouais au Québec, réunissant bass music, drum & bass, scène psytrance dédiée, techno, house et temple downtempo.",
+      "en": "Five-day camping gathering at Paradise Leisure Park in Bryson along the Ottawa River in Quebec, uniting heavy bass music, drum & bass, a dedicated psytrance stage, techno, house and a downtempo temple."
+    }
+  },
+  {
+    "id": "openmind-festival-quebec",
+    "nom": "OpenMind Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "La Patrie / Estrie (Québec)",
+      "en": "Eastern Townships (Quebec)"
+    },
+    "latitude": 45.3986,
+    "longitude": -71.2464,
+    "capacite": 3000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "Psy",
+      "Psytech",
+      "Techno",
+      "Downtempo",
+      "House"
+    ],
+    "site": "https://lesprojetsopenmind.org",
+    "description": {
+      "fr": "Pionnier des festivals électroniques et artistiques autogérés en nature au Québec, mêlant psytrance, psytech, techno, arts visuels et écoconstruction.",
+      "en": "Pioneer of community-driven open-air electronic and arts festivals in Quebec, blending psytrance, psytech, techno, visionary art and eco-building."
+    },
+    "inactif": true
+  },
+  {
+    "id": "atmos-fest-quebec",
+    "nom": "Atmos Fest",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Notre-Dame-de-Montauban (Mauricie, Québec)",
+      "en": "Notre-Dame-de-Montauban (Mauricie, Quebec)"
+    },
+    "latitude": 46.8406,
+    "longitude": -72.2478,
+    "capacite": 2500,
+    "annee": 2021,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "Afro House",
+      "House"
+    ],
+    "site": "https://atmosfest.ca",
+    "description": {
+      "fr": "Festival en plein air au bord d’un lac en Mauricie entre Montréal et Québec, dédié à la techno, à la melodic techno et à l’afro house.",
+      "en": "Lakeside open-air camping festival in Mauricie between Montreal and Quebec City, dedicated to techno, melodic techno and afro house."
+    }
+  },
+  {
+    "id": "delirium-fall-in-bass-quebec",
+    "nom": "Fall in Bass Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Papineauville (La Forteresse, Outaouais, Québec)",
+      "en": "Papineauville (La Forteresse, Outaouais, Quebec)"
+    },
+    "latitude": 45.6194,
+    "longitude": -75.0167,
+    "capacite": 2500,
+    "annee": 2019,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Dubstep",
+      "Bass",
+      "Drum & Bass",
+      "Riddim"
+    ],
+    "site": "https://www.facebook.com/FallInBassFestival",
+    "description": {
+      "fr": "Rendez-vous automnal de septembre sur le site de La Forteresse à Papineauville en Outaouais, dédié aux grosses basses, au dubstep, au riddim et à la drum & bass.",
+      "en": "September camping gathering at La Forteresse in Papineauville, Outaouais, dedicated to heavy bass, dubstep, riddim and drum & bass."
+    }
+  },
+  {
+    "id": "harvest-festival-ontario",
+    "nom": "Harvest Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Burk’s Falls (Screaming Heads, Ontario)",
+      "en": "Burk s Falls (Screaming Heads, Ontario)"
+    },
+    "latitude": 45.6039,
+    "longitude": -79.5419,
+    "capacite": 3500,
+    "annee": 1999,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Psytech",
+      "Breaks",
+      "Downtempo"
+    ],
+    "site": "https://harvestfestival.org",
+    "description": {
+      "fr": "Rassemblement légendaire depuis 1999 au domaine des sculptures monumentales Screaming Heads (Midlothian Castle) en Ontario, réunissant house, techno, breaks et psytech.",
+      "en": "Legendary gathering held since 1999 among the monumental Screaming Heads sculptures at Midlothian Castle in Ontario, uniting house, techno, breaks and psytech."
+    }
   },
   {
     "id": "le-bon-air-marseille",
@@ -6563,8 +10809,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "paysCode": "FR",
     "villeSlug": "lyon-fr",
     "ville": {
-      "fr": "Lyon (Villeurbanne)",
-      "en": "Lyon (Villeurbanne)"
+      "fr": "Lyon / Villeurbanne (Transbordeur & Halle Tony Garnier)",
+      "en": "Lyon / Villeurbanne (Transbordeur & Halle Tony Garnier)"
     },
     "latitude": 45.7808,
     "longitude": 4.8632,
@@ -6615,14 +10861,15 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival de fin d’été au bord du lac du Grand Parc Miribel Jonage aux portes de Lyon, doté d’un chapiteau et de scènes électroniques en plein air.",
       "en": "Late-summer lakeside festival at Grand Parc Miribel Jonage near Lyon featuring dedicated electronic tents and beach stages."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "name-festival-lille",
     "nom": "NAME Festival (Nord Art Musique Électronique)",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Lille & Hauts-de-France",
       "en": "Lille & Hauts-de-France"
     },
@@ -6651,7 +10898,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Les Nuits Secrètes",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Aulnoye-Aymeries (Hauts-de-France)",
       "en": "Aulnoye-Aymeries (Hauts-de-France)"
     },
@@ -6680,7 +10927,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Touquet Music Beach Festival",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Le Touquet-Paris-Plage (Côte d’Opale)",
       "en": "Le Touquet-Paris-Plage"
     },
@@ -6709,7 +10956,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Initial Festival",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Bordeaux",
       "en": "Bordeaux"
     },
@@ -6768,7 +11015,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Festival Crossover",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Nice (Théâtre de Verdure & Le 109)",
       "en": "Nice (Théâtre de Verdure & Le 109)"
     },
@@ -6797,7 +11044,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "MADE Festival",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Rennes",
       "en": "Rennes"
     },
@@ -6826,7 +11073,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Festival Maintenant",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Rennes",
       "en": "Rennes"
     },
@@ -6855,7 +11102,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Longevity Festival",
     "type": "festival",
     "paysCode": "FR",
-        "ville": {
+    "ville": {
       "fr": "Strasbourg (Jardin des Deux Rives)",
       "en": "Strasbourg (Jardin des Deux Rives)"
     },
@@ -6877,14 +11124,15 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival électronique en plein air au Jardin des Deux Rives au bord du Rhin entre Strasbourg et Kehl, porté par la scène indépendante alsacienne.",
       "en": "Open-air electronic festival at Jardin des Deux Rives along the Rhine between Strasbourg and Kehl, driven by Alsace’s independent collectives."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "lethargy-festival-zurich",
     "nom": "Lethargy Festival",
     "type": "festival",
     "paysCode": "CH",
-        "ville": {
+    "ville": {
       "fr": "Zurich (Rote Fabrik)",
       "en": "Zurich (Rote Fabrik)"
     },
@@ -6913,7 +11161,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Zürich Openair (Dance Circus & Tent)",
     "type": "festival",
     "paysCode": "CH",
-        "ville": {
+    "ville": {
       "fr": "Zurich (Glattbrugg / Rümlang)",
       "en": "Zurich (Glattbrugg / Rümlang)"
     },
@@ -6971,7 +11219,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Movement Torino Music Festival",
     "type": "festival",
     "paysCode": "IT",
-        "ville": {
+    "ville": {
       "fr": "Turin (Lingotto)",
       "en": "Turin (Lingotto)"
     },
@@ -6993,7 +11241,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Édition européenne officielle du festival Movement de Detroit lancée en 2006 dans les halles industrielles du Lingotto à Turin.",
       "en": "Official European sister event of Detroit’s Movement festival launched in 2006 inside Turin’s industrial Lingotto halls."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "viva-festival-puglia",
@@ -7058,7 +11307,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Jazz:Re:Found",
     "type": "festival",
     "paysCode": "IT",
-        "ville": {
+    "ville": {
       "fr": "Cella Monte (Montferrat, Piémont)",
       "en": "Cella Monte (Monferrato, Piedmont)"
     },
@@ -7087,7 +11336,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "ROBOT Festival",
     "type": "festival",
     "paysCode": "IT",
-        "ville": {
+    "ville": {
       "fr": "Bologne (DumBO & Palazzo Re Enzo)",
       "en": "Bologna (DumBO & Palazzo Re Enzo)"
     },
@@ -7116,7 +11365,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Spring Attitude Festival",
     "type": "festival",
     "paysCode": "IT",
-        "ville": {
+    "ville": {
       "fr": "Rome (Studios Cinecittà)",
       "en": "Rome (Cinecittà Studios)"
     },
@@ -7168,7 +11417,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Édition méditerranéenne du festival néerlandais DGTL sur l’esplanade maritime du Parc del Fòrum à Barcelone.",
       "en": "Mediterranean edition of the Dutch DGTL festival staged on the waterfront esplanade of Parc del Fòrum in Barcelona."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "elrow-town-madrid",
@@ -7205,7 +11455,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Bilbao BBK Live (Basoa & Lasai)",
     "type": "festival",
     "paysCode": "ES",
-        "ville": {
+    "ville": {
       "fr": "Bilbao (Mont Cobetas, Pays Basque)",
       "en": "Bilbao (Kobetamendi, Basque Country)"
     },
@@ -7287,7 +11537,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival boutique en forêt au pied de l’Atomium dans le parc d’Osseghem à Bruxelles, coproduit par les équipes de Tomorrowland et de Rock Werchter.",
       "en": "Boutique forest festival at the foot of the Atomium in Brussels’ Osseghem Park, co-created by Tomorrowland and Rock Werchter."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ostend-beach-festival",
@@ -7353,7 +11604,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Love Family Park",
     "type": "festival",
     "paysCode": "DE",
-        "ville": {
+    "ville": {
       "fr": "Francfort (Rebstockpark)",
       "en": "Frankfurt (Rebstockpark)"
     },
@@ -7382,7 +11633,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Nibirii Festival",
     "type": "festival",
     "paysCode": "DE",
-        "ville": {
+    "ville": {
       "fr": "Düren (Rhénanie-du-Nord-Westphalie)",
       "en": "Düren (North Rhine-Westphalia)"
     },
@@ -7440,7 +11691,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "Panama Open Air Festival",
     "type": "festival",
     "paysCode": "DE",
-        "ville": {
+    "ville": {
       "fr": "Bonn (Parc Rheinaue)",
       "en": "Bonn (Rheinaue Park)"
     },
@@ -7462,7 +11713,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival électronique au coeur du parc arboré de la Rheinaue au bord du Rhin à Bonn.",
       "en": "Open-air electronic festival set inside the lush Rheinaue park along the Rhine in Bonn."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "snowbombing-autriche",
@@ -7498,7 +11750,7 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "nom": "FEQ Électro (Festival d’été de Québec)",
     "type": "festival",
     "paysCode": "CA",
-        "ville": {
+    "ville": {
       "fr": "Québec (Parc de la Francophonie & Manège Militaire)",
       "en": "Quebec City"
     },
@@ -8205,8 +12457,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8292,
     "capacite": 700,
     "annee": 1991,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://victoire2.com",
     "description": {
       "fr": "Scène des musiques actuelles de la métropole de Montpellier, accueillant lives électroniques, nuits techno, bass music et résidences de producteurs locaux.",
@@ -8279,8 +12531,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 4.4058,
     "capacite": 1350,
     "annee": 2012,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://paloma-nimes.fr",
     "description": {
       "fr": "Grand complexe architectural des musiques actuelles entre Montpellier et Nîmes doté d’une nef de 1 350 places et d’un club, haut lieu des nuits électroniques régionales.",
@@ -8466,7 +12718,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Fête foraine électronique géante sous chapiteaux de cirque à Montpellier, réunissant manèges, arts du cirque et plusieurs scènes house, techno et trance.",
       "en": "Open-air electronic funfair and circus festival in Montpellier combining carnival rides, circus performers and multiple house, techno and trance stages."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "laut-barcelone",
@@ -8560,8 +12813,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1476,
     "capacite": 500,
     "annee": 2011,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://sala-upload.com",
     "description": {
       "fr": "Salle indépendante du Poble Espanyol à Barcelone dotée d’un système Funktion-One, prisée des collectifs techno queer (Maricas), acid et électroniques expérimentaux.",
@@ -8873,7 +13126,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Édition barcelonaise du rendez-vous dominical montréalais dans les jardins ombragés de Montjuïc, devenue l’institution des dimanches électroniques en plein air à Barcelone.",
       "en": "Barcelona edition of the Montreal Sunday open-air ritual held in the shaded gardens of Montjuïc, a summer institution for daytime house and techno."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "centre-bell-montreal",
@@ -8889,8 +13143,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5693,
     "capacite": 21000,
     "annee": 1996,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.centrebell.ca",
     "description": {
       "fr": "Le plus grand amphithéâtre couvert de Montréal, hôte des tournées mondiales d’aréna des géants de la musique électronique (Justice, Fred again.., Rüfüs Du Sol, Deadmau5, Kraftwerk).",
@@ -8911,8 +13165,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5518,
     "capacite": 5000,
     "annee": 2018,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.port-montreal.com/fr/grand-quai",
     "description": {
       "fr": "Esplanade maritime et terminal contemporain sur le fleuve Saint-Laurent au Vieux-Port, scène des grands événements électroniques en plein air, d’Igloofest et des productions estivales.",
@@ -8933,8 +13187,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5653,
     "capacite": 5000,
     "annee": 2021,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.quartierdesspectacles.com",
     "description": {
       "fr": "Grande place publique au coeur du Quartier des spectacles accueillant chaque été la scène extérieure gratuite de MUTEK Montréal et de nombreuses performances audiovisuelles.",
@@ -8955,8 +13209,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5644,
     "capacite": 4100,
     "annee": 1939,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://auditoriumdeverdun.com",
     "description": {
       "fr": "Aréna historique des berges de Verdun entièrement rénové, accueillant de grandes productions électroniques, concerts bass music et tournées internationales.",
@@ -8977,8 +13231,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5579,
     "capacite": 2400,
     "annee": 1925,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.olympiamontreal.com",
     "description": {
       "fr": "Ancien palais du cinéma de 1925 sur la rue Sainte-Catherine Est, grande salle de spectacle privilégiée pour les tournées live électroniques (Caribou, Polo & Pan, Disclosure, Moderat).",
@@ -8999,8 +13253,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5754,
     "capacite": 1500,
     "annee": 1912,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.theatrebeanfield.ca",
     "description": {
       "fr": "Ancien Théâtre Corona de la Petite-Bourgogne, salle à l’acoustique chaleureuse où se produisent les lives électroniques majeurs (Overmono, Floating Points, Bonobo, Four Tet).",
@@ -9047,8 +13301,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5671,
     "capacite": 700,
     "annee": 2009,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.lestudiotd.com",
     "description": {
       "fr": "Salle de spectacle de la Maison du Festival, au 305 rue Sainte-Catherine Ouest (L’Astral jusqu’en 2022), de 300 places assises à 700 debout, étape régulière de MUTEK et des tournées electronica, drum & bass et techno.",
@@ -9121,8 +13375,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5491,
     "capacite": 400,
     "annee": 1931,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://bainmathieu.ca",
     "description": {
       "fr": "Ancienne piscine municipale Art déco de 1931 rue Ontario Est dont le bassin vidé accueille raves techno, soirées immersives et collectifs underground montréalais.",
@@ -9143,8 +13397,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5912,
     "capacite": 250,
     "annee": 2001,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Salle historique du Mile End boulevard Saint-Laurent, lieu phare du festival Suoni Per Il Popolo, de MUTEK et des musiques électroniques expérimentales et indépendantes.",
@@ -9165,8 +13419,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5861,
     "capacite": 250,
     "annee": 2016,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://leministere.ca",
     "description": {
       "fr": "Salle de spectacle et laboratoire sonore boulevard Saint-Laurent sur le Plateau, prisée pour son acoustique soignée lors des lives synth-pop, electro et modulaires.",
@@ -9213,8 +13467,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5913,
     "capacite": 150,
     "annee": 2017,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Salle souterraine logée sous La Sala Rossa boulevard Saint-Laurent, dédiée aux formats club underground, lives électroniques obliques et nuits bass music du Mile End.",
@@ -9235,8 +13489,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5915,
     "capacite": 100,
     "annee": 2000,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Institution indépendante du Mile End fondée en 2000 boulevard Saint-Laurent, laboratoire intime des scènes ambient, synthétiseurs modulaires, drone et électronique expérimentale.",
@@ -9257,8 +13511,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5668,
     "capacite": 2982,
     "annee": 1963,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://placedesarts.com",
     "description": {
       "fr": "Grand complexe culturel du Quartier des spectacles accueillant les soirées de gala A/VISIONS de MUTEK au Théâtre Maisonneuve ainsi que les grands concerts électroniques et néo-classiques.",
@@ -9279,8 +13533,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5631,
     "capacite": 800,
     "annee": 1893,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://monumentnational.com",
     "description": {
       "fr": "Plus ancien théâtre en activité au Québec sur le boulevard Saint-Laurent, quartier général historique du festival MUTEK Montréal pour ses séries Nocturne et Métropolis.",
@@ -9301,8 +13555,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5562,
     "capacite": 450,
     "annee": 1995,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://usine-c.com",
     "description": {
       "fr": "Ancienne usine de confiserie Raymond reconvertie en centre de création pluridisciplinaire dans le Centre-Sud, hôte de créations audiovisuelles, d’Akousma et de concerts électroniques.",
@@ -9323,8 +13577,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5831,
     "capacite": 200,
     "annee": 1999,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://lescogriffe.com",
     "description": {
       "fr": "Salle indépendante de la rue Saint-Denis sur le Plateau Mont-Royal, repaire des concerts synth-wave, EBM, electro-punk et des collectifs nocturnes montréalais.",
@@ -9345,8 +13599,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.9298,
     "capacite": 6300,
     "annee": 1986,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.zenithsud-montpellier.com",
     "description": {
       "fr": "Grande salle de spectacle du Domaine de Grammont à Montpellier, accueillant les tournées électroniques majeures et les grandes nuits techno en format aréna.",
@@ -9367,8 +13621,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8824,
     "capacite": 2000,
     "annee": 1990,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.opera-orchestre-montpellier.fr",
     "description": {
       "fr": "Grand auditorium dessiné par Claude Vasconi au bout de l’Esplanade, cadre de créations électroniques symphoniques et de concerts audiovisuels (Jeff Mills, Rone, Thylacine, Max Cooper).",
@@ -9389,8 +13643,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8392,
     "capacite": 1800,
     "annee": 1979,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.domainedo.fr",
     "description": {
       "fr": "Domaine culturel entouré de pins au nord-ouest de Montpellier, dont l’amphithéâtre en plein air et le théâtre Jean-Claude Carrière accueillent lives électroniques et nuits d’été.",
@@ -9463,8 +13717,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8819,
     "capacite": 350,
     "annee": 1981,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.lejam.com",
     "description": {
       "fr": "Salle de concert indépendante et école de musique fondée en 1981 à Montpellier, ouverte aux croisements entre jazz électronique, dub, broken beat et musiques actuelles.",
@@ -9485,8 +13739,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8358,
     "capacite": 300,
     "annee": 2006,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.toutafond.com",
     "description": {
       "fr": "Salle associative autogérée de la zone industrielle de la Lauze à Saint-Jean-de-Védas, bastion montpelliérain des cultures underground, darkwave, EBM, indus et hardcore.",
@@ -9533,8 +13787,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8738,
     "capacite": 250,
     "annee": 1663,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.montpellier.fr",
     "description": {
       "fr": "Ancienne chapelle du XVIIe siècle place Albert 1er, dont la réverbération naturelle sert d’écrin aux concerts ambient, électroacoustiques et expérimentaux à Montpellier.",
@@ -9581,8 +13835,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1526,
     "capacite": 17000,
     "annee": 1990,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://palausantjordi.barcelona",
     "description": {
       "fr": "Aréna olympique conçu par Arata Isozaki sur la colline de Montjuïc, théâtre des plus grandes productions électroniques en salle d’Espagne.",
@@ -9603,8 +13857,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1538,
     "capacite": 4600,
     "annee": 1990,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://palausantjordi.barcelona/es/sant-jordi-club",
     "description": {
       "fr": "Grande salle de concert attenante au Palau Sant Jordi sur Montjuïc, étape privilégiée des tournées live électroniques internationales (Bicep, The Chemical Brothers, Peggy Gou, Jamie xx).",
@@ -9651,8 +13905,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1856,
     "capacite": 2200,
     "annee": 1999,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.auditori.cat",
     "description": {
       "fr": "Complexe musical contemporain dessiné par Rafael Moneo, partenaire historique de Sónar et de MIRA pour les créations électroniques immersives, ambient et électroacoustiques.",
@@ -9699,8 +13953,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1684,
     "capacite": 1450,
     "annee": 2022,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://parallel62.cat",
     "description": {
       "fr": "Grande salle coopérative de l’avenue del Paral·lel (ancienne Sala Barts), lieu central de MUTEK Barcelona et des concerts électroniques et audiovisuels en salle.",
@@ -9747,8 +14001,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1904,
     "capacite": 1000,
     "annee": 2008,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.barcelona.cat/fabraicoats",
     "description": {
       "fr": "Ancienne filature textile du XIXe siècle à Sant Andreu reconvertie en fabrique de création municipale, berceau des festivals MIRA et Ombra et de l’art sonore barcelonais.",
@@ -9769,8 +14023,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1697,
     "capacite": 900,
     "annee": 2008,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.sala-apolo.com",
     "description": {
       "fr": "Deuxième salle du complexe Apolo au rez-de-chaussée, dédiée aux lives électroniques, à la synth-pop, à l’EBM et au second dancefloor plus brut des nuits Nitsa.",
@@ -9791,8 +14045,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1668,
     "capacite": 800,
     "annee": 1994,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.cccb.org",
     "description": {
       "fr": "Centre culturel du Raval qui fut le berceau historique de Sónar de Día pendant près de vingt ans et demeure un foyer majeur des arts numériques et des musiques électroniques à Barcelone.",
@@ -9813,8 +14067,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1912,
     "capacite": 800,
     "annee": 2019,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://salawolf.com",
     "description": {
       "fr": "Salle de concerts et club de la rue dels Almogàvers au coeur industriel de Poblenou, prisée pour ses lives synthétiques en soirée et ses nuits club jusqu’au matin.",
@@ -9861,8 +14115,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1749,
     "capacite": 300,
     "annee": 1982,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://www.sidecar.es",
     "description": {
       "fr": "Sous-sol mythique de la Plaça Reial depuis 1982, tremplin historique des scènes indie-electronic, dark disco, post-punk et electro barcelonaises.",
@@ -9909,18 +14163,14 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1934,
     "capacite": 150,
     "annee": 2018,
-    estSalle: true,
-    styles: [],
+    "estSalle": true,
+    "styles": [],
     "site": "https://salavol.com",
     "description": {
       "fr": "Salle coopérative à jauge réduite du quartier de Poblenou, repaire des concerts électroniques expérimentaux, synthétiseurs modulaires et labels indépendants catalans.",
       "en": "Small-capacity cooperative room in Poblenou, a haven for experimental electronic concerts, modular synth performances and independent Catalan labels."
     }
   },
-  /* LA DENSIFICATION DES VINGT VILLES, 12 novembre 2026 (ADR-118). Mika :
-     « scanne vraiment beaucoup mieux les 20, ca doit etre bien plus complet ».
-     Chaque lieu a ete verifie ouvert en 2025 ou 2026 (site officiel, Resident
-     Advisor, presse locale) ; les capacites sans source sont des estimations. */
   {
     "id": "teatro-kapital-madrid",
     "nom": "Teatro Kapital",
@@ -17076,7 +21326,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Déclinaison porteña de l’institution techno de Mannheim face au Río de la Plata à Buenos Aires, réunissant les figures mondiales de la techno et de la house.",
       "en": "Buenos Aires edition of the Mannheim techno institution along the Río de la Plata, uniting global techno and house icons."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "creamfields-argentina",
@@ -17134,7 +21385,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Édition argentine de DGTL dans les hangars de Costa Salguero à Buenos Aires, conjuguant scénographie industrielle et techno internationale.",
       "en": "Argentine edition of DGTL inside the industrial hangars of Costa Salguero in Buenos Aires, pairing modular light design with international techno."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "mutek-ar-argentine",
@@ -17251,7 +21503,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Deux nuits de techno pure à l’Espacio Riesco de Santiago transposant la scénographie sonore et lumineuse allemande au pied des Andes.",
       "en": "Two nights of pure techno at Santiago’s Espacio Riesco bringing Time Warp’s signature lighting and sound production to Chile."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "dgtl-santiago-chili",
@@ -17454,7 +21707,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Rendez-vous électronique du début janvier sur la côte caraïbe colombienne mêlant scènes de plage underground et grandes arènes nocturnes.",
       "en": "Early-January electronic music festival on Colombia’s Caribbean coast blending underground beach stages with nocturnal arenas."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ultra-peru-lima",
@@ -17659,7 +21913,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Cinq jours et nuits dans la jungle et sur les plages de Tamarindo au Costa Rica réunissant les plus grands labels mondiaux de house, minimal et techno.",
       "en": "Five days and nights in the jungle and on the beaches of Tamarindo, Costa Rica uniting leading global house, minimal and techno label showcases."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "zamna-punta-cana-rd",
@@ -17688,7 +21943,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Rassemblement électronique caraïbe en bord de mer à Cap Cana en République dominicaine dédié à la techno mélodique, à l’afro house et à la house.",
       "en": "Caribbean beachfront electronic gathering at Cap Cana in the Dominican Republic dedicated to melodic techno, Afro house and house."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "tribe-festival-bresil",
@@ -18098,7 +22354,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Quatre jours dans un éco-domaine en terre crue au pied des montagnes de l’Atlas près de Marrakech, réputé pour ses rencontres entre polyrythmies gnawa, techno et bass music.",
       "en": "Four days at an eco-lodge beneath the Atlas Mountains near Marrakech, renowned for its cross-pollination of Gnawa polyrhythms, techno and bass music."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "beneath-the-baobabs-kenya",
@@ -18254,11 +22511,11 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "type": "festival",
     "paysCode": "IN",
     "ville": {
-      "fr": "Goa (Vagator / Sud de Goa)",
-      "en": "Goa"
+      "fr": "Mumbai (Hippodrome de Mahalaxmi)",
+      "en": "Mumbai (Mahalaxmi Race Course)"
     },
-    "latitude": 15.603,
-    "longitude": 73.7436,
+    "latitude": 18.9826,
+    "longitude": 72.8189,
     "capacite": 60000,
     "annee": 2007,
     "mois": {
@@ -18394,7 +22651,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Cinq nuits consacrées aux spectres les plus rapides et souterrains de la psytrance à Goa : darkpsy, forest et hi-tech.",
       "en": "Five nights in Goa dedicated to the fastest and deepest realms of underground psytrance: darkpsy, forest and hi-tech."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "world-dj-festival-coree",
@@ -18628,7 +22886,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Marathon électronique en bord de mer né sur les plages de Phú Quốc au Vietnam, célèbre pour ses levers de soleil minimal, ro-minimal, house et techno face aux sculptures sur l’eau.",
       "en": "Beachfront electronic marathon born on the shores of Phú Quốc Island in Vietnam, famed for its sunrise minimal, microhouse, house and techno sessions."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "equation-festival-vietnam",
@@ -18746,7 +23005,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Antenne asiatique du grand festival trance pragois Transmission à Bangkok, réputée pour ses lasers synchronisés Funktion-One et ses hymnes trance.",
       "en": "Asian flagship of Prague’s renowned Transmission trance festival in Bangkok, celebrated for its laser choreography and Funktion-One sound."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "zoukout-singapour",
@@ -18775,7 +23035,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Né en 2000 à l’initiative du mythique club Zouk sur le sable de l’île de Sentosa, le plus ancien festival électronique du crépuscule à l’aube en Asie du Sud-Est.",
       "en": "Launched in 2000 by Singapore’s legendary Zouk club on Sentosa’s Siloso Beach, Southeast Asia’s longest-running dusk-to-dawn beach electronic festival."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "sunda-festival-singapour",
@@ -18834,7 +23095,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand festival électronique de Malaisie sur la plage artificielle de Sunway Lagoon près de Kuala Lumpur, réunissant scènes mainstage, house et techno.",
       "en": "Major Malaysian electronic music festival at Sunway Lagoon Surf Beach near Kuala Lumpur, uniting mainstage, house and techno stages."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "unknwn-fiesta-manille-philippines",
@@ -18863,7 +23125,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Investit les remparts coloniaux du XVIe siècle d’Intramuros à Manille pour un grand rassemblement house, disco et techno des collectifs philippins et asiatiques.",
       "en": "Takes over the 16th-century walled gardens of Intramuros in Manila, uniting Filipino and Asian collectives around house, disco and techno."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ultra-beach-bali-indonesie",
@@ -18892,7 +23155,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Deux jours face à l’océan Indien à Bali réunissant DJ internationaux autour de la house, de la techno et de la progressive house.",
       "en": "Two oceanfront days in Bali uniting international DJs across house, techno and progressive house."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "shi-fu-miz-hong-kong",
@@ -18950,7 +23214,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand rassemblement électronique face aux gratte-ciel de Victoria Harbour sur le Central Harbourfront Event Space de Hong Kong.",
       "en": "Large-scale electronic festival set against the Victoria Harbour skyline at Hong Kong’s Central Harbourfront Event Space."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "vac-festival-chine",
@@ -19009,7 +23274,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Rave électronique organisée directement sur les remparts de la Grande Muraille de Chine à Huangyaguan, réunissant les scènes techno et house de Shanghai, Pékin et d’Europe.",
       "en": "Underground electronic gathering staged directly upon the Huangyaguan section of the Great Wall of China, uniting Shanghai, Beijing and European techno and house."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ffkt-festival-japon",
@@ -19017,11 +23283,11 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "type": "festival",
     "paysCode": "JP",
     "ville": {
-      "fr": "Kiso (Alpes japonaises, Nagano)",
-      "en": "Kiso (Nagano)"
+      "fr": "Shimoda (Plage d’Izu Shirahama, Shizuoka)",
+      "en": "Shimoda (Izu Shirahama Beach, Shizuoka)"
     },
-    "latitude": 35.9442,
-    "longitude": 137.7712,
+    "latitude": 34.6917,
+    "longitude": 138.9722,
     "capacite": 4000,
     "annee": 2019,
     "mois": {
@@ -19394,7 +23660,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Le plus grand festival de camping purement électronique de la République d’Irlande au bord du Lough Ennell dans les jardins de Belvedere House.",
       "en": "Ireland’s premier standalone electronic camping festival on the shores of Lough Ennell at Belvedere House Gardens."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ava-festival-belfast-uk",
@@ -19868,7 +24135,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Plus ancien festival électronique de Slovaquie au bord du réservoir boisé de Duchonka, bastion d’Europe centrale pour la drum & bass.",
       "en": "Slovakia’s longest-running electronic music festival beside the wooded Duchonka reservoir, a Central European stronghold for drum & bass."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "drops-festival-slovenie",
@@ -20013,7 +24281,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Quatre nuits électroniques estivales au bord du lac d’Ohrid en Macédoine du Nord, rassemblant des milliers de festivaliers des Balkans.",
       "en": "Four summer nights of electronic music beside Lake Ohrid in North Macedonia drawing crowds from across the Balkans."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "beonix-limassol-chypre",
@@ -20160,7 +24429,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Le plus grand festival de plage sur la mer Noire à Constanța par les créateurs d’UNTOLD, doté de la célèbre scène Temple dédiée au minimal roumain et à la techno.",
       "en": "The largest beach festival on the Black Sea in Constanța by the creators of UNTOLD, featuring the renowned Temple stage for Romanian minimal and techno."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "saga-festival-bucarest-roumanie",
@@ -20189,7 +24459,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Investit les hangars d’aviation et le tarmac de Romaero à Bucarest avec d’immenses scènes techno, hard techno et house produites avec ALDA.",
       "en": "Takes over the aircraft hangars and tarmac of Romaero in Bucharest with massive techno, hard techno and house stages."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "bonusz-budapest-hongrie",
@@ -20306,7 +24577,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Berceau mondial du spectacle audiovisuel trance à l’O2 Arena de Prague depuis 2006, célèbre pour son système Funktion-One massif et ses récits laser.",
       "en": "Global birthplace of the audiovisual trance arena spectacle at Prague’s O2 Arena since 2006, famed for its Funktion-One sound and laser storytelling."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "imagination-festival-prague-tchequie",
@@ -20335,7 +24607,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand rassemblement indoor d’automne à Prague réunissant sous deux immenses halles l’élite mondiale de la drum & bass et des harder styles.",
       "en": "Major autumn indoor bass marathon in Prague uniting global drum & bass and harder-styles heavyweights across two massive arenas."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "ufo-bufo-tchequie",
@@ -20512,7 +24785,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand marathon indoor de décembre dans les halles de Messe Stuttgart clôturant l’année techno et house dans le sud de l’Allemagne.",
       "en": "Major December indoor marathon inside Messe Stuttgart closing the southern German techno and house calendar."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "syndicate-dortmund-allemagne",
@@ -21099,7 +25373,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival estival au Havenpark d’Amsterdam dédié aux grands noms de la house, de la tech house, du minimal et de la techno.",
       "en": "Summer open-air festival at Amsterdam’s Havenpark dedicated to leading house, tech house, minimal and techno selectors."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "boothstock-rotterdam-paysbas",
@@ -21157,7 +25432,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand rassemblement psychédélique néerlandais de cinq jours mêlant psytrance, goa, chill-out, galeries d’art visionnaire et conférences.",
       "en": "Major five-day Dutch psychedelic gathering uniting psytrance, Goa trance, chill-out stages and visionary art galleries."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "love-saves-the-day-bristol-uk",
@@ -21217,7 +25493,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Grand week-end de l’Est londonien réunissant les géants de la house, de la tech house, de la techno et de la drum & bass sous d’immenses structures.",
       "en": "Major East London weekender uniting house, tech house, techno and drum & bass heavyweights beneath bespoke arena structures."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "teletech-festival-manchester-uk",
@@ -21335,7 +25612,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival contre-culturel de l’hippodrome de Chepstow au Pays de Galles, sanctuaire britannique des sound systems free party, jungle, breakcore et acid tekno.",
       "en": "Counter-cultural weekender at Chepstow Racecourse in Wales, the UK’s wildest gathering for jungle, breakcore, free-party tekno and sound systems."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "bang-face-weekender-uk",
@@ -21513,7 +25791,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Rendez-vous techno traditionnel du 1er janvier sous le dôme de La Cubierta à Madrid, réunissant 10 000 personnes pour lancer l’année.",
       "en": "Traditional New Year’s Day indoor techno marathon beneath the dome of La Cubierta in Madrid."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "wake-up-and-dream-galice-espagne",
@@ -21980,7 +26259,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Marathon de seize heures du crépuscule à midi dans des complexes industriels d’Athènes organisé par l’équipe du club Six d.o.g.s.",
       "en": "Sixteen-hour dusk-till-noon marathon across industrial complexes in Athens curated by the team behind Six d.o.g.s."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "defected-malta",
@@ -22162,12 +26442,12 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "id": "hibernation-festival-pyrenees-france",
     "nom": "Hibernation Festival",
     "type": "festival",
-    "paysCode": "FR",
+    "paysCode": "AD",
     "ville": {
-      "fr": "Pas de la Case (Pyrénées)",
-      "en": "Pas de la Casa (Pyrenees)"
+      "fr": "Le Pas de la Case (Grandvalira, Andorre)",
+      "en": "Pas de la Casa (Grandvalira, Andorra)"
     },
-    "latitude": 42.5425,
+    "latitude": 42.5428,
     "longitude": 1.7336,
     "capacite": 10000,
     "annee": 2017,
@@ -22628,7 +26908,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Né des rassemblements Tipper & Friends sous les chênes moussus du parc Suwannee en Floride, sanctuaire nord-américain du sound design glitch, IDM et bass.",
       "en": "Born from Tipper & Friends beneath the Spanish-moss oaks of Spirit of the Suwannee in Florida, a sanctuary for glitch, IDM, ambient and visual projection mapping."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "splash-house-palm-springs-us",
@@ -22801,7 +27082,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival électronique éco-positif au cœur de Nashville combinant house, deep house et bass music autour d’amphithéâtres inspirés de temples.",
       "en": "Climate-positive electronic festival in downtown Nashville uniting house, deep house and bass music across temple-inspired stages."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "decadence-colorado-denver-us",
@@ -23015,11 +27297,11 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "type": "festival",
     "paysCode": "MX",
     "ville": {
-      "fr": "Puebla (Los Fuertes)",
-      "en": "Puebla (Los Fuertes)"
+      "fr": "Puebla (Parque Los Fuertes)",
+      "en": "Puebla (Parque Los Fuertes)"
     },
-    "latitude": 19.0569,
-    "longitude": -98.1812,
+    "latitude": 19.0558,
+    "longitude": -98.1814,
     "capacite": 35000,
     "annee": 2018,
     "mois": {
@@ -23158,7 +27440,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Montréal Électronique Groove, festival pionnier fondé en 1999 tissant des ponts entre les scènes électro, techno et club québécoises et européennes.",
       "en": "Montreal Electronic Groove, a pioneering festival founded in 1999 bridging Quebec and European electro, techno and club scenes."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "monstercat-compound-vancouver-canada",
@@ -23188,7 +27471,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival urbain en plein air organisé par le célèbre label électronique canadien Monstercat devant son siège de Railtown à Vancouver.",
       "en": "Open-air block party festival hosted by flagship Canadian electronic label Monstercat outside its Railtown headquarters in Vancouver."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "boiler-room-toronto-canada",
@@ -23365,7 +27649,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Édition australienne du spectacle audiovisuel trance Transmission réunissant les grands noms mondiaux de la trance à Sydney et Melbourne.",
       "en": "Australian arena edition of the Transmission audiovisual trance spectacle uniting global trance icons in Sydney and Melbourne."
-    }
+    },
+    "inactif": true
   },
   {
     "id": "mandallah-festival-bresil",
@@ -23396,4 +27681,5651 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "en": "Founded in 2005 across Minas Gerais and São Paulo state, one of Latin America’s largest psytrance open-air festivals."
     }
   },
+  {
+    "id": "palomosa-montreal-canada",
+    "nom": "Palomosa",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Parc Jean-Drapeau, Québec)",
+      "en": "Montreal (Parc Jean-Drapeau, Quebec)"
+    },
+    "latitude": 45.5126,
+    "longitude": -73.5342,
+    "capacite": 15000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "House",
+      "Hyperpop",
+      "Club"
+    ],
+    "site": "https://palomosa.com",
+    "description": {
+      "fr": "Festival printanier en plein air lancé par Multicolore au Parc Jean-Drapeau à Montréal pour prendre la relève de MEG, réunissant figures de l’électro, de la techno, de la house et de la pop club avant-gardiste.",
+      "en": "Open-air spring festival launched by Multicolore at Montreal’s Parc Jean-Drapeau, showcasing forward-thinking electronic, techno, house and hyperpop headliners."
+    }
+  },
+  {
+    "id": "unity-electro-fest-quebec",
+    "nom": "Unity Electro Fest",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Québec (Charlesbourg, Québec)",
+      "en": "Quebec City (Charlesbourg, Quebec)"
+    },
+    "latitude": 46.8675,
+    "longitude": -71.2917,
+    "capacite": 10000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "EDM",
+      "Big Room",
+      "Dubstep",
+      "Psy",
+      "House",
+      "Hardstyle"
+    ],
+    "site": "https://unityelectrofest.ca",
+    "description": {
+      "fr": "Principal festival extérieur 100 % musique électronique de la capitale nationale à Québec, alignant sur trois jours des têtes d’affiche mondiales de l’EDM, de la bass mélodique, de la psytrance et du hardstyle.",
+      "en": "Quebec City’s flagship three-day outdoor electronic dance festival hosting major international EDM, melodic bass, psytrance and hardstyle headliners."
+    }
+  },
+  {
+    "id": "fierte-montreal-mega-t-dance",
+    "nom": "Fierté Montréal : Méga T-Dance",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Esplanade du Parc olympique, Québec)",
+      "en": "Montreal (Olympic Park Esplanade, Quebec)"
+    },
+    "latitude": 45.5579,
+    "longitude": -73.5519,
+    "capacite": 20000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Tribal House",
+      "Techno"
+    ],
+    "site": "https://fiertemontreal.com",
+    "description": {
+      "fr": "Immense plancher de danse électronique gratuit à ciel ouvert clôturant Fierté Montréal sur l’Esplanade du Parc olympique devant vingt mille danseurs au son de la house et de la tech house.",
+      "en": "Massive free open-air electronic dance marathon closing Montreal Pride on the Olympic Park Esplanade with international house and tech-house selectors."
+    }
+  },
+  {
+    "id": "boiler-room-montreal-canada",
+    "nom": "Boiler Room Montréal",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Grand Quai du Port de Montréal)",
+      "en": "Montreal (Port of Montreal Grand Quay)"
+    },
+    "latitude": 45.5015,
+    "longitude": -73.5539,
+    "capacite": 5000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mars - Automne",
+      "en": "March - Autumn"
+    },
+    "styles": [
+      "Hard Techno",
+      "UK Garage",
+      "House",
+      "Techno",
+      "Rave"
+    ],
+    "site": "https://boilerroom.tv",
+    "description": {
+      "fr": "Week-end marathon à guichets fermés au Grand Quai du Port de Montréal où Boiler Room réunit à 360 degrés les fers de lance mondiaux de la hard techno, du UK garage et la scène rave montréalaise.",
+      "en": "Sold-out multi-night harbourfront weekender at the Port of Montreal Grand Quay uniting global hard-techno and UK garage icons with local rave collectives."
+    }
+  },
+  {
+    "id": "osheaga-scene-ile-montreal",
+    "nom": "Osheaga : Scène de l’Île (Zone Piknic)",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Parc Jean-Drapeau, Québec)",
+      "en": "Montreal (Parc Jean-Drapeau, Quebec)"
+    },
+    "latitude": 45.5135,
+    "longitude": -73.532,
+    "capacite": 8000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Tech House",
+      "UK Garage",
+      "Drum & Bass"
+    ],
+    "site": "https://osheaga.com",
+    "description": {
+      "fr": "Scène flottante et zone dédiée à 100 % aux musiques électroniques pendant les trois jours d’Osheaga au Parc Jean-Drapeau, programmée avec Piknic Électronik autour de pointures techno, house et UK bass.",
+      "en": "Dedicated three-day electronic stage at Osheaga in Parc Jean-Drapeau curated alongside Piknic Electronik with major global techno, house and UK bass acts."
+    }
+  },
+  {
+    "id": "mural-block-parties-montreal",
+    "nom": "MURAL Festival (Block Parties Électroniques)",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Boulevard Saint-Laurent, Québec)",
+      "en": "Montreal (Saint-Laurent Boulevard, Quebec)"
+    },
+    "latitude": 45.5152,
+    "longitude": -73.5724,
+    "capacite": 6000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Afro House",
+      "UK Garage",
+      "Techno",
+      "Global Club"
+    ],
+    "site": "https://muralfestival.com",
+    "description": {
+      "fr": "Onze jours de grands block parties extérieurs au coeur du boulevard Saint-Laurent à Montréal où collectifs club locaux comme Moonshine et artistes house et techno internationaux font vibrer l’été.",
+      "en": "Eleven days of open-air block parties along Montreal’s Saint-Laurent Boulevard pairing local club collectives like Moonshine with international house and techno acts."
+    }
+  },
+  {
+    "id": "shazamfest-estrie-quebec",
+    "nom": "ShazamFest",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Barnston-Ouest (Estrie, Québec)",
+      "en": "Barnston-Ouest (Eastern Townships, Quebec)"
+    },
+    "latitude": 45.1098,
+    "longitude": -72.0163,
+    "capacite": 2500,
+    "annee": 2004,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Bass",
+      "Dub",
+      "House",
+      "Techno",
+      "Electro"
+    ],
+    "site": "https://shazamfest.com",
+    "description": {
+      "fr": "Festival indépendant de camping niché sur une ferme biologique des Cantons-de-l’Est depuis 2004, alliant scènes nocturnes bass music, dub, house et techno aux arts vivants.",
+      "en": "Fiercely independent camping festival on an organic farm in Quebec’s Eastern Townships since 2004, blending late-night bass, dub, house and techno stages with circus arts."
+    }
+  },
+  {
+    "id": "delirium-festival-outaouais-quebec",
+    "nom": "Délirium Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Papineauville (La Forteresse, Outaouais, Québec)",
+      "en": "Papineauville (La Forteresse, Outaouais, Quebec)"
+    },
+    "latitude": 45.6212,
+    "longitude": -75.0195,
+    "capacite": 2000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "Drum & Bass",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://www.facebook.com/FallInBassFestival",
+    "description": {
+      "fr": "Rendez-vous estival de juin sur le site boisé de La Forteresse à Papineauville en Outaouais, ouvrant la saison de camping bass music, drum & bass et techno avant Fall in Bass à l’automne.",
+      "en": "Early-summer camping festival held each June at La Forteresse in Papineauville, Outaouais, kicking off Quebec’s heavy bass, drum & bass and techno outdoor season."
+    }
+  },
+  {
+    "id": "bckyrd-festival-london-ontario",
+    "nom": "BCKYRD Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "London (Harris Park, Ontario)",
+      "en": "London (Harris Park, Ontario)"
+    },
+    "latitude": 42.9836,
+    "longitude": -81.2568,
+    "capacite": 9000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "Bass House",
+      "Tech House",
+      "House"
+    ],
+    "site": "https://bckyrdfestival.com",
+    "description": {
+      "fr": "Grand festival électronique extérieur du sud-ouest ontarien coproduit par INK Events et London Music Hall au bord de la rivière Thames à Harris Park.",
+      "en": "Major Southwestern Ontario outdoor electronic festival co-produced by INK Events and London Music Hall along the Thames River at Harris Park."
+    }
+  },
+  {
+    "id": "green-space-festival-toronto",
+    "nom": "Green Space Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Barbara Hall Park, Ontario)",
+      "en": "Toronto (Barbara Hall Park, Ontario)"
+    },
+    "latitude": 43.6666,
+    "longitude": -79.3811,
+    "capacite": 6000,
+    "annee": 2008,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Tech House",
+      "Nu-Disco"
+    ],
+    "site": "https://greenspaceto.org",
+    "description": {
+      "fr": "Cinq jours de fête électronique gratuite en plein air au coeur du Village de Toronto organisés au profit du centre communautaire The 519, célèbres pour la journée marathon Treehouse avec des légendes mondiales de la house.",
+      "en": "Five-day free open-air electronic festival in Toronto’s Church-Wellesley Village benefiting The 519, famed for its flagship Treehouse party featuring global house and disco legends."
+    }
+  },
+  {
+    "id": "prism-festival-toronto",
+    "nom": "Prism Festival Toronto",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Polson Pier / REBEL & Cabana, Ontario)",
+      "en": "Toronto (Polson Pier / REBEL & Cabana, Ontario)"
+    },
+    "latitude": 43.641,
+    "longitude": -79.3547,
+    "capacite": 3900,
+    "annee": 2003,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Tribal House",
+      "Tech House",
+      "Progressive House"
+    ],
+    "site": "https://prismfesttoronto.com",
+    "description": {
+      "fr": "Plus grand festival circuit LGBTQ+ du Canada déployant de grandes productions diurnes au bord du lac Ontario à Cabana Pool Bar et nocturnes au complexe REBEL à Toronto.",
+      "en": "Canada’s largest LGBTQ+ circuit electronic festival staging waterfront daytime parties at Cabana Pool Bar and massive night productions inside REBEL in Toronto."
+    }
+  },
+  {
+    "id": "all-day-i-dream-toronto",
+    "nom": "All Day I Dream Toronto",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Lieu historique Fort York, Ontario)",
+      "en": "Toronto (Fort York National Historic Site, Ontario)"
+    },
+    "latitude": 43.6388,
+    "longitude": -79.4037,
+    "capacite": 6000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Organic House",
+      "Deep House",
+      "Melodic House"
+    ],
+    "site": "https://alldayidream.com",
+    "description": {
+      "fr": "Édition canadienne en plein air du rassemblement rêvé par Lee Burridge sur les pelouses historiques de Fort York à Toronto, sous ses tentures florales au rythme de la house organique et mélodique.",
+      "en": "Open-air Canadian edition of Lee Burridge’s signature festival on the historic lawns of Fort York in Toronto, celebrated for dreamy organic and melodic house."
+    }
+  },
+  {
+    "id": "anjunadeep-open-air-toronto",
+    "nom": "Anjunadeep Open Air Toronto",
+    "type": "festival",
+    "paysCode": "CA",
+    "villeSlug": "toronto-ca",
+    "ville": {
+      "fr": "Toronto (Sunnyside Pavilion & Fort York, Ontario)",
+      "en": "Toronto (Sunnyside Pavilion & Fort York, Ontario)"
+    },
+    "latitude": 43.6377,
+    "longitude": -79.4557,
+    "capacite": 3000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Deep House",
+      "Progressive House",
+      "Melodic Techno"
+    ],
+    "site": "https://anjunadeep.com",
+    "description": {
+      "fr": "Rendez-vous estival en bordure du lac Ontario signé par le label londonien Anjunadeep, réunissant ses artistes phares de deep house et de progressive mélodique du coucher du soleil à la nuit.",
+      "en": "Lakeside Toronto summer open-air curated by London’s Anjunadeep imprint, uniting flagship deep house and melodic progressive selectors along Lake Ontario."
+    }
+  },
+  {
+    "id": "soul-rise-festival-vancouver",
+    "nom": "Soul Rise Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "West Vancouver (Ambleside Park, Colombie-Britannique)",
+      "en": "West Vancouver (Ambleside Park, British Columbia)"
+    },
+    "latitude": 49.3245,
+    "longitude": -123.1539,
+    "capacite": 20000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Progressive House",
+      "Afro House"
+    ],
+    "site": "https://soulrisefestival.com",
+    "description": {
+      "fr": "Méga-festival océanique à Ambleside Park face aux montagnes et au pont Lions Gate à Vancouver, coproduit avec Insomniac autour des géants mondiaux de la techno mélodique.",
+      "en": "Oceanfront mega-festival at Ambleside Park overlooking the North Shore mountains and Lions Gate Bridge in West Vancouver, spotlighting global melodic techno stars."
+    }
+  },
+  {
+    "id": "foundation-series-vancouver",
+    "nom": "Foundation Series",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver & Burnaby (PNE & Deer Lake Park, C.-B.)",
+      "en": "Vancouver & Burnaby (PNE & Deer Lake Park, BC)"
+    },
+    "latitude": 49.2825,
+    "longitude": -123.0396,
+    "capacite": 9000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai & Septembre",
+      "en": "May & September"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Hard Techno",
+      "Melodic House"
+    ],
+    "site": "https://foundationseries.house",
+    "description": {
+      "fr": "Série de week-ends festivals en plein air orchestrée par Blueprint Events au PNE et dans l’amphithéâtre naturel de Deer Lake Park avec les plus grands noms mondiaux de la house et de la techno.",
+      "en": "Open-air festival weekend series produced by Blueprint Events across Vancouver’s PNE grounds and Burnaby’s Deer Lake Park with leading house and techno headliners."
+    }
+  },
+  {
+    "id": "dooms-night-vancouver",
+    "nom": "Dooms Night",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver (Pacific Coliseum, Colombie-Britannique)",
+      "en": "Vancouver (Pacific Coliseum, British Columbia)"
+    },
+    "latitude": 49.2858,
+    "longitude": -123.0427,
+    "capacite": 14000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Octobre (Halloween)",
+      "en": "October (Halloween)"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Trance",
+      "Dubstep",
+      "Big Room"
+    ],
+    "site": "https://doomsnight.com",
+    "description": {
+      "fr": "Doyen et plus vaste rave d’Halloween de la côte Ouest canadienne depuis l’an 2000 au Pacific Coliseum de Vancouver, coproduit avec Insomniac sur deux nuits monumentales.",
+      "en": "Western Canada’s longest-running and largest two-night Halloween arena rave at Vancouver’s Pacific Coliseum since 2000, co-produced with Insomniac Events."
+    }
+  },
+  {
+    "id": "dreamstate-vancouver-canada",
+    "nom": "Dreamstate Vancouver",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver (PNE Forum / Pacific Coliseum, C.-B.)",
+      "en": "Vancouver (PNE Forum / Pacific Coliseum, BC)"
+    },
+    "latitude": 49.2821,
+    "longitude": -123.0381,
+    "capacite": 6000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Trance",
+      "Uplifting Trance",
+      "Psy",
+      "Progressive Trance"
+    ],
+    "site": "https://vancouver.dreamstateusa.com",
+    "description": {
+      "fr": "Grand rassemblement printanier de deux nuits dédié à la trance, à l’uplifting et à la psytrance à Vancouver, présenté par Blueprint Events et la marque Dreamstate d’Insomniac.",
+      "en": "Two-night spring trance and psytrance festival in Vancouver co-presented by Blueprint Events and Insomniac’s flagship Dreamstate brand."
+    }
+  },
+  {
+    "id": "boiler-room-vancouver-canada",
+    "nom": "Boiler Room Vancouver",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Burnaby / Grand Vancouver (Deer Lake Park, C.-B.)",
+      "en": "Burnaby / Metro Vancouver (Deer Lake Park, BC)"
+    },
+    "latitude": 49.2366,
+    "longitude": -122.9734,
+    "capacite": 8000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Club"
+    ],
+    "site": "https://boilerroom.tv",
+    "description": {
+      "fr": "Grand rassemblement d’été en plein air sur les pelouses de Deer Lake Park dans le Grand Vancouver, unissant sélecteurs house, techno et électro internationaux à la scène club de la côte Pacifique.",
+      "en": "Large-scale summer open-air festival on the lawns of Deer Lake Park in Metro Vancouver, pairing global house, techno and electro selectors with Pacific Northwest club artists."
+    }
+  },
+  {
+    "id": "public-disco-vancouver",
+    "nom": "Public Disco (Block Parties)",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Vancouver (Mount Pleasant & Granville Island, C.-B.)",
+      "en": "Vancouver (Mount Pleasant & Granville Island, BC)"
+    },
+    "latitude": 49.2662,
+    "longitude": -123.1023,
+    "capacite": 4500,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Afro House",
+      "UK Garage"
+    ],
+    "site": "https://publicdisco.ca",
+    "description": {
+      "fr": "Organisme culturel queer de Vancouver transformant ruelles industrielles, places urbaines et Granville Island en festivals extérieurs multi-scènes dédiés à la house, au disco et à l’afro house.",
+      "en": "Queer-led Vancouver cultural organization transforming city plazas, alleys and Granville Island into multi-stage open-air house, disco and club block-party festivals."
+    }
+  },
+  {
+    "id": "valhallafest-terrace-bc",
+    "nom": "ValhallaFest",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Terrace (Colombie-Britannique)",
+      "en": "Terrace (British Columbia)"
+    },
+    "latitude": 54.5583,
+    "longitude": -128.6531,
+    "capacite": 1200,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Bass",
+      "House",
+      "Drum & Bass",
+      "Techno"
+    ],
+    "site": "https://valhallafest.ca",
+    "description": {
+      "fr": "Festival électronique de camping phare du nord de la Colombie-Britannique, niché au coeur de la forêt ancienne près de Terrace avec plusieurs scènes sculptées en bois.",
+      "en": "Northern British Columbia’s premier electronic music and arts camping festival, nestled in old-growth forest near Terrace with custom-built woodland stages."
+    }
+  },
+  {
+    "id": "pachena-bay-festival-bc",
+    "nom": "Pachena Bay Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Bamfield (Île de Vancouver, Colombie-Britannique)",
+      "en": "Bamfield (Vancouver Island, British Columbia)"
+    },
+    "latitude": 48.7885,
+    "longitude": -125.1189,
+    "capacite": 1000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Bass",
+      "Live Electronic",
+      "Funk"
+    ],
+    "site": "https://pachenabaymusicfestival.com",
+    "description": {
+      "fr": "Festival de camping intimiste directement sur une plage sauvage du Pacifique sur les terres des Premières Nations Huu-ay-aht au bout de l’île de Vancouver.",
+      "en": "Beachfront camping festival set on pristine Pacific shores on Huu-ay-aht First Nations lands on the west coast of Vancouver Island."
+    }
+  },
+  {
+    "id": "igloofest-edmonton-alberta",
+    "nom": "Igloofest Edmonton",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Edmonton (Fan Park @ ICE District, Alberta)",
+      "en": "Edmonton (Fan Park @ ICE District, Alberta)"
+    },
+    "latitude": 53.5461,
+    "longitude": -113.4958,
+    "capacite": 7500,
+    "annee": 2026,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://igloofest.ca",
+    "description": {
+      "fr": "Première expansion dans l’Ouest canadien du célèbre festival hivernal montréalais Igloofest, installant son village nordique en plein air au coeur du ICE District d’Edmonton.",
+      "en": "First Western Canadian expansion of Montreal’s iconic winter rave Igloofest, transforming downtown Edmonton’s ICE District Fan Park into an open-air electronic arena."
+    }
+  },
+  {
+    "id": "dstrkt-festival-edmonton",
+    "nom": "DSTRKT Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Edmonton (Fan Park @ ICE District, Alberta)",
+      "en": "Edmonton (Fan Park @ ICE District, Alberta)"
+    },
+    "latitude": 53.5465,
+    "longitude": -113.4962,
+    "capacite": 9000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Dubstep",
+      "Drum & Bass",
+      "House",
+      "EDM"
+    ],
+    "site": "https://dstrktfest.com",
+    "description": {
+      "fr": "Grand festival multi-scènes de rentrée coproduit par Boodang Music Canada au centre-ville d’Edmonton, réunissant poids lourds mondiaux du dubstep, de la drum & bass et de la house.",
+      "en": "Multi-stage downtown Edmonton festival co-produced by Boodang Music Canada at ICE District, uniting global dubstep, drum & bass and house heavyweights."
+    }
+  },
+  {
+    "id": "pure-night-in-white-calgary",
+    "nom": "PURE (A Night in White)",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Calgary (Big Four Roadhouse, Stampede Park, Alberta)",
+      "en": "Calgary (Big Four Roadhouse, Stampede Park, Alberta)"
+    },
+    "latitude": 51.0381,
+    "longitude": -114.0558,
+    "capacite": 4500,
+    "annee": 2008,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Hardstyle",
+      "Trance",
+      "Big Room",
+      "Techno"
+    ],
+    "site": "https://purewhitenight.com",
+    "description": {
+      "fr": "Tradition hivernale tout en blanc signée Boodang entre Noël et le Jour de l’An en Alberta, réunissant des milliers de festivaliers autour de la trance, du hardstyle et de la techno.",
+      "en": "Signature year-end all-white indoor rave tradition by Boodang in Alberta, uniting thousands of fans between Christmas and New Year around trance, hardstyle and techno."
+    }
+  },
+  {
+    "id": "frequency-calgary-alberta",
+    "nom": "Frequency",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Calgary (Big Four Roadhouse, Stampede Park, Alberta)",
+      "en": "Calgary (Big Four Roadhouse, Stampede Park, Alberta)"
+    },
+    "latitude": 51.0384,
+    "longitude": -114.0552,
+    "capacite": 4000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "Bass House",
+      "Tech House",
+      "EDM",
+      "UK Garage"
+    ],
+    "site": "https://boodang.com",
+    "description": {
+      "fr": "Rendez-vous hivernal majeur de février au Stampede Park de Calgary organisé par Boodang autour des têtes d’affiche nord-américaines de la bass house, de la tech house et de l’EDM.",
+      "en": "Flagship February indoor electronic festival at Calgary’s Stampede Park produced by Boodang around leading bass house, tech-house and EDM acts."
+    }
+  },
+  {
+    "id": "inshala-souluna-alberta",
+    "nom": "Inshala / Souluna Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Fort Macleod (Sud de l’Alberta)",
+      "en": "Fort Macleod (Southern Alberta)"
+    },
+    "latitude": 49.7212,
+    "longitude": -113.4322,
+    "capacite": 1500,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Downtempo",
+      "Organic House",
+      "Bass",
+      "Psy"
+    ],
+    "site": "https://evolvedmovementarts.ca",
+    "description": {
+      "fr": "Rassemblement artistique et électronique de camping au bord de la rivière Old Man dans le sud de l’Alberta, célébrant downtempo, house organique, bass music et arts visuels.",
+      "en": "Riverside electronic music and movement arts camping gathering along the Old Man River in Southern Alberta, celebrating downtempo, organic house and world bass."
+    }
+  },
+  {
+    "id": "meme-festival-winnipeg-manitoba",
+    "nom": "MEME (Manitoba Electronic Music Exhibition)",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Winnipeg (Exchange District, Manitoba)",
+      "en": "Winnipeg (Exchange District, Manitoba)"
+    },
+    "latitude": 49.8981,
+    "longitude": -97.1414,
+    "capacite": 5000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Ambient",
+      "IDM",
+      "Experimental"
+    ],
+    "site": "https://memetic.ca",
+    "description": {
+      "fr": "Vitrine majeure des musiques électroniques et des arts numériques dans les Prairies canadiennes, combinant concerts extérieurs gratuits sur la scène The Cube à Winnipeg et nuits rave en entrepôt.",
+      "en": "The Canadian Prairies’ flagship electronic music and digital arts festival, pairing free outdoor concerts at The Cube in Winnipeg’s Exchange District with late-night warehouse showcases."
+    }
+  },
+  {
+    "id": "bring-your-love-manitoba",
+    "nom": "Bring Your Love Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Inwood (Interlake, Manitoba)",
+      "en": "Inwood (Interlake, Manitoba)"
+    },
+    "latitude": 50.5112,
+    "longitude": -97.5342,
+    "capacite": 1800,
+    "annee": 2019,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Dubstep",
+      "Breaks"
+    ],
+    "site": "https://bringyourlove.ca",
+    "description": {
+      "fr": "Plus grand festival électronique de camping du Manitoba réunissant plus d’une centaine de DJ sur cinq jours au nord de Winnipeg entre house, techno, breaks et drum & bass.",
+      "en": "Manitoba’s largest multi-day electronic camping festival uniting over a hundred DJs an hour north of Winnipeg across house, techno, breaks and drum & bass stages."
+    }
+  },
+  {
+    "id": "emotion-festival-saskatchewan",
+    "nom": "Emotion Arts & Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Mortlach / Moose Jaw (Saskatchewan)",
+      "en": "Mortlach / Moose Jaw (Saskatchewan)"
+    },
+    "latitude": 50.4616,
+    "longitude": -105.9613,
+    "capacite": 2200,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Breaks",
+      "Bass"
+    ],
+    "site": "https://emotionmusicfestival.com",
+    "description": {
+      "fr": "Rendez-vous phare des musiques électroniques et des arts en Saskatchewan dans un site boisé près de Moose Jaw, digne héritier de la longue tradition rave des Prairies.",
+      "en": "Saskatchewan’s flagship four-day electronic music and arts camping festival set in wooded grounds near Moose Jaw, championing house, techno, breaks and bass."
+    }
+  },
+  {
+    "id": "electric-sky-saskatchewan",
+    "nom": "Electric Sky Electronic Music & Arts Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Big River (Forêt boréale de Ness Creek, Saskatchewan)",
+      "en": "Big River (Ness Creek Boreal Forest, Saskatchewan)"
+    },
+    "latitude": 53.9136,
+    "longitude": -106.8428,
+    "capacite": 1500,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Bass",
+      "Funk",
+      "Downtempo"
+    ],
+    "site": "https://electricsky.ca",
+    "description": {
+      "fr": "Quatre jours d’immersion électronique et artistique au coeur de la forêt boréale du nord de la Saskatchewan sur le site écologique permanent de Ness Creek.",
+      "en": "Four-day electronic music and arts gathering set deep in northern Saskatchewan’s boreal forest on the eco-friendly Ness Creek festival grounds."
+    }
+  },
+  {
+    "id": "vibrancy-festival-halifax",
+    "nom": "Vibrancy Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Halifax (Citadelle d’Halifax, Nouvelle-Écosse)",
+      "en": "Halifax (Halifax Citadel, Nova Scotia)"
+    },
+    "latitude": 44.6475,
+    "longitude": -63.5803,
+    "capacite": 1500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "UK Garage"
+    ],
+    "site": "https://vibrancylabel.com",
+    "description": {
+      "fr": "Festival électronique underground investi à l’intérieur des douves et remparts de pierre de la Citadelle historique d’Halifax, réunissant pionniers internationaux de la techno et de la house.",
+      "en": "Underground electronic festival staged inside the historic stone walls and garrison grounds of the Halifax Citadel with pioneering international techno and house selectors."
+    }
+  },
+  {
+    "id": "magnetic-world-halifax",
+    "nom": "Magnetic World Music Festival",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Halifax (Garrison Grounds, Citadel Hill, Nouvelle-Écosse)",
+      "en": "Halifax (Garrison Grounds, Citadel Hill, Nova Scotia)"
+    },
+    "latitude": 44.6458,
+    "longitude": -63.5786,
+    "capacite": 18000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "Tech House",
+      "Progressive House",
+      "House"
+    ],
+    "site": "https://magneticworldmf.com",
+    "description": {
+      "fr": "Plus grand festival extérieur d’automne du Canada atlantique au pied de Citadel Hill à Halifax, alignant superstars mondiales de la tech house, de la progressive house et de l’EDM.",
+      "en": "Atlantic Canada’s largest outdoor electronic and contemporary music festival at the foot of Halifax’s Citadel Hill, headlined by global tech-house and EDM stars."
+    }
+  },
+  {
+    "id": "breakaway-music-festival-us",
+    "nom": "Breakaway Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Columbus (Ohio) & Tournée américaine",
+      "en": "Columbus (Ohio) & US Multi-City Tour"
+    },
+    "latitude": 40.0095,
+    "longitude": -82.9912,
+    "capacite": 25000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Avril - Novembre",
+      "en": "April - November"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Tech House",
+      "Bass"
+    ],
+    "site": "https://www.breakawayfestival.com",
+    "description": {
+      "fr": "Plus grand festival électronique itinérant des États-Unis né à Columbus en Ohio, déployant ses scènes EDM, house et bass dans plus d’une douzaine de métropoles américaines.",
+      "en": "Largest multi-city touring electronic festival in the United States, born in Columbus, Ohio and bringing major EDM, house and bass lineups to over a dozen cities."
+    }
+  },
+  {
+    "id": "palm-tree-music-festival-us",
+    "nom": "Palm Tree Music Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Aspen (Colorado) & Hamptons (New York)",
+      "en": "Aspen (Colorado) & The Hamptons (New York)"
+    },
+    "latitude": 39.1936,
+    "longitude": -106.8206,
+    "capacite": 8000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Février & Juin",
+      "en": "February & June"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Melodic House",
+      "EDM"
+    ],
+    "site": "https://www.palmtreemusicfestival.com",
+    "description": {
+      "fr": "Festival boutique fondé par Kygo et Palm Tree Crew dans des stations alpines et balnéaires prisées comme Aspen et les Hamptons autour de la house solaire et mélodique.",
+      "en": "Boutique destination festival founded by Kygo and Palm Tree Crew across alpine and coastal settings like Aspen and the Hamptons."
+    }
+  },
+  {
+    "id": "decadence-arizona-us",
+    "nom": "Decadence Arizona",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Avondale / Phoenix (Phoenix Raceway, Arizona)",
+      "en": "Avondale / Phoenix (Phoenix Raceway, Arizona)"
+    },
+    "latitude": 33.3748,
+    "longitude": -112.3111,
+    "capacite": 30000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Décembre (Nouvel An)",
+      "en": "December (New Year)"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Bass",
+      "Techno"
+    ],
+    "site": "https://decadencearizona.com",
+    "description": {
+      "fr": "Plus grand festival électronique du Nouvel An dans le Sud-Ouest américain, coproduit par Relentless Beats et Global Dance sur le circuit Phoenix Raceway.",
+      "en": "Largest New Year’s Eve electronic festival in the American Southwest, co-produced by Relentless Beats and Global Dance at Phoenix Raceway."
+    }
+  },
+  {
+    "id": "hijinx-festival-philadelphie-us",
+    "nom": "HiJinx Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Philadelphie (Pennsylvanie)",
+      "en": "Philadelphia (Pennsylvania)"
+    },
+    "latitude": 39.9548,
+    "longitude": -75.1601,
+    "capacite": 20000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Décembre (Nouvel An)",
+      "en": "December (New Year)"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "Trap",
+      "Drum & Bass"
+    ],
+    "site": "https://hijinxfest.com",
+    "description": {
+      "fr": "Grand rassemblement intérieur de fin d’année au coeur du Convention Center de Philadelphie consacré à la bass music expérimentale, au dubstep et aux productions lasers géantes.",
+      "en": "Massive indoor year-end festival at the Pennsylvania Convention Center in downtown Philadelphia dedicated to heavy bass, dubstep and experimental bass music."
+    }
+  },
+  {
+    "id": "forever-midnight-los-angeles-us",
+    "nom": "Forever Midnight",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (Convention Center, Californie)",
+      "en": "Los Angeles (Convention Center, California)"
+    },
+    "latitude": 34.0403,
+    "longitude": -118.2696,
+    "capacite": 15000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Décembre (Nouvel An)",
+      "en": "December (New Year)"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno",
+      "Melodic Techno"
+    ],
+    "site": "https://forevermidnightfest.com",
+    "description": {
+      "fr": "Rendez-vous du Nouvel An signé Insomniac et Factory 93 au coeur de Downtown Los Angeles, entièrement consacré à la house pointue, à la tech house et à la techno.",
+      "en": "New Year’s Eve festival curated by Insomniac and Factory 93 in Downtown Los Angeles, spotlighting underground house, tech house and techno."
+    }
+  },
+  {
+    "id": "cyclops-cove-floride-us",
+    "nom": "Cyclops Cove",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Boca Raton (Sunset Cove, Floride)",
+      "en": "Boca Raton (Sunset Cove, Florida)"
+    },
+    "latitude": 26.3683,
+    "longitude": -80.2201,
+    "capacite": 10000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Dubstep",
+      "Riddim",
+      "Bass",
+      "Drum & Bass"
+    ],
+    "site": "https://www.insomniac.com",
+    "description": {
+      "fr": "Festival de trois jours en plein air en Floride du Sud dirigé par Subtronics avec Bassrush, devenu un bastion hivernal incontournable du dubstep, du riddim et de la drum & bass.",
+      "en": "Three-day open-air South Florida bass festival curated by Subtronics alongside Bassrush, championing heavy dubstep, riddim and drum & bass."
+    }
+  },
+  {
+    "id": "illfest-austin-texas-us",
+    "nom": "ILLfest",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Austin (Travis County Expo Center, Texas)",
+      "en": "Austin (Travis County Expo Center, Texas)"
+    },
+    "latitude": 30.2981,
+    "longitude": -97.6253,
+    "capacite": 15000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "House",
+      "EDM"
+    ],
+    "site": "https://www.illfest.com",
+    "description": {
+      "fr": "Festival texan de musique électronique et de street art à Austin, unissant fresques murales peintes en direct, installations interactives et grosses scènes bass et house.",
+      "en": "Austin electronic music and street-art festival pairing live muralists and interactive installations with heavyweight bass and house stages."
+    }
+  },
+  {
+    "id": "global-dance-festival-denver-us",
+    "nom": "Global Dance Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Denver (National Western Center, Colorado)",
+      "en": "Denver (National Western Center, Colorado)"
+    },
+    "latitude": 39.7818,
+    "longitude": -104.9722,
+    "capacite": 25000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "Bass",
+      "House",
+      "Techno",
+      "Trance"
+    ],
+    "site": "https://globaldancefestival.com",
+    "description": {
+      "fr": "Institution estivale et automnale des Rocheuses fondée en 2003 au Colorado, rassemblant plusieurs scènes dédiées à la bass, à la house, à la techno et à l’EDM à Denver.",
+      "en": "Long-running Rocky Mountain electronic flagship in Denver founded in 2003, hosting multi-genre stages across bass, house, techno and EDM."
+    }
+  },
+  {
+    "id": "lost-in-dreams-los-angeles-us",
+    "nom": "Lost In Dreams Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "losangeles-us",
+    "ville": {
+      "fr": "Los Angeles (LA State Historic Park, Californie)",
+      "en": "Los Angeles (LA State Historic Park, California)"
+    },
+    "latitude": 34.0667,
+    "longitude": -118.2341,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Bass",
+      "Progressive House",
+      "EDM",
+      "House"
+    ],
+    "site": "https://www.lostindreamsfestival.com",
+    "description": {
+      "fr": "Festival plein air d’Insomniac au Los Angeles State Historic Park dédié à la future bass, à la bass mélodique et aux performances vocales électroniques.",
+      "en": "Open-air Insomniac festival at Los Angeles State Historic Park dedicated to melodic bass, future bass and vocal-driven electronic music."
+    }
+  },
+  {
+    "id": "wasteland-socal-us",
+    "nom": "Wasteland",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "San Bernardino (NOS Events Center, Californie)",
+      "en": "San Bernardino (NOS Events Center, California)"
+    },
+    "latitude": 34.0886,
+    "longitude": -117.2913,
+    "capacite": 15000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Hardstyle",
+      "Rawstyle",
+      "Hardcore",
+      "Hard Techno"
+    ],
+    "site": "https://www.wastelandfest.com",
+    "description": {
+      "fr": "Plus grand festival nord-américain consacré aux harder styles (hardstyle, rawstyle, hardcore), produit par Basscon et Insomniac en Californie du Sud.",
+      "en": "North America’s premier harder-styles festival produced by Basscon and Insomniac at Southern California’s NOS Events Center."
+    }
+  },
+  {
+    "id": "force-fields-festival-wisconsin-us",
+    "nom": "Force Fields Festival",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "Cadott (Chippewa Valley, Wisconsin)",
+      "en": "Cadott (Chippewa Valley, Wisconsin)"
+    },
+    "latitude": 44.9754,
+    "longitude": -91.1504,
+    "capacite": 15000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "House",
+      "EDM"
+    ],
+    "site": "https://forcefieldsfestival.com",
+    "description": {
+      "fr": "Grand festival de camping électronique du Midwest américain dans la vallée de Chippewa au Wisconsin, réunissant têtes d’affiche bass music, dubstep et house sous une thématique cosmique.",
+      "en": "Major Midwest electronic camping festival in Wisconsin’s Chippewa Valley uniting heavyweight bass, dubstep and house headliners."
+    }
+  },
+  {
+    "id": "groove-cruise-miami-us",
+    "nom": "Groove Cruise",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (PortMiami vers les Caraïbes, Floride)",
+      "en": "Miami (PortMiami to the Caribbean, Florida)"
+    },
+    "latitude": 25.7781,
+    "longitude": -80.1704,
+    "capacite": 6000,
+    "annee": 2004,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Trance",
+      "Techno",
+      "EDM"
+    ],
+    "site": "https://www.groovecruise.com",
+    "description": {
+      "fr": "Plus ancienne et plus vaste croisière-festival électronique indépendante au monde, embarquant depuis Miami pour quatre-vingt-seize heures de musique non-stop et d’escales privées aux Caraïbes.",
+      "en": "World’s premier independent floating electronic music festival sailing from PortMiami for ninety-six hours of non-stop house, techno and trance."
+    }
+  },
+  {
+    "id": "edsea-miami-us",
+    "nom": "EDSea",
+    "type": "festival",
+    "paysCode": "US",
+    "villeSlug": "miami-us",
+    "ville": {
+      "fr": "Miami (PortMiami vers les Caraïbes, Floride)",
+      "en": "Miami (PortMiami to the Caribbean, Florida)"
+    },
+    "latitude": 25.7765,
+    "longitude": -80.1685,
+    "capacite": 4000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Novembre - Janvier",
+      "en": "November - January"
+    },
+    "styles": [
+      "House",
+      "Bass",
+      "Techno",
+      "EDM"
+    ],
+    "site": "https://www.edsea.com",
+    "description": {
+      "fr": "Croisière-festival officielle d’Insomniac prolongeant l’univers d’Electric Daisy Carnival en mer des Caraïbes au départ de Miami avec huit scènes sur les ponts et fêtes sur plage privée.",
+      "en": "Insomniac’s official Electric Daisy Carnival festival cruise departing PortMiami across the Caribbean with deck stages and private island raves."
+    }
+  },
+  {
+    "id": "time-warp-mexico-cdmx",
+    "nom": "Time Warp Mexico",
+    "type": "festival",
+    "paysCode": "MX",
+    "villeSlug": "mexico-mx",
+    "ville": {
+      "fr": "Mexico (Expo Santa Fe, CDMX)",
+      "en": "Mexico City (Expo Santa Fe, CDMX)"
+    },
+    "latitude": 19.367,
+    "longitude": -99.2608,
+    "capacite": 12000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno"
+    ],
+    "site": "https://www.time-warp.de",
+    "description": {
+      "fr": "Implantation mexicaine officielle sur deux nuits à Expo Santa Fe du mythique festival techno allemand Time Warp, réunissant icônes mondiales de la techno et scénographie lumineuse monumentale.",
+      "en": "Official two-night Mexico City edition of Mannheim’s legendary Time Warp techno festival at Expo Santa Fe."
+    }
+  },
+  {
+    "id": "ember-shores-riviera-maya-mexique",
+    "nom": "Ember Shores",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Riviera Maya (Quintana Roo)",
+      "en": "Riviera Maya (Quintana Roo)"
+    },
+    "latitude": 20.4912,
+    "longitude": -87.2464,
+    "capacite": 5000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Novembre - Décembre",
+      "en": "November - December"
+    },
+    "styles": [
+      "Bass",
+      "Dubstep",
+      "Progressive House"
+    ],
+    "site": "https://embershores.com",
+    "description": {
+      "fr": "Festival balnéaire de trois jours sur la côte caraïbe mexicaine imaginé par Illenium, mêlant scènes les pieds dans le sable, pool parties et têtes d’affiche melodic bass et dubstep.",
+      "en": "Three-day Caribbean beachfront destination festival curated by Illenium on the Riviera Maya, featuring beach stages and melodic bass headliners."
+    }
+  },
+  {
+    "id": "holy-ship-wrecked-mexique",
+    "nom": "Holy Ship! Wrecked",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Riviera Maya (Quintana Roo)",
+      "en": "Riviera Maya (Quintana Roo)"
+    },
+    "latitude": 20.4851,
+    "longitude": -87.252,
+    "capacite": 4500,
+    "annee": 2020,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Bass",
+      "Techno"
+    ],
+    "site": "https://holyship.com",
+    "description": {
+      "fr": "Déclinaison balnéaire de quatre jours du festival culte Holy Ship! coproduite par Insomniac sur les plages de la Riviera Maya autour de la house, de la tech house et de la bass music.",
+      "en": "Four-day beachfront Riviera Maya edition of the cult Holy Ship! gathering co-produced by Insomniac across house, tech house and bass stages."
+    }
+  },
+  {
+    "id": "festival-vaiven-morelos-mexique",
+    "nom": "Festival Vaivén",
+    "type": "festival",
+    "paysCode": "MX",
+    "ville": {
+      "fr": "Jojutla / Tehuixtla (Jardines de México, Morelos)",
+      "en": "Jojutla / Tehuixtla (Jardines de Mexico, Morelos)"
+    },
+    "latitude": 18.5262,
+    "longitude": -99.2546,
+    "capacite": 35000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Indie Dance",
+      "Electronica"
+    ],
+    "site": "https://festivalvaiven.com",
+    "description": {
+      "fr": "Grand festival en plein air au milieu des Jardines de México dans l’État de Morelos au sud de Mexico, reconnu pour ses têtes d’affiche électroniques, house et indie dance internationales.",
+      "en": "Major open-air festival set across the botanical gardens of Jardines de Mexico in Morelos, anchored by leading international house, melodic techno and live electronic acts."
+    }
+  },
+  {
+    "id": "edc-colombia-medellin",
+    "nom": "EDC Colombia (Electric Daisy Carnival)",
+    "type": "festival",
+    "paysCode": "CO",
+    "ville": {
+      "fr": "Medellín (Complexe Atanasio Girardot)",
+      "en": "Medellin (Atanasio Girardot Complex)"
+    },
+    "latitude": 6.2569,
+    "longitude": -75.5901,
+    "capacite": 45000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "House",
+      "Bass",
+      "Hardstyle"
+    ],
+    "site": "https://colombia.electricdaisycarnival.com",
+    "description": {
+      "fr": "Arrivée officielle d’Electric Daisy Carnival en Colombie coproduite par Insomniac et Páramo Presenta au coeur de Medellín devant quarante-cinq mille festivaliers.",
+      "en": "Official Colombian edition of Insomniac’s Electric Daisy Carnival co-produced with Paramo Presenta at Medellin’s Atanasio Girardot complex."
+    }
+  },
+  {
+    "id": "buena-vida-beach-cartagena-colombie",
+    "nom": "Buena Vida Beach",
+    "type": "festival",
+    "paysCode": "CO",
+    "ville": {
+      "fr": "Carthagène des Indes (Punta Canoa)",
+      "en": "Cartagena (Punta Canoa)"
+    },
+    "latitude": 10.5469,
+    "longitude": -75.4958,
+    "capacite": 12000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House",
+      "Techno"
+    ],
+    "site": "https://buenavidabeach.com.co",
+    "description": {
+      "fr": "Plus grand festival électronique balnéaire de la côte caraïbe colombienne, réunissant chaque début janvier sur les plages de Carthagène des figures mondiales de la house et de la tech house.",
+      "en": "Colombia’s premier Caribbean beachfront electronic festival held every early January on the shores of Cartagena with international house and tech-house stars."
+    }
+  },
+  {
+    "id": "vintage-is-a-festival-bresil",
+    "nom": "Vintage Is A Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo & Grandes métropoles brésiliennes",
+      "en": "Sao Paulo & Major Brazilian Cities"
+    },
+    "latitude": -23.5475,
+    "longitude": -46.7225,
+    "capacite": 25000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai - Novembre",
+      "en": "May - November"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://vintageisafestival.com.br",
+    "description": {
+      "fr": "Méga-festival marathon de douze heures imaginé par le producteur brésilien Vintage Culture à São Paulo et à travers le Brésil, alliant house, tech house et techno mélodique.",
+      "en": "Twelve-hour multi-stage festival marathon spearheaded by Brazilian icon Vintage Culture in Sao Paulo and major stadiums across Brazil."
+    }
+  },
+  {
+    "id": "mamba-negra-festival-sao-paulo",
+    "nom": "Mamba Negra Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo (Brás / Friches industrielles)",
+      "en": "Sao Paulo (Bras / Industrial Warehouses)"
+    },
+    "latitude": -23.5414,
+    "longitude": -46.6186,
+    "capacite": 5000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Mai & Novembre",
+      "en": "May & November"
+    },
+    "styles": [
+      "Techno",
+      "Industrial Techno",
+      "Bass",
+      "Experimental",
+      "Global Club"
+    ],
+    "site": "https://www.instagram.com/mamba.n",
+    "description": {
+      "fr": "Collectif et festival indépendant emblématique de l’avant-garde underground, queer et techno industrielle de São Paulo, prenant possession d’immenses entrepôts désaffectés.",
+      "en": "Fiercely independent underground queer rave collective and festival transforming sprawling Sao Paulo industrial warehouses with techno, bass and baile funk."
+    }
+  },
+  {
+    "id": "playground-music-festival-bresil",
+    "nom": "Playground Music Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "ville": {
+      "fr": "São Pedro (État de São Paulo)",
+      "en": "Sao Pedro (Sao Paulo State)"
+    },
+    "latitude": -22.5833,
+    "longitude": -47.8869,
+    "capacite": 18000,
+    "annee": 2005,
+    "mois": {
+      "fr": "Mai & Octobre",
+      "en": "May & October"
+    },
+    "styles": [
+      "Psy",
+      "Tech House",
+      "Progressive Trance",
+      "Bass"
+    ],
+    "site": "https://www.playgroundmusicfestival.com.br",
+    "description": {
+      "fr": "Institution électronique brésilienne active depuis 2005 associant un parc d’attractions en plein air à de grandes scènes dédiées à la psytrance, à la progressive et à la tech house.",
+      "en": "Long-running Brazilian open-air electronic festival pairing full amusement park rides with massive psytrance, progressive and tech-house stages."
+    }
+  },
+  {
+    "id": "boma-festival-sao-paulo-bresil",
+    "nom": "BOMA Festival",
+    "type": "festival",
+    "paysCode": "BR",
+    "villeSlug": "saopaulo-br",
+    "ville": {
+      "fr": "São Paulo & Rio de Janeiro",
+      "en": "Sao Paulo & Rio de Janeiro"
+    },
+    "latitude": -23.5481,
+    "longitude": -46.6651,
+    "capacite": 8000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Février (Carnaval) & Août",
+      "en": "February (Carnival) & August"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Indie Dance",
+      "Techno"
+    ],
+    "site": "https://entourage.com.br",
+    "description": {
+      "fr": "Plateforme festivalière brésilienne investissant des lieux architecturaux monumentaux de São Paulo et Rio de Janeiro autour de l’élite internationale de la house et de la techno mélodique.",
+      "en": "Curated Brazilian festival series taking over iconic architectural landmarks in Sao Paulo and Rio de Janeiro with leading melodic techno and house artists."
+    }
+  },
+  {
+    "id": "la-fabrica-open-air-cordoba-argentine",
+    "nom": "La Fábrica Open Air",
+    "type": "festival",
+    "paysCode": "AR",
+    "ville": {
+      "fr": "La Calera (Córdoba)",
+      "en": "La Calera (Cordoba)"
+    },
+    "latitude": -31.3439,
+    "longitude": -64.3364,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Octobre - Avril",
+      "en": "October - April"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Techno",
+      "Progressive House",
+      "Tech House"
+    ],
+    "site": "https://lafabricacordoba.online",
+    "description": {
+      "fr": "Gigantesque arène électronique à ciel ouvert installée dans une ancienne cimenterie près de Córdoba, devenue l’épicentre des grands rassemblements techno et progressive en Argentine.",
+      "en": "Colossal open-air electronic arena set in a former cement plant outside Cordoba, hosting Argentina’s biggest international techno and progressive house gatherings."
+    }
+  },
+  {
+    "id": "rio-electronic-music-buenos-aires",
+    "nom": "Río Electronic Music",
+    "type": "festival",
+    "paysCode": "AR",
+    "ville": {
+      "fr": "Buenos Aires (Punta Carrasco, Costanera Norte)",
+      "en": "Buenos Aires (Punta Carrasco, Costanera Norte)"
+    },
+    "latitude": -34.5528,
+    "longitude": -58.4061,
+    "capacite": 10000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Octobre - Mars",
+      "en": "October - March"
+    },
+    "styles": [
+      "Tech House",
+      "House",
+      "Minimal"
+    ],
+    "site": "https://rioelectronicmusic.com",
+    "description": {
+      "fr": "Grand rendez-vous en plein air sur les rives du Río de la Plata à Buenos Aires consacré aux têtes d’affiche mondiales de la tech house, de la house et de la minimal.",
+      "en": "Flagship riverside open-air festival along the Rio de la Plata in Buenos Aires dedicated to global tech-house, house and minimal deep tech."
+    }
+  },
+  {
+    "id": "we-are-lost-buenos-aires-argentine",
+    "nom": "We Are Lost Festival Buenos Aires",
+    "type": "festival",
+    "paysCode": "AR",
+    "ville": {
+      "fr": "Buenos Aires (Autódromo de Buenos Aires)",
+      "en": "Buenos Aires (Buenos Aires Racetrack)"
+    },
+    "latitude": -34.6942,
+    "longitude": -58.4594,
+    "capacite": 10000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Progressive House",
+      "Deep House",
+      "Melodic Techno"
+    ],
+    "site": "https://lostfestival.com",
+    "description": {
+      "fr": "Grand festival open air de progressive house et de melodic house dirigé par Guy J sur l’Autódromo de Buenos Aires, terre d’élection mondiale du son progressif.",
+      "en": "Major open-air progressive house and melodic techno festival curated by Guy J at the Buenos Aires Autodromo."
+    }
+  },
+  {
+    "id": "the-5th-element-porto-rico",
+    "nom": "The 5th Element Festival",
+    "type": "festival",
+    "paysCode": "PR",
+    "ville": {
+      "fr": "San Juan & Río Grande (El Yunque)",
+      "en": "San Juan & Rio Grande (El Yunque)"
+    },
+    "latitude": 18.4419,
+    "longitude": -66.0172,
+    "capacite": 4000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://the5thelementfestival.com",
+    "description": {
+      "fr": "Semaine électronique underground à Porto Rico reliant plages caraïbes et forêt tropicale d’El Yunque autour des maîtres mondiaux de la minimal, de la house et de la techno.",
+      "en": "Week-long underground electronic gathering in Puerto Rico spanning Caribbean beaches and the El Yunque rainforest with world-renowned minimal, house and techno selectors."
+    }
+  },
+  {
+    "id": "sxm-festival-saint-martin",
+    "nom": "SXM Festival",
+    "type": "festival",
+    "paysCode": "SX",
+    "ville": {
+      "fr": "Happy Bay & Marigot (Saint-Martin)",
+      "en": "Happy Bay & Marigot (Saint Martin)"
+    },
+    "latitude": 18.0825,
+    "longitude": -63.0631,
+    "capacite": 5000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Afro House",
+      "Minimal"
+    ],
+    "site": "https://www.sxmfestival.com",
+    "description": {
+      "fr": "Festival destination emblématique des Caraïbes investissant pendant cinq jours et cinq nuits la crique sauvage de Happy Bay, villas perchées et boat parties sur l’île de Saint-Martin.",
+      "en": "Iconic five-day Caribbean destination festival taking over the secluded jungle cove of Happy Bay, hilltop villas and boat parties across Saint Martin."
+    }
+  },
+  {
+    "id": "district-x-irlande",
+    "nom": "District X Festival",
+    "type": "festival",
+    "paysCode": "IE",
+    "ville": {
+      "fr": "Naas / Dublin (Palmerstown House, Kildare)",
+      "en": "Naas / Dublin (Palmerstown House, Co. Kildare)"
+    },
+    "latitude": 53.2428,
+    "longitude": -6.6253,
+    "capacite": 25000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "UK Garage",
+      "Tech House"
+    ],
+    "site": "https://www.district-x-festival.com",
+    "description": {
+      "fr": "Plus grand festival électronique en plein air de la République d’Irlande coproduit par les clubs dublinois District 8 et Index sur le domaine de Palmerstown House.",
+      "en": "Largest open-air electronic music festival in the Republic of Ireland, co-produced by Dublin club institutions District 8 and Index at Palmerstown House Estate."
+    }
+  },
+  {
+    "id": "fuinneamh-festival-irlande",
+    "nom": "Fuinneamh Festival",
+    "type": "festival",
+    "paysCode": "IE",
+    "ville": {
+      "fr": "Dundalk (Bellurgan Park, Louth)",
+      "en": "Dundalk (Bellurgan Park, Co. Louth)"
+    },
+    "latitude": 54.0272,
+    "longitude": -6.3189,
+    "capacite": 3000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "Psy",
+      "House",
+      "Drum & Bass",
+      "Electro"
+    ],
+    "site": "https://www.fuinneamh.ie",
+    "description": {
+      "fr": "Rassemblement underground indépendant dans les bois du manoir de Bellurgan Park au nord de Dublin, bastion irlandais de la techno, de la psytrance et de la culture rave communautaire.",
+      "en": "Fiercely independent underground electronic gathering in the woodlands of Bellurgan Park north of Dublin, championing techno, psytrance, house and Irish rave culture."
+    }
+  },
+  {
+    "id": "beyond-the-pale-irlande",
+    "nom": "Beyond The Pale",
+    "type": "festival",
+    "paysCode": "IE",
+    "ville": {
+      "fr": "Glendalough Estate (Comté de Wicklow)",
+      "en": "Glendalough Estate (Co. Wicklow)"
+    },
+    "latitude": 53.0358,
+    "longitude": -6.2414,
+    "capacite": 12000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electronica",
+      "Live Electronic",
+      "Disco"
+    ],
+    "site": "https://www.itsbeyondthepale.ie",
+    "description": {
+      "fr": "Trois jours au coeur des vallées boisées de Glendalough au sud de Dublin, dotés d’une solide programmation électronique internationale entre lives et nuits techno et house.",
+      "en": "Three-day boutique festival set in the scenic Glendalough Estate valleys south of Dublin, featuring heavyweight international electronic live acts and late-night selectors."
+    }
+  },
+  {
+    "id": "forbidden-fruit-dublin-irlande",
+    "nom": "Forbidden Fruit Festival",
+    "type": "festival",
+    "paysCode": "IE",
+    "ville": {
+      "fr": "Dublin (Royal Hospital Kilmainham)",
+      "en": "Dublin (Royal Hospital Kilmainham)"
+    },
+    "latitude": 53.3429,
+    "longitude": -6.3001,
+    "capacite": 15000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "UK Garage",
+      "Jungle",
+      "Electronica"
+    ],
+    "site": "https://www.forbiddenfruit.ie",
+    "description": {
+      "fr": "Premier grand festival urbain de l’été à Dublin dans les jardins du musée d’art moderne IMMA à Kilmainham, ancré dans l’électronique, le UK garage et la house.",
+      "en": "Dublin’s flagship early-summer city festival on the grounds of the Irish Museum of Modern Art at Royal Hospital Kilmainham, spotlighting UK garage, house and bass."
+    }
+  },
+  {
+    "id": "forbidden-forest-royaume-uni",
+    "nom": "Forbidden Forest",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Belvoir Castle (Leicestershire)",
+      "en": "Belvoir Castle (Leicestershire)"
+    },
+    "latitude": 52.8944,
+    "longitude": -0.7825,
+    "capacite": 22000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Tech House",
+      "House",
+      "Drum & Bass",
+      "Techno",
+      "UK Garage"
+    ],
+    "site": "https://www.forbidden-forest.co.uk",
+    "description": {
+      "fr": "Festival électronique en forêt dans le domaine ducal de Belvoir Castle dans les Midlands, réunissant vingt-deux mille festivaliers autour de la tech house, de la techno et de la drum & bass.",
+      "en": "Woodland electronic camping festival on the historic Belvoir Castle estate in Leicestershire, hosting 22,000 ravers across house, tech house, techno and drum & bass stages."
+    }
+  },
+  {
+    "id": "maiden-voyage-londres-uk",
+    "nom": "Maiden Voyage Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Burgess Park)",
+      "en": "London (Burgess Park)"
+    },
+    "latitude": 51.4831,
+    "longitude": -0.0825,
+    "capacite": 14500,
+    "annee": 2019,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Breaks",
+      "Bass",
+      "Electro"
+    ],
+    "site": "https://www.maiden-voyage.co.uk",
+    "description": {
+      "fr": "Festival londonien curateur de la scène club pointue à Burgess Park, confiant ses scènes à des collectifs underground comme Unfold, Live From Earth et Pxssy Palace.",
+      "en": "Cutting-edge South London electronic day festival in Burgess Park welcoming 14,500 dancers across stages curated by leading underground club collectives."
+    }
+  },
+  {
+    "id": "silverworks-island-londres-uk",
+    "nom": "Silverworks Island",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Royal Docks)",
+      "en": "London (Royal Docks)"
+    },
+    "latitude": 51.5036,
+    "longitude": 0.0322,
+    "capacite": 20000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Juin - Août",
+      "en": "June - August"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Tech House",
+      "Drum & Bass",
+      "Trance"
+    ],
+    "site": "https://silverworksisland.com",
+    "description": {
+      "fr": "Vaste presqu’île open air développée par Broadwick Live (Printworks, Drumsheds) sur les Royal Docks de l’Est londonien, accueillant tout l’été de grands week-ends électroniques.",
+      "en": "Open-air dockland festival destination built by Broadwick Live in East London’s Royal Docks, hosting major summer electronic takeovers."
+    }
+  },
+  {
+    "id": "lost-minds-newcastle-uk",
+    "nom": "Lost Minds Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Newcastle upon Tyne (Exhibition Park)",
+      "en": "Newcastle upon Tyne (Exhibition Park)"
+    },
+    "latitude": 54.9856,
+    "longitude": -1.6169,
+    "capacite": 15000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Hard Techno",
+      "Trance",
+      "Hardstyle",
+      "House",
+      "EDM"
+    ],
+    "site": "https://www.lostminds.co.uk",
+    "description": {
+      "fr": "Plus grand festival électronique du Nord-Est de l’Angleterre à Exhibition Park au coeur de Newcastle, réunissant trance, hard techno, hardstyle et house sur plusieurs scènes géantes.",
+      "en": "North East England’s flagship electronic dance festival in Newcastle’s Exhibition Park, spanning hard techno, trance, hardstyle and house."
+    }
+  },
+  {
+    "id": "project-6-londres-uk",
+    "nom": "Project 6 Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "villeSlug": "londres-gb",
+    "ville": {
+      "fr": "Londres (Brockwell Park)",
+      "en": "London (Brockwell Park)"
+    },
+    "latitude": 51.4519,
+    "longitude": -0.1078,
+    "capacite": 20000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Jungle",
+      "UK Garage",
+      "Dubstep",
+      "Bass"
+    ],
+    "site": "https://www.project6festival.com",
+    "description": {
+      "fr": "Grand rassemblement de la culture sound system et UK bass à Brockwell Park dans le sud de Londres, étroitement lié à Rinse FM et Metalheadz entre drum & bass, jungle et dubstep.",
+      "en": "South London festival at Brockwell Park celebrating UK bass, drum & bass, jungle, dubstep and underground club culture."
+    }
+  },
+  {
+    "id": "shindig-festival-royaume-uni",
+    "nom": "Shindig Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Malmesbury (Charlton Park, Wiltshire)",
+      "en": "Malmesbury (Charlton Park, Wiltshire)"
+    },
+    "latitude": 51.5978,
+    "longitude": -2.0711,
+    "capacite": 10000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Breaks",
+      "House",
+      "Funk",
+      "Drum & Bass",
+      "Dub"
+    ],
+    "site": "https://shindigfestival.co.uk",
+    "description": {
+      "fr": "Festival indépendant né des fêtes du collectif Ghetto Funk dans le Sud-Ouest anglais, installé dans le domaine de Charlton Park autour du breakbeat, de la house, du dub et de la jungle.",
+      "en": "Independent festival born from the Ghetto Funk collective, hosted at Charlton Park Estate in Wiltshire with seven stages of breaks, house, funk and drum & bass."
+    }
+  },
+  {
+    "id": "stereoparc-rochefort-france",
+    "nom": "Stéréoparc Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Rochefort (Corderie Royale, Charente-Maritime)",
+      "en": "Rochefort (Corderie Royale, Charente-Maritime)"
+    },
+    "latitude": 45.9392,
+    "longitude": -0.9567,
+    "capacite": 12000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "EDM",
+      "Trance"
+    ],
+    "site": "https://stereoparc.com",
+    "description": {
+      "fr": "Deux jours de musiques électroniques dans le cadre historique du chantier naval du XVIIe siècle de la Corderie Royale à Rochefort sur la côte atlantique.",
+      "en": "Two-day open-air electronic festival set on the historic 17th-century Corderie Royale naval dockyard grounds in Rochefort on France’s Atlantic coast."
+    }
+  },
+  {
+    "id": "plein-air-douai-france",
+    "nom": "Plein Air Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Douai (Parc Jacques Vernier, Nord)",
+      "en": "Douai (Parc Jacques Vernier, Northern France)"
+    },
+    "latitude": 50.3861,
+    "longitude": 3.0933,
+    "capacite": 15000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "French Touch",
+      "Indie Dance"
+    ],
+    "site": "https://festivalpleinair.fr",
+    "description": {
+      "fr": "Grand week-end électronique des Hauts-de-France au bord du lac du Parc Jacques Vernier à Douai, réunissant icônes techno, électro et French Touch.",
+      "en": "Major Northern France open-air electronic weekender on the lakeside grounds of Parc Jacques Vernier in Douai, spanning techno, house, electro and French Touch."
+    }
+  },
+  {
+    "id": "sonora-bordeaux-france",
+    "nom": "Sonora",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Bordeaux (Parc des Expositions) & Paris",
+      "en": "Bordeaux (Parc des Expositions) & Paris"
+    },
+    "latitude": 44.8961,
+    "longitude": -0.5694,
+    "capacite": 15000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Octobre & Février",
+      "en": "October & February"
+    },
+    "styles": [
+      "Hard Techno",
+      "Techno",
+      "Schranz",
+      "Trance",
+      "Industrial Techno"
+    ],
+    "site": "https://sonora-world.com",
+    "description": {
+      "fr": "Rave warehouse monumentale sur vingt mille mètres carrés au Parc des Expositions de Bordeaux, dotée de scénographies cybernétiques géantes pour la techno et la hard techno.",
+      "en": "Monumental warehouse rave spanning 20,000 sqm at Bordeaux Parc des Expositions, pairing giant audiovisual lightshows with driving techno and hard techno."
+    }
+  },
+  {
+    "id": "brunch-electronik-paris-france",
+    "nom": "Brunch Electronik Paris",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "paris-fr",
+    "ville": {
+      "fr": "Paris (Hippodrome Paris-Vincennes)",
+      "en": "Paris (Hippodrome Paris-Vincennes)"
+    },
+    "latitude": 48.8311,
+    "longitude": 2.4519,
+    "capacite": 18000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juin - Octobre",
+      "en": "June - October"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Tech House",
+      "Techno"
+    ],
+    "site": "https://france.brunchelectronik.com",
+    "description": {
+      "fr": "Édition parisienne sur deux jours en plein air à l’Hippodrome Paris-Vincennes du célèbre format barcelonais réunissant les têtes d’affiche mondiales de la house et de la techno mélodique.",
+      "en": "Two-day Parisian open-air edition of the iconic Barcelona series at Hippodrome Paris-Vincennes, hosting global house and melodic techno headliners."
+    }
+  },
+  {
+    "id": "bordeaux-open-air-france",
+    "nom": "Bordeaux Open Air",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Bordeaux (Parc Bordelais & Métropole)",
+      "en": "Bordeaux (Parc Bordelais & Metro Parks)"
+    },
+    "latitude": 44.8491,
+    "longitude": -0.6019,
+    "capacite": 6000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet - Septembre",
+      "en": "July - September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Disco"
+    ],
+    "site": "https://bordeauxopenair.fr",
+    "description": {
+      "fr": "Festival estival gratuit d’après-midis électroniques dans les grands parcs de la métropole bordelaise, mettant chaque dimanche une ville et une scène électronique mondiale à l’honneur.",
+      "en": "Free summer-long Sunday open-air electronic festival across the parks of Greater Bordeaux, spotlighting international electronic scenes."
+    }
+  },
+  {
+    "id": "chateau-sonic-france",
+    "nom": "Château Sonic",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Brenthonne (Château d’Avully, Haute-Savoie)",
+      "en": "Brenthonne (Chateau d’Avully, Haute-Savoie)"
+    },
+    "latitude": 46.2719,
+    "longitude": 6.3958,
+    "capacite": 2500,
+    "annee": 2016,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "Indie Dance",
+      "Experimental"
+    ],
+    "site": "https://chateausonic.com",
+    "description": {
+      "fr": "Festival indépendant au pied des ruines médiévales du Château d’Avully entre Genève et le lac Léman, consacré aux musiques électroniques hybrides, à l’électro et aux scènes alternatives.",
+      "en": "Independent DIY electronic and experimental arts festival held at the medieval Chateau d’Avully in Haute-Savoie near Lake Geneva."
+    }
+  },
+  {
+    "id": "pete-the-monkey-france",
+    "nom": "Pete the Monkey",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Saint-Aubin-sur-Mer (Normandie)",
+      "en": "Saint-Aubin-sur-Mer (Normandy)"
+    },
+    "latitude": 49.8906,
+    "longitude": 0.8753,
+    "capacite": 3500,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Indie Dance",
+      "House",
+      "Nu-Disco",
+      "Electronica"
+    ],
+    "site": "https://petethemonkeyfestival.org",
+    "description": {
+      "fr": "Festival associatif perché sur les falaises de la Côte d’Albâtre en Normandie au profit d’un refuge faunique en Bolivie, mêlant indie dance, house solaire et lives électroniques.",
+      "en": "Boutique cliffside festival on Normandy’s Alabaster Coast supporting wildlife conservation in Bolivia, blending indie dance, nu-disco, house and live electronica."
+    }
+  },
+  {
+    "id": "cabourg-mon-amour-france",
+    "nom": "Cabourg, Mon Amour",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Cabourg (Plage de Cap Cabourg, Normandie)",
+      "en": "Cabourg (Cap Cabourg Beach, Normandy)"
+    },
+    "latitude": 49.2934,
+    "longitude": -0.1306,
+    "capacite": 4500,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Indie Dance",
+      "French Touch",
+      "House",
+      "Nu-Disco"
+    ],
+    "site": "https://cabourgmonamour.fr",
+    "description": {
+      "fr": "Trois jours les pieds dans le sable sur la plage de Cap Cabourg en Normandie, vitrine estivale de la nouvelle scène électro-pop, French Touch et house hexagonale.",
+      "en": "Three-day beachside festival on the sands of Cap Cabourg in Normandy, showcasing emerging French Touch, indie dance, house and electro-pop artists."
+    }
+  },
+  {
+    "id": "open-beatz-allemagne",
+    "nom": "Open Beatz Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Herzogenaurach (près de Nuremberg, Bavière)",
+      "en": "Herzogenaurach (near Nuremberg, Bavaria)"
+    },
+    "latitude": 49.5936,
+    "longitude": 10.8528,
+    "capacite": 30000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Hardstyle",
+      "Psy",
+      "EDM"
+    ],
+    "site": "https://www.openbeatz.de",
+    "description": {
+      "fr": "L’un des plus grands festivals électroniques du sud de l’Allemagne sur cinquante hectares de forêts et de prairies près de Nuremberg, réunissant trente mille festivaliers sur huit scènes.",
+      "en": "One of Southern Germany’s largest electronic camping festivals across 50 hectares near Nuremberg, hosting 30,000 daily visitors across eight stages."
+    }
+  },
+  {
+    "id": "ferdinands-feld-allemagne",
+    "nom": "Ferdinands Feld",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Rotenburg an der Wümme (Basse-Saxe)",
+      "en": "Rotenburg an der Wumme (Lower Saxony)"
+    },
+    "latitude": 53.1286,
+    "longitude": 9.3514,
+    "capacite": 20000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Tech House",
+      "Techno",
+      "Hardstyle",
+      "EDM",
+      "House"
+    ],
+    "site": "https://www.ferdinandsfeld.de",
+    "description": {
+      "fr": "Grand festival électronique d’Allemagne du Nord installé sur l’aérodrome de Rotenburg entre Hambourg et Brême autour de terminaux aéronautiques thématiques.",
+      "en": "Major Northern German airfield electronic festival between Hamburg and Bremen welcoming 20,000 attendees across aviation-themed stages."
+    }
+  },
+  {
+    "id": "wilde-moehre-allemagne",
+    "nom": "Wilde Möhre Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Drebkau (Göritz, Brandebourg)",
+      "en": "Drebkau (Goritz, Brandenburg)"
+    },
+    "latitude": 51.6625,
+    "longitude": 14.1619,
+    "capacite": 6000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Downtempo",
+      "Techno",
+      "House",
+      "Ambient",
+      "Live Electronic"
+    ],
+    "site": "https://wildemoehrefestival.de",
+    "description": {
+      "fr": "Festival forestier indépendant et écologique en Basse-Lusace au sud de Berlin, alliant downtempo berlinois, techno hypnotique, house organique et installations artistiques.",
+      "en": "Independent eco-conscious woodland festival in Brandenburg south of Berlin, blending downtempo, hypnotic techno, organic house and art installations."
+    }
+  },
+  {
+    "id": "nachti-festival-olganitz-allemagne",
+    "nom": "Nachti Festival (par Nachtdigital)",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Olganitz (Bungalowdorf, Saxe)",
+      "en": "Olganitz (Bungalowdorf, Saxony)"
+    },
+    "latitude": 51.4083,
+    "longitude": 13.0858,
+    "capacite": 3500,
+    "annee": 1998,
+    "mois": {
+      "fr": "Août (biennal)",
+      "en": "August (biennial)"
+    },
+    "styles": [
+      "Techno",
+      "Minimal",
+      "Ambient",
+      "Electro",
+      "Leftfield"
+    ],
+    "site": "https://www.nachtdigital.de",
+    "description": {
+      "fr": "Héritier biennal direct du légendaire Nachtdigital dans le village de vacances d’Olganitz près de Leipzig, culte en Europe pour sa direction artistique techno, électro et ambient.",
+      "en": "Biennial open-air successor to the legendary Nachtdigital at Bungalowdorf Olganitz near Leipzig, revered across Europe for intimate techno, electro and ambient curation."
+    }
+  },
+  {
+    "id": "gluecksgefuehle-hockenheim-allemagne",
+    "nom": "Glücksgefühle Festival (Cloud 9 & Dopamin)",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Hockenheim (Circuit d’Hockenheim)",
+      "en": "Hockenheim (Hockenheimring)"
+    },
+    "latitude": 49.3278,
+    "longitude": 8.5656,
+    "capacite": 65000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "Hardstyle",
+      "Big Room",
+      "Trance"
+    ],
+    "site": "https://gluecksgefuehle-festival.de",
+    "description": {
+      "fr": "Méga-festival sur le circuit automobile d’Hockenheim dont les immenses scènes électroniques Cloud 9 et Dopamin réunissent les poids lourds mondiaux de l’EDM, de la techno et du hardstyle.",
+      "en": "Mega-festival at the Hockenheimring racetrack featuring colossal dedicated electronic stages headlined by global EDM, techno and hardstyle heavyweights."
+    }
+  },
+  {
+    "id": "verknipt-oberhausen-allemagne",
+    "nom": "Verknipt Germany",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Oberhausen (Turbinenhalle, Ruhr)",
+      "en": "Oberhausen (Turbinenhalle, Ruhr)"
+    },
+    "latitude": 51.4828,
+    "longitude": 6.8689,
+    "capacite": 8000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Juillet - Novembre",
+      "en": "July - November"
+    },
+    "styles": [
+      "Hard Techno",
+      "Industrial Techno",
+      "Schranz",
+      "Rave"
+    ],
+    "site": "https://verknipt.org",
+    "description": {
+      "fr": "Déclinaison allemande Day & Night du géant néerlandais Verknipt dans le complexe industriel de la Turbinenhalle d’Oberhausen au coeur de la Ruhr, dédiée à la hard techno et au schranz.",
+      "en": "German Day & Night festival edition of Dutch hard-techno powerhouse Verknipt inside the industrial Turbinenhalle complex in Oberhausen."
+    }
+  },
+  {
+    "id": "dance-valley-pays-bas",
+    "nom": "Dance Valley",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Velsen-Zuid (Spaarnwoude)",
+      "en": "Velsen-Zuid (Spaarnwoude)"
+    },
+    "latitude": 52.4314,
+    "longitude": 4.6853,
+    "capacite": 35000,
+    "annee": 1995,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Hardstyle",
+      "EDM"
+    ],
+    "site": "https://dancevalley.com",
+    "description": {
+      "fr": "Fondé en 1995 dans les collines verdoyantes de Spaarnwoude à l’ouest d’Amsterdam, l’un des plus anciens grands festivals électroniques en plein air de la planète.",
+      "en": "Founded in 1995 in the rolling hills of Spaarnwoude west of Amsterdam, one of the longest-running outdoor electronic dance festivals in the world."
+    }
+  },
+  {
+    "id": "by-the-creek-pays-bas",
+    "nom": "By the Creek",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Vianen (Middelwaard, près d’Utrecht)",
+      "en": "Vianen (Middelwaard, near Utrecht)"
+    },
+    "latitude": 51.9917,
+    "longitude": 5.1186,
+    "capacite": 20000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "House",
+      "Tech House",
+      "UK Garage"
+    ],
+    "site": "https://www.bythecreekfestival.com",
+    "description": {
+      "fr": "Week-end électronique au bord de l’eau et sous les arches en béton d’un viaduc autoroutier à Vianen près d’Utrecht, réunissant les collectifs phares de la techno et de la house néerlandaises.",
+      "en": "Two-day electronic weekender set between beaches and concrete motorway bridge pillars near Utrecht, spanning techno, hard techno and house."
+    }
+  },
+  {
+    "id": "paradigm-festival-groningen-pays-bas",
+    "nom": "Paradigm Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Groningue (Suikerunie)",
+      "en": "Groningen (Suikerunie)"
+    },
+    "latitude": 53.2108,
+    "longitude": 6.5269,
+    "capacite": 8000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Hypnotic Techno",
+      "House",
+      "Minimal",
+      "Electro"
+    ],
+    "site": "https://paradigmfestival.com",
+    "description": {
+      "fr": "Institution underground du nord des Pays-Bas portée par le collectif Paradigm sur le terrain post-industriel boisé de l’ancienne raffinerie de sucre Suikerunie à Groningue.",
+      "en": "Underground institution of the northern Netherlands run by the Paradigm collective on the wooded former Suikerunie sugar factory grounds in Groningen."
+    }
+  },
+  {
+    "id": "onder-de-radar-enschede-pays-bas",
+    "nom": "Onder De Radar Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Enschede (Base aérienne de Twenthe)",
+      "en": "Enschede (Twenthe Air Base)"
+    },
+    "latitude": 52.2708,
+    "longitude": 6.8742,
+    "capacite": 15000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Rave"
+    ],
+    "site": "https://www.onderderadarfestival.nl",
+    "description": {
+      "fr": "Rave industrielle sur l’ancienne base aérienne militaire de Twenthe à Enschede à la frontière allemande, investissant bunkers d’avions de chasse, hangars bruts et tours radar.",
+      "en": "Industrial techno and house festival taking over decommissioned aircraft shelters, hangars and radar towers at former Twenthe Air Base in Enschede."
+    }
+  },
+  {
+    "id": "mystic-garden-dockyard-amsterdam",
+    "nom": "Mystic Garden & Dockyard Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "villeSlug": "amsterdam-nl",
+    "ville": {
+      "fr": "Amsterdam (Havenpark)",
+      "en": "Amsterdam (Havenpark)"
+    },
+    "latitude": 52.3922,
+    "longitude": 4.8461,
+    "capacite": 20000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Octobre (ADE)",
+      "en": "October (ADE)"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "House",
+      "Hard Techno"
+    ],
+    "site": "https://mysticgardenfestival.nl",
+    "description": {
+      "fr": "Double festival diurne au Havenpark d’Amsterdam unissant l’univers féerique house et mélodique de Mystic Garden aux arènes techno industrielles brutes de Dockyard durant l’ADE.",
+      "en": "Twin festival experience at Amsterdam’s Havenpark uniting the enchanted stages of Mystic Garden with the raw industrial techno arenas of Dockyard during ADE."
+    }
+  },
+  {
+    "id": "lief-festival-utrecht-pays-bas",
+    "nom": "Lief Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Utrecht (Lac de Strijkviertel)",
+      "en": "Utrecht (Strijkviertel Lake)"
+    },
+    "latitude": 52.0694,
+    "longitude": 5.0414,
+    "capacite": 15000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Tech House",
+      "Techno",
+      "Hard Techno",
+      "House"
+    ],
+    "site": "https://lieffestival.nl",
+    "description": {
+      "fr": "Clôture estivale colorée au bord du lac de Strijkviertel à Utrecht depuis 2006, croisant tech house, techno et hardgroove sur sept scènes entre plage et sous-bois.",
+      "en": "End-of-summer lakeside festival at Recreatieplas Strijkviertel in Utrecht running since 2006 across beach and woodland stages of tech house and techno."
+    }
+  },
+  {
+    "id": "7th-sunday-erp-pays-bas",
+    "nom": "7th Sunday Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Erp (Brabant-Septentrional)",
+      "en": "Erp (North Brabant)"
+    },
+    "latitude": 51.6033,
+    "longitude": 5.6178,
+    "capacite": 40000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Mai - Juin (Pentecôte)",
+      "en": "May - June (Pentecost)"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.7thsunday.nl",
+    "description": {
+      "fr": "Géant du dimanche de Pentecôte à Erp rassemblant quarante mille personnes devant plus de quinze scènes dédiées à la house, à la techno, à l’EDM et au hardstyle.",
+      "en": "Massive Pentecost Sunday festival in Erp welcoming 40,000 visitors across more than fifteen stages of house, techno, EDM and hardstyle."
+    }
+  },
+  {
+    "id": "wish-outdoor-pays-bas",
+    "nom": "WiSH Outdoor",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Lieshout (Brabant-Septentrional)",
+      "en": "Lieshout (North Brabant)"
+    },
+    "latitude": 51.5208,
+    "longitude": 5.6033,
+    "capacite": 35000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Hardstyle",
+      "Rawstyle",
+      "EDM",
+      "Techno",
+      "House"
+    ],
+    "site": "https://www.wishoutdoor.com",
+    "description": {
+      "fr": "Trois jours en plein air dans le Brabant néerlandais réputés pour leurs décors de scènes monumentaux et spectacles pyrotechniques dédiés au hardstyle, au rawstyle et à l’EDM.",
+      "en": "Three-day festival in North Brabant renowned for its monumental stage designs and endshows across hardstyle, rawstyle, techno and dance."
+    }
+  },
+  {
+    "id": "tegendraads-rosmalen-pays-bas",
+    "nom": "Tegendraads Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Rosmalen / Bois-le-Duc (Autotron)",
+      "en": "Rosmalen / ’s-Hertogenbosch (Autotron)"
+    },
+    "latitude": 51.7161,
+    "longitude": 5.4086,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Hard Techno",
+      "Industrial Techno",
+      "Schranz",
+      "Rave"
+    ],
+    "site": "https://tegendraads.nl",
+    "description": {
+      "fr": "Fer de lance néerlandais de la hard techno et de la rave rapide sur le domaine boisé d’Autotron près de Bois-le-Duc, doublé d’une édition hivernale intérieure.",
+      "en": "Rising Dutch hard-techno and industrial rave festival set on the wooded Autotron grounds near ’s-Hertogenbosch."
+    }
+  },
+  {
+    "id": "audio-obscura-rotterdam-pays-bas",
+    "nom": "Audio Obscura Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Rotterdam (Usine Van Nelle)",
+      "en": "Rotterdam (Van Nelle Fabriek)"
+    },
+    "latitude": 51.9233,
+    "longitude": 4.4333,
+    "capacite": 10000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Techno",
+      "Tech House"
+    ],
+    "site": "https://audio-obscura.com",
+    "description": {
+      "fr": "Festival diurne orchestré par le promoteur amstellodamois Audio Obscura autour de l’usine moderniste classée à l’UNESCO Van Nelle Fabriek à Rotterdam.",
+      "en": "Architectural open-air electronic festival curated by Audio Obscura on the grounds of Rotterdam’s UNESCO-listed modernist Van Nelle Fabriek."
+    }
+  },
+  {
+    "id": "modul-air-gand-belgique",
+    "nom": "Modul’Air Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Gand (Flanders Expo)",
+      "en": "Ghent (Flanders Expo)"
+    },
+    "latitude": 51.0261,
+    "longitude": 3.6903,
+    "capacite": 12000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mars - Avril (Pâques)",
+      "en": "March - April (Easter)"
+    },
+    "styles": [
+      "Techno",
+      "Trance",
+      "House",
+      "Bass",
+      "Rave"
+    ],
+    "site": "https://www.modul-air.com",
+    "description": {
+      "fr": "Grand rendez-vous de la nouvelle génération club flamande au Flanders Expo de Gand chaque week-end de Pâques, croisant euro-trance, hardgroove, techno et UK bass.",
+      "en": "Flagship Easter electronic festival at Ghent’s Flanders Expo uniting Belgium’s new club generation around hardgroove, trance, techno and UK bass."
+    }
+  },
+  {
+    "id": "la-nature-festival-belgique",
+    "nom": "La Nature Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Vielsalm (Baraque de Fraiture, Ardennes)",
+      "en": "Vielsalm (Baraque de Fraiture, Ardennes)"
+    },
+    "latitude": 50.2528,
+    "longitude": 5.7339,
+    "capacite": 3500,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Hypnotic Techno",
+      "Ambient",
+      "Deep House",
+      "Minimal",
+      "Downtempo"
+    ],
+    "site": "https://lanature.be",
+    "description": {
+      "fr": "Quatre jours d’immersion sonore et artistique au sommet des forêts ardennaises de la Baraque de Fraiture, portés par le collectif liégeois NoName autour de la techno hypnotique et de l’ambient.",
+      "en": "Four-day woodland arts and electronic gathering atop Baraque de Fraiture in the Belgian Ardennes, curated around hypnotic techno, ambient and slow house."
+    }
+  },
+  {
+    "id": "legacy-festival-mol-belgique",
+    "nom": "Legacy Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Mol (Plage de Zilvermeer, Anvers)",
+      "en": "Mol (Zilvermeer Beach, Antwerp)"
+    },
+    "latitude": 51.2014,
+    "longitude": 5.1742,
+    "capacite": 18000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Trance",
+      "Techno",
+      "Hardstyle",
+      "House"
+    ],
+    "site": "https://legacyfestival.be",
+    "description": {
+      "fr": "Grand festival sur la plage de sable blanc du lac de Zilvermeer à Mol en Campine anversoise, célébrant l’héritage légendaire des clubs belges (Bonzai, La Rocca, Illusion) entre trance et techno.",
+      "en": "Beachside festival at Zilvermeer lake in Mol celebrating Belgium’s legendary clubbing heritage across classic trance, techno, retro house and hard dance."
+    }
+  },
+  {
+    "id": "fantasia-festival-hamme-belgique",
+    "nom": "Fantasia Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Hamme-Zogge (Flandre-Orientale)",
+      "en": "Hamme-Zogge (East Flanders)"
+    },
+    "latitude": 51.0736,
+    "longitude": 4.0886,
+    "capacite": 17000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "House",
+      "Techno"
+    ],
+    "site": "https://www.fantasiafestival.be",
+    "description": {
+      "fr": "Rassemblement estival de dix-sept mille personnes en Flandre-Orientale entre Anvers et Gand, articulant six scènes autour de l’EDM, du hardstyle, de la techno et des classiques belges.",
+      "en": "Summer electronic dance festival drawing 17,000 ravers to Hamme-Zogge in East Flanders across multiple stages of EDM, hardstyle and techno."
+    }
+  },
+  {
+    "id": "hype-o-dream-waregem-belgique",
+    "nom": "Hype O Dream",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Waregem (Flandre-Occidentale)",
+      "en": "Waregem (West Flanders)"
+    },
+    "latitude": 50.8897,
+    "longitude": 3.4389,
+    "capacite": 15000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Hardstyle",
+      "Tech House",
+      "Techno",
+      "EDM"
+    ],
+    "site": "https://www.hype-o-dream.be",
+    "description": {
+      "fr": "Deux jours en plein air à Waregem en Flandre-Occidentale réunissant six scènes consacrées à la drum & bass, au hardstyle, à la tech house et à la techno.",
+      "en": "Two-day open-air dance festival in Waregem, West Flanders, spanning drum & bass, hardstyle, tech house, techno and EDM across six stages."
+    }
+  },
+  {
+    "id": "blackworks-festival-madrid-espagne",
+    "nom": "Blackworks Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "madrid-es",
+    "ville": {
+      "fr": "Madrid (IFEMA)",
+      "en": "Madrid (IFEMA)"
+    },
+    "latitude": 40.4664,
+    "longitude": -3.6169,
+    "capacite": 25000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Mars & Automne",
+      "en": "March & Autumn"
+    },
+    "styles": [
+      "Hard Techno",
+      "Schranz",
+      "Industrial Techno",
+      "Acid Techno"
+    ],
+    "site": "https://blackworks.es",
+    "description": {
+      "fr": "Épicentre espagnol et européen de la vague hard techno, industrielle et schranz, transformant les immenses halls d’IFEMA Madrid en cathédrale audiovisuelle à haut BPM.",
+      "en": "Spain’s powerhouse hard-techno, industrial and schranz festival brand transforming the massive halls of IFEMA Madrid into high-BPM audiovisual arenas."
+    }
+  },
+  {
+    "id": "sophie-festival-malaga-espagne",
+    "nom": "Sophie Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Malaga (Ogus Park, Andalousie)",
+      "en": "Malaga (Ogus Park, Andalusia)"
+    },
+    "latitude": 36.6719,
+    "longitude": -4.4697,
+    "capacite": 10000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juin - Septembre",
+      "en": "June - September"
+    },
+    "styles": [
+      "House",
+      "Minimal",
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://sophie.es",
+    "description": {
+      "fr": "Grand rendez-vous électronique open air du sud de l’Espagne à l’Ogus Park de Malaga, organisé en plusieurs week-ends estivaux avec l’élite mondiale de la minimal, de la house et de la techno.",
+      "en": "Leading Andalusian open-air electronic festival series at Malaga’s Ogus Park hosting summer weekend chapters with world-class minimal, house and techno icons."
+    }
+  },
+  {
+    "id": "sun-and-snow-sierra-nevada-espagne",
+    "nom": "Sun & Snow Weekend",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Sierra Nevada (Grenade, Andalousie)",
+      "en": "Sierra Nevada (Granada, Andalusia)"
+    },
+    "latitude": 37.0956,
+    "longitude": -3.3986,
+    "capacite": 6000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Techno",
+      "Indie Dance",
+      "House",
+      "Melodic Techno",
+      "Electro"
+    ],
+    "site": "https://sunandsnowweekend.com",
+    "description": {
+      "fr": "Trois jours de musique électronique d’altitude à plus de deux mille mètres dans la station de ski de la Sierra Nevada au-dessus de Grenade, entre pistes enneigées et scènes techno et indie dance.",
+      "en": "Three-day high-altitude spring electronic festival above 2,100 metres in Granada’s Sierra Nevada ski resort, pairing snow sports with forward-thinking techno and house."
+    }
+  },
+  {
+    "id": "elrow-town-marbella-espagne",
+    "nom": "elrow Town Marbella",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Marbella (San Pedro Alcántara, Costa del Sol)",
+      "en": "Marbella (San Pedro Alcantara, Costa del Sol)"
+    },
+    "latitude": 36.4944,
+    "longitude": -4.9839,
+    "capacite": 30000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Tech House",
+      "House",
+      "Techno"
+    ],
+    "site": "https://elrowtown.com",
+    "description": {
+      "fr": "Déclinaison andalouse géante d’elrow Town sur la Costa del Sol à Marbella, réunissant jusqu’à trente mille danseurs devant des décors surréalistes de tech house et de techno.",
+      "en": "Costa del Sol mega-edition of elrow Town in Marbella welcoming up to 30,000 dancers across theatrical stages of tech house and techno."
+    }
+  },
+  {
+    "id": "moga-caparica-portugal",
+    "nom": "MOGA Caparica",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Costa da Caparica (près de Lisbonne)",
+      "en": "Costa da Caparica (near Lisbon)"
+    },
+    "latitude": 38.6158,
+    "longitude": -9.2167,
+    "capacite": 15000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "House",
+      "Deep House",
+      "Afro House",
+      "Indie Dance",
+      "Minimal"
+    ],
+    "site": "https://www.mogafestival.com",
+    "description": {
+      "fr": "Frère atlantique du festival marocain MOGA sur les plages océaniques de Costa da Caparica face à Lisbonne, mêlant fêtes sur le sable, culture surf, deep house et minimal.",
+      "en": "Atlantic sister festival to Morocco’s MOGA along the ocean beaches of Costa da Caparica across from Lisbon, blending beach parties, surf culture, deep house and minimal."
+    }
+  },
+  {
+    "id": "elrow-lisboa-portugal",
+    "nom": "elrow Lisboa",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Lisbonne (FIL, Parque das Nações)",
+      "en": "Lisbon (FIL, Parque das Nacoes)"
+    },
+    "latitude": 38.7717,
+    "longitude": -9.0933,
+    "capacite": 15000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "Tech House",
+      "Techno",
+      "House"
+    ],
+    "site": "https://elrow.com",
+    "description": {
+      "fr": "Grand rendez-vous intérieur carnavalesque dans les halles de la Feira Internacional de Lisboa au Parque das Nações autour de la tech house et de la techno.",
+      "en": "Large-scale theatrical indoor festival at Feira Internacional de Lisboa in Parque das Nacoes, pairing elrow’s surreal production with tech-house and techno headliners."
+    }
+  },
+  {
+    "id": "panorama-festival-pouilles-italie",
+    "nom": "Panorama Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Lecce (Cave del Duca, Pouilles)",
+      "en": "Lecce (Cave del Duca, Puglia)"
+    },
+    "latitude": 40.3347,
+    "longitude": 18.2106,
+    "capacite": 12000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Août (Ferragosto)",
+      "en": "August (Ferragosto)"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno",
+      "Minimal"
+    ],
+    "site": "https://www.panorama-festival.it",
+    "description": {
+      "fr": "Trois nuits autour de la mi-août sculptées dans l’amphithéâtre minéral des anciennes carrières de pierre calcaire Cave del Duca à Lecce dans le Salento.",
+      "en": "Three-night mid-August festival carved into the monumental Cave del Duca limestone quarry amphitheatre in Lecce, Salento, hosting global house and tech-house heavyweights."
+    }
+  },
+  {
+    "id": "elrow-town-italie",
+    "nom": "elrow Town Italy",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Reggio d’Émilie (Iren Green Park / Campovolo)",
+      "en": "Reggio Emilia (Iren Green Park / Campovolo)"
+    },
+    "latitude": 44.6975,
+    "longitude": 10.6656,
+    "capacite": 35000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Tech House",
+      "Techno",
+      "Hard Techno",
+      "House"
+    ],
+    "site": "https://elrowtown.com",
+    "description": {
+      "fr": "Plus grand festival électronique d’une journée en Italie sur l’immense esplanade de Campovolo à Reggio d’Émilie, réunissant trente-cinq mille personnes devant cinq scènes.",
+      "en": "Italy’s largest single-day immersive electronic festival at Campovolo in Reggio Emilia, drawing 35,000 ravers across five themed stages."
+    }
+  },
+  {
+    "id": "reload-music-festival-turin-italie",
+    "nom": "Reload Music Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Turin (Lingotto Fiere)",
+      "en": "Turin (Lingotto Fiere)"
+    },
+    "latitude": 45.0314,
+    "longitude": 7.6653,
+    "capacite": 12000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "Hardstyle",
+      "Rawstyle",
+      "Hardcore",
+      "Hard Techno"
+    ],
+    "site": "https://www.reloadmusicfestival.com",
+    "description": {
+      "fr": "Principal rassemblement intérieur italien consacré au hardstyle, au rawstyle et au hardcore dans les halls industriels historiques du Lingotto Fiere à Turin.",
+      "en": "Italy’s premier indoor harder-styles festival at Turin’s Lingotto Fiere exhibition halls, dedicated to hardstyle, rawstyle and hardcore."
+    }
+  },
+  {
+    "id": "limbo-festival-toscane-italie",
+    "nom": "Limbo Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Barga (Tenuta Il Ciocco, Toscane)",
+      "en": "Barga (Il Ciocco Estate, Tuscany)"
+    },
+    "latitude": 44.0958,
+    "longitude": 10.4789,
+    "capacite": 3000,
+    "annee": 2021,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Organic House",
+      "Deep House",
+      "Melodic House",
+      "Downtempo"
+    ],
+    "site": "https://www.limbofestival.com",
+    "description": {
+      "fr": "Festival boutique perché sur un domaine forestier de six cents hectares dans les montagnes de la Garfagnana en Toscane, mêlant deep house, house organique et downtempo.",
+      "en": "Transformational boutique festival set across a 600-hectare mountain estate in Tuscany’s Garfagnana valley, blending deep and organic house with live electronica."
+    }
+  },
+  {
+    "id": "bright-festival-florence-italie",
+    "nom": "Bright Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Florence (Stazione Leopolda)",
+      "en": "Florence (Stazione Leopolda)"
+    },
+    "latitude": 43.7778,
+    "longitude": 11.2367,
+    "capacite": 4000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Electronica",
+      "Live Electronic",
+      "House"
+    ],
+    "site": "https://www.brightfestival.com",
+    "description": {
+      "fr": "Rendez-vous florentin de la création numérique, du light art et des musiques électroniques dans l’ancienne gare néoclassique de la Stazione Leopolda à Florence.",
+      "en": "Florentine festival of digital art, immersive lighting design and electronic music hosted inside the historic 19th-century Stazione Leopolda railway hall."
+    }
+  },
+  {
+    "id": "komorebi-vinadio-italie",
+    "nom": "Komorebi Music Festival",
+    "type": "festival",
+    "paysCode": "IT",
+    "ville": {
+      "fr": "Vinadio (Forte di Vinadio, Piémont)",
+      "en": "Vinadio (Forte di Vinadio, Piedmont)"
+    },
+    "latitude": 44.3069,
+    "longitude": 7.1725,
+    "capacite": 2500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Hypnotic Techno",
+      "Techno",
+      "Ambient",
+      "Modular"
+    ],
+    "site": "https://www.komorebimusicfestival.org",
+    "description": {
+      "fr": "Trois jours de techno mentale, hypnotique et d’ambient abrités dans les douves et remparts de la forteresse alpine du XIXe siècle Forte Albertino à Vinadio dans le Piémont.",
+      "en": "Three-day gathering devoted to hypnotic techno, modular live sets and ambient inside the monumental 19th-century Forte di Vinadio in the Piedmontese Alps."
+    }
+  },
+  {
+    "id": "sunice-festival-suisse",
+    "nom": "SunIce Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Saint-Moritz (Engadine) & Ascona (Tessin)",
+      "en": "St. Moritz (Engadin) & Ascona (Ticino)"
+    },
+    "latitude": 46.5014,
+    "longitude": 9.8322,
+    "capacite": 20000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mars & Septembre",
+      "en": "March & September"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Tech House",
+      "Techno",
+      "House"
+    ],
+    "site": "https://www.sunicefestival.ch",
+    "description": {
+      "fr": "Double festival suisse de premier plan déclinant une édition hivernale à deux mille mètres sur les pistes de Saint-Moritz et une édition de fin d’été au bord du lac Majeur à Ascona.",
+      "en": "Flagship Swiss electronic festival running both a high-altitude winter edition on the slopes of St. Moritz and a late-summer lakeside edition on Lake Maggiore in Ascona."
+    }
+  },
+  {
+    "id": "tension-festival-bale-suisse",
+    "nom": "Tension Festival",
+    "type": "festival",
+    "paysCode": "CH",
+    "ville": {
+      "fr": "Bâle (Gartenbad St. Jakob & Messe Basel)",
+      "en": "Basel (Gartenbad St. Jakob & Messe Basel)"
+    },
+    "latitude": 47.5389,
+    "longitude": 7.6214,
+    "capacite": 15000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juillet - Août & Novembre",
+      "en": "July - August & November"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "House",
+      "Hard Techno"
+    ],
+    "site": "https://www.tension-festival.ch",
+    "description": {
+      "fr": "Institution électronique bâloise au carrefour des trois frontières, combinant un grand open air d’été autour de la piscine arborée St. Jakob et une édition hivernale à Messe Basel.",
+      "en": "Basel’s flagship electronic festival at the tri-border crossroads, pairing a lush midsummer open air at Gartenbad St. Jakob with a November indoor edition at Messe Basel."
+    }
+  },
+  {
+    "id": "shutdown-festival-zwentendorf-autriche",
+    "nom": "Shutdown Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Zwentendorf an der Donau (Basse-Autriche)",
+      "en": "Zwentendorf an der Donau (Lower Austria)"
+    },
+    "latitude": 48.3547,
+    "longitude": 15.8844,
+    "capacite": 15000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Hardstyle",
+      "Rawstyle",
+      "Hardcore",
+      "Hard Techno"
+    ],
+    "site": "https://www.shutdownfestival.at",
+    "description": {
+      "fr": "Rave unique au monde érigée sur le site de la centrale nucléaire autrichienne de Zwentendorf (achevée mais jamais mise en service), sanctuaire des harder styles au bord du Danube.",
+      "en": "Harder-styles festival staged at Zwentendorf on the Danube, the world’s only completed nuclear power plant never switched on, hosting five stages of hardstyle and hardcore."
+    }
+  },
+  {
+    "id": "paradies-garten-autriche",
+    "nom": "Paradies Garten Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Bruck an der Leitha (Schloss Prugg, près de Vienne)",
+      "en": "Bruck an der Leitha (Schloss Prugg, near Vienna)"
+    },
+    "latitude": 48.0267,
+    "longitude": 16.7847,
+    "capacite": 6000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Indie Dance"
+    ],
+    "site": "https://www.paradiesgartenfestival.at",
+    "description": {
+      "fr": "Trois jours durables de house, disco et techno dans le parc du château de Prugg à trente minutes de Vienne, alimentés en énergie solaire et éolienne locale.",
+      "en": "Sustainable three-day house, disco and techno camping festival in the parklands of Schloss Prugg east of Vienna, powered by local renewable wind and solar energy."
+    }
+  },
+  {
+    "id": "beatpatrol-vienne-autriche",
+    "nom": "Beatpatrol Festival",
+    "type": "festival",
+    "paysCode": "AT",
+    "ville": {
+      "fr": "Vienne (Hippodrome de Freudenau, Prater)",
+      "en": "Vienna (Galopprennbahn Freudenau, Prater)"
+    },
+    "latitude": 48.1872,
+    "longitude": 16.4533,
+    "capacite": 15000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Septembre - Octobre",
+      "en": "September - October"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Techno",
+      "Hardstyle",
+      "Psy",
+      "EDM"
+    ],
+    "site": "https://www.beatpatrol.at",
+    "description": {
+      "fr": "Festival électronique historique autrichien fondé en 2009 et installé à Vienne, pilier centre-européen majeur de la drum & bass, de la techno, de la psytrance et du hardstyle.",
+      "en": "Long-running Austrian electronic festival founded in 2009 and hosted in Vienna, renowned for its powerhouse drum & bass, techno, psytrance and hard dance stages."
+    }
+  },
+  {
+    "id": "xxl-malta",
+    "nom": "XXL Malta",
+    "type": "festival",
+    "paysCode": "MT",
+    "ville": {
+      "fr": "Ta’ Qali & Saint Paul’s Bay (UNO Malta)",
+      "en": "Ta’ Qali & Saint Paul’s Bay (UNO Malta)"
+    },
+    "latitude": 35.8953,
+    "longitude": 14.4167,
+    "capacite": 8000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Hard Techno",
+      "Industrial Techno",
+      "Schranz",
+      "Techno"
+    ],
+    "site": "https://xxltechno.uk",
+    "description": {
+      "fr": "Quatre jours et nuits de hard techno sous le soleil maltais coproduits par XXL, Teletech et The Warehouse Project entre les arènes en plein air d’UNO Malta, pool parties et boat parties.",
+      "en": "Four-day Mediterranean hard-techno weekender co-produced by XXL, Teletech and The Warehouse Project across UNO Malta’s open-air arenas, pool parties and boat raves."
+    }
+  },
+  {
+    "id": "rong-open-air-malta",
+    "nom": "Rong Open Air Festival",
+    "type": "festival",
+    "paysCode": "MT",
+    "ville": {
+      "fr": "Ta’ Qali & Saint Paul’s Bay (UNO Malta & Café del Mar)",
+      "en": "Ta’ Qali & Saint Paul’s Bay (UNO Malta & Cafe del Mar)"
+    },
+    "latitude": 35.896,
+    "longitude": 14.4175,
+    "capacite": 5000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Trance",
+      "Progressive Trance",
+      "Tech Trance",
+      "Progressive House"
+    ],
+    "site": "https://rongevents.com",
+    "description": {
+      "fr": "Grand rassemblement printanier européen de la scène trance et progressive à Malte entre UNO Malta, couchers de soleil au Café del Mar et croisières en Méditerranée.",
+      "en": "Premier European destination festival for trance and progressive house in Malta, spanning four days across UNO Malta, Cafe del Mar sunset sessions and boat parties."
+    }
+  },
+  {
+    "id": "summer-daze-malta",
+    "nom": "Summer Daze Malta",
+    "type": "festival",
+    "paysCode": "MT",
+    "ville": {
+      "fr": "Ta’ Qali (Parc national)",
+      "en": "Ta’ Qali (National Park)"
+    },
+    "latitude": 35.8947,
+    "longitude": 14.415,
+    "capacite": 20000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://summerdazemalta.com",
+    "description": {
+      "fr": "Grand festival estival en plein air au Parc national de Ta’ Qali au coeur de Malte en partenariat avec BBC Radio 1 et Creamfields.",
+      "en": "Large-scale mid-August open-air festival at Malta’s Ta’ Qali National Park bringing superstar electronic and dance headliners to the island."
+    }
+  },
+  {
+    "id": "plissken-festival-athenes-grece",
+    "nom": "Plisskën Festival",
+    "type": "festival",
+    "paysCode": "GR",
+    "ville": {
+      "fr": "Athènes (Peiraios 260 & Conservatoire)",
+      "en": "Athens (Peiraios 260 & Athens Conservatoire)"
+    },
+    "latitude": 37.9681,
+    "longitude": 23.6969,
+    "capacite": 8000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Septembre - Décembre",
+      "en": "September - December"
+    },
+    "styles": [
+      "Techno",
+      "Electro",
+      "Experimental",
+      "Indie Dance"
+    ],
+    "site": "https://plisskenfestival.gr",
+    "description": {
+      "fr": "Festival indépendant athénien de référence depuis 2010 investissant les friches industrielles de Peiraios 260 et le Conservatoire d’Athènes autour de la techno pointue et de l’électro.",
+      "en": "Athens’ forward-thinking electronic and alternative music festival founded in 2010, taking over industrial spaces at Peiraios 260 and the Athens Conservatoire."
+    }
+  },
+  {
+    "id": "techniques-athenes-grece",
+    "nom": "Techniques (par Blend Athens)",
+    "type": "festival",
+    "paysCode": "GR",
+    "ville": {
+      "fr": "Athènes (Complexe olympique OAKA)",
+      "en": "Athens (OAKA Olympic Complex)"
+    },
+    "latitude": 38.0369,
+    "longitude": 23.7844,
+    "capacite": 10000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Novembre - Décembre",
+      "en": "November - December"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno"
+    ],
+    "site": "https://blendathens.com",
+    "description": {
+      "fr": "Plus grand marathon intérieur purement techno de Grèce porté par le promoteur historique Blend Athens au complexe olympique OAKA.",
+      "en": "Greece’s largest indoor techno marathon staged by veteran promoter Blend Athens at the OAKA Olympic arena complex in Marousi."
+    }
+  },
+  {
+    "id": "strom-festival-copenhague-danemark",
+    "nom": "Strøm Festival",
+    "type": "festival",
+    "paysCode": "DK",
+    "ville": {
+      "fr": "Copenhague (Enghaveparken & Frederiksberg)",
+      "en": "Copenhagen (Enghaveparken & Frederiksberg)"
+    },
+    "latitude": 55.6678,
+    "longitude": 12.5435,
+    "capacite": 5000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Bass",
+      "Ambient",
+      "Experimental"
+    ],
+    "site": "https://strm.dk",
+    "description": {
+      "fr": "Institution danoise des cultures électroniques investissant parcs, rames du métro de Copenhague (Trans Metro Express), clochers et friches urbaines sur cinq jours.",
+      "en": "Foundational Danish electronic music festival taking over Copenhagen parks, moving metro trains, church towers and urban spaces over five days."
+    }
+  },
+  {
+    "id": "subkultfestivalen-vanersborg-suede",
+    "nom": "Subkultfestivalen",
+    "type": "festival",
+    "paysCode": "SE",
+    "ville": {
+      "fr": "Trollhättan / Vänersborg",
+      "en": "Trollhattan / Vanersborg"
+    },
+    "latitude": 58.3808,
+    "longitude": 12.3234,
+    "capacite": 3500,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Electro",
+      "Industrial Techno",
+      "Experimental"
+    ],
+    "site": "https://subkultfestivalen.se",
+    "description": {
+      "fr": "Principal festival alternatif en plein air de Suède consacré à l’EBM, à l’électro industrielle, à la synth-wave et aux sous-cultures électroniques sombres.",
+      "en": "Sweden’s leading alternative open-air festival dedicated to EBM, industrial electro, synth-wave and dark electronic subcultures."
+    }
+  },
+  {
+    "id": "way-out-west-dungen-goteborg-suede",
+    "nom": "Way Out West (Dungen & Stay Out West)",
+    "type": "festival",
+    "paysCode": "SE",
+    "ville": {
+      "fr": "Göteborg (Parc de Slottsskogen)",
+      "en": "Gothenburg (Slottsskogen Park)"
+    },
+    "latitude": 57.6852,
+    "longitude": 11.9439,
+    "capacite": 8000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Club",
+      "Leftfield",
+      "Disco"
+    ],
+    "site": "https://www.wayoutwest.se",
+    "description": {
+      "fr": "L’enclave boisée Dungen au coeur du parc de Slottsskogen et le volet nocturne Stay Out West transforment Göteborg en grand rendez-vous house, techno et club nordique.",
+      "en": "The wooded Dungen stage inside Slottsskogen Park and the late-night Stay Out West club program turn Gothenburg into a flagship Nordic house and techno gathering."
+    }
+  },
+  {
+    "id": "palmesus-kristiansand-norvege",
+    "nom": "Palmesus",
+    "type": "festival",
+    "paysCode": "NO",
+    "ville": {
+      "fr": "Kristiansand (Plage de Bystranda)",
+      "en": "Kristiansand (Bystranda Beach)"
+    },
+    "latitude": 58.1449,
+    "longitude": 8.0061,
+    "capacite": 20000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juin - Juillet",
+      "en": "June - July"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Melodic Techno",
+      "Tech House"
+    ],
+    "site": "https://www.palmesus.com",
+    "description": {
+      "fr": "Plus grande fête électronique de plage de Scandinavie déployant scènes géantes et têtes d’affiche mondiales EDM, house et techno mélodique sur le sable de Bystranda.",
+      "en": "Scandinavia’s largest electronic beach festival staging massive dance arenas and global EDM, house and melodic techno headliners on Bystranda city beach."
+    }
+  },
+  {
+    "id": "utopia-stavanger-norvege",
+    "nom": "Utopia Stavanger",
+    "type": "festival",
+    "paysCode": "NO",
+    "ville": {
+      "fr": "Stavanger (Bjergstedparken)",
+      "en": "Stavanger (Bjergstedparken)"
+    },
+    "latitude": 58.9756,
+    "longitude": 5.7248,
+    "capacite": 12000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Club"
+    ],
+    "site": "https://utopiafest.no",
+    "description": {
+      "fr": "Grand festival urbain de la côte ouest norvégienne réuni dans l’amphithéâtre verdoyant de Bjergstedparken autour de productions électroniques et dance scandinaves et internationales.",
+      "en": "Major Norwegian west-coast festival staged in the natural amphitheatre of Bjergstedparken with high-impact Nordic and international electronic dance acts."
+    }
+  },
+  {
+    "id": "soundvault-festival-helsinki-finlande",
+    "nom": "SoundVault Festival",
+    "type": "festival",
+    "paysCode": "FI",
+    "ville": {
+      "fr": "Helsinki (Suvilahti)",
+      "en": "Helsinki (Suvilahti)"
+    },
+    "latitude": 60.1868,
+    "longitude": 24.9696,
+    "capacite": 6000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Hard Techno",
+      "Hardstyle",
+      "Techno",
+      "Rawstyle"
+    ],
+    "site": "https://soundvaultfi.com",
+    "description": {
+      "fr": "Rendez-vous finlandais des BPM rapides installant trois scènes dont une arène à 360 degrés sur la friche énergétique industrielle de Suvilahti à Helsinki.",
+      "en": "Finland’s premier harder-styles festival deploying three stages including a 360-degree arena across Helsinki’s historic Suvilahti power plant grounds."
+    }
+  },
+  {
+    "id": "cnnct-festival-helsinki-finlande",
+    "nom": "CNNCT Festival",
+    "type": "festival",
+    "paysCode": "FI",
+    "ville": {
+      "fr": "Helsinki (Nylanderinpuisto & Ääniwalli)",
+      "en": "Helsinki (Nylanderinpuisto & Aaniwalli)"
+    },
+    "latitude": 60.2006,
+    "longitude": 24.9669,
+    "capacite": 5000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août - Septembre",
+      "en": "August - September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Trance",
+      "Melodic Techno"
+    ],
+    "site": "https://cnnct.fi",
+    "description": {
+      "fr": "Festival urbain en plein air d’Helsinki investissant le viaduc brutaliste de Nylanderinpuisto et les entrepôts d’Ääniwalli avec des pointures techno, trance et hard techno.",
+      "en": "Helsinki urban open-air festival taking over the concrete bridge of Nylanderinpuisto and industrial club spaces with flagship techno, trance and hard-techno lineups."
+    }
+  },
+  {
+    "id": "station-narva-estonie",
+    "nom": "Station Narva",
+    "type": "festival",
+    "paysCode": "EE",
+    "ville": {
+      "fr": "Narva (Château d’Hermann & Kreenholm)",
+      "en": "Narva (Hermann Castle & Kreenholm)"
+    },
+    "latitude": 59.3756,
+    "longitude": 28.2017,
+    "capacite": 4000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electro",
+      "Leftfield",
+      "Techno",
+      "Experimental",
+      "Club"
+    ],
+    "site": "https://stationnarva.ee",
+    "description": {
+      "fr": "Festival d’avant-garde électronique et d’arts urbains posé à la frontière orientale de l’Estonie, entre la forteresse médiévale d’Hermann et l’immense manufacture textile de Kreenholm.",
+      "en": "Forward-thinking electronic music and urban culture festival on Estonia’s eastern border, staged across medieval Hermann Castle and the monumental Kreenholm textile mill."
+    }
+  },
+  {
+    "id": "skanu-mezs-riga-lettonie",
+    "nom": "Skaņu Mežs",
+    "type": "festival",
+    "paysCode": "LV",
+    "ville": {
+      "fr": "Riga (Hanzas Perons)",
+      "en": "Riga (Hanzas Perons)"
+    },
+    "latitude": 56.9661,
+    "longitude": 24.1072,
+    "capacite": 2500,
+    "annee": 2003,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Experimental",
+      "IDM",
+      "Ambient",
+      "Leftfield",
+      "Electro"
+    ],
+    "site": "https://www.skanumezs.lv",
+    "description": {
+      "fr": "Festival phare des musiques électroniques aventureuses et expérimentales des pays baltes, installé dans l’ancienne gare de fret réhabilitée Hanzas Perons à Riga.",
+      "en": "The Baltic region’s flagship festival for adventurous electronic and experimental sound, hosted inside Riga’s converted Hanzas Perons railway warehouse."
+    }
+  },
+  {
+    "id": "positivus-festival-riga-lettonie",
+    "nom": "Positivus Festival",
+    "type": "festival",
+    "paysCode": "LV",
+    "ville": {
+      "fr": "Riga (Lucavsala & Mežaparks)",
+      "en": "Riga (Lucavsala & Mezaparks)"
+    },
+    "latitude": 56.9261,
+    "longitude": 24.1014,
+    "capacite": 20000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Electronica",
+      "Bass"
+    ],
+    "site": "https://www.positivusfestival.com",
+    "description": {
+      "fr": "Grand rassemblement estival letton sur l’île fluviale de Lucavsala et à Mežaparks à Riga, accueillant têtes d’affiche électroniques mondiales, live electronica et scènes club nocturnes.",
+      "en": "Latvia’s largest summer music festival across Lucavsala Island and Mezaparks in Riga, hosting global electronic headliners, live electronica and late-night dance stages."
+    }
+  },
+  {
+    "id": "loftas-fest-vilnius-lituanie",
+    "nom": "Loftas Fest",
+    "type": "festival",
+    "paysCode": "LT",
+    "ville": {
+      "fr": "Vilnius (Ancienne usine ELFA)",
+      "en": "Vilnius (Former ELFA Factory)"
+    },
+    "latitude": 54.6744,
+    "longitude": 25.2692,
+    "capacite": 10000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "House",
+      "Indie Dance",
+      "Leftfield"
+    ],
+    "site": "https://menufabrikas.lt",
+    "description": {
+      "fr": "Plus grand festival urbain des pays baltes déployant scènes techno, lives électroniques et art numérique dans les cours industrielles de l’ancienne usine électrique ELFA à Vilnius.",
+      "en": "The Baltics’ largest urban music and arts festival staging techno, live electronic acts and digital installations across Vilnius’s former ELFA factory complex."
+    }
+  },
+  {
+    "id": "ant-bangos-nida-lituanie",
+    "nom": "Ant Bangos",
+    "type": "festival",
+    "paysCode": "LT",
+    "ville": {
+      "fr": "Nida (Isthme de Courlande)",
+      "en": "Nida (Curonian Spit)"
+    },
+    "latitude": 55.3033,
+    "longitude": 21.0056,
+    "capacite": 2000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Indie Dance"
+    ],
+    "site": "https://ra.co/promoters/25224",
+    "description": {
+      "fr": "Escapade électronique balnéaire orchestrée par l’équipe de l’Opium Club de Vilnius entre dunes de pins et plage de la Baltique sur la presqu’île de Nida.",
+      "en": "Boutique Baltic beach festival curated by Vilnius’s Opium Club among the pine dunes and sandy shores of the Curonian Spit in Nida."
+    }
+  },
+  {
+    "id": "instytut-festival-modlin-pologne",
+    "nom": "Instytut Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Nowy Dwór Mazowiecki (Forteresse de Modlin) & Varsovie",
+      "en": "Nowy Dwor Mazowiecki (Modlin Fortress) & Warsaw"
+    },
+    "latitude": 52.4383,
+    "longitude": 20.6819,
+    "capacite": 10000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juin & Septembre",
+      "en": "June & September"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Industrial Techno",
+      "Acid Techno"
+    ],
+    "site": "https://www.instytutfestival.pl",
+    "description": {
+      "fr": "Déclinaison open air du collectif techno historique Instytut né à Varsovie en l’an 2000, investissant les remparts historiques de la forteresse de Modlin.",
+      "en": "Open-air festival by Poland’s pioneering techno institution Instytut, transforming the historic Modlin Fortress near Warsaw into a raw techno stronghold."
+    }
+  },
+  {
+    "id": "mayday-poland-katowice-pologne",
+    "nom": "Mayday Poland",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Katowice (Spodek Arena, Silésie)",
+      "en": "Katowice (Spodek Arena, Silesia)"
+    },
+    "latitude": 50.2661,
+    "longitude": 19.0253,
+    "capacite": 11000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Acid Techno",
+      "Schranz"
+    ],
+    "site": "https://mayday.pl",
+    "description": {
+      "fr": "Monument historique de la rave polonaise célébrant chaque mois de novembre plus de vingt-cinq ans de techno pure sous la soucoupe futuriste du Spodek de Katowice.",
+      "en": "Historic pillar of Polish rave culture held every November inside Katowice’s futuristic saucer-shaped Spodek Arena with global techno icons."
+    }
+  },
+  {
+    "id": "salt-wave-festival-jastarnia-pologne",
+    "nom": "Salt Wave Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Jastarnia (Péninsule de Hel, Baltique)",
+      "en": "Jastarnia (Hel Peninsula, Baltic Sea)"
+    },
+    "latitude": 54.7069,
+    "longitude": 18.6531,
+    "capacite": 6000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juillet - Août",
+      "en": "July - August"
+    },
+    "styles": [
+      "Electronica",
+      "Indie Dance",
+      "House",
+      "Nu-Disco"
+    ],
+    "site": "https://saltwave.pl",
+    "description": {
+      "fr": "Festival balnéaire posé entre mer Baltique et baie de Puck sur l’aérodrome de la péninsule de Hel, dédié à l’electronica solaire, à l’indie dance et aux lives.",
+      "en": "Seaside festival wedged between the Baltic Sea and Puck Bay on the Hel Peninsula airfield, blending sun-drenched electronica, indie dance and live sets."
+    }
+  },
+  {
+    "id": "machac-festival-doksy-tchequie",
+    "nom": "Mácháč Festival",
+    "type": "festival",
+    "paysCode": "CZ",
+    "ville": {
+      "fr": "Doksy (Plage de Klůček, Lac de Mácha)",
+      "en": "Doksy (Klucek Beach, Lake Macha)"
+    },
+    "latitude": 50.5736,
+    "longitude": 14.6514,
+    "capacite": 15000,
+    "annee": 2000,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Drum & Bass",
+      "Hardstyle"
+    ],
+    "site": "https://www.machac.cz",
+    "description": {
+      "fr": "Doyen des festivals open air électroniques de plage en Tchéquie, les pieds dans le sable du lac de Mácha en Bohême du Nord avec scènes techno, house et drum & bass.",
+      "en": "Czechia’s longest-running open-air beach electronic festival on the sandy shores of Lake Macha in northern Bohemia, spanning techno, house and drum & bass."
+    }
+  },
+  {
+    "id": "darkshire-in-the-woods-tchequie",
+    "nom": "Darkshire Festival In The Woods",
+    "type": "festival",
+    "paysCode": "CZ",
+    "ville": {
+      "fr": "Chotěvice (Bohême du Nord-Est)",
+      "en": "Chotevice (Northeastern Bohemia)"
+    },
+    "latitude": 50.5058,
+    "longitude": 15.7725,
+    "capacite": 5000,
+    "annee": 2020,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Drum & Bass",
+      "Hard Techno",
+      "Hardcore"
+    ],
+    "site": "https://www.darkshire.cz",
+    "description": {
+      "fr": "Immersion audiovisuelle sombre au coeur des forêts de Bohême du Nord-Est, devenue la référence centre-européenne du neurofunk, de la drum & bass lourde et de la hard techno.",
+      "en": "Dark woodland audiovisual gathering in northeastern Bohemia celebrated across Central Europe for heavy neurofunk, drum & bass and hard techno."
+    }
+  },
+  {
+    "id": "grape-festival-trencin-slovaquie",
+    "nom": "Grape Festival (Electronic & Addict Stages)",
+    "type": "festival",
+    "paysCode": "SK",
+    "ville": {
+      "fr": "Trenčín (Aéroport de Trenčín)",
+      "en": "Trencin (Trencin Airport)"
+    },
+    "latitude": 48.8686,
+    "longitude": 17.9922,
+    "capacite": 25000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Drum & Bass",
+      "Melodic Techno",
+      "Electro",
+      "House"
+    ],
+    "site": "https://www.grapefestival.sk",
+    "description": {
+      "fr": "Grand festival slovaque sur le tarmac de l’aéroport de Trenčín doté de puissantes scènes électroniques et rave accueillant techno, drum & bass et lives internationaux.",
+      "en": "Premier Slovak festival at Trencin Airport featuring massive dedicated electronic and rave arenas hosting international techno, drum & bass and live acts."
+    }
+  },
+  {
+    "id": "lovestream-electronic-bratislava-slovaquie",
+    "nom": "Lovestream Festival (Electronic Stage)",
+    "type": "festival",
+    "paysCode": "SK",
+    "ville": {
+      "fr": "Bratislava (Ancien aéroport de Vajnory)",
+      "en": "Bratislava (Old Vajnory Airport)"
+    },
+    "latitude": 48.2022,
+    "longitude": 17.1897,
+    "capacite": 35000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "EDM",
+      "Melodic Techno",
+      "House",
+      "Drum & Bass"
+    ],
+    "site": "https://lovestream.sk",
+    "description": {
+      "fr": "Méga-festival en plein air de Bratislava sur l’aérodrome de Vajnory déployant une vaste scène électronique dédiée aux têtes d’affiche EDM, house, techno mélodique et drum & bass.",
+      "en": "Massive Bratislava open-air festival at Vajnory Airport featuring a dedicated Electronic Stage for global EDM, melodic techno, house and drum & bass headliners."
+    }
+  },
+  {
+    "id": "sonica-festival-ljubljana-slovenie",
+    "nom": "SONICA Festival",
+    "type": "festival",
+    "paysCode": "SI",
+    "ville": {
+      "fr": "Ljubljana (Kino Šiška & Metelkova)",
+      "en": "Ljubljana (Kino Siska & Metelkova)"
+    },
+    "latitude": 46.0681,
+    "longitude": 14.4894,
+    "capacite": 2500,
+    "annee": 2009,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "IDM",
+      "Leftfield",
+      "Modular"
+    ],
+    "site": "https://sonica.si",
+    "description": {
+      "fr": "Festival phare de Ljubljana orchestré autour des musiques électroniques exploratoires, des performances audiovisuelles et de la culture club entre Kino Šiška et Metelkova.",
+      "en": "Ljubljana’s leading exploratory electronic music and audiovisual arts festival curated across Kino Siska and the autonomous Metelkova quarter."
+    }
+  },
+  {
+    "id": "picnic-fonic-bucarest-roumanie",
+    "nom": "Picnic Fonic",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Bucarest (Forêt de Băneasa & Casa Presei)",
+      "en": "Bucharest (Baneasa Forest & Press House Park)"
+    },
+    "latitude": 44.4811,
+    "longitude": 26.0714,
+    "capacite": 6000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Minimal",
+      "Microhouse",
+      "House",
+      "Techno"
+    ],
+    "site": "https://picnicfonic.ro",
+    "description": {
+      "fr": "Institution bucarestoise en plein air célébrant le son rominimal, la microhouse et la house underground du jour au lever du soleil dans les forêts du nord de la capitale.",
+      "en": "Open-air Bucharest institution celebrating Rominimal, microhouse and underground house from daytime into sunrise across northern Bucharest’s parks and woods."
+    }
+  },
+  {
+    "id": "massif-festival-poiana-brasov-roumanie",
+    "nom": "Massif Festival",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Poiana Brașov (Carpates, Transylvanie)",
+      "en": "Poiana Brasov (Carpathians, Transylvania)"
+    },
+    "latitude": 45.5958,
+    "longitude": 25.5533,
+    "capacite": 15000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Février - Mars",
+      "en": "February - March"
+    },
+    "styles": [
+      "Drum & Bass",
+      "House",
+      "Techno",
+      "EDM"
+    ],
+    "site": "https://www.bemassif.com",
+    "description": {
+      "fr": "Grand festival hivernal alpin conçu par l’équipe d’UNTOLD au pied des pistes de Poiana Brașov en Transylvanie, mêlant scènes électroniques sur neige et arènes nocturnes.",
+      "en": "Major alpine winter festival created by the UNTOLD team at Transylvania’s Poiana Brasov ski resort, pairing slope-side electronic stages with night arenas."
+    }
+  },
+  {
+    "id": "flight-festival-timisoara-roumanie",
+    "nom": "Flight Festival",
+    "type": "festival",
+    "paysCode": "RO",
+    "ville": {
+      "fr": "Timișoara (Muzeul Satului Bănățean)",
+      "en": "Timisoara (Banat Village Museum)"
+    },
+    "latitude": 45.7836,
+    "longitude": 21.2647,
+    "capacite": 20000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Drum & Bass",
+      "House",
+      "Techno",
+      "EDM"
+    ],
+    "site": "https://flight-festival.com",
+    "description": {
+      "fr": "Festival musique et arts technologiques de l’ouest roumain réputé pour ses puissantes scènes drum & bass, neurofunk, house et techno en lisière forestière à Timișoara.",
+      "en": "Western Romania’s music and tech-arts festival in Timisoara renowned for heavyweight drum & bass, neurofunk, house and techno stages in a woodland setting."
+    }
+  },
+  {
+    "id": "terminal-v-croatia-tisno",
+    "nom": "Terminal V Croatia",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Tisno (The Garden Resort, Dalmatie)",
+      "en": "Tisno (The Garden Resort, Dalmatia)"
+    },
+    "latitude": 43.8031,
+    "longitude": 15.6328,
+    "capacite": 5000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Acid Techno",
+      "Electro"
+    ],
+    "site": "https://terminalvcroatia.com",
+    "description": {
+      "fr": "Déclinaison adriatique de cinq jours et cinq nuits du géant techno écossais Terminal V entre plages de Tisno, boat parties et nuits blanches au club en plein air Barbarella’s.",
+      "en": "Five-day Adriatic summer edition of Scotland’s techno powerhouse Terminal V across Tisno’s beachfront stages, boat parties and open-air nights at Barbarella’s."
+    }
+  },
+  {
+    "id": "barrakud-zrce-croatie",
+    "nom": "Barrakud Croatia",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Île de Pag (Plage de Zrće)",
+      "en": "Pag Island (Zrce Beach)"
+    },
+    "latitude": 44.5394,
+    "longitude": 14.9142,
+    "capacite": 8000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Hard Techno"
+    ],
+    "site": "https://www.barrakud.com",
+    "description": {
+      "fr": "Semaine marathon techno et tech house née d’un collectif italien prenant d’assaut les clubs à ciel ouvert de la plage de Zrće et la mer Adriatique.",
+      "en": "Week-long techno and tech-house marathon founded by Italian promoters taking over Zrce Beach’s open-air superclubs and Adriatic boat parties."
+    }
+  },
+  {
+    "id": "gates-of-agartha-pula-croatie",
+    "nom": "Gates of Agartha Croatia",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Pula / Vinkuran (Carrière romaine Cave Romane, Istrie)",
+      "en": "Pula / Vinkuran (Cave Romane Quarry, Istria)"
+    },
+    "latitude": 44.8358,
+    "longitude": 13.8686,
+    "capacite": 4000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Afro House",
+      "Deep House",
+      "Tech House"
+    ],
+    "site": "https://gatesofagartha.com",
+    "description": {
+      "fr": "Expérience électronique monumentale nichée entre les parois calcaires hautes de trente mètres de Cave Romane, carrière romaine bimillénaire près de Pula en Istrie.",
+      "en": "Immersive electronic gathering staged inside the towering thirty-meter limestone walls of Cave Romane, a two-thousand-year-old Roman quarry near Pula."
+    }
+  },
+  {
+    "id": "no-sleep-festival-belgrade-serbie",
+    "nom": "No Sleep Festival",
+    "type": "festival",
+    "paysCode": "RS",
+    "ville": {
+      "fr": "Belgrade (Port de Belgrade / Luka Beograd)",
+      "en": "Belgrade (Port of Belgrade / Luka Beograd)"
+    },
+    "latitude": 44.8256,
+    "longitude": 20.4789,
+    "capacite": 15000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Avril & Novembre",
+      "en": "April & November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Hard Techno",
+      "Electro"
+    ],
+    "site": "https://nosleepfestival.com",
+    "description": {
+      "fr": "Plateforme techno nocturne primée née d’EXIT, transformant les hangars industriels géants du port de Belgrade et les clubs de la capitale serbe en marathon sans sommeil.",
+      "en": "Born from EXIT’s underground platform, this award-winning indoor rave marathon takes over massive industrial hangars at the Port of Belgrade and city clubs."
+    }
+  },
+  {
+    "id": "green-love-festival-novi-sad-serbie",
+    "nom": "Green Love Festival",
+    "type": "festival",
+    "paysCode": "RS",
+    "ville": {
+      "fr": "Novi Sad (Foire de Novi Sad & SPENS)",
+      "en": "Novi Sad (Novi Sad Fair & SPENS)"
+    },
+    "latitude": 45.2558,
+    "longitude": 19.8236,
+    "capacite": 6000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Mars - Octobre",
+      "en": "March - October"
+    },
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Hard Techno"
+    ],
+    "site": "https://greenlovefestival.rs",
+    "description": {
+      "fr": "Pilier techno de Voïvodine rassemblant des milliers de ravers dans les halles géantes de la Foire de Novi Sad et du complexe SPENS autour de têtes d’affiche internationales.",
+      "en": "Long-running Vojvodina rave institution uniting thousands of techno fans inside Novi Sad Fair and the SPENS arena with international headliners."
+    }
+  },
+  {
+    "id": "sunwaves-varna-bulgarie",
+    "nom": "Sunwaves Bulgaria (Golden Sands)",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Varna (Sables d’Or / Golden Sands, Mer Noire)",
+      "en": "Varna (Golden Sands, Black Sea)"
+    },
+    "latitude": 43.2842,
+    "longitude": 28.0447,
+    "capacite": 10000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Avril - Mai",
+      "en": "April - May"
+    },
+    "styles": [
+      "Minimal",
+      "Microhouse",
+      "Techno",
+      "House"
+    ],
+    "site": "https://sunwaves-fest.ro",
+    "description": {
+      "fr": "Nouvelle terre d’accueil printanière du mythique marathon minimal et microhouse Sunwaves, installé six jours non-stop sur le sable de Golden Sands au bord de la mer Noire bulgare.",
+      "en": "Black Sea spring home of the legendary non-stop minimal and microhouse marathon Sunwaves, running six days and nights on the beach at Golden Sands near Varna."
+    }
+  },
+  {
+    "id": "solar-festival-sofia-bulgarie",
+    "nom": "Solar Festival (Yalta Club)",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Sofia & Sunny Beach (Cacao Beach)",
+      "en": "Sofia & Sunny Beach (Cacao Beach)"
+    },
+    "latitude": 42.6853,
+    "longitude": 23.3917,
+    "capacite": 8000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Juillet - Août & Décembre",
+      "en": "July - August & December"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "Progressive House",
+      "Tech House"
+    ],
+    "site": "https://www.yaltaclub.com",
+    "description": {
+      "fr": "Grande bannière festival du club historique Yalta alternant arènes géantes à Sofia et éditions estivales sur la mer Noire avec les géants mondiaux de la techno.",
+      "en": "Flagship festival brand by Sofia’s historic Yalta Club staging massive arena raves in Sofia and summer Black Sea editions with global techno heavyweights."
+    }
+  },
+  {
+    "id": "wake-up-festival-kuklen-bulgarie",
+    "nom": "Wake Up Festival",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Kuklen / Plovdiv (Monts Rhodopes)",
+      "en": "Kuklen / Plovdiv (Rhodope Mountains)"
+    },
+    "latitude": 42.0236,
+    "longitude": 24.7778,
+    "capacite": 4000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Psy",
+      "Bass",
+      "Drum & Bass",
+      "Downtempo",
+      "Dub"
+    ],
+    "site": "https://wakeup-bg.com",
+    "description": {
+      "fr": "Rassemblement alternatif en pleine montagne près du monastère de Kuklen au sud de Plovdiv, mêlant scènes psytrance, bass music, dub et arts vivants au coeur des Rhodopes.",
+      "en": "Mountain open-air gathering near Kuklen Monastery above Plovdiv in the Rhodope Mountains, blending psytrance, bass music, dub and alternative arts."
+    }
+  },
+  {
+    "id": "rubix-festival-tivat-montenegro",
+    "nom": "Rubix Festival",
+    "type": "festival",
+    "paysCode": "ME",
+    "ville": {
+      "fr": "Tivat (Porto Montenegro, Bouches de Kotor)",
+      "en": "Tivat (Porto Montenegro, Bay of Kotor)"
+    },
+    "latitude": 42.4342,
+    "longitude": 18.6928,
+    "capacite": 4000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Electronica",
+      "House",
+      "Live Electronic"
+    ],
+    "site": "https://rubixfestival.me",
+    "description": {
+      "fr": "Festival multidisciplinaire unissant musique électronique, performances live et arts numériques sous l’ancien hangar naval industriel Synchro de Porto Montenegro dans les bouches de Kotor.",
+      "en": "Multidisciplinary festival uniting electronic music, live performances and digital art beneath the historic Synchro shipyard hall in Porto Montenegro."
+    }
+  },
+  {
+    "id": "get-exited-strumica-macedoine",
+    "nom": "Get EXITed Strumica",
+    "type": "festival",
+    "paysCode": "MK",
+    "ville": {
+      "fr": "Strumica (Parc municipal)",
+      "en": "Strumica (City Park)"
+    },
+    "latitude": 41.4378,
+    "longitude": 22.6427,
+    "capacite": 20000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.exitfest.org",
+    "description": {
+      "fr": "Grand rassemblement en plein air produit par l’équipe d’EXIT dans le parc municipal de Strumica, réunissant vingt mille festivaliers autour de DJ internationaux et balkaniques.",
+      "en": "Large-scale open-air spectacle produced by the EXIT team in Strumica City Park drawing twenty thousand attendees for international DJs and regional acts."
+    }
+  },
+  {
+    "id": "abr-afrobanana-nicosie-chypre",
+    "nom": "ABR Festival (Alternative Brains Rule)",
+    "type": "festival",
+    "paysCode": "CY",
+    "ville": {
+      "fr": "Nicosie (Jardins municipaux)",
+      "en": "Nicosia (Municipal Gardens)"
+    },
+    "latitude": 35.1725,
+    "longitude": 33.3547,
+    "capacite": 4000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Juillet - Octobre",
+      "en": "July - October"
+    },
+    "styles": [
+      "House",
+      "Leftfield",
+      "Afro House",
+      "Global Club",
+      "Disco"
+    ],
+    "site": "https://abrfest.com",
+    "description": {
+      "fr": "Né sous le nom d’AfroBanana, ce festival créatif chypriote investit le coeur verdoyant de Nicosie autour des musiques club mondiales, de la house, des lives électroniques et du design.",
+      "en": "Born as the beloved AfroBanana Festival, Cyprus’s creative gathering takes over central Nicosia with global club sounds, house, live electronics and design."
+    }
+  },
+  {
+    "id": "4gb-festival-georgie",
+    "nom": "4GB Festival",
+    "type": "festival",
+    "paysCode": "GE",
+    "ville": {
+      "fr": "Saguramo / Tbilissi (Loco Park)",
+      "en": "Saguramo / Tbilisi (Loco Park)"
+    },
+    "latitude": 41.8889,
+    "longitude": 44.7636,
+    "capacite": 10000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Mai - Octobre",
+      "en": "May - October"
+    },
+    "styles": [
+      "Techno",
+      "Minimal",
+      "House",
+      "Electro"
+    ],
+    "site": "https://www.4gb.ge",
+    "description": {
+      "fr": "Festival emblématique de la scène électronique géorgienne fondé en hommage au pionnier Gio Bakanidze, célèbre pour ses marathons techno et minimal au pied du Caucase.",
+      "en": "Georgia’s most revered electronic music festival founded in memory of pioneer Gio Bakanidze, famed for marathon techno and minimal sessions beneath the Caucasus."
+    }
+  },
+  {
+    "id": "tbilisi-open-air-zion-georgie",
+    "nom": "Tbilisi Open Air (Zion Garden & Khidi)",
+    "type": "festival",
+    "paysCode": "GE",
+    "ville": {
+      "fr": "Tbilissi (Lisi Wonderland)",
+      "en": "Tbilisi (Lisi Wonderland)"
+    },
+    "latitude": 41.7442,
+    "longitude": 44.7336,
+    "capacite": 20000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "Psy",
+      "House",
+      "Electro",
+      "Industrial Techno"
+    ],
+    "site": "https://tbilisiopenair.ge",
+    "description": {
+      "fr": "Plus grand festival du Caucase sur les hauteurs de Lisi Wonderland à Tbilissi, dont les scènes nocturnes Zion Garden, Mzesumzira et Khidi portent toute la scène techno et psy géorgienne.",
+      "en": "The Caucasus region’s largest open-air festival at Lisi Wonderland above Tbilisi, anchored round-the-clock by the dedicated Zion Garden, Mzesumzira and Khidi electronic stages."
+    }
+  },
+  {
+    "id": "chill-out-festival-istanbul-turquie",
+    "nom": "Chill-Out Festival Istanbul",
+    "type": "festival",
+    "paysCode": "TR",
+    "ville": {
+      "fr": "Istanbul (Bosphore / Kemerburgaz)",
+      "en": "Istanbul (Bosphorus / Kemerburgaz)"
+    },
+    "latitude": 41.0419,
+    "longitude": 28.9958,
+    "capacite": 6000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Deep House",
+      "Organic House",
+      "Downtempo",
+      "Afro House"
+    ],
+    "site": "https://www.loungefm.net",
+    "description": {
+      "fr": "Classique bohème d’Istanbul fondé par Lounge FM en 2006, célébrant deep house, house organique et electronica solaire dans des jardins surplombant le Bosphore ou en forêt.",
+      "en": "Beloved twenty-year Istanbul open-air institution founded by Lounge FM showcasing deep house, organic house and balearic electronica in lush gardens."
+    }
+  },
+  {
+    "id": "rooftop-festival-istanbul-turquie",
+    "nom": "Rooftop Festival Istanbul",
+    "type": "festival",
+    "paysCode": "TR",
+    "ville": {
+      "fr": "Istanbul (Beyoğlu, Klein Garten & Bosphore)",
+      "en": "Istanbul (Beyoglu, Klein Garten & Bosphorus)"
+    },
+    "latitude": 41.0319,
+    "longitude": 28.9744,
+    "capacite": 4000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai & Septembre",
+      "en": "May & September"
+    },
+    "styles": [
+      "House",
+      "Melodic Techno",
+      "Deep House",
+      "Indie Dance"
+    ],
+    "site": "https://bugece.co",
+    "description": {
+      "fr": "Parcours électronique panoramique reliant avec un seul laissez-passer les toits-terrasses emblématiques d’Istanbul face à la Corne d’Or et au Bosphore.",
+      "en": "Multi-venue skyline electronic festival connecting Istanbul’s premier rooftops overlooking the Golden Horn and Bosphorus under a single pass."
+    }
+  },
+  {
+    "id": "gates-of-agartha-istanbul-turquie",
+    "nom": "Gates of Agartha Istanbul",
+    "type": "festival",
+    "paysCode": "TR",
+    "ville": {
+      "fr": "Istanbul (Tersane Istanbul, Corne d’Or)",
+      "en": "Istanbul (Tersane Istanbul, Golden Horn)"
+    },
+    "latitude": 41.0408,
+    "longitude": 28.9539,
+    "capacite": 5000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Afro House",
+      "Deep House"
+    ],
+    "site": "https://gatesofagartha.com",
+    "description": {
+      "fr": "Volet stambouliote de la maison Agartha installant ses productions audiovisuelles techno mélodique et afro house dans les chantiers navals ottomans historiques de Tersane sur la Corne d’Or.",
+      "en": "Istanbul edition of the Agartha series staging monumental melodic techno and afro-house productions inside the historic Ottoman naval shipyards of Tersane."
+    }
+  },
+  {
+    "id": "wolfkop-weekender-citrusdal-afrique-du-sud",
+    "nom": "Wolfkop Weekender",
+    "type": "festival",
+    "paysCode": "ZA",
+    "ville": {
+      "fr": "Citrusdal (Vallée de l’Olifants, Cap-Occidental)",
+      "en": "Citrusdal (Olifants River Valley, Western Cape)"
+    },
+    "latitude": -32.6331,
+    "longitude": 19.0189,
+    "capacite": 2500,
+    "annee": 2014,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Deep House",
+      "Techno",
+      "Melodic Techno",
+      "Downtempo"
+    ],
+    "site": "https://www.wolfkopweekender.com",
+    "description": {
+      "fr": "Rendez-vous boutique en bordure de la rivière Olifants au pied des montagnes du Cederberg, célèbre pour ses scènes flottantes et forestières dédiées à la deep house et à la techno.",
+      "en": "Boutique riverside camping weekender along the Olifants River beneath the Cederberg mountains, famed for floating river sessions and deep house and techno stages."
+    }
+  },
+  {
+    "id": "lost-nomads-agafay-maroc",
+    "nom": "Lost Nomads Festival",
+    "type": "festival",
+    "paysCode": "MA",
+    "ville": {
+      "fr": "Désert d’Agafay (Marrakech)",
+      "en": "Agafay Desert (Marrakech)"
+    },
+    "latitude": 31.4647,
+    "longitude": -8.2106,
+    "capacite": 3500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Afro House",
+      "Melodic Techno",
+      "Deep House",
+      "Organic House"
+    ],
+    "site": "https://lostnomadsfestival.com",
+    "description": {
+      "fr": "Rassemblement immersif au milieu des collines minérales du désert d’Agafay face au Haut Atlas, unissant esthétique nomade marocaine et têtes d’affiche mondiales afro house et techno mélodique.",
+      "en": "Immersive desert gathering set across the lunar hills of Agafay facing the High Atlas Mountains, pairing Moroccan nomadic heritage with global afro-house and melodic techno stars."
+    }
+  },
+  {
+    "id": "zamna-pyramids-gizeh-egypte",
+    "nom": "Zamna Pyramids",
+    "type": "festival",
+    "paysCode": "EG",
+    "ville": {
+      "fr": "Gizeh (Plateau des Pyramides, Le Caire)",
+      "en": "Giza (Pyramids Plateau, Cairo)"
+    },
+    "latitude": 29.9792,
+    "longitude": 31.1342,
+    "capacite": 12000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Melodic Techno",
+      "House",
+      "Afro House",
+      "Techno"
+    ],
+    "site": "https://zamnafestival.com",
+    "description": {
+      "fr": "Escapade pharaonique de deux nuits orchestrée par le festival mexicain Zamna directement face aux Grandes Pyramides de Gizeh, mêlant scénographie laser monumentale et techno mélodique.",
+      "en": "Monumental two-night electronic spectacle staged by Tulum-born Zamna directly beneath the Great Pyramids of Giza with world-leading melodic techno and house artists."
+    }
+  },
+  {
+    "id": "kaleidoscope-festival-watamu-kenya",
+    "nom": "Kaleidoscope Festival",
+    "type": "festival",
+    "paysCode": "KE",
+    "ville": {
+      "fr": "Watamu (Temple Point, Côte swahilie)",
+      "en": "Watamu (Temple Point, Swahili Coast)"
+    },
+    "latitude": -3.3853,
+    "longitude": 39.9869,
+    "capacite": 2500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Afro House",
+      "House",
+      "Techno"
+    ],
+    "site": "https://kaleidoscope.wtf",
+    "description": {
+      "fr": "Festival boutique multisensoriel posé entre océan Indien et crique de Mida à Watamu, vitrine de l’afro house, de l’afro tech et de la scène électronique est-africaine.",
+      "en": "Multi-sensory coastal festival set where the Indian Ocean meets Mida Creek in Watamu, spotlighting East African and international afro-house, afro-tech and house."
+    }
+  },
+  {
+    "id": "gondwana-ke-nairobi-kenya",
+    "nom": "Gondwana KE",
+    "type": "festival",
+    "paysCode": "KE",
+    "ville": {
+      "fr": "Nairobi & Malindi (Côte kenyane)",
+      "en": "Nairobi & Malindi (Kenyan Coast)"
+    },
+    "latitude": -1.3619,
+    "longitude": 36.8181,
+    "capacite": 3000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Décembre & Saisonnier",
+      "en": "December & Seasonal"
+    },
+    "styles": [
+      "Afro House",
+      "Deep House",
+      "House"
+    ],
+    "site": "https://www.instagram.com/gondwana_ke",
+    "description": {
+      "fr": "Collectif et festival phare d’Afrique de l’Est célèbre pour ses grands rassemblements afro house et afro tech face au parc national de Nairobi et sur le littoral de Malindi au Nouvel An.",
+      "en": "East Africa’s flagship afro-house collective and festival series staging open-air gatherings overlooking Nairobi National Park and New Year coastal showcases in Malindi."
+    }
+  },
+  {
+    "id": "ushuaia-dubai-harbour-eau",
+    "nom": "Ushuaïa Dubai Harbour Experience",
+    "type": "festival",
+    "paysCode": "AE",
+    "ville": {
+      "fr": "Dubaï (Dubai Harbour)",
+      "en": "Dubai (Dubai Harbour)"
+    },
+    "latitude": 25.0933,
+    "longitude": 55.1408,
+    "capacite": 15000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Octobre - Mai",
+      "en": "October - May"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Afro House",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.ushuaiadubai.com",
+    "description": {
+      "fr": "Arène open air géante transposée d’Ibiza sur le front de mer de Dubai Harbour, accueillant d’octobre à mai les plus grandes productions mondiales techno mélodique et afro house.",
+      "en": "Massive open-air waterfront arena bringing Ibiza’s Ushuaia production scale to Dubai Harbour with blockbuster seasonal takeovers."
+    }
+  },
+  {
+    "id": "soho-garden-festival-dubai-eau",
+    "nom": "Soho Garden Festival",
+    "type": "festival",
+    "paysCode": "AE",
+    "ville": {
+      "fr": "Dubaï (Meydan & Expo City)",
+      "en": "Dubai (Meydan & Expo City)"
+    },
+    "latitude": 25.1558,
+    "longitude": 55.3003,
+    "capacite": 10000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Octobre - Avril",
+      "en": "October - April"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "House",
+      "Tech House"
+    ],
+    "site": "https://www.sohogardendxb.com",
+    "description": {
+      "fr": "Série de grands festivals en plein air orchestrée par Soho Garden entre l’hippodrome de Meydan et Expo City Dubaï avec l’élite internationale de la techno et de la house.",
+      "en": "Large-scale open-air festival series produced by Soho Garden across Meydan and Expo City Dubai featuring top-tier international techno, melodic techno and house acts."
+    }
+  },
+  {
+    "id": "mdlbeast-balad-beast-djeddah-arabie-saoudite",
+    "nom": "MDLBEAST Balad Beast",
+    "type": "festival",
+    "paysCode": "SA",
+    "ville": {
+      "fr": "Djeddah (Quartier historique d’Al-Balad)",
+      "en": "Jeddah (Historic Al-Balad)"
+    },
+    "latitude": 21.4864,
+    "longitude": 39.1861,
+    "capacite": 30000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "EDM",
+      "Afro House",
+      "Deep House"
+    ],
+    "site": "https://mdlbeast.com",
+    "description": {
+      "fr": "Deux nuits spectaculaires où MDLBEAST illumine en mapping architectural les places et demeures coralliennes d’Al-Balad, vieille ville de Djeddah classée à l’UNESCO, autour de quatre scènes.",
+      "en": "Two-night festival by MDLBEAST illuminating the UNESCO-listed coral-stone courtyards and alleys of historic Al-Balad in Jeddah across four stages."
+    }
+  },
+  {
+    "id": "azimuth-alula-arabie-saoudite",
+    "nom": "Azimuth AlUla",
+    "type": "festival",
+    "paysCode": "SA",
+    "ville": {
+      "fr": "AlUla (Wadi AlFann / Thanaya)",
+      "en": "AlUla (Wadi AlFann / Thanaya)"
+    },
+    "latitude": 26.6875,
+    "longitude": 37.9814,
+    "capacite": 6000,
+    "annee": 2020,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Deep House",
+      "Afro House",
+      "Electronica"
+    ],
+    "site": "https://www.experiencealula.com",
+    "description": {
+      "fr": "Rendez-vous électronique et artistique du coucher au lever du soleil niché au creux des canyons de grès monumentaux d’AlUla et programmé avec MDLBEAST.",
+      "en": "Sunset-to-sunrise electronic music and art festival nestled deep within the dramatic sandstone canyons of AlUla, curated alongside MDLBEAST."
+    }
+  },
+  {
+    "id": "echoes-of-earth-bengaluru-inde",
+    "nom": "Echoes of Earth",
+    "type": "festival",
+    "paysCode": "IN",
+    "ville": {
+      "fr": "Bengaluru (Collines de Nandi, Karnataka)",
+      "en": "Bengaluru (Nandi Hills, Karnataka)"
+    },
+    "latitude": 13.3414,
+    "longitude": 77.7019,
+    "capacite": 12000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Electronica",
+      "Live Electronic",
+      "House",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://echoesofearth.com",
+    "description": {
+      "fr": "Premier festival éco-circulaire d’Inde bâtissant ses scènes en matériaux recyclés dans la verdure autour de Bengaluru pour accueillir electronica live, house, techno et bass music.",
+      "en": "India’s pioneering circular eco-festival crafting sculptural stages from upcycled materials outside Bengaluru to showcase live electronica, house, techno and bass."
+    }
+  },
+  {
+    "id": "zamna-india-inde",
+    "nom": "Zamna India",
+    "type": "festival",
+    "paysCode": "IN",
+    "ville": {
+      "fr": "Mumbai, Bengaluru & Gurugram",
+      "en": "Mumbai, Bengaluru & Gurugram"
+    },
+    "latitude": 19.076,
+    "longitude": 72.8777,
+    "capacite": 8000,
+    "annee": 2024,
+    "mois": {
+      "fr": "Août - Novembre",
+      "en": "August - November"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Afro House",
+      "Techno"
+    ],
+    "site": "https://zamnafestival.com",
+    "description": {
+      "fr": "Déploiement indien de l’institution mexicaine Zamna réunissant des milliers d’adeptes de techno mélodique et d’afro house lors de grands open airs à Mumbai, Bengaluru et Gurugram.",
+      "en": "Indian edition of Mexico’s Zamna festival uniting thousands of melodic techno and afro-house fans across major open-air productions in Mumbai, Bengaluru and Delhi NCR."
+    }
+  },
+  {
+    "id": "gmo-sonic-chiba-japon",
+    "nom": "GMO Sonic",
+    "type": "festival",
+    "paysCode": "JP",
+    "villeSlug": "tokyo-jp",
+    "ville": {
+      "fr": "Chiba / Grand Tokyo (Makuhari Messe)",
+      "en": "Chiba / Greater Tokyo (Makuhari Messe)"
+    },
+    "latitude": 35.6484,
+    "longitude": 140.0347,
+    "capacite": 35000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "EDM",
+      "House",
+      "Techno",
+      "Progressive House"
+    ],
+    "site": "https://sonic.gmo",
+    "description": {
+      "fr": "Méga-festival intérieur hivernal coproduit par Creativeman au Makuhari Messe dans la baie de Tokyo, alignant les plus grandes têtes d’affiche mondiales EDM, house et techno.",
+      "en": "Massive winter indoor dance festival co-produced by Creativeman at Makuhari Messe on Tokyo Bay, headlined by the biggest global names in EDM, house and techno."
+    }
+  },
+  {
+    "id": "s2o-korea-songkran-coree",
+    "nom": "S2O Korea Songkran Music Festival",
+    "type": "festival",
+    "paysCode": "KR",
+    "ville": {
+      "fr": "Gwacheon / Grand Séoul (Seoul Land)",
+      "en": "Gwacheon / Greater Seoul (Seoul Land)"
+    },
+    "latitude": 37.4342,
+    "longitude": 127.0201,
+    "capacite": 40000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Bass",
+      "Big Room",
+      "Techno"
+    ],
+    "site": "https://s2okorea.com",
+    "description": {
+      "fr": "Édition sud-coréenne du célèbre festival aquatique S2O transformant le parc d’attractions Seoul Land sous des canons à eau à 360 degrés au rythme de l’EDM, du hardstyle et de la bass.",
+      "en": "South Korean edition of the famed S2O water festival drenching Seoul Land with 360-degree high-pressure water cannons alongside massive EDM, hardstyle and bass lineups."
+    }
+  },
+  {
+    "id": "ravolution-music-festival-vietnam",
+    "nom": "Ravolution Music Festival",
+    "type": "festival",
+    "paysCode": "VN",
+    "ville": {
+      "fr": "Hô Chi Minh-Ville (Thủ Đức, Vạn Phúc City)",
+      "en": "Ho Chi Minh City (Thu Duc, Van Phuc City)"
+    },
+    "latitude": 10.8406,
+    "longitude": 106.7103,
+    "capacite": 20000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai - Décembre",
+      "en": "May - December"
+    },
+    "styles": [
+      "EDM",
+      "Trance",
+      "Progressive House",
+      "Hardstyle",
+      "Techno"
+    ],
+    "site": "https://ravolution.asia",
+    "description": {
+      "fr": "Plus grand festival EDM et trance du Vietnam célébrant une décennie de raves géantes à Hô Chi Minh-Ville et accueillant notamment les étapes régionales d’A State of Trance.",
+      "en": "Vietnam’s flagship large-scale EDM and trance festival in Ho Chi Minh City celebrating a decade of massive open-air productions and exclusive regional ASOT showcases."
+    }
+  },
+  {
+    "id": "neon-music-festival-malaisie",
+    "nom": "NEON Music Festival",
+    "type": "festival",
+    "paysCode": "MY",
+    "ville": {
+      "fr": "Kuala Lumpur (KL Base Sungai Besi & Genting Highlands)",
+      "en": "Kuala Lumpur (KL Base Sungai Besi & Genting Highlands)"
+    },
+    "latitude": 3.1167,
+    "longitude": 101.7039,
+    "capacite": 15000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Avril & Septembre",
+      "en": "April & September"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Progressive House",
+      "Big Room",
+      "Techno"
+    ],
+    "site": "https://neonmusicfestival.asia",
+    "description": {
+      "fr": "Figure de proue des grands festivals électroniques malaisiens, déployant une production audiovisuelle monumentale sur l’ancienne base aérienne KL Base et les hauteurs de Genting Highlands.",
+      "en": "Malaysia’s leading electronic festival brand staging monumental audiovisual productions across Kuala Lumpur’s former Sungai Besi airbase and Genting Highlands."
+    }
+  },
+  {
+    "id": "and-friends-festival-manille-philippines",
+    "nom": "&FRIENDS Festival",
+    "type": "festival",
+    "paysCode": "PH",
+    "ville": {
+      "fr": "Manille (Okada Manila, Parañaque)",
+      "en": "Manila (Okada Manila, Paranaque)"
+    },
+    "latitude": 14.5153,
+    "longitude": 120.9803,
+    "capacite": 12000,
+    "annee": 2025,
+    "mois": {
+      "fr": "Mai - Juin & Octobre",
+      "en": "May - June & October"
+    },
+    "styles": [
+      "EDM",
+      "Bass",
+      "Dubstep",
+      "House",
+      "Electro"
+    ],
+    "site": "https://andfriendsfest.com",
+    "description": {
+      "fr": "Grand rendez-vous électronique des Philippines rassemblant plus de douze mille festivaliers sous le dôme vitré de Cove Manila à Okada Manila autour de pointures EDM, bass et house.",
+      "en": "Major Philippine indoor electronic festival drawing over twelve thousand fans beneath Okada Manila’s glass dome at Cove Manila for global EDM, bass and house headliners."
+    }
+  },
+  {
+    "id": "edc-china-suzhou-chine",
+    "nom": "EDC China (Electric Daisy Carnival)",
+    "type": "festival",
+    "paysCode": "CN",
+    "ville": {
+      "fr": "Suzhou (Péninsule du lac Yangcheng, près de Shanghai)",
+      "en": "Suzhou (Yangcheng Lake Peninsula, near Shanghai)"
+    },
+    "latitude": 31.4086,
+    "longitude": 120.7819,
+    "capacite": 50000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Mars - Octobre",
+      "en": "March - October"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "House",
+      "Bass",
+      "Hardstyle",
+      "Trance"
+    ],
+    "site": "https://china.electricdaisycarnival.com",
+    "description": {
+      "fr": "Implantation chinoise géante d’Insomniac au bord du lac Yangcheng à Suzhou près de Shanghai, réunissant cinquante mille festivaliers sous ses manèges, feux d’artifice et scènes monumentales.",
+      "en": "Insomniac’s massive Chinese edition on Suzhou’s Yangcheng Lake Peninsula near Shanghai, uniting tens of thousands of ravers with carnival rides, fireworks and multi-genre stages."
+    }
+  },
+  {
+    "id": "storm-festival-chine",
+    "nom": "Storm Electronic Music Festival",
+    "type": "festival",
+    "paysCode": "CN",
+    "ville": {
+      "fr": "Guangzhou & Shenzhen (Delta de la Rivière des Perles)",
+      "en": "Guangzhou & Shenzhen (Pearl River Delta)"
+    },
+    "latitude": 22.8019,
+    "longitude": 113.5358,
+    "capacite": 35000,
+    "annee": 2013,
+    "mois": {
+      "fr": "Juin & Décembre (Nouvel An)",
+      "en": "June & December (New Year)"
+    },
+    "styles": [
+      "EDM",
+      "Tech House",
+      "Progressive House",
+      "Bass",
+      "Techno"
+    ],
+    "site": "https://www.1001tracklists.com/source/c96w1v/storm-festival/index.html",
+    "description": {
+      "fr": "Marque pionnière des méga-festivals électroniques chinois relancée à pleine puissance dans les métropoles de Guangzhou et Shenzhen autour de têtes d’affiche mondiales.",
+      "en": "Pioneering Chinese electronic mega-festival brand staging high-capacity New Year and summer editions across Pearl River Delta hubs Guangzhou and Shenzhen."
+    }
+  },
+  {
+    "id": "siam-songkran-bangkok-thailande",
+    "nom": "Siam Songkran Music Festival",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Bangkok (Bravo BKK, Quartier RCA)",
+      "en": "Bangkok (Bravo BKK, RCA District)"
+    },
+    "latitude": 13.7506,
+    "longitude": 100.5756,
+    "capacite": 40000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Melodic Techno",
+      "Bass",
+      "Big Room"
+    ],
+    "site": "https://siamsongkran.info",
+    "description": {
+      "fr": "Quatre jours de fête aquatique monumentale au coeur du quartier clubbing RCA de Bangkok pour le Nouvel An thaïlandais, mêlant art siamois, jets d’eau géants et stars mondiales de l’EDM.",
+      "en": "Four-day Songkran water rave in Bangkok’s RCA nightlife district fusing Thai cultural artistry, massive water-jet production and global EDM, hardstyle and melodic techno stars."
+    }
+  },
+  {
+    "id": "unkonscious-festival-pattaya-thailande",
+    "nom": "Unkonscious Festival",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Pattaya & Phuket (Alexa Beach Club)",
+      "en": "Pattaya & Phuket (Alexa Beach Club)"
+    },
+    "latitude": 12.8392,
+    "longitude": 100.9056,
+    "capacite": 5000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Janvier - Février",
+      "en": "January - February"
+    },
+    "styles": [
+      "Trance",
+      "Uplifting Trance",
+      "Tech Trance",
+      "Progressive Trance"
+    ],
+    "site": "https://unkonsciousfestival.com",
+    "description": {
+      "fr": "Plus grand festival trance de plage d’Asie réunissant pendant quatre jours la communauté trance internationale les pieds dans le sable entre Pattaya et Phuket.",
+      "en": "Asia’s largest and longest-running beach trance festival uniting the global trance family across four days of beachfront stages and pool parties in Thailand."
+    }
+  },
+  {
+    "id": "circoloco-phuket-thailande",
+    "nom": "Circoloco Thailand",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Phuket / Natai Beach (Baba Beach Club)",
+      "en": "Phuket / Natai Beach (Baba Beach Club)"
+    },
+    "latitude": 8.2169,
+    "longitude": 98.2858,
+    "capacite": 6000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Janvier",
+      "en": "January"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno",
+      "Minimal"
+    ],
+    "site": "https://circolocoibiza.com",
+    "description": {
+      "fr": "Escapade hivernale en Asie du Sud-Est de la mythique institution du DC10 d’Ibiza, investissant sur deux week-ends de janvier la plage de Baba Beach Club au nord de Phuket.",
+      "en": "Southeast Asian winter residency of Ibiza’s iconic DC10 institution taking over the beachfront grounds of Baba Beach Club north of Phuket across two January weekends."
+    }
+  },
+  {
+    "id": "kolour-bangkok-thailande",
+    "nom": "Kolour (In The Park & Phuket)",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Bangkok (Cloud 11) & Phuket",
+      "en": "Bangkok (Cloud 11) & Phuket"
+    },
+    "latitude": 13.6819,
+    "longitude": 100.6083,
+    "capacite": 8000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Février & Novembre",
+      "en": "February & November"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://www.wearekolour.com",
+    "description": {
+      "fr": "Collectif et festival house et techno pionnier en Thaïlande depuis quinze ans, célèbre pour ses grands rassemblements diurnes et nocturnes à Bangkok et sa saison de plages à Phuket.",
+      "en": "Pioneering Thai house and techno festival brand celebrating fifteen years of open-air park raves in Bangkok and month-long beachfront showcases in Phuket."
+    }
+  },
+  {
+    "id": "jungle-experience-koh-phangan-thailande",
+    "nom": "Jungle Experience",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Koh Phangan (Vallée de Baan Tai)",
+      "en": "Koh Phangan (Baan Tai Valley)"
+    },
+    "latitude": 9.7114,
+    "longitude": 100.0319,
+    "capacite": 5000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Mensuel (Veille de Pleine Lune) & Nouvel An",
+      "en": "Monthly (Full Moon Eve) & New Year"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Techno",
+      "Drum & Bass"
+    ],
+    "site": "https://www.jungle-experience.com",
+    "description": {
+      "fr": "Rave tropicale à ciel ouvert cachée au fond de la jungle montagneuse de Baan Tai à Koh Phangan, alliant house et techno underground à des décors fluorescents sculptés.",
+      "en": "Open-air rainforest festival hidden deep in Koh Phangan’s Baan Tai valley the night before each Full Moon, pairing underground house, techno and drum & bass with UV art."
+    }
+  },
+  {
+    "id": "zamna-bali-savaya-indonesie",
+    "nom": "Zamna Bali",
+    "type": "festival",
+    "paysCode": "ID",
+    "ville": {
+      "fr": "Uluwatu, Bali (Savaya Bali)",
+      "en": "Uluwatu, Bali (Savaya Bali)"
+    },
+    "latitude": -8.8447,
+    "longitude": 115.1489,
+    "capacite": 4500,
+    "annee": 2023,
+    "mois": {
+      "fr": "Septembre - Octobre",
+      "en": "September - October"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Afro House",
+      "Deep House"
+    ],
+    "site": "https://zamnafestival.com",
+    "description": {
+      "fr": "Week-end suspendu à cent mètres au-dessus de l’océan Indien sur les falaises calcaires d’Uluwatu à Savaya Bali, où Zamna réunit ses têtes d’affiche techno mélodique et afro house.",
+      "en": "Clifftop weekender perched one hundred meters above the Indian Ocean at Savaya in Uluwatu, bringing Zamna’s signature melodic techno and afro-house curation to Bali."
+    }
+  },
+  {
+    "id": "scream-or-dance-jakarta-indonesie",
+    "nom": "Scream or Dance",
+    "type": "festival",
+    "paysCode": "ID",
+    "ville": {
+      "fr": "Jakarta (Ancol Beach City & PIK 2)",
+      "en": "Jakarta (Ancol Beach City & PIK 2)"
+    },
+    "latitude": -6.1189,
+    "longitude": 106.8586,
+    "capacite": 20000,
+    "annee": 2022,
+    "mois": {
+      "fr": "Octobre - Novembre (Halloween)",
+      "en": "October - November (Halloween)"
+    },
+    "styles": [
+      "EDM",
+      "Hardstyle",
+      "Trance",
+      "Big Room",
+      "Techno"
+    ],
+    "site": "https://screamordance.com",
+    "description": {
+      "fr": "Plus grand festival électronique costumé d’Halloween en Asie du Sud-Est, classé au Top 100 mondial DJ Mag et réunissant vingt mille ravers sur le front de mer de Jakarta.",
+      "en": "Southeast Asia’s largest Halloween-themed electronic music festival, ranked in DJ Mag’s Top 100 Festivals and drawing twenty thousand costumed ravers in Jakarta."
+    }
+  },
+  {
+    "id": "ultra-australia-melbourne",
+    "nom": "Ultra Australia",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Melbourne (Flemington) & Gold Coast",
+      "en": "Melbourne (Flemington) & Gold Coast"
+    },
+    "latitude": -37.7886,
+    "longitude": 144.9122,
+    "capacite": 35000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "EDM",
+      "Techno",
+      "House",
+      "Hardstyle",
+      "Progressive House"
+    ],
+    "site": "https://ultraaustralia.com",
+    "description": {
+      "fr": "Étape australienne d’Ultra Worldwide déployant Mainstage, scène underground RESISTANCE et scène hardstyle à l’hippodrome de Flemington à Melbourne ainsi que sur la Gold Coast.",
+      "en": "Australian leg of Ultra Worldwide staging its Mainstage, underground RESISTANCE arena and hardstyle stage across Melbourne’s Flemington Racecourse and the Gold Coast."
+    }
+  },
+  {
+    "id": "dreamstate-australia-sydney-melbourne",
+    "nom": "Dreamstate Australia",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Sydney (Showground) & Melbourne (Flemington)",
+      "en": "Sydney (Showground) & Melbourne (Flemington)"
+    },
+    "latitude": -33.8447,
+    "longitude": 151.0681,
+    "capacite": 20000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "Trance",
+      "Uplifting Trance",
+      "Psy",
+      "Tech Trance"
+    ],
+    "site": "https://australia.dreamstateusa.com",
+    "description": {
+      "fr": "Rendez-vous majeur de la trance et de la psytrance en Océanie signé Insomniac, investissant les grandes arènes australiennes à Sydney et Melbourne chaque mois de février.",
+      "en": "Oceania’s premier trance and psytrance arena festival by Insomniac taking over major venues in Sydney and Melbourne each February with global trance icons."
+    }
+  },
+  {
+    "id": "harbourlife-sydney-australie",
+    "nom": "Harbourlife",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Sydney (Fleet Steps, Mrs Macquaries Point)",
+      "en": "Sydney (Fleet Steps, Mrs Macquaries Point)"
+    },
+    "latitude": -33.8603,
+    "longitude": 151.2222,
+    "capacite": 6000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Disco"
+    ],
+    "site": "https://fuzzy.com.au",
+    "description": {
+      "fr": "Ouverture iconique de l’été australien signée Fuzzy avec un plancher de danse house et disco posé directement au bord de l’eau face à l’Opéra de Sydney et au Harbour Bridge.",
+      "en": "Iconic Sydney summer-opening house and disco party staged by Fuzzy directly on the harbour foreshore overlooking the Sydney Opera House and Harbour Bridge."
+    }
+  },
+  {
+    "id": "rhythm-and-vines-gisborne-nouvelle-zelande",
+    "nom": "Rhythm and Vines",
+    "type": "festival",
+    "paysCode": "NZ",
+    "ville": {
+      "fr": "Gisborne (Waiohika Estate)",
+      "en": "Gisborne (Waiohika Estate)"
+    },
+    "latitude": -38.6019,
+    "longitude": 177.9353,
+    "capacite": 25000,
+    "annee": 2003,
+    "mois": {
+      "fr": "Décembre (Nouvel An)",
+      "en": "December (New Year)"
+    },
+    "styles": [
+      "Drum & Bass",
+      "House",
+      "EDM",
+      "Bass",
+      "Techno"
+    ],
+    "site": "https://www.rhythmandvines.co.nz",
+    "description": {
+      "fr": "Institution néo-zélandaise du Nouvel An au milieu des vignobles de Gisborne, premier lieu habité du globe à saluer le lever du soleil de la nouvelle année au son de la drum & bass et de la house.",
+      "en": "New Zealand’s iconic three-day New Year vineyard festival in Gisborne welcoming the world’s first sunrise of the year to international drum & bass, house and electronic headliners."
+    }
+  },
+  {
+    "id": "hidden-valley-matakana-nouvelle-zelande",
+    "nom": "Hidden Valley Festival",
+    "type": "festival",
+    "paysCode": "NZ",
+    "ville": {
+      "fr": "Matakana (Au nord d’Auckland)",
+      "en": "Matakana (North of Auckland)"
+    },
+    "latitude": -36.3536,
+    "longitude": 174.7175,
+    "capacite": 10000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "styles": [
+      "Drum & Bass",
+      "House",
+      "UK Garage",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://www.hiddenvalleyfestival.com",
+    "description": {
+      "fr": "Grand festival estival à guichets fermés chaque 27 décembre dans les collines verdoyantes de Matakana, vitrine de la drum & bass, du UK garage, de la house et de la techno en Nouvelle-Zélande.",
+      "en": "Sold-out summer electronic festival held every December 27 in the rolling hills of Matakana north of Auckland, championing drum & bass, UK garage, house and techno."
+    }
+  },
+  {
+    "id": "synthony-festival-auckland-nouvelle-zelande",
+    "nom": "Synthony Festival",
+    "type": "festival",
+    "paysCode": "NZ",
+    "ville": {
+      "fr": "Auckland (Auckland Domain)",
+      "en": "Auckland (Auckland Domain)"
+    },
+    "latitude": -36.8606,
+    "longitude": 174.7764,
+    "capacite": 35000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "styles": [
+      "House",
+      "Trance",
+      "EDM",
+      "Live Electronic"
+    ],
+    "site": "https://synthony.com",
+    "description": {
+      "fr": "Grand rassemblement open air à l’Auckland Domain mêlant trente ans d’hymnes house, trance et rave réinterprétés par un orchestre symphonique complet à des lives et DJ sets internationaux.",
+      "en": "Massive open-air festival in the Auckland Domain pairing thirty years of house, trance and club anthems performed by a full symphony orchestra with international electronic acts."
+    }
+  },
+  {
+    "id": "electric-avenue-christchurch-nouvelle-zelande",
+    "nom": "Electric Avenue Festival",
+    "type": "festival",
+    "paysCode": "NZ",
+    "ville": {
+      "fr": "Christchurch (Hagley Park)",
+      "en": "Christchurch (Hagley Park)"
+    },
+    "latitude": -43.5297,
+    "longitude": 172.6214,
+    "capacite": 45000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "House",
+      "Drum & Bass",
+      "EDM",
+      "Electronica"
+    ],
+    "site": "https://electricavenuefestival.co.nz",
+    "description": {
+      "fr": "Plus grand festival musical de Nouvelle-Zélande déployé sur deux jours dans Hagley Park à Christchurch, fortement porté par ses scènes électroniques, house, drum & bass et electronica.",
+      "en": "New Zealand’s largest two-day music festival in Christchurch’s Hagley Park, heavily anchored by major international house, drum & bass and live electronic stages."
+    }
+  }
 ];
+
+export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = TOUS_LIEUX_ET_FESTIVALS.filter(
+  (lieu) => !lieu.inactif
+);
+
+export const PAYS_LIEUX: readonly PaysLieu[] = TOUS_PAYS_LIEUX.filter((pays) =>
+  LIEUX_ET_FESTIVALS.some((lieu) => lieu.paysCode === pays.code)
+);
