@@ -1,47 +1,9 @@
-/* L'AFFICHE DE RYTHME D'UN STYLE (RythmeDuStyle.tsx).
+/* LES BOUTONS DU REEL DU JEUDI (ReelDuJeudi.tsx).
 
-   La toile garde le format portrait d'Instagram, 4 sur 5, et ne depasse pas
-   520 px de large : au-dela, le cercle prendrait tout l'ecran d'un
-   ordinateur et repousserait les morceaux hors de vue. Sur telephone, elle
-   prend la largeur de la colonne. */
+   L'affiche de rythme de la fiche d'un style a ete retiree a la demande de
+   Mika le 23 novembre 2026. Seuls restent les boutons, que le Reel reprend. */
 
-.ry {
-  margin: var(--espace-24) 0 0;
-}
-
-/* A PARTIR DE 1024 PX, la fiche a gauche et l'affiche a droite, alignees en
-   haut : la fiche est une liste courte, et l'affiche remplissait seule une
-   colonne de 520 px au milieu d'une page de 1240. */
-@media (min-width: 1024px) {
-  .pv-fiche-et-rythme {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
-    gap: var(--espace-32);
-    align-items: start;
-  }
-}
-
-.ry-toile {
-  display: block;
-  width: 100%;
-  max-width: 520px;
-  aspect-ratio: 1080 / 580;
-  height: auto;
-  border-radius: var(--rayon-carte);
-  border: 1px solid var(--filet);
-  background: #000000;
-}
-
-.ry-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espace-8);
-  margin-top: var(--espace-12);
-  max-width: 520px;
-}
-
-/* La meme grammaire que les onglets de la page : contour fin au repos,
-   plein a l'ambre quand le motif joue. */
+/* La meme grammaire que les onglets de la page : contour fin au repos. */
 .ry-bouton {
   display: inline-flex;
   align-items: center;
@@ -71,15 +33,4 @@
 .ry-bouton:disabled {
   cursor: progress;
   opacity: var(--lt-60);
-}
-.ry-bouton-jouer[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--sur-accent);
-}
-
-.ry-echec {
-  margin: var(--espace-8) 0 0;
-  font-size: 0.8125rem;
-  color: var(--encre-douce);
 }
