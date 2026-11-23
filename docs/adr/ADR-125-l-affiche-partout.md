@@ -114,11 +114,47 @@ Corrigé en passant : au téléphone, le texte d'un label sortait de l'écran
 à droite. La rangée défilante de ses cinq dernières sorties élargissait la
 colonne à 724 px ; la colonne ne s'élargit plus à son contenu.
 
+## Troisième passe : l'administration, la modération, le formulaire
+
+Mika : « reprends l'administration, la modération et le formulaire d'une
+soirée ».
+
+- **L'administration** : le menu de gauche n'est plus une boîte de verre à
+  entrée jaune. C'est une colonne d'entrées sur filets, l'entrée courante
+  à l'accent précédée d'un petit carré. Au téléphone, ce sont des onglets
+  soulignés. L'étiquette « Modération » devient un petit libellé jaune, et
+  les liens du tableau perdent le violet du navigateur.
+- **Les soirées** (administration et « Mes soirées ») : les rangées sont
+  sur filets et le nom est en capitales d'affiche. Une soirée sans image
+  prend l'affiche dessinée du calendrier au lieu d'un rectangle vide.
+  « Image pour Instagram » est en jaune, et c'était le seul bouton blanc.
+- **Le formulaire d'une soirée** : des champs à trait, des libellés en
+  capitales espacées, et un bouton « Remplir » inactif dessiné en contour.
+  À demi-opacité, le jaune devenait un brun sale. Le bilan de lecture perd
+  son aplat.
+- **La modération** : l'intertitre sous un filet, le formulaire de
+  fermeture hors de sa boîte. Les boutons nus, gris clair du navigateur,
+  prennent le contour des boutons du site.
+
+Corrigé en passant :
+
+- Le menu du haut soulignait « Styles » sur l'administration.
+- Sur la modération et sur la page « Tracks, bientôt », le pied débordait
+  de 100 px à droite : il était posé à côté de la page au lieu d'en faire
+  partie.
+- Au téléphone, « Administration » sortait de l'écran. Le titre de page a
+  désormais un plancher de 2,5 rem et suit 10 % de la largeur de l'écran.
+
+Vérifié avec une session de modérateur fictive et des données inventées,
+dans le seul navigateur de test. Aucune écriture n'est partie vers la base.
+
 ## Ce que cela ne fait pas
 
-- L'administration, la modération et le formulaire d'une soirée gardent
-  leur mise en page ; ils prennent les coins droits et les blocs ouverts
-  par un filet.
+- La page des propositions reste fermée (`PROPOSITIONS_OUVERTES`). Elle
+  prend les rangées sur filets, mais ses filtres n'ont pas été revus.
+- Les libellés écrits en dur dans la modération des commentaires
+  (« Fermer », « Rouvrir », « Classer sans suite ») ne passent pas encore
+  par `langue.ts`.
 - Les titres d'articles des News restent en casse normale : ce sont des
   phrases qu'on lit.
 - Aucune couleur, aucune police n'est ajoutée : tout vient des jetons

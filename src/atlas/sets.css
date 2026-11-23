@@ -804,32 +804,39 @@
 /* --- Le panneau des soirees ajoutees a la main --------------------------- */
 
 /* ═══ LE MENU DU PROFIL : voir ProfilPage.tsx ═══ */
+/* DES ONGLETS SOULIGNES, plus des boites cote a cote (ADR-125). C'est la
+   forme de base : le profil la reprend, et le menu de l'administration au
+   telephone aussi ; sur ordinateur, ce dernier devient une colonne (voir
+   admin.css). */
 .pf-menu {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espace-8);
+  gap: 0 var(--espace-24);
   margin: var(--espace-4) 0 var(--espace-24);
 }
 .pf-onglet {
   display: inline-flex;
   align-items: center;
-  min-height: 2.4rem;
-  padding: 0 var(--espace-16);
-  border: 1px solid var(--voile-14);
-  border-radius: var(--rayon-carte);
-  color: var(--encre-douce-2);
-  font-size: 0.9rem;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--ink-secondary);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
   font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   text-decoration: none;
 }
 .pf-onglet:hover {
-  color: var(--encre-2);
+  color: var(--ink-primary);
 }
 /* L'onglet courant est sur l'accent, dans l'encre qui va dessus. */
 .pf-onglet[aria-current='page'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--sur-accent);
+  border-bottom-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ═══ L'ONGLET EVENEMENTS DU PROFIL : voir MesSoirees.tsx ═══
@@ -849,16 +856,9 @@
   color: var(--ink-secondary);
 }
 .ev-compte {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  padding: 0 var(--espace-8);
-  box-sizing: border-box;
-  border-radius: var(--rayon-pilule);
-  background: var(--voile-08);
-  font-size: 0.75rem;
+  /* le compte a cote du titre, en chiffres d'affiche gris : plus de
+     pastille (ADR-125) */
+  color: var(--ink-secondary);
   font-variant-numeric: tabular-nums;
 }
 .ev-ajoutee {
@@ -869,32 +869,36 @@
   font-size: 0.875rem;
   color: var(--ink-secondary);
 }
+/* MES SOIREES EN RANGEES SUR FILETS (ADR-125) : chacune etait une boite
+   cernee. L'affiche, ou celle que dessine le calendrier, a gauche. */
 .ev-liste {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--espace-12);
+  border-bottom: 1px solid var(--filet);
 }
 .ev-carte {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
   gap: var(--espace-16);
   align-items: start;
-  padding: var(--espace-12);
-  border: 1px solid var(--filet);
-  border-radius: var(--rayon-carte);
-  background: var(--voile-04);
+  padding: var(--espace-16) 0;
+  border-top: 1px solid var(--filet);
 }
 .ev-affiche {
   display: block;
   width: 96px;
   aspect-ratio: 4 / 5;
-  object-fit: cover;
+  overflow: hidden;
   border-radius: var(--rayon-carte);
 }
-.ev-affiche-vide {
-  background: var(--voile-08);
+.ev-affiche > img,
+.ev-affiche > .cal-gen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .ev-texte {
   display: flex;
@@ -903,15 +907,23 @@
   min-width: 0;
 }
 .ev-quand {
-  font-size: 0.75rem;
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: var(--serrage-ui);
+  letter-spacing: var(--chasse-mono);
   text-transform: uppercase;
   color: var(--accent);
 }
+/* LE NOM DE LA SOIREE EN CAPITALES D'AFFICHE, comme une mixtape dans sa
+   liste (ADR-125). */
 .ev-titre {
-  font-size: 1rem;
-  line-height: 1.3;
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   color: var(--ink-primary);
 }
 .ev-ou {
@@ -988,12 +1000,18 @@
   display: block;
   width: 48px;
   aspect-ratio: 4 / 5;
-  object-fit: cover;
+  overflow: hidden;
   border-radius: var(--rayon-carte);
-  background: var(--voile-08);
+}
+.ev-rangee-affiche > img,
+.ev-rangee-affiche > .cal-gen {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .ev-rangee .ev-titre {
-  font-size: 0.9375rem;
+  font-size: 1.1rem;
 }
 .ev-retirer {
   min-height: 36px;

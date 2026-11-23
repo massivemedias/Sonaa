@@ -22,8 +22,11 @@
   gap: var(--espace-8);
 }
 .fs-lien-etiquette {
-  font-size: 0.9375rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   color: var(--ink-primary);
 }
 .fs-lien-rangee {
@@ -37,9 +40,10 @@
   box-sizing: border-box;
   min-height: 48px;
   padding: 0 var(--espace-16);
-  border: 1px solid var(--filet);
+  /* UN CHAMP A TRAIT, sans fond de verre (ADR-125) */
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-pilule);
-  background: var(--verre-fond);
+  background: none;
   color: var(--ink-primary);
   font: inherit;
   font-size: 0.9375rem;
@@ -48,9 +52,8 @@
 .fs-champ input:focus-visible,
 .fs-champ select:focus-visible,
 .fs-champ textarea:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  border-color: transparent;
+  outline: none;
+  border-color: var(--accent);
 }
 .fs-lien-rangee input::placeholder,
 .fs-champ input::placeholder {
@@ -88,7 +91,10 @@
   padding: 0 var(--espace-24);
   border-radius: var(--rayon-pilule);
   font: inherit;
-  font-size: 0.875rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -98,18 +104,23 @@
   background: var(--accent);
   color: var(--sur-accent);
 }
+/* INACTIF, UN CONTOUR ET NON UN JAUNE ETEINT (ADR-125) : a demi-opacite,
+   l'aplat jaune devenait un brun sale qui se lisait comme une erreur. */
 .fs-principal:disabled {
-  opacity: 0.5;
+  border: 1px solid var(--filet-fort);
+  background: none;
+  color: var(--ink-secondary);
   cursor: default;
 }
 .fs-secondaire {
-  border: 1px solid var(--filet);
+  border: 1px solid var(--filet-fort);
   background: none;
   color: var(--ink-primary);
   font-weight: 600;
 }
 .fs-secondaire:hover {
-  border-color: var(--ink-primary);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .fs-lien-discret {
   padding: 0;
@@ -130,17 +141,19 @@
   padding-top: var(--espace-24);
   border-top: 1px solid var(--filet);
 }
+/* LE BILAN DE LA LECTURE DU LIEN : une phrase, sans l'aplat teinte qui en
+   faisait une alerte (ADR-125). */
 .fs-bilan {
   margin: 0;
-  padding: var(--espace-12) var(--espace-16);
-  border-radius: var(--rayon-carte);
-  background: var(--accent-voile);
+  padding: 0;
+  border-radius: 0;
+  background: none;
   color: var(--ink-primary);
   font-size: 0.875rem;
   line-height: 1.45;
 }
 .fs-bilan[data-ton='attention'] {
-  background: var(--voile-08);
+  background: none;
   /* Pas de filet a gauche : Mika deteste ce crochet (14 novembre 2026,
      DESIGN.md, section 10). */
   color: var(--accent);
@@ -175,8 +188,8 @@
   aspect-ratio: 4 / 5;
   border-radius: var(--rayon-affiche);
   object-fit: cover;
-  background: var(--voile-06);
-  border: 1px solid var(--filet);
+  background: none;
+  border: 1px dashed var(--filet-fort);
 }
 .fs-affiche-actions {
   display: flex;
@@ -210,8 +223,11 @@
 /* « A COMPLETER » : ce que la page n'a pas donne, et qu'il faut dire. */
 .fs-champ em {
   font-style: normal;
+  font-family: var(--police-mono);
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   color: var(--accent);
 }
 .fs-champ input,
@@ -221,9 +237,9 @@
   width: 100%;
   min-height: 44px;
   padding: var(--espace-8) var(--espace-12);
-  border: 1px solid var(--filet);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
+  background-color: var(--fond);
   color: var(--ink-primary);
   font: inherit;
   font-size: 0.9375rem;

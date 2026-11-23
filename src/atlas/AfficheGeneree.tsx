@@ -17,6 +17,7 @@
 
 import { useState, type CSSProperties } from 'react';
 import type { Soiree } from '../lib/agenda.ts';
+import type { SoireeManuelle } from '../lib/soirees-manuelles.ts';
 import { heureLocale } from '../lib/villes.ts';
 import { langue } from '../langue/langue.ts';
 import { teinteDesStyles } from './teinte-soiree.ts';
@@ -72,6 +73,38 @@ export function AfficheGeneree({ soiree, fuseau, variante }: { soiree: Soiree; f
       </span>
     </div>
   );
+}
+
+/* UNE SOIREE AJOUTEE A LA MAIN, VUE COMME CELLES DU CALENDRIER (ADR-125).
+   Dans « Mes soirees » et dans l'administration, une soiree sans affiche
+   montrait un rectangle vide. Elle prend l'affiche dessinee du calendrier :
+   le jour, l'heure, la salle, le style. Le jour est celui de la ville, pas
+   celui de Greenwich : une soiree a 23 h a Montreal reste le bon soir. */
+export function AfficheDeSoireeManuelle({
+  soiree,
+  fuseau,
+  variante,
+}: {
+  soiree: SoireeManuelle;
+  fuseau: string;
+  variante: Variante;
+}) {
+  const date = new Intl.DateTimeFormat('en-CA', { timeZone: fuseau, year: 'numeric', month: '2-digit', day: '2-digit' }).format(
+    new Date(soiree.debut)
+  );
+  const vue: Soiree = {
+    id: soiree.id,
+    titre: soiree.titre,
+    date,
+    debut: soiree.debut,
+    lieu: soiree.lieu,
+    artistes: soiree.artistes,
+    genres: soiree.genres,
+    affiche: soiree.affiche,
+    lien: soiree.lien ?? '',
+    interesses: 0,
+  };
+  return <ImageDeSoiree soiree={vue} fuseau={fuseau} variante={variante} className={`ev-image ev-image-${variante}`} />;
 }
 
 /** L'affiche de la soiree si elle vient, l'affiche dessinee sinon. */

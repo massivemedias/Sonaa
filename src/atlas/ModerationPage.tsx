@@ -50,8 +50,8 @@ export function ModerationPage() {
               {t.nonDisponibleSurCetteVersion} <a href="#/">{t.revenirAccueilTexte}</a>.
             </p>
           </div>
+          <PiedDePage />
         </main>
-        <PiedDePage />
       </>
     );
   }
@@ -125,8 +125,11 @@ export function ModerationPage() {
             zero ligne, l'interface n'a rien a proteger de plus. */}
         {fil.moderateur && <CommentsModeration />}
       </div>
-      </main>
+      {/* LE PIED DANS LA PAGE, COMME AILLEURS. Pose a cote de `main`, il
+          retirait des marges que personne ne lui avait donnees et
+          debordait de cent pixels a droite (vu le 23 novembre 2026). */}
       <PiedDePage />
+      </main>
     </>
   );
 }

@@ -68,8 +68,10 @@ export function MarchandFerme() {
             </p>
           </section>
         </div>
+        {/* Dans la page, comme ailleurs : a cote de `main`, le pied debordait
+            de cent pixels a droite (vu le 23 novembre 2026). */}
+        <PiedDePage />
       </main>
-      <PiedDePage />
     </>
   );
 }
