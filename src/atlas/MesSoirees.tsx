@@ -18,6 +18,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { PartageSoiree } from "./PartageSoiree.tsx";
+import { AfficheDeSoireeManuelle } from "./AfficheGeneree.tsx";
 import { FormulaireSoiree } from "./FormulaireSoiree.tsx";
 import { toutesLesVilles } from "../lib/villes.ts";
 import type { Ville } from "../lib/ville-active.ts";
@@ -28,6 +29,7 @@ import {
 } from "../lib/soirees-manuelles.ts";
 import { quandEnLettres } from "../lib/affiche-insta.ts";
 import { langue, t } from "../langue/langue.ts";
+import "./calendrier.css";
 import "./formulaire-soiree.css";
 
 export function MesSoirees({ moderateur }: { readonly moderateur: boolean }) {
@@ -96,19 +98,10 @@ export function MesSoirees({ moderateur }: { readonly moderateur: boolean }) {
                 const fuseau = ville?.timezone ?? "America/Toronto";
                 return (
                   <li key={s.id} className="ev-carte">
-                    {s.affiche ? (
-                      <img
-                        className="ev-affiche"
-                        src={s.affiche}
-                        alt=""
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span
-                        className="ev-affiche ev-affiche-vide"
-                        aria-hidden="true"
-                      />
-                    )}
+                    {/* L'affiche, ou celle que dessine le calendrier (ADR-125). */}
+                    <span className="ev-affiche">
+                      <AfficheDeSoireeManuelle soiree={s} fuseau={fuseau} variante="carte" />
+                    </span>
                     <div className="ev-texte">
                       <span className="ev-quand">
                         {quandEnLettres(s.debut, fuseau, langue)}

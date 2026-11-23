@@ -139,6 +139,10 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/labels')) return 'labels';
   if (hash.startsWith('#/clubs')) return 'clubs';
+  /* L'ADMINISTRATION N'EST AUCUNE PORTE DU MENU. Elle tombait dans le repli
+     ci-dessous, et le menu soulignait « Styles » pendant qu'on gerait les
+     membres (vu le 23 novembre 2026). */
+  if (hash.startsWith('#/admin')) return 'autre';
   /* La racine est l'accueil, comme dans main.tsx : les deux doivent dire
      la meme chose, sinon le menu allume « Styles » sur la page d'accueil.
      L'accueil n'est pas dans le menu ; le logo y mene. */

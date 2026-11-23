@@ -495,7 +495,11 @@
      d'affiche, a la taille des titres de l'accueil et de l'Atlas. Mixtapes,
      News, Labels, Track ID et les pages document l'ecrivaient a 32, 60 ou
      68 px selon la feuille ; une seule grandeur, plafonnee a 6 rem. */
-  --titre-page: clamp(3.25rem, 8vw, 6rem);
+  /* Plancher a 2,5 rem et pente de 10vw : au telephone, « Administration »,
+     quatorze capitales d'un seul tenant, sortait de l'ecran a 3,25 rem
+     (vu a 390 px le 23 novembre 2026). Mesure : un mot de ces titres
+     occupe au plus 0,6 em par lettre. */
+  --titre-page: clamp(2.5rem, 10vw, 6rem);
   /* L'INTERTITRE D'UNE PAGE, sous son filet (ADR-125) : Artistes, Dernieres
      mixtapes, 12 morceaux, Calendrier, Labels du Quebec, Vos dernieres
      ecoutes. Une grandeur, lue par cinq feuilles. */

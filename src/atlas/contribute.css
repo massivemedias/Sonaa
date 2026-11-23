@@ -157,14 +157,15 @@
   font-size: 0.82rem;
   font-weight: var(--weight-track);
   border-radius: var(--rayon-carte);
-  border: var(--rule-width) solid var(--rule-hairline);
+  border: var(--rule-width) solid var(--filet-fort);
   cursor: pointer;
 }
-
+/* LE GESTE PRINCIPAL EN JAUNE, comme partout ailleurs : il etait blanc
+   (ADR-125). */
 .contrib-primaire {
-  color: var(--fond);
-  background: var(--ink-primary);
-  border-color: var(--ink-primary);
+  color: var(--sur-accent);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .contrib-secondaire {
@@ -238,17 +239,19 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--espace-12);
+  border-bottom: var(--rule-width) solid var(--filet);
 }
 
 .prop-carte {
+  /* une proposition en rangee sur filet, plus une boite levee (ADR-125) */
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--espace-16);
-  padding: var(--espace-16);
-  background: var(--surface-raised);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: var(--rayon-carte);
+  padding: var(--espace-16) 0;
+  background: none;
+  border: 0;
+  border-top: var(--rule-width) solid var(--filet);
+  border-radius: 0;
 }
 
 .prop-votes {
@@ -384,8 +387,8 @@
   font-family: inherit;
   font-size: 0.8rem;
   color: var(--ink-primary);
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
+  background: none;
+  border: var(--rule-width) solid var(--filet-fort);
   border-radius: var(--rayon-carte);
 }
 
@@ -400,11 +403,49 @@
 }
 
 /* LA FILE DE MODERATION DES COMMENTAIRES. */
+/* ═══ LA MODERATION DES COMMENTAIRES, EN AFFICHE DE CLUB (ADR-125) ═══
+   L'intertitre sous un filet, comme sur les autres pages ; le formulaire
+   de fermeture sort de sa boite ; les boutons nus, gris clair du
+   navigateur, prennent le contour et le libelle des boutons du site. */
+.credits-body .mod-section > h2 {
+  margin: var(--espace-48) 0 var(--espace-16);
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+  font-family: var(--police-titre);
+  font-stretch: 62%;
+  font-weight: 850;
+  font-size: var(--titre-intertitre);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--encre-vive);
+}
 .mod-fermeture {
   margin: var(--espace-16) 0;
-  padding: var(--espace-12);
-  border: 1px solid var(--voile-12);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+.mod-fermeture-ligne button,
+.mod-item-actions button {
+  min-height: 40px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
+  background: none;
+  color: var(--ink-primary);
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.mod-fermeture-ligne button:hover,
+.mod-item-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .mod-fermeture label {
   display: block;
@@ -420,9 +461,9 @@
 .mod-fermeture-ligne input {
   flex: 1 1 14rem;
   padding: var(--espace-8);
-  border: 1px solid var(--voile-16);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
-  background: var(--voile-04);
+  background: none;
   color: inherit;
   font: inherit;
 }
@@ -432,18 +473,22 @@
   padding: 0;
 }
 .mod-item {
-  padding: var(--espace-12) 0;
-  border-block-start: 1px solid var(--voile-1);
+  padding: var(--espace-16) 0;
+  border-block-start: 1px solid var(--filet);
 }
 .mod-item-entete {
   display: flex;
   gap: var(--espace-12);
   flex-wrap: wrap;
-  font-size: 0.76rem;
-  color: var(--voile-5);
+  font-family: var(--police-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
 }
 .mod-signalements {
-  color: oklch(var(--lt-82) 0.10 65);
+  color: var(--accent);
 }
 .mod-masque {
   color: var(--voile-4);

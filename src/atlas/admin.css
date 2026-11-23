@@ -12,32 +12,53 @@
     align-items: start;
     margin-top: var(--espace-16);
   }
+  /* UNE COLONNE D'ENTREES SUR FILETS (ADR-125) : elle etait une boite de
+     verre, l'entree courante en aplat jaune. L'entree courante passe a
+     l'accent, precedee d'un petit carre ; jamais un trait colle a gauche. */
   .admin-menu {
     position: sticky;
-    top: var(--espace-24);
+    top: calc(var(--entete-h) + var(--espace-24));
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: var(--espace-4);
+    gap: 0;
     margin: 0;
-    padding: var(--espace-8);
-    border: 1px solid var(--filet);
-    border-radius: var(--rayon-carte);
-    background: var(--verre-fond);
+    padding: 0;
+    border: 0;
+    border-top: 1px solid var(--filet-fort);
+    border-radius: 0;
+    background: none;
   }
   .admin-menu .pf-onglet {
+    gap: var(--espace-8);
     width: 100%;
-    min-height: 2.5rem;
-    padding: var(--espace-8) var(--espace-12);
+    min-height: 2.75rem;
+    padding: 0;
     border: 0;
-    border-radius: var(--rayon-carte);
+    border-bottom: 1px solid var(--filet);
+    border-radius: 0;
     justify-content: flex-start;
+    color: var(--ink-secondary);
+    font-family: var(--police-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: var(--chasse-mono);
+    text-transform: uppercase;
   }
   .admin-menu .pf-onglet:hover {
-    background: var(--voile-05);
+    background: none;
+    color: var(--ink-primary);
   }
   .admin-menu .pf-onglet[aria-current='page'] {
+    border-bottom-color: var(--filet);
+    background: none;
+    color: var(--accent);
+  }
+  .admin-menu .pf-onglet[aria-current='page']::before {
+    content: '';
+    flex: none;
+    width: 7px;
+    height: 7px;
     background: var(--accent);
-    color: var(--sur-accent);
   }
   .admin-contenu {
     min-width: 0;
@@ -66,21 +87,41 @@
   white-space: nowrap;
 }
 .admin-table th {
-  font-size: 0.72rem;
-  letter-spacing: var(--serrage-ui);
+  font-family: var(--police-mono);
+  font-size: 0.68rem;
+  letter-spacing: var(--chasse-mono);
   text-transform: uppercase;
   color: var(--ink-secondary);
   font-weight: 600;
 }
+.admin-table td {
+  font-variant-numeric: tabular-nums;
+}
 
+/* LES LIENS DU TABLEAU : l'encre du texte, soulignes a l'accent. Ils
+   prenaient le violet par defaut du navigateur (vu le 23 novembre 2026). */
+.admin-table a {
+  color: var(--ink-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+}
+.admin-table a:hover {
+  color: var(--accent);
+}
+
+/* L'ETIQUETTE « MODERATION » EN PETIT LIBELLE A L'ACCENT, plus en
+   pastille claire (ADR-125). */
 .admin-etiquette {
   margin-left: var(--espace-8);
-  padding: 2px var(--espace-8);
-  border-radius: var(--rayon-carte);
-  background: var(--ink-primary);
-  color: var(--surface-plate);
-  font-size: 0.68rem;
-  letter-spacing: var(--serrage-ui);
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--accent);
+  font-family: var(--police-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: var(--chasse-mono);
   text-transform: uppercase;
 }
 
@@ -120,13 +161,20 @@
 }
 .admin-mise-gestes button {
   padding: var(--espace-4) var(--espace-12);
-  border: 1px solid var(--voile-16);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
   background: none;
-  color: var(--encre-forte-2);
-  font-family: inherit;
-  font-size: 0.8125rem;
+  color: var(--ink-primary);
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
+}
+.admin-mise-gestes button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 @media (max-width: 899px) {
   .admin-mise-gestes button {
@@ -162,7 +210,11 @@
 }
 .rj-choix legend {
   margin-bottom: var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
 }
 .rj-ligne {
   display: flex;
@@ -195,9 +247,9 @@
 .rj-style select {
   max-width: 100%;
   padding: var(--espace-8);
-  border: 1px solid var(--voile-16);
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
+  background-color: var(--fond);
   color: inherit;
   font: inherit;
 }

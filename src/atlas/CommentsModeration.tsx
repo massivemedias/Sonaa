@@ -102,7 +102,7 @@ export function CommentsModeration() {
   };
 
   return (
-    <section aria-labelledby="mod-commentaires">
+    <section className="mod-section" aria-labelledby="mod-commentaires">
       <h2 id="mod-commentaires">{t.commentairesSignales}</h2>
 
       {erreur && (

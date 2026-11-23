@@ -24,6 +24,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormulaireSoiree } from "./FormulaireSoiree.tsx";
+import { AfficheDeSoireeManuelle } from "./AfficheGeneree.tsx";
 import { listerMembres } from "../lib/admin.ts";
 import { toutesLesVilles } from "../lib/villes.ts";
 import type { Ville } from "../lib/ville-active.ts";
@@ -34,6 +35,7 @@ import {
   toutesLesSoireesManuelles,
   type SoireeManuelle,
 } from "../lib/soirees-manuelles.ts";
+import "./calendrier.css";
 import "./formulaire-soiree.css";
 
 const NOM_DE_SOURCE: Record<string, string> = {
@@ -227,16 +229,14 @@ export function SoireesAdmin() {
               const villeSoiree = villesParId.get(s.ville_id);
               return (
                 <li key={s.id} className="ev-rangee">
-                  {s.affiche ? (
-                    <img
-                      className="ev-rangee-affiche"
-                      src={s.affiche}
-                      alt=""
-                      loading="lazy"
+                  {/* L'affiche, ou le jour dessine du calendrier (ADR-125). */}
+                  <span className="ev-rangee-affiche">
+                    <AfficheDeSoireeManuelle
+                      soiree={s}
+                      fuseau={villeSoiree?.timezone ?? ville?.timezone ?? "America/Toronto"}
+                      variante="ligne"
                     />
-                  ) : (
-                    <span className="ev-rangee-affiche" aria-hidden="true" />
-                  )}
+                  </span>
                   <div className="ev-texte">
                     <span className="ev-quand">
                       {quandEnLettres(

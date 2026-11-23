@@ -11,27 +11,39 @@
 }
 .ps-bouton {
   padding: var(--espace-8) var(--espace-16);
-  border: var(--rule-width) solid var(--rule-hairline);
+  border: var(--rule-width) solid var(--filet-fort);
   border-radius: var(--rayon-carte);
   background: none;
   color: var(--ink-primary);
   font: inherit;
-  font-size: 0.85rem;
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
   cursor: pointer;
 }
 .ps-bouton:hover {
-  border-color: var(--ink-primary);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .ps-bouton:disabled {
   opacity: 0.5;
   cursor: default;
 }
 /* Le bouton qui fait la chose demandee, en plein : l'image. */
+/* LE GESTE PRINCIPAL EN JAUNE, comme les autres appels du site : il etait
+   le seul bouton blanc de la page (ADR-125). */
 .ps-principal {
   border-color: transparent;
-  background: var(--ink-primary);
-  color: var(--surface-plate);
-  font-weight: 600;
+  background: var(--accent);
+  color: var(--sur-accent);
+  font-weight: 700;
+}
+.ps-principal:hover {
+  border-color: transparent;
+  background: var(--accent-jaune);
+  color: var(--sur-accent);
 }
 .ps-retirer {
   color: var(--ink-secondary);
