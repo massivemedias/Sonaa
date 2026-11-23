@@ -39817,5 +39817,7104 @@
     "swing": 0,
     "espace": 0.5,
     "grain": 0.05
+  },
+  "eurobeat": {
+    "id": "eurobeat",
+    "bpm": 156,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "CUIVRES",
+        "en": "BRASS",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1
+        ],
+        "notes": [
+          1,
+          8,
+          1,
+          8,
+          1,
+          8,
+          1,
+          8,
+          1,
+          8,
+          1,
+          8,
+          1,
+          8,
+          5,
+          8
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "effréné et héroïque",
+      "en": "frantic and heroic"
+    },
+    "instruments": {
+      "fr": "TR-909 ET CUIVRES SYNTHÉ",
+      "en": "TR-909 AND SYNTH BRASS"
+    },
+    "resume": {
+      "fr": "OCTAVES À 156 BPM · RIFF DE CUIVRES",
+      "en": "156 BPM OCTAVES · SYNTH BRASS RIFF"
+    },
+    "racine": {
+      "fr": "Italie du Nord et clubs Para Para de Tokyo, dès 1988.",
+      "en": "Northern Italy and Tokyo Para Para clubs, from 1988."
+    },
+    "tonalite": "Cm",
+    "tonique": "C",
+    "gamme": "harmonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      },
+      {
+        "degre": 5,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.35,
+    "grain": 0.25
+  },
+  "italobody": {
+    "id": "italobody",
+    "bpm": 126,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "arp",
+        "fr": "ARPÈGE",
+        "en": "ARPEGGIO",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0
+        ],
+        "notes": [
+          8,
+          0,
+          10,
+          0,
+          12,
+          0,
+          10,
+          0,
+          8,
+          0,
+          10,
+          0,
+          12,
+          11,
+          10,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "SÉQUENCE",
+        "en": "SEQUENCE",
+        "pas": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1,
+          1
+        ],
+        "notes": [
+          1,
+          1,
+          1,
+          8,
+          1,
+          1,
+          8,
+          1,
+          1,
+          1,
+          1,
+          8,
+          1,
+          2,
+          1,
+          1
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "martial et romantique",
+      "en": "martial and romantic"
+    },
+    "instruments": {
+      "fr": "TR-707 ET BASSE SH-101",
+      "en": "TR-707 AND SH-101 BASS"
+    },
+    "resume": {
+      "fr": "BASSE EBM EN DOUBLES · ARPÈGE ITALO",
+      "en": "SIXTEENTH EBM BASS · ITALO ARPEGGIO"
+    },
+    "racine": {
+      "fr": "Toulouse et Berlin, fin des années 2010 : l'italo greffé sur l'EBM.",
+      "en": "Toulouse and Berlin, late 2010s: Italo grafted onto EBM."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.45
+  },
+  "eurodance": {
+    "id": "eurodance",
+    "bpm": 134,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "piano",
+        "fr": "PIANO M1",
+        "en": "M1 PIANO",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          5,
+          8,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "fédérateur et radieux",
+      "en": "anthemic and radiant"
+    },
+    "instruments": {
+      "fr": "TR-909 ET PIANO KORG M1",
+      "en": "TR-909 AND KORG M1 PIANO"
+    },
+    "resume": {
+      "fr": "CONTRETEMPS 909 · ACCORDS M1 EN MINEUR",
+      "en": "909 OFFBEAT · MINOR M1 PIANO CHORDS"
+    },
+    "racine": {
+      "fr": "Francfort, Anvers et Milan, 1990 : le club européen en format pop.",
+      "en": "Frankfurt, Antwerp, and Milan, 1990: European club turned pop."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 3,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.4,
+    "grain": 0.15
+  },
+  "italodance": {
+    "id": "italodance",
+    "bpm": 136,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          1,
+          0
+        ],
+        "notes": [
+          8,
+          0,
+          8,
+          10,
+          0,
+          8,
+          7,
+          0,
+          5,
+          0,
+          5,
+          7,
+          0,
+          8,
+          7,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          5
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "bondissant et chantant",
+      "en": "bouncy and singalong"
+    },
+    "instruments": {
+      "fr": "TR-909 ET LEAD SUPERSAW",
+      "en": "TR-909 AND SUPERSAW LEAD"
+    },
+    "resume": {
+      "fr": "BASSO IN LEVARE · MÉLODIE SUPERSAW",
+      "en": "BASSO IN LEVARE · SUPERSAW MELODY"
+    },
+    "racine": {
+      "fr": "Turin et Milan, 1998 : le contretemps italien de l'an 2000.",
+      "en": "Turin and Milan, 1998: Italy's Y2K offbeat club pop."
+    },
+    "tonalite": "Gm",
+    "tonique": "G",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 3,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.2
+  },
+  "organichouse": {
+    "id": "organichouse",
+    "bpm": 120,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "BOIS",
+        "en": "WOOD PERC",
+        "pas": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "KALIMBA",
+        "en": "KALIMBA",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        "notes": [
+          8,
+          0,
+          0,
+          10,
+          0,
+          12,
+          10,
+          0,
+          0,
+          8,
+          7,
+          0,
+          0,
+          5,
+          0,
+          7
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "MINIMOOG",
+        "en": "MINIMOOG",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "boisé et rêveur",
+      "en": "wooden and dreamy"
+    },
+    "instruments": {
+      "fr": "PERCUSSIONS BOIS ET MOOG",
+      "en": "WOOD PERC AND MOOG BASS"
+    },
+    "resume": {
+      "fr": "KICK FEUTRÉ · SHAKERS ET KALIMBA",
+      "en": "SOFT KICK · SHAKERS AND KALIMBA"
+    },
+    "racine": {
+      "fr": "Brooklyn, Londres et Moscou, 2011 : la deep house au soleil.",
+      "en": "Brooklyn, London, and Moscow, 2011: sunlit open-air deep house."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.65,
+    "grain": 0.05
+  },
+  "afrotech": {
+    "id": "afrotech",
+    "bpm": 122,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "tom",
+        "fr": "TOMS",
+        "en": "TOMS",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "STAB",
+        "en": "STAB",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "MINIMOOG",
+        "en": "MINIMOOG",
+        "pas": [
+          2,
+          0,
+          1,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          0,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          5,
+          0,
+          2,
+          0,
+          1
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "tendu et polyrythmique",
+      "en": "taut and polyrhythmic"
+    },
+    "instruments": {
+      "fr": "TR-909, TOMS ET BASSE MOOG",
+      "en": "TR-909, TOMS AND MOOG BASS"
+    },
+    "resume": {
+      "fr": "POLYRYTHMIE 3 CONTRE 4 · SYNTHÉS SOMBRES",
+      "en": "3-AGAINST-4 POLYRHYTHM · DARK SYNTHS"
+    },
+    "racine": {
+      "fr": "Tembisa, Durban et Pretoria, 2015 : l'afro house armée pour la techno.",
+      "en": "Tembisa, Durban, and Pretoria, 2015: Afro house armed with techno."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "sus"
+      }
+    ],
+    "swing": 0.06,
+    "espace": 0.5,
+    "grain": 0.3
+  },
+  "bigroomhouse": {
+    "id": "bigroomhouse",
+    "bpm": 128,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK 808",
+        "en": "808 KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "WOODBLOCK",
+        "en": "WOODBLOCK",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          3,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          5,
+          1
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "SUB 808",
+        "en": "808 SUB",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "colossal et dépouillé",
+      "en": "colossal and stripped"
+    },
+    "instruments": {
+      "fr": "SUB 808 ET WOODBLOCK",
+      "en": "808 SUB AND WOODBLOCK"
+    },
+    "resume": {
+      "fr": "KICK TONAL À 128 BPM · DROP PERCUSSIF",
+      "en": "128 BPM TUNED KICK · PERCUSSIVE DROP"
+    },
+    "racine": {
+      "fr": "Pays-Bas, 2012 : le minimalisme géant des grandes scènes EDM.",
+      "en": "Netherlands, 2012: giant minimalism built for festival mainstages."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.65,
+    "grain": 0.35
+  },
+  "ballroom": {
+    "id": "ballroom",
+    "bpm": 127,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "CYMBALE HA",
+        "en": "HA CYMBAL",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "organ",
+        "fr": "ORGUE M1",
+        "en": "M1 ORGAN",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE FM",
+        "en": "FM BASS",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          5,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "théâtral et tranchant",
+      "en": "theatrical and fierce"
+    },
+    "instruments": {
+      "fr": "TR-909, ORGUE M1 ET CRASH",
+      "en": "TR-909, M1 ORGAN AND CRASH"
+    },
+    "resume": {
+      "fr": "CRASH « HA » SUR LE 4 · SYNCOPES VOGUE",
+      "en": "BEAT-FOUR HA CRASH · VOGUE SYNCOPATION"
+    },
+    "racine": {
+      "fr": "Harlem et New York, 1991 : le beat de combat des balls voguing.",
+      "en": "Harlem and New York, 1991: battle beats of the voguing balls."
+    },
+    "tonalite": "Cm",
+    "tonique": "C",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "sus"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0.1,
+    "espace": 0.3,
+    "grain": 0.25
+  },
+  "guaracha": {
+    "id": "guaracha",
+    "bpm": 130,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "CONGAS",
+        "en": "CONGAS",
+        "pas": [
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          1,
+          0,
+          2,
+          1,
+          2
+        ]
+      },
+      {
+        "voix": "clave",
+        "fr": "CLAVE",
+        "en": "CLAVE",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "CUIVRES",
+        "en": "BRASS",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          0,
+          0,
+          1,
+          8,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          8,
+          0,
+          0,
+          5,
+          7
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "survolté et cuivré",
+      "en": "high-voltage and brassy"
+    },
+    "instruments": {
+      "fr": "TR-909, CUIVRES ET CONGAS",
+      "en": "TR-909, BRASS AND CONGAS"
+    },
+    "resume": {
+      "fr": "ZAPATEO À CONTRETEMPS · FANFARE LATINE",
+      "en": "OFFBEAT ZAPATEO · LATIN BRASS HOOK"
+    },
+    "racine": {
+      "fr": "Monterrey puis Medellín, 2011 : du tribal guarachero à l'aleteo.",
+      "en": "Monterrey then Medellín, 2011: tribal guarachero to aleteo."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "harmonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 5,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0.04,
+    "espace": 0.35,
+    "grain": 0.3
+  },
+  "hardgroove": {
+    "id": "hardgroove",
+    "bpm": 140,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "CONGAS",
+        "en": "CONGAS",
+        "pas": [
+          0,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          2,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "STAB",
+        "en": "STAB",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          2,
+          1,
+          0,
+          2,
+          1,
+          1
+        ],
+        "notes": [
+          0,
+          1,
+          1,
+          5,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          5,
+          0,
+          7,
+          5,
+          1
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "roulant et percussif",
+      "en": "rolling and percussive"
+    },
+    "instruments": {
+      "fr": "TR-909, MPC ET CONGAS",
+      "en": "TR-909, MPC AND CONGAS"
+    },
+    "resume": {
+      "fr": "BOUCLES FUNK · CONGAS EN ROULEMENT",
+      "en": "FUNK LOOPS · ROLLING CONGAS"
+    },
+    "racine": {
+      "fr": "Londres, 1999 : Ben Sims et le mix techno à trois platines.",
+      "en": "London, 1999: Ben Sims and three-deck techno mixing."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.25,
+    "grain": 0.35
+  },
+  "freetekno": {
+    "id": "freetekno",
+    "bpm": 168,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "acid",
+        "fr": "303",
+        "en": "303",
+        "pas": [
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          1,
+          2,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          1,
+          1,
+          0,
+          8,
+          5,
+          0,
+          2,
+          1,
+          0,
+          8,
+          5,
+          1,
+          8,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          8,
+          5
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "nomade et insoumis",
+      "en": "nomadic and untamed"
+    },
+    "instruments": {
+      "fr": "ELECTRIBE, 909 ET TB-303",
+      "en": "ELECTRIBE, 909 AND TB-303"
+    },
+    "resume": {
+      "fr": "KICK DUR · BASSE CONTRETEMPS ET 303 LIVE",
+      "en": "HARD KICK · OFFBEAT BASS AND LIVE 303"
+    },
+    "racine": {
+      "fr": "Castlemorton, 1992 : Spiral Tribe et la route des teknivals.",
+      "en": "Castlemorton, 1992: Spiral Tribe and the teknival road."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.25,
+    "grain": 0.8
+  },
+  "neorave": {
+    "id": "neorave",
+    "bpm": 152,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "hoover",
+        "fr": "HOOVER",
+        "en": "HOOVER",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          3,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          6,
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          1,
+          2
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          10,
+          0,
+          8,
+          0,
+          0,
+          12,
+          0,
+          0,
+          10,
+          8,
+          7
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "RUMBLE",
+        "en": "RUMBLE",
+        "pas": [
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2,
+          1
+        ],
+        "notes": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "brutal et extatique",
+      "en": "brutal and ecstatic"
+    },
+    "instruments": {
+      "fr": "SERUM, TR-909 ET HOOVER",
+      "en": "SERUM, TR-909 AND HOOVER"
+    },
+    "resume": {
+      "fr": "RUMBLE À 152 BPM · HOOVER ET SUPERSAW",
+      "en": "152 BPM RUMBLE · HOOVER AND SUPERSAW"
+    },
+    "racine": {
+      "fr": "Paris et Berlin, 2019 : Possession et le retour des hangars.",
+      "en": "Paris and Berlin, 2019: Possession and warehouse raves."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.35,
+    "grain": 0.75
+  },
+  "slowhouse": {
+    "id": "slowhouse",
+    "bpm": 106,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "WOODBLOCK",
+        "en": "WOODBLOCK",
+        "pas": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "KALIMBA",
+        "en": "KALIMBA",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          2
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          10,
+          0,
+          0,
+          0,
+          0,
+          12,
+          0,
+          0,
+          0,
+          10,
+          8
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          5,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          4,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "flâneur et boisé",
+      "en": "unhurried and woody"
+    },
+    "instruments": {
+      "fr": "SP-1200, KALIMBA ET MOOG",
+      "en": "SP-1200, KALIMBA AND MOOG"
+    },
+    "resume": {
+      "fr": "QUATRE-TEMPS À 106 BPM · GROOVE ORGANIQUE",
+      "en": "106 BPM FOUR-ON-THE-FLOOR · ORGANIC GROOVE"
+    },
+    "racine": {
+      "fr": "Berlin, 2009 : les bords de la Spree, Bar 25 et Fusion.",
+      "en": "Berlin, 2009: Spree riverbanks, Bar 25 and Fusion."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "9"
+      }
+    ],
+    "swing": 0.16,
+    "espace": 0.6,
+    "grain": 0.12
+  },
+  "handsup": {
+    "id": "handsup",
+    "bpm": 142,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "openhat",
+        "fr": "OPEN HAT",
+        "en": "OPEN HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          2,
+          1,
+          0,
+          2,
+          2,
+          0,
+          2,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          2
+        ],
+        "notes": [
+          8,
+          0,
+          8,
+          10,
+          0,
+          12,
+          10,
+          0,
+          8,
+          0,
+          8,
+          10,
+          0,
+          7,
+          8,
+          10
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          8,
+          5
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "euphorique et frontal",
+      "en": "euphoric and upfront"
+    },
+    "instruments": {
+      "fr": "JP-8000 ET VIRUS",
+      "en": "JP-8000 AND VIRUS"
+    },
+    "resume": {
+      "fr": "BASSE À CONTRETEMPS · HYMNE SUPERSAW",
+      "en": "OFFBEAT SAW BASS · SUPERSAW ANTHEM"
+    },
+    "racine": {
+      "fr": "Hambourg, 2001 : Rocco, Special D. et Cascada.",
+      "en": "Hamburg, 2001: Rocco, Special D. and Cascada."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 3,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.35
+  },
+  "neotrance": {
+    "id": "neotrance",
+    "bpm": 127,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "arp",
+        "fr": "ARPÈGE",
+        "en": "ARPEGGIO",
+        "pas": [
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          2,
+          2,
+          1
+        ],
+        "notes": [
+          8,
+          10,
+          12,
+          15,
+          8,
+          10,
+          12,
+          14,
+          8,
+          10,
+          12,
+          15,
+          12,
+          10,
+          9,
+          8
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "NAPPE",
+        "en": "PAD",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "MINIMOOG",
+        "en": "MINIMOOG",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          5,
+          0,
+          0,
+          3,
+          0,
+          0,
+          2,
+          0,
+          5,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "granuleux et planant",
+      "en": "grainy and soaring"
+    },
+    "instruments": {
+      "fr": "MINIMOOG ET KORG MS-20",
+      "en": "MINIMOOG AND KORG MS-20"
+    },
+    "resume": {
+      "fr": "ARPÈGE CONTINU · BATTERIE MINIMALE SÈCHE",
+      "en": "CONTINUOUS ARPEGGIO · DRY MINIMAL DRUMS"
+    },
+    "racine": {
+      "fr": "Londres et Cologne, 2003 : Border Community et Traum.",
+      "en": "London and Cologne, 2003: Border Community and Traum."
+    },
+    "tonalite": "Em",
+    "tonique": "E",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      },
+      {
+        "degre": 5,
+        "couleur": "sus"
+      }
+    ],
+    "swing": 0.04,
+    "espace": 0.65,
+    "grain": 0.2
+  },
+  "witchhouse": {
+    "id": "witchhouse",
+    "bpm": 68,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK 808",
+        "en": "808 KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          2,
+          1,
+          1,
+          1,
+          2,
+          0,
+          1,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "voix": "hoover",
+        "fr": "HOOVER",
+        "en": "HOOVER",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "BASSE 808",
+        "en": "808 SUB",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          5,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "ralenti et occulte",
+      "en": "slowed and occult"
+    },
+    "instruments": {
+      "fr": "TR-808 ET SUPERSAW NOYÉE",
+      "en": "TR-808 AND DRENCHED SAW"
+    },
+    "resume": {
+      "fr": "DEMI-TEMPS · ROLLS DE 808 ET HOOVER",
+      "en": "HALF-TIME · 808 ROLLS AND HOOVER"
+    },
+    "racine": {
+      "fr": "2009 : Salem ralentit la trap sous des synthés funèbres.",
+      "en": "2009: Salem slows trap down under funereal synths."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      },
+      {
+        "degre": 5,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.85,
+    "grain": 0.45
+  },
+  "minimalism": {
+    "id": "minimalism",
+    "bpm": 132,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "organ",
+        "fr": "FARFISA",
+        "en": "FARFISA",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "MARIMBA",
+        "en": "MARIMBA",
+        "pas": [
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          5,
+          0,
+          8,
+          5,
+          0,
+          1,
+          5,
+          0,
+          8,
+          5,
+          0,
+          9,
+          0,
+          5,
+          0
+        ]
+      },
+      {
+        "voix": "arp",
+        "fr": "SÉQUENCE",
+        "en": "SEQUENCE",
+        "pas": [
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1
+        ],
+        "notes": [
+          8,
+          0,
+          5,
+          3,
+          0,
+          8,
+          5,
+          0,
+          9,
+          5,
+          0,
+          8,
+          5,
+          0,
+          3,
+          5
+        ]
+      },
+      {
+        "voix": "clave",
+        "fr": "CLAVES",
+        "en": "CLAVES",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BOURDON",
+        "en": "DRONE",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "répétitif et déphasé",
+      "en": "repetitive and phased"
+    },
+    "instruments": {
+      "fr": "ORGUE FARFISA ET BANDE",
+      "en": "FARFISA ORGAN AND TAPE"
+    },
+    "resume": {
+      "fr": "MOTIFS ADDITIFS · DÉPHASAGE LENT",
+      "en": "ADDITIVE CELLS · PHASE SHIFTING"
+    },
+    "racine": {
+      "fr": "États-Unis, 1964 : Riley, Reich et Glass répètent la cellule.",
+      "en": "United States, 1964: Riley, Reich and Glass repeat the cell."
+    },
+    "tonalite": "C",
+    "tonique": "C",
+    "gamme": "majeure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "9"
+      },
+      {
+        "degre": 5,
+        "couleur": "sus"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.05
+  },
+  "dancehall": {
+    "id": "dancehall",
+    "bpm": 96,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "rim",
+        "fr": "RIMSHOT",
+        "en": "RIMSHOT",
+        "pas": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "CLAVIER",
+        "en": "KEYBOARD",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE FM",
+        "en": "FM BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          3,
+          4,
+          0,
+          5,
+          0,
+          0,
+          5,
+          0,
+          0,
+          4,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "sec et bondissant",
+      "en": "dry and bouncing"
+    },
+    "instruments": {
+      "fr": "CASIO MT-40 ET YAMAHA DX100",
+      "en": "CASIO MT-40 AND YAMAHA DX100"
+    },
+    "resume": {
+      "fr": "TRESILLO 3-3-2 · BASSE NUMÉRIQUE",
+      "en": "3-3-2 TRESILLO · DIGITAL BASS"
+    },
+    "racine": {
+      "fr": "Kingston, 1985 : King Jammy et Wayne Smith lancent Sleng Teng.",
+      "en": "Kingston, 1985: King Jammy and Wayne Smith unleash Sleng Teng."
+    },
+    "tonalite": "Gm",
+    "tonique": "G",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0.06,
+    "espace": 0.25,
+    "grain": 0.2
+  },
+  "autonomic": {
+    "id": "autonomic",
+    "bpm": 170,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "rim",
+        "fr": "CLIC",
+        "en": "RIM",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "NAPPE",
+        "en": "PAD",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "SOUS-BASSE",
+        "en": "SUB",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "retenu et mental",
+      "en": "restrained and mental"
+    },
+    "instruments": {
+      "fr": "TR-808 ET NAPPES ANALOGIQUES",
+      "en": "TR-808 AND ANALOG PADS"
+    },
+    "resume": {
+      "fr": "DEMI-TEMPS À 170 · ESPACE ET SUB",
+      "en": "170 HALF-TIME · SPACE AND SUB"
+    },
+    "racine": {
+      "fr": "Londres, 2008 : dBridge et Instra:mental ouvrent le club Autonomic.",
+      "en": "London, 2008: dBridge and Instra:mental open Club Autonomic."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 5,
+        "couleur": "sus"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.72,
+    "grain": 0.1
+  },
+  "sambass": {
+    "id": "sambass",
+    "bpm": 174,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "chord",
+        "fr": "GUITARE",
+        "en": "GUITAR",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE DUB",
+        "en": "DUB BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          5,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "solaire et roulant",
+      "en": "sunny and rolling"
+    },
+    "instruments": {
+      "fr": "AKAI S1000 ET GUITARE BOSSA",
+      "en": "AKAI S1000 AND BOSSA GUITAR"
+    },
+    "resume": {
+      "fr": "TWO-STEP RAPIDE · ACCORDS BOSSA",
+      "en": "FAST TWO-STEP · BOSSA CHORDS"
+    },
+    "racine": {
+      "fr": "São Paulo, 1998 : Marky, Patife et XRS mêlent bossa et drum & bass.",
+      "en": "São Paulo, 1998: Marky, Patife and XRS blend bossa and drum & bass."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 4,
+        "couleur": "9"
+      },
+      {
+        "degre": 2,
+        "couleur": "7"
+      },
+      {
+        "degre": 5,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.14,
+    "espace": 0.48,
+    "grain": 0.12
+  },
+  "glitchhop": {
+    "id": "glitchhop",
+    "bpm": 100,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "GLITCH",
+        "en": "GLITCH",
+        "pas": [
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "DÉCOUPE",
+        "en": "CHOP",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          3,
+          0,
+          0,
+          5,
+          0,
+          0,
+          7,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "WOBBLE",
+        "en": "WOBBLE",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          5,
+          5,
+          0,
+          0,
+          4,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "haché et funky",
+      "en": "chopped and funky"
+    },
+    "instruments": {
+      "fr": "MPC ET SYNTHÈSE GRANULAIRE",
+      "en": "MPC AND GRANULAR SYNTH"
+    },
+    "resume": {
+      "fr": "GROOVE SWINGUÉ · STUTTERS ET WOBBLE",
+      "en": "SWUNG GROOVE · STUTTERS AND WOBBLE"
+    },
+    "racine": {
+      "fr": "États-Unis, 2000 : de Prefuse 73 à edIT, Tipper et KOAN Sound.",
+      "en": "United States, 2000: from Prefuse 73 to edIT, Tipper and KOAN Sound."
+    },
+    "tonalite": "Cm",
+    "tonique": "C",
+    "gamme": "pentatonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.16,
+    "espace": 0.28,
+    "grain": 0.38
+  },
+  "tearout": {
+    "id": "tearout",
+    "bpm": 145,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "IMPACT",
+        "en": "IMPACT",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "ride",
+        "fr": "CRASH",
+        "en": "CRASH",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "metal",
+        "fr": "MÉTAL",
+        "en": "METAL",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "MITRAILLE",
+        "en": "BURST",
+        "pas": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          2,
+          2,
+          0,
+          2,
+          2
+        ],
+        "notes": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          2,
+          2
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "mécanique et foudroyant",
+      "en": "mechanical and punishing"
+    },
+    "instruments": {
+      "fr": "PHASE PLANT ET SERUM",
+      "en": "PHASE PLANT AND SERUM"
+    },
+    "resume": {
+      "fr": "RAFALES EN MITRAILLE · CAISSE SUR 3",
+      "en": "MACHINE-GUN BURSTS · SNARE ON 3"
+    },
+    "racine": {
+      "fr": "2017 : Marauda, Svdden Death et Never Say Die: Black Label.",
+      "en": "2017: Marauda, Svdden Death and Never Say Die: Black Label."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.12,
+    "grain": 0.92
+  },
+  "colourbass": {
+    "id": "colourbass",
+    "bpm": 146,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HAT",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "voix": "chord",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE FM",
+        "en": "FM BASS",
+        "pas": [
+          2,
+          0,
+          1,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          5,
+          3,
+          0,
+          0,
+          5,
+          0,
+          0,
+          3,
+          1,
+          0,
+          5,
+          7,
+          0,
+          8
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "cristallin et syncopé",
+      "en": "crystalline and syncopated"
+    },
+    "instruments": {
+      "fr": "VOCODEX, SERUM ET PITCHMAP",
+      "en": "VOCODEX, SERUM AND PITCHMAP"
+    },
+    "resume": {
+      "fr": "BASSE HARMONISÉE · REBOND RIDDIM",
+      "en": "HARMONIZED BASS · RIDDIM BOUNCE"
+    },
+    "racine": {
+      "fr": "2018 : Chime, Ace Aura et le collectif Rushdown.",
+      "en": "2018: Chime, Ace Aura and the Rushdown collective."
+    },
+    "tonalite": "Eb",
+    "tonique": "Eb",
+    "gamme": "majeure",
+    "accords": [
+      {
+        "degre": 4,
+        "couleur": "9"
+      },
+      {
+        "degre": 5,
+        "couleur": "7"
+      },
+      {
+        "degre": 6,
+        "couleur": "9"
+      },
+      {
+        "degre": 1,
+        "couleur": "9"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.42,
+    "grain": 0.45
+  },
+  "wave": {
+    "id": "wave",
+    "bpm": 142,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK 808",
+        "en": "808 KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HAT",
+        "pas": [
+          2,
+          1,
+          1,
+          2,
+          2,
+          1,
+          2,
+          1,
+          2,
+          1,
+          1,
+          2,
+          2,
+          1,
+          2,
+          2
+        ]
+      },
+      {
+        "voix": "reese",
+        "fr": "REESE",
+        "en": "REESE",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          5,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "notes": [
+          5,
+          0,
+          0,
+          6,
+          0,
+          0,
+          5,
+          0,
+          3,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "nocturne et planant",
+      "en": "nocturnal and soaring"
+    },
+    "instruments": {
+      "fr": "TR-808, REESE ET SERUM",
+      "en": "TR-808, REESE AND SERUM"
+    },
+    "resume": {
+      "fr": "REESE GLISSANTE · CHARLEYS TRAP",
+      "en": "GLIDING REESE · TRAP HI-HATS"
+    },
+    "racine": {
+      "fr": "2015 : Klimeks, Kareful, Plastician et Skeler.",
+      "en": "2015: Klimeks, Kareful, Plastician and Skeler."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 3,
+        "couleur": "triade"
+      },
+      {
+        "degre": 7,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.78,
+    "grain": 0.28
+  },
+  "driftphonk": {
+    "id": "driftphonk",
+    "bpm": 130,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK 808",
+        "en": "808 KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE 808",
+        "en": "808 SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "cowbell",
+        "fr": "COWBELL",
+        "en": "COWBELL",
+        "pas": [
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          0,
+          0,
+          2,
+          1,
+          2
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "CLOCHE 808",
+        "en": "808 BELL",
+        "pas": [
+          2,
+          0,
+          2,
+          1,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          2
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          2,
+          0,
+          3,
+          0,
+          2,
+          1,
+          0,
+          1,
+          5,
+          0,
+          4,
+          2,
+          2
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "SUB 808",
+        "en": "808 SUB",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          1,
+          2,
+          0,
+          2,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "saturé et nocturne",
+      "en": "saturated and nocturnal"
+    },
+    "instruments": {
+      "fr": "TR-808 COWBELL ET FL STUDIO",
+      "en": "TR-808 COWBELL AND FL STUDIO"
+    },
+    "resume": {
+      "fr": "COWBELL PHRYGIENNE · 808 ÉCRÊTÉE",
+      "en": "PHRYGIAN COWBELL · CLIPPED 808"
+    },
+    "racine": {
+      "fr": "2019 : Pharmacist, DVRST, PlayaPhonk et Kordhell.",
+      "en": "2019: Pharmacist, DVRST, PlayaPhonk and Kordhell."
+    },
+    "tonalite": "Cm",
+    "tonique": "C",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.22,
+    "grain": 0.88
+  },
+  "kuduro": {
+    "id": "kuduro",
+    "bpm": 138,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "rim",
+        "fr": "RIMSHOT",
+        "en": "RIMSHOT",
+        "pas": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "BATIDA",
+        "en": "BATIDA",
+        "pas": [
+          1,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "STAB RAVE",
+        "en": "RAVE STAB",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SEC",
+        "en": "DRY BASS",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          5,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "sec, syncopé et incandescent",
+      "en": "dry, syncopated and fiery"
+    },
+    "instruments": {
+      "fr": "FL STUDIO, CONGAS ET STABS",
+      "en": "FL STUDIO, CONGAS AND STABS"
+    },
+    "resume": {
+      "fr": "SYNCOPE BATIDA · KICK QUATRE-TEMPS",
+      "en": "BATIDA SYNCOPATION · 4/4 KICK"
+    },
+    "racine": {
+      "fr": "1996 : Luanda (Tony Amado, Sebem) puis Lisbonne (Enchufada, Príncipe).",
+      "en": "1996: Luanda (Tony Amado, Sebem) then Lisbon (Enchufada, Príncipe)."
+    },
+    "tonalite": "Gm",
+    "tonique": "G",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.14,
+    "grain": 0.38
+  },
+  "moombahton": {
+    "id": "moombahton",
+    "bpm": 108,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "DEMBOW",
+        "en": "DEMBOW",
+        "pas": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "SHAKER",
+        "en": "SHAKER",
+        "pas": [
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "DUTCH LEAD",
+        "en": "DUTCH LEAD",
+        "pas": [
+          2,
+          0,
+          2,
+          2,
+          0,
+          2,
+          2,
+          0,
+          2,
+          0,
+          2,
+          2,
+          0,
+          2,
+          1,
+          2
+        ],
+        "notes": [
+          5,
+          0,
+          5,
+          6,
+          0,
+          5,
+          4,
+          0,
+          5,
+          0,
+          5,
+          7,
+          0,
+          6,
+          5,
+          4
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE SAW",
+        "en": "SAW BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          5,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          4,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "lourd, tropical et survolté",
+      "en": "heavy, tropical and rowdy"
+    },
+    "instruments": {
+      "fr": "CDJ, SYLENTH1 ET MASSIVE",
+      "en": "CDJ, SYLENTH1 AND MASSIVE"
+    },
+    "resume": {
+      "fr": "DEMBOW À 108 BPM · SIRÈNES DUTCH HOUSE",
+      "en": "108 BPM DEMBOW · DUTCH HOUSE SIRENS"
+    },
+    "racine": {
+      "fr": "2009 : Dave Nada, Munchi, Dillon Francis et Mad Decent.",
+      "en": "2009: Dave Nada, Munchi, Dillon Francis and Mad Decent."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "harmonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 5,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.25,
+    "grain": 0.52
+  },
+  "bailefunk": {
+    "id": "bailefunk",
+    "bpm": 130,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "ATABAQUE",
+        "en": "ATABAQUE",
+        "pas": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "rim",
+        "fr": "CAISSE",
+        "en": "RIMSHOT",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "stab",
+        "fr": "CUIVRES",
+        "en": "BRASS",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "808",
+        "en": "808",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "sec, syncopé et viscéral",
+      "en": "dry, syncopated and visceral"
+    },
+    "instruments": {
+      "fr": "TR-808 ET ATABAQUES MPC",
+      "en": "TR-808 AND MPC ATABAQUES"
+    },
+    "resume": {
+      "fr": "TAMBORZÃO SYNCOPÉ · SUB 808 SATURÉ",
+      "en": "SYNCOPATED TAMBORZÃO · CLIPPED 808 SUB"
+    },
+    "racine": {
+      "fr": "Rio, 1989 : DJ Marlboro, Furacão 2000 et la mue du tamborzão.",
+      "en": "Rio, 1989: DJ Marlboro, Furacão 2000 and the tamborzão shift."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.08,
+    "grain": 0.55
+  },
+  "synthwave": {
+    "id": "synthwave",
+    "bpm": 108,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "arp",
+        "fr": "ARPÈGE",
+        "en": "ARPEGGIO",
+        "pas": [
+          1,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          5,
+          0,
+          8,
+          0,
+          5,
+          0,
+          1,
+          0,
+          5,
+          0,
+          9,
+          0,
+          8,
+          5
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "NAPPE",
+        "en": "PAD",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "JUNO",
+        "en": "JUNO",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          8,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "nocturne, chromé et cinématographique",
+      "en": "nocturnal, chrome and cinematic"
+    },
+    "instruments": {
+      "fr": "LINNDRUM ET JUNO-106",
+      "en": "LINNDRUM AND JUNO-106"
+    },
+    "resume": {
+      "fr": "CAISSE LINN GATED · BASSE JUNO EN CROCHES",
+      "en": "GATED LINN SNARE · EIGHTH-NOTE JUNO BASS"
+    },
+    "racine": {
+      "fr": "France, 2006 : Kavinsky, College, Valerie et l'élan de Drive.",
+      "en": "France, 2006: Kavinsky, College, Valerie and the Drive surge."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "mineure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "9"
+      },
+      {
+        "degre": 5,
+        "couleur": "sus"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.6,
+    "grain": 0.15
+  },
+  "darksynth": {
+    "id": "darksynth",
+    "bpm": 118,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "organ",
+        "fr": "ORGUE",
+        "en": "ORGAN",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "arp",
+        "fr": "ARPÈGE",
+        "en": "ARPEGGIO",
+        "pas": [
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1
+        ],
+        "notes": [
+          1,
+          3,
+          5,
+          8,
+          7,
+          5,
+          3,
+          2,
+          1,
+          3,
+          5,
+          8,
+          9,
+          8,
+          7,
+          5
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "notes": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          8,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          1,
+          7
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "dystopique, saturé et martial",
+      "en": "dystopian, overdriven and martial"
+    },
+    "instruments": {
+      "fr": "TR-707, MS-20 ET ORGUE",
+      "en": "TR-707, MS-20 AND ORGAN"
+    },
+    "resume": {
+      "fr": "DOUBLES CROCHES SATURÉES · MINEUR HORRIFIQUE",
+      "en": "DISTORTED SIXTEENTHS · HORROR MINOR"
+    },
+    "racine": {
+      "fr": "France, 2012 : Perturbator, Carpenter Brut et Blood Music.",
+      "en": "France, 2012: Perturbator, Carpenter Brut and Blood Music."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "harmonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 5,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.75
+  },
+  "hyperpop": {
+    "id": "hyperpop",
+    "bpm": 152,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE FM",
+        "en": "FM SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          0,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "voix": "chord",
+        "fr": "SUPERSAW",
+        "en": "SUPERSAW",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          6,
+          0,
+          0,
+          5,
+          4,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "plastique, survolté et maximaliste",
+      "en": "plastic, hyperactive and maximalist"
+    },
+    "instruments": {
+      "fr": "TR-808 CLIPPÉE ET SUPERSAW",
+      "en": "CLIPPED TR-808 AND SUPERSAW"
+    },
+    "resume": {
+      "fr": "PERCUSSIONS FM · 808 ÉCRASÉE · SUPERSAW",
+      "en": "FM PERCUSSION · CRUSHED 808 · SUPERSAW"
+    },
+    "racine": {
+      "fr": "Londres, 2013 : SOPHIE, A. G. Cook (PC Music) puis 100 gecs.",
+      "en": "London, 2013: SOPHIE, A. G. Cook (PC Music) then 100 gecs."
+    },
+    "tonalite": "Eb",
+    "tonique": "Eb",
+    "gamme": "majeure",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 5,
+        "couleur": "triade"
+      },
+      {
+        "degre": 6,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "9"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.2,
+    "grain": 0.7
+  },
+  "rawstyle": {
+    "id": "rawstyle",
+    "bpm": 155,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "voix": "clap",
+        "fr": "CLAP",
+        "en": "CLAP",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "ride",
+        "fr": "RIDE",
+        "en": "RIDE",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "SCREECH",
+        "en": "SCREECH",
+        "pas": [
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          2,
+          0,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          7,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          8,
+          9,
+          0,
+          6,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "REVERSE",
+        "en": "REVERSE",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "brutal, chirurgical et caverneux",
+      "en": "brutal, surgical and cavernous"
+    },
+    "instruments": {
+      "fr": "TR-909 GATED ET VIRUS TI",
+      "en": "GATED TR-909 AND VIRUS TI"
+    },
+    "resume": {
+      "fr": "GATED KICKS & KICKROLLS · SCREECH DISSONANT",
+      "en": "GATED KICKS & KICKROLLS · DISSONANT SCREECH"
+    },
+    "racine": {
+      "fr": "Pays-Bas, 2011 : B-Front, Radical Redemption, Delete et Gearbox.",
+      "en": "Netherlands, 2011: B-Front, Radical Redemption, Delete and Gearbox."
+    },
+    "tonalite": "Fm",
+    "tonique": "F",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.35,
+    "grain": 0.85
+  },
+  "industrialhardcore": {
+    "id": "industrialhardcore",
+    "bpm": 175,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "metal",
+        "fr": "MÉTAL",
+        "en": "METAL",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "BRUIT",
+        "en": "NOISE",
+        "pas": [
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "BOURDON",
+        "en": "DRONE",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "mécanique, sombre et abrasif",
+      "en": "mechanical, dark and abrasive"
+    },
+    "instruments": {
+      "fr": "TR-909 SATURÉE ET MÉTAL",
+      "en": "OVERDRIVEN TR-909 AND METAL"
+    },
+    "resume": {
+      "fr": "KICK 909 BRISÉ · FERRAILLE ET BRUIT",
+      "en": "BROKEN 909 KICK · SCRAP METAL AND NOISE"
+    },
+    "racine": {
+      "fr": "1994 : Lenny Dee, Manu Le Malin, puis Ophidian et Genosha.",
+      "en": "1994: Lenny Dee, Manu Le Malin, then Ophidian and Genosha."
+    },
+    "tonalite": "Em",
+    "tonique": "E",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "quinte"
+      }
+    ],
+    "swing": 0,
+    "espace": 0.45,
+    "grain": 0.9
+  },
+  "singeli": {
+    "id": "singeli",
+    "bpm": 220,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "bongo",
+        "fr": "MCHIRIKU",
+        "en": "MCHIRIKU",
+        "pas": [
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          2,
+          1,
+          2
+        ]
+      },
+      {
+        "voix": "lead",
+        "fr": "ORGUE",
+        "en": "ORGAN",
+        "pas": [
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          0,
+          1
+        ],
+        "notes": [
+          1,
+          0,
+          3,
+          0,
+          5,
+          0,
+          6,
+          0,
+          5,
+          0,
+          3,
+          0,
+          2,
+          3,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "sub",
+        "fr": "808",
+        "en": "808",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "frénétique, polyrythmique et électrique",
+      "en": "frantic, polyrhythmic and electric"
+    },
+    "instruments": {
+      "fr": "VIRTUALDJ, CASIO ET TAMBOURS",
+      "en": "VIRTUALDJ, CASIO AND DRUMS"
+    },
+    "resume": {
+      "fr": "MCHIRIKU À 220 BPM · HOT CUES VIRTUALDJ",
+      "en": "220 BPM MCHIRIKU · VIRTUALDJ HOT CUES"
+    },
+    "racine": {
+      "fr": "Dar es Salaam, 2010 : Sisso, Bamba Pana, Jay Mitta et Nyege Nyege.",
+      "en": "Dar es Salaam, 2010: Sisso, Bamba Pana, Jay Mitta and Nyege Nyege."
+    },
+    "tonalite": "Gm",
+    "tonique": "G",
+    "gamme": "phrygienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "quinte"
+      },
+      {
+        "degre": 2,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0.06,
+    "espace": 0.1,
+    "grain": 0.5
+  },
+  "hauntology": {
+    "id": "hauntology",
+    "bpm": 88,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "perc",
+        "fr": "BANDE",
+        "en": "TAPE",
+        "pas": [
+          1,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "MELLOTRON",
+        "en": "MELLOTRON",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "CARILLON",
+        "en": "CHIME",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          5,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE",
+        "en": "BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          5,
+          0,
+          4,
+          0,
+          1,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "spectral, voilé et anachronique",
+      "en": "spectral, veiled and anachronistic"
+    },
+    "instruments": {
+      "fr": "CR-78, MELLOTRON ET BANDE",
+      "en": "CR-78, MELLOTRON AND TAPE"
+    },
+    "resume": {
+      "fr": "PLEURAGE DE BANDE · ARCHIVES RADIOPHONIQUES",
+      "en": "TAPE WOW & FLUTTER · RADIOPHONIC ARCHIVES"
+    },
+    "racine": {
+      "fr": "Royaume-Uni, 2004 : Ghost Box, Belbury Poly et The Caretaker.",
+      "en": "United Kingdom, 2004: Ghost Box, Belbury Poly and The Caretaker."
+    },
+    "tonalite": "Dm",
+    "tonique": "D",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "7"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      },
+      {
+        "degre": 6,
+        "couleur": "triade"
+      }
+    ],
+    "swing": 0.08,
+    "espace": 0.85,
+    "grain": 0.35
+  },
+  "dreampunk": {
+    "id": "dreampunk",
+    "bpm": 72,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "sub",
+        "fr": "BOURDON",
+        "en": "DRONE",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "pad",
+        "fr": "NAPPE",
+        "en": "PAD",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "rim",
+        "fr": "RIMSHOT",
+        "en": "RIMSHOT",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "CLOCHE",
+        "en": "BELL",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          7,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "pluvieux, néon et contemplatif",
+      "en": "rain-soaked, neon and contemplative"
+    },
+    "instruments": {
+      "fr": "CS-80, PLUIE ET SUB LENT",
+      "en": "CS-80, RAIN AND SLOW SUB"
+    },
+    "resume": {
+      "fr": "NAPPES NOCTURNES · PLUIE URBAINE ET SUB",
+      "en": "NOCTURNAL PADS · URBAN RAIN AND SUB"
+    },
+    "racine": {
+      "fr": "2014 : 2814 (HKE et t e l e p a t h) sur Dream Catalogue.",
+      "en": "2014: 2814 (HKE and t e l e p a t h) on Dream Catalogue."
+    },
+    "tonalite": "Cm",
+    "tonique": "C",
+    "gamme": "dorienne",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "9"
+      },
+      {
+        "degre": 4,
+        "couleur": "7"
+      },
+      {
+        "degre": 6,
+        "couleur": "9"
+      }
+    ],
+    "swing": 0,
+    "espace": 1,
+    "grain": 0.1
+  },
+  "vaporwave": {
+    "id": "vaporwave",
+    "bpm": 82,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "voix": "snare",
+        "fr": "CAISSE",
+        "en": "SNARE",
+        "pas": [
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "voix": "hat",
+        "fr": "CHARLEY",
+        "en": "HI-HAT",
+        "pas": [
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          0,
+          1,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "rhodes",
+        "fr": "PIANO DX7",
+        "en": "DX7 PIANO",
+        "pas": [
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE FM",
+        "en": "FM BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          8,
+          0,
+          0,
+          5,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          5,
+          7,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "ralenti, brumeux et nostalgique",
+      "en": "slowed, hazy and nostalgic"
+    },
+    "instruments": {
+      "fr": "LINNDRUM RALENTIE ET DX7",
+      "en": "SLOWED LINNDRUM AND DX7"
+    },
+    "resume": {
+      "fr": "BOUCLE RALENTIE · PIANO DX7 ET CAISSE LARGE",
+      "en": "REPITCHED LOOP · DX7 PIANO AND WIDE SNARE"
+    },
+    "racine": {
+      "fr": "Internet, 2010 : Chuck Person, Macintosh Plus et Blank Banshee.",
+      "en": "Internet, 2010: Chuck Person, Macintosh Plus and Blank Banshee."
+    },
+    "tonalite": "Ab",
+    "tonique": "Ab",
+    "gamme": "majeure",
+    "accords": [
+      {
+        "degre": 4,
+        "couleur": "9"
+      },
+      {
+        "degre": 3,
+        "couleur": "7"
+      },
+      {
+        "degre": 6,
+        "couleur": "9"
+      }
+    ],
+    "swing": 0.14,
+    "espace": 0.75,
+    "grain": 0.25
+  },
+  "digitalcumbia": {
+    "id": "digitalcumbia",
+    "bpm": 98,
+    "mesure": "4/4",
+    "pas": 16,
+    "pistes": [
+      {
+        "voix": "kick",
+        "fr": "KICK",
+        "en": "KICK",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "voix": "shaker",
+        "fr": "GÜIRA",
+        "en": "GÜIRA",
+        "pas": [
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "voix": "conga",
+        "fr": "LLAMADOR",
+        "en": "LLAMADOR",
+        "pas": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "voix": "pluck",
+        "fr": "CHARANGO",
+        "en": "CHARANGO",
+        "pas": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "notes": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          7,
+          5,
+          0
+        ]
+      },
+      {
+        "voix": "bass",
+        "fr": "BASSE DUB",
+        "en": "DUB BASS",
+        "pas": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "notes": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "devise": {
+      "fr": "organique, chaloupé et hypnotique",
+      "en": "organic, swaying and hypnotic"
+    },
+    "instruments": {
+      "fr": "GÜIRA, CHARANGO ET BASSE DUB",
+      "en": "GÜIRA, CHARANGO AND DUB BASS"
+    },
+    "resume": {
+      "fr": "GÜIRA EN CONTRETEMPS · TUMBADO DE BASSE DUB",
+      "en": "OFFBEAT GÜIRA · DUB BASS TUMBADO"
+    },
+    "racine": {
+      "fr": "Buenos Aires, 2006 : ZZK Records, Chancha Vía Circuito, Nicola Cruz.",
+      "en": "Buenos Aires, 2006: ZZK Records, Chancha Vía Circuito, Nicola Cruz."
+    },
+    "tonalite": "Am",
+    "tonique": "A",
+    "gamme": "pentatonique",
+    "accords": [
+      {
+        "degre": 1,
+        "couleur": "triade"
+      },
+      {
+        "degre": 5,
+        "couleur": "7"
+      }
+    ],
+    "swing": 0.2,
+    "espace": 0.65,
+    "grain": 0.15
   }
 }

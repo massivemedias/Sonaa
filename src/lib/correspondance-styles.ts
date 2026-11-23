@@ -137,31 +137,40 @@ export const ALIAS: Readonly<Record<string, Cible>> = {
   'disco house': { sorte: 'genre', id: 'discohouse' },
   'future house': { sorte: 'genre', id: 'futurehouse' },
   'bass house': { sorte: 'genre', id: 'basshouse' },
+  'organic house': { sorte: 'genre', id: 'organichouse' },
+  'afro tech': { sorte: 'genre', id: 'afrotech' },
+  'big room house': { sorte: 'genre', id: 'bigroomhouse' },
+  'italo-dance': { sorte: 'genre', id: 'italodance' },
+  'italo dance': { sorte: 'genre', id: 'italodance' },
+  'hands up': { sorte: 'genre', id: 'handsup' },
+  'neo-trance': { sorte: 'genre', id: 'neotrance' },
+  'free tekno': { sorte: 'genre', id: 'freetekno' },
+  'neo-rave': { sorte: 'genre', id: 'neorave' },
+  'slow house': { sorte: 'genre', id: 'slowhouse' },
+  'witch house': { sorte: 'genre', id: 'witchhouse' },
+  'minimalism': { sorte: 'genre', id: 'minimalism' },
+  'dancehall': { sorte: 'genre', id: 'dancehall' },
+  'ragga': { sorte: 'genre', id: 'dancehall' },
+  'glitch hop': { sorte: 'genre', id: 'glitchhop' },
+  'colour bass': { sorte: 'genre', id: 'colourbass' },
+  'color bass': { sorte: 'genre', id: 'colourbass' },
+  'drift phonk': { sorte: 'genre', id: 'driftphonk' },
+  'baile funk': { sorte: 'genre', id: 'bailefunk' },
+  'favela funk': { sorte: 'genre', id: 'bailefunk' },
+  'funk carioca': { sorte: 'genre', id: 'bailefunk' },
+  'industrial hardcore': { sorte: 'genre', id: 'industrialhardcore' },
+  'digital cumbia': { sorte: 'genre', id: 'digitalcumbia' },
+  'italo body music': { sorte: 'genre', id: 'italobody' },
 };
 
 /* ═══ CE QUE DISCOGS VOIT ET QUE L'ATLAS N'A PAS ═══
  *
- * Ces noms sont bien electroniques, ils pesent, et aucun des 219 genres ne
- * leur correspond. Ce ne sont donc pas des erreurs de correspondance : ce
- * sont des trous dans la carte, que la moisson a nommes.
- *
- *   Synthwave   557      Italodance  231
- *   Eurodance   274      Hands Up    184
- *   Vaporwave   235      Eurobeat    158
- *
- * Ils sont LAISSES DE COTE plutot que ranges de force sur une famille
- * approchante : ajouter un genre a l'atlas est une decision d'auteur, elle
- * appartient a Mika, et la prendre en douce en rangeant Synthwave sous
- * Electro reviendrait a la prendre sans le dire. La liste est ici pour qu'on
- * n'ait pas a la recalculer le jour ou il tranche. */
-export const TROUS: readonly string[] = [
-  'Synthwave',
-  'Eurodance',
-  'Vaporwave',
-  'Italodance',
-  'Hands Up',
-  'Eurobeat',
-];
+ * Les six trous releves lors de la premiere moisson Discogs (Synthwave,
+ * Eurodance, Vaporwave, Italodance, Hands Up, Eurobeat) ont ete integres
+ * au corpus le 23 novembre 2026 lors de la passe des 257 styles. Le tableau
+ * reste exporte pour tout futur style que la moisson repererait avant son
+ * entree dans l'atlas. */
+export const TROUS: readonly string[] = [];
 
 const sansAccent = (s: string): string =>
   s.normalize('NFD').replace(/[̀-ͯ]/g, '');

@@ -97,13 +97,14 @@ const COMMUNS: Partial<Record<Voix, string>> = {
 /* Les kicks des styles durs, construits pour eux (scripts/sons/construire.py). */
 const KICK_DU_STYLE: Record<string, string> = {
   gabber: 'kick-gabber', hardcoretechno: 'kick-gabber', nustylegabber: 'kick-gabber', doomcore: 'kick-gabber',
-  lentoviolento: 'kick-gabber', crossbreed: 'kick-gabber', breakcore: 'kick-gabber',
+  lentoviolento: 'kick-gabber', crossbreed: 'kick-gabber', breakcore: 'kick-gabber', industrialhardcore: 'kick-gabber',
   frenchcore: 'kick-uptempo', uptempo: 'kick-uptempo', terrorcore: 'kick-uptempo', speedcore: 'kick-uptempo',
   digitalhardcore: 'kick-uptempo',
-  hardstyle: 'kick-hardstyle', jumpstyle: 'kick-hardstyle', dubstyle: 'kick-hardstyle',
+  hardstyle: 'kick-hardstyle', jumpstyle: 'kick-hardstyle', dubstyle: 'kick-hardstyle', rawstyle: 'kick-hardstyle',
   happyhardcore: 'kick-dur', ukhardcore: 'kick-dur', bouncytechno: 'kick-dur', makina: 'kick-dur', jcore: 'kick-dur',
   hardtechno: 'kick-dur', schranz: 'kick-dur', industrialtechno: 'kick-dur', bangintechno: 'kick-dur', techtrance: 'kick-dur',
   hardhouse: 'kick-dur', hardtrance: 'kick-dur', rhythmicnoise: 'kick-dur', powerelectronics: 'kick-dur', raggacore: 'kick-dur',
+  freetekno: 'kick-dur', neorave: 'kick-dur', handsup: 'kick-dur',
   gqom: 'kick-caverne',
   hitech: 'kick-hitech',
   /* les kicks psy, accordes sur la basse de chaque style (ADR-124) */

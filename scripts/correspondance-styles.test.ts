@@ -43,6 +43,12 @@ describe('ranger : ce qui tombe sur un genre', () => {
     expect(ranger('Italo-Disco', VOC)).toEqual({ sorte: 'genre', id: 'italodisco' });
     expect(ranger('Drum n Bass', VOC)).toEqual({ sorte: 'genre', id: 'drumandbass' });
     expect(ranger('Psy-Trance', VOC)).toEqual({ sorte: 'genre', id: 'psychedelictrance' });
+    expect(ranger('Synthwave', VOC)).toEqual({ sorte: 'genre', id: 'synthwave' });
+    expect(ranger('Eurodance', VOC)).toEqual({ sorte: 'genre', id: 'eurodance' });
+    expect(ranger('Vaporwave', VOC)).toEqual({ sorte: 'genre', id: 'vaporwave' });
+    expect(ranger('Italodance', VOC)).toEqual({ sorte: 'genre', id: 'italodance' });
+    expect(ranger('Hands Up', VOC)).toEqual({ sorte: 'genre', id: 'handsup' });
+    expect(ranger('Eurobeat', VOC)).toEqual({ sorte: 'genre', id: 'eurobeat' });
   });
 });
 

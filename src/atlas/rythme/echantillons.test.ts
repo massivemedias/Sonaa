@@ -28,7 +28,7 @@ const instrumentDe = (id: string, famille: string, voix: string): string | undef
 /* LE 16 NOVEMBRE 2026, MIKA : « refais la totale ». Plus aucun son n'est
    fabrique dans le navigateur : chaque piste de chaque style joue un
    fichier, choisi pour son style. */
-describe('les sons des 219 styles', () => {
+describe(`les sons des ${CORPUS.genres.length} styles`, () => {
   it('existent tous dans public/sons', () => {
     const manquants = new Set<string>();
     for (const { motif: m, famille } of styles) {

@@ -47,67 +47,77 @@ const BASSE_DU_STYLE: Record<string, string> = {
   disco: 'basse-electrique', postdisco: 'basse-electrique', discopunk: 'basse-electrique', boogie: 'basse-moog',
   eurodisco: 'basse-moog', cosmic: 'basse-moog', hinrg: 'basse-juno', spacesynth: 'basse-juno', italodisco: 'basse-juno',
   nuitalo: 'basse-juno', nudisco: 'basse-juno', indiedance: 'basse-juno', darkdisco: 'basse-101', discodub: 'basse-dub',
+  eurobeat: 'basse-saw', italobody: 'basse-101',
   // house
   chicagohouse: 'basse-juno', acidhouse: 'basse-101', garagehouse: 'basse-fm', usdeephouse: 'basse-juno', hiphouse: 'basse-juno',
   ukhouse: 'basse-juno', italohouse: 'basse-juno', hardhouse: 'basse-saw', discohouse: 'basse-electrique', frenchhouse: 'basse-moog',
   progressivehouse: 'basse-juno', electrohouse: 'basse-saw', tribalhouse: 'basse-juno', afrohouse: 'basse-juno',
   soulfulhouse: 'basse-electrique', latinhouse: 'basse-electrique', ghettohouse: 'basse-101', juke: 'sub-808', footwork: 'sub-808',
   basshouse: 'basse-saw', futurehouse: 'basse-fm', lofihouse: 'basse-juno', amapiano: 'basse-juno', gqom: 'sub-808',
+  eurodance: 'basse-juno', italodance: 'basse-saw', organichouse: 'basse-moog', afrotech: 'basse-moog',
+  bigroomhouse: 'sub-808', ballroom: 'basse-fm', guaracha: 'basse-saw',
   // techno
   detroittechno: 'basse-juno', bleeptechno: 'sub-sinus', acidtechno: 'basse-303', eurotechno: 'basse-saw', belgiantechno: 'basse-saw',
   hardtechno: 'basse-saw', schranz: 'basse-saw', industrialtechno: 'basse-saturee', bangintechno: 'basse-saw',
   birminghamtechno: 'basse-saw', dubtechno: 'basse-dub', ambienttechno: 'basse-dub', hypnotictechno: 'basse-101',
   melodictechno: 'basse-moog', peaktimetechno: 'basse-saw', brokentechno: 'basse-101',
+  hardgroove: 'basse-101', freetekno: 'basse-saw', neorave: 'basse-saw',
   // minimal
   minimaltechno: 'basse-101', techhouse: 'basse-moog', microhouse: 'basse-101', clickscuts: 'basse-101', minimaltech: 'basse-101',
   deeptech: 'sub-sinus', fidgethouse: 'basse-saw', minimalprog: 'basse-101', rominimal: 'sub-sinus', microtechno: 'basse-101',
-  minimalwave: 'basse-101',
+  minimalwave: 'basse-101', slowhouse: 'basse-juno',
   // trance
   trance: 'basse-moog', acidtrance: 'basse-303', balearictrance: 'basse-juno', progressivetrance: 'basse-moog', techtrance: 'basse-saw',
   dreamtrance: 'basse-juno', germantrance: 'basse-moog', hardtrance: 'basse-saw', upliftingtrance: 'basse-moog',
   vocaltrance: 'basse-moog', eurotrance: 'basse-moog', anthemtrance: 'basse-moog', ibizatrance: 'basse-juno',
-  orchestraltrance: 'basse-moog',
+  orchestraltrance: 'basse-moog', handsup: 'basse-saw', neotrance: 'basse-moog',
   // psy
   psydub: 'basse-dub',
   // industrial
   industrial: 'basse-saturee', ebm: 'basse-101', newbeat: 'basse-101', electroindustrial: 'basse-101', darkelectro: 'basse-101',
   technobodymusic: 'basse-101', coldwave: 'basse-electrique', ndh: 'basse-saturee', powerelectronics: 'basse-saturee',
   rhythmicnoise: 'basse-saturee', darkwave: 'basse-electrique', industrialrock: 'basse-saturee', futurepop: 'basse-moog',
-  aggrotech: 'basse-101',
+  aggrotech: 'basse-101', witchhouse: 'sub-808',
   // roots
   musiqueconcrete: 'basse-101', electroacoustic: 'basse-101', krautrock: 'basse-electrique', kosmische: 'basse-moog',
   spacemusic: 'basse-moog', prototechno: 'basse-moog', earlyindustrial: 'basse-saturee', funk: 'basse-electrique',
   phillysoul: 'basse-electrique', dub: 'basse-dub', synthpop: 'basse-juno', hiphop: 'sub-808', reggae: 'basse-dub',
-  elektronischemusik: 'basse-101',
+  elektronischemusik: 'basse-101', minimalism: 'basse-bourdon', dancehall: 'basse-fm',
   // breaks
   breakbeat: 'basse-moog', breakbeathardcore: 'basse-saw', darkcore: 'basse-reese', jungle: 'sub-sinus', drumandbass: 'basse-reese',
   techstep: 'basse-reese-neuro', neurofunk: 'basse-reese-neuro', liquiddnb: 'basse-dub', jumpup: 'basse-wobble',
   drumfunk: 'sub-sinus', drumstep: 'basse-growl', raggajungle: 'basse-dub', drillnbass: 'basse-303', breakcore: 'basse-saturee',
   crossbreed: 'basse-reese-neuro', bigbeat: 'basse-saw', nuskoolbreaks: 'basse-saw', progressivebreaks: 'basse-moog',
   floridabreaks: 'sub-808', brokenbeat: 'basse-moog', ghettofunk: 'basse-wobble', psybreaks: 'basse-roll', darkstep: 'basse-reese-neuro',
+  autonomic: 'sub-sinus', sambass: 'basse-dub', glitchhop: 'basse-wobble',
   // bass
   ukgarage: 'basse-fm', speedgarage: 'basse-warp', '2step': 'basse-fm', dubstep: 'basse-wobble', brostep: 'basse-growl',
   riddim: 'basse-growl', futuregarage: 'sub-sinus', grime: 'basse-101', bassline: 'basse-warp', ukfunky: 'basse-juno',
   breakstep: 'basse-reese', ukbass: 'sub-sinus', wonky: 'basse-moog', futurebass: 'basse-saw', trapedm: 'sub-808',
   baltimoreclub: 'sub-808', jerseyclub: 'sub-808', deconstructedclub: 'basse-saturee', breakbeatgarage: 'basse-warp',
+  tearout: 'basse-saturee', colourbass: 'basse-fm', wave: 'basse-reese', driftphonk: 'sub-808', kuduro: 'basse-101', moombahton: 'basse-saw',
   // electro
   electrofunk: 'basse-moog', electrohop: 'sub-808', miamibass: 'sub-808', technobass: 'sub-808', freestyle: 'basse-fm',
   latinfreestyle: 'basse-fm', detroitelectro: 'basse-moog', electromodern: 'basse-101', synthfunk: 'basse-moog',
   electroclash: 'basse-101', skweee: 'basse-101',
+  bailefunk: 'sub-808', synthwave: 'basse-juno', darksynth: 'basse-saturee', hyperpop: 'basse-saturee',
   // hardcore
   hardcoretechno: 'basse-saturee', gabber: 'basse-saturee', terrorcore: 'basse-saturee', speedcore: 'basse-saturee',
   nustylegabber: 'basse-saturee', uptempo: 'basse-saturee', doomcore: 'basse-saturee', frenchcore: 'basse-saturee',
   dubstyle: 'basse-reverse', happyhardcore: 'basse-saw', bouncytechno: 'basse-saw', ukhardcore: 'basse-saw',
   raggacore: 'basse-reese', jcore: 'basse-saw', hardstyle: 'basse-reverse', jumpstyle: 'basse-reverse',
   lentoviolento: 'basse-saturee', makina: 'basse-saw', digitalhardcore: 'basse-saturee',
+  rawstyle: 'basse-reverse', industrialhardcore: 'basse-saturee', singeli: 'sub-808',
   // ambient
   ambientgenre: 'basse-dub', darkambient: 'basse-bourdon', isolationism: 'basse-bourdon', dungeonsynth: 'basse-dub',
   drone: 'basse-bourdon', lowercase: 'sub-sinus', ambientdub: 'basse-dub', illbient: 'basse-dub', newage: 'basse-juno',
   idm: 'basse-101', braindance: 'basse-303', glitch: 'basse-101',
+  hauntology: 'basse-101', dreampunk: 'basse-bourdon',
   // downtempo
   downtempogenre: 'basse-electrique', triphop: 'basse-dub', bristolsound: 'basse-dub', lofihiphop: 'basse-contrebasse',
   chillout: 'basse-juno', lounge: 'basse-contrebasse', balearic: 'basse-juno', ambienthouse: 'basse-juno',
   nujazz: 'basse-contrebasse', psybient: 'basse-dub', chillwave: 'basse-juno', folktronica: 'basse-electrique',
+  vaporwave: 'basse-fm', digitalcumbia: 'basse-dub',
 };
 
 const BASSE_DE_FAMILLE: Record<string, string> = {

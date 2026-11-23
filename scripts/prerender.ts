@@ -43,6 +43,7 @@ import { MARQUES, type GroupeMarque } from '../src/data/marques.ts';
 import type { Motif } from '../src/lib/rythmes.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
+const NB_GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
 const COURS = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours.json', import.meta.url)), 'utf8')) as Record<string, Cours>;
 const COURS_EN = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours-en.json', import.meta.url)), 'utf8')) as Record<string, Cours>;
@@ -267,9 +268,9 @@ const carteDeStyle = (langue: 'fr' | 'en', cle: string): { image?: string; image
 ecrire({
   chemin: '/styles/',
   hash: '#/parcourir',
-  titre: 'Les styles de musique électronique : 219 genres, 14 familles · SONAA',
+  titre: `Les styles de musique électronique : ${NB_GENRES} genres, 14 familles · SONAA`,
   description:
-    'Un atlas généalogique des musiques électroniques : 219 genres classés en 14 familles, avec pour chacun son histoire, ses morceaux de référence, ses machines et un cours de production.',
+    `Un atlas généalogique des musiques électroniques : ${NB_GENRES} genres classés en 14 familles, avec pour chacun son histoire, ses morceaux de référence, ses machines et un cours de production.`,
   /* LA LISTE DES QUATORZE FAMILLES RESTE DANS LE HTML STATIQUE, en liens
      simples : c'est ce que lit un moteur, et c'est ce que voit quelqu'un qui
      arrive avant que le bundle soit la. Le nuage de bulles s'y substitue a
@@ -278,7 +279,7 @@ ecrire({
      LE LIEN VERS L'INDEX A PLAT EST PARTI d'ici aussi, le 22 septembre
      2026 : Mika ne veut plus aucun lien visible vers lui depuis cette page.
      La route `#/index` reste servie par l'application. */
-  corps: `${entete([{ nom: 'Atlas', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>219 genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
+  corps: `${entete([{ nom: 'Atlas', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>${NB_GENRES} genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a> : ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
   ).join('')}</ul>`,
   jsonld: [filAriane([{ nom: 'Atlas', href: '/styles/' }])],
@@ -425,9 +426,9 @@ ecrire({
   hash: '#/parcourir',
   langue: 'en',
   alterne: '/styles/',
-  titre: 'Electronic music styles: 219 genres in 14 families · SONAA',
-  description: 'A family tree of electronic music: 219 genres in 14 families, each with its history, reference tracks, machines and a production guide.',
-  corps: `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }])}<h1>Electronic music styles</h1><p>219 genres, 14 families, written and checked by hand.</p><ul>${FAMILIES.map(
+  titre: `Electronic music styles: ${NB_GENRES} genres in 14 families · SONAA`,
+  description: `A family tree of electronic music: ${NB_GENRES} genres in 14 families, each with its history, reference tracks, machines and a production guide.`,
+  corps: `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }])}<h1>Electronic music styles</h1><p>${NB_GENRES} genres, 14 families, written and checked by hand.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="${cheminEn(`/styles/${slug(f.label)}/`)}">${h(f.label)}</a>: ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
   ).join('')}</ul>`,
   jsonld: [filAriane([{ nom: 'Atlas', href: cheminEn('/styles/') }])],
@@ -1283,7 +1284,7 @@ if (existsSync(cheminNews)) {
      remplace ensuite. Qu'ils commencent par la meme phrase evite de voir
      une page devenir une autre. */
   const corps =
-    `<h1>Ce soir, on sort où ?</h1><p>Les soirées électro de votre ville, et de quoi comprendre ce qu’on y entend : l’histoire des 219 styles de la musique électronique, les sorties des labels, les news du studio, et Track ID pour nommer le morceau qui joue.</p>` +
+    `<h1>Ce soir, on sort où ?</h1><p>Les soirées électro de votre ville, et de quoi comprendre ce qu’on y entend : l’histoire des ${NB_GENRES} styles de la musique électronique, les sorties des labels, les news du studio, et Track ID pour nommer le morceau qui joue.</p>` +
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
@@ -1294,14 +1295,14 @@ if (existsSync(cheminNews)) {
     langue: 'en',
     alterne: '/',
     hash: '',
-    titre: 'SONAA · Electronic music events calendar and atlas of 219 styles',
-    description: 'The complete electronic music calendar: tonight and upcoming club nights in your city, by style, plus the genealogical atlas of 219 genres and production guides.',
+    titre: `SONAA · Electronic music events calendar and atlas of ${NB_GENRES} styles`,
+    description: `The complete electronic music calendar: tonight and upcoming club nights in your city, by style, plus the genealogical atlas of ${NB_GENRES} genres and production guides.`,
     corps:
-      `<h1>Where are we going out tonight?</h1><p>Electronic music events in your city, and everything to understand what you hear: the history of 219 electronic music styles, record labels, studio gear news, and Track ID.</p>` +
+      `<h1>Where are we going out tonight?</h1><p>Electronic music events in your city, and everything to understand what you hear: the history of ${NB_GENRES} electronic music styles, record labels, studio gear news, and Track ID.</p>` +
       (prochainesEn
         ? `<h2>Upcoming events in ${h(montreal?.name ?? '')}</h2><ul>${prochainesEn}</ul><p><a href="${cheminEn(`/soirees/${montreal?.slug ?? ''}/`)}">Full calendar for ${h(montreal?.name ?? '')}</a></p>`
         : '') +
-      `<h2>Events in other cities</h2><ul>${villesEn}</ul><h2>Electronic music styles</h2><ul><li><a href="${cheminEn('/styles/')}">All 219 styles</a></li>${famillesEn}</ul><h2>More on SONAA</h2><ul><li><a href="${cheminEn('/labels/')}">Record labels</a></li><li><a href="/mixtapes/">DJ mixtapes</a></li><li><a href="${cheminEn('/news/')}">Electronic music news</a></li><li><a href="${cheminEn('/news/marques/')}">News by synth brand and machine</a></li><li><a href="/" hreflang="fr">SONAA en français</a></li></ul>`,
+      `<h2>Events in other cities</h2><ul>${villesEn}</ul><h2>Electronic music styles</h2><ul><li><a href="${cheminEn('/styles/')}">All ${NB_GENRES} styles</a></li>${famillesEn}</ul><h2>More on SONAA</h2><ul><li><a href="${cheminEn('/labels/')}">Record labels</a></li><li><a href="/mixtapes/">DJ mixtapes</a></li><li><a href="${cheminEn('/news/')}">Electronic music news</a></li><li><a href="${cheminEn('/news/marques/')}">News by synth brand and machine</a></li><li><a href="/" hreflang="fr">SONAA en français</a></li></ul>`,
     jsonld: [
       {
         '@context': 'https://schema.org',
@@ -1310,7 +1311,7 @@ if (existsSync(cheminNews)) {
         url: 'https://sonaa.ca/en/',
         name: 'SONAA',
         inLanguage: 'en',
-        description: 'Electronic music events calendar and genealogical atlas of 219 electronic music styles, with a production course for each style.',
+        description: `Electronic music events calendar and genealogical atlas of ${NB_GENRES} electronic music styles, with a production course for each style.`,
       },
     ],
   });
@@ -1968,9 +1969,9 @@ const lignesLlms: string[] = [
   '',
   'SONAA (https://sonaa.ca) is an independent reference platform for electronic music created in Montréal by Michael Sanchez (Maudite Machine). Every page is pre-rendered in plain HTML in French and English (`/en/`):',
   '',
-  '- **219 electronic music genres across 14 families**: history, key artists, machines, reference tracks, interactive 16-step rhythm pattern with audio synthesis, and a full step-by-step music production course.',
+  `- **${NB_GENRES} electronic music genres across 14 families**: history, key artists, machines, reference tracks, interactive 16-step rhythm pattern with audio synthesis, and a full step-by-step music production course.`,
   '- **Electronic music events calendar**: upcoming club nights, raves and festivals in Montréal and 22 cities worldwide, filtered by genre family.',
-  '- **314 record labels**: discographies, reference tracks, founding year, country and recent releases.',
+  '- **1,450+ record labels**: discographies, reference tracks, founding year, headquarters map, country and recent releases.',
   '- **Synth, drum machine and DJ gear news**: daily curated articles, videos and discussions for 34 brands and 400+ hardware/software instruments.',
   '- **Mixtapes**: full-length DJ sets and live recordings by community artists.',
   '',
@@ -1978,8 +1979,8 @@ const lignesLlms: string[] = [
   '',
   `- [Home / Electronic music calendar (FR)](${ORIGINE}/)`,
   `- [Home / Electronic music calendar (EN)](${ORIGINE}/en/)`,
-  `- [Atlas of 219 electronic music styles (FR)](${ORIGINE}/styles/)`,
-  `- [Atlas of 219 electronic music styles (EN)](${ORIGINE}/en/styles/)`,
+  `- [Atlas of ${NB_GENRES} electronic music styles (FR)](${ORIGINE}/styles/)`,
+  `- [Atlas of ${NB_GENRES} electronic music styles (EN)](${ORIGINE}/en/styles/)`,
   `- [Upcoming electronic events by city (FR)](${ORIGINE}/soirees/)`,
   `- [Upcoming electronic events by city (EN)](${ORIGINE}/en/soirees/)`,
   `- [Electronic music record labels (FR)](${ORIGINE}/labels/)`,
@@ -1997,7 +1998,7 @@ const lignesLlms: string[] = [
     (v) => `- [${v.name} (${v.country_code})](${ORIGINE}/soirees/${v.slug}/) · [EN](${ORIGINE}/en/soirees/${v.slug}/)`
   ),
   '',
-  '## The 14 families and 219 electronic music styles (history, rhythm pattern & production course)',
+  `## The 14 families and ${NB_GENRES} electronic music styles (history, rhythm pattern & production course)`,
   '',
   ...FAMILIES.flatMap((f, fi) => {
     const s = STRUCTURES[fi];
