@@ -61,8 +61,18 @@ revenir à un ancien commit.
 - Claude ne tape ni ne colle jamais une clé ou un mot de passe de Mika. Il
   peut cliquer un bouton « copier » et coller sans lire la valeur.
 
+## Le contexte courant
+
+`CONTEXTE.md`, à la racine, dit où en est le site : ce qui est en ligne, ce
+qui attend sur une branche, les chantiers ouverts, les arbitrages et le
+journal des missions. Il se lit en ouvrant une session. Il se met à jour à la
+fin de CHAQUE mission, dans le même commit que le travail : l'état de
+publication, le chantier touché, une ligne de journal. Antigravity le lit et
+le tient de la même façon.
+
 ## Où lire le reste
 
+- `CONTEXTE.md` : l'état courant et le journal des missions.
 - `ARCHITECTURE.md` : les décisions ADR-001 à ADR-083.
 - `docs/adr/` : une décision par fichier, à partir d'ADR-084.
 - `DESIGN.md` : la direction artistique et ses interdits.
