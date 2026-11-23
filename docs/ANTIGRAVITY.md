@@ -10,7 +10,7 @@ Tu reprends une partie du travail sur SONAA (https://sonaa.ca), l'atlas et le ca
 
 ## Avant toute chose
 
-Lis `CLAUDE.md` à la racine : ce sont les règles de la maison et elles valent pour toi. Lis ensuite `CONTEXTE.md` : ce qui est en ligne, ce qui attend sur une branche, les chantiers ouverts et le journal des missions. À la fin de chaque mission, mets-le à jour dans le même commit que ton travail (état de publication, chantier touché, une ligne de journal). Pour le reste, `ARCHITECTURE.md` (ADR-001 à 083), `docs/adr/` (une décision par fichier, jusqu'à ADR-115), `DESIGN.md` et la fin de `HANDOFF.md` pour les arbitrages en attente.
+Lis `CLAUDE.md` et `contexte.md` à la racine : ce sont les règles de la maison et l'état à jour des chantiers, et ils valent pour toi. `contexte.md` dit aussi ce qui est en ligne, ce qui attend sur une branche et le journal des missions : à la fin de chaque mission, mets-le à jour dans le même commit que ton travail (état de publication, chantier touché, une ligne de journal). Pour le reste, `ARCHITECTURE.md` (ADR-001 à 083), `docs/adr/` (une décision par fichier, jusqu'à ADR-125), `DESIGN.md` et la fin de `HANDOFF.md` pour les arbitrages en attente.
 
 Les règles qui ne se discutent pas :
 
