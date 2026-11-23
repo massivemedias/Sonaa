@@ -19,13 +19,17 @@ Dernière mise à jour : 23 novembre 2026, Claude Code.
 - En attente sur une branche, donc pas encore visible sur sonaa.ca :
   - `claude/stoic-noether-wde808` : la carte des labels par ville et ce
     fichier. Tant qu'elle n'est pas fusionnée, le site montre encore un point
-    par label.
+    par label. Mika en a demandé la publication le 23 novembre 2026 ;
+    `npm run publier` l'a refusée dans le conteneur cloud (voir le point
+    suivant), elle attend donc d'être publiée depuis le Mac.
   - `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX` : 389 commits du jeu
     SONAA DJ Tycoon, le dernier du 5 septembre 2026, jamais fusionnés.
-- Publier se fait uniquement par `npm run publier`, depuis le Mac. Ses
-  contrôles `pied` et `mobile` ouvrent Chrome sur le site entier : ils
-  échouent dans un conteneur cloud sans réseau complet, et une session cloud
-  ne peut donc pas publier.
+- Publier se fait uniquement par `npm run publier`. Une session cloud ne
+  peut pas publier tant que son environnement n'a pas `VITE_SUPABASE_URL` et
+  `VITE_SUPABASE_ANON_KEY` : sans eux, le site construit n'a pas de base, le
+  calendrier n'affiche pas sa bannière et `check:mobile` refuse sur la page
+  calendrier. `check:pied` dépend aussi du réseau et peut échouer sur un
+  délai dépassé : le relancer avant de conclure à un vrai défaut.
 - Des robots poussent sur `main` chaque jour : moissons de la nuit (artistes
   et labels, 6 h 17 UTC), news (0 h 17 et 12 h 17 UTC), news par marque
   (11 h 47 et 23 h 47 UTC), relevé des vues (4 h UTC). Toujours faire
@@ -74,6 +78,9 @@ par label.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a
 changé, où en est la publication.
 
+- 23 novembre 2026, Claude Code : publication demandée par Mika, refusée
+  par `npm run publier` dans le conteneur cloud (`check:mobile` sur le
+  calendrier, faute des variables Supabase). Rien n'a été poussé sur `main`.
 - 23 novembre 2026, Claude Code : création de ce fichier, avec la règle de
   mise à jour dans `CLAUDE.md` et `docs/ANTIGRAVITY.md`. En attente sur
   `claude/stoic-noether-wde808`.
