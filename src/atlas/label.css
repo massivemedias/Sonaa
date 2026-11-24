@@ -772,6 +772,7 @@ a.lb-source {
 .lbc-bloc {
   display: grid;
   gap: var(--espace-12);
+  scroll-margin-top: 72px;
 }
 .lbc-entete {
   display: flex;
@@ -817,15 +818,18 @@ a.lb-source {
   border-bottom-color: var(--accent);
   color: var(--accent);
 }
-/* LA CARTE A GAUCHE, LA LISTE A DROITE, comme un plan de ville : la
-   colonne range les villes, puis montre les labels de celle qu'on choisit.
-   Sur un telephone, la liste passe sous la carte. Aucune boite : des filets
-   entre les rangees, et rien colle au bord gauche (DESIGN.md, section 10). */
+/* LA CARTE A GAUCHE, L'INDEX DES VILLES A DROITE ; sur un telephone,
+   l'index passe sous la carte. Une ville ouverte remplace les deux par sa
+   liste. Aucune boite : des filets entre les rangees, et rien colle au bord
+   gauche (DESIGN.md, section 10). */
 .lbc-corps {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--filet-fort);
   border-bottom: 1px solid var(--filet-fort);
+}
+.lbc-corps[hidden] {
+  display: none;
 }
 .lbc-cadre {
   width: 100%;
@@ -959,7 +963,20 @@ a.lb-source {
   outline-offset: 1px;
 }
 
-/* La ville choisie : son nom en capitales d'affiche, puis ses labels. */
+/* LA LISTE D'UNE VILLE, a la place de la carte : son nom en capitales
+   d'affiche, puis ses labels en colonnes, du plus connu au moins connu. */
+.lbc-liste {
+  padding: var(--espace-8) 0 var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+}
+.lbc-labels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  column-gap: var(--espace-32);
+}
+.lbc-labels li {
+  scroll-margin-top: 96px;
+}
 .lbc-lieu-nom {
   margin: var(--espace-8) 0 0;
   font-family: var(--police-titre);

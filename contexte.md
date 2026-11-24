@@ -7,7 +7,24 @@ vérifiés ; 1 529 labels électroniques dont 128 québécois avec carte des mai
 de Montréal via Squarespace JSON et WordPress REST).
 
 Règle : quand un chantier change ce qui est décrit ici, mettre ce fichier à jour dans le
-même commit. Ce qui n'est écrit nulle part est perdu à la conversation suivante.
+même commit. Ce qui n'est écrit nulle part est perdu à la conversation suivante. Claude
+Code et Antigravity le lisent en ouvrant une session et le mettent à jour à la fin de
+chaque mission : l'état de publication, le chantier touché, une ligne de journal.
+
+---
+
+## ÉTAT DE PUBLICATION (24 nov 2026)
+
+- **En ligne sur `main`** : la carte des labels par ville et sa liste, publiées le 24
+  novembre 2026 par la fusion de `claude/stoic-noether-wde808`.
+- **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
+  389 commits du jeu SONAA DJ Tycoon, jamais fusionnés.
+- **Une session cloud peut publier** depuis `566f1af` : `check:mobile` ne bloque plus sur le
+  calendrier quand le build n'a pas les variables Supabase. `check:pied` dépend du réseau
+  et peut échouer sur un délai dépassé : le relancer avant de conclure à un vrai défaut.
+- **Des robots poussent sur `main` chaque jour** : moissons de la nuit (6 h 17 UTC), news
+  (0 h 17 et 12 h 17 UTC), news par marque (11 h 47 et 23 h 47 UTC), relevé des vues (4 h
+  UTC). Toujours faire `git pull` avant de fusionner une branche.
 
 ---
 
@@ -52,8 +69,36 @@ morceaux par style).
 - **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
-- **Carte interactive mondiale** (`src/atlas/CarteLabels.tsx`) affichant la maison mère de
-  chaque label, alignée sur la charte affiche de club d'ADR-125 (`src/atlas/label.css`).
+- **Carte des maisons mères par ville** (`src/atlas/CarteLabels.tsx`, `src/atlas/label.css`),
+  décrite ci-dessous.
+
+### Carte par ville et liste d'une ville (23 et 24 nov 2026)
+
+Les règles de Mika : « les adresses exactes on s'en fout, l'important ce sont les villes et
+pays » (23 nov) ; « dès que nous zoomons pour arriver à cette vue, au lieu de cette vue je
+veux juste une liste » (24 nov, devant le nuage de points de Montréal). **La carte ne
+dessine jamais un point par label, et ne montre jamais les rues.**
+
+- Un point par ville, posé au point médian de ses labels, dont la taille suit le nombre de
+  labels ; à l'échelle du monde, les villes proches se regroupent.
+- **Zoomer jusqu'à une ville (zoom 7,5, le maximum) ou la toucher remplace la carte par la
+  liste de ses labels**, en colonnes, du plus connu au moins connu, avec logo, année et
+  morceaux dans l'atlas. « Retour à la carte » la ramène sur la région de la ville.
+- À côté de la carte (dessous sur téléphone), un index classe les villes par nombre de
+  labels ; « Montréal & Québec » ouvre directement la liste de Montréal ; le lien « Voir la
+  maison mère sur la carte » d'une fiche ouvre la liste de sa ville et y marque le label.
+- Regroupement dans `src/lib/villes-des-labels.ts` (avec ses tests). Les noms moissonnés
+  sont unifiés (Toronto, Ontario devient Toronto ; Brooklyn devient New York ;
+  Francfort-sur-le-Main devient Francfort) ; une région prise pour une ville (coordonnées
+  rondes, comme l'Ohio) est rangée sous son pays.
+- **Les coordonnées de `labels.json` ne sont pas des adresses** : elles ont été posées en
+  nuage autour du centre-ville, ou autour de la capitale quand la ville manque. Elles ne
+  servent qu'à retrouver la ville et ne s'affichent jamais telles quelles.
+- **826 labels dans 147 villes de 43 pays** (Montréal 119, Londres 114, Berlin 66). Les 671
+  labels sans ville connue sont rangés sous leur pays dans l'index (« Ville non
+  renseignée »), sans point sur la carte ; 32 n'ont aucune coordonnée.
+- À faire : compléter dans `scripts/moissonner-labels.ts` la ville des 671 labels qui n'en
+  ont pas.
 
 ---
 
@@ -105,3 +150,31 @@ chaque fiche club/salle.
 - **ADR-124** : les 16 genres de la famille `psy` ont des kicks/basses WAV mesurés dans
   `public/sons/` et vérifiés par `src/atlas/rythme/echantillons.test.ts`.
 - **Zéro tiret cadratin (`U+2014`) ni demi-cadratin (`U+2013`)** partout dans le dépôt.
+
+---
+
+## ARBITRAGES EN ATTENTE
+
+- Labels sans ville connue : les garder seulement dans l'index (état actuel), ou les poser
+  au centre de leur pays avec un point d'une autre forme.
+- Coordonnées inventées de `labels.json` : les laisser (la carte ne s'en sert que pour
+  trouver la ville), ou les remplacer dans les données par le centre de la ville.
+
+---
+
+## JOURNAL DES MISSIONS
+
+Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
+est la publication.
+
+- 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par
+  la liste de ses labels ; carte par ville et ce journal publiés sur `main`.
+- 24 nov 2026 : `check:mobile` passe sans les variables Supabase (`566f1af`), ce qui permet
+  de publier depuis une session cloud. Publié.
+- 23 nov 2026 : 56 petits labels électroniques québécois, dont SOAME Records (`0d4d685`).
+  Publié.
+- 23 nov 2026, Claude Code : carte des labels par ville (`bf536d8`), une publication
+  depuis le cloud refusée faute des variables Supabase.
+- 23 nov 2026 : création de ce fichier (`0f89230`). Publié.
+- 23 nov 2026 : carte mondiale des maisons mères, un point par label (`8a74cda`).
+  Remplacée par la carte par ville.

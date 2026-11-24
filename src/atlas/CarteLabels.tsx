@@ -1,20 +1,24 @@
-/* LA CARTE DES LABELS, VILLE PAR VILLE.
+/* LA CARTE DES LABELS, VILLE PAR VILLE, ET LA LISTE D'UNE VILLE.
  *
  * Mika, le 23 novembre 2026 : « je veux que tu fasses une map aussi pour
  * indiquer ou se trouvent les maisons meres des labels meme si c'est
  * international, par exemple VRSTL Records est international pour les
  * artistes mais c'est base a Montreal pour l'instant donc Canada ».
  *
- * Puis, le meme jour, devant la premiere version : « ca veut etre trop
- * precis, on doit juste rester sur les villes et pas les rues, donc quand on
- * arrive dans une ville on a la liste bien presentee ».
+ * Puis, devant la premiere version : « ca veut etre trop precis, on doit
+ * juste rester sur les villes et pas les rues, donc quand on arrive dans une
+ * ville on a la liste bien presentee », et « les adresses exactes on s'en
+ * fout, l'important ce sont les villes et pays ».
  *
- * La carte ne dessine donc que des villes : un point par ville, sa taille
- * suit son nombre de labels, et elle ne descend pas sous le zoom d'une
- * agglomeration. Choisir une ville ouvre, a cote de la carte, la liste de
- * ses labels, du plus connu au moins connu. Sans ville choisie, la colonne
- * range les villes par nombre de labels. Le regroupement est dans
- * src/lib/villes-des-labels.ts. */
+ * Et le 24 novembre, devant le nuage de points de Montreal : « des que nous
+ * zoomons pour arriver a cette vue, au lieu de cette vue je veux juste une
+ * liste ».
+ *
+ * La carte ne dessine donc que des villes, un point par ville, et elle ne
+ * descend jamais a l'echelle des rues : des qu'on zoome jusqu'a une ville,
+ * ou qu'on la touche, la carte cede la place a la liste de ses labels. Un
+ * bouton ramene la carte. A cote de la carte, une colonne range les villes.
+ * Le regroupement est dans src/lib/villes-des-labels.ts. */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ExpressionSpecification, GeoJSONSource, LngLatBoundsLike, Map as CarteGL } from 'maplibre-gl';
@@ -26,14 +30,10 @@ import { langue, t } from '../langue/langue.ts';
 
 type ZoneCarte = 'monde' | 'montreal' | 'ameriques' | 'europe' | 'asie-afrique';
 
-const CADRES_ZONES: Record<ZoneCarte, LngLatBoundsLike> = {
+const CADRES_ZONES: Record<Exclude<ZoneCarte, 'montreal'>, LngLatBoundsLike> = {
   monde: [
     [-132, -42],
     [156, 64],
-  ],
-  montreal: [
-    [-75.9, 45.15],
-    [-71.0, 47.05],
   ],
   ameriques: [
     [-126, -36],
@@ -51,12 +51,13 @@ const CADRES_ZONES: Record<ZoneCarte, LngLatBoundsLike> = {
 
 const SOURCE_ID = 'villes-des-labels';
 
-/* PAS PLUS PRES QU'UNE AGGLOMERATION. A ce zoom, Montreal et sa rive sud
-   tiennent dans le cadre ; plus pres, on lirait des rues, et un point de
-   ville n'a rien a dire d'une rue. */
-const ZOOM_MAX = 8;
-const ZOOM_VILLE = 6.5;
-const ZOOM_PAYS = 4.5;
+/* LE ZOOM D'UNE VILLE. A 7,5, une agglomeration remplit le cadre : c'est la
+   que la carte devient la liste. Elle ne zoome pas plus pres, il n'y a pas
+   de rues a montrer. */
+const ZOOM_LISTE = 7.5;
+/* En revenant de la liste, la carte se pose sur la region de la ville. */
+const ZOOM_RETOUR = 5;
+const ZOOM_RETOUR_PAYS = 4;
 const VILLES_EN_TETE = 15;
 const ACCENT = '#ffc503';
 
@@ -81,8 +82,8 @@ interface PropsCarteLabels {
 }
 
 export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCarteLabels) {
+  const blocRef = useRef<HTMLDivElement | null>(null);
   const conteneurRef = useRef<HTMLDivElement | null>(null);
-  const panneauRef = useRef<HTMLDivElement | null>(null);
   const carteRef = useRef<CarteGL | null>(null);
   const preteRef = useRef(false);
   const [zone, setZone] = useState<ZoneCarte>('monde');
@@ -101,9 +102,13 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
 
   const { villes, sansVille } = useMemo(() => lieuxDesLabels(entrees), [entrees]);
   const parId = useMemo(() => new Map([...villes, ...sansVille].map((l) => [l.id, l])), [villes, sansVille]);
+  const parIdRef = useRef(parId);
+  parIdRef.current = parId;
+  /* La liste d'un lieu remplace la carte tant qu'un lieu est choisi. */
   const lieuChoisi = choix ? (parId.get(choix) ?? null) : null;
-  const lieuChoisiRef = useRef(lieuChoisi);
-  lieuChoisiRef.current = lieuChoisi;
+  /* Ou poser la carte quand elle revient : sur la region du lieu quitte, ou
+     sur le cadre d'une zone. Applique une fois la carte de nouveau visible. */
+  const retourRef = useRef<{ readonly lieu: LieuDeLabels } | { readonly cadre: LngLatBoundsLike } | null>(null);
 
   const geojson = useMemo(
     () => ({
@@ -119,29 +124,20 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
   const geojsonRef = useRef(geojson);
   geojsonRef.current = geojson;
 
-  /* Ouvre la liste d'un lieu et y amene la carte, sans descendre sous la ville. */
-  const choisir = (l: LieuDeLabels | null, slug: string | null = null): void => {
-    setChoix(l?.id ?? null);
+  /* Ouvre la liste d'un lieu a la place de la carte. */
+  const ouvrir = (l: LieuDeLabels, slug: string | null = null): void => {
+    setChoix(l.id);
     setLabelMis(slug);
-    if (panneauRef.current) panneauRef.current.scrollTop = 0;
-    const carte = carteRef.current;
-    if (!l || !carte) return;
-    const zoom = l.ville ? Math.min(Math.max(carte.getZoom(), ZOOM_VILLE), ZOOM_MAX) : ZOOM_PAYS;
-    carte.easeTo({ center: [l.centre[1], l.centre[0]], zoom, duration: 600, essential: true });
   };
-  const choisirRef = useRef(choisir);
-  choisirRef.current = choisir;
-  const parIdRef = useRef(parId);
-  parIdRef.current = parId;
+  const ouvrirRef = useRef(ouvrir);
+  ouvrirRef.current = ouvrir;
 
-  /* L'anneau et le nom en couleur sur la ville choisie. */
-  const marquerChoix = (carte: CarteGL, id: string): void => {
-    if (!carte.getLayer('lbc-ville-choisie')) return;
-    carte.setFilter('lbc-ville-choisie', ['==', ['get', 'id'], id]);
-    carte.setPaintProperty('lbc-villes-noms', 'text-color', ['case', ['==', ['get', 'id'], id], ACCENT, '#e7e7e7']);
+  /* Ferme la liste : la carte revient, posee sur la region du lieu quitte. */
+  const revenirALaCarte = (): void => {
+    if (lieuChoisi) retourRef.current = { lieu: lieuChoisi };
+    setChoix(null);
+    setLabelMis(null);
   };
-  const marquerChoixRef = useRef(marquerChoix);
-  marquerChoixRef.current = marquerChoix;
 
   /* Montage de MapLibre et des couches de villes. */
   useEffect(() => {
@@ -153,7 +149,7 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
       carte = creerCarte(el, [22, -12], 1.45);
       carte.setRenderWorldCopies(false);
       carte.setMinZoom(0.6);
-      carte.setMaxZoom(ZOOM_MAX);
+      carte.setMaxZoom(ZOOM_LISTE);
       carteRef.current = carte;
     } catch {
       /* Environnement sans WebGL (tests jsdom) : la liste des villes reste. */
@@ -206,20 +202,6 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
           'text-ignore-placement': true,
         },
         paint: { 'text-color': '#000000' },
-      });
-
-      /* L'anneau de la ville choisie, sous son point. */
-      carte.addLayer({
-        id: 'lbc-ville-choisie',
-        type: 'circle',
-        source: SOURCE_ID,
-        filter: ['==', ['get', 'id'], ''],
-        paint: {
-          'circle-color': 'rgba(0, 0, 0, 0)',
-          'circle-radius': ['+', RAYON_VILLE, 5],
-          'circle-stroke-width': 2.5,
-          'circle-stroke-color': '#ffffff',
-        },
       });
       carte.addLayer({
         id: 'lbc-villes',
@@ -278,14 +260,32 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
         const src = carte.getSource(SOURCE_ID) as GeoJSONSource | undefined;
         if (clusterId === undefined || !coords || !src) return;
         void src.getClusterExpansionZoom(clusterId).then((zoomCible) => {
-          carte?.easeTo({ center: coords, zoom: Math.min(zoomCible + 0.3, ZOOM_MAX), duration: 480 });
+          carte?.easeTo({ center: coords, zoom: Math.min(zoomCible + 0.3, ZOOM_LISTE - 1), duration: 480 });
         });
       });
 
       carte.on('click', 'lbc-villes', (ev) => {
         const id = ev.features?.[0]?.properties?.['id'] as string | undefined;
         const lieu = id ? parIdRef.current.get(id) : undefined;
-        if (lieu) choisirRef.current(lieu);
+        if (lieu) ouvrirRef.current(lieu);
+      });
+
+      /* ZOOMER JUSQU'A UNE VILLE OUVRE SA LISTE. Au zoom d'une agglomeration,
+         la ville la plus proche du centre du cadre s'ouvre ; s'il n'y en a
+         aucune dans le cadre, la carte reste, et elle ne zoome pas plus. */
+      carte.on('zoomend', () => {
+        if (!carte || carte.getZoom() < ZOOM_LISTE - 0.05 || !carte.getLayer('lbc-villes')) return;
+        const centre = carte.project(carte.getCenter());
+        let meilleur: { id: string; d: number } | null = null;
+        for (const f of carte.queryRenderedFeatures({ layers: ['lbc-villes'] })) {
+          const id = f.properties?.['id'] as string | undefined;
+          if (!id || f.geometry.type !== 'Point') continue;
+          const p = carte.project(f.geometry.coordinates as [number, number]);
+          const d = Math.hypot(p.x - centre.x, p.y - centre.y);
+          if (!meilleur || d < meilleur.d) meilleur = { id, d };
+        }
+        const lieu = meilleur ? parIdRef.current.get(meilleur.id) : undefined;
+        if (lieu) ouvrirRef.current(lieu);
       });
 
       for (const idCouche of ['lbc-grappes', 'lbc-villes']) {
@@ -297,15 +297,7 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
         });
       }
 
-      /* Une ville deja choisie avant que le fond soit charge (arrivee depuis
-         la fiche d'un label) : la carte s'y pose au lieu de montrer le monde. */
-      const deja = lieuChoisiRef.current;
-      if (deja) {
-        marquerChoixRef.current(carte, deja.id);
-        carte.jumpTo({ center: [deja.centre[1], deja.centre[0]], zoom: deja.ville ? ZOOM_VILLE : ZOOM_PAYS });
-      } else {
-        carte.fitBounds(CADRES_ZONES.monde, { padding: 30, duration: 0 });
-      }
+      carte.fitBounds(CADRES_ZONES.monde, { padding: 30, duration: 0 });
     };
 
     carte.on('load', installerCouches);
@@ -318,8 +310,26 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
     };
   }, []);
 
+  /* LE RETOUR A LA CARTE. Cachee pendant la liste, elle reprend sa taille et
+     se pose sur la region du lieu quitte, assez loin pour ne pas rouvrir la
+     liste aussitot. */
+  useEffect(() => {
+    if (lieuChoisi) return;
+    const carte = carteRef.current;
+    const retour = retourRef.current;
+    retourRef.current = null;
+    if (!carte) return;
+    carte.resize();
+    if (retour && 'lieu' in retour) {
+      const { centre, ville } = retour.lieu;
+      carte.jumpTo({ center: [centre[1], centre[0]], zoom: ville ? ZOOM_RETOUR : ZOOM_RETOUR_PAYS });
+    } else if (retour) {
+      carte.fitBounds(retour.cadre, { padding: 32, duration: 0 });
+    }
+  }, [lieuChoisi]);
+
   /* La recherche et le filtre par pays redessinent les villes. Un seul lieu
-     restant s'ouvre de lui-meme. */
+     restant ouvre sa liste. */
   useEffect(() => {
     const carte = carteRef.current;
     if (carte && preteRef.current) {
@@ -329,7 +339,7 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
     if (!filtreActif) return;
     const lieux = [...villes, ...sansVille];
     if (lieux.length === 1 && lieux[0]) {
-      choisirRef.current(lieux[0]);
+      ouvrirRef.current(lieux[0]);
       return;
     }
     if (!carte || villes.length < 2) return;
@@ -349,48 +359,55 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
         [minLng, minLat],
         [maxLng, maxLat],
       ],
-      { padding: 56, maxZoom: ZOOM_VILLE, duration: 600 }
+      { padding: 56, maxZoom: ZOOM_RETOUR + 1, duration: 600 }
     );
   }, [geojson, villes, sansVille, filtreActif]);
 
-  useEffect(() => {
-    const carte = carteRef.current;
-    if (carte && preteRef.current) marquerChoixRef.current(carte, lieuChoisi?.id ?? '');
-  }, [lieuChoisi]);
-
-  /* Depuis la fiche d'un label (?carte=<slug>) : sa ville s'ouvre, le label
-     y est marque. */
+  /* Depuis la fiche d'un label (?carte=<slug>) : la liste de sa ville
+     s'ouvre, le label y est marque. */
   useEffect(() => {
     if (!slugCible) return;
     const lieu = [...parIdRef.current.values()].find((l) => l.labels.some((e) => e.s === slugCible));
-    if (!lieu) return;
-    const id = window.setTimeout(() => {
-      conteneurRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      choisirRef.current(lieu, slugCible);
-    }, 250);
-    return () => window.clearTimeout(id);
+    if (lieu) ouvrirRef.current(lieu, slugCible);
   }, [slugCible]);
 
-  /* Le label marque reste visible dans la liste. */
+  /* A l'ouverture d'une liste, son titre vient en vue ; un label marque
+     vient au milieu de l'ecran. */
   useEffect(() => {
-    const panneau = panneauRef.current;
-    const ligne = panneau?.querySelector<HTMLElement>('[aria-current="true"]');
-    if (panneau && ligne) panneau.scrollTop = Math.max(0, ligne.offsetTop - panneau.clientHeight / 3);
-  }, [labelMis, lieuChoisi]);
+    if (!lieuChoisi) return;
+    const id = window.setTimeout(() => {
+      const ligne = blocRef.current?.querySelector<HTMLElement>('[aria-current="true"]');
+      if (ligne) {
+        ligne.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      const bloc = blocRef.current;
+      if (bloc && bloc.getBoundingClientRect().top < 0) bloc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+    return () => window.clearTimeout(id);
+  }, [lieuChoisi, labelMis]);
 
   const allerZone = (z: ZoneCarte): void => {
     setZone(z);
     /* Montreal & Quebec ouvre la liste de Montreal : c'est la ville qu'on y vient voir. */
-    const montreal = z === 'montreal' ? villes.find((v) => v.id === 'montreal') : undefined;
-    setChoix(montreal?.id ?? null);
-    setLabelMis(null);
+    if (z === 'montreal') {
+      const montreal = villes.find((v) => v.id === 'montreal');
+      if (montreal) ouvrir(montreal);
+      return;
+    }
+    if (lieuChoisi) {
+      setChoix(null);
+      setLabelMis(null);
+      retourRef.current = { cadre: CADRES_ZONES[z] };
+      return;
+    }
     carteRef.current?.fitBounds(CADRES_ZONES[z], { padding: 32, duration: 550 });
   };
 
   const villesMontrees = indexComplet ? villes : villes.slice(0, VILLES_EN_TETE);
   const ligneDeLieu = (l: LieuDeLabels) => (
     <li key={l.id}>
-      <button type="button" className="lbc-ville" onClick={() => choisir(l)}>
+      <button type="button" className="lbc-ville" onClick={() => ouvrir(l)}>
         <span className="lbc-ville-nom">{nomDuLieu(l)}</span>
         {l.ville && <span className="lbc-ville-pays">{regionDuLieu(l)}</span>}
         <span className="lbc-ville-n">{l.labels.length}</span>
@@ -399,7 +416,7 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
   );
 
   return (
-    <div className="lbg-section lbc-bloc">
+    <div ref={blocRef} className="lbg-section lbc-bloc">
       <div className="lbc-entete">
         <div className="lbc-titres">
           <h2 className="lb-titre">{t.labelsCarteTitre}</h2>
@@ -428,55 +445,54 @@ export function CarteLabels({ toutes, entrees, filtreActif, slugCible }: PropsCa
         </div>
       </div>
 
-      <div className="lbc-corps">
+      {/* La carte reste montee pendant la liste : la rouvrir ne recharge rien. */}
+      <div className="lbc-corps" hidden={lieuChoisi !== null}>
         <div ref={conteneurRef} className="lbc-cadre" />
-        <div ref={panneauRef} className="lbc-panneau" aria-live="polite">
-          {lieuChoisi ? (
-            <>
-              <button type="button" className="lbc-retour" onClick={() => choisir(null)}>
-                {t.labelsCarteRetour}
-              </button>
-              <h3 className="lbc-lieu-nom">{nomDuLieu(lieuChoisi)}</h3>
-              <p className="lbc-lieu-faits">
-                {[regionDuLieu(lieuChoisi), t.labelsCarteNombre(lieuChoisi.labels.length)].filter(Boolean).join(' · ')}
-              </p>
-              <ol className="lbc-labels">
-                {lieuChoisi.labels.map((e) => (
-                  <li key={e.s} aria-current={e.s === labelMis ? 'true' : undefined}>
-                    <a href={`#/labels/${e.s}`}>
-                      <LogoLabel nom={e.n} url={e.l} taille="petit" />
-                      <span className="lbc-label-nom">{e.n}</span>
-                      <span className="lbc-label-faits">
-                        {[e.a ? t.labelFonde(e.a) : null, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </>
+        <div className="lbc-panneau">
+          <h3 className="lbc-index-titre">{t.labelsCarteVilles}</h3>
+          {villes.length === 0 && sansVille.length === 0 ? (
+            <p className="lb-note">{t.labelsAucun}</p>
           ) : (
+            <ol className="lbc-villes">{villesMontrees.map(ligneDeLieu)}</ol>
+          )}
+          {!indexComplet && villes.length > VILLES_EN_TETE && (
+            <button type="button" className="lbc-tout" onClick={() => setIndexComplet(true)}>
+              {t.labelsCarteToutesVilles(villes.length)}
+            </button>
+          )}
+          {(indexComplet || villes.length <= VILLES_EN_TETE) && sansVille.length > 0 && (
             <>
-              <h3 className="lbc-index-titre">{t.labelsCarteVilles}</h3>
-              {villes.length === 0 && sansVille.length === 0 ? (
-                <p className="lb-note">{t.labelsAucun}</p>
-              ) : (
-                <ol className="lbc-villes">{villesMontrees.map(ligneDeLieu)}</ol>
-              )}
-              {!indexComplet && villes.length > VILLES_EN_TETE && (
-                <button type="button" className="lbc-tout" onClick={() => setIndexComplet(true)}>
-                  {t.labelsCarteToutesVilles(villes.length)}
-                </button>
-              )}
-              {(indexComplet || villes.length <= VILLES_EN_TETE) && sansVille.length > 0 && (
-                <>
-                  <h3 className="lbc-index-titre">{t.labelsCarteSansVille}</h3>
-                  <ol className="lbc-villes">{sansVille.map(ligneDeLieu)}</ol>
-                </>
-              )}
+              <h3 className="lbc-index-titre">{t.labelsCarteSansVille}</h3>
+              <ol className="lbc-villes">{sansVille.map(ligneDeLieu)}</ol>
             </>
           )}
         </div>
       </div>
+
+      {lieuChoisi && (
+        <div className="lbc-liste" aria-live="polite">
+          <button type="button" className="lbc-retour" onClick={revenirALaCarte}>
+            {t.labelsCarteRetour}
+          </button>
+          <h3 className="lbc-lieu-nom">{nomDuLieu(lieuChoisi)}</h3>
+          <p className="lbc-lieu-faits">
+            {[regionDuLieu(lieuChoisi), t.labelsCarteNombre(lieuChoisi.labels.length)].filter(Boolean).join(' · ')}
+          </p>
+          <ol className="lbc-labels">
+            {lieuChoisi.labels.map((e) => (
+              <li key={e.s} aria-current={e.s === labelMis ? 'true' : undefined}>
+                <a href={`#/labels/${e.s}`}>
+                  <LogoLabel nom={e.n} url={e.l} taille="petit" />
+                  <span className="lbc-label-nom">{e.n}</span>
+                  <span className="lbc-label-faits">
+                    {[e.a ? t.labelFonde(e.a) : null, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 }
