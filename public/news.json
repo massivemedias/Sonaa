@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-24T00:00:50.939Z",
+ "fait": "2026-11-24T10:03:39.010Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Why Your Mix Sounds Different in the Car and How to Test For It",
+   "lien": "https://midnightrebels.com/mix-sounds-different-car/",
+   "date": "2026-11-24T06:46:05.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/audient-id-next-generation-interfaces.webp?fit=1200%2C630&ssl=1",
+   "resume": "You finish a mix, it sounds huge in the studio, then you play it in the car and the bass is gone or the vocal sounds like it is in another room. That gap has a name, translation, and a routine can help close it. This is…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Bitwig Winter Sale: Get 25% Off Bitwig Studio!",
@@ -60,7 +69,7 @@
    "titre": "Kaskade in 2026 With ORIGIN //, Coachella and EDC Thailand",
    "lien": "https://midnightrebels.com/kaskade-2026-origin-album-coachella-edc-thailand/",
    "date": "2026-11-23T07:08:10.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/ep-bc-1-hands.webp?fit=1200%2C624&ssl=1",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Why-Your-Mix-Sounds-Different-in-the-Car-and-How-to-Test-For-It.webp?fit=2400%2C1350&ssl=1",
    "resume": "Kaskade has had a busy 2026. A new album, a return to Coachella and a tour built around the record, and now a slot at EDC Thailand. Here is what he has done this year and what to expect when he reaches Phuket in…",
    "integral": true
   },
@@ -71,15 +80,6 @@
    "date": "2026-11-22T18:46:41.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/ep-bc-1-studio.webp?resize=1160%2C653&ssl=1",
    "resume": "Teenage Engineering calls its first CD player, the EP/BC-1, “a modern take on a classic CD player.” It went on sale on November 20 and costs $329 in the US. That is real money for a format many people have not touched…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "GTA 6 Electronic Music Radio You Can Play in Your Browser",
-   "lien": "https://midnightrebels.com/gta-6-electronic-music-radio/",
-   "date": "2026-11-22T18:00:29.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/65.webp?resize=1160%2C652&ssl=1",
-   "resume": "I was on the balcony of my condo, listening to Flower in a Hurricane by Justice and smoking my last stick. I was trying to think of what to draft next. The article never came. An idea showed up instead. What if I had…",
    "integral": true
   },
   {
@@ -125,15 +125,6 @@
    "date": "2026-11-20T18:30:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/teenage-engineering-ep-bc-1-ft-04.jpg",
    "resume": "You can now pre-order the new Teenage Engineering EP BC-1 professional CD player, and it ships next week! Just in time for the holiday season. All about the BC-1 Teenage Engineering EP BC-1 Pricing and Availability…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "5 of the Best Pad Machines: Atmospheric Synths",
-   "lien": "https://www.gearnews.com/5-of-the-best-pad-machines-synth/",
-   "date": "2026-11-20T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/best-pad-machines-T2.jpg",
-   "resume": "Ease into the sound bath and let the chords take you away with the best pad machine hardware synthesizers available. All About the Best Pad Machines The Best Pad Machines Waldorf Crema Behringer Deepmind Roland n/vision…",
    "integral": true
   },
   {
@@ -183,20 +174,20 @@
   },
   {
    "source": "musicradar",
-   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
-   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
-   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
    "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
    "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
    "date": "2026-11-19T10:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
    "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
+   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
+   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
    "integral": true
   },
   {
