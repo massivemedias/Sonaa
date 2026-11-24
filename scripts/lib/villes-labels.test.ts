@@ -1,7 +1,7 @@
 /* LES LECTURES DE LIEU DE LA COMPLETION DES VILLES. Voir villes-labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { choisirVille, lieuxDuContact, lieuxDuTexte, type Localite } from './villes-labels.ts';
+import { choisirVille, lieuxDuContact, lieuxDuTexte, paysDuTexte, type Localite } from './villes-labels.ts';
 
 const noms = (c: readonly { nom: string }[]): string[] => c.map((x) => x.nom);
 
@@ -146,6 +146,24 @@ describe('les ambiguites', () => {
     ]);
     expect(choisirVille([{ nom: 'Hollywood', rang: 1, force: 2, regions: ['CA'] }], villes, 'US')).toBeNull();
     expect(choisirVille([{ nom: 'Northampton', rang: 2, force: 1 }], villes, 'US')?.localite.id).toBe('4945588');
+  });
+});
+
+describe('un label sans pays', () => {
+  it('prend le pays que son adresse ecrit', () => {
+    expect(paysDuTexte('PO BOX 57090\nVancouver, British Columbia V5K 5G6\nCanada')).toBe('CA');
+    expect(paysDuTexte('Plaistow Lane, Bromley\nKent, BR1 3TP, England')).toBe('GB');
+    expect(paysDuTexte('info@label.com')).toBeNull();
+  });
+
+  it('refuse un nom porte par deux pays sans ecart net', () => {
+    const villes = new Map<string, Localite[]>([
+      ['Hanover', [loc('2910831', 'Hannover', 515_000, 'DE'), { ...loc('4357340', 'Hanover', 15_000, 'US'), exact: true }]],
+      ['Vancouver', [loc('6173331', 'Vancouver', 600_000, 'CA'), loc('5814616', 'Vancouver', 190_000, 'US')]],
+    ]);
+    expect(choisirVille([{ nom: 'Hanover', rang: 1, force: 2 }], villes, null)).toBeNull();
+    expect(choisirVille([{ nom: 'Vancouver', rang: 1, force: 2 }], villes, null)).toBeNull();
+    expect(choisirVille([{ nom: 'Vancouver', rang: 1, force: 2 }], villes, 'CA')?.localite.id).toBe('6173331');
   });
 });
 

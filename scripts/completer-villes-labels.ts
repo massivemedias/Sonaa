@@ -40,7 +40,7 @@ import { inflateRawSync } from 'node:zlib';
 import { codeDuPays, type FicheLabel } from '../src/lib/labels.ts';
 import { villeDuLabel } from '../src/lib/villes-des-labels.ts';
 import { entreesDeLIndex, nettoyerProfil } from './lib/labels-moisson.ts';
-import { choisirVille, lieuxDuContact, lieuxDuTexte, type Candidat, type Localite } from './lib/villes-labels.ts';
+import { choisirVille, lieuxDuContact, lieuxDuTexte, paysDuTexte, type Candidat, type Localite } from './lib/villes-labels.ts';
 
 const SORTIE = fileURLToPath(new URL('../src/data/labels.json', import.meta.url));
 const INDEX = fileURLToPath(new URL('../src/data/labels-index.json', import.meta.url));
@@ -113,9 +113,22 @@ const cleDeNom = (nom: string): string =>
 
 const villesParCle = new Map<string, Localite[]>();
 const villesParId = new Map<string, Localite>();
+const indexer = (cle: string, l: Localite): void => {
+  const liste = villesParCle.get(cle) ?? [];
+  liste.push(l);
+  villesParCle.set(cle, liste);
+};
+/* LES QUARTIERS (PPLX) comptent pour la ville qui les contient : la plus
+   peuplee a moins de 15 km. « Hollywood » est Los Angeles, pas Hollywood en
+   Floride. */
+const quartiers: { noms: string[]; lat: number; lng: number; pop: number; iso: string }[] = [];
 for (const ligne of lireZipUnique(readFileSync(GEONAMES)).toString('utf8').split('\n')) {
   const c = ligne.split('\t');
-  if (c.length < 15 || c[7] === 'PPLX') continue;
+  if (c.length < 15) continue;
+  if (c[7] === 'PPLX') {
+    quartiers.push({ noms: [c[1] ?? '', c[2] ?? ''], lat: Number(c[4]), lng: Number(c[5]), pop: Number(c[14]) || 0, iso: c[8] ?? '' });
+    continue;
+  }
   const l: Localite = {
     id: c[0] ?? '',
     fr: null,
@@ -130,13 +143,36 @@ for (const ligne of lireZipUnique(readFileSync(GEONAMES)).toString('utf8').split
   /* Le nom, sa forme sans accents, et les autres noms, sauf les codes
      (« LON », « NYC ») qui seraient pris pour des sigles d'adresse. */
   const noms = [c[1] ?? '', c[2] ?? '', ...(c[3] ?? '').split(',').filter((n) => n.length >= 3 && n !== n.toUpperCase())];
-  for (const cle of new Set(noms.map(cleDeNom).filter(Boolean))) {
-    const liste = villesParCle.get(cle) ?? [];
-    liste.push(l);
-    villesParCle.set(cle, liste);
-  }
+  for (const cle of new Set(noms.map(cleDeNom).filter(Boolean))) indexer(cle, l);
 }
-console.log(`  GeoNames : ${villesParId.size} villes de plus de 5 000 habitants.`);
+/* Une grille d'un degre pour trouver vite la ville d'un quartier. */
+const grille = new Map<string, Localite[]>();
+const case_ = (lat: number, lng: number): string => `${Math.floor(lat)},${Math.floor(lng)}`;
+for (const l of villesParId.values()) {
+  const k = case_(l.lat, l.lng);
+  const liste = grille.get(k) ?? [];
+  liste.push(l);
+  grille.set(k, liste);
+}
+const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; lng: number }): number => {
+  const r = Math.PI / 180;
+  const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r);
+  return Math.hypot(x, (b.lat - a.lat) * r) * 6371;
+};
+let rattaches = 0;
+for (const q of quartiers) {
+  let ville: Localite | null = null;
+  for (let dl = -1; dl <= 1; dl += 1) {
+    for (const v of [-1, 0, 1].flatMap((dg) => grille.get(case_(q.lat + dl, q.lng + dg)) ?? [])) {
+      if (v.iso !== q.iso || v.pop <= q.pop || distanceKm(v, q) > 15) continue;
+      if (!ville || v.pop > ville.pop) ville = v;
+    }
+  }
+  if (!ville) continue;
+  rattaches += 1;
+  for (const cle of new Set(q.noms.map(cleDeNom).filter(Boolean))) indexer(cle, { ...ville, alias: q.noms[0] ?? '' });
+}
+console.log(`  GeoNames : ${villesParId.size} villes de plus de 5 000 habitants, ${rattaches} quartiers rattaches a leur ville.`);
 
 /* ── Discogs et MusicBrainz, chacun a son rythme, en meme temps ────────── */
 
@@ -250,7 +286,9 @@ if (items.length > 0) {
 /* 2. Les candidats de chaque label, et la ville que chacun designe. */
 const choix = new Map<string, { localite: Localite; source: NonNullable<FicheLabel['villeSource']>; via: string }>();
 for (const f of cibles) {
-  const iso = codeDuPays(f.pays);
+  const idD = idDiscogs(f);
+  /* Sans pays sur la fiche, celui que l'adresse ecrit (« ..., Canada »). */
+  const iso = codeDuPays(f.pays) ?? paysDuTexte((idD ? cache.discogs[idD]?.contact : null) ?? '');
   for (const { geonames } of [...(f.wikidata ? (cache.sieges[f.wikidata] ?? []) : [])].sort((a, b) => a.rang - b.rang)) {
     const l = geonames ? villesParId.get(geonames) : undefined;
     if (l) {
@@ -271,7 +309,7 @@ for (const f of cibles) {
   const localites = new Map(
     candidats.map((c) => [
       c.nom,
-      (villesParCle.get(cleDeNom(c.nom)) ?? []).map((l) => ({ ...l, exact: cleDeNom(l.en ?? '') === cleDeNom(c.nom) })),
+      (villesParCle.get(cleDeNom(c.nom)) ?? []).map((l) => ({ ...l, exact: cleDeNom(l.alias ?? l.en ?? '') === cleDeNom(c.nom) })),
     ])
   );
   const r = choisirVille(candidats, localites, iso);
@@ -290,8 +328,9 @@ function lirePoint(brut: string | null): { lat: number; lng: number } | null {
 /* 3. Le nom francais et anglais et les coordonnees des villes retenues.
    PLUSIEURS ELEMENTS PEUVENT PORTER LE MEME IDENTIFIANT GEONAMES : la ville,
    son aire urbaine (« Tampere urban area »), un element cree par un robot
-   (« lsjbot Duisburg »). On garde celui qui porte le nom de la ville chez
-   GeoNames, puis le plus peuple. */
+   (« lsjbot Duisburg »). On ne garde qu'un element qui porte le nom de la
+   ville chez GeoNames, le plus peuple ; sinon la ville est cherchee par son
+   nom (etape 4). */
 const aNommer = [...new Set([...choix.values()].map((c) => c.localite.id))].filter((gn) => !(gn in cache.wikidata));
 for (let i = 0; i < aNommer.length; i += 300) {
   const lot = aNommer.slice(i, i + 300);
@@ -313,7 +352,8 @@ for (let i = 0; i < aNommer.length; i += 300) {
       if (!p) continue;
       const nom = valeur(b, 'memeNom') === 'true';
       const pop = Number(valeur(b, 'pop') ?? 0) || 0;
-      if (!meilleure || (nom && !meilleure.nom) || (nom === meilleure.nom && pop > meilleure.pop)) {
+      if (!nom) continue;
+      if (!meilleure || pop > meilleure.pop) {
         meilleure = { w: { fr: valeur(b, 'fr'), en: valeur(b, 'en'), ...p }, nom, pop };
       }
     }
@@ -332,11 +372,6 @@ const LANGUES: Readonly<Record<string, string>> = {
   DE: 'de', AT: 'de', CH: 'de', NL: 'nl', BE: 'nl', IT: 'it', ES: 'es', MX: 'es', AR: 'es', CL: 'es', CO: 'es',
   BR: 'pt', PT: 'pt', SE: 'sv', NO: 'nb', DK: 'da', FI: 'fi', PL: 'pl', RU: 'ru', RO: 'ro', GR: 'el', HU: 'hu',
   CZ: 'cs', JP: 'ja', IL: 'he', UA: 'uk', SI: 'sl', RS: 'sr', LT: 'lt', BG: 'bg', TR: 'tr', IS: 'is',
-};
-const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; lng: number }): number => {
-  const r = Math.PI / 180;
-  const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r);
-  return Math.hypot(x, (b.lat - a.lat) * r) * 6371;
 };
 const parSecours = [...new Set([...choix.values()].map((c) => c.localite.id))].filter(
   (gn) => cache.wikidata[gn] === null && !cache.secours[gn]

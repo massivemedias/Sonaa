@@ -46,33 +46,56 @@ export interface Localite {
   /** Son nom principal est le nom lu, et non un ancien nom ou un nom
       etranger (« Northampton » est aussi un ancien nom d'Allentown). */
   readonly exact?: boolean;
+  /** Le quartier par lequel on l'a trouvee (« Hollywood » pour Los Angeles). */
+  readonly alias?: string;
 }
 
 /* LES PAYS, en anglais et en francais, tires de la table du moteur
    JavaScript : une zone MusicBrainz « Greece » n'est pas Greece, New York.
    Les villes-Etats restent des villes. */
 const VILLES_ETATS = new Set(['SG', 'HK', 'MO', 'MC', 'LU', 'VA', 'GI']);
-const NOMS_DE_PAYS: ReadonlySet<string> = (() => {
-  const noms = new Set<string>();
+const CODES_PAR_NOM: ReadonlyMap<string, string> = (() => {
+  const codes = new Map<string, string>();
   const lettres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const langues = ['en', 'fr', 'de', 'nl', 'es', 'it'].map((l) => new Intl.DisplayNames([l], { type: 'region' }));
   for (const a of lettres) {
     for (const b of lettres) {
       const code = a + b;
-      if (VILLES_ETATS.has(code)) continue;
       for (const d of langues) {
         try {
           const nom = d.of(code);
-          if (nom && nom !== code) noms.add(nom.toLowerCase());
+          if (nom && nom !== code && !/\d/.test(nom)) codes.set(nom.toLowerCase(), code);
         } catch {
           /* code inconnu */
         }
       }
     }
   }
-  for (const n of ['england', 'scotland', 'wales', 'northern ireland', 'angleterre', 'écosse', 'europe', 'worldwide', 'holland']) noms.add(n);
-  return noms;
+  const autres: Record<string, string> = {
+    england: 'GB', scotland: 'GB', wales: 'GB', 'northern ireland': 'GB', angleterre: 'GB', écosse: 'GB', uk: 'GB',
+    'u.k.': 'GB', 'great britain': 'GB', usa: 'US', 'u.s.a.': 'US', holland: 'NL', 'the netherlands': 'NL',
+  };
+  for (const [n, c] of Object.entries(autres)) codes.set(n, c);
+  return codes;
 })();
+const NOMS_DE_PAYS: ReadonlySet<string> = new Set([
+  ...[...CODES_PAR_NOM.entries()].filter(([, code]) => !VILLES_ETATS.has(code)).map(([nom]) => nom),
+  'europe',
+  'worldwide',
+]);
+
+/** LE PAYS QU'UNE ADRESSE ECRIT, pour un label dont la fiche n'a pas de
+    pays : « Vancouver, British Columbia, Canada » donne CA. Null si
+    l'adresse n'en nomme aucun, ou en nomme plusieurs. */
+export function paysDuTexte(texte: string): string | null {
+  const trouves = new Set<string>();
+  const bas = ` ${texte.toLowerCase().replace(/[^\p{L}.]+/gu, ' ')} `;
+  for (const [nom, code] of CODES_PAR_NOM) {
+    if (nom.length < 4 && nom !== 'uk' && nom !== 'usa') continue;
+    if (bas.includes(` ${nom} `)) trouves.add(code);
+  }
+  return trouves.size === 1 ? ([...trouves][0] ?? null) : null;
+}
 
 /* LES ETATS AMERICAINS, par leur nom et par leur code postal, pour lire
    « Springfield, Ohio 45501 » ou « Warren, MI 48093 ». */
@@ -365,6 +388,16 @@ const ECART_AMBIGU = 50;
 function possiblesDe(c: Candidat, localites: ReadonlyMap<string, readonly Localite[]>, iso: string | null): readonly Localite[] {
   const toutes = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN);
   let possibles = toutes.filter((l) => !(iso && l.iso && l.iso !== iso));
+  /* SANS PAYS CONNU, le nom doit designer un seul pays, ou un pays cinquante
+     fois plus peuple que les autres : « Hanover » est en Allemagne et dans
+     six Etats americains. */
+  if (!iso && !c.regions?.length) {
+    const parPays = new Map<string, number>();
+    for (const l of toutes) parPays.set(l.iso ?? '', Math.max(parPays.get(l.iso ?? '') ?? 0, l.pop));
+    const [premier, second] = [...parPays.entries()].sort((a, b) => b[1] - a[1]);
+    if (second && premier && premier[1] < second[1] * ECART_AMBIGU) return [];
+    if (premier) possibles = toutes.filter((l) => (l.iso ?? '') === premier[0]);
+  }
   /* Un Etat ecrit sur la ligne est une contrainte, pas une preference :
      « Hollywood, CA » n'est pas Hollywood, en Floride. */
   if (c.regions?.length) possibles = possibles.filter((l) => l.iso !== 'US' || (l.region && c.regions?.includes(l.region)));
