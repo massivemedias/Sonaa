@@ -15,9 +15,9 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 
 ## ÉTAT DE PUBLICATION (24 nov 2026)
 
-- **En ligne sur `main`** (`81ab4f6`, déployé le 24 novembre 2026 vers 5 h 39 UTC) : la
-  carte des labels par ville, et la liste qui remplace la carte au zoom d'une ville.
-  Vérifié sur sonaa.ca : zoomer sur Montréal ouvre la liste de ses 119 labels.
+- **En ligne sur `main`** : la carte des labels par ville et la liste qui remplace la
+  carte au zoom d'une ville (`81ab4f6`, 24 novembre 2026, vérifiée sur sonaa.ca), puis
+  la ville de 274 labels de plus, complétée le même jour (voir la section des labels).
 - **Si Mika voit encore l'ancienne carte** : la page est en cache (dix minutes chez GitHub
   Pages). Recharger avec `?nocache=1`.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
@@ -93,15 +93,43 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 - Regroupement dans `src/lib/villes-des-labels.ts` (avec ses tests). Les noms moissonnés
   sont unifiés (Toronto, Ontario devient Toronto ; Brooklyn devient New York ;
   Francfort-sur-le-Main devient Francfort) ; une région prise pour une ville (coordonnées
-  rondes, comme l'Ohio) est rangée sous son pays.
-- **Les coordonnées de `labels.json` ne sont pas des adresses** : elles ont été posées en
-  nuage autour du centre-ville, ou autour de la capitale quand la ville manque. Elles ne
-  servent qu'à retrouver la ville et ne s'affichent jamais telles quelles.
-- **826 labels dans 147 villes de 43 pays** (Montréal 119, Londres 114, Berlin 66). Les 671
-  labels sans ville connue sont rangés sous leur pays dans l'index (« Ville non
-  renseignée »), sans point sur la carte ; 32 n'ont aucune coordonnée.
-- À faire : compléter dans `scripts/moissonner-labels.ts` la ville des 671 labels qui n'en
-  ont pas.
+  rondes, comme l'Ohio) est rangée sous son pays. **Une ville à moins de 12 km d'une
+  ville qui a plus de labels rejoint sa liste** (Neuilly-sur-Seine dans Paris) ; la fiche
+  du label garde sa commune.
+- **Les coordonnées des labels moissonnés avant le 24 novembre ne sont pas des adresses** :
+  elles ont été posées en nuage autour du centre-ville, ou autour de la capitale quand la
+  ville manque. Elles ne servent qu'à retrouver la ville et ne s'affichent jamais telles
+  quelles. Celles des villes complétées sont le centre de la ville chez Wikidata.
+- **1 099 labels dans 224 villes de 46 pays** (Londres 168, Montréal 120, Berlin 77, New
+  York 63, Paris 47). Les 409 labels sans ville connue sont rangés sous leur pays dans
+  l'index (« Ville non renseignée »), sans point sur la carte ; 21 n'ont aucune
+  coordonnée.
+
+### Complétion des villes (24 nov 2026, `npm run completer:villes-labels`)
+
+Mika : « complète les villes des 671 labels ». `scripts/completer-villes-labels.ts` a
+trouvé la ville de **274 labels sur 703** (219 par l'adresse de contact Discogs, 40 par la
+zone MusicBrainz, 14 par une phrase de présentation, 1 par le siège Wikidata).
+
+- **Ordre des sources** : siège ou lieu de fondation chez Wikidata (P159, P740), adresse
+  de contact Discogs (la première adresse d'une fiche), zone MusicBrainz, puis une
+  tournure de présentation (« based in Leeds », « basé à Lyon »), jamais un nom cité au
+  passage.
+- **Une ville n'est retenue que si** c'est une localité GeoNames (cities5000) de plus de
+  5 000 habitants dans le pays du label ; un quartier compte pour sa ville (« Hollywood »
+  est Los Angeles) ; nom français et anglais et coordonnées viennent de Wikidata (CC0).
+  `villeSource` dit d'où vient chaque ville ; la moisson la conserve.
+- **Pièges réglés, avec leurs tests** (`scripts/lib/villes-labels.test.ts`) : « York »
+  dans « New York », « Springfield, Ohio », « Quebec » qui est la province, un mois
+  (« March »), un immeuble (« Sakura Bld. »), un État (« Oregon »), un pays
+  (« Greece »), un homonyme lointain (London, Kentucky), un ancien nom (« Northampton »
+  pour Allentown), un élément Wikidata parasite (« lsjbot Duisburg »).
+- **Les 429 restants n'ont aucune source sûre** : pas d'adresse Discogs, ou une adresse
+  sans ville reconnue, ou un nom ambigu. Les relancer ne trouvera rien de plus sans
+  nouvelle source ; le cache est dans `.villes-labels-cache/` (ignoré par git).
+- **Les sources sont lentes** : Discogs sans jeton (25 requêtes par minute), MusicBrainz
+  (une par seconde), et le SPARQL de Wikidata bridé à une requête par minute le 24
+  novembre ; une passe complète a pris environ une heure.
 
 ---
 
@@ -158,10 +186,12 @@ chaque fiche club/salle.
 
 ## ARBITRAGES EN ATTENTE
 
-- Labels sans ville connue : les garder seulement dans l'index (état actuel), ou les poser
-  au centre de leur pays avec un point d'une autre forme.
-- Coordonnées inventées de `labels.json` : les laisser (la carte ne s'en sert que pour
-  trouver la ville), ou les remplacer dans les données par le centre de la ville.
+- Les 409 labels sans ville connue : les garder seulement dans l'index (état actuel), ou
+  les poser au centre de leur pays avec un point d'une autre forme.
+- Coordonnées inventées des labels moissonnés avant le 24 novembre : les laisser (la carte
+  ne s'en sert que pour trouver la ville), ou les remplacer par le centre de la ville.
+- Nouveaux labels : lancer `npm run completer:villes-labels` à chaque moisson de nuit, ou
+  seulement à la main.
 
 ---
 
@@ -170,6 +200,9 @@ chaque fiche club/salle.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
 
+- 24 nov 2026, Claude Code : ville complétée pour 274 labels sur 703 sans ville
+  (`scripts/completer-villes-labels.ts`), carte à 224 villes ; proches banlieues jointes
+  à leur grande ville sur la carte. Publié.
 - 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
   en ligne.
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par

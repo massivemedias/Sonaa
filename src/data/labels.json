@@ -300,8 +300,13 @@
     "url": "https://www.discogs.com/master/1614345-Gotan-Project-Gotan-Object"
    }
   ],
-  "latitude": 48.85361,
-  "longitude": 2.3794
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "a-rpia-r",
@@ -1738,8 +1743,13 @@
     "url": "https://www.discogs.com/master/71930-Human-Resource-Kicking-Noise-Of-Rotterdam"
    }
   ],
-  "latitude": 52.3676,
-  "longitude": 4.9041
+  "latitude": 51.7958,
+  "longitude": 4.6783,
+  "ville": {
+   "fr": "Dordrecht",
+   "en": "Dordrecht"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "31-recordings",
@@ -2547,8 +2557,13 @@
     "url": "https://www.discogs.com/master/1022301-3s-Company-Come-And-Tell-Me"
    }
   ],
-  "latitude": 51.50476,
-  "longitude": -0.12113
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "514-records",
@@ -2747,8 +2762,13 @@
     "url": "https://www.discogs.com/master/160452-Embargo-Hysterie"
    }
   ],
-  "latitude": 50.8503,
-  "longitude": 4.3517
+  "latitude": 51.0536,
+  "longitude": 3.7253,
+  "ville": {
+   "fr": "Gand",
+   "en": "Ghent"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "88rising-records",
@@ -4313,8 +4333,13 @@
     "url": "https://www.discogs.com/master/113097-Black-Box-Lelewel-Megamix"
    }
   ],
-  "latitude": 48.85958,
-  "longitude": 2.34726
+  "latitude": 48.8353,
+  "longitude": 2.2414,
+  "ville": {
+   "fr": "Boulogne-Billancourt",
+   "en": "Boulogne-Billancourt"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "alfa",
@@ -4721,8 +4746,13 @@
     "url": "https://www.discogs.com/master/1125761--Z-Doodles-End"
    }
   ],
-  "latitude": 52.52298,
-  "longitude": 13.39966
+  "latitude": 48.1375,
+  "longitude": 11.575,
+  "ville": {
+   "fr": "Munich",
+   "en": "Munich"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "alien8-recordings",
@@ -4933,8 +4963,13 @@
     "url": "https://www.discogs.com/master/88213-N-Trance-Electronic-Pleasure"
    }
   ],
-  "latitude": 51.50259,
-  "longitude": -0.12567
+  "latitude": 53.7449,
+  "longitude": -2.4769,
+  "ville": {
+   "fr": "Blackburn",
+   "en": "Blackburn"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "all-day-i-dream",
@@ -6051,8 +6086,13 @@
     "url": "https://www.discogs.com/master/1669982-Sam-Gray-One-Night-Stand"
    }
   ],
-  "latitude": 52.37062,
-  "longitude": 4.9079
+  "latitude": 52.23,
+  "longitude": 5.18,
+  "ville": {
+   "fr": "Hilversum",
+   "en": "Hilversum"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "am-pm",
@@ -6151,8 +6191,13 @@
     "url": "https://www.discogs.com/master/172679-Ronaldos-Revenge-Mas-Que-Mancada"
    }
   ],
-  "latitude": 51.50872,
-  "longitude": -0.11163
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ambiances-magnetiques",
@@ -6366,8 +6411,13 @@
     "url": "https://www.discogs.com/master/122018-Scotch-Money-Runner"
    }
   ],
-  "latitude": 45.4642,
-  "longitude": 9.19
+  "latitude": 45.695,
+  "longitude": 9.67,
+  "ville": {
+   "fr": "Bergame",
+   "en": "Bergamo"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "amphia",
@@ -7014,8 +7064,13 @@
     "url": "https://www.discogs.com/master/839450-Laurence-Laken-Simili-Regrets"
    }
   ],
-  "latitude": 48.8535,
-  "longitude": 2.35261
+  "latitude": 45.7675,
+  "longitude": 4.835,
+  "ville": {
+   "fr": "Lyon",
+   "en": "Lyon"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "anima",
@@ -7214,8 +7269,13 @@
     "url": "https://www.discogs.com/master/23163-Various-Multiculture-Dance-With-A-Foreigner"
    }
   ],
-  "latitude": 52.51613,
-  "longitude": 13.39833
+  "latitude": 52.3744,
+  "longitude": 9.7386,
+  "ville": {
+   "fr": "Hanovre",
+   "en": "Hanover"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "anjunabeats",
@@ -7923,8 +7983,13 @@
     "url": "https://www.discogs.com/master/33245-A-Split-Second-The-Colosseum-Crash-Inside-Out-Remix-Muscle-Machine"
    }
   ],
-  "latitude": 50.8441,
-  "longitude": 4.35256
+  "latitude": 50.9842,
+  "longitude": 4.8333,
+  "ville": {
+   "fr": "Aerschot",
+   "en": "Aarschot"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "antler-subway",
@@ -8023,8 +8088,13 @@
     "url": "https://www.discogs.com/master/46835-Kate-Ryan-D%C3%A9senchant%C3%A9e"
    }
   ],
-  "latitude": 50.85332,
-  "longitude": 4.35537
+  "latitude": 50.8467,
+  "longitude": 4.3517,
+  "ville": {
+   "fr": "Bruxelles",
+   "en": "Brussels"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "apollo",
@@ -8719,8 +8789,13 @@
     "url": "https://www.discogs.com/master/4008094-Ada-Lovelace-And-More"
    }
   ],
-  "latitude": 52.51426,
-  "longitude": 13.41227
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ariola",
@@ -11360,8 +11435,13 @@
     "url": "https://www.discogs.com/master/1172705-Horskh-Gate"
    }
   ],
-  "latitude": 48.85292,
-  "longitude": 2.34565
+  "latitude": 48.5733,
+  "longitude": 7.7522,
+  "ville": {
+   "fr": "Strasbourg",
+   "en": "Strasbourg"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "audiotrix",
@@ -12531,8 +12611,13 @@
     "url": "https://www.discogs.com/master/3518914-Domingo-Para-Mi-Gente-Estamos-Unidos"
    }
   ],
-  "latitude": 48.86022,
-  "longitude": 2.35861
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "b12-records",
@@ -12772,8 +12857,13 @@
    "page": "https://www.discogs.com/label/908899-Bad-Vibes-3"
   },
   "sorties": [],
-  "latitude": 59.9139,
-  "longitude": 10.7522
+  "latitude": 60.3925,
+  "longitude": 5.3233,
+  "ville": {
+   "fr": "Bergen",
+   "en": "Bergen Municipality"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "balearic",
@@ -13376,8 +13466,13 @@
     "url": "https://www.discogs.com/master/2301973-Thomas-K%C3%B6ner-Aubrite"
    }
   ],
-  "latitude": 52.37122,
-  "longitude": 4.91101
+  "latitude": 52.1033,
+  "longitude": 5.1792,
+  "ville": {
+   "fr": "Utrecht",
+   "en": "Utrecht"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "basic-beat-recordings",
@@ -13788,8 +13883,13 @@
     "url": "https://www.discogs.com/master/527473-Julien-Jabre-The-Jungle-EP"
    }
   ],
-  "latitude": 48.85912,
-  "longitude": 2.34293
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "basic-unit-productions",
@@ -13888,8 +13988,13 @@
     "url": "https://www.discogs.com/master/1254621-Blac-Kolor-Stormfly"
    }
   ],
-  "latitude": 52.52696,
-  "longitude": 13.40859
+  "latitude": 50.7353,
+  "longitude": 7.1022,
+  "ville": {
+   "fr": "Bonn",
+   "en": "Bonn"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "bass-cologne",
@@ -14530,8 +14635,13 @@
     "url": "https://www.discogs.com/master/179057-Rififi-Dr-Acid-And-Mr-House"
    }
   ],
-  "latitude": 52.51767,
-  "longitude": 13.39149
+  "latitude": 51.2278,
+  "longitude": 6.6273,
+  "ville": {
+   "fr": "Kaarst",
+   "en": "Kaarst"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "be-yourself-music",
@@ -14630,8 +14740,13 @@
     "url": "https://www.discogs.com/master/2920354-Various-Thunderdome-XXX-Celebrating-30-Years-Of-Hardcore"
    }
   ],
-  "latitude": 52.37012,
-  "longitude": 4.89411
+  "latitude": 51.8306,
+  "longitude": 4.9742,
+  "ville": {
+   "fr": "Gorinchem",
+   "en": "Gorinchem"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "beat-box",
@@ -15163,8 +15278,13 @@
     "url": "https://www.discogs.com/master/607881-Dada-Castle-Wall"
    }
   ],
-  "latitude": 35.67918,
-  "longitude": 139.6463
+  "latitude": 35.6894,
+  "longitude": 139.6917,
+  "ville": {
+   "fr": "Tokyo",
+   "en": "Tokyo"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "beverley-s-records",
@@ -15788,8 +15908,13 @@
     "url": "https://www.discogs.com/master/16715-Yazz-Wanted"
    }
   ],
-  "latitude": 51.51675,
-  "longitude": -0.11919
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "big-mama-records",
@@ -16376,8 +16501,13 @@
     "url": "https://www.discogs.com/master/437721-Mark-Force-Gypo"
    }
   ],
-  "latitude": 51.50096,
-  "longitude": -0.1442
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "black-acre",
@@ -17314,9 +17444,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Italie",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Turin",
+   "en": "Turin"
+  },
+  "latitude": 45.0792,
+  "longitude": 7.6761,
   "annee": 1992,
   "fondateurs": [
    "Massimo Gabutti"
@@ -17406,7 +17539,8 @@
     "image": "https://i.discogs.com/e0iXozVFiKlVms3kcjZvofneWBwj4qD0z9DW1A8z94I/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2MTYy/NTAtMTQ2NTMyMTY1/MS02MjYyLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/1058527-Various-Massive-2002"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "blood-et-fire",
@@ -19057,8 +19191,13 @@
     "url": "https://www.discogs.com/master/4122835-D-Carred-I-Want-To-Know-The-World"
    }
   ],
-  "latitude": 52.36279,
-  "longitude": 4.90627
+  "latitude": 52.3667,
+  "longitude": 4.8833,
+  "ville": {
+   "fr": "Amsterdam",
+   "en": "Amsterdam"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "border-community",
@@ -19567,8 +19706,13 @@
     "url": "https://www.discogs.com/master/57768-Paul-Oakenfold-Global-Underground-Live-In-Oslo"
    }
   ],
-  "latitude": 51.50268,
-  "longitude": -0.14013
+  "latitude": 54.9778,
+  "longitude": -1.6133,
+  "ville": {
+   "fr": "Newcastle upon Tyne",
+   "en": "Newcastle upon Tyne"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "boy-better-know",
@@ -19704,8 +19848,13 @@
    "page": "https://www.discogs.com/label/2028-BOY-Records"
   },
   "sorties": [],
-  "latitude": 52.52822,
-  "longitude": 13.39455
+  "latitude": 49.83,
+  "longitude": 7.83,
+  "ville": {
+   "fr": "Bad Kreuznach",
+   "en": "Bad Kreuznach"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "boysnoize-records",
@@ -22093,9 +22242,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Belgique",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Zoersel",
+   "en": "Zoersel"
+  },
+  "latitude": 51.2689,
+  "longitude": 4.7125,
   "annee": null,
   "fondateurs": [],
   "site": "http://www.byte.be",
@@ -22187,7 +22339,8 @@
     "image": "https://i.discogs.com/VemWXMjFG6Z_1Pmbxekq4ib-gmf_5rc7xNLO5JE8UAE/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNzg4/LTE2MzY2Mzc3MTgt/NTAyMy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/27827-2-Unlimited-Get-Ready-"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "c-h-s",
@@ -22341,8 +22494,13 @@
     "url": "https://www.discogs.com/release/698801-Beese-Brtschitsch-In-The-Long-Run"
    }
   ],
-  "latitude": 52.52567,
-  "longitude": 13.41606
+  "latitude": 48.1375,
+  "longitude": 11.575,
+  "ville": {
+   "fr": "Munich",
+   "en": "Munich"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "cabaret-recordings",
@@ -22552,8 +22710,13 @@
     "url": "https://www.discogs.com/master/233482-Luciano-Bomberos-Octogonal"
    }
   ],
-  "latitude": 47.3769,
-  "longitude": 8.5417
+  "latitude": 46.2,
+  "longitude": 6.1,
+  "ville": {
+   "fr": "Vernier",
+   "en": "Vernier"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "cafe-del-mar-music",
@@ -24978,8 +25141,13 @@
     "url": "https://www.discogs.com/master/677562-Sounds-Of-Life-Trust-Me"
    }
   ],
-  "latitude": 51.51419,
-  "longitude": -0.10198
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "chain-reaction",
@@ -25131,8 +25299,13 @@
     "url": "https://www.discogs.com/release/14414976-The-Madd-Hatters-The-Champagne-Campaign-Rewound-To-Zero"
    }
   ],
-  "latitude": 40.7034,
-  "longitude": -74.00175
+  "latitude": 36.1672,
+  "longitude": -115.1486,
+  "ville": {
+   "fr": "Las Vegas",
+   "en": "Las Vegas"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "chaos-records",
@@ -26469,8 +26642,13 @@
     "url": "https://www.discogs.com/master/32666-Massive-Attack-Tear-Drop"
    }
   ],
-  "latitude": 51.50101,
-  "longitude": -0.14946
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "circoloco-records",
@@ -26824,8 +27002,13 @@
    "page": "https://www.discogs.com/label/159022-Circus-Records-5"
   },
   "sorties": [],
-  "latitude": 51.50296,
-  "longitude": -0.10464
+  "latitude": 52.4805,
+  "longitude": -1.8982,
+  "ville": {
+   "fr": "Birmingham",
+   "en": "Birmingham"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "citizen-records",
@@ -27052,9 +27235,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Royaume-Uni",
-  "ville": null,
-  "latitude": 51.52204,
-  "longitude": -0.14279,
+  "ville": {
+   "fr": "Glasgow",
+   "en": "Glasgow"
+  },
+  "latitude": 55.8611,
+  "longitude": -4.25,
   "annee": 2009,
   "fondateurs": [
    "Carl Clandestine"
@@ -27144,7 +27330,8 @@
     "image": "https://i.discogs.com/SaSQ2JM0W9rVz8rYlDW-u7dwT-IDirWUKN2MF6bb1aQ/rs:fit/g:sm/q:90/h:430/w:430/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY2NjA1/MjItMTQyNDM0Nzk5/MC02ODkwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/907605-Various-Dark-Acid-IV"
    }
-  ]
+  ],
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "clarity-recordings",
@@ -27605,8 +27792,13 @@
     "url": "https://www.discogs.com/master/139209-DIE-The-Men-You-Never-See-Pt2"
    }
   ],
-  "latitude": 52.3659,
-  "longitude": 4.91679
+  "latitude": 51.92,
+  "longitude": 4.48,
+  "ville": {
+   "fr": "Rotterdam",
+   "en": "Rotterdam"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "clone-2-1-records",
@@ -27997,8 +28189,13 @@
     "url": "https://www.discogs.com/master/332557-New-Kids-Featuring-Paul-Elstak-Turbo"
    }
   ],
-  "latitude": 52.35605,
-  "longitude": 4.90276
+  "latitude": 52.3667,
+  "longitude": 4.8833,
+  "ville": {
+   "fr": "Amsterdam",
+   "en": "Amsterdam"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "clr",
@@ -28701,8 +28898,13 @@
     "url": "https://www.discogs.com/master/94251-Ultra-Sonic-Obsession"
    }
   ],
-  "latitude": 51.49222,
-  "longitude": -0.11084
+  "latitude": 55.8993,
+  "longitude": -3.6476,
+  "ville": {
+   "fr": "Bathgate",
+   "en": "Bathgate"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "cnr-music-france",
@@ -29321,8 +29523,13 @@
     "url": "https://www.discogs.com/master/1073338-Sun-Ra-Merzbow-Strange-City"
    }
   ],
-  "latitude": 51.52643,
-  "longitude": -0.12313
+  "latitude": 53.4435,
+  "longitude": -1.9489,
+  "ville": {
+   "fr": "Glossop",
+   "en": "Glossop"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "collect-call",
@@ -30372,8 +30579,13 @@
     "url": "https://www.discogs.com/master/1725091-Umek-Bodycounter"
    }
   ],
-  "latitude": 46.05839,
-  "longitude": 14.50346
+  "latitude": 46.0514,
+  "longitude": 14.5061,
+  "ville": {
+   "fr": "Ljubljana",
+   "en": "Ljubljana"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "contempo-records",
@@ -30576,8 +30788,13 @@
     "url": "https://www.discogs.com/master/76498-Monie-Love-Grandpas-Party"
    }
   ],
-  "latitude": 51.49244,
-  "longitude": -0.12672
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "correspondant",
@@ -31524,8 +31741,13 @@
     "url": "https://www.discogs.com/master/309565-Rude-66-The-1000-Year-Storm"
    }
   ],
-  "latitude": 52.37476,
-  "longitude": 4.91246
+  "latitude": 52.08,
+  "longitude": 4.31,
+  "ville": {
+   "fr": "La Haye",
+   "en": "The Hague"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "critical-music",
@@ -31952,8 +32174,13 @@
     "url": "https://www.discogs.com/master/551829-Raw-Man-Lovers-Number-Seven-Number-7-Remix"
    }
   ],
-  "latitude": 48.86529,
-  "longitude": 2.36595
+  "latitude": 48.8872,
+  "longitude": 2.2675,
+  "ville": {
+   "fr": "Neuilly-sur-Seine",
+   "en": "Neuilly-sur-Seine"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "cryo-chamber",
@@ -32963,8 +33190,13 @@
     "url": "https://www.discogs.com/master/125987-Frankie-Knuckles-Keep-On-Movin"
    }
   ],
-  "latitude": 45.46156,
-  "longitude": 9.19592
+  "latitude": 41.8931,
+  "longitude": 12.4828,
+  "ville": {
+   "fr": "Rome",
+   "en": "Rome"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "d-j-boy-records",
@@ -33657,8 +33889,13 @@
     "url": "https://www.discogs.com/release/26223881-PPK-Feat-%D0%9A%D0%BB%D0%B8%D0%BFs%D0%B0-%D0%AD%D1%82%D0%BE-%D0%AF-Toporkov-Slow-Remix"
    }
   ],
-  "latitude": 55.75729,
-  "longitude": 37.61442
+  "latitude": 59.95,
+  "longitude": 30.3167,
+  "ville": {
+   "fr": "Saint-Pétersbourg",
+   "en": "Saint Petersburg"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "dance-factory",
@@ -34073,8 +34310,13 @@
     "url": "https://www.discogs.com/master/96769-MC-B-Featuring-Daisy-Dee-This-Beat-Is-Technotronic"
    }
   ],
-  "latitude": 52.5112,
-  "longitude": 13.40614
+  "latitude": 51.5139,
+  "longitude": 7.4653,
+  "ville": {
+   "fr": "Dortmund",
+   "en": "Dortmund"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "danza-nativa",
@@ -34729,8 +34971,13 @@
     "url": "https://www.discogs.com/master/36021-Divine-Inspiration-The-Way-Put-Your-Hand-In-My-Hand"
    }
   ],
-  "latitude": 51.52772,
-  "longitude": -0.11689
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "databass-records",
@@ -34829,8 +35076,13 @@
     "url": "https://www.discogs.com/master/858043-DJ-Godfather-DET-Only-001"
    }
   ],
-  "latitude": 40.71317,
-  "longitude": -74.01796
+  "latitude": 42.5125,
+  "longitude": -83.025,
+  "ville": {
+   "fr": "Warren",
+   "en": "Warren"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "dataphysix-engineering",
@@ -34915,8 +35167,13 @@
     "url": "https://www.discogs.com/master/12561-Dopplereffekt-Sterilization-Racial-Hygiene-And-Selective-Breeding"
    }
   ],
-  "latitude": 40.70545,
-  "longitude": -74.00299
+  "latitude": 42.3317,
+  "longitude": -83.0475,
+  "ville": {
+   "fr": "Détroit",
+   "en": "Detroit"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "days-like-nights",
@@ -35931,8 +36188,13 @@
     "url": "https://www.discogs.com/master/93687-Dave-Clarke-Red-Three"
    }
   ],
-  "latitude": 51.50061,
-  "longitude": -0.14834
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "dee-jay-recordings",
@@ -36137,8 +36399,13 @@
     "url": "https://www.discogs.com/master/1729229-Kahn-Over-Deh-So-Abattoir"
    }
   ],
-  "latitude": 51.52328,
-  "longitude": -0.1485
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "def-jam",
@@ -36875,8 +37142,13 @@
     "url": "https://www.discogs.com/master/360521-DJs-Symphony-Opera-Prima-Opera-I"
    }
   ],
-  "latitude": 45.46633,
-  "longitude": 9.19833
+  "latitude": 45.65,
+  "longitude": 9.6,
+  "ville": {
+   "fr": "Dalmine",
+   "en": "Dalmine"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "desert-hearts-records",
@@ -37178,8 +37450,13 @@
     "url": "https://www.discogs.com/master/164267-Bam-Bam-Wheres-Your-Child"
    }
   ],
-  "latitude": 51.52307,
-  "longitude": -0.10231
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "desolat",
@@ -37824,8 +38101,13 @@
     "url": "https://www.discogs.com/master/103722-Ramirez-Terapia"
    }
   ],
-  "latitude": 45.46672,
-  "longitude": 9.1813
+  "latitude": 44.4939,
+  "longitude": 11.3428,
+  "ville": {
+   "fr": "Bologne",
+   "en": "Bologna"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "dial",
@@ -39067,8 +39349,13 @@
     "url": "https://www.discogs.com/master/543174-Detroit-Swindle-Nothing-Else-Matters-EP"
    }
   ],
-  "latitude": 52.53357,
-  "longitude": 13.40156
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "dirty-dance",
@@ -39659,8 +39946,13 @@
     "url": "https://www.discogs.com/release/11200604-MONXX-Turbo-Dab-EP"
    }
   ],
-  "latitude": 40.71045,
-  "longitude": -74.01617
+  "latitude": 34.0522,
+  "longitude": -118.2437,
+  "ville": {
+   "fr": "Los Angeles",
+   "en": "Los Angeles"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "disco-halal",
@@ -40592,8 +40884,13 @@
     "url": "https://www.discogs.com/master/2425207-Garrett-David-Octagon-Blues"
    }
   ],
-  "latitude": 51.49217,
-  "longitude": -0.14619
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "distinct-ive",
@@ -40674,8 +40971,13 @@
     "url": "https://www.discogs.com/master/144029-DJ-Eric-Desire"
    }
   ],
-  "latitude": 51.50782,
-  "longitude": -0.09707
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "distinct-ive-breaks",
@@ -40878,8 +41180,13 @@
     "url": "https://www.discogs.com/master/1766-Hybrid-Morning-Sci-Fi"
    }
   ],
-  "latitude": 51.48559,
-  "longitude": -0.11896
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "distr-ck",
@@ -42062,8 +42369,13 @@
     "url": "https://www.discogs.com/master/131827-Sam-Sharp-Roundabout"
    }
   ],
-  "latitude": 52.37039,
-  "longitude": 4.89068
+  "latitude": 52.23,
+  "longitude": 5.18,
+  "ville": {
+   "fr": "Hilversum",
+   "en": "Hilversum"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "downwards",
@@ -42162,8 +42474,13 @@
     "url": "https://www.discogs.com/master/16428-Surgeon-Electronically-Tested"
    }
   ],
-  "latitude": 51.48971,
-  "longitude": -0.13975
+  "latitude": 52.4805,
+  "longitude": -1.8982,
+  "ville": {
+   "fr": "Birmingham",
+   "en": "Birmingham"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "dragonfly-records",
@@ -42380,9 +42697,12 @@
   "anciens": [],
   "n": 2,
   "pays": "Royaume-Uni",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Milton Keynes",
+   "en": "City of Milton Keynes"
+  },
+  "latitude": 52.0333,
+  "longitude": -0.7667,
   "annee": 2014,
   "fondateurs": [
    "David Russo"
@@ -42476,7 +42796,8 @@
     "image": "https://i.discogs.com/WfgjzA6do73xffkHyVeZ7WV5UtBMImKlTnZ3e19Ar80/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3ODQ1/NzMtMTQ2ODcwMjQw/MC02Mzg4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/797584-t-e-l-e-p-a-t-h-%E3%83%86%E3%83%AC%E3%83%91%E3%82%B7%E3%83%BC%E8%83%BD%E5%8A%9B%E8%80%85-%E3%82%A2%E3%83%B3%E3%82%BF%E3%83%A9%E9%80%9A%E4%BF%A1"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "dred-collective",
@@ -43104,8 +43425,13 @@
     "url": "https://www.discogs.com/master/3868153-Hole-Dweller-Flies-The-Coop-III"
    }
   ],
-  "latitude": 40.71869,
-  "longitude": -74.01717
+  "latitude": 39.9269,
+  "longitude": -83.8042,
+  "ville": {
+   "fr": "Springfield",
+   "en": "Springfield"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "durium",
@@ -43361,8 +43687,13 @@
     "url": "https://www.discogs.com/release/22991924"
    }
   ],
-  "latitude": 48.85054,
-  "longitude": 2.34015
+  "latitude": 43.4806,
+  "longitude": -1.5572,
+  "ville": {
+   "fr": "Biarritz",
+   "en": "Biarritz"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "dustworld",
@@ -43571,8 +43902,13 @@
     "url": "https://www.discogs.com/master/535204-Lowriders-Dont-Get-Back-Pimp-My-Ride"
    }
   ],
-  "latitude": 52.36033,
-  "longitude": 4.91169
+  "latitude": 51.4344,
+  "longitude": 5.4842,
+  "ville": {
+   "fr": "Eindhoven",
+   "en": "Eindhoven"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "dynamix-ii-records",
@@ -43671,8 +44007,13 @@
     "url": "https://www.discogs.com/master/1814865-Quad-Queen-Queen-Of-Quad-Volume-1"
    }
   ],
-  "latitude": 40.70251,
-  "longitude": -74.00294
+  "latitude": 25.9867,
+  "longitude": -80.1461,
+  "ville": {
+   "fr": "Hallandale Beach",
+   "en": "Hallandale Beach"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "dystopian",
@@ -44590,8 +44931,13 @@
     "url": "https://www.discogs.com/master/1219678-Alec-Empire-The-Hellish-Vortex-Live-At-Uebel-Gef%C3%A4hrlich-Hamburg-Germany"
    }
   ],
-  "latitude": 52.51119,
-  "longitude": 13.41322
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "eatbrain",
@@ -44690,8 +45036,13 @@
     "url": "https://www.discogs.com/master/878366-Zombie-Cats-Must-Eat-EP"
    }
   ],
-  "latitude": 47.4979,
-  "longitude": 19.0402
+  "latitude": 47.4983,
+  "longitude": 19.0408,
+  "ville": {
+   "fr": "Budapest",
+   "en": "Budapest"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "eaux",
@@ -45717,8 +46068,13 @@
     "url": "https://www.discogs.com/master/33729-The-Egyptian-Lover-Youre-So-Fine"
    }
   ],
-  "latitude": 40.70958,
-  "longitude": -73.99471
+  "latitude": 34.0522,
+  "longitude": -118.2437,
+  "ville": {
+   "fr": "Los Angeles",
+   "en": "Los Angeles"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "einmusika-recordings",
@@ -46522,8 +46878,13 @@
     "url": "https://www.discogs.com/master/1244916-Friction-Ft-Josh-Barry-Freak"
    }
   ],
-  "latitude": 51.48947,
-  "longitude": -0.12219
+  "latitude": 50.8208,
+  "longitude": -0.1375,
+  "ville": {
+   "fr": "Brighton",
+   "en": "Brighton"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "ellum-audio",
@@ -47984,8 +48345,13 @@
     "url": "https://www.discogs.com/master/1144-Endymion-Limited-Reactions"
    }
   ],
-  "latitude": 52.37695,
-  "longitude": 4.91288
+  "latitude": 51.8667,
+  "longitude": 4.6,
+  "ville": {
+   "fr": "Ridderkerk",
+   "en": "Ridderkerk"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "epic",
@@ -48301,8 +48667,13 @@
     "url": "https://www.discogs.com/master/1677541-DJ-Rad-The-Best-Hits-Collection"
    }
   ],
-  "latitude": 1.3521,
-  "longitude": 103.8198
+  "latitude": 1.3,
+  "longitude": 103.8,
+  "ville": {
+   "fr": "Singapour",
+   "en": "Singapore"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "equatr-music",
@@ -48879,8 +49250,13 @@
     "url": "https://www.discogs.com/master/744831-Hajime-Yoshizawa-Verao-No-Ar"
    }
   ],
-  "latitude": 35.67833,
-  "longitude": 139.6575
+  "latitude": 34.6938,
+  "longitude": 135.5021,
+  "ville": {
+   "fr": "Osaka",
+   "en": "Osaka"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "eukahouse",
@@ -49833,8 +50209,13 @@
     "url": "https://www.discogs.com/master/285086-Eraser-vs-Y%C3%B6jalka-Round-1"
    }
   ],
-  "latitude": 60.1637,
-  "longitude": 24.9395
+  "latitude": 60.1708,
+  "longitude": 24.9375,
+  "ville": {
+   "fr": "Helsinki",
+   "en": "Helsinki"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "extreme-records",
@@ -50353,8 +50734,13 @@
     "url": "https://www.discogs.com/master/802310-Lebanon-Hanover-Besides-The-Abyss"
    }
   ],
-  "latitude": 37.9838,
-  "longitude": 23.7275
+  "latitude": 38.0925,
+  "longitude": 23.7425,
+  "ville": {
+   "fr": "Acharnés",
+   "en": "Acharnes"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "fabulous-music-uk",
@@ -50453,8 +50839,13 @@
     "url": "https://www.discogs.com/master/45616-Man-With-No-Name-Paint-A-Picture"
    }
   ],
-  "latitude": 51.51634,
-  "longitude": -0.15971
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "facecontrol-audio-industries",
@@ -51599,8 +51990,13 @@
     "url": "https://www.discogs.com/master/408943-Lindstr%C3%B8m-Six-Cups-Of-Rebel"
    }
   ],
-  "latitude": 59.91229,
-  "longitude": 10.7495
+  "latitude": 59.9121,
+  "longitude": 10.7456,
+  "ville": {
+   "fr": "Oslo",
+   "en": "Oslo urban area"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "fever-records",
@@ -52306,8 +52702,13 @@
     "url": "https://www.discogs.com/master/938210-Plump-DJs-A-Plump-Night-Out-Sampler-One"
    }
   ],
-  "latitude": 51.52966,
-  "longitude": -0.11877
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "firepower",
@@ -52614,8 +53015,13 @@
     "url": "https://www.discogs.com/master/57861-Ferry-Corsten-Beautiful"
    }
   ],
-  "latitude": 52.36289,
-  "longitude": 4.92078
+  "latitude": 51.92,
+  "longitude": 4.48,
+  "ville": {
+   "fr": "Rotterdam",
+   "en": "Rotterdam"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "flaw-recordings",
@@ -52714,8 +53120,13 @@
     "url": "https://www.discogs.com/master/1466982-Various-Electric-Community-Compilation"
    }
   ],
-  "latitude": 51.50195,
-  "longitude": -0.09319
+  "latitude": 51.5932,
+  "longitude": -0.3894,
+  "ville": {
+   "fr": "Pinner",
+   "en": "Pinner"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "fleisch",
@@ -53120,8 +53531,13 @@
     "url": "https://www.discogs.com/master/57998-Various-Boyd-In-The-Void"
    }
   ],
-  "latitude": 51.52606,
-  "longitude": -0.14749
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "fokuz-recordings",
@@ -53752,8 +54168,13 @@
     "url": "https://www.discogs.com/master/114987-Various-Digital-Disco"
    }
   ],
-  "latitude": 52.5037,
-  "longitude": 13.40556
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "forensic-records",
@@ -53852,8 +54273,13 @@
     "url": "https://www.discogs.com/master/86351-Echomen-Spirit"
    }
   ],
-  "latitude": 51.48448,
-  "longitude": -0.14052
+  "latitude": 54.9778,
+  "longitude": -1.6133,
+  "ville": {
+   "fr": "Newcastle upon Tyne",
+   "en": "Newcastle upon Tyne"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "forestdelic-records",
@@ -54052,8 +54478,13 @@
     "url": "https://www.discogs.com/master/123771-Flybaby-You-Must-Admit"
    }
   ],
-  "latitude": 52.52681,
-  "longitude": 13.42023
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "formation-records",
@@ -55289,8 +55720,13 @@
     "url": "https://www.discogs.com/master/490547-Soulphiction-Soulphiction-EP-01"
    }
   ],
-  "latitude": 52.52177,
-  "longitude": 13.38662
+  "latitude": 50.9272,
+  "longitude": 11.5864,
+  "ville": {
+   "fr": "Iéna",
+   "en": "Jena"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "frolic-press-recordings",
@@ -56216,8 +56652,13 @@
    "page": "https://www.discogs.com/label/11079-Fusion-Records-5"
   },
   "sorties": [],
-  "latitude": 52.37613,
-  "longitude": 4.92508
+  "latitude": 51.4344,
+  "longitude": 5.4842,
+  "ville": {
+   "fr": "Eindhoven",
+   "en": "Eindhoven"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "future-classic",
@@ -56959,8 +57400,13 @@
     "url": "https://www.discogs.com/master/239249-Various-Gaia-3-4"
    }
   ],
-  "latitude": 52.50859,
-  "longitude": 13.42344
+  "latitude": 53.55,
+  "longitude": 10,
+  "ville": {
+   "fr": "Hambourg",
+   "en": "Hamburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "gala-records",
@@ -57288,8 +57734,13 @@
     "url": "https://www.discogs.com/master/5156-The-Ganja-Kru-Remixes-Vol-Two"
    }
   ],
-  "latitude": 51.48714,
-  "longitude": -0.15189
+  "latitude": 51.5,
+  "longitude": -0.5667,
+  "ville": {
+   "fr": "Slough",
+   "en": "Slough"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "garmo",
@@ -58557,8 +59008,13 @@
     "url": "https://www.discogs.com/master/1032358-Prince-Of-Denmark-To-The-Fifty-Engineers"
    }
   ],
-  "latitude": 52.5111,
-  "longitude": 13.39648
+  "latitude": 50.9811,
+  "longitude": 11.3294,
+  "ville": {
+   "fr": "Weimar",
+   "en": "Weimar"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "glitterbox",
@@ -59459,8 +59915,13 @@
     "url": "https://www.discogs.com/master/168394-WhoMadeWho-Space-For-Rent"
    }
   ],
-  "latitude": 52.52526,
-  "longitude": 13.42493
+  "latitude": 48.1375,
+  "longitude": 11.575,
+  "ville": {
+   "fr": "Munich",
+   "en": "Munich"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "gondwana-records",
@@ -59835,8 +60296,13 @@
     "url": "https://www.discogs.com/master/25667-LTJ-Bukem-Earth-Volume-Three"
    }
   ],
-  "latitude": 51.48454,
-  "longitude": -0.12075
+  "latitude": 51.65,
+  "longitude": -0.4,
+  "ville": {
+   "fr": "Watford",
+   "en": "Watford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "goon-club-allstars",
@@ -60543,8 +61009,13 @@
     "url": "https://www.discogs.com/master/1623532-Grad_U-Surface-Variations-II"
    }
   ],
-  "latitude": 54.6872,
-  "longitude": 25.2797
+  "latitude": 54.6667,
+  "longitude": 25.2833,
+  "ville": {
+   "fr": "Vilnius",
+   "en": "Vilnius County"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "griffintown-records",
@@ -61043,8 +61514,13 @@
     "url": "https://www.discogs.com/master/20982-Spooky-Schmoo"
    }
   ],
-  "latitude": 51.49832,
-  "longitude": -0.09652
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "guidance-recordings",
@@ -61255,8 +61731,13 @@
     "url": "https://www.discogs.com/master/211349-Frank-Degrees-Vince-Ruff-Present-Grooveland-Tell-Me"
    }
   ],
-  "latitude": 50.85703,
-  "longitude": 4.3442
+  "latitude": 50.8467,
+  "longitude": 4.3517,
+  "ville": {
+   "fr": "Bruxelles",
+   "en": "Brussels"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "habit-recordings",
@@ -61355,8 +61836,13 @@
     "url": "https://www.discogs.com/master/24327-Chase-Status-Hoodrat-Buddha-Fist"
    }
   ],
-  "latitude": 40.70864,
-  "longitude": -73.98877
+  "latitude": 43.05,
+  "longitude": -87.95,
+  "ville": {
+   "fr": "Milwaukee",
+   "en": "Milwaukee"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "hacienda-records",
@@ -62652,8 +63138,13 @@
     "url": "https://www.discogs.com/master/3935468-Various-Disco-Discharge-Disco-Ladies"
    }
   ],
-  "latitude": 51.51784,
-  "longitude": -0.09327
+  "latitude": 51.65,
+  "longitude": -0.4,
+  "ville": {
+   "fr": "Watford",
+   "en": "Watford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "harmonia",
@@ -62960,8 +63451,13 @@
     "url": "https://www.discogs.com/release/32490-Hardfloor-Into-The-Nature-Remix-Double-Pack"
    }
   ],
-  "latitude": 51.51727,
-  "longitude": -0.16103
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "head-in-the-clouds",
@@ -63160,8 +63656,13 @@
     "url": "https://www.discogs.com/master/10697-Bump-Flex-Featuring-Kallaghan-Got-Myself-Together"
    }
   ],
-  "latitude": 51.48596,
-  "longitude": -0.11486
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "heavenly",
@@ -63260,8 +63761,13 @@
     "url": "https://www.discogs.com/master/32773-Saint-Etienne-Tiger-Bay"
    }
   ],
-  "latitude": 51.52801,
-  "longitude": -0.11957
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "heist-recordings",
@@ -64404,8 +64910,13 @@
     "url": "https://www.discogs.com/master/232563-Tom-Clark-Service-Station-Remixes-Part-I"
    }
   ],
-  "latitude": 52.53669,
-  "longitude": 13.41795
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "highwood-recordings",
@@ -65101,9 +65612,12 @@
   "anciens": [],
   "n": 1,
   "pays": null,
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Vancouver",
+   "en": "Vancouver"
+  },
+  "latitude": 49.2608,
+  "longitude": -123.1139,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -65182,7 +65696,8 @@
     "image": "https://i.discogs.com/aPh2cJ99rwARneqV_7CXbvfJZW_jWbCx2tvkDVIna-c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMjY0/NjY2LTE2NTEzNTc5/NjQtMjA1Mi5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2619524-Blank-Banshee-Music-For-Menus"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "hom-mega-productions",
@@ -65614,8 +66129,13 @@
     "url": "https://www.discogs.com/master/91532-Andronicus-Make-You-Whole"
    }
   ],
-  "latitude": 51.48281,
-  "longitude": -0.12885
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "hope-recordings",
@@ -66038,8 +66558,13 @@
     "url": "https://www.discogs.com/master/487097-Miguel-Campbell-Back-In-Flight-School"
    }
   ],
-  "latitude": 51.50589,
-  "longitude": -0.16756
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "hot-mix-5-records",
@@ -67451,8 +67976,13 @@
     "url": "https://www.discogs.com/master/41255-Attrition-The-Hidden-Agenda"
    }
   ],
-  "latitude": 52.51051,
-  "longitude": 13.38329
+  "latitude": 49.5103,
+  "longitude": 11.2772,
+  "ville": {
+   "fr": "Lauf an der Pegnitz",
+   "en": "Lauf an der Pegnitz"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "hypnus-records",
@@ -67988,8 +68518,13 @@
     "url": "https://www.discogs.com/master/45232-Reefer-Decree-Sound-Frames"
    }
   ],
-  "latitude": 55.67908,
-  "longitude": 12.56254
+  "latitude": 55.6761,
+  "longitude": 12.5689,
+  "ville": {
+   "fr": "Copenhague",
+   "en": "Copenhagen"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "iceberg-records",
@@ -68088,8 +68623,13 @@
     "url": "https://www.discogs.com/master/1195975-Code-Elektro-Superstrings"
    }
   ],
-  "latitude": 55.673,
-  "longitude": 12.56878
+  "latitude": 56.1783,
+  "longitude": 9.5514,
+  "ville": {
+   "fr": "Silkeborg",
+   "en": "Silkeborg Municipality"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "icewax-records",
@@ -68221,8 +68761,13 @@
   "wikidata": "Q5986629",
   "logo": null,
   "sorties": [],
-  "latitude": 43.65159,
-  "longitude": -79.38506
+  "latitude": 53.5333,
+  "longitude": -113.5,
+  "ville": {
+   "fr": "Edmonton",
+   "en": "Edmonton"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "id-et-t",
@@ -68532,7 +69077,14 @@
     "image": "https://i.discogs.com/C_0pQNiiOsH2QWcezXQnZSoWuID_XpOrLQim8uijess/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc4NDk3/LTEzNDg0MDYyNDMt/MTAzOS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/20554-Royal-House-Get-Funky"
    }
-  ]
+  ],
+  "ville": {
+   "fr": "Brooklyn",
+   "en": "Brooklyn"
+  },
+  "latitude": 40.6508,
+  "longitude": -73.9497,
+  "villeSource": "discogs"
  },
  {
   "slug": "il-discotto",
@@ -68599,8 +69151,13 @@
     "url": "https://www.discogs.com/release/245780-Fake-Donna-Rouge-Voglio-Fare-LAmore"
    }
   ],
-  "latitude": 45.46852,
-  "longitude": 9.19903
+  "latitude": 45.5286,
+  "longitude": 9.2783,
+  "ville": {
+   "fr": "Cologno Monzese",
+   "en": "Cologno Monzese"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ilian-tape",
@@ -68715,9 +69272,12 @@
   "anciens": [],
   "n": 1,
   "pays": null,
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Brooklyn",
+   "en": "Brooklyn"
+  },
+  "latitude": 40.6508,
+  "longitude": -73.9497,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -68805,7 +69365,8 @@
     "image": null,
     "url": "https://www.discogs.com/master/1993801-Whatever-Your-Heart-Desires-Falling-Up"
    }
-  ]
+  ],
+  "villeSource": "presentation"
  },
  {
   "slug": "importe-12",
@@ -69198,8 +69759,13 @@
     "url": "https://www.discogs.com/master/97237-Svenson-Clubbin-On-Sunshine"
    }
   ],
-  "latitude": 52.37751,
-  "longitude": 4.91883
+  "latitude": 51.5889,
+  "longitude": 4.7758,
+  "ville": {
+   "fr": "Bréda",
+   "en": "Breda"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ina-grm",
@@ -69819,8 +70385,13 @@
     "url": "https://www.discogs.com/master/56662-DJ-Manu-Le-Malin-Memory"
    }
   ],
-  "latitude": 40.70564,
-  "longitude": -74.02951
+  "latitude": 40.6508,
+  "longitude": -73.9497,
+  "ville": {
+   "fr": "Brooklyn",
+   "en": "Brooklyn"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "infacted-recordings",
@@ -69919,8 +70490,13 @@
     "url": "https://www.discogs.com/master/26856-Heimat%C3%A6rde-Kadavergehorsam"
    }
   ],
-  "latitude": 52.51246,
-  "longitude": 13.42914
+  "latitude": 49.9797,
+  "longitude": 9.0639,
+  "ville": {
+   "fr": "Stockstadt am Main",
+   "en": "Stockstadt am Main"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "infiltration",
@@ -70025,9 +70601,12 @@
   "anciens": [],
   "n": 1,
   "pays": "France",
-  "ville": null,
-  "latitude": 48.86864,
-  "longitude": 2.34302,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "latitude": 48.8567,
+  "longitude": 2.3522,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -70115,7 +70694,8 @@
     "image": "https://i.discogs.com/GIXWJnvOZPuyp9U1xXW_X0lod7mxm4Mwk96ulh0RELg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwOTQ3/ODQ1LTE1MDcwMjE3/OTQtMjkwMS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1260612-Rone-Mirapolis"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "infinite-machine",
@@ -70733,9 +71313,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Royaume-Uni",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Poole",
+   "en": "Poole"
+  },
+  "latitude": 50.7167,
+  "longitude": -1.9833,
   "annee": 2011,
   "fondateurs": [],
   "site": "https://inspected.co.uk/",
@@ -70823,7 +71406,8 @@
     "image": "https://i.discogs.com/IzNCjnoZ4HKnELUMHGM2UZaPW38I3c9LFd-tzBe5-hI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MzUx/MjkxLTE2MjUyMjQz/MTYtOTMxMy5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2627378-Voljum-dayscapes"
    }
-  ]
+  ],
+  "villeSource": "wikidata"
  },
  {
   "slug": "instinct-records",
@@ -71455,8 +72039,13 @@
     "url": "https://www.discogs.com/master/52043-Orbital-The-Box"
    }
   ],
-  "latitude": 51.52692,
-  "longitude": -0.14714
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "international-deejay-gigolo-records",
@@ -73133,8 +73722,13 @@
     "url": "https://www.discogs.com/master/7474-Various-Jack-Trax-The-First-Album"
    }
   ],
-  "latitude": 51.48232,
-  "longitude": -0.13779
+  "latitude": 51.8911,
+  "longitude": -0.4279,
+  "ville": {
+   "fr": "Luton",
+   "en": "Luton"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "jah-guidance",
@@ -73432,8 +74026,13 @@
     "url": "https://www.discogs.com/master/618136-Kraak-Smaak-Chrome-Waves"
    }
   ],
-  "latitude": 51.51292,
-  "longitude": -0.17173
+  "latitude": 50.8208,
+  "longitude": -0.1375,
+  "ville": {
+   "fr": "Brighton",
+   "en": "Brighton"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "jam-packed",
@@ -73636,8 +74235,13 @@
     "url": "https://www.discogs.com/master/32115-The-Underwolves-So-Blue-Its-Black"
    }
   ],
-  "latitude": 52.52901,
-  "longitude": 13.42584
+  "latitude": 48.1375,
+  "longitude": 11.575,
+  "ville": {
+   "fr": "Munich",
+   "en": "Munich"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "jeahmon-records",
@@ -73848,8 +74452,13 @@
     "url": "https://www.discogs.com/master/2774255-GTA-4-feat-DJ-Funk-Booty-Bounce"
    }
   ],
-  "latitude": 40.70076,
-  "longitude": -74.00721
+  "latitude": 39.9528,
+  "longitude": -75.1636,
+  "ville": {
+   "fr": "Philadelphie",
+   "en": "Philadelphia"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "jes-say-records",
@@ -74952,8 +75561,13 @@
     "url": "https://www.discogs.com/master/98507-DJ-Da-Rick-Attention"
    }
   ],
-  "latitude": 50.85369,
-  "longitude": 4.34101
+  "latitude": 51.0281,
+  "longitude": 4.4803,
+  "ville": {
+   "fr": "Malines",
+   "en": "Mechelen"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "jungle-rebel",
@@ -75047,8 +75661,13 @@
     "url": "https://www.discogs.com/release/1636824-Congo-Natty-Ark-Of-The-Covenant-3-Behane-Selassi"
    }
   ],
-  "latitude": 51.53658,
-  "longitude": -0.12121
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "junior-boy-s-own",
@@ -75154,8 +75773,13 @@
     "url": "https://www.discogs.com/master/27163-The-Chemical-Brothers-Brotherhood"
    }
   ],
-  "latitude": 51.49074,
-  "longitude": -0.16101
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ka2-music",
@@ -75533,8 +76157,13 @@
     "url": "https://www.discogs.com/master/4153315-Copperhead-Matshela"
    }
   ],
-  "latitude": -26.20261,
-  "longitude": 28.04549
+  "latitude": -26.2044,
+  "longitude": 28.0416,
+  "ville": {
+   "fr": "Johannesbourg",
+   "en": "Johannesburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "kalimari-musique",
@@ -77752,8 +78381,13 @@
     "url": "https://www.discogs.com/release/13449209-Mind-Of-A-Dragon-Wheel-Up-EP"
    }
   ],
-  "latitude": 51.48246,
-  "longitude": -0.12584
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "kk-records",
@@ -77852,8 +78486,13 @@
     "url": "https://www.discogs.com/master/30371-LB-Pop-Artificielle"
    }
   ],
-  "latitude": 50.84275,
-  "longitude": 4.34172
+  "latitude": 51.2167,
+  "longitude": 4.3333,
+  "ville": {
+   "fr": "Zwijndrecht",
+   "en": "Zwijndrecht"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "klang-elektronik",
@@ -77952,8 +78591,13 @@
     "url": "https://www.discogs.com/master/54626-Alter-Ego-Why-Not"
    }
   ],
-  "latitude": 52.52385,
-  "longitude": 13.43559
+  "latitude": 50.1106,
+  "longitude": 8.6822,
+  "ville": {
+   "fr": "Francfort-sur-le-Main",
+   "en": "Frankfurt"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "klf-communications",
@@ -78057,8 +78701,13 @@
     "url": "https://www.discogs.com/master/29310-The-KLF-America-What-Time-Is-Love"
    }
   ],
-  "latitude": 51.52888,
-  "longitude": -0.10239
+  "latitude": 52,
+  "longitude": -1,
+  "ville": {
+   "fr": "Buckingham",
+   "en": "Buckingham"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "kling-klang",
@@ -79123,8 +79772,13 @@
     "url": "https://www.discogs.com/master/1781777-Magnet-3-Wighnomy-Bros-Speicher-19"
    }
   ],
-  "latitude": 52.50355,
-  "longitude": 13.40877
+  "latitude": 50.9422,
+  "longitude": 6.9578,
+  "ville": {
+   "fr": "Cologne",
+   "en": "Cologne"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "kompakt-pop",
@@ -79135,9 +79789,12 @@
   "anciens": [],
   "n": 1,
   "pays": "Allemagne",
-  "ville": null,
-  "latitude": 52.53303,
-  "longitude": 13.4135,
+  "ville": {
+   "fr": "Cologne",
+   "en": "Cologne"
+  },
+  "latitude": 50.9422,
+  "longitude": 6.9578,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -79225,7 +79882,8 @@
     "image": "https://i.discogs.com/j4mzHjzYl5DFos8qauF5x4S7RiG8iyqbCdz3A89rvIU/rs:fit/g:sm/q:90/h:340/w:340/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ5MDc0/Ny0xMTM2ODQ1NjI2/LmdpZg.jpeg",
     "url": "https://www.discogs.com/master/161119-Tocotronic-Pure-Vernunft-Darf-Niemals-Siegen-Remixe"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "kontor-records",
@@ -81083,8 +81741,13 @@
     "url": "https://www.discogs.com/master/23305-Colone-Acid-Science-Trax-Vol-2"
    }
   ],
-  "latitude": 52.5116,
-  "longitude": 13.42937
+  "latitude": 49.9994,
+  "longitude": 8.2736,
+  "ville": {
+   "fr": "Mayence",
+   "en": "Mainz"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "large-music",
@@ -81977,8 +82640,13 @@
     "url": "https://www.discogs.com/master/468269-Bombdogs-First-Time"
    }
   ],
-  "latitude": 50.83691,
-  "longitude": 4.3558
+  "latitude": 51.0536,
+  "longitude": 3.7253,
+  "ville": {
+   "fr": "Gand",
+   "en": "Ghent"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "leisure-system",
@@ -82910,8 +83578,13 @@
    "page": "https://www.discogs.com/label/10759-Line"
   },
   "sorties": [],
-  "latitude": 40.69937,
-  "longitude": -73.99991
+  "latitude": 34.0522,
+  "longitude": -118.2437,
+  "ville": {
+   "fr": "Los Angeles",
+   "en": "Los Angeles"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "link-records",
@@ -82922,9 +83595,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Royaume-Uni",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Sittingbourne",
+   "en": "Sittingbourne"
+  },
+  "latitude": 51.34,
+  "longitude": 0.74,
   "annee": 1986,
   "fondateurs": [],
   "site": null,
@@ -82967,7 +83643,8 @@
     "image": "https://i.discogs.com/S9fP1GD1EL-uDvpwRvG6UfT9UtVgjWY-qDxIZCILp7Y/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MDE1/NjA5LTE3NTcwNzQz/NTQtNjczNS5qcGVn.jpeg",
     "url": "https://www.discogs.com/release/35015609-Various-Tribal-Home"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "liquicity",
@@ -83178,8 +83855,13 @@
     "url": "https://www.discogs.com/master/85025-4-Strings-Turn-It-Around"
    }
   ],
-  "latitude": 52.36325,
-  "longitude": 4.88243
+  "latitude": 52.23,
+  "longitude": 5.18,
+  "ville": {
+   "fr": "Hilversum",
+   "en": "Hilversum"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "lisbon-lux-records",
@@ -83495,8 +84177,13 @@
     "url": "https://www.discogs.com/master/2018302-Roman-Fl%C3%BCgel-Brian-Le-Bon"
    }
   ],
-  "latitude": 52.50424,
-  "longitude": 13.39319
+  "latitude": 50.1106,
+  "longitude": 8.6822,
+  "ville": {
+   "fr": "Francfort-sur-le-Main",
+   "en": "Frankfurt"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "live-from-earth-klub",
@@ -85099,8 +85786,13 @@
     "url": "https://www.discogs.com/master/712534-Force-Mass-Motion-Why-Me"
    }
   ],
-  "latitude": 51.53292,
-  "longitude": -0.12242
+  "latitude": 51.6829,
+  "longitude": 0.7279,
+  "ville": {
+   "fr": "Maldon",
+   "en": "Maldon"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "love",
@@ -85551,8 +86243,13 @@
     "url": "https://www.discogs.com/master/1611035-Hudson-Mohawke-Hudsons-Heeters-Vol-1"
    }
   ],
-  "latitude": 51.53273,
-  "longitude": -0.15033
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "luke-records",
@@ -86020,8 +86717,13 @@
    "page": "https://www.discogs.com/label/399-M-Plant"
   },
   "sorties": [],
-  "latitude": 40.7105,
-  "longitude": -74.02987
+  "latitude": 42.3317,
+  "longitude": -83.0475,
+  "ville": {
+   "fr": "Détroit",
+   "en": "Detroit"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "m-d-d-gold",
@@ -86898,8 +87600,13 @@
     "url": "https://www.discogs.com/master/523943-Amp-Dog-Knights-Im-Doing-Fine"
    }
   ],
-  "latitude": 40.7013,
-  "longitude": -73.98608
+  "latitude": 42.3317,
+  "longitude": -83.0475,
+  "ville": {
+   "fr": "Détroit",
+   "en": "Detroit"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "main-squeeze",
@@ -89614,8 +90321,13 @@
     "url": "https://www.discogs.com/master/155207-The-Look-Glammer-Girl"
    }
   ],
-  "latitude": 40.72604,
-  "longitude": -74.01264
+  "latitude": 40.7128,
+  "longitude": -74.0061,
+  "ville": {
+   "fr": "New York",
+   "en": "New York City"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "mca-records",
@@ -90901,8 +91613,13 @@
     "url": "https://www.discogs.com/master/88494-Babys-Gang-Happy-Song"
    }
   ],
-  "latitude": 45.45498,
-  "longitude": 9.18226
+  "latitude": 44.8015,
+  "longitude": 10.328,
+  "ville": {
+   "fr": "Parme",
+   "en": "Parma"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "mental-groove-records",
@@ -91001,8 +91718,13 @@
     "url": "https://www.discogs.com/master/254666-Luciano-La-Limonada-De-Pepe-Bombilla"
    }
   ],
-  "latitude": 47.3738,
-  "longitude": 8.5421
+  "latitude": 46.2,
+  "longitude": 6.15,
+  "ville": {
+   "fr": "Genève",
+   "en": "Geneva"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "merak-music",
@@ -91873,8 +92595,13 @@
     "url": "https://www.discogs.com/master/197522-Paul-Young-No-Parlez"
    }
   ],
-  "latitude": 40.71962,
-  "longitude": -73.98479
+  "latitude": 39.9189,
+  "longitude": -75.3892,
+  "ville": {
+   "fr": "Media",
+   "en": "Media"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "mexican-summer",
@@ -92362,8 +93089,13 @@
     "url": "https://www.discogs.com/release/1484863-The-DJ-Producer-Operation-Obliterate-A-Collection-Of-Industrial-Love-Songs"
    }
   ],
-  "latitude": 48.8434,
-  "longitude": 2.3523
+  "latitude": 48.9036,
+  "longitude": 2.3056,
+  "ville": {
+   "fr": "Clichy",
+   "en": "Clichy"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "microqlima",
@@ -93511,8 +94243,13 @@
     "url": "https://www.discogs.com/master/44087-Jonn-Serrie-Planetary-Chronicles-Volume-1"
    }
   ],
-  "latitude": 40.69637,
-  "longitude": -74.00072
+  "latitude": 47.605,
+  "longitude": -122.33,
+  "ville": {
+   "fr": "Seattle",
+   "en": "Seattle"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "mirror-universe-tapes",
@@ -94206,8 +94943,13 @@
     "url": "https://www.discogs.com/master/32974-Plump-DJs-Urban-Underground-The-Breakbeat-Elite"
    }
   ],
-  "latitude": 51.52931,
-  "longitude": -0.10536
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "mobilee",
@@ -94918,10 +95660,11 @@
   ],
   "ville": {
    "fr": "New York",
-   "en": "New York"
+   "en": "New York City"
   },
-  "latitude": 43,
-  "longitude": -75
+  "latitude": 40.7128,
+  "longitude": -74.0061,
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "monaberry",
@@ -96824,8 +97567,13 @@
     "url": "https://www.discogs.com/master/679775-Various-La-Vita-Non-Cara-Deluxe-Package-A"
    }
   ],
-  "latitude": -33.8636,
-  "longitude": 151.20762
+  "latitude": -37.8142,
+  "longitude": 144.9631,
+  "ville": {
+   "fr": "Melbourne",
+   "en": "Melbourne"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "motivo-productions",
@@ -96919,8 +97667,13 @@
     "url": "https://www.discogs.com/master/142543-Milky-In-My-Mind"
    }
   ],
-  "latitude": 45.46147,
-  "longitude": 9.17747
+  "latitude": 45.5389,
+  "longitude": 10.2203,
+  "ville": {
+   "fr": "Brescia",
+   "en": "Brescia"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "motor-music",
@@ -97319,9 +98072,12 @@
   "anciens": [],
   "n": 2,
   "pays": "Royaume-Uni",
-  "ville": null,
-  "latitude": 51.52438,
-  "longitude": -0.08335,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "latitude": 51.5072,
+  "longitude": -0.1275,
   "annee": 1990,
   "fondateurs": [],
   "site": "http://www.movingshadow.com/",
@@ -97415,7 +98171,8 @@
     "image": "https://i.discogs.com/Rv7LcrXgWIGDjCp_fdGw5WNuH4lmeY3vgbYoc7QXoSk/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMy0x/NDg5NjcyODc4LTk4/NTAuanBlZw.jpeg",
     "url": "https://www.discogs.com/master/9463-E-Z-Rollers-Tough-At-The-Top"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "mp3-com",
@@ -98280,8 +99037,13 @@
     "url": "https://www.discogs.com/master/3504069-Balearic-Mike-And-Kelvin-Andrews-Down-To-The-Sea-And-Back-The-Continuing-Journey-Of-The-Balearic-Bea"
    }
   ],
-  "latitude": 55.67602,
-  "longitude": 12.57289
+  "latitude": 55.6761,
+  "longitude": 12.5689,
+  "ville": {
+   "fr": "Copenhague",
+   "en": "Copenhagen"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "music-from-memory",
@@ -98560,8 +99322,13 @@
     "url": "https://www.discogs.com/master/138697-Derek-B-Good-Groove"
    }
   ],
-  "latitude": 51.51727,
-  "longitude": -0.16938
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "music-on-vinyl",
@@ -98829,8 +99596,13 @@
     "url": "https://www.discogs.com/master/3916039-Boards-Of-Canada-Dayvan-Cowboy"
    }
   ],
-  "latitude": 51.48323,
-  "longitude": -0.10175
+  "latitude": 55.9533,
+  "longitude": -3.1892,
+  "ville": {
+   "fr": "Édimbourg",
+   "en": "Edinburgh"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "musical-freedom",
@@ -100291,8 +101063,13 @@
     "url": "https://www.discogs.com/master/58572-John-00-Fleming-vs-Simple-Minds-Belfast-Trance"
    }
   ],
-  "latitude": 51.52861,
-  "longitude": -0.16058
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "nec-records",
@@ -100566,8 +101343,13 @@
     "url": "https://www.discogs.com/master/2672-Tha-Playah-Fuckin-Weird-Titties-Clits"
    }
   ],
-  "latitude": 52.37342,
-  "longitude": 4.87598
+  "latitude": 51.7958,
+  "longitude": 4.6783,
+  "ville": {
+   "fr": "Dordrecht",
+   "en": "Dordrecht"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "nerds-records",
@@ -101054,8 +101836,13 @@
     "url": "https://www.discogs.com/master/564657-Base-Mobile-SP-23-Expekt-The-Unxpekted"
    }
   ],
-  "latitude": 48.85684,
-  "longitude": 2.32921
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "neuropunk-records",
@@ -101271,8 +102058,13 @@
     "url": "https://www.discogs.com/master/464943-Various-Never-Say-Die"
    }
   ],
-  "latitude": 51.47479,
-  "longitude": -0.1262
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "never-say-die-black-label",
@@ -101675,8 +102467,13 @@
     "url": "https://www.discogs.com/master/460722-Ferry-Corsten-Creamfields"
    }
   ],
-  "latitude": 51.50408,
-  "longitude": -0.17519
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "new-world-records",
@@ -102827,8 +103624,13 @@
     "url": "https://www.discogs.com/master/156618-BBC-Traxx-The-Truth"
    }
   ],
-  "latitude": 50.84084,
-  "longitude": 4.34289
+  "latitude": 50.9842,
+  "longitude": 4.8333,
+  "ville": {
+   "fr": "Aerschot",
+   "en": "Aarschot"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "no-paper-records",
@@ -102900,8 +103702,13 @@
     "url": "https://www.discogs.com/master/3640557-Zamilska-United-Kingdom-Of-Anxiety-"
    }
   ],
-  "latitude": 52.23268,
-  "longitude": 21.0069
+  "latitude": 52.4083,
+  "longitude": 16.9336,
+  "ville": {
+   "fr": "Poznań",
+   "en": "Poznań"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "no-type",
@@ -103685,8 +104492,13 @@
     "url": "https://www.discogs.com/master/1347276-Aslan-Faction-Blunt-Force-Trauma"
    }
   ],
-  "latitude": 52.54033,
-  "longitude": 13.39931
+  "latitude": 50.8263,
+  "longitude": 12.9118,
+  "ville": {
+   "fr": "Chemnitz",
+   "en": "Chemnitz"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "non-worldwide",
@@ -104367,8 +105179,13 @@
     "url": "https://www.discogs.com/master/3669948-Alva-Noto-Xerrox-Vol5"
    }
   ],
-  "latitude": 52.50626,
-  "longitude": 13.38352
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "novamute",
@@ -104774,8 +105591,13 @@
     "url": "https://www.discogs.com/master/188206-Critical-Rhythm-Featuring-Jango-Thriller-Vandal-It-Could-Not-Happen"
    }
   ],
-  "latitude": 40.70059,
-  "longitude": -74.01804
+  "latitude": 40.7128,
+  "longitude": -74.0061,
+  "ville": {
+   "fr": "New York",
+   "en": "New York City"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "nu-urban-music",
@@ -105762,8 +106584,13 @@
     "url": "https://www.discogs.com/release/5667278-Cold-Project-We-Are-Still-Here"
    }
   ],
-  "latitude": 19.0729,
-  "longitude": 72.87799
+  "latitude": 12.9791,
+  "longitude": 77.5913,
+  "ville": {
+   "fr": "Bengaluru",
+   "en": "Bengaluru"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "octave-lab",
@@ -105910,9 +106737,12 @@
   "anciens": [],
   "n": 0,
   "pays": "Allemagne",
-  "ville": null,
-  "latitude": 52.50278,
-  "longitude": 13.41093,
+  "ville": {
+   "fr": "Gelsenkirchen",
+   "en": "Gelsenkirchen"
+  },
+  "latitude": 51.5103,
+  "longitude": 7.0942,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -106000,7 +106830,8 @@
     "image": "https://i.discogs.com/Tv15H2nPNOX2xze7veeSdT66T-oKSr8Gi73dFfKFuKc/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4Mjk4/NS0xMjAxOTk4MDg3/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/26678-Front-Line-Assembly-Circuitry"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "offer-nissim-music-publishing",
@@ -106173,8 +107004,13 @@
     "url": "https://www.discogs.com/master/2708-Ash-Ra-Tempel-Join-Inn"
    }
   ],
-  "latitude": 52.53744,
-  "longitude": 13.41953
+  "latitude": 51,
+  "longitude": 6.8,
+  "ville": {
+   "fr": "Pulheim",
+   "en": "Pulheim"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "oil-gang",
@@ -106471,8 +107307,13 @@
     "url": "https://www.discogs.com/master/19133-African-Head-Charge-In-Pursuit-Of-Shashamane-Land"
    }
   ],
-  "latitude": 51.53563,
-  "longitude": -0.11036
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "one-records",
@@ -106652,8 +107493,13 @@
     "url": "https://www.discogs.com/release/771307-Various-Ibiza-Annual-2005"
    }
   ],
-  "latitude": 48.84468,
-  "longitude": 2.3408
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ophelia-records",
@@ -107374,8 +108220,13 @@
     "url": "https://www.discogs.com/master/20384-Gabriel-Dresden-Mass-Repeat-Eleven"
    }
   ],
-  "latitude": 51.49537,
-  "longitude": -0.17402
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "origins",
@@ -108262,8 +109113,13 @@
     "url": "https://www.discogs.com/master/1492367-Fief-IV"
    }
   ],
-  "latitude": 40.72449,
-  "longitude": -74.02976
+  "latitude": 43.66,
+  "longitude": -70.255,
+  "ville": {
+   "fr": "Portland",
+   "en": "Portland"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "out-on-a-limb",
@@ -109185,8 +110041,13 @@
     "url": "https://www.discogs.com/master/272377-Axel-Boman-Holy-Love"
    }
   ],
-  "latitude": 52.50997,
-  "longitude": 13.37518
+  "latitude": 53.55,
+  "longitude": 10,
+  "ville": {
+   "fr": "Hambourg",
+   "en": "Hamburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "pan",
@@ -109285,8 +110146,13 @@
     "url": "https://www.discogs.com/master/1451158-Objekt-Cocoon-Crush"
    }
   ],
-  "latitude": 51.53075,
-  "longitude": -0.14671
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "pandaimonium-records",
@@ -109297,9 +110163,12 @@
   "anciens": [],
   "n": 1,
   "pays": "Allemagne",
-  "ville": null,
-  "latitude": 52.51262,
-  "longitude": 13.4352,
+  "ville": {
+   "fr": "Filderstadt",
+   "en": "Filderstadt"
+  },
+  "latitude": 48.6667,
+  "longitude": 9.2167,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -109387,7 +110256,8 @@
     "image": "https://i.discogs.com/2l3lCH5F2YoiSKdQfrbXyIpEo98EgLtHPlkcMyNivGo/rs:fit/g:sm/q:90/h:250/w:250/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU1MjY4/MS0xMTMwNjE1NjQ4/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/42815-The-Frozen-Autumn-Is-Anybody-There"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "pandisc",
@@ -110709,8 +111579,13 @@
     "url": "https://www.discogs.com/master/1232814-Duran-Duran-Duran-Blow-Job-Breaks"
    }
   ],
-  "latitude": 48.86717,
-  "longitude": 2.36107
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "peacefrog-records",
@@ -111140,9 +112015,12 @@
   "anciens": [],
   "n": 0,
   "pays": "États-Unis",
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Brooklyn",
+   "en": "Brooklyn"
+  },
+  "latitude": 40.6508,
+  "longitude": -73.9497,
   "annee": 2005,
   "fondateurs": [],
   "site": "http://www.pendusound.com/",
@@ -111225,7 +112103,8 @@
     "image": "https://i.discogs.com/ikM4JmfhCXL5Pe84QJkHJcPw0wcZw0XJe0awlggwndY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ1MTYy/NzctMTM2NzA5NTcz/NS03Mjk0LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/2315539-Family-Hlanganisa"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "penetration-records",
@@ -111424,8 +112303,13 @@
     "url": "https://www.discogs.com/master/88265-Critical-Mass-Dancing-Together"
    }
   ],
-  "latitude": 52.36316,
-  "longitude": 4.9277
+  "latitude": 51.8306,
+  "longitude": 4.9742,
+  "ville": {
+   "fr": "Gorinchem",
+   "en": "Gorinchem"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "penguin",
@@ -111488,8 +112372,13 @@
     "url": "https://www.discogs.com/master/81715-Pankow-Svobody"
    }
   ],
-  "latitude": 37.98831,
-  "longitude": 23.72838
+  "latitude": 37.9842,
+  "longitude": 23.7281,
+  "ville": {
+   "fr": "Athènes",
+   "en": "Athens"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "peppermint-jam",
@@ -111588,8 +112477,13 @@
     "url": "https://www.discogs.com/master/152221-BMR-Feat-Felicia-Check-It-Out-Everybody"
    }
   ],
-  "latitude": 52.49772,
-  "longitude": 13.3959
+  "latitude": 52.3744,
+  "longitude": 9.7386,
+  "ville": {
+   "fr": "Hanovre",
+   "en": "Hanover"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "perc-trax",
@@ -111792,8 +112686,13 @@
     "url": "https://www.discogs.com/master/262073-Andy-Blueman-Florescence"
    }
   ],
-  "latitude": 51.50649,
-  "longitude": -0.07762
+  "latitude": 51.4536,
+  "longitude": -2.5975,
+  "ville": {
+   "fr": "Bristol",
+   "en": "Bristol"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "perfecto",
@@ -111892,8 +112791,13 @@
     "url": "https://www.discogs.com/master/18623-Oakenfold-Bunkka"
    }
   ],
-  "latitude": 51.52675,
-  "longitude": -0.16695
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "perlon",
@@ -113922,8 +114826,13 @@
     "url": "https://www.discogs.com/master/205777-Original-Sin-Therapy-Kiss"
    }
   ],
-  "latitude": 51.47532,
-  "longitude": -0.14751
+  "latitude": 51.5,
+  "longitude": -0.5667,
+  "ville": {
+   "fr": "Slough",
+   "en": "Slough"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "playhouse",
@@ -114022,8 +114931,13 @@
     "url": "https://www.discogs.com/master/15774-Isol%C3%A9e-Rest"
    }
   ],
-  "latitude": 52.5333,
-  "longitude": 13.43732
+  "latitude": 50.1106,
+  "longitude": 8.6822,
+  "ville": {
+   "fr": "Francfort-sur-le-Main",
+   "en": "Frankfurt"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "pleasence-records",
@@ -114806,8 +115720,13 @@
     "url": "https://www.discogs.com/master/299801-Trentem%C3%B8ller-Polar-Shift"
    }
   ],
-  "latitude": 52.50492,
-  "longitude": 13.42189
+  "latitude": 53.55,
+  "longitude": 10,
+  "ville": {
+   "fr": "Hambourg",
+   "en": "Hamburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "polaris",
@@ -115453,8 +116372,13 @@
     "url": "https://www.discogs.com/master/67438-Fila-Brazillia-Mermaids"
    }
   ],
-  "latitude": 51.48111,
-  "longitude": -0.10553
+  "latitude": 53.7444,
+  "longitude": -0.3325,
+  "ville": {
+   "fr": "Kingston-upon-Hull",
+   "en": "Kingston upon Hull"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "portraits-grm",
@@ -115975,8 +116899,13 @@
     "url": "https://www.discogs.com/master/699366-Ben-Long-Potential-007"
    }
   ],
-  "latitude": 51.48637,
-  "longitude": -0.16986
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "poverty-electronics",
@@ -116165,8 +117094,13 @@
     "url": "https://www.discogs.com/master/466092-Nitzer-Ebb-Get-Clean"
    }
   ],
-  "latitude": 51.49965,
-  "longitude": -0.07649
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "power-trio",
@@ -116503,8 +117437,13 @@
    "page": "https://www.discogs.com/label/10871-Press-Records"
   },
   "sorties": [],
-  "latitude": 40.70232,
-  "longitude": -73.9814
+  "latitude": 33.7544,
+  "longitude": -84.3897,
+  "ville": {
+   "fr": "Atlanta",
+   "en": "Atlanta"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "pressure-sounds",
@@ -116718,9 +117657,12 @@
   "anciens": [],
   "n": 1,
   "pays": null,
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "latitude": 51.5072,
+  "longitude": -0.1275,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -116808,7 +117750,8 @@
     "image": "https://i.discogs.com/fEGHERxYqIHe4TJ3Qq9lCSm0PFUfZ0nQWTCvYCWmr5A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwODEw/LTE0MDM0NDMwMzEt/NDg4NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2959-Chris-Liebing-No-Time-To-Waste-EP"
    }
-  ]
+  ],
+  "villeSource": "discogs"
  },
  {
   "slug": "principe",
@@ -117228,8 +118171,13 @@
     "url": "https://www.discogs.com/master/7891-The-House-Crew-The-Theme-Euphoria"
    }
   ],
-  "latitude": 51.5337,
-  "longitude": -0.16287
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "productions-supermusique",
@@ -117575,8 +118523,13 @@
     "url": "https://www.discogs.com/master/1708512-Jorn-van-Deynhoven-The-Future-Is-Now"
    }
   ],
-  "latitude": 52.23272,
-  "longitude": 21.01599
+  "latitude": 52.23,
+  "longitude": 21.0111,
+  "ville": {
+   "fr": "Varsovie",
+   "en": "Warsaw"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "prologue",
@@ -117675,8 +118628,13 @@
     "url": "https://www.discogs.com/master/471900-Milton-Bradley-Reality-Is-Wrong"
    }
   ],
-  "latitude": 52.53194,
-  "longitude": 13.38727
+  "latitude": 48.1375,
+  "longitude": 11.575,
+  "ville": {
+   "fr": "Munich",
+   "en": "Munich"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "prototype-recordings",
@@ -117979,8 +118937,13 @@
     "url": "https://www.discogs.com/master/925326-Claude-Challe-Buddha-Bar-II"
    }
   ],
-  "latitude": 48.8671,
-  "longitude": 2.36901
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "psy-harmonics",
@@ -118181,8 +119144,13 @@
     "url": "https://www.discogs.com/master/531260-Hellfish-Vs-Micropoint-Motordog-Healing-Mod"
    }
   ],
-  "latitude": 48.86156,
-  "longitude": 2.33202
+  "latitude": 48.9036,
+  "longitude": 2.3056,
+  "ville": {
+   "fr": "Clichy",
+   "en": "Clichy"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "public-demand",
@@ -118281,8 +119249,13 @@
     "url": "https://www.discogs.com/master/77732-Artful-Dodger-Presents-Craig-David-Rewind"
    }
   ],
-  "latitude": 51.5266,
-  "longitude": -0.09048
+  "latitude": 51.5423,
+  "longitude": -0.0026,
+  "ville": {
+   "fr": "Stratford",
+   "en": "Stratford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "punch-drunk",
@@ -118835,8 +119808,13 @@
     "url": "https://www.discogs.com/master/1624205-Luna-Meets-Trilok-Chiren-DHHD-The-Anthem"
    }
   ],
-  "latitude": 52.38224,
-  "longitude": 4.88882
+  "latitude": 51.8306,
+  "longitude": 4.9742,
+  "ville": {
+   "fr": "Gorinchem",
+   "en": "Gorinchem"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "qilla-records",
@@ -120214,8 +121192,13 @@
     "url": "https://www.discogs.com/master/1072921-25th-Frame-The-French-Aphrodisiac-EP"
    }
   ],
-  "latitude": 48.84452,
-  "longitude": 2.36783
+  "latitude": 48.905,
+  "longitude": 2.2436,
+  "ville": {
+   "fr": "La Garenne-Colombes",
+   "en": "La Garenne-Colombes"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "rave-generation",
@@ -121011,8 +121994,13 @@
     "url": "https://www.discogs.com/master/3504525-Larry-Heard-aka-Mr-Fingers-Rebirth-10"
    }
   ],
-  "latitude": 45.46699,
-  "longitude": 9.17831
+  "latitude": 45.5389,
+  "longitude": 10.2203,
+  "ville": {
+   "fr": "Brescia",
+   "en": "Brescia"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "recollection-grm",
@@ -121211,8 +122199,13 @@
     "url": "https://www.discogs.com/master/309200-Hip-Hop-Boyz-3"
    }
   ],
-  "latitude": 47.50088,
-  "longitude": 19.0354
+  "latitude": 47.4983,
+  "longitude": 19.0408,
+  "ville": {
+   "fr": "Budapest",
+   "en": "Budapest"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "record-makers",
@@ -121655,8 +122648,13 @@
     "url": "https://www.discogs.com/master/31757-Front-242-Master-Hit"
    }
   ],
-  "latitude": 50.85337,
-  "longitude": 4.33324
+  "latitude": 50.8467,
+  "longitude": 4.3517,
+  "ville": {
+   "fr": "Bruxelles",
+   "en": "Brussels"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "reduced-phat",
@@ -122256,8 +123254,13 @@
     "url": "https://www.discogs.com/master/51223-Monie-Love-Slice-Of-Da-Pie"
    }
   ],
-  "latitude": 51.49245,
-  "longitude": -0.17512
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "relief-records",
@@ -122566,8 +123569,13 @@
     "url": "https://www.discogs.com/master/64135-M-Beat-Shuffle"
    }
   ],
-  "latitude": 51.53597,
-  "longitude": -0.15094
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "rephlex",
@@ -122742,8 +123750,13 @@
     "url": "https://www.discogs.com/master/1564132-Mike-Griego-Decoy-EP"
    }
   ],
-  "latitude": 60.16473,
-  "longitude": 24.93301
+  "latitude": 61.4981,
+  "longitude": 23.76,
+  "ville": {
+   "fr": "Tampere",
+   "en": "Tampere"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "repopulate-mars",
@@ -125902,8 +126915,13 @@
     "url": "https://www.discogs.com/master/259299-Ni%C3%B1o-Jarko-Time-For-Remember"
    }
   ],
-  "latitude": 41.39141,
-  "longitude": 2.15831
+  "latitude": 41.3825,
+  "longitude": 2.1769,
+  "ville": {
+   "fr": "Barcelone",
+   "en": "Barcelona"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ruff-sqwad-recordings",
@@ -126211,8 +127229,13 @@
     "url": "https://www.discogs.com/master/99256-Todd-Terry-Sessions-Eight"
    }
   ],
-  "latitude": 51.53079,
-  "longitude": -0.1679
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "running-back",
@@ -126311,8 +127334,13 @@
     "url": "https://www.discogs.com/master/1431171-Klaus-Stockhausen-Boris-Dlugosch-Running-Back-Mastermix-Front"
    }
   ],
-  "latitude": 52.51433,
-  "longitude": 13.37731
+  "latitude": 49.6539,
+  "longitude": 8.5675,
+  "ville": {
+   "fr": "Lorsch",
+   "en": "Lorsch"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "running-clouds",
@@ -127533,9 +128561,12 @@
   "anciens": [],
   "n": 1,
   "pays": null,
-  "ville": null,
-  "latitude": null,
-  "longitude": null,
+  "ville": {
+   "fr": "Le Cap",
+   "en": "Cape Town"
+  },
+  "latitude": -33.9253,
+  "longitude": 18.4239,
   "annee": null,
   "fondateurs": [],
   "site": null,
@@ -127596,7 +128627,8 @@
     "image": "https://i.discogs.com/0JdRxWbRoqVTBE2tNc4XbYGnrqViEZ2XSDBaxHCptSQ/rs:fit/g:sm/q:90/h:540/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU5NjE4/OS0xNTE4MTAwMTUw/LTc3MjQuanBlZw.jpeg",
     "url": "https://www.discogs.com/release/596189-Various-Adapted-Vision"
    }
-  ]
+  ],
+  "villeSource": "presentation"
  },
  {
   "slug": "satellite",
@@ -127875,11 +128907,12 @@
    }
   ],
   "ville": {
-   "fr": "Pays-Bas",
-   "en": "Netherlands"
+   "fr": "De Meern",
+   "en": "De Meern"
   },
-  "latitude": 52.316666666,
-  "longitude": 5.55
+  "latitude": 52.0806,
+  "longitude": 5.0333,
+  "villeSource": "discogs"
  },
  {
   "slug": "scantraxx-evolutionz",
@@ -128690,8 +129723,13 @@
     "url": "https://www.discogs.com/master/241994-Benoit-Tourne-Toi-Benoit"
    }
   ],
-  "latitude": 48.84164,
-  "longitude": 2.35323
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "scour-records",
@@ -128879,8 +129917,13 @@
     "url": "https://www.discogs.com/release/25497487-Testfeuer-Passive-Aggressive"
    }
   ],
-  "latitude": 19.43562,
-  "longitude": -99.13074
+  "latitude": 19.6923,
+  "longitude": -100.5574,
+  "ville": {
+   "fr": "Ciudad Hidalgo",
+   "en": "Ciudad Hidalgo"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "second-state",
@@ -128979,8 +130022,13 @@
     "url": "https://www.discogs.com/master/1717814-Hinz-Ruhmhardt-Panther"
    }
   ],
-  "latitude": 52.49809,
-  "longitude": 13.38814
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "secret-songs",
@@ -129115,8 +130163,13 @@
    "page": "https://www.discogs.com/label/583648-Seduction"
   },
   "sorties": [],
-  "latitude": 51.4822,
-  "longitude": -0.14833
+  "latitude": 51.1465,
+  "longitude": 0.8676,
+  "ville": {
+   "fr": "Ashford",
+   "en": "Ashford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "selektion",
@@ -129707,8 +130760,13 @@
     "url": "https://www.discogs.com/master/2121070-Felipe-Gordon-A-Landscape-Onomatopeya"
    }
   ],
-  "latitude": 51.47749,
-  "longitude": -0.11353
+  "latitude": 51.6444,
+  "longitude": -0.1997,
+  "ville": {
+   "fr": "Barnet",
+   "en": "Barnet"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "shamanic-tales",
@@ -130427,8 +131485,13 @@
     "url": "https://www.discogs.com/master/1321788-Technosis-Aural-Assault-EP"
    }
   ],
-  "latitude": 51.49938,
-  "longitude": -0.08468
+  "latitude": 56.11,
+  "longitude": -3.16,
+  "ville": {
+   "fr": "Kirkcaldy",
+   "en": "Kirkcaldy"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "shoshin",
@@ -130707,8 +131770,13 @@
     "url": "https://www.discogs.com/master/250176-Various-An-Anthology-Of-Noise-Electronic-Music-Second-A-Chronology-1936-2003"
    }
   ],
-  "latitude": 40.70084,
-  "longitude": -74.02879
+  "latitude": 45.515,
+  "longitude": -122.6792,
+  "ville": {
+   "fr": "Portland",
+   "en": "Portland"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "signature-records",
@@ -130899,8 +131967,13 @@
     "url": "https://www.discogs.com/master/155254-Danny-Tenaglia-The-Space-Dance"
    }
   ],
-  "latitude": 40.72738,
-  "longitude": -74.02571
+  "latitude": 40.7128,
+  "longitude": -74.0061,
+  "ville": {
+   "fr": "New York",
+   "en": "New York City"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "simplex-records",
@@ -135328,8 +136401,13 @@
     "url": "https://www.discogs.com/master/319569-Theo-Parrish-Pieces-Of-A-Paradox"
    }
   ],
-  "latitude": 40.709,
-  "longitude": -74.03942
+  "latitude": 42.3317,
+  "longitude": -83.0475,
+  "ville": {
+   "fr": "Détroit",
+   "en": "Detroit"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "soundquest-music",
@@ -136322,8 +137400,13 @@
     "url": "https://www.discogs.com/master/1209148-Neel-The-Vancori-Complex"
    }
   ],
-  "latitude": 45.47657,
-  "longitude": 9.20095
+  "latitude": 41.8931,
+  "longitude": 12.4828,
+  "ville": {
+   "fr": "Rome",
+   "en": "Rome"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "speakeasy-electro-swing",
@@ -136778,8 +137861,13 @@
     "url": "https://www.discogs.com/master/1528727-Pressterror-Suizidcore-Worldwide"
    }
   ],
-  "latitude": 52.54226,
-  "longitude": 13.41423
+  "latitude": 51.5232,
+  "longitude": 6.9253,
+  "ville": {
+   "fr": "Bottrop",
+   "en": "Bottrop"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "speedsadd",
@@ -136878,8 +137966,13 @@
     "url": "https://www.discogs.com/master/1822077-Rolo-vs-Raul-Lokura-Vertigo"
    }
   ],
-  "latitude": 41.39359,
-  "longitude": 2.16573
+  "latitude": 41.9141,
+  "longitude": 1.681,
+  "ville": {
+   "fr": "Cardona",
+   "en": "Cardona"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "spf-infini",
@@ -137401,8 +138494,13 @@
     "url": "https://www.discogs.com/master/1785134-Various-Pulse-6-The-Next-Generation"
    }
   ],
-  "latitude": 59.33292,
-  "longitude": 18.07688
+  "latitude": 57.7075,
+  "longitude": 11.9675,
+  "ville": {
+   "fr": "Göteborg",
+   "en": "Gothenburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "spirit-zone-recordings",
@@ -137854,8 +138952,13 @@
     "url": "https://www.discogs.com/master/101184-Savoire-Faire-Talkin-To-The-Stars"
    }
   ],
-  "latitude": 45.46009,
-  "longitude": 9.16888
+  "latitude": 44.4072,
+  "longitude": 8.9339,
+  "ville": {
+   "fr": "Gênes",
+   "en": "Genoa"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "ssr",
@@ -138948,8 +140051,13 @@
    "page": "https://www.discogs.com/label/12299-Step"
   },
   "sorties": [],
-  "latitude": 52.37809,
-  "longitude": 4.88331
+  "latitude": 51.8306,
+  "longitude": 4.9742,
+  "ville": {
+   "fr": "Gorinchem",
+   "en": "Gorinchem"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "stereo-productions",
@@ -139048,8 +140156,13 @@
     "url": "https://www.discogs.com/master/193430-Chus-Ceballos-vs-Tedd-Patterson-In-Stereo"
    }
   ],
-  "latitude": 41.38358,
-  "longitude": 2.15981
+  "latitude": 40.2833,
+  "longitude": -3.8,
+  "ville": {
+   "fr": "Fuenlabrada",
+   "en": "Fuenlabrada"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "steyoyoke",
@@ -141250,11 +142363,12 @@
    }
   ],
   "ville": {
-   "fr": "Belgique",
-   "en": "Belgium"
+   "fr": "Bruxelles",
+   "en": "Brussels"
   },
-  "latitude": 50.64409,
-  "longitude": 4.66294
+  "latitude": 50.8467,
+  "longitude": 4.3517,
+  "villeSource": "discogs"
  },
  {
   "slug": "sub-soldiers",
@@ -141353,8 +142467,13 @@
     "url": "https://www.discogs.com/master/15418-Caspa-The-Takeover-Marmite"
    }
   ],
-  "latitude": 51.47665,
-  "longitude": -0.15274
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "subculture",
@@ -141881,8 +143000,13 @@
     "url": "https://www.discogs.com/master/13807-Covenant-Dead-Stars"
    }
   ],
-  "latitude": 59.33626,
-  "longitude": 18.07288
+  "latitude": 55.565,
+  "longitude": 13.0186,
+  "ville": {
+   "fr": "Malmö",
+   "en": "Malmö Municipality"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "substractif",
@@ -142341,8 +143465,13 @@
     "url": "https://www.discogs.com/master/4911-Rachel-Wallace-Tell-Me-Why"
    }
   ],
-  "latitude": 51.51283,
-  "longitude": -0.17691
+  "latitude": 51.588,
+  "longitude": 0.187,
+  "ville": {
+   "fr": "Romford",
+   "en": "Romford"
+  },
+  "villeSource": "presentation"
  },
  {
   "slug": "subway",
@@ -142533,8 +143662,13 @@
     "url": "https://www.discogs.com/master/13694-Dance-2-Trance-Hello-San-Francisco"
    }
   ],
-  "latitude": 52.53321,
-  "longitude": 13.42695
+  "latitude": 50.2292,
+  "longitude": 8.6105,
+  "ville": {
+   "fr": "Bad Homburg vor der Höhe",
+   "en": "Bad Homburg vor der Höhe"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "suction-records",
@@ -143071,8 +144205,13 @@
     "url": "https://www.discogs.com/master/704957-Black-Rascals-Sympathy"
    }
   ],
-  "latitude": 51.4833,
-  "longitude": -0.0968
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "sunnyview",
@@ -143793,8 +144932,13 @@
     "url": "https://www.discogs.com/master/102067-Quick-Brite-The-Pooh-EP"
    }
   ],
-  "latitude": 52.3783,
-  "longitude": 4.92011
+  "latitude": 52.23,
+  "longitude": 5.18,
+  "ville": {
+   "fr": "Hilversum",
+   "en": "Hilversum"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "susan-lawly",
@@ -144390,8 +145534,13 @@
     "url": "https://www.discogs.com/master/47945-Saccoman-Inspiration"
    }
   ],
-  "latitude": 51.48547,
-  "longitude": -0.16215
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "t-classixx",
@@ -144733,8 +145882,13 @@
     "url": "https://www.discogs.com/master/866-Fennesz-June"
    }
   ],
-  "latitude": 40.7328,
-  "longitude": -74.00216
+  "latitude": 42.3181,
+  "longitude": -72.6319,
+  "ville": {
+   "fr": "Northampton",
+   "en": "Northampton"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "take-me-to-the-hospital",
@@ -145301,8 +146455,13 @@
     "url": "https://www.discogs.com/master/839992-When-The-Black-Death"
    }
   ],
-  "latitude": 59.92059,
-  "longitude": 10.74617
+  "latitude": 59.8637,
+  "longitude": 10.6616,
+  "ville": {
+   "fr": "Nesoddtangen",
+   "en": "Nesoddtangen"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "tau",
@@ -146669,8 +147828,13 @@
     "url": "https://www.discogs.com/master/177683-Skream-Skreamizm-Vol-2"
    }
   ],
-  "latitude": 51.53007,
-  "longitude": -0.09976
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "temple-records",
@@ -147213,8 +148377,13 @@
     "url": "https://www.discogs.com/master/205600-Genocide-Organ-Live-In-Japan-20032007"
    }
   ],
-  "latitude": 52.51925,
-  "longitude": 13.44317
+  "latitude": 49.4878,
+  "longitude": 8.4661,
+  "ville": {
+   "fr": "Mannheim",
+   "en": "Mannheim"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "tetsuo",
@@ -147313,8 +148482,13 @@
     "url": "https://www.discogs.com/master/737796-Various-Rave-Mission-Volume-VI"
    }
   ],
-  "latitude": 52.53532,
-  "longitude": 13.37176
+  "latitude": 50.1106,
+  "longitude": 8.6822,
+  "ville": {
+   "fr": "Francfort-sur-le-Main",
+   "en": "Frankfurt"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "texcore",
@@ -147549,8 +148723,13 @@
     "url": "https://www.discogs.com/master/1753570-Various-Quarter-To-Quarter"
    }
   ],
-  "latitude": 52.36683,
-  "longitude": 4.88093
+  "latitude": 52.3667,
+  "longitude": 4.8833,
+  "ville": {
+   "fr": "Amsterdam",
+   "en": "Amsterdam"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "the-null-corporation",
@@ -148084,8 +149263,13 @@
     "url": "https://www.discogs.com/master/27647-Front-Line-Assembly-No-Limit-Damaged-Goods-Remix"
    }
   ],
-  "latitude": 51.49077,
-  "longitude": -0.0835
+  "latitude": 51.3607,
+  "longitude": 1.0257,
+  "ville": {
+   "fr": "Whitstable",
+   "en": "Whitstable"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "this-never-happened",
@@ -148834,8 +150018,13 @@
     "url": "https://www.discogs.com/master/794774-Various-Old-School-Funk"
    }
   ],
-  "latitude": 40.72678,
-  "longitude": -73.98266
+  "latitude": 34.0333,
+  "longitude": -117.8667,
+  "ville": {
+   "fr": "Walnut",
+   "en": "Walnut"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "thunderdome",
@@ -149038,8 +150227,13 @@
     "url": "https://www.discogs.com/master/181156-Rennie-Pilgrem-Selected-Werks"
    }
   ],
-  "latitude": 51.54197,
-  "longitude": -0.13266
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "tidy",
@@ -149147,8 +150341,13 @@
     "url": "https://www.discogs.com/master/787962-Various-Trade-EP"
    }
   ],
-  "latitude": 51.48354,
-  "longitude": -0.15199
+  "latitude": 53.6831,
+  "longitude": -1.4989,
+  "ville": {
+   "fr": "cité de Wakefield",
+   "en": "Wakefield"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "tigersushi",
@@ -149668,8 +150867,13 @@
     "url": "https://www.discogs.com/master/595344-Tuneboy-Sexbusters"
    }
   ],
-  "latitude": 45.46251,
-  "longitude": 9.20783
+  "latitude": 44.4939,
+  "longitude": 11.3428,
+  "ville": {
+   "fr": "Bologne",
+   "en": "Bologna"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "tk-records",
@@ -149965,8 +151169,13 @@
     "url": "https://www.discogs.com/master/842674-Ernesto-Vs-Bastian-Authenticity"
    }
   ],
-  "latitude": 55.75465,
-  "longitude": 37.6218
+  "latitude": 55.7506,
+  "longitude": 37.6175,
+  "ville": {
+   "fr": "Moscou",
+   "en": "Moscow"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "token",
@@ -150379,8 +151588,13 @@
     "url": "https://www.discogs.com/master/190411-Various-Music-For-The-Next-Century"
    }
   ],
-  "latitude": 40.71445,
-  "longitude": -74.0358
+  "latitude": 34.0522,
+  "longitude": -118.2437,
+  "ville": {
+   "fr": "Los Angeles",
+   "en": "Los Angeles"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "toolroom-records",
@@ -151396,8 +152610,13 @@
     "url": "https://www.discogs.com/master/2875348-Sanctuaire-Echo-3-Frisson-D%C3%89ternit%C3%A9-"
    }
   ],
-  "latitude": 43.6515,
-  "longitude": -79.37249
+  "latitude": 45.5,
+  "longitude": -73.6833,
+  "ville": {
+   "fr": "Montréal",
+   "en": "Montreal Region"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "toy-tonics",
@@ -151600,8 +152819,13 @@
     "url": "https://www.discogs.com/master/51104-Warmduscher-1-Auf-Die-Fresse"
    }
   ],
-  "latitude": 52.50633,
-  "longitude": 13.44012
+  "latitude": 50.2292,
+  "longitude": 8.6105,
+  "ville": {
+   "fr": "Bad Homburg vor der Höhe",
+   "en": "Bad Homburg vor der Höhe"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "trans-pact-productions",
@@ -153845,8 +155069,13 @@
     "url": "https://www.discogs.com/master/64584-DJ-Zinc-Reach-Out-Remix-Damn"
    }
   ],
-  "latitude": 51.52298,
-  "longitude": -0.07886
+  "latitude": 51.5,
+  "longitude": -0.5667,
+  "ville": {
+   "fr": "Slough",
+   "en": "Slough"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "trust-in-trance-records",
@@ -154122,8 +155351,13 @@
     "url": "https://www.discogs.com/master/4115-Gouryella-Ligaya"
    }
   ],
-  "latitude": 52.38696,
-  "longitude": 4.89922
+  "latitude": 52.2733,
+  "longitude": 5.1611,
+  "ville": {
+   "fr": "Bussum",
+   "en": "Bussum"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "tuned-turtle-management",
@@ -154795,8 +156029,13 @@
     "url": "https://www.discogs.com/master/75189-Danny-Tenaglia-Tourism"
    }
   ],
-  "latitude": 40.73566,
-  "longitude": -74.00644
+  "latitude": 40.7128,
+  "longitude": -74.0061,
+  "ville": {
+   "fr": "New York",
+   "en": "New York City"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "twisted-records",
@@ -155150,8 +156389,13 @@
     "url": "https://www.discogs.com/master/656594-Various-UKF-Dubstep-2012"
    }
   ],
-  "latitude": 51.51097,
-  "longitude": -0.1857
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "ultimae-records",
@@ -156047,8 +157291,13 @@
     "url": "https://www.discogs.com/master/783-Underground-Resistance-Interstellar-Fugitives"
    }
   ],
-  "latitude": 40.72812,
-  "longitude": -74.03268
+  "latitude": 42.3317,
+  "longitude": -83.0475,
+  "ville": {
+   "fr": "Détroit",
+   "en": "Detroit"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "unidisc",
@@ -156463,8 +157712,13 @@
     "url": "https://www.discogs.com/master/3916-Dougal-DJ-Eruption-DJ-Eruption-Im-Gonna-Get-You-Love-Is-The-Power"
    }
   ],
-  "latitude": 51.48411,
-  "longitude": -0.17129
+  "latitude": 51.7356,
+  "longitude": 0.4794,
+  "ville": {
+   "fr": "cité de Chelmsford",
+   "en": "Chelmsford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "unity-promotions",
@@ -157214,8 +158468,13 @@
     "url": "https://www.discogs.com/master/1516574-Mark-Integriert-Euch-Nicht"
    }
   ],
-  "latitude": 52.50089,
-  "longitude": 13.39442
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "up-the-stuss",
@@ -157619,8 +158878,13 @@
     "url": "https://www.discogs.com/master/77123-AWeX-Its-Our-Future"
    }
   ],
-  "latitude": 52.53193,
-  "longitude": 13.43766
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "usa-import-music",
@@ -157827,8 +159091,13 @@
     "url": "https://www.discogs.com/master/71651-Scorpio-Trouble-Division-One"
    }
   ],
-  "latitude": 51.5311,
-  "longitude": -0.16331
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "v2",
@@ -158320,8 +159589,13 @@
     "url": "https://www.discogs.com/master/536534-Louie-Vega-Presents-Elements-Of-Life-Eclipse"
    }
   ],
-  "latitude": 40.73194,
-  "longitude": -73.99554
+  "latitude": 37.5964,
+  "longitude": -122.0483,
+  "ville": {
+   "fr": "Union City",
+   "en": "Union City"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "velvet-inc",
@@ -158714,8 +159988,13 @@
     "url": "https://www.discogs.com/master/1016934-ICube-FR33Z"
    }
   ],
-  "latitude": 48.83784,
-  "longitude": 2.36527
+  "latitude": 48.8567,
+  "longitude": 2.3522,
+  "ville": {
+   "fr": "Paris",
+   "en": "Paris"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "vertigo",
@@ -159221,8 +160500,13 @@
     "url": "https://www.discogs.com/master/2156728-DJ-Phantasy-Unreleased-Volume-One"
    }
   ],
-  "latitude": 51.48086,
-  "longitude": -0.12356
+  "latitude": 50.7167,
+  "longitude": -1.8833,
+  "ville": {
+   "fr": "Bournemouth",
+   "en": "Bournemouth"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "vinyl-on-demand",
@@ -159321,8 +160605,13 @@
     "url": "https://www.discogs.com/master/2540470-AutechreHafler-Trio-%C2%B3o%C3%A6h"
    }
   ],
-  "latitude": 52.51094,
-  "longitude": 13.37037
+  "latitude": 47.6542,
+  "longitude": 9.4792,
+  "ville": {
+   "fr": "Friedrichshafen",
+   "en": "Friedrichshafen"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "vinylclub",
@@ -160692,8 +161981,13 @@
     "url": "https://www.discogs.com/master/1286783-Psyche-Under-The-Radar"
    }
   ],
-  "latitude": 52.52024,
-  "longitude": 13.44865
+  "latitude": 51.4322,
+  "longitude": 6.7611,
+  "ville": {
+   "fr": "Duisbourg",
+   "en": "Duisburg"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "wakaan",
@@ -162585,8 +163879,13 @@
     "url": "https://www.discogs.com/master/1560116-RL-Grime-Feat-Miguel-Stay-For-It"
    }
   ],
-  "latitude": 40.69216,
-  "longitude": -74.01969
+  "latitude": 34.0522,
+  "longitude": -118.2437,
+  "ville": {
+   "fr": "Los Angeles",
+   "en": "Los Angeles"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "weird-world",
@@ -164118,8 +165417,13 @@
     "url": "https://www.discogs.com/master/2613536-Shielding-Collecting-Seaweed-EP"
    }
   ],
-  "latitude": 51.4782,
-  "longitude": -0.11117
+  "latitude": 51.4536,
+  "longitude": -2.5975,
+  "ville": {
+   "fr": "Bristol",
+   "en": "Bristol"
+  },
+  "villeSource": "musicbrainz"
  },
  {
   "slug": "wolf-lamb",
@@ -164326,8 +165630,13 @@
     "url": "https://www.discogs.com/master/19346-Spectre-The-End"
    }
   ],
-  "latitude": 40.69362,
-  "longitude": -73.9918
+  "latitude": 39.2864,
+  "longitude": -76.615,
+  "ville": {
+   "fr": "Baltimore",
+   "en": "Baltimore"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "wrap-records",
@@ -164426,8 +165735,13 @@
     "url": "https://www.discogs.com/master/835992-Dosta-Crew-We-Got-Wayz"
    }
   ],
-  "latitude": 40.73651,
-  "longitude": -73.9996
+  "latitude": 33.7544,
+  "longitude": -84.3897,
+  "ville": {
+   "fr": "Atlanta",
+   "en": "Atlanta"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "x-recordings",
@@ -165090,8 +166404,13 @@
     "url": "https://www.discogs.com/master/3754-Chicane-No-Ordinary-Morning-Halcyon"
    }
   ],
-  "latitude": 51.48512,
-  "longitude": -0.17555
+  "latitude": 51.5072,
+  "longitude": -0.1275,
+  "ville": {
+   "fr": "Londres",
+   "en": "London"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "yaman",
@@ -165190,8 +166509,13 @@
     "url": "https://www.discogs.com/release/1337951-DJ-Peshay-Hardcore-Volume-2"
    }
   ],
-  "latitude": 51.49658,
-  "longitude": -0.0815
+  "latitude": 51.65,
+  "longitude": -0.4,
+  "ville": {
+   "fr": "Watford",
+   "en": "Watford"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "yard-music",
@@ -165469,8 +166793,13 @@
     "url": "https://www.discogs.com/master/640287-Green-Screen-Destination-Hell"
    }
   ],
-  "latitude": 50.834,
-  "longitude": 4.35223
+  "latitude": 51.0536,
+  "longitude": 3.7253,
+  "ville": {
+   "fr": "Gand",
+   "en": "Ghent"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "yeti-music",
@@ -166405,8 +167734,13 @@
     "url": "https://www.discogs.com/master/94091-DJ-Quicksilver-Ameno"
    }
   ],
-  "latitude": 52.50433,
-  "longitude": 13.43679
+  "latitude": 52.5167,
+  "longitude": 13.3833,
+  "ville": {
+   "fr": "Berlin",
+   "en": "Berlin"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "zen-recordings",
@@ -166788,8 +168122,13 @@
     "url": "https://www.discogs.com/master/254783-The-Baroness-The-Royal-Treatment"
    }
   ],
-  "latitude": 40.71002,
-  "longitude": -73.97402
+  "latitude": 37.775,
+  "longitude": -122.4194,
+  "ville": {
+   "fr": "San Francisco",
+   "en": "San Francisco"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "zone",
@@ -167031,8 +168370,13 @@
     "url": "https://www.discogs.com/master/28898-Funkervogt-Execution-Tracks"
    }
   ],
-  "latitude": 52.54394,
-  "longitude": 13.39181
+  "latitude": 50.2292,
+  "longitude": 8.6105,
+  "ville": {
+   "fr": "Bad Homburg vor der Höhe",
+   "en": "Bad Homburg vor der Höhe"
+  },
+  "villeSource": "discogs"
  },
  {
   "slug": "ztt",
