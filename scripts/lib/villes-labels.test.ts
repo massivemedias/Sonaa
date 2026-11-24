@@ -36,7 +36,7 @@ describe('les lieux d une adresse de contact', () => {
 
 describe('les lieux d une presentation', () => {
   it('lit « based in » et « -based », du nom le plus long au plus court', () => {
-    expect(noms(lieuxDuTexte('Electronic label based in New York City, run by two DJs.'))).toEqual(['New York City', 'New York', 'New']);
+    expect(noms(lieuxDuTexte('Electronic label based in New York City, run by two DJs.'))).toEqual(['New York City', 'New York']);
     expect(noms(lieuxDuTexte('A Leeds-based imprint for broken beat.'))).toContain('Leeds');
   });
 
@@ -53,7 +53,13 @@ describe('les pieges des adresses', () => {
   const villes = new Map<string, Localite[]>([
     ['New York', [{ ...loc('5128581', 'New York', 8_800_000, 'US'), region: 'NY' }]],
     ['York', [loc('2633352', 'York', 156_000, 'GB'), { ...loc('4562407', 'York', 44_000, 'US'), region: 'PA' }]],
-    ['Springfield', [{ ...loc('4409896', 'Springfield', 170_000, 'US'), region: 'MO' }, { ...loc('4525353', 'Springfield', 58_000, 'US'), region: 'OH' }]],
+    [
+      'Springfield',
+      [
+        { ...loc('4409896', 'Springfield', 170_000, 'US'), region: 'MO', lat: 37.2153, lng: -93.2982 },
+        { ...loc('4525353', 'Springfield', 58_000, 'US'), region: 'OH', lat: 39.9242, lng: -83.8088 },
+      ],
+    ],
   ]);
 
   it('ne prend pas « York » dans « New York »', () => {
@@ -69,8 +75,8 @@ describe('les pieges des adresses', () => {
 
   it('prend la premiere adresse d une fiche, pas la plus peuplee', () => {
     const villesBe = new Map<string, Localite[]>([
-      ['Zoersel', [loc('2783310', 'Zoersel', 22_000, 'BE')]],
-      ['Deurne', [loc('2802031', 'Deurne', 78_000, 'BE')]],
+      ['Zoersel', [{ ...loc('2783310', 'Zoersel', 22_000, 'BE'), lat: 51.2683, lng: 4.7128 }]],
+      ['Deurne', [{ ...loc('2802031', 'Deurne', 78_000, 'BE'), lat: 51.2193, lng: 4.4658 }]],
     ]);
     const c = lieuxDuContact('Byte Records\nSchriekbos 105\nB-2980 Zoersel\nBelgium\n\nPaulus Beyestraat 39\nB-2100 Deurne\nBelgium');
     expect(choisirVille(c, villesBe, 'BE')?.localite.id).toBe('2783310');
@@ -80,6 +86,35 @@ describe('les pieges des adresses', () => {
     expect(noms(lieuxDuContact('1736, Dublin\nInverness, G0S 1K0\nQuebec, Canada'))).not.toContain('Quebec');
     expect(noms(lieuxDuTexte('Psychill label based in Quebec, Canada.'))).not.toContain('Quebec');
     expect(noms(lieuxDuTexte('Label based in Quebec City since 2001.'))).toContain('Quebec City');
+  });
+});
+
+describe('les mots qui ne sont pas des villes', () => {
+  it('ecarte un mois, un point cardinal seul et un immeuble', () => {
+    expect(noms(lieuxDuContact('Current in March, 2009\nBIG LIFE MANAGEMENT'))).not.toContain('March');
+    const rue = noms(lieuxDuContact('734 North Old World 3rd Street #59\nMilwaukee, WI 53203'));
+    expect(rue).not.toContain('North');
+    expect(rue).toContain('Milwaukee');
+    expect(noms(lieuxDuContact('1F Sakura Bld.\n4-9-2 Minamisenba Chuoku\nOsaka'))).not.toContain('Sakura');
+    expect(noms(lieuxDuContact('Unit 25 Shaftesbury Centre\n85 Barlby Road, London W10 6BN'))).not.toContain('Shaftesbury');
+  });
+
+  it('garde « New York » meme si « New » seul ne compte pas', () => {
+    expect(noms(lieuxDuContact('New York NY 10019'))).toContain('New York');
+    expect(noms(lieuxDuContact('New York NY 10019'))).not.toContain('New');
+  });
+
+  it('ne prend pas un Etat pour la ville du meme nom', () => {
+    const villes = new Map<string, Localite[]>([['Oregon', [{ ...loc('5165418', 'Oregon', 20_000, 'US'), region: 'OH' }]]]);
+    expect(choisirVille([{ nom: 'Oregon', rang: 2, force: 1 }], villes, 'US')).toBeNull();
+  });
+
+  it('rend un quartier a sa grande ville nommee dans la meme adresse', () => {
+    const tokyo = { ...loc('1850147', 'Tokyo', 8_300_000, 'JP'), lat: 35.6895, lng: 139.6917 };
+    const mejiro = { ...loc('10866030', 'Mejiro', 14_000, 'JP'), lat: 35.7206, lng: 139.7066 };
+    const villes = new Map<string, Localite[]>([['Mejiro', [mejiro]], ['Tokyo', [tokyo]]]);
+    const r = choisirVille(lieuxDuContact('Maison Mejiro 102\nShinjuku-ku, Tokyo 161-0033'), villes, 'JP');
+    expect(r?.localite.id).toBe('1850147');
   });
 });
 

@@ -68,6 +68,18 @@ function etatsDeLaLigne(ligne: string): string[] {
   return [...res];
 }
 
+/* UN ETAT OU UNE PROVINCE N'EST PAS UNE VILLE, meme quand une ville porte
+   son nom ailleurs (la zone MusicBrainz « Oregon » n'est pas Oregon, Ohio).
+   New York et Washington restent des villes. */
+const PROVINCES_CANADIENNES = new Set([
+  'ontario', 'alberta', 'manitoba', 'saskatchewan', 'british columbia', 'nova scotia', 'new brunswick',
+  'newfoundland', 'prince edward island', 'yukon', 'nunavut', 'northwest territories',
+]);
+const estUnEtat = (nom: string): boolean => {
+  const n = nom.toLowerCase();
+  return (n in ETATS && n !== 'new york' && n !== 'washington') || PROVINCES_CANADIENNES.has(n);
+};
+
 /* « QUEBEC » SEUL, DANS UNE ADRESSE OU UNE PHRASE, EST LA PROVINCE
    (« G0S 1K0 Quebec, Canada », « based in Quebec ») : la ville s'y ecrit
    « Québec (Québec) » ou « Quebec City ». */
@@ -83,6 +95,22 @@ const RUES = new Set(
     'quai', 'impasse', 'allée', 'calle', 'carrer', 'via', 'viale', 'piazza', 'corso', 'rua', 'avenida', 'praça',
     'straat', 'laan', 'plein', 'kade', 'gracht', 'gade', 'vej', 'gatan', 'vägen', 'gata', 'katu', 'ulica', 'utca',
     'strada', 'highway', 'hwy', 'pike', 'circle', 'plaza',
+    /* et les immeubles : « 1F Sakura Bld. », « Shaftesbury Centre » */
+    'bld', 'bldg', 'building', 'centre', 'center', 'tower', 'towers', 'estate', 'mansion', 'mansions', 'heights',
+    'hall', 'works', 'business', 'industrial', 'trading',
+  ]
+);
+/* Les mots qui peuvent entrer dans un nom de ville (« New York », « North
+   Shields ») mais n'en sont jamais une a eux seuls : les points cardinaux,
+   les mois (« Current in March, 2009 »). */
+const JAMAIS_SEULS = new Set(
+  [
+    'north', 'south', 'east', 'west', 'new', 'old', 'great', 'little', 'upper', 'lower', 'central', 'saint', 'san',
+    'santa', 'city', 'town', 'county', 'state', 'district', 'region', 'province', 'current', 'since', 'address',
+    'adresse', 'obsolete',
+    'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november',
+    'december', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre',
+    'novembre', 'décembre', 'januar', 'februar', 'märz', 'juni', 'juli', 'oktober', 'dezember',
   ]
 );
 /* Les mots qui ne sont jamais une ville, dans une adresse ou une phrase. */
@@ -159,6 +187,7 @@ function sousGroupes(mots: readonly string[], avant: string | null, apres: strin
       const dernier = g[g.length - 1] ?? '';
       if (LIAISONS.has(premier) || LIAISONS.has(dernier)) continue;
       if (g.some((m) => JAMAIS.has(m.toLowerCase()))) continue;
+      if (g.length === 1 && JAMAIS_SEULS.has(premier.toLowerCase())) continue;
       const voisinAvant = d > 0 ? mots[d - 1] : avant;
       const voisinApres = d + long < mots.length ? mots[d + long] : apres;
       if (estRue(voisinApres) || estRue(voisinAvant) || g.some((m) => estRue(m))) continue;
@@ -232,6 +261,7 @@ export function lieuxDuTexte(texte: string): Candidat[] {
       const g = mots.slice(0, n);
       if (LIAISONS.has(g[g.length - 1] ?? '') || g.some((x) => JAMAIS.has(x.toLowerCase()))) continue;
       if (PROVINCES_HOMONYMES.has(g.join(' ').toLowerCase())) continue;
+      if (g.length === 1 && JAMAIS_SEULS.has((g[0] ?? '').toLowerCase())) continue;
       noms.add(g.join(' '));
       groupe.push(g.join(' '));
     }
@@ -244,6 +274,7 @@ export function lieuxDuTexte(texte: string): Candidat[] {
       const g = mots.slice(mots.length - n);
       if (g.some((x) => JAMAIS.has(x.toLowerCase()))) continue;
       if (PROVINCES_HOMONYMES.has(g.join(' ').toLowerCase())) continue;
+      if (g.length === 1 && JAMAIS_SEULS.has((g[0] ?? '').toLowerCase())) continue;
       noms.add(g.join(' '));
       groupe.push(g.join(' '));
     }
@@ -278,16 +309,48 @@ export function choisirVille(
   let meilleur: { localite: Localite; candidat: Candidat } | null = null;
   for (const c of ordonnes) {
     if (palier && (c.rang !== palier.rang || c.force !== palier.force || (c.ligne ?? 0) !== palier.ligne)) {
-      if (meilleur) return meilleur;
+      if (meilleur) break;
       palier = null;
     }
     palier ??= { rang: c.rang, force: c.force, ligne: c.ligne ?? 0 };
-    if (c.dans?.some(estUneVille)) continue;
-    let possibles = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN && !(iso && l.iso && l.iso !== iso));
-    const memeEtat = c.regions?.length ? possibles.filter((l) => l.region && c.regions?.includes(l.region)) : [];
-    if (memeEtat.length > 0) possibles = memeEtat;
-    for (const l of possibles) {
+    if (c.dans?.some(estUneVille) || estUnEtat(c.nom)) continue;
+    for (const l of possiblesDe(c, localites, iso)) {
       if (!meilleur || l.pop > meilleur.localite.pop) meilleur = { localite: l, candidat: c };
+    }
+  }
+  return meilleur ? avecSaGrandeVille(meilleur, ordonnes, localites, iso) : null;
+}
+
+/** Les localites qu'un candidat peut designer : assez peuplees, dans le pays
+    du label, et dans l'Etat ecrit sur sa ligne quand il y en a un. */
+function possiblesDe(c: Candidat, localites: ReadonlyMap<string, readonly Localite[]>, iso: string | null): readonly Localite[] {
+  const possibles = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN && !(iso && l.iso && l.iso !== iso));
+  const memeEtat = c.regions?.length ? possibles.filter((l) => l.region && c.regions?.includes(l.region)) : [];
+  return memeEtat.length > 0 ? memeEtat : possibles;
+}
+
+const RAYON_AGGLOMERATION_KM = 12;
+function distanceKm(a: Localite, b: Localite): number {
+  const r = Math.PI / 180;
+  const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r);
+  return Math.hypot(x, (b.lat - a.lat) * r) * 6371;
+}
+
+/** UN QUARTIER CEDE A SA GRANDE VILLE quand la meme source les nomme tous
+    les deux : « Mejiro », a cinq kilometres du centre de Tokyo, devient
+    Tokyo. Seulement a moins de douze kilometres : Zoersel, a dix-sept de
+    Deurne, reste Zoersel. */
+function avecSaGrandeVille(
+  choix: { readonly localite: Localite; readonly candidat: Candidat },
+  candidats: readonly Candidat[],
+  localites: ReadonlyMap<string, readonly Localite[]>,
+  iso: string | null
+): { readonly localite: Localite; readonly candidat: Candidat } {
+  let meilleur = choix;
+  for (const c of candidats) {
+    if (c.rang !== choix.candidat.rang || estUnEtat(c.nom) || c.dans?.some((d) => (localites.get(d) ?? []).some((l) => l.pop >= POPULATION_MIN))) continue;
+    for (const l of possiblesDe(c, localites, iso)) {
+      if (l.pop > meilleur.localite.pop && distanceKm(l, choix.localite) < RAYON_AGGLOMERATION_KM) meilleur = { localite: l, candidat: c };
     }
   }
   return meilleur;

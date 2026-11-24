@@ -66,8 +66,10 @@ interface Cache {
   sieges: Record<string, { rang: number; geonames: string | null }[]>;
   /** Pour un identifiant GeoNames : la ville chez Wikidata, ou null. */
   wikidata: Record<string, VilleWikidata | null>;
+  /** Les identifiants GeoNames deja cherches par leur nom (voir plus bas). */
+  secours: Record<string, true>;
 }
-const VIDE: Cache = { discogs: {}, musicbrainz: {}, sieges: {}, wikidata: {} };
+const VIDE: Cache = { discogs: {}, musicbrainz: {}, sieges: {}, wikidata: {}, secours: {} };
 const cache: Cache = existsSync(CACHE) ? { ...VIDE, ...JSON.parse(readFileSync(CACHE, 'utf8')) } : VIDE;
 const garder = (): void => writeFileSync(CACHE, JSON.stringify(cache));
 
@@ -290,6 +292,56 @@ for (let i = 0; i < aNommer.length; i += 400) {
     const gn = valeur(b, 'gn') ?? '';
     if (cache.wikidata[gn]) continue;
     cache.wikidata[gn] = { fr: valeur(b, 'fr'), en: valeur(b, 'en'), lat: Number(valeur(b, 'lat')), lng: Number(valeur(b, 'lng')) };
+  }
+  garder();
+}
+
+/* 4. LA VILLE QUE WIKIDATA RATTACHE A UN AUTRE IDENTIFIANT GEONAMES. Pour
+   Cologne, Barcelone ou Hanovre, Wikidata pointe la commune administrative
+   de GeoNames, pas le lieu habite : on les cherche alors par leur nom, dans
+   leur pays, et on ne garde qu'un element a moins de 25 km du point GeoNames,
+   le plus peuple. */
+const LANGUES: Readonly<Record<string, string>> = {
+  DE: 'de', AT: 'de', CH: 'de', NL: 'nl', BE: 'nl', IT: 'it', ES: 'es', MX: 'es', AR: 'es', CL: 'es', CO: 'es',
+  BR: 'pt', PT: 'pt', SE: 'sv', NO: 'nb', DK: 'da', FI: 'fi', PL: 'pl', RU: 'ru', RO: 'ro', GR: 'el', HU: 'hu',
+  CZ: 'cs', JP: 'ja', IL: 'he', UA: 'uk', SI: 'sl', RS: 'sr', LT: 'lt', BG: 'bg', TR: 'tr', IS: 'is',
+};
+const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; lng: number }): number => {
+  const r = Math.PI / 180;
+  const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r);
+  return Math.hypot(x, (b.lat - a.lat) * r) * 6371;
+};
+const parSecours = [...new Set([...choix.values()].map((c) => c.localite.id))].filter(
+  (gn) => cache.wikidata[gn] === null && !cache.secours[gn]
+);
+if (parSecours.length > 0) {
+  console.log(`  Wikidata : ${parSecours.length} villes cherchees par leur nom`);
+  const tuples = parSecours.flatMap((gn) => {
+    const l = villesParId.get(gn);
+    if (!l?.en || !l.iso) return [];
+    const langues = new Set(['en', 'fr', ...(LANGUES[l.iso] ? [LANGUES[l.iso]] : [])]);
+    return [...langues].map((lg) => `(${JSON.stringify(gn)} ${JSON.stringify(l.en)}@${lg} ${JSON.stringify(l.iso)})`);
+  });
+  const lignes = await sparql(`SELECT ?gn ?lieu ?lat ?lng ?pop ?fr ?en WHERE {
+    VALUES (?gn ?nom ?iso) { ${tuples.join(' ')} }
+    ?lieu rdfs:label ?nom ; wdt:P17/wdt:P297 ?iso ;
+          p:P625/psv:P625 [ wikibase:geoLatitude ?lat ; wikibase:geoLongitude ?lng ] .
+    OPTIONAL { ?lieu wdt:P1082 ?pop }
+    OPTIONAL { ?lieu rdfs:label ?fr FILTER(LANG(?fr) = "fr") }
+    OPTIONAL { ?lieu rdfs:label ?en FILTER(LANG(?en) = "en") }
+  }`);
+  for (const gn of parSecours) {
+    cache.secours[gn] = true;
+    const g = villesParId.get(gn);
+    if (!g) continue;
+    let meilleure: { w: VilleWikidata; pop: number } | null = null;
+    for (const b of lignes.filter((x) => valeur(x, 'gn') === gn)) {
+      const w = { fr: valeur(b, 'fr'), en: valeur(b, 'en'), lat: Number(valeur(b, 'lat')), lng: Number(valeur(b, 'lng')) };
+      const pop = Number(valeur(b, 'pop') ?? 0) || 0;
+      if (distanceKm(w, g) > 25) continue;
+      if (!meilleure || pop > meilleure.pop) meilleure = { w, pop };
+    }
+    cache.wikidata[gn] = meilleure?.w ?? null;
   }
   garder();
 }
