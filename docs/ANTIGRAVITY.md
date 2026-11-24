@@ -10,7 +10,7 @@ Tu reprends une partie du travail sur SONAA (https://sonaa.ca), l'atlas et le ca
 
 ## Avant toute chose
 
-Lis `CLAUDE.md` et `contexte.md` à la racine : ce sont les règles de la maison et l'état à jour des chantiers, et ils valent pour toi. Pour le reste, `ARCHITECTURE.md` (ADR-001 à 083), `docs/adr/` (une décision par fichier, jusqu'à ADR-125), `DESIGN.md` et la fin de `HANDOFF.md` pour les arbitrages en attente.
+Lis `CLAUDE.md` et `contexte.md` à la racine : ce sont les règles de la maison et l'état à jour des chantiers, et ils valent pour toi. Pour le reste, `ARCHITECTURE.md` (ADR-001 à 083), `docs/adr/` (une décision par fichier, jusqu’à ADR-126), `DESIGN.md` et la fin de `HANDOFF.md` pour les arbitrages en attente.
 
 Les règles qui ne se discutent pas :
 

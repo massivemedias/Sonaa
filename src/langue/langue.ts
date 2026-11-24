@@ -826,18 +826,9 @@ interface Dictionnaire {
   readonly affiliationAvis: string;
   /** La phrase qu'Amazon exige, mot pour mot, a cote de ses liens. */
   readonly amazonAvis: string;
-  /* L'affiche de rythme d'un style (atlas/RythmeDuStyle.tsx). */
-  readonly rythmeEcouter: string;
-  readonly rythmeArreter: string;
-  readonly rythmeChargement: string;
-  readonly rythmeImage: string;
-  readonly rythmeVideo: string;
-  readonly rythmeReel: string;
-  readonly rythmeFabrication: (secondes: number) => string;
-  readonly rythmeEchec: string;
+  /* Les textes du motif rythmique dessine par le Reel du jeudi (atlas/rythme/video.ts). */
   readonly rythmeMesure: string;
   readonly rythmeSections: readonly [string, string, string, string];
-  readonly rythmeAria: (nom: string, bpm: number, resume: string) => string;
   readonly suiviMarque: string;
   readonly suivreQuoi: (nom: string) => string;
   readonly nePlusSuivre: (nom: string) => string;
@@ -1993,17 +1984,8 @@ const FR: Dictionnaire = {
   affiliationAvis:
     'Les liens « Voir chez » sont des liens d’affiliation : un achat fait par eux rapporte une petite commission à SONAA, sans frais pour vous.',
   amazonAvis: 'En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
-  rythmeEcouter: 'Écouter le motif',
-  rythmeArreter: 'Arrêter',
-  rythmeChargement: 'Chargement des sons',
-  rythmeImage: 'Télécharger l’image',
-  rythmeVideo: 'Vidéo 4:5 pour le fil',
-  rythmeReel: 'Vidéo 9:16 pour les Reels',
-  rythmeFabrication: (s) => `Enregistrement de la vidéo, encore ${s} s`,
-  rythmeEchec: 'Ce navigateur ne sait pas enregistrer la vidéo. Essayez avec Chrome ou Safari.',
   rythmeMesure: 'MESURE',
   rythmeSections: ['DROP', 'MONTÉE', 'SILENCE', 'DROP'],
-  rythmeAria: (nom, bpm, resume) => `Le motif rythmique de ${nom}, à ${bpm} BPM : ${resume.toLowerCase()}.`,
   suiviMarque: 'Suivi',
   suivreQuoi: (nom) => `Suivre ${nom}`,
   nePlusSuivre: (nom) => `Ne plus suivre ${nom}`,
@@ -3192,17 +3174,8 @@ const EN: Dictionnaire = {
   affiliationAvis:
     'The "See at" links are affiliate links: a purchase made through them earns SONAA a small commission, at no cost to you.',
   amazonAvis: 'As an Amazon Associate, SONAA earns from qualifying purchases.',
-  rythmeEcouter: 'Play the pattern',
-  rythmeArreter: 'Stop',
-  rythmeChargement: 'Loading sounds',
-  rythmeImage: 'Download the image',
-  rythmeVideo: '4:5 video for the feed',
-  rythmeReel: '9:16 video for Reels',
-  rythmeFabrication: (s) => `Recording the video, ${s} s left`,
-  rythmeEchec: 'This browser cannot record the video. Try Chrome or Safari.',
   rythmeMesure: 'BAR',
   rythmeSections: ['DROP', 'BUILD', 'SILENCE', 'DROP'],
-  rythmeAria: (nom, bpm, resume) => `The rhythm pattern of ${nom}, at ${bpm} BPM: ${resume.toLowerCase()}.`,
   suiviMarque: 'Following',
   suivreQuoi: (nom) => `Follow ${nom}`,
   nePlusSuivre: (nom) => `Unfollow ${nom}`,

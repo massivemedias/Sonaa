@@ -32,7 +32,7 @@
  * Usage : npm run check:mobile   (apres npm run build) */
 
 import { createServer } from 'node:http';
-import { readFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, webkit } from 'playwright-core';
@@ -67,6 +67,20 @@ const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
      et deux colonnes, a verifier sous 400 px. */
   { nom: 'label', chemin: '/labels/f-communications/', attend: '.lb-nom' },
 ];
+
+/* UN BUILD SANS SUPABASE, faute de `.env` (une session cloud, par exemple).
+   La liste des villes est alors vide, et le calendrier masque son bandeau PAR
+   CONSTRUCTION (`avecHero`, CalendrierPage.tsx) : attendre `.hero-titre`
+   echouait a chaque fois, sur un defaut qui n'existe pas en ligne. Le bundle
+   publie porte l'adresse du projet ; s'il ne la porte pas, on attend le
+   calendrier lui-meme, et on le dit en tete du verdict. */
+const AVEC_SUPABASE =
+  process.env.SONAA_URL != null ||
+  readdirSync(join(DIST, 'assets'))
+    .filter((f) => f.endsWith('.js'))
+    .some((f) => /https:\/\/[a-z0-9]{8,}\.supabase\.co/.test(readFileSync(join(DIST, 'assets', f), 'utf8')));
+const attendu = (p: { nom: string; attend: string }): string =>
+  p.nom === 'calendrier' && !AVEC_SUPABASE ? 'main.cal' : p.attend;
 
 const TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -265,7 +279,7 @@ for (const page_ of PAGES) {
     const page = await contexte.newPage();
     try {
       await page.goto(`${ORIGINE}${page_.chemin}`, { waitUntil: 'load', timeout: 30000 });
-      await page.waitForSelector(page_.attend, { timeout: 20000 });
+      await page.waitForSelector(attendu(page_), { timeout: 20000 });
       await page.evaluate('document.fonts.ready');
       await page.waitForTimeout(250);
     } catch (e) {
@@ -403,6 +417,7 @@ if (mesures === 0) {
   console.error('Mobile : HYPOTHESE TOMBEE, aucune page mesuree.');
   process.exit(1);
 }
+if (!AVEC_SUPABASE) console.log('Build sans Supabase : le bandeau du calendrier est masque par construction, on attend le calendrier.');
 if (erreurs.length > 0) {
   console.error(`MOBILE : ${erreurs.length} defaut(s) mesure(s).\n` + erreurs.map((e) => `  ${e}`).join('\n') + '\n\nMesures :\n' + lignes.join('\n'));
   process.exit(1);
