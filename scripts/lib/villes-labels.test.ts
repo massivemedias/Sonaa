@@ -49,6 +49,40 @@ describe('les lieux d une presentation', () => {
   });
 });
 
+describe('les pieges des adresses', () => {
+  const villes = new Map<string, Localite[]>([
+    ['New York', [{ ...loc('5128581', 'New York', 8_800_000, 'US'), region: 'NY' }]],
+    ['York', [loc('2633352', 'York', 156_000, 'GB'), { ...loc('4562407', 'York', 44_000, 'US'), region: 'PA' }]],
+    ['Springfield', [{ ...loc('4409896', 'Springfield', 170_000, 'US'), region: 'MO' }, { ...loc('4525353', 'Springfield', 58_000, 'US'), region: 'OH' }]],
+  ]);
+
+  it('ne prend pas « York » dans « New York »', () => {
+    const c = lieuxDuContact('161 West 54th Street Suite 401\nNew York NY 10019');
+    expect(choisirVille(c, villes, 'GB')).toBeNull();
+    expect(choisirVille(c, villes, 'US')?.localite.id).toBe('5128581');
+  });
+
+  it('departage les homonymes americains par l Etat ecrit sur la ligne', () => {
+    const c = lieuxDuContact('Dungeons Deep Records\nPO Box 255\nSpringfield, Ohio 45501\nUSA');
+    expect(choisirVille(c, villes, 'US')?.localite.id).toBe('4525353');
+  });
+
+  it('prend la premiere adresse d une fiche, pas la plus peuplee', () => {
+    const villesBe = new Map<string, Localite[]>([
+      ['Zoersel', [loc('2783310', 'Zoersel', 22_000, 'BE')]],
+      ['Deurne', [loc('2802031', 'Deurne', 78_000, 'BE')]],
+    ]);
+    const c = lieuxDuContact('Byte Records\nSchriekbos 105\nB-2980 Zoersel\nBelgium\n\nPaulus Beyestraat 39\nB-2100 Deurne\nBelgium');
+    expect(choisirVille(c, villesBe, 'BE')?.localite.id).toBe('2783310');
+  });
+
+  it('lit « Quebec » seul dans une adresse comme la province', () => {
+    expect(noms(lieuxDuContact('1736, Dublin\nInverness, G0S 1K0\nQuebec, Canada'))).not.toContain('Quebec');
+    expect(noms(lieuxDuTexte('Psychill label based in Quebec, Canada.'))).not.toContain('Quebec');
+    expect(noms(lieuxDuTexte('Label based in Quebec City since 2001.'))).toContain('Quebec City');
+  });
+});
+
 describe('le choix de la ville', () => {
   const localites = new Map<string, Localite[]>([
     ['London', [loc('Q84', 'Londres', 8_800_000, 'GB'), loc('Q92561', 'London', 420_000, 'CA')]],

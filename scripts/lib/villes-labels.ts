@@ -19,6 +19,17 @@ export interface Candidat {
   readonly rang: number;
   /** Dans une adresse, la ligne qui porte un code postal passe devant. */
   readonly force: number;
+  /** Le rang de sa ligne dans l'adresse : la premiere adresse d'une fiche
+      est la principale, les suivantes sont d'anciens bureaux ou un
+      distributeur. */
+  readonly ligne?: number;
+  /** Les noms plus longs du meme groupe qui le contiennent : si l'un d'eux
+      est une ville, n'importe ou, celui-ci n'en est qu'un morceau (« York »
+      dans « New York »). */
+  readonly dans?: readonly string[];
+  /** Les Etats americains ecrits sur la meme ligne (« OH »), pour
+      departager les homonymes (Springfield). */
+  readonly regions?: readonly string[];
 }
 
 export interface Localite {
@@ -30,7 +41,37 @@ export interface Localite {
   readonly pop: number;
   /** Le code ISO du pays de la localite. */
   readonly iso: string | null;
+  /** Le code de sa region chez GeoNames : l'Etat, aux Etats-Unis (« OH »). */
+  readonly region?: string | null;
 }
+
+/* LES ETATS AMERICAINS, par leur nom et par leur code postal, pour lire
+   « Springfield, Ohio 45501 » ou « Warren, MI 48093 ». */
+const ETATS: Readonly<Record<string, string>> = {
+  alabama: 'AL', alaska: 'AK', arizona: 'AZ', arkansas: 'AR', california: 'CA', colorado: 'CO', connecticut: 'CT',
+  delaware: 'DE', florida: 'FL', georgia: 'GA', hawaii: 'HI', idaho: 'ID', illinois: 'IL', indiana: 'IN', iowa: 'IA',
+  kansas: 'KS', kentucky: 'KY', louisiana: 'LA', maine: 'ME', maryland: 'MD', massachusetts: 'MA', michigan: 'MI',
+  minnesota: 'MN', mississippi: 'MS', missouri: 'MO', montana: 'MT', nebraska: 'NE', nevada: 'NV',
+  'new hampshire': 'NH', 'new jersey': 'NJ', 'new mexico': 'NM', 'new york': 'NY', 'north carolina': 'NC',
+  'north dakota': 'ND', ohio: 'OH', oklahoma: 'OK', oregon: 'OR', pennsylvania: 'PA', 'rhode island': 'RI',
+  'south carolina': 'SC', 'south dakota': 'SD', tennessee: 'TN', texas: 'TX', utah: 'UT', vermont: 'VT',
+  virginia: 'VA', washington: 'WA', 'west virginia': 'WV', wisconsin: 'WI', wyoming: 'WY', 'district of columbia': 'DC',
+};
+const CODES_ETATS = new Set(Object.values(ETATS));
+
+/** Les Etats americains nommes sur une ligne d'adresse. */
+function etatsDeLaLigne(ligne: string): string[] {
+  const res = new Set<string>();
+  for (const m of ligne.matchAll(/\b([A-Z]{2})\b/g)) if (CODES_ETATS.has(m[1] ?? '')) res.add(m[1] ?? '');
+  const bas = ligne.toLowerCase();
+  for (const [nom, code] of Object.entries(ETATS)) if (new RegExp(`\\b${nom}\\b`).test(bas)) res.add(code);
+  return [...res];
+}
+
+/* « QUEBEC » SEUL, DANS UNE ADRESSE OU UNE PHRASE, EST LA PROVINCE
+   (« G0S 1K0 Quebec, Canada », « based in Quebec ») : la ville s'y ecrit
+   « Québec (Québec) » ou « Quebec City ». */
+const PROVINCES_HOMONYMES = new Set(['quebec', 'québec']);
 
 /* Les mots qui font d'un nom de ville un nom de rue quand ils le suivent ou
    le precedent : « London Road », « rue de Lyon », « Via Roma ». */
@@ -129,9 +170,16 @@ function sousGroupes(mots: readonly string[], avant: string | null, apres: strin
   return res;
 }
 
+/** Les noms plus longs d'une liste qui contiennent celui-ci, mot pour mot. */
+function contenantsDe(nom: string, tous: readonly string[]): string[] {
+  const mots = ` ${nom} `;
+  return tous.filter((x) => x !== nom && ` ${x} `.includes(mots));
+}
+
 /** Les candidats d'une adresse de contact Discogs. */
 export function lieuxDuContact(contact: string): Candidat[] {
   const vus = new Map<string, Candidat>();
+  let numero = -1;
   for (const brute of contact.split(/\r?\n/)) {
     const ligne = brute
       .replace(/\S+@\S+/g, ' ')
@@ -139,12 +187,25 @@ export function lieuxDuContact(contact: string): Candidat[] {
       .replace(/\+?\d[\d ().-]{6,}\d/g, ' 0 ')
       .trim();
     if (!ligne) continue;
+    numero += 1;
     const force = /\d/.test(ligne) ? 2 : 1;
+    const etats = etatsDeLaLigne(ligne);
     for (const morceau of ligne.split(/[,;/|]/)) {
       for (const { mots, avant, apres } of suites(morceau)) {
-        for (const nom of sousGroupes(mots, avant, apres)) {
+        const groupe = sousGroupes(mots, avant, apres);
+        for (const nom of groupe) {
+          if (PROVINCES_HOMONYMES.has(nom.toLowerCase())) continue;
           const deja = vus.get(nom);
-          if (!deja || deja.force < force) vus.set(nom, { nom, rang: 1, force });
+          if (!deja || deja.force < force) {
+            vus.set(nom, {
+              nom,
+              rang: 1,
+              force,
+              ligne: numero,
+              dans: contenantsDe(nom, groupe),
+              ...(etats.length > 0 ? { regions: etats } : {}),
+            });
+          }
         }
       }
     }
@@ -163,23 +224,37 @@ const AVANT_BASED = /((?:\p{Lu}[\p{L}'’.]*)(?:[\s-]\p{Lu}[\p{L}'’.]*){0,3})[
     « New York », puis « New ». */
 export function lieuxDuTexte(texte: string): Candidat[] {
   const noms = new Set<string>();
+  const groupes: string[][] = [];
   for (const m of texte.matchAll(APRES_TOURNURE)) {
     const mots = (m[1] ?? '').split(/\s+/).map(nettoyerMot).filter(Boolean);
+    const groupe: string[] = [];
     for (let n = mots.length; n >= 1; n -= 1) {
       const g = mots.slice(0, n);
       if (LIAISONS.has(g[g.length - 1] ?? '') || g.some((x) => JAMAIS.has(x.toLowerCase()))) continue;
+      if (PROVINCES_HOMONYMES.has(g.join(' ').toLowerCase())) continue;
       noms.add(g.join(' '));
+      groupe.push(g.join(' '));
     }
+    groupes.push(groupe);
   }
   for (const m of texte.matchAll(AVANT_BASED)) {
     const mots = (m[1] ?? '').split(/[\s-]+/).map(nettoyerMot).filter(Boolean);
+    const groupe: string[] = [];
     for (let n = mots.length; n >= 1; n -= 1) {
       const g = mots.slice(mots.length - n);
       if (g.some((x) => JAMAIS.has(x.toLowerCase()))) continue;
+      if (PROVINCES_HOMONYMES.has(g.join(' ').toLowerCase())) continue;
       noms.add(g.join(' '));
+      groupe.push(g.join(' '));
     }
+    groupes.push(groupe);
   }
-  return [...noms].map((nom) => ({ nom, rang: 3, force: 1 }));
+  return [...noms].map((nom) => ({
+    nom,
+    rang: 3,
+    force: 1,
+    dans: [...new Set(groupes.flatMap((g) => (g.includes(nom) ? contenantsDe(nom, g) : [])))],
+  }));
 }
 
 /* EN DESSOUS DE CINQ MILLE HABITANTS, un nom d'adresse est plus souvent un
@@ -187,26 +262,31 @@ export function lieuxDuTexte(texte: string): Candidat[] {
 const POPULATION_MIN = 5000;
 
 /** La ville retenue parmi les candidats : la meilleure source qui en designe
-    une dans le pays du label, et dans cette source la localite la plus
-    peuplee. Un pays inconnu n'ecarte rien. Null si aucune source ne
-    designe une localite sure. */
+    une dans le pays du label ; dans une adresse, la premiere ligne qui en
+    designe une ; et sur cette ligne, la localite la plus peuplee (la ville
+    plutot que son quartier). Un pays inconnu n'ecarte rien. Null si aucune
+    source ne designe une localite sure. */
 export function choisirVille(
   candidats: readonly Candidat[],
   localites: ReadonlyMap<string, readonly Localite[]>,
   iso: string | null
 ): { readonly localite: Localite; readonly candidat: Candidat } | null {
-  const ordonnes = [...candidats].sort((a, b) => a.rang - b.rang || b.force - a.force);
-  let palier: { rang: number; force: number } | null = null;
+  const ordonnes = [...candidats].sort((a, b) => a.rang - b.rang || b.force - a.force || (a.ligne ?? 0) - (b.ligne ?? 0));
+  /* Un nom plus long qui est une ville, dans n'importe quel pays. */
+  const estUneVille = (nom: string): boolean => (localites.get(nom) ?? []).some((l) => l.pop >= POPULATION_MIN);
+  let palier: { rang: number; force: number; ligne: number } | null = null;
   let meilleur: { localite: Localite; candidat: Candidat } | null = null;
   for (const c of ordonnes) {
-    if (palier && (c.rang !== palier.rang || c.force !== palier.force)) {
+    if (palier && (c.rang !== palier.rang || c.force !== palier.force || (c.ligne ?? 0) !== palier.ligne)) {
       if (meilleur) return meilleur;
       palier = null;
     }
-    palier ??= { rang: c.rang, force: c.force };
-    for (const l of localites.get(c.nom) ?? []) {
-      if (l.pop < POPULATION_MIN) continue;
-      if (iso && l.iso && l.iso !== iso) continue;
+    palier ??= { rang: c.rang, force: c.force, ligne: c.ligne ?? 0 };
+    if (c.dans?.some(estUneVille)) continue;
+    let possibles = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN && !(iso && l.iso && l.iso !== iso));
+    const memeEtat = c.regions?.length ? possibles.filter((l) => l.region && c.regions?.includes(l.region)) : [];
+    if (memeEtat.length > 0) possibles = memeEtat;
+    for (const l of possibles) {
       if (!meilleur || l.pop > meilleur.localite.pop) meilleur = { localite: l, candidat: c };
     }
   }

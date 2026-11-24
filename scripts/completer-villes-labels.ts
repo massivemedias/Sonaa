@@ -122,6 +122,7 @@ for (const ligne of lireZipUnique(readFileSync(GEONAMES)).toString('utf8').split
     lng: Number(c[5]),
     pop: Number(c[14]) || 0,
     iso: c[8] ?? null,
+    region: c[10] ?? null,
   };
   villesParId.set(l.id, l);
   /* Le nom, sa forme sans accents, et les autres noms, sauf les codes
