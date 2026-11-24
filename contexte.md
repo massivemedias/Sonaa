@@ -15,8 +15,11 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 
 ## ÉTAT DE PUBLICATION (24 nov 2026)
 
-- **En ligne sur `main`** : la carte des labels par ville et sa liste, publiées le 24
-  novembre 2026 par la fusion de `claude/stoic-noether-wde808`.
+- **En ligne sur `main`** : la page des labels montre encore l'ancienne carte, un point
+  par label.
+- **En attente sur `claude/stoic-noether-wde808`** : la carte des labels par ville, la liste
+  qui remplace la carte au zoom d'une ville, et ce fichier. La branche contient `main` : sa
+  fusion est une avance rapide. Elle attend le feu vert de Mika pour être publiée.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
   389 commits du jeu SONAA DJ Tycoon, jamais fusionnés.
 - **Une session cloud peut publier** depuis `566f1af` : `check:mobile` ne bloque plus sur le
@@ -168,7 +171,8 @@ Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a cha
 est la publication.
 
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par
-  la liste de ses labels ; carte par ville et ce journal publiés sur `main`.
+  la liste de ses labels (`e88ea82`). En attente de publication sur
+  `claude/stoic-noether-wde808`.
 - 24 nov 2026 : `check:mobile` passe sans les variables Supabase (`566f1af`), ce qui permet
   de publier depuis une session cloud. Publié.
 - 23 nov 2026 : 56 petits labels électroniques québécois, dont SOAME Records (`0d4d685`).
