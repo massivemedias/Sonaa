@@ -16,8 +16,10 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 ## ÉTAT DE PUBLICATION (24 nov 2026)
 
 - **En ligne sur `main`** : la carte des labels par ville et la liste qui remplace la
-  carte au zoom d'une ville (`81ab4f6`, 24 novembre 2026, vérifiée sur sonaa.ca), puis
-  la ville de 280 labels de plus, complétée le même jour (voir la section des labels).
+  carte au zoom d'une ville (`81ab4f6`, 24 novembre 2026, vérifiée sur sonaa.ca).
+- **En attente sur `claude/stoic-noether-wde808`** : la ville de 280 labels de plus (voir
+  la section des labels). La branche contient `main` : sa fusion est une avance rapide.
+  Elle attend le feu vert de Mika pour être publiée.
 - **Si Mika voit encore l'ancienne carte** : la page est en cache (dix minutes chez GitHub
   Pages). Recharger avec `?nocache=1`.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
@@ -203,7 +205,8 @@ est la publication.
 
 - 24 nov 2026, Claude Code : ville complétée pour 280 labels sur 713 sans ville
   (`scripts/completer-villes-labels.ts`), carte à 227 villes ; proches banlieues jointes
-  à leur grande ville sur la carte. Publié.
+  à leur grande ville sur la carte. En attente de publication sur
+  `claude/stoic-noether-wde808`.
 - 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
   en ligne.
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par
