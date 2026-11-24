@@ -43,7 +43,36 @@ export interface Localite {
   readonly iso: string | null;
   /** Le code de sa region chez GeoNames : l'Etat, aux Etats-Unis (« OH »). */
   readonly region?: string | null;
+  /** Son nom principal est le nom lu, et non un ancien nom ou un nom
+      etranger (« Northampton » est aussi un ancien nom d'Allentown). */
+  readonly exact?: boolean;
 }
+
+/* LES PAYS, en anglais et en francais, tires de la table du moteur
+   JavaScript : une zone MusicBrainz « Greece » n'est pas Greece, New York.
+   Les villes-Etats restent des villes. */
+const VILLES_ETATS = new Set(['SG', 'HK', 'MO', 'MC', 'LU', 'VA', 'GI']);
+const NOMS_DE_PAYS: ReadonlySet<string> = (() => {
+  const noms = new Set<string>();
+  const lettres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const langues = ['en', 'fr', 'de', 'nl', 'es', 'it'].map((l) => new Intl.DisplayNames([l], { type: 'region' }));
+  for (const a of lettres) {
+    for (const b of lettres) {
+      const code = a + b;
+      if (VILLES_ETATS.has(code)) continue;
+      for (const d of langues) {
+        try {
+          const nom = d.of(code);
+          if (nom && nom !== code) noms.add(nom.toLowerCase());
+        } catch {
+          /* code inconnu */
+        }
+      }
+    }
+  }
+  for (const n of ['england', 'scotland', 'wales', 'northern ireland', 'angleterre', 'écosse', 'europe', 'worldwide', 'holland']) noms.add(n);
+  return noms;
+})();
 
 /* LES ETATS AMERICAINS, par leur nom et par leur code postal, pour lire
    « Springfield, Ohio 45501 » ou « Warren, MI 48093 ». */
@@ -77,7 +106,7 @@ const PROVINCES_CANADIENNES = new Set([
 ]);
 const estUnEtat = (nom: string): boolean => {
   const n = nom.toLowerCase();
-  return (n in ETATS && n !== 'new york' && n !== 'washington') || PROVINCES_CANADIENNES.has(n);
+  return (n in ETATS && n !== 'new york' && n !== 'washington') || PROVINCES_CANADIENNES.has(n) || NOMS_DE_PAYS.has(n);
 };
 
 /* « QUEBEC » SEUL, DANS UNE ADRESSE OU UNE PHRASE, EST LA PROVINCE
@@ -122,6 +151,8 @@ const JAMAIS = new Set(
     'contacts', 'demos', 'demo', 'info', 'booking', 'bookings', 'distribution', 'management', 'promo', 'press',
     'office', 'licensing', 'sync', 'publishing', 'general', 'enquiries', 'inquiries', 'attn', 'c/o', 'the', 'and',
     'for', 'please', 'send', 'only', 'no', 'not', 'all', 'our', 'we', 'us', 'uk', 'usa', 'eu',
+    /* les intitules d'un formulaire de contact : « Name: », « Website: » */
+    'name', 'nom', 'website', 'web', 'site', 'country', 'pays', 'zip', 'postcode', 'telephone', 'téléphone',
   ]
 );
 const LIAISONS = new Set(['de', 'du', 'des', 'la', 'le', 'les', 'del', 'della', 'di', 'am', 'an', 'der', 'upon', 'on', 'sur', 'en', 'im', 'aan', 'den', 'sous', 'lès', 'les']);
@@ -321,12 +352,29 @@ export function choisirVille(
   return meilleur ? avecSaGrandeVille(meilleur, ordonnes, localites, iso) : null;
 }
 
+/* UN HOMONYME CINQUANTE FOIS PLUS PEUPLE A L'ETRANGER rend le nom ambigu :
+   une adresse « London » sur une fiche dont le pays moissonne est faux ne
+   fait pas de Novamute un label de London, Kentucky (mille fois plus
+   petite que Londres). London, en Ontario, vingt fois plus petite, reste
+   possible. Sauf si la ligne nomme l'Etat (« London, KY »). */
+const ECART_AMBIGU = 50;
+
 /** Les localites qu'un candidat peut designer : assez peuplees, dans le pays
-    du label, et dans l'Etat ecrit sur sa ligne quand il y en a un. */
+    du label, dans l'Etat americain ecrit sur sa ligne quand il y en a un, de
+    preference sous leur nom principal, et sans homonyme ecrasant ailleurs. */
 function possiblesDe(c: Candidat, localites: ReadonlyMap<string, readonly Localite[]>, iso: string | null): readonly Localite[] {
-  const possibles = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN && !(iso && l.iso && l.iso !== iso));
-  const memeEtat = c.regions?.length ? possibles.filter((l) => l.region && c.regions?.includes(l.region)) : [];
-  return memeEtat.length > 0 ? memeEtat : possibles;
+  const toutes = (localites.get(c.nom) ?? []).filter((l) => l.pop >= POPULATION_MIN);
+  let possibles = toutes.filter((l) => !(iso && l.iso && l.iso !== iso));
+  /* Un Etat ecrit sur la ligne est une contrainte, pas une preference :
+     « Hollywood, CA » n'est pas Hollywood, en Floride. */
+  if (c.regions?.length) possibles = possibles.filter((l) => l.iso !== 'US' || (l.region && c.regions?.includes(l.region)));
+  const exactes = possibles.filter((l) => l.exact);
+  if (exactes.length > 0) possibles = exactes;
+  if (possibles.length === 0) return [];
+  const ici = Math.max(...possibles.map((l) => l.pop));
+  const ailleurs = Math.max(0, ...toutes.filter((l) => !possibles.includes(l)).map((l) => l.pop));
+  if (!c.regions?.length && ailleurs > ici * ECART_AMBIGU) return [];
+  return possibles;
 }
 
 const RAYON_AGGLOMERATION_KM = 12;

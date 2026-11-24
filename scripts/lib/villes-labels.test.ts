@@ -118,6 +118,37 @@ describe('les mots qui ne sont pas des villes', () => {
   });
 });
 
+describe('les ambiguites', () => {
+  it('ecarte un nom de pays et un intitule de formulaire', () => {
+    const villes = new Map<string, Localite[]>([['Greece', [{ ...loc('5118226', 'Greece', 96_000, 'US'), region: 'NY' }]]]);
+    expect(choisirVille([{ nom: 'Greece', rang: 2, force: 1 }], villes, 'US')).toBeNull();
+    expect(noms(lieuxDuContact('Name: Jean\nB-5000 Namur'))).not.toContain('Name');
+  });
+
+  it('refuse une petite homonyme quand la grande ville est ailleurs', () => {
+    const villes = new Map<string, Localite[]>([
+      ['London', [loc('2643743', 'London', 8_900_000, 'GB'), { ...loc('4298960', 'London', 8_000, 'US'), region: 'KY' }]],
+    ]);
+    expect(choisirVille([{ nom: 'London', rang: 1, force: 2 }], villes, 'US')).toBeNull();
+    expect(choisirVille([{ nom: 'London', rang: 1, force: 2, regions: ['KY'] }], villes, 'US')?.localite.id).toBe('4298960');
+  });
+
+  it('exige l Etat ecrit et prefere le nom principal a un ancien nom', () => {
+    const villes = new Map<string, Localite[]>([
+      ['Hollywood', [{ ...loc('4158928', 'Hollywood', 150_000, 'US'), region: 'FL' }]],
+      [
+        'Northampton',
+        [
+          { ...loc('5178127', 'Allentown', 120_000, 'US'), region: 'PA' },
+          { ...loc('4945588', 'Northampton', 29_000, 'US'), region: 'MA', exact: true },
+        ],
+      ],
+    ]);
+    expect(choisirVille([{ nom: 'Hollywood', rang: 1, force: 2, regions: ['CA'] }], villes, 'US')).toBeNull();
+    expect(choisirVille([{ nom: 'Northampton', rang: 2, force: 1 }], villes, 'US')?.localite.id).toBe('4945588');
+  });
+});
+
 describe('le choix de la ville', () => {
   const localites = new Map<string, Localite[]>([
     ['London', [loc('Q84', 'Londres', 8_800_000, 'GB'), loc('Q92561', 'London', 420_000, 'CA')]],

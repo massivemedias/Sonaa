@@ -127,6 +127,24 @@ function versLieu(id: string, groupe: Groupe, avecVille: boolean): LieuDeLabels 
   };
 }
 
+/* L'AGGLOMERATION. Une ville a moins de douze kilometres d'une ville qui a
+   plus de labels rejoint sa liste sur la carte : Neuilly-sur-Seine et
+   Boulogne-Billancourt sont dans Paris, Amstelveen dans Amsterdam. La fiche
+   du label garde sa commune. */
+const RAYON_AGGLOMERATION_KM = 12;
+
+function parAgglomeration(villes: readonly LieuDeLabels[]): LieuDeLabels[] {
+  const gardees: { lieu: LieuDeLabels; labels: EntreeLabel[] }[] = [];
+  for (const v of villes) {
+    const hote = gardees.find(
+      (g) => g.lieu.labels.length > v.labels.length && distanceKm(g.lieu.centre, v.centre) < RAYON_AGGLOMERATION_KM
+    );
+    if (hote) hote.labels.push(...v.labels);
+    else gardees.push({ lieu: v, labels: [...v.labels] });
+  }
+  return gardees.map(({ lieu, labels }) => ({ ...lieu, labels: labels.sort(ordreDeNotoriete) }));
+}
+
 const parTaille = (a: LieuDeLabels, b: LieuDeLabels): number =>
   b.labels.length - a.labels.length || (a.ville?.fr ?? a.pays ?? '').localeCompare(b.ville?.fr ?? b.pays ?? '');
 
@@ -163,9 +181,11 @@ export function lieuxDesLabels(entrees: readonly EntreeLabel[]): {
   }
 
   const slug = (cle: string): string => cle.replace(/ /g, '-');
-  const villes = [...parVille.values()]
-    .flatMap((homonymes) => homonymes.map((g, i) => versLieu(i === 0 ? slug(g.cle) : `${slug(g.cle)}-${i + 1}`, g, true)))
-    .sort(parTaille);
+  const villes = parAgglomeration(
+    [...parVille.values()]
+      .flatMap((homonymes) => homonymes.map((g, i) => versLieu(i === 0 ? slug(g.cle) : `${slug(g.cle)}-${i + 1}`, g, true)))
+      .sort(parTaille)
+  ).sort(parTaille);
   const sansVille = [...parPays.values()].map((g) => versLieu(`pays-${slug(g.cle)}`, g, false)).sort(parTaille);
   return { villes, sansVille };
 }

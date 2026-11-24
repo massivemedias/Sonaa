@@ -54,6 +54,27 @@ describe('les villes de la carte des labels', () => {
     expect(villes.map((v) => v.id).sort()).toEqual(['portland', 'portland-2']);
   });
 
+  it('fait entrer une proche banlieue dans la liste de sa grande ville', () => {
+    const { villes } = lieuxDesLabels([
+      label('a', { fr: 'Paris', en: 'Paris' }, 'France', [48.8566, 2.3522]),
+      label('b', { fr: 'Paris', en: 'Paris' }, 'France', [48.8566, 2.3522]),
+      label('c', { fr: 'Neuilly-sur-Seine', en: 'Neuilly-sur-Seine' }, 'France', [48.8846, 2.2697]),
+      label('d', { fr: 'Versailles', en: 'Versailles' }, 'France', [48.8049, 2.1204]),
+    ]);
+    expect(villes.map((v) => [v.ville?.fr, v.labels.length])).toEqual([
+      ['Paris', 3],
+      ['Versailles', 1],
+    ]);
+  });
+
+  it('laisse separees deux villes voisines de meme taille', () => {
+    const { villes } = lieuxDesLabels([
+      label('a', { fr: 'Mannheim', en: 'Mannheim' }, 'Allemagne', [49.4875, 8.466]),
+      label('b', { fr: 'Ludwigshafen', en: 'Ludwigshafen' }, 'Allemagne', [49.4774, 8.4452]),
+    ]);
+    expect(villes).toHaveLength(2);
+  });
+
   it('range sous son pays, sans point sur la carte, un label sans ville connue', () => {
     const { villes, sansVille } = lieuxDesLabels([
       label('a', null, 'Royaume-Uni', [51.5, -0.12]),

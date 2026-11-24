@@ -268,7 +268,12 @@ for (const f of cibles) {
     ...(zone ? [{ nom: zone, rang: 2, force: 1 }] : []),
     ...lieuxDuTexte([d?.profil, f.profil, f.resume.en, f.resume.fr].filter(Boolean).join('\n')),
   ];
-  const localites = new Map(candidats.map((c) => [c.nom, villesParCle.get(cleDeNom(c.nom)) ?? []]));
+  const localites = new Map(
+    candidats.map((c) => [
+      c.nom,
+      (villesParCle.get(cleDeNom(c.nom)) ?? []).map((l) => ({ ...l, exact: cleDeNom(l.en ?? '') === cleDeNom(c.nom) })),
+    ])
+  );
   const r = choisirVille(candidats, localites, iso);
   if (r) {
     const source = r.candidat.rang === 1 ? 'discogs' : r.candidat.rang === 2 ? 'musicbrainz' : 'presentation';
@@ -276,22 +281,43 @@ for (const f of cibles) {
   }
 }
 
-/* 3. Le nom francais et anglais et les coordonnees des villes retenues. */
+/** « Point(6.9577 50.9422) » : la longitude d'abord. */
+function lirePoint(brut: string | null): { lat: number; lng: number } | null {
+  const [lng, lat] = (/Point\(([-\d.]+) ([-\d.]+)\)/.exec(brut ?? '') ?? []).slice(1).map(Number);
+  return lat !== undefined && lng !== undefined && Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null;
+}
+
+/* 3. Le nom francais et anglais et les coordonnees des villes retenues.
+   PLUSIEURS ELEMENTS PEUVENT PORTER LE MEME IDENTIFIANT GEONAMES : la ville,
+   son aire urbaine (« Tampere urban area »), un element cree par un robot
+   (« lsjbot Duisburg »). On garde celui qui porte le nom de la ville chez
+   GeoNames, puis le plus peuple. */
 const aNommer = [...new Set([...choix.values()].map((c) => c.localite.id))].filter((gn) => !(gn in cache.wikidata));
-for (let i = 0; i < aNommer.length; i += 400) {
-  const lot = aNommer.slice(i, i + 400);
+for (let i = 0; i < aNommer.length; i += 300) {
+  const lot = aNommer.slice(i, i + 300);
   console.log(`  Wikidata : noms de ${lot.length} villes`);
-  const lignes = await sparql(`SELECT ?gn ?lat ?lng ?fr ?en WHERE {
-    VALUES ?gn { ${lot.map((x) => JSON.stringify(x)).join(' ')} }
-    ?lieu wdt:P1566 ?gn ; p:P625/psv:P625 [ wikibase:geoLatitude ?lat ; wikibase:geoLongitude ?lng ] .
+  const lignes = await sparql(`SELECT ?gn ?lieu ?coord ?pop ?fr ?en ?memeNom WHERE {
+    hint:Query hint:optimizer "None" .
+    VALUES (?gn ?nomGn) { ${lot.map((gn) => `(${JSON.stringify(gn)} ${JSON.stringify(villesParId.get(gn)?.en ?? '')})`).join(' ')} }
+    ?lieu wdt:P1566 ?gn .
+    ?lieu wdt:P625 ?coord .
+    OPTIONAL { ?lieu wdt:P1082 ?pop }
     OPTIONAL { ?lieu rdfs:label ?fr FILTER(LANG(?fr) = "fr") }
     OPTIONAL { ?lieu rdfs:label ?en FILTER(LANG(?en) = "en") }
+    BIND(EXISTS { ?lieu rdfs:label ?l . FILTER(STR(?l) = ?nomGn) } AS ?memeNom)
   }`);
-  for (const gn of lot) cache.wikidata[gn] = null;
-  for (const b of lignes) {
-    const gn = valeur(b, 'gn') ?? '';
-    if (cache.wikidata[gn]) continue;
-    cache.wikidata[gn] = { fr: valeur(b, 'fr'), en: valeur(b, 'en'), lat: Number(valeur(b, 'lat')), lng: Number(valeur(b, 'lng')) };
+  for (const gn of lot) {
+    let meilleure: { w: VilleWikidata; nom: boolean; pop: number } | null = null;
+    for (const b of lignes.filter((x) => valeur(x, 'gn') === gn)) {
+      const p = lirePoint(valeur(b, 'coord'));
+      if (!p) continue;
+      const nom = valeur(b, 'memeNom') === 'true';
+      const pop = Number(valeur(b, 'pop') ?? 0) || 0;
+      if (!meilleure || (nom && !meilleure.nom) || (nom === meilleure.nom && pop > meilleure.pop)) {
+        meilleure = { w: { fr: valeur(b, 'fr'), en: valeur(b, 'en'), ...p }, nom, pop };
+      }
+    }
+    cache.wikidata[gn] = meilleure?.w ?? null;
   }
   garder();
 }
@@ -299,8 +325,9 @@ for (let i = 0; i < aNommer.length; i += 400) {
 /* 4. LA VILLE QUE WIKIDATA RATTACHE A UN AUTRE IDENTIFIANT GEONAMES. Pour
    Cologne, Barcelone ou Hanovre, Wikidata pointe la commune administrative
    de GeoNames, pas le lieu habite : on les cherche alors par leur nom, dans
-   leur pays, et on ne garde qu'un element a moins de 25 km du point GeoNames,
-   le plus peuple. */
+   leur pays, et on ne garde qu'un element peuple a moins de 25 km du point
+   GeoNames, le plus peuple (pas l'arrondissement ni la circonscription du
+   meme nom). */
 const LANGUES: Readonly<Record<string, string>> = {
   DE: 'de', AT: 'de', CH: 'de', NL: 'nl', BE: 'nl', IT: 'it', ES: 'es', MX: 'es', AR: 'es', CL: 'es', CO: 'es',
   BR: 'pt', PT: 'pt', SE: 'sv', NO: 'nb', DK: 'da', FI: 'fi', PL: 'pl', RU: 'ru', RO: 'ro', GR: 'el', HU: 'hu',
@@ -322,11 +349,16 @@ if (parSecours.length > 0) {
     const langues = new Set(['en', 'fr', ...(LANGUES[l.iso] ? [LANGUES[l.iso]] : [])]);
     return [...langues].map((lg) => `(${JSON.stringify(gn)} ${JSON.stringify(l.en)}@${lg} ${JSON.stringify(l.iso)})`);
   });
-  const lignes = await sparql(`SELECT ?gn ?lieu ?lat ?lng ?pop ?fr ?en WHERE {
+  /* L'ordre impose (le nom d'abord) : laisse a lui-meme, l'optimiseur de
+     Wikidata partait des pays et depassait le delai (504, le 24 novembre). */
+  const lignes = await sparql(`SELECT ?gn ?lieu ?coord ?pop ?fr ?en WHERE {
+    hint:Query hint:optimizer "None" .
     VALUES (?gn ?nom ?iso) { ${tuples.join(' ')} }
-    ?lieu rdfs:label ?nom ; wdt:P17/wdt:P297 ?iso ;
-          p:P625/psv:P625 [ wikibase:geoLatitude ?lat ; wikibase:geoLongitude ?lng ] .
-    OPTIONAL { ?lieu wdt:P1082 ?pop }
+    ?lieu rdfs:label ?nom .
+    ?lieu wdt:P17 ?pays .
+    ?pays wdt:P297 ?iso .
+    ?lieu wdt:P625 ?coord .
+    ?lieu wdt:P1082 ?pop .
     OPTIONAL { ?lieu rdfs:label ?fr FILTER(LANG(?fr) = "fr") }
     OPTIONAL { ?lieu rdfs:label ?en FILTER(LANG(?en) = "en") }
   }`);
@@ -336,9 +368,11 @@ if (parSecours.length > 0) {
     if (!g) continue;
     let meilleure: { w: VilleWikidata; pop: number } | null = null;
     for (const b of lignes.filter((x) => valeur(x, 'gn') === gn)) {
-      const w = { fr: valeur(b, 'fr'), en: valeur(b, 'en'), lat: Number(valeur(b, 'lat')), lng: Number(valeur(b, 'lng')) };
+      const p = lirePoint(valeur(b, 'coord'));
+      if (!p) continue;
+      const w = { fr: valeur(b, 'fr'), en: valeur(b, 'en'), ...p };
       const pop = Number(valeur(b, 'pop') ?? 0) || 0;
-      if (distanceKm(w, g) > 25) continue;
+      if (pop <= 0 || distanceKm(w, g) > 25) continue;
       if (!meilleure || pop > meilleure.pop) meilleure = { w, pop };
     }
     cache.wikidata[gn] = meilleure?.w ?? null;
