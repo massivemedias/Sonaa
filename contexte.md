@@ -17,7 +17,7 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 
 - **En ligne sur `main`** : la carte des labels par ville et la liste qui remplace la
   carte au zoom d'une ville (`81ab4f6`, 24 novembre 2026, vérifiée sur sonaa.ca), puis
-  la ville de 274 labels de plus, complétée le même jour (voir la section des labels).
+  la ville de 280 labels de plus, complétée le même jour (voir la section des labels).
 - **Si Mika voit encore l'ancienne carte** : la page est en cache (dix minutes chez GitHub
   Pages). Recharger avec `?nocache=1`.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
@@ -100,16 +100,17 @@ dessine jamais un point par label, et ne montre jamais les rues.**
   elles ont été posées en nuage autour du centre-ville, ou autour de la capitale quand la
   ville manque. Elles ne servent qu'à retrouver la ville et ne s'affichent jamais telles
   quelles. Celles des villes complétées sont le centre de la ville chez Wikidata.
-- **1 099 labels dans 224 villes de 46 pays** (Londres 168, Montréal 120, Berlin 77, New
-  York 63, Paris 47). Les 409 labels sans ville connue sont rangés sous leur pays dans
-  l'index (« Ville non renseignée »), sans point sur la carte ; 21 n'ont aucune
+- **1 105 labels dans 227 villes de 47 pays** (Londres 168, Montréal 120, Berlin 77, New
+  York 64, Paris 47). Les 409 labels sans ville connue sont rangés sous leur pays dans
+  l'index (« Ville non renseignée »), sans point sur la carte ; 25 n'ont aucune
   coordonnée.
 
 ### Complétion des villes (24 nov 2026, `npm run completer:villes-labels`)
 
 Mika : « complète les villes des 671 labels ». `scripts/completer-villes-labels.ts` a
-trouvé la ville de **274 labels sur 703** (219 par l'adresse de contact Discogs, 40 par la
-zone MusicBrainz, 14 par une phrase de présentation, 1 par le siège Wikidata).
+trouvé la ville de **280 labels sur 713** (222 par l'adresse de contact Discogs, 41 par la
+zone MusicBrainz, 15 par une phrase de présentation, 2 par le siège Wikidata), sur les
+données de la moisson de la nuit du 24 novembre.
 
 - **Ordre des sources** : siège ou lieu de fondation chez Wikidata (P159, P740), adresse
   de contact Discogs (la première adresse d'une fiche), zone MusicBrainz, puis une
@@ -124,7 +125,7 @@ zone MusicBrainz, 14 par une phrase de présentation, 1 par le siège Wikidata).
   (« March »), un immeuble (« Sakura Bld. »), un État (« Oregon »), un pays
   (« Greece »), un homonyme lointain (London, Kentucky), un ancien nom (« Northampton »
   pour Allentown), un élément Wikidata parasite (« lsjbot Duisburg »).
-- **Les 429 restants n'ont aucune source sûre** : pas d'adresse Discogs, ou une adresse
+- **Les 433 restants n'ont aucune source sûre** : pas d'adresse Discogs, ou une adresse
   sans ville reconnue, ou un nom ambigu. Les relancer ne trouvera rien de plus sans
   nouvelle source ; le cache est dans `.villes-labels-cache/` (ignoré par git).
 - **Les sources sont lentes** : Discogs sans jeton (25 requêtes par minute), MusicBrainz
@@ -200,8 +201,8 @@ chaque fiche club/salle.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
 
-- 24 nov 2026, Claude Code : ville complétée pour 274 labels sur 703 sans ville
-  (`scripts/completer-villes-labels.ts`), carte à 224 villes ; proches banlieues jointes
+- 24 nov 2026, Claude Code : ville complétée pour 280 labels sur 713 sans ville
+  (`scripts/completer-villes-labels.ts`), carte à 227 villes ; proches banlieues jointes
   à leur grande ville sur la carte. Publié.
 - 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
   en ligne.

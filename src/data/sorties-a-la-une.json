@@ -1,23 +1,23 @@
 {
- "labels": 1473,
+ "labels": 1539,
  "sorties": [
   {
-   "titre": "New Avatar",
-   "artiste": "Kelela",
+   "titre": "All Ages",
+   "artiste": "Lorenzo Senni",
    "annee": 2026,
-   "image": "https://i.discogs.com/CEyi7IuKCy8GmYznna9fI6Ms9GiAKhc65N8SY_nG_f8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzYz/NDkyLTE3OTI2MjQ4/MjUtODI3MC5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38763492",
-   "format": "LP, Album, Ltd, Num, Gre",
+   "image": "https://i.discogs.com/yjMEtb9JdxEdnS-r6Z01zgzd32fDxn_HqCgZeIGyt04/rs:fit/g:sm/q:90/h:585/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk2/MzYzLTE3OTUyMTU2/MDgtOTI5MC5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39096363",
+   "format": "LP, Album",
    "label": "Warp Records",
    "slug": "warp-records"
   },
   {
-   "titre": "Do This Right Now",
-   "artiste": "AVNT",
+   "titre": "Platform 1 EP",
+   "artiste": "station2station*",
    "annee": 2026,
-   "image": "https://i.discogs.com/6wdNFhkJ6fAuY6qfGufy5tlMOukDEmVI5czVjCrg9n8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDQ5/NjI1LTE3OTQ4MjQ0/MTctNzkxNS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/39049625",
-   "format": "File, MP3, Single, 320",
+   "image": "https://i.discogs.com/Xp81Qy8_7uI16YwZYlrtBnpagh0YVnVHvmNZz215GHI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk5/NTE5LTE3OTUyMDM3/MDgtMzc3MC5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39099519",
+   "format": "3xFile, MP3, EP, 320",
    "label": "Anjunabeats",
    "slug": "anjunabeats"
   },
