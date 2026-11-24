@@ -15,11 +15,11 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 
 ## ÉTAT DE PUBLICATION (24 nov 2026)
 
-- **En ligne sur `main`** : la page des labels montre encore l'ancienne carte, un point
-  par label.
-- **En attente sur `claude/stoic-noether-wde808`** : la carte des labels par ville, la liste
-  qui remplace la carte au zoom d'une ville, et ce fichier. La branche contient `main` : sa
-  fusion est une avance rapide. Elle attend le feu vert de Mika pour être publiée.
+- **En ligne sur `main`** (`81ab4f6`, déployé le 24 novembre 2026 vers 5 h 39 UTC) : la
+  carte des labels par ville, et la liste qui remplace la carte au zoom d'une ville.
+  Vérifié sur sonaa.ca : zoomer sur Montréal ouvre la liste de ses 119 labels.
+- **Si Mika voit encore l'ancienne carte** : la page est en cache (dix minutes chez GitHub
+  Pages). Recharger avec `?nocache=1`.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
   389 commits du jeu SONAA DJ Tycoon, jamais fusionnés.
 - **Une session cloud peut publier** depuis `566f1af` : `check:mobile` ne bloque plus sur le
@@ -170,15 +170,16 @@ chaque fiche club/salle.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
 
+- 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
+  en ligne.
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par
-  la liste de ses labels (`e88ea82`). En attente de publication sur
-  `claude/stoic-noether-wde808`.
+  la liste de ses labels (`e88ea82`). Publié avec `81ab4f6`.
 - 24 nov 2026 : `check:mobile` passe sans les variables Supabase (`566f1af`), ce qui permet
   de publier depuis une session cloud. Publié.
 - 23 nov 2026 : 56 petits labels électroniques québécois, dont SOAME Records (`0d4d685`).
   Publié.
-- 23 nov 2026, Claude Code : carte des labels par ville (`bf536d8`), une publication
-  depuis le cloud refusée faute des variables Supabase.
+- 23 nov 2026, Claude Code : carte des labels par ville (`bf536d8`). Publiée avec
+  `81ab4f6`.
 - 23 nov 2026 : création de ce fichier (`0f89230`). Publié.
 - 23 nov 2026 : carte mondiale des maisons mères, un point par label (`8a74cda`).
   Remplacée par la carte par ville.
