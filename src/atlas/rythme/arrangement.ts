@@ -90,8 +90,3 @@ export function etatAu(motif: Motif, cycles: readonly Cycle[], p: number): Etat 
     impact: c === indiceMontee + 1 && pas === 0,
   };
 }
-
-/** La duree de l'ecoute complete, en secondes, sans la boucle finale. */
-export function dureeDuPlan(motif: Motif, cycles: readonly Cycle[]): number {
-  return cycles.length * motif.pas * dureeDuPas(motif);
-}

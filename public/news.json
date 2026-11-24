@@ -1,6 +1,60 @@
 {
- "fait": "2026-11-23T07:51:34.405Z",
+ "fait": "2026-11-24T00:00:50.939Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Bitwig Winter Sale: Get 25% Off Bitwig Studio!",
+   "lien": "https://www.gearnews.com/bitwig-winter-sale/",
+   "date": "2026-11-23T18:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/11/bitwig-winter-sale-ft.jpg",
+   "resume": "Until 6 January 2027, the Bitwig Winter Sale is on, with 25% off all versions of Bitwig Studio, including upgrades and Bitwig Connect bundles. If you’ve been waiting for the right time to upgrade to the latest version…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Davyboi: “Your Problems Are Someone Else’s Dreams”",
+   "lien": "https://www.attackmagazine.com/features/introducing/davyboi-your-problems-are-someone-elses-dreams/",
+   "date": "2026-11-23T16:18:42.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Introducing-Feat-Images-Davyboi-feat-1130x386.jpg",
+   "resume": "A trained car mechanic who plays 150 BPM trance in a shirt and tie, and checks his tracks by dancing around his room. Meet Davyboi . In recent years, trance and its faster, more euphoric relatives have found a new…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Sonicware's CyDrums' puts its weird wavetable drum engine in an eight-track groovebox",
+   "lien": "https://www.musicradar.com/music-tech/sonicwares-cydrums-puts-its-weird-wavetable-drum-engine-in-an-eight-track-groovebox",
+   "date": "2026-11-23T16:18:16.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/YsixK4yHCkCbvLgGct62yH-1920-80.png",
+   "resume": "Sonicware is a Japanese manufacturer known for turning out generously priced but impressively versatile hardware for electronic music-makers. CyDrums is a prime example: released in early 2025, we described this…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“An excellent option that delivers both power and finesse”: Eve Audio EXO 28 review",
+   "lien": "https://www.musicradar.com/music-tech/studio-monitors/eve-audio-exo-28-review",
+   "date": "2026-11-23T15:21:26.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/gFSi3f3V9ea5d5kHBef8WY-1920-80.jpg",
+   "resume": "What is it? Eve Audio produce a number of AMT (air motion transformer) tweeter-equipped studio monitors , including the highly regarded SC2070 . Its latest range, EXO, is designed for both stereo and multi-channel…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Black Friday: The best deals we’ve found at Sweetwater for producers and DJs (so far)",
+   "lien": "https://musictech.com/guides/buyers-guide/black-friday-cyber-monday-sweetwater-deals/",
+   "date": "2026-11-23T14:20:36.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2024/11/gift-guide-hero@2000x1500.jpg",
+   "resume": "Ahead of Black Friday (27 November) and Cyber Monday (30 November), Sweetwater is already offering hundreds of deals on many of its instruments, studio and software ranges. In some cases, you can find half-price or even…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Soundtoys plugins are favoured by top producers – and you can get up to 75% off ahead of Black Friday, with prices as low as £26!",
+   "lien": "https://musictech.com/news/gear/black-friday-2026-soundtoys-deals-plugin-boutique/",
+   "date": "2026-11-23T10:30:18.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Soundtoys-hero-image@2000x1500.jpg",
+   "resume": "Plugin Boutique is running a special Black Friday sale on Soundtoys plugins until 3 December 2026, with up to 75 percent off. Over 15 products have been reduced, including the Soundtoys 5.5 Complete Collection and the…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Kaskade in 2026 With ORIGIN //, Coachella and EDC Thailand",
@@ -129,20 +183,20 @@
   },
   {
    "source": "musicradar",
-   "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
-   "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
-   "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
    "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
    "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
    "date": "2026-11-19T10:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
    "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“A beautifully modelled example of a much revered classic”: Martinic Prodigy review",
+   "lien": "https://www.musicradar.com/music-tech/soft-synths/martinic-prodigy-review",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Qu8UWXCmkdxAMU6AWYvsNX-1920-80.jpg",
+   "resume": "What is it? Back in 1979, the synthesizer landscape was markedly different to the market we face today. Monosynths ruled the stages, with many being heavy and expensive, but with competition from Japanese brands…",
    "integral": true
   },
   {
@@ -200,33 +254,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "Upgrade your mixing suite for less: Save up to 33% on FabFilter plugins this Black Friday",
-   "lien": "https://www.musicradar.com/music-tech/plugins/black-friday-fabfilter-plugins-2026",
-   "date": "2026-11-17T16:01:18.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TxNxSNYT3RckC6Z6DnBgeS-1920-80.jpg",
-   "resume": "When it comes to mixing plugins, FabFilter is one of the best developers out there. Honestly, I’m a big advocate for the idea that you don’t need to spend money on expensive plugins in order to make great music, but…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Save up to 96% on plugins this Black Friday: The Plugin Boutique sales are already starting",
-   "lien": "https://musictech.com/news/gear/black-friday-sale-plugin-boutique/",
-   "date": "2026-11-17T15:56:16.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2025/11/soundtoys-black-friday@2000x1500.jpg",
-   "resume": "Black Friday and Cyber Monday always bring insane discounts on music software and gear. And, despite Black Friday’s official date of 27 November, retailers are already slashing prices on hundreds of products. Plugin…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "XLN Audio’s RC-20 Retro Color v2 sounds way too good to still be called ‘lo-fi’",
-   "lien": "https://musictech.com/reviews/plug-ins/xln-audio-rc-20-retro-color-v2-review/",
-   "date": "2026-11-17T15:32:12.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/XLN-Audio-RC-20-Retro-Color-V2-hero-credit-press@2000x1500.jpg",
-   "resume": "In 2016, XLN Audio released RC-20 Retro Color, a multi-effect plugin for recreating the “warm feeling of vintage recording equipment.” Its release also happened to coincide with the rise in lo-fi hip-hop, becoming the…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Detroit’s Filthiest – “The Music Industry Has Become A Spectacle”",
    "lien": "https://www.attackmagazine.com/features/qa/detroits-filthiest-the-music-industry-has-become-a-spectacle/",
@@ -278,15 +305,6 @@
    "date": "2026-11-05T15:30:56.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
    "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Catz ‘n Dogz: “We Were Completely Overstimulated”",
-   "lien": "https://www.attackmagazine.com/features/interview/catz-n-dogz-we-were-completely-overstimulated/",
-   "date": "2026-11-03T11:11:03.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
-   "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
    "integral": true
   },
   {

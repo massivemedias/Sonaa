@@ -60,6 +60,7 @@
     "moissonner:actu-labels": "tsx --env-file-if-exists=.env scripts/moissonner-actu-labels.ts",
     "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts",
     "ingerer:lepointdevente": "tsx scripts/ingerer-lepointdevente.ts",
+    "ingerer:salles-mtl": "tsx scripts/ingerer-salles-mtl.ts",
     "ingerer:ticketmaster": "tsx scripts/ingerer-ticketmaster.ts",
     "planifier:mac": "bash scripts/mac/planifier.sh",
     "deplanifier:mac": "bash scripts/mac/deplanifier.sh"

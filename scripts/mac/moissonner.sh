@@ -53,4 +53,7 @@ npx tsx scripts/ingerer-eventbrite.ts --toutes --pages=4 || echo "Eventbrite en 
 echo "--- Shotgun"
 npx tsx scripts/ingerer-shotgun.ts || echo "Shotgun en echec."
 
+echo "--- Salles Montreal"
+npx tsx scripts/ingerer-salles-mtl.ts || echo "Salles Montreal en echec."
+
 echo "=== fini a $(date '+%H:%M') ==="
