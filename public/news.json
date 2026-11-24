@@ -1,6 +1,114 @@
 {
- "fait": "2026-11-24T10:03:39.010Z",
+ "fait": "2026-11-24T22:34:35.722Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Cherry Audio DW-8K – A Classic Hybrid Synth Revisited!",
+   "lien": "https://www.gearnews.com/cherry-audio-dw-8k-synths/",
+   "date": "2026-11-24T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/DW8K-Cover.jpg",
+   "resume": "Cherry Audio’s final synth of 2027 (we think) is a reimagining of a classic hybrid synth from the mid-1980s. Say hi to DW-8K! Cherry Audio rounds off a very busy year with the release of DW-8K, their recreation and…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Universal Audio Volt Gen 2 and Max review: Six interfaces, three winners",
+   "lien": "https://musictech.com/reviews/studio-recording-gear/universal-audio-volt-gen-2-and-max-review/",
+   "date": "2026-11-24T17:16:00.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Universal-Audio-Volt-4P-Max-credit-press@1400x934.jpg",
+   "resume": "If Focusrite ’s name is synonymous with affordable interfaces , Universal Audio might be synonymous with expensive. Its Apollo interfaces helped popularise recording through onboard DSP, bringing convincing emulations…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Novation shares new v2.0 firmware update for Launchkey MK4 and FLkey 2",
+   "lien": "https://musictech.com/news/gear/novation-launchkey-mk4-and-flkey-2-firmware-v2-0-update/",
+   "date": "2026-11-24T17:00:32.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Novation-firmwate-update.jpg",
+   "resume": "If you tend to work with Novation ’s keyboard controllers, we’ve got some good news for you. Today, Novation has released a free v2.0 firmware update for the Launchkey MK4 and FLkey 2 . Alongside general improvements…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Get up to 58% off Syntorial 2, u-He Diva, Synthesizer V2, and Korg M1: Plugin Deals of the Week!",
+   "lien": "https://www.gearnews.com/syntorial-2-u-he-diva-synthesizer-v2-plugins/",
+   "date": "2026-11-24T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/PluginDeals_261124.jpg",
+   "resume": "This is the moment. The week where every plugin company goes mad. And this year they’re all gone a little madder. We’ve collected the best plugin deals of the black friday week. Starting off with Syntorial 2, a…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Black Friday 2026: Our favourite deals on music gear, plugins, and DAWs",
+   "lien": "https://musictech.com/news/gear/best-black-friday-music-tech-deals/",
+   "date": "2026-11-24T16:30:17.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2024/11/ableton-push-black-friday-simon-vinall@2000x1500.jpg",
+   "resume": "This November, all your favourite music gear brands are running discounts for Black Friday and Cyber Monday . And, well, every other day in November pretty much. As we’ve seen in previous years, the Black Friday sales…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "iZotope Nectar 5: New Compression and Vocal Modules, and a Unique ARA Plugin",
+   "lien": "https://www.gearnews.com/izotope-nectar-studio/",
+   "date": "2026-11-24T16:07:21.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/izotope-nectar-5-ft.jpg",
+   "resume": "In iZotope Nectar 5, you get some new creative tools and workflow enhancements that make Nectar a more comprehensive vocal processor than ever. Now in version 5, Nectar has a redesigned interface with enhanced metering…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "iZotope's Nectar 5 introduces a clever new way to add effects to vocals, one word at a time",
+   "lien": "https://www.musicradar.com/music-tech/izotopes-nectar-5-introduces-a-clever-new-way-to-add-effects-to-vocals-one-word-at-a-time",
+   "date": "2026-11-24T15:55:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/pNN68baVuL3U3A5EYkirbV-1920-80.png",
+   "resume": "Fresh from the release of Photon earlier this month, iZotope has announced the launch of Nectar 5, the next generation of its flagship suite of intelligent vocal plugins. Promising to “transform raw takes into stunning…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Get UJAM’s Virtual Pianist VIBE for just £8 this Black Friday, down from £113",
+   "lien": "https://musictech.com/news/gear/get-ujams-virtual-pianist-vibe-for-just-8-this-black-friday-down-from-113/",
+   "date": "2026-11-24T15:52:48.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/UJAM-deal-hero@2000x1500.jpg",
+   "resume": "UJAM’s Virtual Pianist VIBE is £8 at Plugin Boutique , down from its usual £113, a whopping 93% off that runs until December 9. [deals ids=”39d9f611-9c1b-44be-b007-1c8196a71b33″] VIBE is a virtual electric piano and…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Right now you can get a high-end DAW controller worth $1,300 absolutely free – but you’ll have to spend $75,000 first…",
+   "lien": "https://musictech.com/news/gear/right-now-you-can-get-a-high-end-daw-controller-worth-1300-absolutely-free-but-youll-have-to-spend-75000-first/",
+   "date": "2026-11-24T15:05:11.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/SSL-hero@2000x1500.jpg",
+   "resume": "Black Friday isn’t just for bits and bobs to give away as Christmas presents and Secret Santa gifts. Studios looking to upgrade their native operations with a new mixing desk can cash in on some pretty sweet deals, too…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Audient iD2+ and iD4+ leave the competition in the dust",
+   "lien": "https://musictech.com/reviews/studio-recording-gear/audient-id2-plus-id4-plus-review/",
+   "date": "2026-11-24T12:17:25.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Audient-iD2plus-iD4plus-hero-credit-press@2000x1500.jpg",
+   "resume": "First released in 2013, Audient ’s iD series is well-tailored to a wide range of applications and users: home and project studios , mobile systems, as an audio hub for podcasting, and even in broadcasting. When rumours…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Baby Audio offers the major low price of $69 on Transit 2 for Black Friday",
+   "lien": "https://musictech.com/news/gear/baby-audio-offers-the-major-low-price-of-69-on-transit-2-for-black-friday/",
+   "date": "2026-11-24T11:28:29.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Transit-2-deal-hero@2000x1500.jpg",
+   "resume": "As MusicTech wrote when Baby Audio’s Transit 2 multi-effects unit came out in 2024, “this plugin is actually awesome.” Now producers can get this top tier addition to their arsenal for the insanely low price of £49…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Cassiopeia Production Suite 1 Bundle",
+   "lien": "https://www.attackmagazine.com/reviews/gear-software/cassiopeia-production-suite-1-bundle/",
+   "date": "2026-11-24T10:54:28.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/cassiopeia-production-suite-1-main.png",
+   "resume": "These four Kontakt instruments from Soundsphat deliver thousands of highly editable, release-ready presets. Let’s see what sample-based sound design has to offer your productions. Software synthesizers completely…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Why Your Mix Sounds Different in the Car and How to Test For It",
@@ -83,15 +191,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "LOFT, UZAT, THE_PITCH 2 MINI: Free Plugins of the Week",
-   "lien": "https://www.gearnews.com/loft-uzat-free-plugins/",
-   "date": "2026-11-22T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/loft-free-plugins-11-22-26.jpg",
-   "resume": "This week’s roundup of the best free plugins features a reverb with drawable tails, a lo-fi multi-effect, and a free pitch correction plugin: LOFT, UZAT, and THE_PITCH 2 MINI. Free Plugins of the Week 13X Audio LOFT…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“I recorded almost 70 tracks in two months”: How lockdown turmoil, studio setbacks and a 14-year-old VST inspired John Talabot's new album as OR",
    "lien": "https://www.musicradar.com/artists/i-recorded-almost-70-tracks-in-two-months-how-lockdown-turmoil-studio-setbacks-and-a-14-year-old-vst-inspired-john-talabots-new-album-as-or",
@@ -119,24 +218,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Teenage Engineering EP BC-1: Now Available for Pre-Order!",
-   "lien": "https://www.gearnews.com/teenage-engineering-ep-bc-1-dj/",
-   "date": "2026-11-20T18:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/teenage-engineering-ep-bc-1-ft-04.jpg",
-   "resume": "You can now pre-order the new Teenage Engineering EP BC-1 professional CD player, and it ships next week! Just in time for the holiday season. All about the BC-1 Teenage Engineering EP BC-1 Pricing and Availability…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "“If you’re making synthwave, you need a Juno”: The Midnight’s Tim McEwan on how the Roland Juno 106 is like “shorthand” for accessing the perfect synthwave sounds",
-   "lien": "https://musictech.com/news/gear/the-midnight-tim-mcewan-praises-roland-juno-synthwave/",
-   "date": "2026-11-20T15:27:22.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2025/11/the-midnight-dimlit-studio-credit-press@1400x1050.jpg",
-   "resume": "Synthwave duo The Midnight appeared on MusicTech ’s My Forever Studio podcast last week, where Tim McEwan revealed how vital Roland ’s Juno is to their synthwave sound. Across the podcast, made in partnership with…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "SampleRadar: 475 free drum 'n' bass essentials samples",
    "lien": "https://www.musicradar.com/music-tech/sampleradar-475-free-drum-n-bass-essentials-samples",
@@ -155,21 +236,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "FabFilter plugins are some of the best in the business – and a bunch of them are heavily discounted ahead of Black Friday",
-   "lien": "https://musictech.com/news/gear/fabfilter-black-friday-sale/",
-   "date": "2026-11-19T15:28:21.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/fabfilter-pro-q3@2000x1500-1.jpg",
-   "resume": "Plugin Boutique always has great deals on some of the best plugins around. But the Black Friday deals are on another level, and the FabFilter deals are here early! From now until 1 December, take up to 28% off dozens of…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Serato opens new Los Angeles HQ where DJs can try out the newest gear on a state-of-the-art sound system",
-   "lien": "https://musictech.com/news/gear/serato-soundspace/",
-   "date": "2026-11-19T11:13:56.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/1.-SoundSpace-hero_Hunter-Kerhart-for-Serato-2.jpg",
-   "resume": "One of the world’s premier manufacturers of DJ technology, Serato , has opened its new headquarters in Los Angeles: Serato SoundSpace. The new creative establishment has a state-of-the-art event room for live DJs to use…",
+   "source": "musicradar",
+   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
+   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
+   "date": "2026-11-19T10:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
+   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
    "integral": true
   },
   {
@@ -182,66 +254,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "IK Multimedia's best-selling ultra-compact studio monitors just got a huge upgrade",
-   "lien": "https://www.musicradar.com/music-tech/ik-multimedias-best-selling-ultra-compact-studio-monitors-just-got-a-huge-upgrade",
-   "date": "2026-11-19T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/v7eTdmoCxuRsan9q5mTgYe-1920-80.jpg",
-   "resume": "Launched in 2016, IK Multimedia’s iLoud Micro Monitor was billed as \"the smallest active studio reference monitoring system in the world\", aiming to put pro-grade sound in an ultra-compact and portable package at an…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The best new music plugins this week, free and paid",
-   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
-   "date": "2026-11-19T00:00:52.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/08/sound-engineer-mixing-desk@2000x1500.jpg",
-   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Korg's Phase8 gets a free web-based editor with 32-step sequencing, Euclidean rhythms and visual automation",
-   "lien": "https://www.musicradar.com/music-tech/korgs-phase8-gets-a-free-web-based-editor-with-32-step-sequencing-euclidean-rhythms-and-visual-automation",
-   "date": "2026-11-18T13:52:59.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/dDUgrgvrR8T5PnwqtmJst8-1920-80.jpg",
-   "resume": "Launched earlier this year, Korg Berlin's Phase8 is one of the strangest and most innovative synth designs we've seen in a long time. An eight-voice \"acoustic synthesizer \" that brings together acoustic sound generation…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Hit’n’Mix upgrades its RipX DAW with new 9th version: these are the key features you need to know about",
-   "lien": "https://musictech.com/news/gear/hitnmix-upgrades-ripx-daw-ninth-version-key-features/",
-   "date": "2026-11-18T12:19:29.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/new-ripx-hero@2000x1500.jpg",
-   "resume": "UK-based audio software brand Hit’n’Mix has launched a new version of its flagship DAW RipX, and you can get money off thanks to an early Black Friday sale. The newly upgraded DAW – RipX DAW 9 and the accompanying RipX…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "zZounds best Black Friday music deals 2026: Save on controllers, synths and pro audio",
-   "lien": "https://musictech.com/news/gear/zzounds-best-black-friday-music-deals-2026/",
-   "date": "2026-11-18T11:00:49.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/zzounds-bf-hero@2000x1500.jpg",
-   "resume": "It’s the most exciting time of the year again. No, not summer. Not Christmas. Black Friday. It’s the season to grab a killer bargain or three on that music gear you’ve had your eye on. While you’re right that Black…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Dave Seaman",
    "lien": "https://www.attackmagazine.com/features/top-tracks/dave-seaman-a-lifelong-obsession-with-synth-music/",
    "date": "2026-11-17T20:18:12.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Top-Tracks-Feat-Image-Dave-Seaman-1130x386.png",
    "resume": "What tracks get Dave Seaman moving? We asked him. Dave Seaman has been a fixture of dance music for close to 40 years. As one half of Brothers in Rhythm he co-wrote and produced Kylie Minogue's 'Confide in Me', the…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Compact, configurable and extremely easy to use”: Auriteq Flow review",
-   "lien": "https://www.musicradar.com/music-tech/controllers/auriteq-flow-review",
-   "date": "2026-11-17T18:00:52.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/QFzNPGfeZj4dRgFd7RNqUm-1920-80.jpg",
-   "resume": "What is it? Auriteq Flow is a compact and configurable USB desktop DAW controller for Mac and PC, and is available in both white and black versions. Designed to work out of the box with Ableton Live , Logic Pro , FL…",
    "integral": true
   },
   {
@@ -287,15 +305,6 @@
    "date": "2026-11-09T17:12:47.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
    "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Getting Started With Emulators: How To Run Real Hardware Synths In Your DAW",
-   "lien": "https://www.attackmagazine.com/features/long-read/getting-started-with-emulators-how-to-run-real-hardware-synths-in-your-daw/",
-   "date": "2026-11-05T15:30:56.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
-   "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
    "integral": true
   },
   {
