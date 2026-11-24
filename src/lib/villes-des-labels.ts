@@ -67,8 +67,12 @@ const RAYON_DUNE_VILLE_KM = 150;
 
 const sansRegion = (nom: string): string => nom.split(',')[0]?.trim() ?? nom;
 
-function villeCanonique(v: Nom | null | undefined, g: Point): Nom | null {
-  if (!v || estUneRegion(g)) return null;
+/** La ville d'un label telle que la carte la lit : sans sa province, un
+    quartier ramene a sa ville, null pour un pays ou une region pris pour une
+    ville. Sert aussi a scripts/completer-villes-labels.ts pour savoir quels
+    labels n'ont pas de ville. */
+export function villeDuLabel(v: Nom | null | undefined, g: Point | null | undefined): Nom | null {
+  if (!v || (g && estUneRegion(g))) return null;
   const fr = sansRegion(v.fr);
   const en = sansRegion(v.en);
   if (!fr || PAS_DES_VILLES.has(cleDeLabel(en))) return null;
@@ -139,7 +143,7 @@ export function lieuxDesLabels(entrees: readonly EntreeLabel[]): {
   for (const e of entrees) {
     if (!e.g) continue;
     const point = e as EntreeLabel & { readonly g: Point };
-    const ville = villeCanonique(e.v, point.g);
+    const ville = villeDuLabel(e.v, point.g);
     if (ville) {
       const cle = cleDeLabel(ville.fr);
       const homonymes = parVille.get(cle) ?? [];

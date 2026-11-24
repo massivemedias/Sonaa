@@ -57,6 +57,7 @@
     "moissonner:news": "tsx scripts/moissonner-news.ts",
     "moissonner:marques": "tsx --env-file-if-exists=.env scripts/moissonner-marques.ts",
     "moissonner:labels": "tsx --env-file-if-exists=.env scripts/moissonner-labels.ts",
+    "completer:villes-labels": "tsx --env-file-if-exists=.env scripts/completer-villes-labels.ts",
     "moissonner:actu-labels": "tsx --env-file-if-exists=.env scripts/moissonner-actu-labels.ts",
     "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts",
     "ingerer:lepointdevente": "tsx scripts/ingerer-lepointdevente.ts",

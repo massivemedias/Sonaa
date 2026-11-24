@@ -83,6 +83,10 @@ export interface FicheLabel extends ActuDuLabel {
   readonly ville?: { readonly fr: string; readonly en: string } | null;
   readonly latitude?: number | null;
   readonly longitude?: number | null;
+  /** D'ou vient la ville quand scripts/completer-villes-labels.ts l'a trouvee :
+      le siege ou le lieu de fondation chez Wikidata, l'adresse de contact
+      chez Discogs, la zone chez MusicBrainz, ou une phrase de presentation. */
+  readonly villeSource?: 'wikidata' | 'discogs' | 'musicbrainz' | 'presentation';
   /** Label generaliste hors musique electronique : conserve en archive, masque de la galerie. */
   readonly horsElectronique?: boolean;
   readonly annee: number | null;
@@ -225,6 +229,12 @@ const CODES_DES_PAYS: Readonly<Record<string, string>> = {
   Taïwan: 'TW', 'Hong Kong': 'HK', Thaïlande: 'TH', Philippines: 'PH', Malaisie: 'MY', Indonésie: 'ID', Chypre: 'CY',
   Venezuela: 'VE', Singapour: 'SG', Estonie: 'EE', Lettonie: 'LV', Maroc: 'MA', Pérou: 'PE', Uruguay: 'UY',
 };
+
+/** Le code ISO d'un pays moissonne en francais, « Royaume-Uni » donne
+    « GB ». Null pour un pays absent de la table. */
+export function codeDuPays(pays: string | null | undefined): string | null {
+  return pays ? (CODES_DES_PAYS[pays] ?? null) : null;
+}
 
 export function nomDuPays(pays: string, langue: string): string {
   const code = CODES_DES_PAYS[pays];

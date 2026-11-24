@@ -32,9 +32,9 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { cleDeLabel, nomsDeLabels, succes, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
+import { cleDeLabel, nomsDeLabels, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
 import { slug } from '../src/lib/chemins.ts';
-import { nettoyerProfil, sansTirets, variantes } from './lib/labels-moisson.ts';
+import { entreesDeLIndex, nettoyerProfil, sansTirets, variantes } from './lib/labels-moisson.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 const SORTIE = fileURLToPath(new URL('../src/data/labels.json', import.meta.url));
@@ -2474,6 +2474,8 @@ for (const { l, wd } of retenus) {
     ...(avant?.quebec || ajout?.quebec ? { quebec: true } : {}),
     ...(avant?.horsElectronique ? { horsElectronique: true } : {}),
     ville: ajout?.ville ?? avant?.ville ?? null,
+    /* La source d'une ville trouvee par scripts/completer-villes-labels.ts. */
+    ...(!ajout?.ville && avant?.villeSource ? { villeSource: avant.villeSource } : {}),
     latitude: ajout?.latitude ?? avant?.latitude ?? null,
     longitude: ajout?.longitude ?? avant?.longitude ?? null,
     annee: wd?.annee ?? avant?.annee ?? ajout?.annee ?? null,
@@ -2526,31 +2528,8 @@ if (!SEULEMENT && !REFAIRE) {
 
 const tout = [...fiches.values()].sort((a, b) => a.nom.localeCompare(b.nom));
 writeFileSync(SORTIE, `${JSON.stringify(tout, null, 1)}\n`);
-/* L'INDEX DE LA RECHERCHE, a part et minuscule : la recherche et la carte des
-   maisons meres le chargent a chaque ouverture, uniquement pour les labels
-   100 % electroniques. */
-writeFileSync(
-  INDEX,
-  `${JSON.stringify(
-    tout
-      .filter((f) => !f.horsElectronique)
-      .map((f) => ({
-        s: f.slug,
-        n: f.nom,
-        k: f.cles,
-        c: f.n,
-        p: f.pays,
-        ...(f.quebec ? { q: 1 as const } : {}),
-        ...(f.ville ? { v: f.ville } : {}),
-        ...(f.latitude != null && f.longitude != null
-          ? { g: [Number(f.latitude.toFixed(4)), Number(f.longitude.toFixed(4))] as const }
-          : {}),
-        a: f.annee,
-        l: f.logo?.url ?? null,
-        r: succes(f),
-      }))
-  )}\n`
-);
+/* L'index de la recherche et de la carte : voir entreesDeLIndex. */
+writeFileSync(INDEX, `${JSON.stringify(entreesDeLIndex(tout))}\n`);
 const avecResume = tout.filter((f) => f.resume.fr || f.resume.en || f.profil).length;
 const avecSorties = tout.filter((f) => f.sorties.length > 0).length;
 const avecLogo = tout.filter((f) => f.logo).length;

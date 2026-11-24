@@ -119,4 +119,14 @@ describe('maisons meres et purete 100 % musique electronique', () => {
       expect(fiches.find((f) => f.slug === horsSlug)?.horsElectronique).toBe(true);
     }
   });
+
+  it('une ville completee porte sa source, son nom dans les deux langues et ses coordonnees', () => {
+    const fiches = FICHES_REELLES as unknown as readonly FicheLabel[];
+    for (const f of fiches.filter((x) => x.villeSource)) {
+      expect(f.ville?.fr, f.slug).toBeTruthy();
+      expect(f.ville?.en, f.slug).toBeTruthy();
+      expect(Number.isFinite(f.latitude), f.slug).toBe(true);
+      expect(Number.isFinite(f.longitude), f.slug).toBe(true);
+    }
+  });
 });

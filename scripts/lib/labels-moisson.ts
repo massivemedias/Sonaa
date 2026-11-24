@@ -1,6 +1,32 @@
 /* LES PETITES LECTURES DE LA MOISSON DES LABELS, a part pour etre testees
    sans lancer la moisson. Voir scripts/moissonner-labels.ts. */
 
+import { succes, type EntreeLabel, type FicheLabel } from '../../src/lib/labels.ts';
+
+/** L'INDEX DE LA RECHERCHE, a part et minuscule : la recherche et la carte des
+    maisons meres le chargent a chaque ouverture, uniquement pour les labels
+    100 % electroniques. Ecrit par la moisson et par la completion des villes
+    (scripts/completer-villes-labels.ts), toujours par cette fonction. */
+export function entreesDeLIndex(fiches: readonly FicheLabel[]): EntreeLabel[] {
+  return fiches
+    .filter((f) => !f.horsElectronique)
+    .map((f) => ({
+      s: f.slug,
+      n: f.nom,
+      k: f.cles,
+      c: f.n,
+      p: f.pays,
+      ...(f.quebec ? { q: 1 as const } : {}),
+      ...(f.ville ? { v: f.ville } : {}),
+      ...(f.latitude != null && f.longitude != null
+        ? { g: [Number(f.latitude.toFixed(4)), Number(f.longitude.toFixed(4))] as const }
+        : {}),
+      a: f.annee,
+      l: f.logo?.url ?? null,
+      r: succes(f),
+    }));
+}
+
 /** Les noms sous lesquels Wikidata peut connaitre un label : tel quel, sans
     le mot « Records », avec ou sans espaces autour de l'esperluette. */
 export function variantes(nom: string): string[] {
