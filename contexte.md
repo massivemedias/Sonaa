@@ -1,10 +1,10 @@
 # CONTEXTE : sonaa.ca
 
 Fichier maître des chantiers en cours, chargé par `CLAUDE.md` au début de chaque
-conversation. Mis à jour le 24 novembre 2026 (atlas étendu à 257 styles et 2 644 morceaux
-vérifiés ; 2 169 labels électroniques dont 128 québécois et 61 mexicains avec carte des
-maisons mères ; 678 festivals actifs et séparation clubs/salles ; moisson automatique des
-salles électro de Montréal via Squarespace JSON et WordPress REST).
+conversation. Mis à jour le 25 novembre 2026 (atlas étendu à 257 styles et 2 644 morceaux
+vérifiés ; 2 459 labels électroniques dont 128 québécois, 64 espagnols et 61 mexicains avec
+carte des maisons mères ; 696 festivals actifs dont 43 en Espagne et séparation clubs/salles ;
+moisson automatique des salles électro de Montréal via Squarespace JSON et WordPress REST).
 
 Règle : quand un chantier change ce qui est décrit ici, mettre ce fichier à jour dans le
 même commit. Ce qui n'est écrit nulle part est perdu à la conversation suivante. Claude
@@ -59,13 +59,15 @@ morceaux par style).
 
 ---
 
-## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (24 nov 2026)
+## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (25 nov 2026)
 
-- **2 169 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
+- **2 459 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
   `src/data/labels-index.json`, `scripts/moissonner-labels.ts`), dont :
   - **128 labels québécois** (`q: 1`, dont **VRSTL Records**, **SOAME Records**, **Lazy Days Recordings**, **AlpaKa MuziK**, **Tech Safari Records**, **SPF Infini**, **Voyage Funktastique**, **Kohlenstoff Records**, **Moderna Records**, **Slugz Music**, **OCTOV**, **Detuned Transmissions**, **Epsilonlab**, **Complot**, **Default Recordings**, **idioms**, **wave logs**, **Gravecult Records**, **Monkey Dub Recording**, **Quantum Digits Recordings**, **Alterflow** à Québec et **Tour de Bras** à Rimouski) ;
+  - **64 labels espagnols** (dont **PoleGroup**, **Semantica Records**, **Mindshake Records**, **Seven Villas**, **Lapsus Records**, **Fayer**, **Analog Solutions**, **Playground Records**, **Disboot**, **Foehn Records**, **Hivern Discs**, **Suara**, **Stereo Productions**, **elrow Music**, **Sincopat**, **Factor City**, **Rotten City**, **Subsist Records**, **Blackworks**) ;
   - **61 labels mexicains** (dont **Undergroove Music** à Mexico avec logo et discographie Discogs, **Akbal Music**, **Illegal Alien Records**, **Future Techno Records**, **ANAOH**, **Uxmal Records**, **Pleiadian Records**, **BioMechanix Records**, **Tenampa Recordings**, **Umor Rex**, **Nopal Beat**, **Duro**, **NAAFI**, **Zamna Records**, etc.) ;
-  - **+584 labels Beatport internationaux** ajoutés le 24 nov 2026 (Beatport direct étant derrière Cloudflare 403, la passe s'appuie sur le catalogue Beatport public de LabelTide + Discogs API).
+  - **Amérique latine renforcée** : **28 au Brésil**, **15 en Argentine**, **7 en Colombie**, **5 au Chili** ;
+  - **+841 labels Beatport internationaux** ajoutés les 24 et 25 nov 2026 (Beatport direct étant derrière Cloudflare 403, le scan complet s'appuie sur le catalogue Beatport public LabelTide + Discogs API).
 - **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
@@ -102,11 +104,15 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 
 ---
 
-## ATLAS CLUBS, SALLES ET FESTIVALS (23 nov 2026, commit `672bc23`)
+## ATLAS CLUBS, SALLES ET FESTIVALS (25 nov 2026)
 
-- **678 festivals électroniques actifs** dans 75 pays (dont **65 au Canada**) dans
-  `src/data/lieux-et-festivals.ts` ; **67 festivals disparus** (dont Eclipse Festival)
-  masqués de l'affichage et de la carte via le drapeau réversible `inactif: true`.
+- **696 festivals électroniques actifs** dans 75 pays (dont **65 au Canada** et **43 en Espagne**,
+  après ajout de 15 festivals espagnols actifs : `OFFSónar`, `IMS Ibiza (Dalt Vila)`,
+  `L.E.V. Festival`, `Dantz Festival`, `Mostra Festival`, `Días de Campo`, `Refractor Festival`,
+  `Eufònic`, `Volumens`, `Sunblast Festival`, `Keroxen`, `Connection Festival`, `Animal Sound`,
+  `Rit/mo Festival`, `Electrolunch`, plus `WHOLE Festival`, `SuncéBeat New Horizons` et
+  `MUTEK Chile`) dans `src/data/lieux-et-festivals.ts` ; **67 festivals disparus** (dont Eclipse
+  Festival) masqués de l'affichage et de la carte via le drapeau réversible `inactif: true`.
 - **Séparation clubs / salles** : les clubs et bars musicaux (`estSalle` absent) sont mis en
   avant ; les salles à louer / salles de spectacle généralistes (`estSalle: true`) sont
   séparées et affichées avec leurs prochains événements.

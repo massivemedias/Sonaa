@@ -33319,6 +33319,530 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "fr": "Plus grand festival musical de Nouvelle-Zélande déployé sur deux jours dans Hagley Park à Christchurch, fortement porté par ses scènes électroniques, house, drum & bass et electronica.",
       "en": "New Zealand’s largest two-day music festival in Christchurch’s Hagley Park, heavily anchored by major international house, drum & bass and live electronic stages."
     }
+  },
+  {
+    "id": "offsonar-barcelone-espagne",
+    "nom": "OFFSónar",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poble Espanyol)",
+      "en": "Barcelona (Poble Espanyol)"
+    },
+    "latitude": 41.3688,
+    "longitude": 2.1481,
+    "capacite": 15000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Melodic Techno",
+      "Minimal"
+    ],
+    "site": "https://offsonar.co",
+    "description": {
+      "fr": "Série officielle de soirées et vitrines de labels internationaux (Keinemusik, Solid Grooves, elrow, Innervisions, Circoloco) au Poble Espanyol pendant la semaine du Sónar à Barcelone.",
+      "en": "Official series of international label showcases (Keinemusik, Solid Grooves, elrow, Innervisions, Circoloco) held at Barcelona’s Poble Espanyol during Sónar Week."
+    }
+  },
+  {
+    "id": "ims-ibiza-dalt-vila-espagne",
+    "nom": "IMS Ibiza (Dalt Vila)",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Ibiza (Dalt Vila, Baléares)",
+      "en": "Ibiza (Dalt Vila, Balearic Islands)"
+    },
+    "latitude": 38.9067,
+    "longitude": 1.4366,
+    "capacite": 7000,
+    "annee": 2008,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Melodic House",
+      "Afro House"
+    ],
+    "site": "https://internationalmusicsummit.com",
+    "description": {
+      "fr": "Sommet mondial de la musique électronique à Ibiza, clôturé chaque printemps par le grand concert open air de Dalt Vila dans la citadelle classée au patrimoine de l’UNESCO.",
+      "en": "Global electronic music summit in Ibiza, culminating each spring in the flagship open-air finale inside the UNESCO-listed citadel of Dalt Vila."
+    }
+  },
+  {
+    "id": "lev-festival-gijon-espagne",
+    "nom": "L.E.V. Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Gijón (Asturies) & Madrid",
+      "en": "Gijón (Asturias) & Madrid"
+    },
+    "latitude": 43.5245,
+    "longitude": -5.6143,
+    "capacite": 6000,
+    "annee": 2007,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Electronica",
+      "IDM",
+      "Ambient",
+      "Experimental"
+    ],
+    "site": "https://levfestival.com",
+    "description": {
+      "fr": "Laboratoire de musique électronique et de création audiovisuelle fondé en 2007 à la Laboral de Gijón (et décliné à Matadero Madrid), référence européenne des lives audiovisuels.",
+      "en": "Laboratory of electronic music and audiovisual creation founded in 2007 at Gijón’s Laboral (with a sister edition at Matadero Madrid), a European benchmark for A/V live acts."
+    }
+  },
+  {
+    "id": "dantz-festival-san-sebastian-espagne",
+    "nom": "Dantz Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Saint-Sébastien (Donostia, Pays Basque)",
+      "en": "San Sebastián (Donostia, Basque Country)"
+    },
+    "latitude": 43.3183,
+    "longitude": -1.9812,
+    "capacite": 8000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Electronica"
+    ],
+    "site": "https://dantz.eu",
+    "description": {
+      "fr": "Festival international de musique électronique et contemporaine de Saint-Sébastien, déployé entre l’amphithéâtre de Miramón, Tabakalera et les clubs du Pays Basque.",
+      "en": "International electronic and contemporary music festival in San Sebastián, spanning the Miramón amphitheatre, Tabakalera and Basque Country club spaces."
+    }
+  },
+  {
+    "id": "mostra-festival-barcelone-espagne",
+    "nom": "Mostra Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3642,
+    "longitude": 2.1558,
+    "capacite": 2500,
+    "annee": 2022,
+    "mois": {
+      "fr": "Avril",
+      "en": "April"
+    },
+    "styles": [
+      "Deep Techno",
+      "Minimal",
+      "Ambient",
+      "Experimental"
+    ],
+    "site": "https://mostrabcn.com",
+    "description": {
+      "fr": "Festival boutique underground de Barcelone consacré à la techno hypnotique, au dub techno, à l’ambient et aux musiques électroniques d’avant-garde dans des lieux patrimoniaux.",
+      "en": "Underground boutique electronic festival in Barcelona devoted to hypnotic techno, dub techno, ambient and avant-garde club electronics in heritage venues."
+    }
+  },
+  {
+    "id": "dias-de-campo-montanejos-espagne",
+    "nom": "Días de Campo",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Montanejos (Castellón, Valence)",
+      "en": "Montanejos (Castellón, Valencia)"
+    },
+    "latitude": 40.0681,
+    "longitude": -0.5228,
+    "capacite": 3000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Minimal",
+      "House",
+      "Deep House",
+      "Electro"
+    ],
+    "site": "https://thebasementxxx.com",
+    "description": {
+      "fr": "Rassemblement printanier en pleine nature dans les gorges et sources thermales de Montanejos, curaté par le collectif valencien The Basement autour de la house et du minimal.",
+      "en": "Springtime nature gathering set among the gorges and thermal springs of Montanejos, curated by Valencia’s The Basement collective around underground house and minimal."
+    }
+  },
+  {
+    "id": "refractor-festival-toledo-espagne",
+    "nom": "Refractor Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Valdeverdeja (Tolède)",
+      "en": "Valdeverdeja (Toledo)"
+    },
+    "latitude": 39.7992,
+    "longitude": -5.2464,
+    "capacite": 1500,
+    "annee": 2021,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Deep Techno",
+      "Dub Techno",
+      "Hypnotic Techno",
+      "Ambient"
+    ],
+    "site": "https://refractorfestival.com",
+    "description": {
+      "fr": "Festival rural et audiophile au cœur de la province de Tolède, dédié à la techno profonde, au dub techno, à la bass culture et aux systèmes son haute fidélité.",
+      "en": "Rural audiophile underground festival in Toledo province dedicated to deep hypnotic techno, dub techno, bass culture and bespoke sound systems."
+    }
+  },
+  {
+    "id": "eufonic-terres-de-lebre-espagne",
+    "nom": "Eufònic",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Amposta & Terres de l’Ebre (Catalogne)",
+      "en": "Amposta & Terres de l’Ebre (Catalonia)"
+    },
+    "latitude": 40.7103,
+    "longitude": 0.5808,
+    "capacite": 5000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "Electronica",
+      "Club"
+    ],
+    "site": "https://eufonic.net",
+    "description": {
+      "fr": "Festival d’arts sonores, visuels et numériques déployé dans le delta de l’Èbre en Catalogne, mêlant concerts électroniques expérimentaux, installations et performances nocturnes.",
+      "en": "Sound, visual and digital arts festival set across Catalonia’s Ebro Delta, blending experimental electronic concerts, installations and late-night club showcases."
+    }
+  },
+  {
+    "id": "volumens-valence-espagne",
+    "nom": "Volumens",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Valence",
+      "en": "Valencia"
+    },
+    "latitude": 39.4699,
+    "longitude": -0.3763,
+    "capacite": 5000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Electronica",
+      "Techno",
+      "IDM",
+      "Ambient"
+    ],
+    "site": "https://volumens.es",
+    "description": {
+      "fr": "Festival international de musique électronique, d’art numérique et de culture sonore de Valence, entre performances audiovisuelles et nuits club dans des espaces industriels.",
+      "en": "Valencia’s international festival of electronic music, digital art and sound culture, pairing audiovisual live sets with industrial club nights."
+    }
+  },
+  {
+    "id": "sunblast-festival-tenerife-espagne",
+    "nom": "Sunblast Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Adeje (Tenerife, Canaries)",
+      "en": "Adeje (Tenerife, Canary Islands)"
+    },
+    "latitude": 28.1227,
+    "longitude": -16.726,
+    "capacite": 20000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "Tech House",
+      "Drum & Bass",
+      "EDM"
+    ],
+    "site": "https://sunblast.es",
+    "description": {
+      "fr": "Plus grand festival de musique électronique des îles Canaries à Tenerife, réunissant chaque été plusieurs scènes techno, tech house, drum & bass et bass music en plein air.",
+      "en": "The Canary Islands’ largest electronic music festival in Tenerife, bringing multiple open-air techno, tech house, drum & bass and bass music stages each summer."
+    }
+  },
+  {
+    "id": "keroxen-tenerife-espagne",
+    "nom": "Keroxen",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Santa Cruz de Tenerife (Canaries)",
+      "en": "Santa Cruz de Tenerife (Canary Islands)"
+    },
+    "latitude": 28.4581,
+    "longitude": -16.2564,
+    "capacite": 2000,
+    "annee": 2009,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Experimental",
+      "Techno",
+      "Dub",
+      "Electronica"
+    ],
+    "site": "https://keroxen.com",
+    "description": {
+      "fr": "Festival culte d’électronique avant-gardiste, de dub et d’expérimentations sonores niché dans l’ancien réservoir industriel El Tanque à Santa Cruz de Tenerife.",
+      "en": "Cult avant-garde electronic, dub and experimental music festival held inside the cavernous El Tanque industrial oil tank in Santa Cruz de Tenerife."
+    }
+  },
+  {
+    "id": "connection-festival-seville-espagne",
+    "nom": "Connection Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Séville (Andalousie)",
+      "en": "Seville (Andalusia)"
+    },
+    "latitude": 37.3891,
+    "longitude": -5.9845,
+    "capacite": 4000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Psytrance",
+      "Goa Trance",
+      "Psybient",
+      "Progressive Psytrance"
+    ],
+    "site": "https://connectionfestival.es",
+    "description": {
+      "fr": "Rassemblement psytrance et goa trance historique d’Andalousie, célébré pour sa programmation fidèle aux racines psychédéliques et sa scène chill-out en plein air.",
+      "en": "Long-running Andalusian psytrance and Goa trance gathering celebrated for its purist psychedelic programming and open-air chill-out sanctuary."
+    }
+  },
+  {
+    "id": "animal-sound-murcie-espagne",
+    "nom": "Animal Sound",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Murcie (La Fica)",
+      "en": "Murcia (La Fica)"
+    },
+    "latitude": 37.9817,
+    "longitude": -1.1194,
+    "capacite": 25000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Tech House",
+      "EDM"
+    ],
+    "site": "https://animalsoundfestival.com",
+    "description": {
+      "fr": "Grand festival électro du sud-est de l’Espagne à Murcie, rassemblant scènes techno, hard techno, hardstyle et house chaque début d’été au parc des expositions La Fica.",
+      "en": "Major southeastern Spanish electronic festival in Murcia, gathering techno, hard techno, hardstyle and house stages each early summer at La Fica."
+    }
+  },
+  {
+    "id": "ritmo-festival-grenade-espagne",
+    "nom": "Rit/mo Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Grenade (El Paraje Natural, Andalousie)",
+      "en": "Granada (Andalusia)"
+    },
+    "latitude": 37.1773,
+    "longitude": -3.5986,
+    "capacite": 3500,
+    "annee": 2017,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Disco",
+      "House",
+      "Indie Dance",
+      "Electro"
+    ],
+    "site": "https://ritmofestival.com",
+    "description": {
+      "fr": "Festival boutique en plein air près de Grenade axé sur le nu-disco, la house underground, l’indie dance et les sélecteurs internationaux dans un écrin naturel andalou.",
+      "en": "Open-air boutique festival near Granada focused on nu-disco, underground house, indie dance and international selectors in an Andalusian natural setting."
+    }
+  },
+  {
+    "id": "whole-festival-ferropolis-allemagne",
+    "nom": "WHOLE Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Ferropolis (Gräfenhainichen)",
+      "en": "Ferropolis (Gräfenhainichen)"
+    },
+    "latitude": 51.7536,
+    "longitude": 12.4486,
+    "capacite": 8000,
+    "annee": 2017,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Ambient"
+    ],
+    "site": "https://wholefestival.com",
+    "description": {
+      "fr": "Festival électronique queer international installé sous les excavatrices monumentales de Ferropolis, réunissant des collectifs club underground d’Europe et d’ailleurs.",
+      "en": "International queer electronic music festival set beneath the towering industrial excavators of Ferropolis, uniting underground club collectives from around the world."
+    }
+  },
+  {
+    "id": "suncebeat-lisbonne-portugal",
+    "nom": "SuncéBeat New Horizons",
+    "type": "festival",
+    "paysCode": "PT",
+    "ville": {
+      "fr": "Costa da Caparica (Lisbonne)",
+      "en": "Costa da Caparica (Lisbon)"
+    },
+    "latitude": 38.6446,
+    "longitude": -9.2356,
+    "capacite": 6000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Soulful House",
+      "Deep House",
+      "Disco",
+      "Afro House"
+    ],
+    "site": "https://suncebeat.com",
+    "description": {
+      "fr": "Institution britannique de la soulful house, de la deep house, du disco et de l’afro house, désormais installée sur les plages de Costa da Caparica près de Lisbonne.",
+      "en": "Beloved UK-born soulful house, deep house, disco and afro house institution, now hosted on the coastal beaches of Costa da Caparica near Lisbon."
+    }
+  },
+  {
+    "id": "mutek-chile-santiago-chili",
+    "nom": "MUTEK Chile",
+    "type": "festival",
+    "paysCode": "CL",
+    "ville": {
+      "fr": "Santiago",
+      "en": "Santiago"
+    },
+    "latitude": -33.4489,
+    "longitude": -70.6693,
+    "capacite": 6000,
+    "annee": 2002,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Electronica",
+      "Techno",
+      "Ambient",
+      "IDM"
+    ],
+    "site": "https://chile.mutek.org",
+    "description": {
+      "fr": "Déclinaison chilienne du festival montréalais MUTEK à Santiago, dédiée à la créativité numérique, aux performances audiovisuelles et aux musiques électroniques d’avant-garde.",
+      "en": "Chilean edition of Montreal’s MUTEK festival in Santiago, dedicated to digital creativity, audiovisual live sets and forward-thinking electronic music."
+    }
+  },
+  {
+    "id": "electrolunch-seville-espagne",
+    "nom": "Electrolunch",
+    "type": "festival",
+    "paysCode": "ES",
+    "ville": {
+      "fr": "Séville (CAAC, Andalousie)",
+      "en": "Seville (CAAC, Andalusia)"
+    },
+    "latitude": 37.3987,
+    "longitude": -6.0094,
+    "capacite": 4000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Printemps & Automne",
+      "en": "Spring & Autumn"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "Electro"
+    ],
+    "site": "https://electrolunch.es",
+    "description": {
+      "fr": "Rendez-vous open air diurne et familial de musique électronique dans les jardins du Centre Andalou d’Art Contemporain (CAAC) à Séville.",
+      "en": "Daytime open-air electronic music gathering held in the historic gardens of the Andalusian Center for Contemporary Art (CAAC) in Seville."
+    }
   }
 ];
 
