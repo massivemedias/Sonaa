@@ -1,5 +1,5 @@
 {
- "labels": 1539,
+ "labels": 2170,
  "sorties": [
   {
    "titre": "All Ages",
@@ -42,12 +42,12 @@
    "slug": "metropolis"
   },
   {
-   "titre": "Nondi...",
-   "artiste": "Nondi_",
+   "titre": "Gauze",
+   "artiste": "Bae Bae",
    "annee": 2026,
-   "image": "https://i.discogs.com/U3N9dxEXz3h3DSdbw3thZYEmPNoN3NEWNIDytGYtd0s/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4Nzk0/NDM0LTE3OTI2Nzk1/NTktNzA3My5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38794434",
-   "format": "14xFile, MP3, 320",
+   "image": "https://i.discogs.com/JtiHC9-g-oed5AU7iJT2DpjR3TlmEB3fA2SY_wprJMI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk0/OTM4LTE3OTUxNzI5/NTAtNDM5MC5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39094938",
+   "format": "6xFile, FLAC, EP, 24-",
    "label": "Planet Mu",
    "slug": "planet-mu"
   },
@@ -172,11 +172,11 @@
    "slug": "dragonfly-records"
   },
   {
-   "titre": "Destroy All Humans (Angerfist Remix)",
-   "artiste": "Osiris | God Of The Underworld*",
+   "titre": "Where Did You Go",
+   "artiste": "Karun",
    "annee": 2026,
-   "image": "https://i.discogs.com/3ZH535iz4LS9aBeujwUQojg-zAaAAGoNoIk-tDoDs3A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDI0/NjcxLTE3OTQ2MDM2/OTgtOTIyMS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/39024671",
+   "image": "https://i.discogs.com/nzOazWIwzltdjlmjluVcxXJDb7mP-XY8bpJ6JllvfgM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDkz/NTg4LTE3OTUxNjIz/OTUtMzQ3MC5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/39093588",
    "format": "2xFile, MP3, 320",
    "label": "Masters Of Hardcore",
    "slug": "masters-of-hardcore"
