@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-24T22:34:35.722Z",
+ "fait": "2026-11-25T08:48:25.848Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "5 of the Best-Selling Synths of All Time",
+   "lien": "https://www.gearnews.com/5-of-the-best-selling-synths/",
+   "date": "2026-11-25T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/08/best-selling-synths-T.jpg",
+   "resume": "What makes a synth a top seller? Here are six of the best-selling synths that are still on the market after 10-plus years. 5 of the Best-Selling Synths of All Time The Best-Selling Synths of All Time KORG microKORG KORG…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "AKAI MPC Sample Review: Make and Load Your Own Effects With Update 1.4!",
+   "lien": "https://www.gearnews.com/akai-mpc-sample-review/",
+   "date": "2026-11-24T23:57:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpc-sample-new-update-T.jpg",
+   "resume": "Community FX are finally here. AKAI’s MPC Sample is now officially open source. That plus user-requested features in firmware 1.4. AKAI MPC Sample AKAI MPC Sample Update 1.4 The Sample Is Going Open Source AKAI MPC…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Cherry Audio DW-8K – A Classic Hybrid Synth Revisited!",
@@ -116,15 +134,6 @@
    "date": "2026-11-24T06:46:05.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/audient-id-next-generation-interfaces.webp?fit=1200%2C630&ssl=1",
    "resume": "You finish a mix, it sounds huge in the studio, then you play it in the car and the bass is gone or the vocal sounds like it is in another room. That gap has a name, translation, and a routine can help close it. This is…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Bitwig Winter Sale: Get 25% Off Bitwig Studio!",
-   "lien": "https://www.gearnews.com/bitwig-winter-sale/",
-   "date": "2026-11-23T18:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/11/bitwig-winter-sale-ft.jpg",
-   "resume": "Until 6 January 2027, the Bitwig Winter Sale is on, with 25% off all versions of Bitwig Studio, including upgrades and Bitwig Connect bundles. If you’ve been waiting for the right time to upgrade to the latest version…",
    "integral": true
   },
   {
