@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-25T21:49:17.861Z",
+ "fait": "2026-11-26T08:34:38.396Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "UA Universe: A New Developer Platform and Community for LUNA",
+   "lien": "https://www.gearnews.com/ua-universe-studio/",
+   "date": "2026-11-26T07:00:55.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ua-universe-ft-128x71.jpg",
+   "resume": "Now in public beta, UA Universe lets you create and share custom LUNA workflow tools and enhancements with its JavaScript-based development kit. UA Universe, you can use text prompting with AI assistants such as Claude…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Elektron Tonverk Update 1.5: 2 New Machines, 4 New FX & More",
+   "lien": "https://www.gearnews.com/elektron-tonverk-synth/",
+   "date": "2026-11-25T23:36:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/08/elektron-tonverk-1-5-ft.jpg",
+   "resume": "One of Elektron’s biggest updates ever boosts Tonverk with new time-stretching and supersaw Machines, fresh effects, deeper editing and routing, MIDI capabilities and tons more. Elektron Tonverk Elektron Tonverk Update…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "STRODANO reverses the VJ industry and releases “Resolume 2.0” for free",
@@ -170,15 +188,6 @@
    "date": "2026-11-24T17:00:32.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/Novation-firmwate-update.jpg",
    "resume": "If you tend to work with Novation ’s keyboard controllers, we’ve got some good news for you. Today, Novation has released a free v2.0 firmware update for the Launchkey MK4 and FLkey 2 . Alongside general improvements…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Get up to 58% off Syntorial 2, u-He Diva, Synthesizer V2, and Korg M1: Plugin Deals of the Week!",
-   "lien": "https://www.gearnews.com/syntorial-2-u-he-diva-synthesizer-v2-plugins/",
-   "date": "2026-11-24T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/PluginDeals_261124.jpg",
-   "resume": "This is the moment. The week where every plugin company goes mad. And this year they’re all gone a little madder. We’ve collected the best plugin deals of the black friday week. Starting off with Syntorial 2, a…",
    "integral": true
   },
   {
