@@ -175,6 +175,9 @@ chaque fiche club/salle.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
 
+- 26 nov 2026, Claude Code : page Mixtapes, « Dernières mixtapes » et « Les artistes »
+  passent en casse normale et en demi-gras (titres, ligne artiste/durée/écoutes), à la
+  demande de Mika qui trouvait les capitales trop grossières (`src/atlas/sets.css`).
 - 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
   en ligne.
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par

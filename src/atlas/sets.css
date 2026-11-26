@@ -226,23 +226,20 @@
   height: 7.5rem;
   font-size: 2.4rem;
 }
+/* Titre et ligne artiste/duree/ecoutes en casse normale, plus fins
+   (Mika, 26 novembre 2026 : les capitales partout faisaient grossier). */
 .sp-item.sp-item-public h3 {
   font-family: var(--police-titre);
-  font-stretch: 62%;
-  font-weight: 850;
-  font-size: var(--titre-rangee);
-  line-height: 0.95;
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
 }
 .sp-item.sp-item-public h3 + .sp-aide {
-  margin-top: var(--espace-8);
-  font-family: var(--police-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
+  margin-top: var(--espace-4);
+  font-size: 0.875rem;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--chasse-mono);
-  text-transform: uppercase;
 }
 .sp-item-public .sp-aide a {
   color: var(--accent);
@@ -649,8 +646,9 @@
   color: inherit;
 }
 
-/* L'INTERTITRE D'UNE PAGE, comme ceux de l'Atlas : capitales d'affiche
-   sous un filet qui ouvre la section (ADR-125). */
+/* L'INTERTITRE D'UNE PAGE, sous un filet qui ouvre la section (ADR-125).
+   En casse normale et en demi-gras depuis le 26 novembre 2026 : Mika
+   trouvait les capitales extra-grasses trop grossieres sur cette page. */
 .sp-sous-titre.sp-sous-titre-premier {
   margin-top: var(--espace-16);
 }
@@ -659,12 +657,10 @@
   padding-top: var(--espace-24);
   border-top: 1px solid var(--filet-fort);
   font-family: var(--police-titre);
-  font-stretch: 62%;
-  font-weight: 850;
-  font-size: var(--titre-intertitre);
-  line-height: 0.9;
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--encre-vive);
 }
 /* Sous un intertitre, la premiere rangee n'a pas besoin de son filet :
