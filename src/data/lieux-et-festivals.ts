@@ -738,6 +738,15 @@ export const TOUS_PAYS_LIEUX: readonly PaysLieu[] = [
     },
     "latitude": 18.0825,
     "longitude": -63.0631
+  },
+  {
+    "code": "UG",
+    "nom": {
+      "fr": "Ouganda",
+      "en": "Uganda"
+    },
+    "latitude": 0.4244,
+    "longitude": 33.2041
   }
 ];
 
@@ -33842,6 +33851,151 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Rendez-vous open air diurne et familial de musique électronique dans les jardins du Centre Andalou d’Art Contemporain (CAAC) à Séville.",
       "en": "Daytime open-air electronic music gathering held in the historic gardens of the Andalusian Center for Contemporary Art (CAAC) in Seville."
+    }
+  },
+  {
+    "id": "nyege-nyege-jinja-ouganda",
+    "nom": "Nyege Nyege Festival",
+    "type": "festival",
+    "paysCode": "UG",
+    "ville": {
+      "fr": "Jinja (Sources du Nil)",
+      "en": "Jinja (Source of the Nile)"
+    },
+    "latitude": 0.4244,
+    "longitude": 33.2041,
+    "capacite": 12000,
+    "annee": 2015,
+    "mois": {
+      "fr": "Novembre",
+      "en": "November"
+    },
+    "styles": [
+      "Singeli",
+      "Gqom",
+      "Kuduro",
+      "Techno"
+    ],
+    "site": "https://nyegenyege.com",
+    "description": {
+      "fr": "Festival culte des musiques électroniques d’Afrique de l’Est fondé à Jinja sur les rives du Nil, vitrine mondiale du singeli, du gqom, du kuduro et de la club music expérimentale.",
+      "en": "Landmark East African electronic music festival on the banks of the Nile in Jinja, global showcase for singeli, gqom, kuduro and experimental African club culture."
+    }
+  },
+  {
+    "id": "up-to-date-bialystok-pologne",
+    "nom": "Up To Date Festival",
+    "type": "festival",
+    "paysCode": "PL",
+    "ville": {
+      "fr": "Białystok",
+      "en": "Białystok"
+    },
+    "latitude": 53.1325,
+    "longitude": 23.1688,
+    "capacite": 10000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "Techno",
+      "Ambient",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://uptodate.pl",
+    "description": {
+      "fr": "Institution polonaise de la techno, de l’électro et du célèbre Salon Ambient à Białystok, connue pour sa curation exigeante dans des lieux industriels et patrimoniaux.",
+      "en": "Polish institution for techno, electro and its renowned Ambient Salon in Białystok, celebrated for uncompromising curation across industrial and heritage venues."
+    }
+  },
+  {
+    "id": "we-out-here-dorset-royaume-uni",
+    "nom": "We Out Here Festival",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Wimborne St Giles (Dorset)",
+      "en": "Wimborne St Giles (Dorset)"
+    },
+    "latitude": 50.8925,
+    "longitude": -1.9467,
+    "capacite": 15000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Broken Beat",
+      "Jungle",
+      "UK Garage"
+    ],
+    "site": "https://weoutherefestival.com",
+    "description": {
+      "fr": "Festival britannique curaté par Gilles Peterson et Worldwide FM dans le Dorset, réunissant club culture, broken beat, jungle, house profonde et sound systems audiophiles.",
+      "en": "UK festival curated by Gilles Peterson and Worldwide FM in Dorset, uniting club culture, broken beat, jungle, deep house and audiophile sound systems."
+    }
+  },
+  {
+    "id": "goulash-disko-vis-croatie",
+    "nom": "Goulash Disko",
+    "type": "festival",
+    "paysCode": "HR",
+    "ville": {
+      "fr": "Komiža (Île de Vis)",
+      "en": "Komiža (Vis Island)"
+    },
+    "latitude": 43.0444,
+    "longitude": 16.0897,
+    "capacite": 1500,
+    "annee": 2013,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Disco",
+      "House",
+      "Balearic",
+      "Downtempo"
+    ],
+    "site": "https://goulashdisko.com",
+    "description": {
+      "fr": "Festival indépendant et communautaire financé par son public sur l’île croate de Vis, mêlant disco cosmique, house organique, rythmes tropicaux et nuits face à l’Adriatique.",
+      "en": "Independent crowdfunded boutique festival on Croatia’s Vis Island, blending cosmic disco, organic house, global grooves and Adriatic beach sessions."
+    }
+  },
+  {
+    "id": "baleapop-saint-jean-de-luz-france",
+    "nom": "Baleapop",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Saint-Jean-de-Luz (Pays Basque)",
+      "en": "Saint-Jean-de-Luz (Basque Country)"
+    },
+    "latitude": 43.3881,
+    "longitude": -1.6631,
+    "capacite": 4000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Experimental"
+    ],
+    "site": "https://baleapop.com",
+    "description": {
+      "fr": "Festival d’art contemporain et de musiques électroniques indépendantes au parc Ducontenia à Saint-Jean-de-Luz, porté par le collectif basque Moï Moï.",
+      "en": "Contemporary art and independent electronic music festival held at Parc Ducontenia in Saint-Jean-de-Luz, curated by Basque collective Moï Moï."
     }
   }
 ];

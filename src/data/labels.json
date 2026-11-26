@@ -1190,9 +1190,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4086018-180-GR-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/3C1LquIhaEKZgTLz-H-lA5w7c9jvzAm_uwuP-mcB4PM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQwODYw/MTgtMTc0NDkwMzI5/Ny0yMDIyLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4086018-180-GR-Records"
+  },
   "sorties": []
  },
  {
@@ -2180,9 +2185,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/542862-3rd-Avenue",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/IFKE7iip7BbOzlamfx7MVduDxwp4gfkBgYswQVEU9Q8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTU0Mjg2/Mi0xMzY4MzM1MDcw/LTI4ODkuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/542862-3rd-Avenue"
+  },
   "sorties": []
  },
  {
@@ -3568,9 +3578,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/28885-Abora-Recordings",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/PAWEL45L27DrBM_RTG6ZFkfk4V-BQf5QEOWk_ESpS9I/rs:fit/g:sm/q:90/h:400/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTI4ODg1/LTEzOTI2NTMxNjct/OTQzMy5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/28885-Abora-Recordings"
+  },
   "sorties": []
  },
  {
@@ -4155,9 +4170,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1846784-Adams-Bite",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/n5EHYcZARDw7aHgDL85bj2J4eUVFL2oJDc1v-ZIw2gU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE4NDY3/ODQtMTYyMTI1ODgz/My0xMTM4LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1846784-Adams-Bite"
+  },
   "sorties": []
  },
  {
@@ -4178,10 +4198,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4123170-ADUNANZA",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/bsn1Z1y_wk3F2m6eZRYlT5Q6eu29Nh4ZWnpdJkrGCbw/rs:fit/g:sm/q:90/h:225/w:225/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQxMjMx/NzAtMTc0NzY5MzI5/My03MTI1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4123170-ADUNANZA"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Naples, Italie",
+   "en": "Naples, Italy"
+  },
+  "latitude": 40.8518,
+  "longitude": 14.2681
  },
  {
   "slug": "den-records",
@@ -4224,7 +4255,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1060160-AeternA-Records",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -4400,9 +4431,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4013232-Afro-Madiba-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/CaWhYabzueBEtw3sTO4P3dAWYWRzvomFZ4sF9xUwb8c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQwMTMy/MzItMTc0NjIwMDk2/OC02ODEwLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4013232-Afro-Madiba-Records"
+  },
   "sorties": []
  },
  {
@@ -4469,7 +4505,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4161445-Afrosteria",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -4865,7 +4901,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/96466-Agony",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -4888,7 +4924,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4528662-Agrio-Tracks",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -5111,9 +5147,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/514785-Airtime-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/00v3e02ijebHpg684YST8YGqiOgTI0NJW42auTnJIbQ/rs:fit/g:sm/q:90/h:110/w:260/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTUxNDc4/NS0xNjc2Mzc1MzI2/LTE5MDcuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/514785-Airtime-Records"
+  },
   "sorties": []
  },
  {
@@ -5926,9 +5967,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4302841-All-Is-Acid",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/8RylF65JnK3HkyzSxDe6ucURWc7uhg1K6GNe9lHp90w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQzMDI4/NDEtMTc3MzE3MDU5/MS00MzY4LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4302841-All-Is-Acid"
+  },
   "sorties": []
  },
  {
@@ -7076,9 +7122,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3859279-Altruism-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/HiML5Kql6hxjFPc_7hPzcFwrVA46lhTebqSedIvNxs0/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM4NTky/NzktMTcyODQxMDE2/My01NDc1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3859279-Altruism-Records"
+  },
   "sorties": []
  },
  {
@@ -7122,9 +7173,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1800865-Alula-Tunes",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/Usf58nrNch8dMgiPRqJqhAdgBuJsCCRX53nyeFtgSso/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE4MDA4/NjUtMTU4NTk3NzQx/NC03NjM4LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1800865-Alula-Tunes"
+  },
   "sorties": []
  },
  {
@@ -7565,9 +7621,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/574843-Amselcom",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/bVoZAm15uoCGdprnZYujmFMzkxTzWPfB0eWt5a1DHqQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTU3NDg0/My0xMzc1NzIyNDYw/LTI0MDQuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/574843-Amselcom"
+  },
   "sorties": []
  },
  {
@@ -8206,10 +8267,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4737342-Andhera-Records",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/SgwDMGPh9EvfqLZAnf20wmWg1yBCEggU30CILS80RI8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ3Mzcz/NDItMTc5MTU0OTg4/OC03Njk1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4737342-Andhera-Records"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "New York, États-Unis",
+   "en": "New York, United States"
+  },
+  "latitude": 40.7128,
+  "longitude": -74.006
  },
  {
   "slug": "andre-records",
@@ -8649,9 +8721,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3975030-Anjunachill",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/Xbg4GsqCyNc1kA-yHLqa35vi1UT9kTbB-71lasCqak8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM5NzUw/MzAtMTczNjk1ODkx/My01ODE0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3975030-Anjunachill"
+  },
   "sorties": []
  },
  {
@@ -10326,9 +10403,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/802666-Arkade",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/dEcsW3SDhXjqHpyEUOmPTuCzu7HxYre3EP9n5YM-eAY/rs:fit/g:sm/q:90/h:222/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTgwMjY2/Ni0xNDIzNzcxODU1/LTM4MTEuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/802666-Arkade"
+  },
   "sorties": []
  },
  {
@@ -11528,10 +11610,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/694039-Astral-Industries",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/ZX0qPgZnIhUq2TTB76pg2rm6mAnuXb9YZvWMtQinmuI/rs:fit/g:sm/q:90/h:292/w:305/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTY5NDAz/OS0xNDAxMjk5MDQy/LTIzNzEuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/694039-Astral-Industries"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Londres, Royaume-Uni",
+   "en": "London, United Kingdom"
+  },
+  "latitude": 51.5074,
+  "longitude": -0.1278
  },
  {
   "slug": "astralwerks",
@@ -11897,9 +11990,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/395648-Atjazz-Record-Company",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/1Ay17qilEfW3s2LBcp3zbqSfjo_ie36OZzxlntH72jE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM5NTY0/OC0xNDk4NzU2MTA5/LTM3MDIuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/395648-Atjazz-Record-Company"
+  },
   "sorties": []
  },
  {
@@ -12527,10 +12625,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/476773-Atomnation",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/JSVRUSDtFMZxpXoxYKvuzkiNM62msTaVxFFcgJtB6Xo/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ3Njc3/My0xMzU5NTUyOTE1/LTU4MDguanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/476773-Atomnation"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Amsterdam, Pays-Bas",
+   "en": "Amsterdam, Netherlands"
+  },
+  "latitude": 52.3676,
+  "longitude": 4.9041
  },
  {
   "slug": "attack-records",
@@ -12723,9 +12832,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1878064-ATW-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/FiHEdIYP6fDy7uBio8eY1Wc2dDyXpspDfEm8JoIyclw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE4Nzgw/NjQtMTU5Njc1MTcw/MC0yNDk1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1878064-ATW-Records"
+  },
   "sorties": []
  },
  {
@@ -12746,9 +12860,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/199099-Audiocode",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/E_HAl7fO86Zq58pRUX3sI4bCtwt1gkzgxQQ1UEx_h64/rs:fit/g:sm/q:90/h:411/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE5OTA5/OS0xNDI2NDIwMDEz/LTkxMDkuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/199099-Audiocode"
+  },
   "sorties": []
  },
  {
@@ -12873,7 +12992,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4569276-Audioholics-Records",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -13328,9 +13447,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1202626-Autektone-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/Fof06M8yr30kBQM6tZBy0KoyPLnXB8dYvjouIhUdbzs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEyMDI2/MjYtMTUyMzQwMzk2/My01NzEwLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1202626-Autektone-Records"
+  },
   "sorties": []
  },
  {
@@ -13351,9 +13475,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/508051-Automatik",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/y8n2uSkzw3Yw77y69KAyGfZxDSq1zlSsB0fYIxjtAUk/rs:fit/g:sm/q:90/h:278/w:273/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTUwODA1/MS0xMzYxMzA2Mjcz/LTM1OTUuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/508051-Automatik"
+  },
   "sorties": []
  },
  {
@@ -14123,9 +14252,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/10211-Axis-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/NWh68kpCdfkmQHVJiWZZSKn5wBnztuRWrM5SJdCLQj0/rs:fit/g:sm/q:90/h:154/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEwMjEx/LTEyMjM4MzU0ODIu/anBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/10211-Axis-Records"
+  },
   "sorties": []
  },
  {
@@ -14695,9 +14829,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1687-Bake-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/68HIFkPYB6dYMXlf_9VqQdBqzaIb5wxRzWKplVSEfLc/rs:fit/g:sm/q:90/h:738/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE2ODct/MTY1NDAxMjc5MS04/OTA0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1687-Bake-Records"
+  },
   "sorties": []
  },
  {
@@ -15219,7 +15358,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1415446-Banoffee-Pies-Records",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -15242,7 +15381,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1695645-Bar-25-Music",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -15265,9 +15404,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4285999-Bar-Melodia",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/-ObOta4hP8Q8tXhFDt4_yVf4mTs6o87R0ey5Cer7w9U/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQyODU5/OTktMTc3NDc5ODUz/MS02NTUzLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4285999-Bar-Melodia"
+  },
   "sorties": []
  },
  {
@@ -15418,7 +15562,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/2206756-Bare-Knuckle-Records",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -16129,10 +16273,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3738832-Basics-Records",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/7hKt6AwQnNBYW90TLMHvYyQDA2KPWAdOok2ith_DJHI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM3Mzg4/MzItMTc0MzI4MTA4/NS00MzM1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3738832-Basics-Records"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Londres, Royaume-Uni",
+   "en": "London, United Kingdom"
+  },
+  "latitude": 51.5074,
+  "longitude": -0.1278
  },
  {
   "slug": "bass-culture-records",
@@ -16175,9 +16330,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4279726-Bass-Jamz",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/W-v0Am9b3PnaZWb5N3LXyntfZzYeWmQTeaz2eqkKpzk/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQyNzk3/MjYtMTc1OTM2MDQ3/MC05MDEzLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4279726-Bass-Jamz"
+  },
   "sorties": []
  },
  {
@@ -16504,9 +16664,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/2258932-Bassmatic-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/cA8lfeQqrKrwJCLSLexHphiONExFG3zsQQPGj5tTYmY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTIyNTg5/MzItMTYyMzA4NDcz/Mi03MjY2LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/2258932-Bassmatic-Records"
+  },
   "sorties": []
  },
  {
@@ -16591,10 +16756,16 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/145642-Batty-Bass",
   "wikidata": null,
   "logo": null,
-  "sorties": []
+  "sorties": [],
+  "ville": {
+   "fr": "Londres, Royaume-Uni",
+   "en": "London, United Kingdom"
+  },
+  "latitude": 51.5074,
+  "longitude": -0.1278
  },
  {
   "slug": "bbbbbb-records",
@@ -16932,10 +17103,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1035758-Be-Adult-Music",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/ETThz3Q3mb90YXlHPqVlcsICZDvwYuwzaeL9FYksbrI/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEwMzU3/NTgtMTQ5NzIzNDQw/OC00Nzg0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1035758-Be-Adult-Music"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Ibiza, Espagne",
+   "en": "Ibiza, Spain"
+  },
+  "latitude": 38.9067,
+  "longitude": 1.4206
  },
  {
   "slug": "be-one-records",
@@ -17079,9 +17261,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1713425-Beat-Path",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/mTz3GRJEEdvN45CbwR1Dg_ZxofxWUqYVJXD_ktdlC6Y/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE3MTM0/MjUtMTYxODc2NjI4/OS0zMjU2LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1713425-Beat-Path"
+  },
   "sorties": []
  },
  {
@@ -17102,9 +17289,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/249906-Beat-Boutique",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/nGuTs0-B_v8bx1zQU9jnhQ5Ik2j_oYkQW26hpSOrTm0/rs:fit/g:sm/q:90/h:362/w:362/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTI0OTkw/Ni0xMzIyMzU0NjA4/LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/249906-Beat-Boutique"
+  },
   "sorties": []
  },
  {
@@ -17750,9 +17942,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/26354-Below-The-Surface",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/X_aeP6n1vm46tJeVgjvAOTOlYmym3gZs2aCTRmZ0Qm0/rs:fit/g:sm/q:90/h:142/w:123/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTI2MzU0/LTExMzE3MzY2ODMu/anBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/26354-Below-The-Surface"
+  },
   "sorties": []
  },
  {
@@ -17796,9 +17993,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/969622-Berg-Audio",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/p164c4YsDQpLksMrS3AEpGMojf8qHpTiWlpTlbHhQ-0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTk2OTYy/Mi0xNDU1ODM0MDUz/LTU4ODAuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/969622-Berg-Audio"
+  },
   "sorties": []
  },
  {
@@ -17819,10 +18021,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/11728-Berlin-Records",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/lzejMjC4SsAtAXJiWf1ZGS5_0Lszx-IejFUSkc_D_5Q/rs:fit/g:sm/q:90/h:264/w:260/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTExNzI4/LTE1NzIwMTQ3NjAt/MjM4NS5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/11728-Berlin-Records"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Berlin, Allemagne",
+   "en": "Berlin, Germany"
+  },
+  "latitude": 52.52,
+  "longitude": 13.405
  },
  {
   "slug": "beverley-s-records",
@@ -18363,9 +18576,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/33212-Big-Beat-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/B5p3dxGNelWW9EMe9U2-Qc2Cb-7AT2fT-yDWU7nHhCo/rs:fit/g:sm/q:90/h:101/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTMzMjEy/LTEyNzAzMjEzOTcu/anBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/33212-Big-Beat-Records"
+  },
   "sorties": []
  },
  {
@@ -18513,9 +18731,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/12428-Big-Love",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/JBGSHE-IxSR5DYtwfE4JvzEivkTJVIeju527Ay4jfGo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEyNDI4/LTE1NTM0MjI4NjQt/MzUyMC5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/12428-Big-Love"
+  },
   "sorties": []
  },
  {
@@ -18730,9 +18953,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/5694-Binary",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/4iG08rT2QB2ZxBhnKmJYfZCYaLEDp44nOGlFLEvgXjg/rs:fit/g:sm/q:90/h:161/w:405/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTU2OTQt/MTY3NjQwMjMzMC0y/NzU0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/5694-Binary"
+  },
   "sorties": []
  },
  {
@@ -19215,9 +19443,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1390535-bitbird",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/TDKxIWZ-rdgLP8o2ijmW8dmIe4q8HcrH4I7or0ZotKI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEzOTA1/MzUtMTUxMzk1MjUx/NS00NjAwLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1390535-bitbird"
+  },
   "sorties": []
  },
  {
@@ -19753,9 +19986,14 @@
    "en": "Electronic music record label independent electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/530177-Black-Turtle-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/4ELg4zRHHLVLPEe5n0P_ysafs5ViGjrrfkw4xPFfVxw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTUzMDE3/Ny0xNDUxNTE4NDAz/LTgzNDQuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/530177-Black-Turtle-Records"
+  },
   "sorties": []
  },
  {
@@ -19776,9 +20014,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1618346-Blackbox-Digital",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/LP4aXUaj-yZSpp4rteoRSEFCkeXk-r77qvFyR0BaVNI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE2MTgz/NDYtMTYzMzkzNjc3/Ni02NzEyLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1618346-Blackbox-Digital"
+  },
   "sorties": []
  },
  {
@@ -19800,9 +20043,14 @@
    "en": "Independent Montreal micro-label run by a collective of local producers, dedicated to house, bass house and gritty club grooves."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/153200-Blackbox-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/fgu24ywvVo0rScrkzbmeTOdx9ZyUZpfD2nJH4DRtteA/rs:fit/g:sm/q:90/h:308/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE1MzIw/MC0xMjgwMDYyNTAw/LnBuZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/153200-Blackbox-Records"
+  },
   "sorties": [],
   "ville": {
    "fr": "Montréal",
@@ -19829,9 +20077,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1059376-Blackcat-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/an0vqXf2HQwgddNDwdh0f_rsq16T8SVIFjuZ4JBN4WA/rs:fit/g:sm/q:90/h:535/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEwNTkz/NzYtMTQ3MjY3MzQ5/NS0yMzU2LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1059376-Blackcat-Records"
+  },
   "sorties": []
  },
  {
@@ -19956,9 +20209,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3068503-Blackk-Cat-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/uxQwnbdcjQ9-7v-TdMIkKxb0kxG91hnUGq2xNguGnKU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTMwNjg1/MDMtMTY3MjczNTMz/NC00MjU3LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3068503-Blackk-Cat-Records"
+  },
   "sorties": []
  },
  {
@@ -20773,9 +21031,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/45516-Blu-Fin",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/A6ILSt2lmC2pXJy2cXpDcKcNDydJC3a-d3WSKOuAgXs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ1NTE2/LTE3MjY5MTM3MzAt/MTU4Ny5wbmc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/45516-Blu-Fin"
+  },
   "sorties": []
  },
  {
@@ -21176,9 +21439,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/894614-Blue-Tunes-Chillout",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/zUbWciWdMABFgrjIc3Y4VMJLJEsFAE3C5t_71NjF7I4/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTg5NDYx/NC0xNTA1MzgyOTQ4/LTExNTcuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/894614-Blue-Tunes-Chillout"
+  },
   "sorties": []
  },
  {
@@ -21787,10 +22055,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3980577-Boisha",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/pK0_MxzqXRPUWYYtb4KNOqHeV6TYyPlt4BQkljJ4v7g/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM5ODA1/NzctMTc5NTA4Njk4/NC0yMTcyLnBuZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3980577-Boisha"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Berlin, Allemagne",
+   "en": "Berlin, Germany"
+  },
+  "latitude": 52.52,
+  "longitude": 13.405
  },
  {
   "slug": "bomb-strikes",
@@ -21910,10 +22189,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/41728-Bondage-Music",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/ZS1-WVgDSLfNZaELA4XEHYvg-P-4VLcmIjYC3Jg8QGA/rs:fit/g:sm/q:90/h:222/w:428/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQxNzI4/LTEyNjAwMDk2NjYu/anBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/41728-Bondage-Music"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Berlin, Allemagne",
+   "en": "Berlin, Germany"
+  },
+  "latitude": 52.52,
+  "longitude": 13.405
  },
  {
   "slug": "bonkers-music",
@@ -21933,7 +22223,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3638192-Bonkers-Music",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -22141,9 +22431,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4603884-Bootshaus-Music",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/U42bYXBh0pnKSYMt-hGrCCG840EtG4pjXwsUIOtSxts/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ2MDM4/ODQtMTc5MjA3MTEx/NS00NDgxLnBuZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4603884-Bootshaus-Music"
+  },
   "sorties": []
  },
  {
@@ -22493,9 +22788,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/110150-Bounce-Generation-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/rKBPycvC2G5xtvglCCvffQEGavbghLHjl6HZvTK5b7Q/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTExMDE1/MC0xNTY2MDk2NDU5/LTE0NDEucG5n.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/110150-Bounce-Generation-Records"
+  },
   "sorties": []
  },
  {
@@ -23084,7 +23384,7 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/3324051-BPitch",
   "wikidata": null,
   "logo": null,
   "sorties": []
@@ -23440,9 +23740,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/342918-Braslive-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/CQgbJbX8tFhsOVyUpuzQtKp2c_lQzedxh-gNo8LLE0w/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM0Mjkx/OC0xMzI3MzE0NDQ0/LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/342918-Braslive-Records"
+  },
   "sorties": []
  },
  {
@@ -26739,9 +27044,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1932268-Caposile-Music",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/bKF8ljxsPjoech08ZuHPqdq3c7FnUFVUDJ2FNdM6FV0/rs:fit/g:sm/q:90/h:128/w:548/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE5MzIy/NjgtMTYwNTAxNDYw/MC00MTUyLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1932268-Caposile-Music"
+  },
   "sorties": []
  },
  {
@@ -27232,9 +27542,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1915715-Casa-Bonita",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/rH5tpRkvMBKbu2M5wRnvnh8y88qVvPji3bmZaqu4JT4/rs:fit/g:sm/q:90/h:399/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE5MTU3/MTUtMTcyNTU3MDIy/Ni0yMDEyLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1915715-Casa-Bonita"
+  },
   "sorties": []
  },
  {
@@ -28233,10 +28548,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/76339-Celsius-Recordings",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/_jaNeX2OZsdwBo2kDTZG-WIf-I0yEkNVsGhh-CY7S7Q/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTc2MzM5/LTE1MTYxMzI4NjUt/MTkzMy5wbmc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/76339-Celsius-Recordings"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Rotterdam, Pays-Bas",
+   "en": "Rotterdam, Netherlands"
+  },
+  "latitude": 51.9244,
+  "longitude": 4.4777
  },
  {
   "slug": "central-dogma-records",
@@ -29486,10 +29812,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/130716-Children-of-Tomorrow",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/rX-XdxyYa_jhEEZ0eLYOB7x-WCgsdDyuKqw8MbwcT_c/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTEzMDcx/Ni0xMzU0MTk2OTY5/LTY5MDAuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/130716-Children-of-Tomorrow"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Londres, Royaume-Uni",
+   "en": "London, United Kingdom"
+  },
+  "latitude": 51.5074,
+  "longitude": -0.1278
  },
  {
   "slug": "chill-records",
@@ -29555,10 +29892,21 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/1424058-Chillhop-Music",
   "wikidata": null,
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/HEbMjcXNdSTZ-XGpoGEAgySzHoPvYFbKYTHkUZshrn8/rs:fit/g:sm/q:90/h:238/w:203/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE0MjQw/NTgtMTYzNDk2MjI2/MC05MzE1LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1424058-Chillhop-Music"
+  },
+  "sorties": [],
+  "ville": {
+   "fr": "Rotterdam, Pays-Bas",
+   "en": "Rotterdam, Netherlands"
+  },
+  "latitude": 51.9244,
+  "longitude": 4.4777
  },
  {
   "slug": "chimik-communications",
@@ -30245,9 +30593,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/658924-Chord-Marauders",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/lFS9oF_kcXivUfc2CAYtQLypQXxv0WSFG34pk2e1TjU/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTY1ODky/NC0xNDE0NjEzNDUx/LTQyNjEuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/658924-Chord-Marauders"
+  },
   "sorties": []
  },
  {
@@ -30268,9 +30621,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/4552413-Chrome-Print-Records",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/816T-y7bd-hDCnCJzyK2Xm2-zsqU0Hkxswc3m0qeBlM/rs:fit/g:sm/q:90/h:487/w:487/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ1NTI0/MTMtMTc3ODI1NTQw/OS04MDU0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/4552413-Chrome-Print-Records"
+  },
   "sorties": []
  },
  {
@@ -30390,9 +30748,14 @@
    "en": "Electronic music record label electronic music label, focusing on Tech House, House, Deep House."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/185750-Cinematique",
   "wikidata": null,
-  "logo": null,
+  "logo": {
+   "url": "https://i.discogs.com/xeWY03Z1p0VMP7retjZszW6WGll3dwVCBgOIU_kplaI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE4NTc1/MC0xNDkyNDM4NTA2/LTE1MDUuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/185750-Cinematique"
+  },
   "sorties": []
  },
  {
