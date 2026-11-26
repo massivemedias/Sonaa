@@ -1,6 +1,87 @@
 {
- "fait": "2026-11-26T08:34:38.396Z",
+ "fait": "2026-11-26T21:41:59.197Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Melbourne Instruments ROTO-CONTROL: Cubase and FL Studio Control Now Native",
+   "lien": "https://www.gearnews.com/melbourne-instruments-roto-control-studio/",
+   "date": "2026-11-26T20:35:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/melbourne-instruments-cubase-fl-studio-T.jpg",
+   "resume": "Melbourne Instruments’ ROTO-CONTROL adds native compatibility to two more DAWs: Steinberg Cubase and Image-Line FL Studio. Here’s how to get the update. All About ROTO-CONTROL Cubase and FL Studio Control Now Native 60+…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "CRSSD Festival Announces Lineup For Spring 2027 Edition",
+   "lien": "https://www.attackmagazine.com/news/crssd-festival-announces-lineup-for-spring-2027-edition/",
+   "date": "2026-11-26T18:43:38.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-CRSSD-27-1-1130x386.png",
+   "resume": "Returning to San Diego’s Waterfront Park on 13 and 14 March 2027, CRSSD Festival has opened presale access for its spring edition. CRSSD returns to Waterfront Park in San Diego on 13 and 14 March 2027. The line-up…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Audio Plugins for Electronic Music Production",
+   "lien": "https://www.gearnews.com/plugins-for-electronic-music-production-studio/",
+   "date": "2026-11-26T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/plugins-soundtoys-echoboy-ft.jpg",
+   "resume": "We explore a range of plugins for electronic music production to help you create exciting sounds and deliver impactful tracks for your next release. In this Article: Plugins for Electronic Music Production: Cableguys…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-11-26T17:30:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/plugins-hero-new@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Get lost in Thicket, a Sysex Tool That Just works, and More! – Synth Journal",
+   "lien": "https://www.gearnews.com/get-lost-in-thicket-synth-journal-synths/",
+   "date": "2026-11-26T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/thicket.jpg",
+   "resume": "Thicket is an expressive, polyphonic and modular synthesizer that can be as simple or as complex as you want. We’ve also got a great free Sysex tool and an interesting Kickstarter from Down Under! Join me on the synth…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "TIDAL Is Banning Fully AI-Generated Music and Here’s Where Other Platforms Stand",
+   "lien": "https://midnightrebels.com/tidal-ai-music-ban-streaming-platforms/",
+   "date": "2026-11-26T16:14:37.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/spotify-artist-profile-protection-featured.webp?fit=1600%2C900&ssl=1",
+   "resume": "TIDAL is drawing one of the hardest lines yet on AI music. From December 9, 2026, the streaming service will remove and reject tracks it identifies as fully AI-generated. That is not a ban on every use of AI, and other…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Melodyne is an industry-standard pitch correction plugin – and you can get it this Black Friday for just £21",
+   "lien": "https://musictech.com/news/gear/melodyne-essential-black-friday-deal/",
+   "date": "2026-11-26T15:40:35.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Melodyne-hero@2000x1500.jpg",
+   "resume": "If there’s one piece of software that’s become shorthand for modern vocal tuning it’s Celemony’s Melodyne. This Black Friday, you can get its entry-level edition, Melodyne 5 Essential, for £21 (down from £85) at Plugin…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "This EQ uses AI to intelligently correct your mix problems – and it’s just £44 for Black Friday",
+   "lien": "https://musictech.com/news/gear/sonible-smart-eq-4-black-friday-deal/",
+   "date": "2026-11-26T13:22:04.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/sonible-hero@2000x1500.jpg",
+   "resume": "If you’ve ever lost an afternoon hunting for the frequency that’s making your mix sound muddy, sonible’s smart:EQ 4 is built to shorten that search. It’s currently on offer at Plugin Boutique for £44, a 62% saving until…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "1 Universal Audio plugin for just $1? This is the Black Friday deal every producer has been waiting for",
+   "lien": "https://www.musicradar.com/music-tech/plugins/universal-audio-1-plugin-1-dollar",
+   "date": "2026-11-26T12:49:04.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/mVotSfJN65CpLZxWuSo7A7-1920-80.jpg",
+   "resume": "The Black Friday plugin deals keep coming thick and fast, and this one is a real doozy. Over at the Universal Audio site, you can pick from a list of ten plugins, bagging your choice for just $1 . It includes a preamp…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "UA Universe: A New Developer Platform and Community for LUNA",
@@ -101,102 +182,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Get a pair of Yamaha studio monitors for just $170 this Black Friday!",
-   "lien": "https://musictech.com/news/gear/yamaha-hs3-black-friday-deal-sweetwater/",
-   "date": "2026-11-25T13:11:13.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/HS3-hero@2000x1500.jpg",
-   "resume": "If your setup is small but you still want quality studio monitors, Yamaha’s HS3 monitors are built for you. Sweetwater has the pair at $172, down from $229, this Black Friday. [deals…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "The AI revolution is coming for your electronic instruments",
    "lien": "https://www.musicradar.com/music-tech/300-nerds-with-claude-are-going-to-outcompete-any-synth-manufacturer-on-the-market-the-ai-revolution-is-coming-for-your-electronic-instruments",
    "date": "2026-11-25T12:45:09.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/m2BWDNwisxvW63imPTCJq4-1920-80.jpg",
    "resume": "Modifying instruments is a time-honoured tradition. From Eddie Van Halen’s Frankenstein guitar to John Cage's works for prepared piano , customisation has helped musicians develop styles and sounds all their own. In the…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "This official Prophet 5 plugin is just £70 for Black Friday",
-   "lien": "https://musictech.com/news/gear/this-official-prophet-5-plugin-is-just-70-for-black-friday/",
-   "date": "2026-11-25T11:06:08.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Prophet-5-hero@2000x1500.jpg",
-   "resume": "Originally launched in 1978, the Prophet-5 is one of the most influential synths of all time with a sound that spans genres and decades, turning up in records by artists from Genesis to Madonna, Radiohead and Aphex Twin…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "FL Studio 2026.2 Update: New Plugins and Workflow Features",
-   "lien": "https://www.gearnews.com/fl-studio-daw-software/",
-   "date": "2026-11-25T09:49:31.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/fl-studio-2026-ft.jpg",
-   "resume": "In the latest FL Studio 2026.2 update, you can find two new plugins and some exciting new workflow enhancements and improvements to the mixer. The Latest FL Studio Updates: FL Studio 2026.2 Update FL Studio 2026 [09…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "MusicTech’s favourite plugins of 2026",
-   "lien": "https://musictech.com/guides/buyers-guide/musictech-favourite-plugins-of-2026/",
-   "date": "2026-11-25T09:48:45.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/05/oeksound-soothe-3-desktop@2000x1500.jpg",
-   "resume": "2026 has arguably seen the release of more plugins than ever before. The average producer with an LLM subscription can now prompt their way to a vibecoded plugin , publish it to a website for a paid download, and tout…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "5 of the Best-Selling Synths of All Time",
-   "lien": "https://www.gearnews.com/5-of-the-best-selling-synths/",
-   "date": "2026-11-25T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/08/best-selling-synths-T.jpg",
-   "resume": "What makes a synth a top seller? Here are five of the best-selling synths that are still on the market after 10-plus years. 5 of the Best-Selling Synths of All Time The Best-Selling Synths of All Time KORG microKORG…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "AKAI MPC Sample Review: Make and Load Your Own Effects With Update 1.4!",
-   "lien": "https://www.gearnews.com/akai-mpc-sample-review/",
-   "date": "2026-11-24T23:57:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpc-sample-new-update-T.jpg",
-   "resume": "Community FX are finally here. AKAI’s MPC Sample is now officially open source. That plus user-requested features in firmware 1.4. AKAI MPC Sample AKAI MPC Sample Update 1.4 The Sample Is Going Open Source AKAI MPC…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Cherry Audio DW-8K – A Classic Hybrid Synth Revisited!",
-   "lien": "https://www.gearnews.com/cherry-audio-dw-8k-synths/",
-   "date": "2026-11-24T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/DW8K-Cover.jpg",
-   "resume": "Cherry Audio’s final synth of 2027 (we think) is a reimagining of a classic hybrid synth from the mid-1980s. Say hi to DW-8K! Cherry Audio rounds off a very busy year with the release of DW-8K, their recreation and…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Universal Audio Volt Gen 2 and Max review: Six interfaces, three winners",
-   "lien": "https://musictech.com/reviews/studio-recording-gear/universal-audio-volt-gen-2-and-max-review/",
-   "date": "2026-11-24T17:16:00.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Universal-Audio-Volt-4P-Max-credit-press@1400x934.jpg",
-   "resume": "If Focusrite ’s name is synonymous with affordable interfaces , Universal Audio might be synonymous with expensive. Its Apollo interfaces helped popularise recording through onboard DSP, bringing convincing emulations…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Novation shares new v2.0 firmware update for Launchkey MK4 and FLkey 2",
-   "lien": "https://musictech.com/news/gear/novation-launchkey-mk4-and-flkey-2-firmware-v2-0-update/",
-   "date": "2026-11-24T17:00:32.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Novation-firmwate-update.jpg",
-   "resume": "If you tend to work with Novation ’s keyboard controllers, we’ve got some good news for you. Today, Novation has released a free v2.0 firmware update for the Launchkey MK4 and FLkey 2 . Alongside general improvements…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Black Friday 2026: Our favourite deals on music gear, plugins, and DAWs",
-   "lien": "https://musictech.com/news/gear/best-black-friday-music-tech-deals/",
-   "date": "2026-11-24T16:30:17.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2024/11/ableton-push-black-friday-simon-vinall@2000x1500.jpg",
-   "resume": "This November, all your favourite music gear brands are running discounts for Black Friday and Cyber Monday . And, well, every other day in November pretty much. As we’ve seen in previous years, the Black Friday sales…",
    "integral": true
   },
   {
@@ -254,15 +245,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Kaskade in 2026 With ORIGIN //, Coachella and EDC Thailand",
-   "lien": "https://midnightrebels.com/kaskade-2026-origin-album-coachella-edc-thailand/",
-   "date": "2026-11-23T07:08:10.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/STRODANO-reverses-the-VJ-industry-and-releases-Resolume-2.0-for-free.webp?fit=1280%2C720&ssl=1",
-   "resume": "Kaskade has had a busy 2026. A new album, a return to Coachella and a tour built around the record, and now a slot at EDC Thailand. Here is what he has done this year and what to expect when he reaches Phuket in…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“I recorded almost 70 tracks in two months”: How lockdown turmoil, studio setbacks and a 14-year-old VST inspired John Talabot's new album as OR",
    "lien": "https://www.musicradar.com/artists/i-recorded-almost-70-tracks-in-two-months-how-lockdown-turmoil-studio-setbacks-and-a-14-year-old-vst-inspired-john-talabots-new-album-as-or",
@@ -287,24 +269,6 @@
    "date": "2026-11-20T21:02:55.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-MNTRA-1130x386.png",
    "resume": "A 3D spatial mixer and convolution reverb in one plug-in, with the processing handed to your GPU. Mntra Instruments has released Living Sky, a spatial mixing engine and reverb for music, film, games and immersive audio…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "SampleRadar: 475 free drum 'n' bass essentials samples",
-   "lien": "https://www.musicradar.com/music-tech/sampleradar-475-free-drum-n-bass-essentials-samples",
-   "date": "2026-11-20T12:30:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/QTeRppiv9EgNge2w3Edhof-1920-80.jpg",
-   "resume": "Drum 'n' bass has made a spirited comeback in recent years, thanks to the efforts of a new generation of producers blending its high-voltage beats and breakneck tempos with irresistible pop hooks. All the more reason…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“A creativity-boosting appendage”: AlphaTheta Slab review",
-   "lien": "https://www.musicradar.com/music-tech/midi-controllers/alphatheta-slab-review",
-   "date": "2026-11-20T10:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/bwSz24R3smPEMcMdCmPCLL-1920-80.jpg",
-   "resume": "What is it? Making music is the easiest it’s ever been. We are faced with a feast of hardware and software solutions for making beats, crafting grooves, tweaking tracks and so forth; many of those software solutions are…",
    "integral": true
   },
   {
@@ -350,15 +314,6 @@
    "date": "2026-11-10T09:59:09.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-Live-13-1-1130x387.png",
    "resume": "Ableton has announced Live 13, with a Step Sequencer, Drum Synth, Multiband Racks and ARA 2 support. A public beta is available now. Ableton has unveiled Live 13. The headline additions are a Step Sequencer with…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Erica Synths: The Best Hardware FX For Electronic Music",
-   "lien": "https://www.attackmagazine.com/reviews/the-best/erica-synths-the-best-hardware-fx-for-electronic-music/",
-   "date": "2026-11-09T17:12:47.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
-   "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
    "integral": true
   },
   {
