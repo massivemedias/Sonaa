@@ -507,6 +507,10 @@
   /* LE NOM D'UNE RANGEE DE LISTE, en capitales d'affiche : une mixtape dans
      sa liste, un club dans le classement de l'Atlas. */
   --titre-rangee: clamp(1.5rem, 2.6vw, 2.1rem);
+  /* LES MEMES, EN CASSE NORMALE ET DEMI-GRAS : la page Mixtapes, depuis que
+     Mika a trouve les capitales trop grossieres (26 novembre 2026). */
+  --titre-intertitre-fin: clamp(1.25rem, 2vw, 1.5rem);
+  --titre-rangee-fin: clamp(1rem, 1.3vw, 1.125rem);
   /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
      2026 : certaines images de flux font plusieurs milliers de pixels de
      haut et occupaient plusieurs ecrans a elles seules. */
