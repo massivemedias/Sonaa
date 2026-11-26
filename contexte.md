@@ -3,7 +3,7 @@
 Fichier maître des chantiers en cours, chargé par `CLAUDE.md` au début de chaque
 conversation. Mis à jour le 26 novembre 2026 (atlas étendu à 257 styles et 2 644 morceaux
 vérifiés ; 2 460 labels électroniques dont 128 québécois, 64 espagnols et 61 mexicains avec
-carte des maisons mères ; 701 festivals actifs dans 76 pays dont 43 en Espagne et séparation
+carte des maisons mères ; 746 festivals actifs dans 85 pays dont 43 en Espagne et séparation
 clubs/salles ; moisson automatique des salles électro de Montréal via Squarespace JSON et
 WordPress REST).
 
@@ -107,10 +107,12 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 
 ## ATLAS CLUBS, SALLES ET FESTIVALS (26 nov 2026)
 
-- **701 festivals électroniques actifs** dans 76 pays (dont **65 au Canada** et **43 en Espagne**,
-  après ajout de 15 festivals espagnols actifs + `WHOLE Festival`, `SuncéBeat New Horizons`,
-  `MUTEK Chile`, et le 26 nov `Nyege Nyege Festival` en Ouganda, `Up To Date Festival` en Pologne,
-  `We Out Here Festival` au Royaume-Uni, `Goulash Disko` en Croatie et `Baleapop` en France) dans
+- **746 festivals électroniques actifs** dans 85 pays (dont **65 au Canada** et **43 en Espagne**,
+  après ajout le 26 nov de 45 nouveaux festivals actifs et 9 nouveaux pays actifs : Islande,
+  Ukraine, Luxembourg, Ouzbékistan, La Réunion, Jordanie, Israël, Île Maurice, République
+  dominicaine, plus Norvège, Finlande, France, Allemagne, Italie, Royaume-Uni, Grèce, Slovénie,
+  Slovaquie, Bulgarie, Hongrie, Chypre, Turquie, Malte, Inde, Chine, Australie, Nouvelle-Zélande,
+  Maroc, Égypte, Tunisie, Afrique du Sud, États-Unis, Mexique, Colombie, Chili, Pérou et Suède) dans
   `src/data/lieux-et-festivals.ts` ; **67 festivals disparus** (dont Eclipse Festival) masqués de
   l'affichage et de la carte via le drapeau réversible `inactif: true`.
 - **Séparation clubs / salles** : les clubs et bars musicaux (`estSalle` absent) sont mis en
