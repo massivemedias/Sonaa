@@ -14,15 +14,24 @@ chaque mission : l'état de publication, le chantier touché, une ligne de journ
 
 ---
 
-## ÉTAT DE PUBLICATION (24 nov 2026)
+## ÉTAT DE PUBLICATION (26 nov 2026)
 
-- **En ligne sur `main`** (`81ab4f6`, déployé le 24 novembre 2026 vers 5 h 39 UTC) : la
-  carte des labels par ville, et la liste qui remplace la carte au zoom d'une ville.
-  Vérifié sur sonaa.ca : zoomer sur Montréal ouvre la liste de ses 119 labels.
-- **Si Mika voit encore l'ancienne carte** : la page est en cache (dix minutes chez GitHub
-  Pages). Recharger avec `?nocache=1`.
+- **En ligne sur `main`** (`4a4a4f7`, déployé le 26 novembre 2026 vers 17 h 16 UTC) : 746
+  festivals actifs dans 85 pays, 2 460 labels, et tout ce qui précède (carte des labels
+  par ville depuis `81ab4f6`). Vérifié sur `sonaa.ca/clubs/?nocache=1` : « 746 grands
+  festivals (1 000+ personnes) dans 85 pays ».
+- **Si Mika voit encore l'ancienne version** : la page est en cache (dix minutes chez
+  GitHub Pages). Recharger avec `?nocache=1`.
+- **En attente depuis le 24 novembre 2026** : `claude/stoic-noether-wde808`, la ville de
+  280 labels de plus trouvée par `scripts/completer-villes-labels.ts`. Elle attend le feu
+  vert de Mika, et elle a été faite avant l'ajout de 920 labels (24 et 25 nov) : la
+  fusionner demande de la relancer sur les données du jour.
 - **En attente depuis le 5 septembre 2026** : `claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX`,
   389 commits du jeu SONAA DJ Tycoon, jamais fusionnés.
+- **Branches à trier** : `claude/epic-keller-sv265q` double ADR-126, déjà sur `main` par
+  `2a663c3`, avec en plus un nettoyage de `src/atlas/rythme/dessin.ts` et `son.ts` jamais
+  fusionné. `claude/funny-johnson-rlrv3l`, `claude/bold-planck-bd6owt` et
+  `claude/busy-darwin-httyun` sont entièrement dans `main`.
 - **Une session cloud peut publier** depuis `566f1af` : `check:mobile` ne bloque plus sur le
   calendrier quand le build n'a pas les variables Supabase. `check:pied` dépend du réseau
   et peut échouer sur un délai dépassé : le relancer avant de conclure à un vrai défaut.
@@ -60,15 +69,16 @@ morceaux par style).
 
 ---
 
-## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (25 nov 2026)
+## LABELS ÉLECTRONIQUES ET CARTE DES MAISONS MÈRES (26 nov 2026)
 
-- **2 459 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
+- **2 460 labels 100 % musique électronique** publiés sur `sonaa.ca/labels/` (`src/data/labels.json`,
   `src/data/labels-index.json`, `scripts/moissonner-labels.ts`), dont :
-  - **128 labels québécois** (`q: 1`, dont **VRSTL Records**, **SOAME Records**, **Lazy Days Recordings**, **AlpaKa MuziK**, **Tech Safari Records**, **SPF Infini**, **Voyage Funktastique**, **Kohlenstoff Records**, **Moderna Records**, **Slugz Music**, **OCTOV**, **Detuned Transmissions**, **Epsilonlab**, **Complot**, **Default Recordings**, **idioms**, **wave logs**, **Gravecult Records**, **Monkey Dub Recording**, **Quantum Digits Recordings**, **Alterflow** à Québec et **Tour de Bras** à Rimouski) ;
+  - **128 labels québécois** (`quebec: true`, dont **VRSTL Records**, **SOAME Records**, **Lazy Days Recordings**, **AlpaKa MuziK**, **Tech Safari Records**, **SPF Infini**, **Voyage Funktastique**, **Kohlenstoff Records**, **Moderna Records**, **Slugz Music**, **OCTOV**, **Detuned Transmissions**, **Epsilonlab**, **Complot**, **Default Recordings**, **idioms**, **wave logs**, **Gravecult Records**, **Monkey Dub Recording**, **Quantum Digits Recordings**, **Alterflow** à Québec et **Tour de Bras** à Rimouski) ;
   - **64 labels espagnols** (dont **PoleGroup**, **Semantica Records**, **Mindshake Records**, **Seven Villas**, **Lapsus Records**, **Fayer**, **Analog Solutions**, **Playground Records**, **Disboot**, **Foehn Records**, **Hivern Discs**, **Suara**, **Stereo Productions**, **elrow Music**, **Sincopat**, **Factor City**, **Rotten City**, **Subsist Records**, **Blackworks**) ;
   - **61 labels mexicains** (dont **Undergroove Music** à Mexico avec logo et discographie Discogs, **Akbal Music**, **Illegal Alien Records**, **Future Techno Records**, **ANAOH**, **Uxmal Records**, **Pleiadian Records**, **BioMechanix Records**, **Tenampa Recordings**, **Umor Rex**, **Nopal Beat**, **Duro**, **NAAFI**, **Zamna Records**, etc.) ;
   - **Amérique latine renforcée** : **28 au Brésil**, **15 en Argentine**, **7 en Colombie**, **5 au Chili** ;
-  - **+841 labels Beatport internationaux** ajoutés les 24 et 25 nov 2026 (Beatport direct étant derrière Cloudflare 403, le scan complet s'appuie sur le catalogue Beatport public LabelTide + Discogs API).
+  - **+841 labels Beatport internationaux** ajoutés les 24 et 25 nov 2026 (Beatport direct étant derrière Cloudflare 403, le scan complet s'appuie sur le catalogue Beatport public LabelTide + Discogs API) ;
+  - **enrichissement Discogs du 26 nov** (`75c8994`) : 90 labels Beatport, +68 fiches Discogs, +57 logos, +13 villes.
 - **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
@@ -97,24 +107,28 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 - **Les coordonnées de `labels.json` ne sont pas des adresses** : elles ont été posées en
   nuage autour du centre-ville, ou autour de la capitale quand la ville manque. Elles ne
   servent qu'à retrouver la ville et ne s'affichent jamais telles quelles.
-- **826 labels dans 147 villes de 43 pays** (Montréal 119, Londres 114, Berlin 66). Les 671
-  labels sans ville connue sont rangés sous leur pays dans l'index (« Ville non
-  renseignée »), sans point sur la carte ; 32 n'ont aucune coordonnée.
-- À faire : compléter dans `scripts/moissonner-labels.ts` la ville des 671 labels qui n'en
-  ont pas.
+- **922 labels dans 154 villes de 44 pays** (Montréal 119, Londres 118, Berlin 69, New
+  York 55, Mexico 42), comptés le 26 nov par `lieuxDesLabels` sur `labels-index.json`. Les
+  671 labels sans ville connue sont rangés sous leur pays dans l'index (« Ville non
+  renseignée »), sans point sur la carte.
+- **867 labels n'ont aucune coordonnée** (32 le 24 nov) : ils n'apparaissent ni sur la
+  carte ni dans l'index des villes. 835 d'entre eux sont les labels ajoutés les 24 et 25
+  nov, sans pays géolocalisé.
+- À faire : compléter la ville des 671 labels qui n'en ont pas (travail prêt sur
+  `claude/stoic-noether-wde808`, à relancer), et poser au moins le pays des 867 labels sans
+  coordonnée.
 
 ---
 
 ## ATLAS CLUBS, SALLES ET FESTIVALS (26 nov 2026)
 
-- **746 festivals électroniques actifs** dans 85 pays (dont **65 au Canada** et **43 en Espagne**,
-  après ajout le 26 nov de 45 nouveaux festivals actifs et 9 nouveaux pays actifs : Islande,
-  Ukraine, Luxembourg, Ouzbékistan, La Réunion, Jordanie, Israël, Île Maurice, République
-  dominicaine, plus Norvège, Finlande, France, Allemagne, Italie, Royaume-Uni, Grèce, Slovénie,
-  Slovaquie, Bulgarie, Hongrie, Chypre, Turquie, Malte, Inde, Chine, Australie, Nouvelle-Zélande,
-  Maroc, Égypte, Tunisie, Afrique du Sud, États-Unis, Mexique, Colombie, Chili, Pérou et Suède) dans
-  `src/data/lieux-et-festivals.ts` ; **67 festivals disparus** (dont Eclipse Festival) masqués de
-  l'affichage et de la carte via le drapeau réversible `inactif: true`.
+- **746 festivals électroniques actifs** dans 85 pays (dont **65 au Canada** et **43 en
+  Espagne**) dans `src/data/lieux-et-festivals.ts`. Le 26 nov : 701 festivals et l'Ouganda
+  (`75c8994`), puis +45 festivals actifs sur tous les continents et 9 pays de plus
+  (`4a4a4f7`) : Islande, Ukraine, Luxembourg, Ouzbékistan, La Réunion, Jordanie, Israël, Île
+  Maurice et République dominicaine. **67 festivals disparus** (dont Eclipse Festival)
+  masqués de l'affichage et de la carte via le drapeau réversible `inactif: true`.
+- **427 clubs et salles actifs**, dont 95 salles (`estSalle: true`).
 - **Séparation clubs / salles** : les clubs et bars musicaux (`estSalle` absent) sont mis en
   avant ; les salles à louer / salles de spectacle généralistes (`estSalle: true`) sont
   séparées et affichées avec leurs prochains événements.
@@ -175,6 +189,19 @@ chaque fiche club/salle.
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
 
+- 26 nov 2026, Claude Code : ce fichier vérifié contre le dépôt et le site ; état de
+  publication, comptes de la carte des labels, branches en attente et journal remis à
+  jour. Sur `claude/blissful-fermi-6g6el8`, pas encore sur `main`.
+- 26 nov 2026, depuis le Mac de Mika : +45 festivals actifs et 9 pays, 746 festivals dans
+  85 pays (`4a4a4f7`). Publié, vérifié sur `/clubs/`.
+- 26 nov 2026, depuis le Mac de Mika : 701 festivals, Ouganda, enrichissement Discogs de
+  90 labels Beatport (`75c8994`). Publié.
+- 25 nov 2026, depuis le Mac de Mika : +18 festivals (43 en Espagne), +290 labels
+  (`80abe1b`). Publié.
+- 24 nov 2026, depuis le Mac de Mika : +630 labels électro, Mexique et Beatport
+  (`fef43f4`). Publié.
+- 24 nov 2026, Claude Code : complétion de la ville de 280 labels sur
+  `claude/stoic-noether-wde808`. En attente du feu vert de Mika.
 - 24 nov 2026, Claude Code : ce fichier passe la carte par ville en « publiée », vérifiée
   en ligne.
 - 24 nov 2026, Claude Code : zoomer jusqu'à une ville ou la toucher remplace la carte par
