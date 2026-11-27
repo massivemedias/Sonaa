@@ -230,8 +230,8 @@
    (Mika, 26 novembre 2026 : les capitales partout faisaient grossier). */
 .sp-item.sp-item-public h3 {
   font-family: var(--police-titre);
-  font-weight: 500;
-  font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+  font-weight: 400;
+  font-size: var(--titre-rangee-fin);
   line-height: 1.25;
   letter-spacing: -0.005em;
 }
@@ -658,7 +658,7 @@
   border-top: 1px solid var(--filet-fort);
   font-family: var(--police-titre);
   font-weight: 500;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: var(--titre-intertitre-fin);
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: var(--encre-vive);
