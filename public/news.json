@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-26T21:41:59.197Z",
+ "fait": "2026-11-27T08:46:28.712Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Affordable Studio Furniture: Give Your Studio a Glow-Up",
+   "lien": "https://www.gearnews.com/affordable-studio-furniture/",
+   "date": "2026-11-27T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ableton-live-studio-furniture-ft.jpg",
+   "resume": "Giving your studio a makeover is easy with the help of affordable studio furniture, and we’ve chosen a few key items to transform your creative space. In this Article: Affordable Studio Furniture: On-Stage WS7500…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Melbourne Instruments ROTO-CONTROL: Cubase and FL Studio Control Now Native",
@@ -92,15 +101,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Elektron Tonverk Update 1.5: 2 New Machines, 4 New FX & More",
-   "lien": "https://www.gearnews.com/elektron-tonverk-synth/",
-   "date": "2026-11-25T23:36:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/08/elektron-tonverk-1-5-ft.jpg",
-   "resume": "One of Elektron’s biggest updates ever boosts Tonverk with new time-stretching and supersaw Machines, fresh effects, deeper editing and routing, MIDI capabilities and tons more. Elektron Tonverk Elektron Tonverk Update…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "STRODANO reverses the VJ industry and releases “Resolume 2.0” for free",
    "lien": "https://midnightrebels.com/strodano-reverses-the-vj-industry-and-releases-resolume-2-0-for-free/",
@@ -125,15 +125,6 @@
    "date": "2026-11-25T17:02:55.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/Ableton-Push-3-deal-hero@2000x1500.jpg",
    "resume": "When Ableton ’s Push 3 hit the market in 2023, it was framed as a generational piece of kit . Not only did it ‘push’ the series into a new realm, able to operate as a totally standalone controller rather than a loyal…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Maestro Brass: Expressive E Gets Horny! – Sounds and Presets",
-   "lien": "https://www.gearnews.com/maestro-brass-sounds-presets-synths/",
-   "date": "2026-11-25T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/maestro.jpg",
-   "resume": "Expressive E takes on the brass section with Maestro Brass, whilst Michael Oakley expands Cherry Audio’s latest, the DW-8K! This week sees a whole bunch of new sounds for some of the best hardware and software synths on…",
    "integral": true
   },
   {
