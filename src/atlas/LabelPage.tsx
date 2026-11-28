@@ -28,7 +28,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
-import { actuSansReeditions, cleDeLabel, estMajor, lieuMaisonMere, nomDuPays, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { actuSansReeditions, avecSortiesVerifiees, cleDeLabel, estMajor, lieuMaisonMere, nomDuPays, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type FicheLabel, type SortiesVerifieesDuLabel } from '../lib/labels.ts';
 import { CarteLabels } from './CarteLabels.tsx';
 import { SOURCES } from '../data/news-sources.ts';
 import { slug } from '../lib/chemins.ts';
@@ -56,10 +56,13 @@ let toutes: Promise<readonly FicheLabel[]> | null = null;
 const chargerToutes = (): Promise<readonly FicheLabel[]> => {
   /* En developpement, l'actualite est fondue ici, comme le fait le
      pre-rendu pour la construction. */
-  toutes ??= Promise.all([import('../data/labels.json'), import('../data/labels-actu.json')]).then(([m, a]) => {
+  toutes ??= Promise.all([import('../data/labels.json'), import('../data/labels-actu.json'), import('../data/labels-sorties-verifiees.json')]).then(([m, a, v]) => {
     const fiches = (m.default ?? m) as unknown as readonly FicheLabel[];
     const actu = (a.default ?? a) as unknown as Record<string, ActuDuLabel>;
-    return fiches.filter((f) => !f.horsElectronique).map((f) => ({ ...f, ...actuSansReeditions(actu[f.slug]) }));
+    const verifiees = (v.default ?? v) as unknown as Record<string, SortiesVerifieesDuLabel>;
+    return fiches
+      .filter((f) => !f.horsElectronique)
+      .map((f) => ({ ...f, ...avecSortiesVerifiees(actuSansReeditions(actu[f.slug]), verifiees[f.slug]) }));
   });
   return toutes;
 };

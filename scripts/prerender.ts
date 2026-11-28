@@ -37,7 +37,7 @@ import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
-import { actuSansReeditions, cleDeLabel, labelsDuStyle, lieuMaisonMere, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { actuSansReeditions, avecSortiesVerifiees, cleDeLabel, labelsDuStyle, lieuMaisonMere, type ActuDuLabel, type EntreeLabel, type FicheLabel, type SortiesVerifieesDuLabel } from '../src/lib/labels.ts';
 import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from '../src/data/lieux-et-festivals.ts';
 import { MARQUES, type GroupeMarque } from '../src/data/marques.ts';
 import type { Motif } from '../src/lib/rythmes.ts';
@@ -1395,10 +1395,15 @@ window.__precharge={};window.__precharge[u]=fetch(u);
 const ACTU_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels-actu.json', import.meta.url)))
   ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels-actu.json', import.meta.url)), 'utf8')) as Record<string, ActuDuLabel>)
   : {};
+/* Les sorties relevees a la main sur Bandcamp ou Beatport : voir
+   avecSortiesVerifiees dans src/lib/labels.ts. */
+const SORTIES_VERIFIEES = existsSync(fileURLToPath(new URL('../src/data/labels-sorties-verifiees.json', import.meta.url)))
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels-sorties-verifiees.json', import.meta.url)), 'utf8')) as Record<string, SortiesVerifieesDuLabel>)
+  : {};
 const FICHES_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)))
   ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[])
       .filter((f) => !f.horsElectronique)
-      .map((f): FicheLabel => ({ ...f, ...actuSansReeditions(ACTU_LABELS[f.slug]) }))
+      .map((f): FicheLabel => ({ ...f, ...avecSortiesVerifiees(actuSansReeditions(ACTU_LABELS[f.slug]), SORTIES_VERIFIEES[f.slug]) }))
   : [];
 const morceauxParCle = new Map<string, { titre: string; artiste: string; annee: number | null; genre: string; chemin: string }[]>();
 FAMILIES.forEach((f, fi) => {

@@ -71,6 +71,12 @@ const CADRES_ZONES: Record<ZoneCarte, [[number, number], [number, number]]> = {
   ],
 };
 
+/* La prochaine edition annoncee ne s'affiche que tant qu'elle n'est pas
+   passee : au lendemain de sa fin, la fiche retombe sur son mois habituel. */
+const AUJOURDHUI_ISO = new Date().toISOString().slice(0, 10);
+const editionAVenir = (lieu: LieuOuFestival): boolean =>
+  Boolean(lieu.prochaineEdition && lieu.prochaineEdition.fin >= AUJOURDHUI_ISO);
+
 const normaliser = (s: string): string =>
   s
     .normalize('NFD')
@@ -1059,6 +1065,7 @@ export function LieuxPage() {
                     t.lieuCapacite(selection.capacite),
                     selection.annee ? t.lieuDepuis(selection.annee) : null,
                     selection.mois ? selection.mois[langue] : null,
+                    editionAVenir(selection) ? t.lieuProchaineEdition(selection.prochaineEdition!.debut, selection.prochaineEdition!.fin) : null,
                   ]
                     .filter(Boolean)
                     .join(' · ')}
@@ -1364,7 +1371,11 @@ export function LieuxPage() {
                                 <span className="lx-carte-meta">
                                   {[
                                     fest.ville[langue],
-                                    fest.mois ? fest.mois[langue] : null,
+                                    editionAVenir(fest)
+                                      ? t.lieuProchaineEdition(fest.prochaineEdition!.debut, fest.prochaineEdition!.fin)
+                                      : fest.mois
+                                        ? fest.mois[langue]
+                                        : null,
                                     fest.annee ? t.lieuDepuis(fest.annee) : null,
                                   ]
                                     .filter(Boolean)

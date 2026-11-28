@@ -49,6 +49,9 @@ export interface LieuOuFestival {
   readonly capacite: number;
   readonly annee?: number;
   readonly mois?: { readonly fr: string; readonly en: string };
+  /** Prochaine edition annoncee (jours ISO AAAA-MM-JJ), avec la page qui l'annonce.
+      Masquee d'elle-meme une fois la date de fin passee. */
+  readonly prochaineEdition?: { readonly debut: string; readonly fin: string; readonly source: string };
   readonly styles: readonly string[];
   readonly site: string;
   readonly description: { readonly fr: string; readonly en: string };
@@ -2253,6 +2256,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "bahidora-mexique",
+    "prochaineEdition": {"debut": "2027-02-12", "fin": "2027-02-14", "source": "https://www.cronica.com.mx/escenario/2026/09/01/bahidora-2027-ya-tiene-fecha-el-festival-celebrara-sus-xv-anos-en-morelos/"},
     "nom": "Carnaval de Bahidorá",
     "type": "festival",
     "paysCode": "MX",
@@ -2282,6 +2286,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "mutek-montreal-canada",
+    "prochaineEdition": {"debut": "2027-08-24", "fin": "2027-08-29", "source": "https://www.technoairlines.com/festival/mutek-montreal-montreal-qc-canada-2027"},
     "nom": "MUTEK Montréal",
     "type": "festival",
     "paysCode": "CA",
@@ -2342,6 +2347,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "igloofest-canada",
+    "prochaineEdition": {"debut": "2027-01-14", "fin": "2027-02-06", "source": "https://www.technoairlines.com/festival/igloofest-montreal-qc-canada-2027"},
     "nom": "Igloofest",
     "type": "festival",
     "paysCode": "CA",
@@ -2431,6 +2437,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "movement-detroit-us",
+    "prochaineEdition": {"debut": "2027-05-29", "fin": "2027-05-31", "source": "https://www.technoairlines.com/festival/movement-detroit-united-states-2027"},
     "nom": "Movement Electronic Music Festival",
     "type": "festival",
     "paysCode": "US",
@@ -2549,6 +2556,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "time-warp-allemagne",
+    "prochaineEdition": {"debut": "2027-04-03", "fin": "2027-04-04", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Time Warp",
     "type": "festival",
     "paysCode": "DE",
@@ -2607,6 +2615,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "berlin-atonal-allemagne",
+    "prochaineEdition": {"debut": "2027-08-25", "fin": "2027-08-29", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Berlin Atonal",
     "type": "festival",
     "paysCode": "DE",
@@ -2666,6 +2675,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "dekmantel-pays-bas",
+    "prochaineEdition": {"debut": "2027-07-29", "fin": "2027-08-02", "source": "https://www.technoairlines.com/festival/dekmantel-festival-amsterdam-netherlands-2027"},
     "nom": "Dekmantel Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -2696,6 +2706,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "awakenings-pays-bas",
+    "prochaineEdition": {"debut": "2027-07-09", "fin": "2027-07-11", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Awakenings Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -2725,6 +2736,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "draaimolen-pays-bas",
+    "prochaineEdition": {"debut": "2027-09-10", "fin": "2027-09-11", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Draaimolen Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -2754,6 +2766,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "dgtl-amsterdam-pays-bas",
+    "prochaineEdition": {"debut": "2027-03-26", "fin": "2027-03-28", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "DGTL Amsterdam",
     "type": "festival",
     "paysCode": "NL",
@@ -2812,6 +2825,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "sonar-espagne",
+    "prochaineEdition": {"debut": "2027-06-17", "fin": "2027-06-19", "source": "https://djmag.com/news/sonar-2027-first-wave-of-artists-announced-festival-returns-barcelona-waterfront"},
     "nom": "Sónar",
     "type": "festival",
     "paysCode": "ES",
@@ -2842,6 +2856,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "monegros-espagne",
+    "prochaineEdition": {"debut": "2027-07-31", "fin": "2027-07-31", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Monegros Desert Festival",
     "type": "festival",
     "paysCode": "ES",
@@ -2988,6 +3003,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "nuits-sonores-france",
+    "prochaineEdition": {"debut": "2027-05-05", "fin": "2027-05-09", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Nuits Sonores",
     "type": "festival",
     "paysCode": "FR",
@@ -3135,6 +3151,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "boomtown-royaume-uni",
+    "prochaineEdition": {"debut": "2027-08-11", "fin": "2027-08-15", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Boomtown",
     "type": "festival",
     "paysCode": "GB",
@@ -3164,6 +3181,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "boom-festival-portugal",
+    "prochaineEdition": {"debut": "2027-07-18", "fin": "2027-07-25", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Boom Festival",
     "type": "festival",
     "paysCode": "PT",
@@ -3250,6 +3268,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "kappa-futurfestival-italie",
+    "prochaineEdition": {"debut": "2027-07-02", "fin": "2027-07-04", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Kappa FuturFestival",
     "type": "festival",
     "paysCode": "IT",
@@ -3308,6 +3327,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "dimensions-croatie",
+    "prochaineEdition": {"debut": "2027-08-26", "fin": "2027-08-31", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Dimensions Festival",
     "type": "festival",
     "paysCode": "HR",
@@ -3483,6 +3503,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "rainbow-disco-club-japon",
+    "prochaineEdition": {"debut": "2027-04-16", "fin": "2027-04-18", "source": "https://www.technoairlines.com/festival/rainbow-disco-club-higashi-izu-shizuoka-japan-2027"},
     "nom": "Rainbow Disco Club",
     "type": "festival",
     "paysCode": "JP",
@@ -3512,6 +3533,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "pitch-music-arts-australie",
+    "prochaineEdition": {"debut": "2027-03-05", "fin": "2027-03-09", "source": "https://www.thatfestivalsite.com/article/Pitch%20Music%20&%20Arts%202027%20Dates%20Announced%20for%2010th%20Anniversary"},
     "nom": "Pitch Music & Arts",
     "type": "festival",
     "paysCode": "AU",
@@ -5084,6 +5106,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "ultra-miami-us",
+    "prochaineEdition": {"debut": "2027-03-26", "fin": "2027-03-28", "source": "https://weraveyou.com/2026/04/ultra-miami-2027-dates-tickets/"},
     "nom": "Ultra Music Festival",
     "type": "festival",
     "paysCode": "US",
@@ -5347,6 +5370,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "day-zero-tulum-mexique",
+    "prochaineEdition": {"debut": "2027-01-09", "fin": "2027-01-09", "source": "https://www.technoairlines.com/festival/day-zero-tulum-mexico-2027"},
     "nom": "Day Zero",
     "type": "festival",
     "paysCode": "MX",
@@ -5405,6 +5429,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "nation-of-gondwana-allemagne",
+    "prochaineEdition": {"debut": "2027-07-15", "fin": "2027-07-18", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Nation of Gondwana",
     "type": "festival",
     "paysCode": "DE",
@@ -5463,6 +5488,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "garbicz-festival-allemagne",
+    "prochaineEdition": {"debut": "2027-07-29", "fin": "2027-08-02", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Garbicz Festival",
     "type": "festival",
     "paysCode": "PL",
@@ -5492,6 +5518,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "mayday-dortmund-allemagne",
+    "prochaineEdition": {"debut": "2027-04-30", "fin": "2027-05-01", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "MAYDAY",
     "type": "festival",
     "paysCode": "DE",
@@ -5521,6 +5548,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "parookaville-allemagne",
+    "prochaineEdition": {"debut": "2027-07-16", "fin": "2027-07-18", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Parookaville",
     "type": "festival",
     "paysCode": "DE",
@@ -5579,6 +5607,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "ade-amsterdam-pays-bas",
+    "prochaineEdition": {"debut": "2027-10-20", "fin": "2027-10-24", "source": "https://djmag.com/news/ade-2027-dates-announced"},
     "nom": "Amsterdam Dance Event (ADE)",
     "type": "festival",
     "paysCode": "NL",
@@ -5609,6 +5638,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "mysteryland-pays-bas",
+    "prochaineEdition": {"debut": "2027-08-27", "fin": "2027-08-29", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Mysteryland",
     "type": "festival",
     "paysCode": "NL",
@@ -5638,6 +5668,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "loveland-amsterdam-pays-bas",
+    "prochaineEdition": {"debut": "2027-08-14", "fin": "2027-08-15", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Loveland Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -5668,6 +5699,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "defqon-1-pays-bas",
+    "prochaineEdition": {"debut": "2027-06-24", "fin": "2027-06-27", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Defqon.1 Weekend Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -5725,6 +5757,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "soenda-utrecht-pays-bas",
+    "prochaineEdition": {"debut": "2027-05-29", "fin": "2027-05-29", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Soenda Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -5873,6 +5906,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "tomorrowland-winter-france",
+    "prochaineEdition": {"debut": "2027-03-20", "fin": "2027-03-27", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Tomorrowland Winter",
     "type": "festival",
     "paysCode": "FR",
@@ -5961,6 +5995,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "creamfields-royaume-uni",
+    "prochaineEdition": {"debut": "2027-08-26", "fin": "2027-08-29", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Creamfields",
     "type": "festival",
     "paysCode": "GB",
@@ -5990,6 +6025,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "terminal-v-royaume-uni",
+    "prochaineEdition": {"debut": "2027-06-05", "fin": "2027-06-06", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Terminal V",
     "type": "festival",
     "paysCode": "GB",
@@ -6108,6 +6144,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "aquasella-espagne",
+    "prochaineEdition": {"debut": "2027-08-12", "fin": "2027-08-15", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Aquasella",
     "type": "festival",
     "paysCode": "ES",
@@ -6137,6 +6174,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "brunch-electronik-festival-espagne",
+    "prochaineEdition": {"debut": "2027-08-06", "fin": "2027-08-08", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Brunch Electronik Festival",
     "type": "festival",
     "paysCode": "ES",
@@ -6283,6 +6321,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "dour-festival-belgique",
+    "prochaineEdition": {"debut": "2027-07-07", "fin": "2027-07-11", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Dour Festival",
     "type": "festival",
     "paysCode": "BE",
@@ -6486,6 +6525,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "love-international-croatie",
+    "prochaineEdition": {"debut": "2027-07-07", "fin": "2027-07-13", "source": "https://www.technoairlines.com/festival/love-international-tisno-croatia-2027"},
     "nom": "Love International",
     "type": "festival",
     "paysCode": "HR",
@@ -6515,6 +6555,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "dekmantel-selectors-croatie",
+    "prochaineEdition": {"debut": "2027-08-19", "fin": "2027-08-23", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Dekmantel Selectors",
     "type": "festival",
     "paysCode": "HR",
@@ -6544,6 +6585,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "ultra-europe-croatie",
+    "prochaineEdition": {"debut": "2027-07-09", "fin": "2027-07-11", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Ultra Europe",
     "type": "festival",
     "paysCode": "HR",
@@ -6573,6 +6615,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "untold-roumanie",
+    "prochaineEdition": {"debut": "2027-08-05", "fin": "2027-08-08", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "UNTOLD Festival",
     "type": "festival",
     "paysCode": "RO",
@@ -6602,6 +6645,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "electric-castle-roumanie",
+    "prochaineEdition": {"debut": "2027-07-14", "fin": "2027-07-18", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Electric Castle",
     "type": "festival",
     "paysCode": "RO",
@@ -6689,6 +6733,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "street-parade-suisse",
+    "prochaineEdition": {"debut": "2027-08-14", "fin": "2027-08-14", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Street Parade",
     "type": "festival",
     "paysCode": "CH",
@@ -6805,6 +6850,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "ozora-festival-hongrie",
+    "prochaineEdition": {"debut": "2027-07-23", "fin": "2027-08-03", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "O.Z.O.R.A. Festival",
     "type": "festival",
     "paysCode": "HU",
@@ -6834,6 +6880,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "sziget-colosseum-hongrie",
+    "prochaineEdition": {"debut": "2027-08-10", "fin": "2027-08-14", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Sziget (Colosseum & Bolt Party Arena)",
     "type": "festival",
     "paysCode": "HU",
@@ -7008,6 +7055,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "kala-festival-albanie",
+    "prochaineEdition": {"debut": "2027-06-02", "fin": "2027-06-09", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Kala Festival",
     "type": "festival",
     "paysCode": "AL",
@@ -8538,6 +8586,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "parklife-manchester",
+    "prochaineEdition": {"debut": "2027-07-10", "fin": "2027-07-11", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Parklife Festival",
     "type": "festival",
     "paysCode": "GB",
@@ -8716,6 +8765,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "medusa-sunbeach-cullera",
+    "prochaineEdition": {"debut": "2027-08-12", "fin": "2027-08-16", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Medusa Sunbeach Festival",
     "type": "festival",
     "paysCode": "ES",
@@ -9635,6 +9685,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "wonderfruit-thailand",
+    "prochaineEdition": {"debut": "2026-12-03", "fin": "2026-12-07", "source": "https://www.technoairlines.com/festival/wonderfruit-pattaya-thailand-2026"},
     "nom": "Wonderfruit",
     "type": "festival",
     "paysCode": "TH",
@@ -11799,6 +11850,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "snowbombing-autriche",
+    "prochaineEdition": {"debut": "2027-04-05", "fin": "2027-04-10", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Snowbombing",
     "type": "festival",
     "paysCode": "AT",
@@ -13060,6 +13112,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "primavera-bits-barcelone",
+    "prochaineEdition": {"debut": "2027-06-03", "fin": "2027-06-05", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Primavera Sound (Primavera Bits & Warehouse)",
     "type": "festival",
     "paysCode": "ES",
@@ -21011,6 +21064,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "upclose-festival-paysbas",
+    "prochaineEdition": {"debut": "2027-05-15", "fin": "2027-05-16", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Awakenings Upclose",
     "type": "festival",
     "paysCode": "NL",
@@ -23923,6 +23977,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "monument-festival-norvege",
+    "prochaineEdition": {"debut": "2027-07-29", "fin": "2027-08-02", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Monument Festival",
     "type": "festival",
     "paysCode": "NO",
@@ -24752,6 +24807,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "hideout-zrce-croatie",
+    "prochaineEdition": {"debut": "2027-06-29", "fin": "2027-07-02", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Hideout Festival",
     "type": "festival",
     "paysCode": "HR",
@@ -25105,6 +25161,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "909-festival-amsterdam-paysbas",
+    "prochaineEdition": {"debut": "2027-06-05", "fin": "2027-06-06", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "909 Festival",
     "type": "festival",
     "paysCode": "NL",
@@ -26081,6 +26138,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "reverze-anvers-belgique",
+    "prochaineEdition": {"debut": "2027-02-26", "fin": "2027-02-27", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Reverze",
     "type": "festival",
     "paysCode": "BE",
@@ -29590,6 +29648,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "beyond-the-pale-irlande",
+    "prochaineEdition": {"debut": "2027-06-11", "fin": "2027-06-13", "source": "https://www.technoairlines.com/blog/european-festivals-2027"},
     "nom": "Beyond The Pale",
     "type": "festival",
     "paysCode": "IE",
@@ -30692,6 +30751,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "blackworks-festival-madrid-espagne",
+    "prochaineEdition": {"debut": "2027-04-02", "fin": "2027-04-03", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Blackworks Festival",
     "type": "festival",
     "paysCode": "ES",
@@ -30752,6 +30812,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "sun-and-snow-sierra-nevada-espagne",
+    "prochaineEdition": {"debut": "2027-04-16", "fin": "2027-04-18", "source": "https://miraespanha.com/en/techno-festival-spain/"},
     "nom": "Sun & Snow Weekend",
     "type": "festival",
     "paysCode": "ES",
@@ -35174,6 +35235,7 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
   },
   {
     "id": "zamna-tulum-mexique",
+    "prochaineEdition": {"debut": "2026-12-31", "fin": "2027-01-10", "source": "https://magneticmag.com/2026/09/zamna-tulum-2027-dates-multipass-tickets/"},
     "nom": "Zamna Tulum",
     "type": "festival",
     "paysCode": "MX",
@@ -35373,6 +35435,432 @@ export const TOUS_LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "description": {
       "fr": "Festival international d’Oslo célébré pour ses nuits club électroniques mettant en lumière les scènes globales d’Afrique, du Moyen-Orient et d’Amérique latine.",
       "en": "International Oslo festival renowned for its late-night club program spotlighting electronic scenes from Africa, the Middle East and Latin America."
+    }
+  },
+  {
+    "id": "rainbow-spirit-australie",
+    "nom": "Rainbow Spirit Festival (ex Rainbow Serpent)",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Glenaroua (Victoria)",
+      "en": "Glenaroua (Victoria)"
+    },
+    "latitude": -37.12,
+    "longitude": 145.03,
+    "capacite": 12000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Mars",
+      "en": "March"
+    },
+    "prochaineEdition": {
+      "debut": "2027-03-05",
+      "fin": "2027-03-08",
+      "source": "https://www.technoairlines.com/festival/rainbow-spirit-festival-glenaroua-vic-australia-2027"
+    },
+    "styles": [
+      "Psy",
+      "Minimal",
+      "Progressive Trance",
+      "Techno"
+    ],
+    "site": "https://rainbowspirit.net",
+    "description": {
+      "fr": "Le grand rassemblement électronique de Victoria, né en 1998 sous le nom de Rainbow Serpent, rebaptisé Rainbow Spirit et revenu en 2026 après six ans d'absence ; psytrance, minimal et techno sur plusieurs scènes en plein air.",
+      "en": "Victoria's great electronic gathering, born in 1998 as Rainbow Serpent, renamed Rainbow Spirit and back in 2026 after a six-year break; psytrance, minimal and techno across several open-air stages."
+    }
+  },
+  {
+    "id": "field-maneuvers-royaume-uni",
+    "nom": "Field Maneuvers",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Norfolk (site secret)",
+      "en": "Norfolk (secret site)"
+    },
+    "latitude": 52.7,
+    "longitude": 1.1,
+    "capacite": 2000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "prochaineEdition": {
+      "debut": "2027-08-20",
+      "fin": "2027-08-22",
+      "source": "https://www.technoairlines.com/festival/field-maneuvers-norfolk-united-kingdom-2027"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Electro",
+      "Jungle",
+      "Ambient"
+    ],
+    "site": "https://fieldmaneuvers.com",
+    "description": {
+      "fr": "Petit festival de quelques milliers de personnes sur un site tenu secret du Norfolk, depuis 2014 : house, techno, electro, jungle et une scène ambient très soignée, sans têtes d'affiche commerciales.",
+      "en": "Small festival of a few thousand people on a secret Norfolk site since 2014: house, techno, electro, jungle and a carefully curated ambient stage, with no commercial headliners."
+    }
+  },
+  {
+    "id": "meakusma-belgique",
+    "nom": "Meakusma Festival",
+    "type": "festival",
+    "paysCode": "BE",
+    "ville": {
+      "fr": "Eupen",
+      "en": "Eupen"
+    },
+    "latitude": 50.63,
+    "longitude": 6.03,
+    "capacite": 2000,
+    "annee": 2004,
+    "mois": {
+      "fr": "Septembre",
+      "en": "September"
+    },
+    "styles": [
+      "Experimental",
+      "Dub",
+      "Techno",
+      "Ambient"
+    ],
+    "site": "https://www.meakusma-festival.be",
+    "description": {
+      "fr": "Festival de musiques électroniques aventureuses à Eupen, dans l'Est germanophone de la Belgique, autour de l'Alter Schlachthof : plus de 140 artistes en 2026 entre dub, techno, ambient et expérimental.",
+      "en": "Adventurous electronic music festival in Eupen, in Belgium's German-speaking east, around the Alter Schlachthof: more than 140 acts in 2026 across dub, techno, ambient and experimental music."
+    }
+  },
+  {
+    "id": "toffler-festival-pays-bas",
+    "nom": "Toffler Festival",
+    "type": "festival",
+    "paysCode": "NL",
+    "ville": {
+      "fr": "Rotterdam (Roel Langerakpark)",
+      "en": "Rotterdam (Roel Langerakpark)"
+    },
+    "latitude": 51.9447,
+    "longitude": 4.4365,
+    "capacite": 5000,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "prochaineEdition": {
+      "debut": "2027-05-29",
+      "fin": "2027-05-29",
+      "source": "https://www.technoairlines.com/festival/toffler-festival-rotterdam-netherlands-2027"
+    },
+    "styles": [
+      "House",
+      "Techno"
+    ],
+    "site": "https://toffler.nl",
+    "description": {
+      "fr": "Le festival en plein air du club Toffler de Rotterdam, une journée de house et de techno au Roel Langerakpark à la fin mai.",
+      "en": "The open-air festival of Rotterdam's Toffler club, a day of house and techno at Roel Langerakpark at the end of May."
+    }
+  },
+  {
+    "id": "sw4-londres-royaume-uni",
+    "nom": "SW4 (South West Four)",
+    "type": "festival",
+    "paysCode": "GB",
+    "ville": {
+      "fr": "Londres (Clapham Common)",
+      "en": "London (Clapham Common)"
+    },
+    "latitude": 51.4597,
+    "longitude": -0.1497,
+    "capacite": 40000,
+    "mois": {
+      "fr": "Août (week-end férié)",
+      "en": "August (bank holiday weekend)"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Drum & Bass",
+      "Trance"
+    ],
+    "site": "https://southwestfour.com",
+    "description": {
+      "fr": "Le grand rendez-vous électronique du week-end férié d'août sur Clapham Common, au sud de Londres : house, techno, drum & bass et trance pour environ 40 000 personnes.",
+      "en": "South London's big electronic weekend on Clapham Common over the August bank holiday: house, techno, drum & bass and trance for about 40,000 people."
+    }
+  },
+  {
+    "id": "ososphere-strasbourg-france",
+    "nom": "L’Ososphère",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Strasbourg",
+      "en": "Strasbourg"
+    },
+    "latitude": 48.5846,
+    "longitude": 7.7348,
+    "capacite": 5000,
+    "annee": 1998,
+    "mois": {
+      "fr": "Février",
+      "en": "February"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Disco",
+      "Electronica"
+    ],
+    "site": "https://www.ososphere.org",
+    "description": {
+      "fr": "Festival strasbourgeois de musiques électroniques et d'arts numériques né en 1998 ; en 2026, ses Nuits électroniques ont transformé la gare de Strasbourg en club géant les 13 et 14 février.",
+      "en": "Strasbourg festival of electronic music and digital arts founded in 1998; in 2026 its electronic nights turned Strasbourg station into a giant club on 13 and 14 February."
+    }
+  },
+  {
+    "id": "memori-festival-france",
+    "nom": "Memòri Festival",
+    "type": "festival",
+    "paysCode": "FR",
+    "ville": {
+      "fr": "Saint-Jean-de-Laur (Lot)",
+      "en": "Saint-Jean-de-Laur (Lot)"
+    },
+    "latitude": 44.42,
+    "longitude": 1.83,
+    "capacite": 2000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Electronica",
+      "Ambient",
+      "Tech House",
+      "Bass"
+    ],
+    "site": "https://memori-festival.fr",
+    "description": {
+      "fr": "Nouveau festival lancé en juillet 2026 au Domaine de Gayfié, dans le Lot, limité à 2 000 personnes : musiques électroniques exploratoires, sets au bord de la piscine, scène ambient et grange transformée en club.",
+      "en": "New festival launched in July 2026 at Domaine de Gayfié in the Lot, capped at 2,000 people: exploratory electronic music, poolside sets, an ambient stage and a barn turned into a club."
+    }
+  },
+  {
+    "id": "why-not-now-brooklyn-etats-unis",
+    "nom": "Why Not Now?",
+    "type": "festival",
+    "paysCode": "US",
+    "ville": {
+      "fr": "New York (Brooklyn, Industry City)",
+      "en": "New York (Brooklyn, Industry City)"
+    },
+    "latitude": 40.6556,
+    "longitude": -74.0076,
+    "capacite": 5000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Mai",
+      "en": "May"
+    },
+    "styles": [
+      "House",
+      "Tech House",
+      "Drum & Bass",
+      "UK Garage"
+    ],
+    "site": "https://whynotnowfest.com",
+    "description": {
+      "fr": "Nouveau festival électronique de Brooklyn lancé les 23 et 24 mai 2026 dans les cours en plein air d'Industry City : house, tech house, drum & bass et UK garage.",
+      "en": "New Brooklyn electronic festival launched on 23 and 24 May 2026 in the open-air courtyards of Industry City: house, tech house, drum & bass and UK garage."
+    }
+  },
+  {
+    "id": "starlight-gizeh-egypte",
+    "nom": "Starlight Festival",
+    "type": "festival",
+    "paysCode": "EG",
+    "ville": {
+      "fr": "Gizeh (pyramides)",
+      "en": "Giza (pyramids)"
+    },
+    "latitude": 29.9792,
+    "longitude": 31.1342,
+    "capacite": 10000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Octobre",
+      "en": "October"
+    },
+    "styles": [
+      "Techno",
+      "Melodic Techno",
+      "House"
+    ],
+    "site": "https://starlight-festival.org",
+    "description": {
+      "fr": "Nouveau festival lancé en octobre 2026 au pied des pyramides de Gizeh par l'équipe d'EXIT, avec plus de cinq scènes : techno, melodic techno et house.",
+      "en": "New festival launched in October 2026 at the foot of the Giza pyramids by the EXIT team, with more than five stages: techno, melodic techno and house."
+    }
+  },
+  {
+    "id": "tomorrowland-thailande",
+    "nom": "Tomorrowland Thailand",
+    "type": "festival",
+    "paysCode": "TH",
+    "ville": {
+      "fr": "Pattaya (Wisdom Valley)",
+      "en": "Pattaya (Wisdom Valley)"
+    },
+    "latitude": 12.93,
+    "longitude": 100.98,
+    "capacite": 50000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Décembre",
+      "en": "December"
+    },
+    "prochaineEdition": {
+      "debut": "2026-12-11",
+      "fin": "2026-12-13",
+      "source": "https://www.tatnews.org/2026/02/tat-announces-tomorrowland-thailand-full-scale-asian-debut-in-december-2026/"
+    },
+    "styles": [
+      "EDM",
+      "Big Room",
+      "Techno",
+      "House"
+    ],
+    "site": "https://www.tomorrowland.com",
+    "description": {
+      "fr": "Première édition asiatique complète de Tomorrowland, à Wisdom Valley près de Pattaya, annoncée pour plus de 50 000 festivaliers et prévue pour cinq ans en Thaïlande.",
+      "en": "Tomorrowland's first full Asian edition, at Wisdom Valley near Pattaya, announced for more than 50,000 ravers and planned for five years in Thailand."
+    }
+  },
+  {
+    "id": "lost-paradise-australie",
+    "nom": "Lost Paradise",
+    "type": "festival",
+    "paysCode": "AU",
+    "ville": {
+      "fr": "Glenworth Valley (Nouvelle-Galles du Sud)",
+      "en": "Glenworth Valley (New South Wales)"
+    },
+    "latitude": -33.4,
+    "longitude": 151.19,
+    "capacite": 10000,
+    "mois": {
+      "fr": "Décembre - Janvier (Nouvel An)",
+      "en": "December - January (New Year)"
+    },
+    "prochaineEdition": {
+      "debut": "2026-12-28",
+      "fin": "2027-01-01",
+      "source": "https://www.technoairlines.com/festival/lost-paradise-glenworth-valley-australia-2026"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Bass"
+    ],
+    "site": "https://lostparadise.com.au",
+    "description": {
+      "fr": "Festival du Nouvel An dans la vallée de Glenworth, au nord de Sydney, à sa douzième édition en 2026 : une programmation très club, entre techno, house et bass.",
+      "en": "New Year festival in Glenworth Valley north of Sydney, at its twelfth edition in 2026: a club-heavy line-up across techno, house and bass."
+    }
+  },
+  {
+    "id": "lost-in-dreams-abbotsford-canada",
+    "nom": "Lost In Dreams Vancouver",
+    "type": "festival",
+    "paysCode": "CA",
+    "ville": {
+      "fr": "Abbotsford (Tradex)",
+      "en": "Abbotsford (Tradex)"
+    },
+    "latitude": 49.03,
+    "longitude": -122.36,
+    "capacite": 10000,
+    "annee": 2026,
+    "mois": {
+      "fr": "Mai (week-end long)",
+      "en": "May (long weekend)"
+    },
+    "styles": [
+      "Bass",
+      "Melodic Techno",
+      "EDM"
+    ],
+    "site": "https://lostindreams.co/vancouver",
+    "description": {
+      "fr": "Première édition hors des États-Unis du festival Lost In Dreams d'Insomniac, au Tradex d'Abbotsford près de Vancouver en 2026 : bass mélodique et électronique vocale.",
+      "en": "Insomniac's Lost In Dreams festival in its first edition outside the United States, at Tradex in Abbotsford near Vancouver in 2026: melodic bass and vocal electronic music."
+    }
+  },
+  {
+    "id": "shifted-festival-allemagne",
+    "nom": "Shifted Festival",
+    "type": "festival",
+    "paysCode": "DE",
+    "ville": {
+      "fr": "Brandebourg (Secret Forest)",
+      "en": "Brandenburg (Secret Forest)"
+    },
+    "latitude": 51.98,
+    "longitude": 12.98,
+    "capacite": 5000,
+    "mois": {
+      "fr": "Août",
+      "en": "August"
+    },
+    "prochaineEdition": {
+      "debut": "2027-08-05",
+      "fin": "2027-08-08",
+      "source": "https://www.technoairlines.com/festival/shifted-festival-berlin-secret-forest-germany-2027"
+    },
+    "styles": [
+      "Trance",
+      "Hard Groove",
+      "Hard Techno"
+    ],
+    "site": "https://www.shifted-festival.com",
+    "description": {
+      "fr": "Festival en forêt au cœur du Brandebourg, à environ 85 km de Berlin : trance, groove et hard techno sur quatre jours au début août.",
+      "en": "Forest festival in the heart of Brandenburg, about 85 km from Berlin: trance, groove and hard techno over four days in early August."
+    }
+  },
+  {
+    "id": "aura-festival-sofia-bulgarie",
+    "nom": "AURA Festival",
+    "type": "festival",
+    "paysCode": "BG",
+    "ville": {
+      "fr": "Sofia (Airport Park)",
+      "en": "Sofia (Airport Park)"
+    },
+    "latitude": 42.68,
+    "longitude": 23.41,
+    "capacite": 10000,
+    "mois": {
+      "fr": "Juin",
+      "en": "June"
+    },
+    "styles": [
+      "Melodic Techno",
+      "Progressive House",
+      "Techno",
+      "Trance"
+    ],
+    "site": "https://aurafestival.bg",
+    "description": {
+      "fr": "Festival électronique de Sofia installé en 2026 au Sofia Airport Park, trois nuits de 18 h à 6 h entre melodic, progressive et techno.",
+      "en": "Sofia electronic festival that moved to Sofia Airport Park in 2026, three nights from 6 pm to 6 am across melodic, progressive and techno."
     }
   }
 ];

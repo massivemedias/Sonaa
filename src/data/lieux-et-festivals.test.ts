@@ -265,4 +265,18 @@ describe('Atlas des clubs et festivals', () => {
     expect(soireesPourLieu(daome!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-4']);
     expect(soireesPourLieu(sat!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-5']);
   });
+  it('donne des prochaines editions bien formees, avec leur source (28 novembre 2026)', () => {
+    const avecEdition = TOUS_LIEUX_ET_FESTIVALS.filter((f) => f.prochaineEdition);
+    expect(avecEdition.length).toBeGreaterThanOrEqual(60);
+    for (const f of avecEdition) {
+      const e = f.prochaineEdition!;
+      expect(e.debut).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(e.fin).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(e.fin >= e.debut).toBe(true);
+      expect(e.source).toMatch(/^https:\/\//);
+    }
+    for (const id of ['rainbow-spirit-australie', 'field-maneuvers-royaume-uni', 'meakusma-belgique', 'memori-festival-france', 'tomorrowland-thailande']) {
+      expect(LIEUX_ET_FESTIVALS.find((f) => f.id === id)).toBeDefined();
+    }
+  });
 });

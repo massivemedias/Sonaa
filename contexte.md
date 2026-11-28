@@ -69,6 +69,12 @@ morceaux par style).
   - **61 labels mexicains** (dont **Undergroove Music** à Mexico avec logo et discographie Discogs, **Akbal Music**, **Illegal Alien Records**, **Future Techno Records**, **ANAOH**, **Uxmal Records**, **Pleiadian Records**, **BioMechanix Records**, **Tenampa Recordings**, **Umor Rex**, **Nopal Beat**, **Duro**, **NAAFI**, **Zamna Records**, etc.) ;
   - **Amérique latine renforcée** : **28 au Brésil**, **15 en Argentine**, **7 en Colombie**, **5 au Chili** ;
   - **+841 labels Beatport internationaux** ajoutés les 24 et 25 nov 2026 (Beatport direct étant derrière Cloudflare 403, le scan complet s'appuie sur le catalogue Beatport public LabelTide + Discogs API).
+- **Sorties vérifiées à la main** (28 nov 2026, branche `claude/project-thread-5jl4fw`) :
+  `src/data/labels-sorties-verifiees.json`, que la moisson Discogs ne touche pas, fondu par
+  `avecSortiesVerifiees` (`src/lib/labels.ts`) devant les sorties Discogs. 11 labels, 44 sorties
+  relevées sur Bandcamp (AlpaKa MuziK, Lazy Days, SOAME, Moderna, Jump Source, Voyage Funktastique,
+  La Crème, Chiwawa, OCTOV, Ritmo Fatale, Atomnation). Bandcamp mort pour Ärder, Kohlenstoff, Tech
+  Safari, Muses of Eden et SPF Infini : leur champ `site` est à revoir.
 - **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
@@ -107,6 +113,13 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 
 ## ATLAS CLUBS, SALLES ET FESTIVALS (26 nov 2026)
 
+- **28 nov 2026 (branche `claude/project-thread-5jl4fw`, en attente de fusion)** : **760 festivals
+  actifs** après 14 ajouts vérifiés (Rainbow Spirit ex Rainbow Serpent, Field Maneuvers, Meakusma,
+  Toffler Festival, SW4, L'Ososphère, Memòri, Why Not Now?, Starlight Gizeh, Tomorrowland Thailand,
+  Lost Paradise, Lost In Dreams Vancouver, Shifted, AURA Sofia) et **champ `prochaineEdition`**
+  (début, fin, source) rempli pour 65 festivals ; l'affichage le montre jusqu'au lendemain de la fin,
+  puis retombe sur `mois`. Les capacités de Meakusma, Toffler, Ososphère, Why Not Now?, Starlight,
+  Lost Paradise, Lost In Dreams, Shifted et AURA sont des estimations (non publiées).
 - **746 festivals électroniques actifs** dans 85 pays (dont **65 au Canada** et **43 en Espagne**,
   après ajout le 26 nov de 45 nouveaux festivals actifs et 9 nouveaux pays actifs : Islande,
   Ukraine, Luxembourg, Ouzbékistan, La Réunion, Jordanie, Israël, Île Maurice, République
@@ -174,6 +187,10 @@ chaque fiche club/salle.
 
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
+
+- 28 nov 2026, Claude Code : recherche web festivals et labels, 14 festivals ajoutés, dates de
+  prochaine édition pour 65 festivals, sorties Bandcamp vérifiées pour 11 labels. PR ouverte sur
+  `claude/project-thread-5jl4fw`, non publiée.
 
 - 26 nov 2026, Claude Code : page Mixtapes, « Dernières mixtapes » et « Les artistes »
   passent en casse normale et en demi-gras (titres, ligne artiste/durée/écoutes), à la

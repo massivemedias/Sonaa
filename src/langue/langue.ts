@@ -1265,6 +1265,8 @@ interface Dictionnaire {
   readonly lieuTypeFestival: string;
   readonly lieuCapacite: (n: number) => string;
   readonly lieuDepuis: (annee: number) => string;
+  /** Dates de la prochaine edition annoncee, jours ISO AAAA-MM-JJ. */
+  readonly lieuProchaineEdition: (debut: string, fin: string) => string;
   readonly lieuSiteOfficiel: string;
   readonly lieuVoirCalendrierVille: (ville: string) => string;
   readonly lieuCentrerCarte: string;
@@ -1294,6 +1296,28 @@ interface Dictionnaire {
   readonly menuSectionEspace: string;
   readonly menuSectionLegal: string;
   readonly menuRechercher: string;
+}
+
+/* Une plage de jours en toutes lettres : « 5 au 8 mars 2027 », « March 5 to 8, 2027 ».
+   Les jours sont des chaines ISO AAAA-MM-JJ, lues a midi UTC pour ne pas
+   glisser d'un jour selon le fuseau. */
+function plageDeJours(debut: string, fin: string, locale: 'fr-CA' | 'en-CA'): string {
+  const jour = (iso: string): Date => new Date(`${iso}T12:00:00Z`);
+  const a = jour(debut);
+  const b = jour(fin);
+  const complet = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  if (debut === fin) return complet.format(a);
+  const fr = locale === 'fr-CA';
+  const memeAnnee = a.getUTCFullYear() === b.getUTCFullYear();
+  const memeMois = memeAnnee && a.getUTCMonth() === b.getUTCMonth();
+  if (memeMois) {
+    return fr
+      ? `${a.getUTCDate()} au ${complet.format(b)}`
+      : `${new Intl.DateTimeFormat(locale, { month: 'long', day: 'numeric', timeZone: 'UTC' }).format(a)} to ${b.getUTCDate()}, ${b.getUTCFullYear()}`;
+  }
+  const sansAnnee = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', timeZone: 'UTC' });
+  const gauche = memeAnnee ? sansAnnee.format(a) : complet.format(a);
+  return fr ? `${gauche} au ${complet.format(b)}` : `${gauche} to ${complet.format(b)}`;
 }
 
 const FR: Dictionnaire = {
@@ -1745,7 +1769,7 @@ const FR: Dictionnaire = {
   labelSortiesConnues: 'Les sorties les plus connues',
   labelSortiesAide: 'Classées par le nombre de collectionneurs qui les possèdent sur Discogs.',
   labelDernieresSorties: 'Dernières sorties',
-  labelDernieresSortiesAide: 'Les plus récentes chez Discogs, rafraîchies chaque semaine.',
+  labelDernieresSortiesAide: 'Les plus récentes chez Discogs, rafraîchies chaque semaine, et relevées à la main sur Bandcamp quand Discogs tarde.',
   labelDansLesNews: 'Dans les news',
   labelCollectionneurs: (n) => `${n.toLocaleString('fr-CA')} collectionneurs`,
   labelStyles: 'Ses styles dans l’atlas',
@@ -2455,6 +2479,7 @@ const FR: Dictionnaire = {
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
   lieuDepuis: (annee) => `Depuis ${annee}`,
+  lieuProchaineEdition: (debut, fin) => `Prochaine édition : ${plageDeJours(debut, fin, 'fr-CA')}`,
   lieuSiteOfficiel: 'Site officiel',
   lieuVoirCalendrierVille: (ville) => `Soirées à ${ville}`,
   lieuCentrerCarte: 'Voir sur la carte',
@@ -2939,7 +2964,7 @@ const EN: Dictionnaire = {
   labelSortiesConnues: 'Best-known releases',
   labelSortiesAide: 'Ranked by how many collectors own them on Discogs.',
   labelDernieresSorties: 'Latest releases',
-  labelDernieresSortiesAide: 'The most recent on Discogs, refreshed every week.',
+  labelDernieresSortiesAide: 'The most recent on Discogs, refreshed every week, and checked by hand on Bandcamp when Discogs lags behind.',
   labelDansLesNews: 'In the news',
   labelCollectionneurs: (n) => `${n.toLocaleString('en-CA')} collectors`,
   labelStyles: 'Its styles in the atlas',
@@ -3636,6 +3661,7 @@ const EN: Dictionnaire = {
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
   lieuDepuis: (annee) => `Since ${annee}`,
+  lieuProchaineEdition: (debut, fin) => `Next edition: ${plageDeJours(debut, fin, 'en-CA')}`,
   lieuSiteOfficiel: 'Official website',
   lieuVoirCalendrierVille: (ville) => `Nights in ${ville}`,
   lieuCentrerCarte: 'Show on map',

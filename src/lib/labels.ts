@@ -58,6 +58,45 @@ export function actuSansReeditions(a: ActuDuLabel | undefined): ActuDuLabel {
   return a.recentes ? { ...a, recentes: a.recentes.filter((s) => !estReedition(s.format)) } : a;
 }
 
+/* LES SORTIES VERIFIEES A LA MAIN. Mika, le 28 novembre 2026 : « faire des
+   recherches sur les labels et mettre a jour par rapport aux dernieres
+   tracks ». Discogs tarde de quelques semaines, et ne connait pas certains
+   petits labels qui ne publient que sur Bandcamp ou Beatport. Ces sorties,
+   relevees sur la page du label, vivent dans src/data/labels-sorties-verifiees.json,
+   que la moisson de la nuit ne touche pas. Elles passent devant celles de
+   Discogs ; un meme disque n'est garde qu'une fois. */
+export interface SortieVerifiee {
+  /** « 2026-11-25 », ou « 2026-06 » quand la page ne donne que le mois. */
+  readonly date: string;
+  readonly artiste: string;
+  readonly titre: string;
+  readonly url: string;
+  /** Ou la sortie a ete lue : Bandcamp, Beatport, site du label. */
+  readonly source: string;
+}
+
+export interface SortiesVerifieesDuLabel {
+  readonly verifieLe: string;
+  readonly sorties: readonly SortieVerifiee[];
+}
+
+const SORTIES_PAR_LABEL = 5;
+
+export function avecSortiesVerifiees(a: ActuDuLabel, v: SortiesVerifieesDuLabel | undefined): ActuDuLabel {
+  if (!v || v.sorties.length === 0) return a;
+  const cle = (artiste: string, titre: string): string => `${cleDeLabel(artiste)}|${cleDeLabel(titre)}`;
+  const verifiees: SortieRecente[] = [...v.sorties]
+    .sort((x, y) => y.date.localeCompare(x.date))
+    .map((s) => ({ titre: s.titre, artiste: s.artiste, annee: Number(s.date.slice(0, 4)) || null, image: null, url: s.url, format: s.source }));
+  const vues = new Set(verifiees.map((s) => cle(s.artiste, s.titre)));
+  const discogs = (a.recentes ?? []).filter((s) => !vues.has(cle(s.artiste, s.titre)));
+  /* Le tri est stable : a annee egale, la sortie verifiee reste devant. */
+  const recentes = [...verifiees, ...discogs]
+    .sort((x, y) => (y.annee ?? 0) - (x.annee ?? 0))
+    .slice(0, SORTIES_PAR_LABEL);
+  return { ...a, recentes };
+}
+
 /** L'actualite d'un label : src/data/labels-actu.json, fondue dans la fiche
     par le pre-rendu. */
 export interface ActuDuLabel {

@@ -2,7 +2,8 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, lieuMaisonMere, nomsDeLabels, nomDuPays, ordreDeNotoriete, type EntreeLabel, type FicheLabel } from './labels.ts';
+import { avecSortiesVerifiees, cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, lieuMaisonMere, nomsDeLabels, nomDuPays, ordreDeNotoriete, type EntreeLabel, type FicheLabel, type SortiesVerifieesDuLabel } from './labels.ts';
+import VERIFIEES from '../data/labels-sorties-verifiees.json';
 import INDEX_REEL from '../data/labels-index.json';
 import FICHES_REELLES from '../data/labels.json';
 
@@ -117,6 +118,43 @@ describe('maisons meres et purete 100 % musique electronique', () => {
     for (const horsSlug of ['sony-music', 'universal-music-group', 'columbia', 'motown', 'alligator-records', 'blue-note']) {
       expect(entrees.find((e) => e.s === horsSlug)).toBeUndefined();
       expect(fiches.find((f) => f.slug === horsSlug)?.horsElectronique).toBe(true);
+    }
+  });
+});
+
+describe('les sorties verifiees a la main (28 novembre 2026)', () => {
+  const discogs = {
+    recentes: [
+      { titre: 'Eternal Blue', artiste: 'Found Everywhere', annee: 2026, image: 'x', url: 'https://www.discogs.com/release/1', format: 'File' },
+      { titre: 'Vieux', artiste: 'Quelqu’un', annee: 2024, image: null, url: 'https://www.discogs.com/release/2', format: null },
+    ],
+  };
+  const verifiees: SortiesVerifieesDuLabel = {
+    verifieLe: '2026-11-28',
+    sorties: [
+      { date: '2026-07-03', artiste: 'Budakid', titre: 'Dreams Stretched Beyond', url: 'https://budakid.bandcamp.com/album/dreams-stretched-beyond', source: 'Bandcamp' },
+      { date: '2026-11-25', artiste: 'Found Everywhere', titre: 'Eternal Blue', url: 'https://foundeverywhere.bandcamp.com/album/eternal-blue', source: 'Bandcamp' },
+    ],
+  };
+
+  it('passent devant Discogs, de la plus recente a la plus ancienne, sans doublon', () => {
+    const r = avecSortiesVerifiees(discogs, verifiees).recentes ?? [];
+    expect(r.map((s) => s.titre)).toEqual(['Eternal Blue', 'Dreams Stretched Beyond', 'Vieux']);
+    expect(r[0]?.format).toBe('Bandcamp');
+  });
+
+  it('laissent la fiche telle quelle quand le label n en a pas', () => {
+    expect(avecSortiesVerifiees(discogs, undefined)).toBe(discogs);
+  });
+
+  it('ne nomment que des labels de l annuaire, avec des dates et des adresses lisibles', () => {
+    const slugs = new Set((FICHES_REELLES as unknown as FicheLabel[]).map((f) => f.slug));
+    for (const [slug, v] of Object.entries(VERIFIEES as Record<string, SortiesVerifieesDuLabel>)) {
+      expect(slugs.has(slug)).toBe(true);
+      for (const s of v.sorties) {
+        expect(s.date).toMatch(/^\d{4}-\d{2}(-\d{2})?$/);
+        expect(s.url).toMatch(/^https:\/\//);
+      }
     }
   });
 });
