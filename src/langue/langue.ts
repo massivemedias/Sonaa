@@ -1280,6 +1280,16 @@ interface Dictionnaire {
   readonly lieuNSallesSeules: (n: number) => string;
   readonly lieuSallesSecondairesTitre: (n: number) => string;
   readonly lieuSallesSecondairesBadge: string;
+  /* Espaces a louer pour des soirees electroniques (28 novembre 2026). */
+  readonly espacesSeulement: (n: number) => string;
+  readonly espacesSectionTitre: string;
+  readonly espacesSectionSousTitre: string;
+  readonly espacesBadge: string;
+  readonly lieuTypeEspace: string;
+  readonly lieuNEspaces: (n: number) => string;
+  readonly lieuCapaciteNonPubliee: string;
+  readonly lieuSourceVerifiee: string;
+  readonly lieuGenresEspace: Readonly<Record<string, string>>;
   readonly lieuProchainesSoirees: string;
   readonly lieuNSoireesAVenir: (n: number) => string;
   readonly lieuChargementSoirees: string;
@@ -2459,7 +2469,7 @@ const FR: Dictionnaire = {
   clubsTout: 'Tout',
   clubsSeulement: (n) => `Clubs & bars musicaux (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  sallesSeulement: (n) => `Salles à louer (${n})`,
+  sallesSeulement: (n) => `Salles de spectacle (${n})`,
   clubsCarteMondiale: 'Carte interactive mondiale · Clubs, bars musicaux & festivals',
   clubsCarteVueMonde: 'Monde',
   clubsZoneAtlantique: 'Am. du Nord & Europe',
@@ -2472,10 +2482,10 @@ const FR: Dictionnaire = {
   clubsSectionSousTitre: (nVilles) => `Sélection des clubs, afterhours et bars musicaux électroniques de référence dans ${nVilles} villes, avec leurs prochaines soirées à l’affiche.`,
   festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
   festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
-  sallesSectionTitre: 'Salles à louer et salles de spectacle par ville',
-  sallesSectionSousTitre: 'Espaces événementiels, entrepôts et salles de concert disponibles en location pour les promoteurs et productions.',
+  sallesSectionTitre: 'Salles de spectacle par ville',
+  sallesSectionSousTitre: 'Salles de concert et de spectacle qui accueillent aussi des soirées électroniques, avec leurs prochaines dates.',
   lieuTypeClub: 'Club · Bar musical',
-  lieuTypeSalle: 'Salle à louer',
+  lieuTypeSalle: 'Salle de spectacle',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
   lieuDepuis: (annee) => `Depuis ${annee}`,
@@ -2489,9 +2499,28 @@ const FR: Dictionnaire = {
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
   lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & bar${n > 1 ? 's' : ''} musica${n > 1 ? 'ux' : 'l'}`,
   lieuNClubsSeuls: (n) => `${n} club${n > 1 ? 's' : ''} & bar${n > 1 ? 's' : ''}`,
-  lieuNSallesSeules: (n) => `${n} salle${n > 1 ? 's' : ''} à louer`,
+  lieuNSallesSeules: (n) => `${n} salle${n > 1 ? 's' : ''} de spectacle`,
   lieuSallesSecondairesTitre: (n) => `Salles à louer & salles de spectacle (${n})`,
-  lieuSallesSecondairesBadge: 'Location & salles',
+  lieuSallesSecondairesBadge: 'Salles',
+  espacesSeulement: (n) => `Espaces à louer (${n})`,
+  espacesSectionTitre: 'Espaces à louer pour des soirées, par ville',
+  espacesSectionSousTitre: 'Lofts, entrepôts, galeries et centres d’art que l’on loue pour une nuit, et où les collectifs montent leurs soirées techno, house et afters. Adresse et location vérifiées ; capacité seulement quand elle est publiée.',
+  espacesBadge: 'Location',
+  lieuTypeEspace: 'Espace à louer',
+  lieuNEspaces: (n) => `${n} espace${n > 1 ? 's' : ''} à louer`,
+  lieuCapaciteNonPubliee: 'Capacité non publiée',
+  lieuSourceVerifiee: 'Source vérifiée',
+  lieuGenresEspace: {
+    loft: 'Loft',
+    entrepot: 'Entrepôt',
+    galerie: 'Galerie',
+    'centre-art': 'Centre d’art',
+    'espace-evenementiel': 'Espace événementiel',
+    usine: 'Ancienne usine',
+    eglise: 'Ancienne église',
+    theatre: 'Théâtre',
+    autre: 'Lieu atypique',
+  },
   lieuProchainesSoirees: 'Prochaines soirées',
   lieuNSoireesAVenir: (n) => `${n} soirée${n > 1 ? 's' : ''} à venir`,
   lieuChargementSoirees: 'Chargement des prochaines soirées…',
@@ -3641,7 +3670,7 @@ const EN: Dictionnaire = {
   clubsTout: 'All',
   clubsSeulement: (n) => `Clubs & music bars (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  sallesSeulement: (n) => `Rental venues (${n})`,
+  sallesSeulement: (n) => `Concert halls (${n})`,
   clubsCarteMondiale: 'Interactive world map · Clubs, music bars & festivals',
   clubsCarteVueMonde: 'World',
   clubsZoneAtlantique: 'N. America & Europe',
@@ -3654,10 +3683,10 @@ const EN: Dictionnaire = {
   clubsSectionSousTitre: (nVilles) => `Curated electronic music clubs, afterhours and music bars across ${nVilles} cities, with their upcoming nights.`,
   festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
   festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
-  sallesSectionTitre: 'Rental venues and concert halls by city',
-  sallesSectionSousTitre: 'Event spaces, warehouses and concert halls available for rental by promoters and productions.',
+  sallesSectionTitre: 'Concert halls by city',
+  sallesSectionSousTitre: 'Concert and performance halls that also host electronic nights, with their upcoming dates.',
   lieuTypeClub: 'Club · Music bar',
-  lieuTypeSalle: 'Rental venue',
+  lieuTypeSalle: 'Concert hall',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
   lieuDepuis: (annee) => `Since ${annee}`,
@@ -3671,9 +3700,28 @@ const EN: Dictionnaire = {
   lieuReinitialiserFiltres: 'Reset filters',
   lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & music bar${n === 1 ? '' : 's'}`,
   lieuNClubsSeuls: (n) => `${n} club${n === 1 ? '' : 's'} & bar${n === 1 ? '' : 's'}`,
-  lieuNSallesSeules: (n) => `${n} rental venue${n === 1 ? '' : 's'}`,
+  lieuNSallesSeules: (n) => `${n} concert hall${n === 1 ? '' : 's'}`,
   lieuSallesSecondairesTitre: (n) => `Rental venues & concert halls (${n})`,
-  lieuSallesSecondairesBadge: 'Rental & venue info',
+  lieuSallesSecondairesBadge: 'Halls',
+  espacesSeulement: (n) => `Venues for hire (${n})`,
+  espacesSectionTitre: 'Venues for hire for parties, by city',
+  espacesSectionSousTitre: 'Lofts, warehouses, galleries and art centres rented for a night, where collectives throw their techno, house and after-hours parties. Address and rental checked; capacity only when published.',
+  espacesBadge: 'For hire',
+  lieuTypeEspace: 'Venue for hire',
+  lieuNEspaces: (n) => `${n} venue${n === 1 ? '' : 's'} for hire`,
+  lieuCapaciteNonPubliee: 'Capacity not published',
+  lieuSourceVerifiee: 'Verified source',
+  lieuGenresEspace: {
+    loft: 'Loft',
+    entrepot: 'Warehouse',
+    galerie: 'Gallery',
+    'centre-art': 'Art centre',
+    'espace-evenementiel': 'Event space',
+    usine: 'Former factory',
+    eglise: 'Former church',
+    theatre: 'Theatre',
+    autre: 'Unusual venue',
+  },
   lieuProchainesSoirees: 'Upcoming nights',
   lieuNSoireesAVenir: (n) => `${n} upcoming night${n === 1 ? '' : 's'}`,
   lieuChargementSoirees: 'Loading upcoming nights…',

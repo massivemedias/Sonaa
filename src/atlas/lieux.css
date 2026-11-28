@@ -20,6 +20,8 @@
   --lx-club: var(--accent);
   --lx-festival: var(--accent-jaune);
   --lx-salle: var(--encre-effacee);
+  /* Les espaces a louer (28 nov 2026) : l'encre pleine, en carre evide. */
+  --lx-espace: var(--encre);
 }
 
 .page-lieux .lx-main {
@@ -135,6 +137,13 @@
   width: 6px;
   height: 6px;
   background: var(--lx-salle);
+}
+
+/* Un espace a louer : un carre evide, ni plein comme un club ni petit comme
+   une salle. */
+.lx-puce-espace {
+  border: 2px solid var(--lx-espace);
+  background: transparent;
 }
 
 .lx-selecteurs {
@@ -296,6 +305,13 @@
   background: var(--lx-salle);
 }
 
+.lx-pin-espace .lx-pin-coeur {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--lx-espace);
+  background: var(--fond);
+}
+
 .lx-pin:hover .lx-pin-coeur,
 .lx-pin.est-actif .lx-pin-coeur {
   scale: 1.6;
@@ -327,6 +343,17 @@
   border-top-color: var(--lx-salle);
 }
 
+.lx-fiche-carte:has(.lx-badge-espace) {
+  border-top-color: var(--lx-espace);
+}
+
+.lx-fiche-adresse {
+  margin: 0 0 8px;
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
+  color: var(--encre-douce);
+}
+
 .lx-fiche-entete {
   display: flex;
   align-items: center;
@@ -356,6 +383,11 @@
 .lx-badge-salle {
   border: 1px solid var(--filet-fort);
   color: var(--encre-douce);
+}
+
+.lx-badge-espace {
+  border: 1px solid var(--lx-espace);
+  color: var(--lx-espace);
 }
 
 .lx-fiche-fermer {
@@ -519,6 +551,22 @@
 
 .lx-groupe-compteur-salle {
   color: var(--lx-salle);
+}
+
+.lx-groupe-compteur-espace {
+  color: var(--lx-espace);
+}
+
+/* Dans la liste, un espace a louer porte sa forme de la carte a la place du
+   rang : il n'y a pas de palmares, et le genre passe dans la ligne d'adresse. */
+.lx-rang-num-espace {
+  display: flex;
+  justify-content: center;
+}
+
+.lx-rang-num-espace .lx-puce-espace {
+  width: 10px;
+  height: 10px;
 }
 
 .lx-groupe-liens {
