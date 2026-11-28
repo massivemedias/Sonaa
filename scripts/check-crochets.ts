@@ -20,8 +20,9 @@
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const RACINE = new URL('../src/', import.meta.url).pathname;
+const RACINE = fileURLToPath(new URL('../src/', import.meta.url));
 
 /** Des traits verticaux qui ne bordent aucune boite : la graduation d'une
     frise chronologique se pose a cheval sur son axe. */
