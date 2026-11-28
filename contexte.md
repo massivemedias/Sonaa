@@ -113,6 +113,13 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 
 ## ATLAS CLUBS, SALLES ET FESTIVALS (26 nov 2026)
 
+- **28 nov 2026 (branche `claude/project-thread-u7sc41`, PR en attente)** : nouvelle rubrique
+  **Espaces à louer** (lofts, entrepôts, galeries, centres d'art loués pour une soirée, comme
+  Le Livart), demandée par Mika. **44 lieux dans 19 villes** dans `src/data/espaces-a-louer.ts`
+  (fichier séparé, fusionné par `LieuxPage.tsx`), filtre, carré évidé sur la carte et section 03
+  de la liste avec adresse et genre ; Montpellier n'en a aucun (pistes déjà classées en clubs).
+  Le Livart passe des salles aux espaces ; l'ancien filtre « Salles à louer » s'appelle
+  désormais « Salles de spectacle ». Sources et doutes : `docs/recherches/2026-11-28-espaces-a-louer.md`.
 - **28 nov 2026 (publié sur `main` par `npm run publier`)** : **760 festivals
   actifs** après 14 ajouts vérifiés (Rainbow Spirit ex Rainbow Serpent, Field Maneuvers, Meakusma,
   Toffler Festival, SW4, L'Ososphère, Memòri, Why Not Now?, Starlight Gizeh, Tomorrowland Thailand,
@@ -187,6 +194,9 @@ chaque fiche club/salle.
 
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
+
+- 28 nov 2026, Claude Code : rubrique « Espaces à louer » dans l'atlas, 44 lieux vérifiés par
+  recherche web dans 19 villes. PR ouverte, pas encore publiée.
 
 - 28 nov 2026, Claude Code : recherche web festivals et labels, 14 festivals ajoutés, dates de
   prochaine édition pour 65 festivals, sorties Bandcamp vérifiées pour 11 labels. PR #3 publiée depuis une session cloud
