@@ -25,6 +25,11 @@ import {
   VILLES_CLUBS,
   type LieuOuFestival,
 } from '../data/lieux-et-festivals.ts';
+import {
+  ESPACES_A_LOUER,
+  IDS_DEPLACES_VERS_ESPACES,
+  estEspaceALouer,
+} from '../data/espaces-a-louer.ts';
 import { ZONES_RA_PAR_VILLE, soireesPourLieu } from './soirees-du-lieu.ts';
 import { agenda, ouJeSuis, type OuJeSuis, type Soiree } from '../lib/agenda.ts';
 import { quandEnLettres } from '../lib/date-soiree.ts';
@@ -44,10 +49,21 @@ import { langue, t } from '../langue/langue.ts';
 import './credits.css';
 import './lieux.css';
 
-type FiltreType = 'tout' | 'club' | 'festival' | 'salle';
+type FiltreType = 'tout' | 'club' | 'festival' | 'salle' | 'location';
 type ZoneCarte = 'atlantique' | 'amerique' | 'europe' | 'monde';
 
 const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
+
+/* Les clubs, salles et festivals, plus les espaces a louer (28 novembre 2026).
+   Un lieu deplace vers les espaces a louer n'apparait qu'une fois. */
+const LIEUX: readonly LieuOuFestival[] = [
+  ...LIEUX_ET_FESTIVALS.filter((l) => !IDS_DEPLACES_VERS_ESPACES.has(l.id)),
+  ...ESPACES_A_LOUER,
+];
+
+/* Une salle de spectacle : estSalle, mais pas un espace a louer. */
+const estSalleDeSpectacle = (l: LieuOuFestival): boolean =>
+  l.type === 'club' && Boolean(l.estSalle) && !estEspaceALouer(l);
 
 /* Cadrages sur les grandes regions et sur toute la planete :
    couvre de la Californie et du Chili jusqu'a l'Afrique du Sud, la Scandinavie,
@@ -226,7 +242,8 @@ const devinerSlugDepuisIp = (
 const correspondAuFiltreType = (lieu: LieuOuFestival, filtre: FiltreType): boolean => {
   if (filtre === 'tout') return true;
   if (filtre === 'festival') return lieu.type === 'festival';
-  if (filtre === 'salle') return lieu.type === 'club' && Boolean(lieu.estSalle);
+  if (filtre === 'location') return estEspaceALouer(lieu);
+  if (filtre === 'salle') return estSalleDeSpectacle(lieu);
   return lieu.type === 'club' && !lieu.estSalle;
 };
 
@@ -324,7 +341,7 @@ export function LieuxPage() {
 
   useEffect(() => {
     for (const id of lieuxOuverts) {
-      const lieu = LIEUX_ET_FESTIVALS.find((l) => l.id === id);
+      const lieu = LIEUX.find((l) => l.id === id);
       if (lieu?.villeSlug) {
         chargerSoireesVille(lieu.villeSlug);
       }
@@ -366,15 +383,16 @@ export function LieuxPage() {
   }, []);
 
   const totalClubs = useMemo(
-    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'club' && !x.estSalle).length,
+    () => LIEUX.filter((x) => x.type === 'club' && !x.estSalle).length,
     []
   );
   const totalSalles = useMemo(
-    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'club' && Boolean(x.estSalle)).length,
+    () => LIEUX.filter(estSalleDeSpectacle).length,
     []
   );
+  const totalEspaces = ESPACES_A_LOUER.length;
   const totalFestivals = useMemo(
-    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'festival').length,
+    () => LIEUX.filter((x) => x.type === 'festival').length,
     []
   );
 
@@ -391,7 +409,7 @@ export function LieuxPage() {
   const lieuxPourCarte = useMemo(() => {
     const q = normaliser(requete.trim());
     const qCompact = q.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '');
-    return LIEUX_ET_FESTIVALS.filter((l) => {
+    return LIEUX.filter((l) => {
       if (!correspondAuFiltreType(l, filtreType)) return false;
       if (!q) return true;
       const pays = paysMap.get(l.paysCode);
@@ -405,6 +423,8 @@ export function LieuxPage() {
           ...l.styles,
           l.description.fr,
           l.description.en,
+          estEspaceALouer(l) ? l.adresse : '',
+          estEspaceALouer(l) ? t.lieuGenresEspace[l.genre] ?? '' : '',
         ].join(' ')
       );
       if (texte.includes(q)) return true;
@@ -445,7 +465,7 @@ export function LieuxPage() {
   }, [lieuxFiltres, paysMap]);
 
   const sallesParVille = useMemo(() => {
-    const sallesLocation = lieuxFiltres.filter((l) => l.type === 'club' && Boolean(l.estSalle));
+    const sallesLocation = lieuxFiltres.filter(estSalleDeSpectacle);
     return VILLES_CLUBS.map((ville) => ({
       ville,
       pays: paysMap.get(ville.paysCode),
@@ -453,6 +473,17 @@ export function LieuxPage() {
         .filter((s) => s.villeSlug === ville.slug)
         .sort((a, b) => b.capacite - a.capacite),
     })).filter((g) => g.salles.length > 0);
+  }, [lieuxFiltres, paysMap]);
+
+  const espacesParVille = useMemo(() => {
+    const espaces = lieuxFiltres.filter(estEspaceALouer);
+    return VILLES_CLUBS.map((ville) => ({
+      ville,
+      pays: paysMap.get(ville.paysCode),
+      espaces: espaces
+        .filter((e) => e.villeSlug === ville.slug)
+        .sort((a, b) => b.capacite - a.capacite || a.nom.localeCompare(b.nom, LOCALE)),
+    })).filter((g) => g.espaces.length > 0);
   }, [lieuxFiltres, paysMap]);
 
   const festivalsParPays = useMemo(() => {
@@ -574,7 +605,8 @@ export function LieuxPage() {
     marqueursRef.current.clear();
 
     const triesPourOrdre = [...lieuxPourCarte].sort((a, b) => {
-      const poids = (x: LieuOuFestival): number => (x.estSalle ? 0 : x.type === 'festival' ? 1 : 2);
+      const poids = (x: LieuOuFestival): number =>
+        estEspaceALouer(x) ? 0.5 : x.estSalle ? 0 : x.type === 'festival' ? 1 : 2;
       return poids(a) - poids(b);
     });
 
@@ -582,9 +614,11 @@ export function LieuxPage() {
       const classePin =
         lieu.type === 'festival'
           ? 'lx-pin-festival'
-          : lieu.estSalle
-            ? 'lx-pin-salle'
-            : 'lx-pin-club';
+          : estEspaceALouer(lieu)
+            ? 'lx-pin-espace'
+            : lieu.estSalle
+              ? 'lx-pin-salle'
+              : 'lx-pin-club';
       const el = document.createElement('button');
       el.type = 'button';
       el.className = `lx-pin ${classePin}`;
@@ -664,7 +698,7 @@ export function LieuxPage() {
       });
       return;
     }
-    const duPays = LIEUX_ET_FESTIVALS.filter((l) => l.paysCode === code);
+    const duPays = LIEUX.filter((l) => l.paysCode === code);
     const carte = carteRef.current;
     if (!carte || duPays.length === 0) return;
     if (duPays.length === 1 && duPays[0]) {
@@ -897,6 +931,15 @@ export function LieuxPage() {
               <span className="lx-puce lx-puce-salle" aria-hidden="true" />
               {t.sallesSeulement(totalSalles)}
             </button>
+            <button
+              type="button"
+              className="lx-mode lx-mode-espace"
+              aria-pressed={filtreType === 'location'}
+              onClick={() => setFiltreType('location')}
+            >
+              <span className="lx-puce lx-puce-espace" aria-hidden="true" />
+              {t.espacesSeulement(totalEspaces)}
+            </button>
           </div>
 
           <div className="lx-selecteurs">
@@ -959,9 +1002,11 @@ export function LieuxPage() {
               </span>
               <span className="lx-legende-item">
                 <span className="lx-puce lx-puce-salle" aria-hidden="true" />
-                {t.lieuNSallesSeules(
-                  lieuxFiltres.filter((x) => x.type === 'club' && Boolean(x.estSalle)).length
-                )}
+                {t.lieuNSallesSeules(lieuxFiltres.filter(estSalleDeSpectacle).length)}
+              </span>
+              <span className="lx-legende-item">
+                <span className="lx-puce lx-puce-espace" aria-hidden="true" />
+                {t.lieuNEspaces(lieuxFiltres.filter(estEspaceALouer).length)}
               </span>
             </div>
             <div className="lx-zones-carte">
@@ -1038,13 +1083,17 @@ export function LieuxPage() {
                     className={`lx-badge ${
                       selection.type === 'festival'
                         ? 'lx-badge-festival'
-                        : selection.estSalle
+                        : estEspaceALouer(selection)
+                          ? 'lx-badge-espace'
+                          : selection.estSalle
                           ? 'lx-badge-salle'
                           : 'lx-badge-club'
                     }`}
                   >
                     {selection.type === 'club'
-                      ? selection.estSalle
+                      ? estEspaceALouer(selection)
+                        ? t.lieuTypeEspace
+                        : selection.estSalle
                         ? t.lieuTypeSalle
                         : t.lieuTypeClub
                       : t.lieuTypeFestival}
@@ -1062,7 +1111,8 @@ export function LieuxPage() {
                   {[
                     selection.ville[langue],
                     paysMap.get(selection.paysCode)?.nom[langue],
-                    t.lieuCapacite(selection.capacite),
+                    estEspaceALouer(selection) ? t.lieuGenresEspace[selection.genre] : null,
+                    selection.capacite > 0 ? t.lieuCapacite(selection.capacite) : t.lieuCapaciteNonPubliee,
                     selection.annee ? t.lieuDepuis(selection.annee) : null,
                     selection.mois ? selection.mois[langue] : null,
                     editionAVenir(selection) ? t.lieuProchaineEdition(selection.prochaineEdition!.debut, selection.prochaineEdition!.fin) : null,
@@ -1070,6 +1120,9 @@ export function LieuxPage() {
                     .filter(Boolean)
                     .join(' · ')}
                 </p>
+                {estEspaceALouer(selection) && (
+                  <p className="lx-fiche-adresse">{selection.adresse}</p>
+                )}
                 <p className="lx-fiche-desc">{selection.description[langue]}</p>
                 {selection.styles.length > 0 && (
                   <ul className="lx-styles">
@@ -1483,12 +1536,174 @@ export function LieuxPage() {
           </section>
         )}
 
-        {/* SECTION 3 (SEPAREE EN BAS) : SALLES A LOUER ET SALLES DE SPECTACLE PAR VILLE */}
+        {/* SECTION 3 : LES ESPACES A LOUER POUR DES SOIREES, PAR VILLE (28 novembre 2026).
+            Lofts, entrepots, galeries : adresse et source lue sur chaque fiche. */}
+        {espacesParVille.length > 0 && (
+          <section className="lx-bloc lx-bloc-espaces" aria-labelledby="titre-espaces-villes">
+            <header className="lx-bloc-entete">
+              <div className="lx-bloc-entete-ligne">
+                <span className="lx-bloc-num" aria-hidden="true">03</span>
+                <h2 id="titre-espaces-villes" className="lx-bloc-titre">
+                  {t.espacesSectionTitre}
+                </h2>
+                <span className="lx-badge-classement lx-badge-classement-espace">
+                  {t.espacesBadge}
+                </span>
+              </div>
+              <p className="lx-bloc-soustitre">{t.espacesSectionSousTitre}</p>
+            </header>
+
+            <div className="lx-groupes">
+              {espacesParVille.map(({ ville, pays, espaces }) => {
+                const filtreActif = Boolean(
+                  villeActive || paysActif || requete.trim() || filtreType === 'location'
+                );
+                const cleEspaces = `espaces:${ville.slug}`;
+                const toutAfficher = filtreActif || groupesDeplies.has(cleEspaces);
+                const espacesVisibles = toutAfficher ? espaces : espaces.slice(0, 5);
+
+                return (
+                  <article key={ville.slug} className="lx-groupe">
+                    <header className="lx-groupe-entete">
+                      <div className="lx-groupe-titre-bloc">
+                        <h3 className="lx-groupe-titre">
+                          {ville.nom[langue]}
+                          {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
+                        </h3>
+                        <span className="lx-groupe-compteur lx-groupe-compteur-espace">
+                          {t.lieuNEspaces(espaces.length)}
+                        </span>
+                      </div>
+                      <div className="lx-groupe-liens">
+                        <button
+                          type="button"
+                          className="lx-lien-carte"
+                          onClick={() => {
+                            choisirVille(ville.slug);
+                            montrerLaCarte();
+                          }}
+                        >
+                          {t.lieuCentrerCarte}
+                        </button>
+                      </div>
+                    </header>
+
+                    <ul className="lx-palmares">
+                      {espacesVisibles.map((espace) => {
+                        const estOuvert = lieuxOuverts.has(espace.id);
+                        const nbSoirees = obtenirSoireesDuLieu(espace).length;
+
+                        return (
+                          <li
+                            key={espace.id}
+                            className={`lx-rang lx-rang-espace ${estOuvert ? 'est-ouvert' : ''}`}
+                          >
+                            <button
+                              type="button"
+                              className="lx-rang-entete"
+                              aria-expanded={estOuvert}
+                              onClick={() => basculerLieu(espace.id)}
+                            >
+                              <span className="lx-rang-num lx-rang-num-espace" aria-hidden="true">
+                                <span className="lx-puce lx-puce-espace" />
+                              </span>
+                              <span className="lx-rang-identite">
+                                <span className="lx-carte-nom">{espace.nom}</span>
+                                <span className="lx-carte-meta">
+                                  {`${t.lieuGenresEspace[espace.genre]} · ${espace.adresse}`}
+                                </span>
+                                {nbSoirees > 0 && (
+                                  <span className="lx-badge-soirees">
+                                    {t.lieuNSoireesAVenir(nbSoirees)}
+                                  </span>
+                                )}
+                              </span>
+                              <span className="lx-rang-jauge">
+                                <span className="lx-capacite lx-capacite-salle">
+                                  {espace.capacite > 0
+                                    ? t.lieuCapacite(espace.capacite)
+                                    : t.lieuCapaciteNonPubliee}
+                                </span>
+                              </span>
+                              <span className="lx-rang-chevron" aria-hidden="true">
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  width="14"
+                                  height="14"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M4 6l4 4 4-4" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {estOuvert && (
+                              <div className="lx-rang-corps">
+                                <p className="lx-carte-desc">{espace.description[langue]}</p>
+                                {rendreProchainesSoirees(espace)}
+                                <div className="lx-carte-bas">
+                                  <a
+                                    className="lx-lien-site"
+                                    href={espace.site}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                  >
+                                    {t.lieuSiteOfficiel}
+                                  </a>
+                                  {espace.sourceLocation !== espace.site && (
+                                    <a
+                                      className="lx-lien-secondaire"
+                                      href={espace.sourceLocation}
+                                      target="_blank"
+                                      rel="noreferrer noopener"
+                                    >
+                                      {t.lieuSourceVerifiee}
+                                    </a>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="lx-lien-carte"
+                                    onClick={() => centrerSurLieu(espace)}
+                                  >
+                                    {t.lieuCentrerCarte}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+
+                    {espaces.length > 5 && !filtreActif && (
+                      <button
+                        type="button"
+                        className="lx-voir-plus lx-voir-plus-salle"
+                        aria-expanded={toutAfficher}
+                        onClick={() => basculerGroupe(cleEspaces)}
+                      >
+                        {toutAfficher
+                          ? t.lieuReduireTop5
+                          : t.lieuVoirToutClassement(espaces.length - 5, 6, espaces.length)}
+                      </button>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* SECTION 4 (SEPAREE EN BAS) : SALLES DE SPECTACLE PAR VILLE */}
         {sallesParVille.length > 0 && (
           <section className="lx-bloc lx-bloc-salles" aria-labelledby="titre-salles-villes">
             <header className="lx-bloc-entete">
               <div className="lx-bloc-entete-ligne">
-                <span className="lx-bloc-num" aria-hidden="true">03</span>
+                <span className="lx-bloc-num" aria-hidden="true">04</span>
                 <h2 id="titre-salles-villes" className="lx-bloc-titre">
                   {t.sallesSectionTitre}
                 </h2>
