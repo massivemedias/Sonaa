@@ -69,7 +69,7 @@ morceaux par style).
   - **61 labels mexicains** (dont **Undergroove Music** à Mexico avec logo et discographie Discogs, **Akbal Music**, **Illegal Alien Records**, **Future Techno Records**, **ANAOH**, **Uxmal Records**, **Pleiadian Records**, **BioMechanix Records**, **Tenampa Recordings**, **Umor Rex**, **Nopal Beat**, **Duro**, **NAAFI**, **Zamna Records**, etc.) ;
   - **Amérique latine renforcée** : **28 au Brésil**, **15 en Argentine**, **7 en Colombie**, **5 au Chili** ;
   - **+841 labels Beatport internationaux** ajoutés les 24 et 25 nov 2026 (Beatport direct étant derrière Cloudflare 403, le scan complet s'appuie sur le catalogue Beatport public LabelTide + Discogs API).
-- **Sorties vérifiées à la main** (28 nov 2026, branche `claude/project-thread-5jl4fw`) :
+- **Sorties vérifiées à la main** (28 nov 2026, publiées) :
   `src/data/labels-sorties-verifiees.json`, que la moisson Discogs ne touche pas, fondu par
   `avecSortiesVerifiees` (`src/lib/labels.ts`) devant les sorties Discogs. 11 labels, 44 sorties
   relevées sur Bandcamp (AlpaKa MuziK, Lazy Days, SOAME, Moderna, Jump Source, Voyage Funktastique,
@@ -113,7 +113,7 @@ dessine jamais un point par label, et ne montre jamais les rues.**
 
 ## ATLAS CLUBS, SALLES ET FESTIVALS (26 nov 2026)
 
-- **28 nov 2026 (branche `claude/project-thread-5jl4fw`, en attente de fusion)** : **760 festivals
+- **28 nov 2026 (publié sur `main` par `npm run publier`)** : **760 festivals
   actifs** après 14 ajouts vérifiés (Rainbow Spirit ex Rainbow Serpent, Field Maneuvers, Meakusma,
   Toffler Festival, SW4, L'Ososphère, Memòri, Why Not Now?, Starlight Gizeh, Tomorrowland Thailand,
   Lost Paradise, Lost In Dreams Vancouver, Shifted, AURA Sofia) et **champ `prochaineEdition`**
@@ -189,8 +189,8 @@ Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a cha
 est la publication.
 
 - 28 nov 2026, Claude Code : recherche web festivals et labels, 14 festivals ajoutés, dates de
-  prochaine édition pour 65 festivals, sorties Bandcamp vérifiées pour 11 labels. PR ouverte sur
-  `claude/project-thread-5jl4fw`, non publiée.
+  prochaine édition pour 65 festivals, sorties Bandcamp vérifiées pour 11 labels. PR #3 publiée depuis une session cloud
+  par `npm run publier`, à la demande de Mika.
 
 - 26 nov 2026, Claude Code : page Mixtapes, « Dernières mixtapes » et « Les artistes »
   passent en casse normale et en demi-gras (titres, ligne artiste/durée/écoutes), à la
