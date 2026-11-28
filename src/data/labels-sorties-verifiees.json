@@ -39,6 +39,18 @@
    }
   ]
  },
+ "arder-records": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2024-12-18",
+    "artiste": "Various",
+    "titre": "New World Ärder Vol.1",
+    "url": "https://arder.bandcamp.com/album/new-world-arder-vol-1",
+    "source": "Bandcamp"
+   }
+  ]
+ },
  "atomnation": {
   "verifieLe": "2026-11-28",
   "sorties": [
@@ -131,6 +143,46 @@
    }
   ]
  },
+ "kohlenstoff-records": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2026-06-19",
+    "artiste": "Stephanie Moore",
+    "titre": "Studio Alchemy",
+    "url": "https://berline.bandcamp.com/album/studio-alchemy",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2025-08-08",
+    "artiste": "Various",
+    "titre": "Concours Totem Électroacoustique Vol. 2",
+    "url": "https://berline.bandcamp.com/album/concours-totem-lectroacoustique-vol-2",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2024-05-04",
+    "artiste": "Jérémie Jones et François Girouard",
+    "titre": "Lettres à Zao",
+    "url": "https://berline.bandcamp.com/album/lettres-zao",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2024-04-04",
+    "artiste": "Claude Périard",
+    "titre": "Dans le ventre de l'Hippocampe",
+    "url": "https://berline.bandcamp.com/album/dans-le-ventre-de-l-hippocampe",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2023-07-28",
+    "artiste": "Various",
+    "titre": "Concours Totem Électroacoustique Vol. 1",
+    "url": "https://berline.bandcamp.com/album/concours-totem-lectroacoustique-vol-1",
+    "source": "Bandcamp"
+   }
+  ]
+ },
  "la-creme": {
   "verifieLe": "2026-11-28",
   "sorties": [
@@ -204,6 +256,86 @@
    }
   ]
  },
+ "lumiere-noire": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2026-10-30",
+    "artiste": "Chloé",
+    "titre": "Shape of the Unknown",
+    "url": "https://chloethevenin.bandcamp.com/album/shape-of-the-unknown",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-10-02",
+    "artiste": "Chloé",
+    "titre": "Repeating The Obvious",
+    "url": "https://chloethevenin.bandcamp.com/track/repeating-the-obvious-2",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-09-18",
+    "artiste": "Various",
+    "titre": "Flash Vol. 3",
+    "url": "https://lumierenoirerecords.bandcamp.com/album/flash-vol-3",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-08-28",
+    "artiste": "Chloé",
+    "titre": "Shapeshifter",
+    "url": "https://chloethevenin.bandcamp.com/track/shapeshifter-2",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-06",
+    "artiste": "Chloé",
+    "titre": "Drifter",
+    "url": "https://chloethevenin.bandcamp.com/album/drifter",
+    "source": "Bandcamp"
+   }
+  ]
+ },
+ "malka-tuti": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2026-11-25",
+    "artiste": "Decha",
+    "titre": "Cantar",
+    "url": "https://malkatuti.bandcamp.com/album/cantar",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-10-02",
+    "artiste": "Decha",
+    "titre": "Aha aha klack klack (Andrei Rusu Remix)",
+    "url": "https://malkatuti.bandcamp.com/track/aha-aha-klack-klack-andrei-rusu-remix",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2025-06-06",
+    "artiste": "Ed Rain feat. Fantastic Twins",
+    "titre": "Met him on a Wednesday Remixes",
+    "url": "https://malkatuti.bandcamp.com/album/met-him-on-a-wednesday-remixes",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2025-02-26",
+    "artiste": "Various",
+    "titre": "Selected Remixes",
+    "url": "https://malkatuti.bandcamp.com/album/selected-remixes",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2024-11-11",
+    "artiste": "Ed Rain",
+    "titre": "Met him on a Wednesday",
+    "url": "https://malkatuti.bandcamp.com/album/ed-rain-met-him-on-a-wednesday",
+    "source": "Bandcamp"
+   }
+  ]
+ },
  "moderna-records": {
   "verifieLe": "2026-11-28",
   "sorties": [
@@ -240,6 +372,39 @@
     "artiste": "Fredrik Gran",
     "titre": "Pictures of Fields Without Fences",
     "url": "https://modernarecords.bandcamp.com/album/pictures-of-fields-without-fences",
+    "source": "Bandcamp"
+   }
+  ]
+ },
+ "muses-of-eden": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2019-06-01",
+    "artiste": "Jean-Pierre Labrèche",
+    "titre": "Yi-King Vol. 3 (remastered)",
+    "url": "https://musesofeden1.bandcamp.com/album/yi-king-vol-3-remastered",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2019-06-01",
+    "artiste": "Jean-Pierre Labrèche",
+    "titre": "Yi-King Vol. 2 (remastered)",
+    "url": "https://musesofeden1.bandcamp.com/album/yi-king-vol-2-remastered",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2019-06-01",
+    "artiste": "Jean-Pierre Labrèche",
+    "titre": "Yi-King Vol. 1 (remastered)",
+    "url": "https://musesofeden1.bandcamp.com/album/yi-king-vol-1-remastered",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2019-06-01",
+    "artiste": "Jean-Pierre Labrèche",
+    "titre": "Sadhana (remastered)",
+    "url": "https://musesofeden1.bandcamp.com/album/sadhana-movie-soundtrack-remastered",
     "source": "Bandcamp"
    }
   ]
@@ -325,6 +490,86 @@
     "artiste": "Youg",
     "titre": "L'énigme du timbre",
     "url": "https://soamerecords.bandcamp.com/album/l-nigme-du-timbre",
+    "source": "Bandcamp"
+   }
+  ]
+ },
+ "spf-infini": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2025-11-20",
+    "artiste": "Aexhy et SPF INFINI",
+    "titre": "SPF INFINI: AEXHY",
+    "url": "https://bleep.com/release/474833-tdj-spf-infini-spf-infini-genesis",
+    "source": "Bleep"
+   },
+   {
+    "date": "2025-10-24",
+    "artiste": "Zorza",
+    "titre": "SPF INFINI: ZORZA",
+    "url": "https://iwantedm.com/tdj-launches-new-spf-infini-record-label/",
+    "source": "I Want EDM"
+   },
+   {
+    "date": "2024-10-18",
+    "artiste": "TDJ et SPF INFINI",
+    "titre": "SPF INFINI: GENESIS",
+    "url": "https://bleep.com/release/474833-tdj-spf-infini-spf-infini-genesis",
+    "source": "Bleep"
+   },
+   {
+    "date": "2023-10-13",
+    "artiste": "TDJ",
+    "titre": "SPF INFINI 3",
+    "url": "https://bleep.com/release/474833-tdj-spf-infini-spf-infini-genesis",
+    "source": "Bleep"
+   },
+   {
+    "date": "2022-09-22",
+    "artiste": "TDJ",
+    "titre": "SPF INFINI 2",
+    "url": "https://bleep.com/release/474833-tdj-spf-infini-spf-infini-genesis",
+    "source": "Bleep"
+   }
+  ]
+ },
+ "tech-safari-records": {
+  "verifieLe": "2026-11-28",
+  "sorties": [
+   {
+    "date": "2026-11-27",
+    "artiste": "Arhetip",
+    "titre": "Lucent",
+    "url": "https://beatspace-techsafari.bandcamp.com/album/lucent",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-11-20",
+    "artiste": "Some1",
+    "titre": "Reflection",
+    "url": "https://beatspace-techsafari.bandcamp.com/album/reflection-2",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-11-13",
+    "artiste": "Volt",
+    "titre": "Evolution",
+    "url": "https://beatspace-techsafari.bandcamp.com/album/evolution",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-11-06",
+    "artiste": "Kalki",
+    "titre": "Awakening",
+    "url": "https://beatspace-techsafari.bandcamp.com/album/awakening",
+    "source": "Bandcamp"
+   },
+   {
+    "date": "2026-10-23",
+    "artiste": "Doppler et Monolock",
+    "titre": "Merkaba",
+    "url": "https://beatspace-techsafari.bandcamp.com/album/merkaba",
     "source": "Bandcamp"
    }
   ]
