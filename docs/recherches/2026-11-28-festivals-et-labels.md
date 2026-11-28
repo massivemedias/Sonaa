@@ -89,8 +89,34 @@ Fichier `src/data/labels-sorties-verifiees.json`, fondu devant les sorties Disco
   Chronicles (29 juil. 2026).
 - **La Crème**, **Chiwawa**, **OCTOV** : catalogues complets, plus rien depuis 2018, 2005 et 2022.
 
-À revoir : les pages Bandcamp d'Ärder Records, Kohlenstoff Records, Tech Safari Records et
-Muses of Eden redirigent vers l'inscription Bandcamp (compte supprimé ou renommé) et celle de
-SPF Infini est vide. Malka Tuti et Lumière Noire ont une page Bandcamp vide à la lecture. La
-fiche Afterlife pointe vers un autre label Discogs (dernières sorties de 2018) et sa page
-Bandcamp s'arrête en 2022.
+## Liens Bandcamp réparés (28 nov 2026, deuxième passe)
+
+- **Ärder Records** : le compte est https://arder.bandcamp.com (« Montreal based record label
+  and event series curated by Mike Larry »). Une seule sortie : New World Ärder Vol.1,
+  compilation de 17 titres (18 déc. 2024).
+- **Kohlenstoff Records** : le compte est https://berline.bandcamp.com, titré « K o h l e n s t o f f »,
+  « label based in Montreal ». Stephanie Moore, Studio Alchemy (19 juin 2026) ; Concours Totem
+  Électroacoustique Vol. 2 (8 août 2025) ; Jérémie Jones et François Girouard, Lettres à Zao
+  (4 mai 2024).
+- **Tech Safari Records** : vitrine https://beatspace-techsafari.bandcamp.com, tenue par Beatspace
+  sous accord officiel avec le label. Une sortie par semaine : Arhetip, Lucent (27 nov. 2026) ;
+  Some1, Reflection (20 nov.) ; Volt, Evolution (13 nov.) ; Kalki, Awakening (6 nov.). Le
+  fondateur s'appelle DJ Rikam selon la fiche Volumo (https://volumo.com/label/337927-techsafari-records),
+  la fiche disait Rikta.
+- **Muses of Eden** : le compte est https://musesofeden1.bandcamp.com. Ce n'est pas un label
+  ambient modulaire comme le disait la fiche, mais un petit label new age qui réédite les albums
+  de Jean-Pierre Labrèche (Yi-King Vol. 1 à 3, Sadhana), tous remis en ligne le 1er juin 2019.
+  Fiche réécrite, année de fondation retirée.
+- **SPF Infini** : aucun Bandcamp. C'est la série de TDJ sur Collection Disques Durs, devenue un
+  label en octobre 2025 (https://iwantedm.com/tdj-launches-new-spf-infini-record-label/). Sorties
+  relevées sur Bleep (https://bleep.com/release/474833-tdj-spf-infini-spf-infini-genesis) :
+  SPF INFINI: AEXHY (20 nov. 2025), ZORZA (24 oct. 2025), GENESIS (18 oct. 2024). Lien `site` vidé.
+- **Malka Tuti** : le lien https://malkatuti.bandcamp.com était bon. Decha, Cantar (25 nov. 2026) ;
+  Decha, Aha aha klack klack (Andrei Rusu Remix) (2 oct. 2026). La page Bandcamp situe le label
+  à Berlin, la fiche dit Israël.
+- **Lumière Noire** : le lien https://lumierenoirerecords.bandcamp.com était bon. Chloé, Shape of
+  the Unknown (30 oct. 2026) ; Repeating The Obvious (2 oct.) ; Flash Vol. 3 (18 sept.) ;
+  Shapeshifter (28 août) ; Drifter (juin 2026).
+
+Reste à revoir : la fiche Afterlife pointe vers un autre label Discogs (dernières sorties de 2018)
+et sa page Bandcamp s'arrête en 2022.

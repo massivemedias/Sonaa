@@ -73,8 +73,13 @@ morceaux par style).
   `src/data/labels-sorties-verifiees.json`, que la moisson Discogs ne touche pas, fondu par
   `avecSortiesVerifiees` (`src/lib/labels.ts`) devant les sorties Discogs. 11 labels, 44 sorties
   relevées sur Bandcamp (AlpaKa MuziK, Lazy Days, SOAME, Moderna, Jump Source, Voyage Funktastique,
-  La Crème, Chiwawa, OCTOV, Ritmo Fatale, Atomnation). Bandcamp mort pour Ärder, Kohlenstoff, Tech
-  Safari, Muses of Eden et SPF Infini : leur champ `site` est à revoir.
+  La Crème, Chiwawa, OCTOV, Ritmo Fatale, Atomnation). Complété le 28 nov 2026 (en attente sur
+  `claude/project-thread-5jl4fw`) : 18 labels, 74 sorties. Liens corrigés : Ärder
+  (`arder.bandcamp.com`), Kohlenstoff (`berline.bandcamp.com`), Tech Safari
+  (`beatspace-techsafari.bandcamp.com`, vitrine officielle tenue par Beatspace), Muses of Eden
+  (`musesofeden1.bandcamp.com`, réédite Jean-Pierre Labrèche). SPF Infini n'a pas de Bandcamp
+  (série de TDJ sur Collection Disques Durs) : `site` vidé, sorties relevées sur Bleep. Malka Tuti
+  et Lumière Noire avaient un bon lien, leurs sorties 2026 sont ajoutées.
 - **Correction de `NAFF`** (`naff`) : maison mère replacée de Toronto à Montréal, Québec.
 - **222 labels généralistes / majors** masqués par le drapeau réversible `horsElectronique: true`
   (aucune suppression).
@@ -187,6 +192,9 @@ chaque fiche club/salle.
 
 Le plus récent en haut. Une ligne par mission : la date, l'auteur, ce qui a changé, où en
 est la publication.
+
+- 28 nov 2026, Claude Code : liens Bandcamp morts réparés pour 7 labels, sorties vérifiées
+  portées à 18 labels et 74 sorties. En attente de publication sur `claude/project-thread-5jl4fw`.
 
 - 28 nov 2026, Claude Code : recherche web festivals et labels, 14 festivals ajoutés, dates de
   prochaine édition pour 65 festivals, sorties Bandcamp vérifiées pour 11 labels. PR #3 publiée depuis une session cloud

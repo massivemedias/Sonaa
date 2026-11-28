@@ -1929,7 +1929,7 @@ const AJOUTS: readonly AjoutLabel[] = [
     quebec: true,
     annee: 2021,
     fondateurs: ['Mike Larry'],
-    site: 'https://arderrecords.bandcamp.com',
+    site: 'https://arder.bandcamp.com',
     cles: ['arder records'],
     resume: {
       fr: 'Micro-label techno montréalais lancé par le producteur Mike Larry, consacré à la techno brute, industrielle et hypnotique.',
@@ -1940,13 +1940,12 @@ const AJOUTS: readonly AjoutLabel[] = [
     nom: 'Muses of Eden',
     pays: 'Canada',
     quebec: true,
-    annee: 2021,
     fondateurs: [],
-    site: 'https://musesofeden.bandcamp.com',
+    site: 'https://musesofeden1.bandcamp.com',
     cles: ['muses of eden'],
     resume: {
-      fr: 'Micro-label montréalais sur Bandcamp dédié à l’ambient, au kosmische, au new age électronique et aux paysages modulaires contemplatifs.',
-      en: 'Montreal Bandcamp micro-label dedicated to ambient, kosmische, electronic new age and contemplative modular soundscapes.',
+      fr: 'Petit label new age montréalais qui réédite en version remastérisée les albums du compositeur Jean-Pierre Labrèche, dont la série Yi-King et la bande originale du film Sadhana.',
+      en: 'Small Montreal new age label reissuing remastered albums by composer Jean-Pierre Labrèche, including the Yi-King series and the Sadhana film soundtrack.',
     },
   },
   {
